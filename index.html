@@ -50,6 +50,18 @@
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" fill="currentColor"/>
                     </svg>
                 </button>
+                <a href="tel:+919072522277" class="theme-btn" aria-label="Call Us" title="Call Us: +91 90725 22277">
+                    <!-- Phone Icon -->
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                </a>
+                <a href="https://wa.me/919072522277?text=Hi%20Sunova%20Solar,%20I'm%20interested%20in%20a%20solar%20system%20installation." target="_blank" rel="noopener" class="theme-btn whatsapp-nav-btn" aria-label="Chat on WhatsApp" title="WhatsApp Chat">
+                    <!-- WhatsApp Icon SVG -->
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.725 1.45 5.568 0 10.103-4.52 10.106-10.073.002-2.69-1.04-5.216-2.93-7.11C16.562 1.528 14.045.485 11.993.485c-5.57 0-10.107 4.519-10.11 10.073-.001 1.93.528 3.81 1.53 5.466l-1.002 3.662 3.75-.983c1.557.85 3.125 1.246 4.486 1.246zm11.758-7.85c-.3-.15-1.77-.872-2.046-.972-.275-.1-.475-.15-.675.15-.2.3-.775.972-.95 1.173-.175.2-.35.225-.65.075-.3-.15-1.265-.467-2.41-1.485-.89-.795-1.49-1.778-1.665-2.078-.175-.3-.018-.462.13-.61.135-.133.3-.35.45-.525.15-.175.2-.3.3-.5s.05-.375-.025-.525C9.07 6.4 8.4 4.755 8.125 4.09c-.267-.643-.54-.543-.738-.553-.19-.01-.41-.012-.628-.012-.22 0-.575.083-.875.408-.3.325-1.15 1.125-1.15 2.742s1.175 3.175 1.34 3.4c.165.225 2.3 3.513 5.58 4.937.78.337 1.387.538 1.86.688.784.249 1.497.214 2.062.13.629-.094 1.77-.722 2.02-1.417.25-.695.25-1.293.175-1.417-.075-.124-.275-.2-.575-.35z"/>
+                    </svg>
+                </a>
                 <a href="login.html" class="theme-btn" aria-label="Staff Login" title="Staff Portal">
                     <!-- Key/Lock Icon -->
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
@@ -207,9 +219,12 @@
                     <div class="input-group">
                         <div class="input-header">
                             <label for="input-bill">Average Monthly Electricity Bill (INR)</label>
-                            <span class="input-val-display">₹<span id="bill-val-display">4,000</span></span>
+                            <div class="manual-input-wrapper">
+                                <span>₹</span>
+                                <input type="number" id="input-bill-manual" min="500" max="100000" value="4000" oninput="handleBillManualInput(this.value)">
+                            </div>
                         </div>
-                        <input type="range" id="input-bill" min="500" max="50000" step="500" value="4000" oninput="updateCalculatorOutputs()">
+                        <input type="range" id="input-bill" min="500" max="50000" step="500" value="4000" oninput="handleBillSliderInput(this.value)">
                         <div class="range-markers">
                             <span>₹500</span>
                             <span>₹10,000</span>
@@ -240,7 +255,10 @@
                     <div class="metrics-grid">
                         <div class="metric-box">
                             <span class="metric-label">Recommended Capacity</span>
-                            <span class="metric-value"><span id="out-size">4.0</span> <span class="unit">kW</span></span>
+                            <div class="metric-input-wrapper">
+                                <input type="number" id="out-size" min="0.5" max="200" step="0.1" value="4.0" oninput="handleCapacityInput(this.value)">
+                                <span class="unit">kW</span>
+                            </div>
                         </div>
                         <div class="metric-box">
                             <span class="metric-label">Solar Panels (500W)</span>
@@ -363,42 +381,54 @@
             <div class="grid-2-col-equal">
                 <!-- Location Cards Panel -->
                 <div class="contact-locations scroll-reveal-left">
-                    <!-- Registered Office Card -->
+                    <!-- Office & Service Center Card -->
                     <div class="location-card">
                         <div class="loc-header">
                             <div class="loc-icon-bg">
                                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="currentColor" stroke-width="2"/>
-                                    <path d="M12 8V12L14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM12 11.5C10.62 11.5 9.5 10.38 9.5 9C9.5 7.62 10.62 6.5 12 6.5C13.38 6.5 14.5 7.62 14.5 9C14.5 10.38 13.38 11.5 12 11.5Z" stroke="currentColor" stroke-width="2"/>
                                 </svg>
                             </div>
                             <div>
-                                <span class="loc-badge">REGISTERED HEAD OFFICE</span>
-                                <h3>Puthiyedath Tower</h3>
+                                <span class="loc-badge">REGISTERED OFFICE &amp; BYPASS OUTLET</span>
+                                <h3>Thodupuzha Main Office</h3>
                             </div>
                         </div>
-                        <p class="loc-address">27/284, Puthiyedath Tower, Near KSRTC Thodupuzha, Idukki, Kerala - 685584.</p>
+                        <p class="loc-address">
+                            <a href="https://maps.app.goo.gl/TM2CL3Bm2DiKtuNY8" target="_blank" rel="noopener" class="maps-address-link" title="Open in Google Maps">
+                                Vengalloor - Mangattukavala Bypass Road, Thodupuzha, Kerala - 685608.
+                            </a>
+                        </p>
                         <div class="loc-meta">
-                            <span class="meta-item">📍 Near KSRTC Bus Stand</span>
+                            <span class="meta-item">📍 Main Bypass Road</span>
+                            <span class="meta-item">🔧 Office, Installation Equipment &amp; Service Site Center</span>
+                            <span class="meta-item"><a href="https://maps.app.goo.gl/TM2CL3Bm2DiKtuNY8" target="_blank" rel="noopener" class="maps-nav-btn">🗺️ Open in Google Maps</a></span>
                         </div>
                     </div>
 
-                    <!-- Service Outlet Card -->
+                    <!-- Direct Contact details Card -->
                     <div class="location-card">
                         <div class="loc-header">
                             <div class="loc-icon-bg">
                                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.77 3.77z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" stroke="currentColor" stroke-width="2"/>
                                 </svg>
                             </div>
                             <div>
-                                <span class="loc-badge">SERVICE OUTLET / BYPASS OUTLET</span>
-                                <h3>Vengalloor - Mangattukavala Bypass</h3>
+                                <span class="loc-badge">CUSTOMER HELPLINE</span>
+                                <h3>Phone &amp; WhatsApp</h3>
                             </div>
                         </div>
-                        <p class="loc-address">Vengalloor - Mangattukavala Bypass Road, Thodupuzha, Kerala - 685608.</p>
-                        <div class="loc-meta">
-                            <span class="meta-item">🔧 Service, Installation Equipment &amp; Technical Site Office</span>
+                        <div class="contact-links-list">
+                            <p class="contact-link-row">
+                                📞 <strong>Telephone:</strong> <a href="tel:+919072522277">+91 90725 22277</a>
+                            </p>
+                            <p class="contact-link-row">
+                                💬 <strong>WhatsApp:</strong> <a href="https://wa.me/919072522277?text=Hi%20Sunova%20Solar,%20I'm%20interested%20in%20a%20solar%20system%20installation." target="_blank" rel="noopener">Chat on WhatsApp</a>
+                            </p>
+                            <p class="contact-link-row">
+                                ✉️ <strong>Email Support:</strong> <a href="mailto:info@sunovasolar.in">info@sunovasolar.in</a>
+                            </p>
                         </div>
                     </div>
 
@@ -444,6 +474,33 @@
                             <div class="form-group">
                                 <label for="form-email">Email Address (Optional)</label>
                                 <input type="email" id="form-email" placeholder="example@domain.com">
+                            </div>
+                            
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="form-district">District (Kerala)</label>
+                                    <select id="form-district" required>
+                                        <option value="" disabled>Select your district</option>
+                                        <option value="Idukki" selected>Idukki</option>
+                                        <option value="Alappuzha">Alappuzha</option>
+                                        <option value="Ernakulam">Ernakulam</option>
+                                        <option value="Kannur">Kannur</option>
+                                        <option value="Kasaragod">Kasaragod</option>
+                                        <option value="Kollam">Kollam</option>
+                                        <option value="Kottayam">Kottayam</option>
+                                        <option value="Kozhikode">Kozhikode</option>
+                                        <option value="Malappuram">Malappuram</option>
+                                        <option value="Palakkad">Palakkad</option>
+                                        <option value="Pathanamthitta">Pathanamthitta</option>
+                                        <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                                        <option value="Thrissur">Thrissur</option>
+                                        <option value="Wayanad">Wayanad</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="form-location">City / Location</label>
+                                    <input type="text" id="form-location" placeholder="e.g. Thodupuzha" required>
+                                </div>
                             </div>
                             
                             <div class="form-grid">
@@ -500,10 +557,10 @@
 
             <div class="footer-contact">
                 <h4>Contact Details</h4>
-                <p>📍 <strong>HQ:</strong> 27/284, Puthiyedath Tower, Near KSRTC, Thodupuzha - 685584</p>
-                <p>📍 <strong>Outlet:</strong> Vengalloor - Mangattukavala Bypass, Thodupuzha - 685608</p>
+                <p>📍 <strong>Office &amp; Outlet:</strong> <a href="https://maps.app.goo.gl/TM2CL3Bm2DiKtuNY8" target="_blank" rel="noopener" class="footer-maps-link" title="Open in Google Maps">Vengalloor - Mangattukavala Bypass, Thodupuzha - 685608</a></p>
+                <p>📞 <strong>Phone:</strong> <a href="tel:+919072522277">+91 90725 22277</a></p>
+                <p>💬 <strong>WhatsApp:</strong> <a href="https://wa.me/919072522277?text=Hi%20Sunova%20Solar,%20I'm%20interested%20in%20a%20solar%20system%20installation." target="_blank" rel="noopener">Chat with Us (+91 90725 22277)</a></p>
                 <p>✉️ <strong>Email:</strong> <a href="mailto:info@sunovasolar.in">info@sunovasolar.in</a></p>
-                <p>🌐 <strong>Website:</strong> <a href="https://sunovasolar.in" target="_blank" rel="noopener">sunovasolar.in</a></p>
                 <p>⏰ <strong>Hours:</strong> Mon - Sat: 9:00 AM - 5:00 PM</p>
             </div>
         </div>
@@ -514,6 +571,11 @@
             </div>
         </div>
     </footer>
+
+    <!-- Floating WhatsApp Widget -->
+    <a href="https://wa.me/919072522277?text=Hi%20Sunova%20Solar,%20I'm%20interested%20in%20a%20solar%20system%20installation." target="_blank" rel="noopener" class="whatsapp-float" aria-label="Chat on WhatsApp" title="Chat on WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.725 1.45 5.568 0 10.103-4.52 10.106-10.073.002-2.69-1.04-5.216-2.93-7.11C16.562 1.528 14.045.485 11.993.485c-5.57 0-10.107 4.519-10.11 10.073-.001 1.93.528 3.81 1.53 5.466l-1.002 3.662 3.75-.983c1.557.85 3.125 1.246 4.486 1.246zm11.758-7.85c-.3-.15-1.77-.872-2.046-.972-.275-.1-.475-.15-.675.15-.2.3-.775.972-.95 1.173-.175.2-.35.225-.65.075-.3-.15-1.265-.467-2.41-1.485-.89-.795-1.49-1.778-1.665-2.078-.175-.3-.018-.462.13-.61.135-.133.3-.35.45-.525.15-.175.2-.3.3-.5s.05-.375-.025-.525C9.07 6.4 8.4 4.755 8.125 4.09c-.267-.643-.54-.543-.738-.553-.19-.01-.41-.012-.628-.012-.22 0-.575.083-.875.408-.3.325-1.15 1.125-1.15 2.742s1.175 3.175 1.34 3.4c.165.225 2.3 3.513 5.58 4.937.78.337 1.387.538 1.86.688.784.249 1.497.214 2.062.13.629-.094 1.77-.722 2.02-1.417.25-.695.25-1.293.175-1.417-.075-.124-.275-.2-.575-.35z"/></svg>
+    </a>
 
     <!-- Scripts -->
     <script src="app.js"></script>
