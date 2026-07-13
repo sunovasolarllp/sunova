@@ -167,6 +167,21 @@ body {
     transform: translateY(-2px);
 }
 
+.green-btn {
+    background-color: #22c55e;
+    color: #ffffff !important;
+    border: 2px solid #22c55e;
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.2);
+}
+
+.green-btn:hover {
+    background-color: #16a34a;
+    border-color: #16a34a;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(34, 197, 94, 0.3);
+}
+
 .cta-btn.full-width {
     width: 100%;
 }
@@ -387,36 +402,69 @@ body {
 
 .badge {
     display: inline-block;
-    padding: 0.4rem 1rem;
-    font-size: 0.8rem;
-    font-weight: 600;
+    padding: 0.45rem 1.2rem;
+    font-size: 0.82rem;
+    font-weight: 800;
     border-radius: 20px;
-    background-color: rgba(255, 183, 3, 0.12);
-    color: var(--color-sun-yellow);
-    border: 1px solid rgba(255, 183, 3, 0.3);
+    background-color: #ef4444;
+    color: #ffffff !important;
+    border: 2px solid #dc2626;
     margin-bottom: 1.5rem;
     text-transform: uppercase;
     letter-spacing: 1px;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.35);
 }
 
 .light-theme .badge {
-    color: #000000;
-    border-color: rgba(0, 0, 0, 0.15);
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: #ef4444;
+    color: #ffffff !important;
+    border-color: #dc2626;
+    border-width: 2px;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.25);
 }
 
 .hero-title {
     font-family: var(--font-heading);
-    font-weight: 800;
-    font-size: 2.5rem;
-    line-height: 1.2;
+    font-weight: 700;
+    font-size: 1.8rem;
+    line-height: 1.25;
     margin-bottom: 1.5rem;
-    letter-spacing: -1px;
+    letter-spacing: -0.5px;
+    position: relative;
+    z-index: 2;
+    color: #ffffff;
+}
+
+.hero-title::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 280px;
+    height: 280px;
+    background-image: url("assets/logo.jpg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.05;
+    z-index: -1;
+    pointer-events: none;
+    border-radius: 50%;
+}
+
+.light-theme .hero-title::before {
+    opacity: 0.08;
+}
+
+.light-theme .hero-title {
+    color: #ffffff !important;
+    text-shadow: 0 2px 10px rgba(13, 19, 33, 0.65), 0 1px 3px rgba(13, 19, 33, 0.4);
 }
 
 @media(min-width: 768px) {
     .hero-title {
-        font-size: 3.8rem;
+        font-size: 2.4rem;
     }
 }
 
@@ -426,16 +474,49 @@ body {
     -webkit-text-fill-color: transparent;
 }
 
-.hero-desc {
-    font-size: 1.1rem;
-    color: #e2e8f0;
+.hero-desc-panel {
+    background-color: rgba(30, 41, 59, 0.45);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 1.15rem 1.4rem;
     margin-bottom: 2rem;
     max-width: 600px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    
+    /* Solar cell grid pattern overlay */
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    position: relative;
+    overflow: hidden;
 }
 
-.light-theme .hero-desc {
-    color: #000000;
+.hero-desc-text {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.65;
     font-weight: 500;
+    margin: 0;
+    position: relative;
+    z-index: 2;
+    letter-spacing: 0.2px;
+}
+
+.light-theme .hero-desc-panel {
+    background-color: rgba(255, 255, 255, 0.7);
+    border-color: rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    background-image: 
+        linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+}
+
+.light-theme .hero-desc-text {
+    color: #1a202c;
+    font-weight: 600;
 }
 
 .hero-buttons {
@@ -458,6 +539,20 @@ body {
 
 .glass-card:hover {
     border-color: rgba(255, 183, 3, 0.2);
+}
+
+.hero-card .glass-card {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+}
+
+.light-theme .hero-card .glass-card {
+    background: rgba(255, 255, 255, 0.3) !important;
+    border: 1.5px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04) !important;
 }
 
 .hero-card .glass-card h3 {
@@ -783,7 +878,23 @@ section {
     padding: 2.5rem;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+}
+
+.calc-banner {
+    width: 100%;
+    margin-bottom: 2rem;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 8px 24px var(--color-shadow);
+    background-color: #ffffff;
+}
+
+.calc-banner img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
 }
 
 .calc-toggle-wrapper {
@@ -929,10 +1040,18 @@ input[type=number]:focus {
 
 .calc-outputs-panel {
     background-color: var(--color-surface-opaque);
-    padding: 2.5rem;
-    border-left: 1px solid var(--color-border);
+    padding: 1.25rem;
+    border-top: 1px solid var(--color-border);
     display: flex;
     flex-direction: column;
+}
+
+@media(min-width: 992px) {
+    .calc-outputs-panel {
+        padding: 2.5rem;
+        border-top: none;
+        border-left: 1px solid var(--color-border);
+    }
 }
 
 .outputs-title {
@@ -957,9 +1076,15 @@ input[type=number]:focus {
 
 .metrics-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 1rem;
     margin-bottom: 1.5rem;
+}
+
+@media(min-width: 576px) {
+    .metrics-grid {
+        grid-template-columns: 1fr 1fr;
+    }
 }
 
 .metric-box {
@@ -1059,8 +1184,14 @@ input[type=number]:focus {
 
 .savings-metrics {
     display: grid;
-    grid-template-columns: 1.2fr 0.9fr 0.9fr;
+    grid-template-columns: 1fr;
     gap: 0.8rem;
+}
+
+@media(min-width: 480px) {
+    .savings-metrics {
+        grid-template-columns: 1.2fr 0.9fr 0.9fr;
+    }
 }
 
 .sav-box {
@@ -1238,6 +1369,27 @@ input[type=number]:focus {
 .stat-item p {
     font-size: 0.82rem;
     color: var(--color-text-muted);
+}
+
+.about-mnre-card {
+    margin-top: 2rem;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 10px 30px var(--color-shadow);
+    background-color: #ffffff;
+    max-width: 100%;
+    transition: transform var(--transition-normal);
+}
+
+.about-mnre-card:hover {
+    transform: scale(1.015);
+}
+
+.about-mnre-card img {
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
 /* Contact & Locations Styles */
@@ -2102,6 +2254,49 @@ form {
     background-color: var(--color-bg-alt);
     transform: scale(1.2);
 }
+
+/* Contact Form Capacity Input Wrapper */
+.form-size-wrapper {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0.25rem 0.5rem;
+    border-radius: 10px;
+    background-color: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+}
+
+.form-size-wrapper input[type=number] {
+    background: none;
+    border: none;
+    color: var(--color-text);
+    font-size: 1rem;
+    font-weight: 500;
+    width: 100%;
+    text-align: center;
+    flex-grow: 1;
+    height: 100%;
+    outline: none;
+}
+
+.form-size-wrapper input::-webkit-outer-spin-button,
+.form-size-wrapper input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.form-size-wrapper input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.form-size-wrapper .unit {
+    font-size: 0.88rem;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    margin-right: 0.5rem;
+}
+
 
 
 

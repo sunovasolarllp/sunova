@@ -91,8 +91,13 @@ const formDealer = document.getElementById('form-dealer');
 const contactForm = document.getElementById('contact-form');
 const formFeedback = document.getElementById('form-feedback');
 
-// --- Theme Toggle ---
-const savedTheme = localStorage.getItem('theme') || 'dark-theme';
+// --- Theme Toggle (Automatic Time-Based & Manual Override) ---
+function getThemeByTime() {
+    const hour = new Date().getHours();
+    return (hour >= 6 && hour < 18) ? 'light-theme' : 'dark-theme';
+}
+
+const savedTheme = localStorage.getItem('theme') || getThemeByTime();
 body.className = savedTheme;
 
 themeToggleBtn.addEventListener('click', () => {
@@ -435,7 +440,7 @@ function adjustCapacity(amount) {
 }
 
 
-function performCalculationsDirect(capacity, units) {
+function performCalculationsDirect(capacity, units, skipSyncForm = false) {
     // 2. Solar Panels needed (assuming high quality 500W monocrystalline panels)
     const panelsCount = Math.round((capacity * 1000) / 500);
     
@@ -510,7 +515,10 @@ function performCalculationsDirect(capacity, units) {
     outTrees.textContent = equivalentTrees;
     
     // Sync size back to contact form requested size field
-    formSize.value = `${capacity.toFixed(1)} kW (${panelsCount} panels)`;
+    if (!skipSyncForm) {
+        formSize.value = capacity.toFixed(1);
+    }
+    updateFormMessageDetails();
 }
 
 // Sync calculator choice to contact form select element
@@ -518,13 +526,89 @@ formConnection.addEventListener('change', (e) => {
     setCalculatorMode(e.target.value);
 });
 
+// Update form message greeting when matched partner changes
+formDealer.addEventListener('change', () => {
+    updateFormMessageDetails();
+});
+
 // Booking Action
 function transferCalculatorDetails() {
-    const size = outSize.value;
-    const panels = outPanels.textContent;
+    const size = parseFloat(outSize.value) || 4.0;
+    formSize.value = size.toFixed(1);
+    updateFormMessageDetails();
+}
+
+// Automatically sync the message textarea details based on form requested size
+function updateFormMessageDetails() {
+    const formSizeEl = document.getElementById('form-size');
     const msgArea = document.getElementById('form-message');
+    if (!formSizeEl || !msgArea) return;
     
-    msgArea.value = `Hi Sunova Solar, I am interested in a ${size} kW system containing ${panels} panels. My current monthly bill is approximately ₹${billInput.value}. Please perform a feasibility study for my site.`;
+    const size = parseFloat(formSizeEl.value) || 4.0;
+    const panels = Math.round((size * 1000) / 500);
+    const billVal = billManualInput.value || billInput.value || "4000";
+    
+    // Matched partner details
+    const dealerCode = document.getElementById('form-dealer').value;
+    const dealer = DEALERS.find(d => d.code === dealerCode);
+    const partnerName = dealer ? dealer.name : "Partner";
+    
+    // Update message text only if it has not been customized or is empty
+    if (!msgArea.value || msgArea.value.startsWith("Hi ")) {
+        msgArea.value = `Hi ${partnerName}, I am interested in a ${size.toFixed(1)} kW system containing ${panels} panels. My current monthly bill is approximately ₹${billVal}. Please perform a feasibility study for my site.`;
+    }
+}
+
+// Adjust form size value via custom spin buttons
+function adjustFormCapacity(amount) {
+    const formSizeEl = document.getElementById('form-size');
+    if (!formSizeEl) return;
+    let currentVal = parseFloat(formSizeEl.value) || 4.0;
+    let newVal = currentVal + amount;
+    if (newVal < 0.5) newVal = 0.5;
+    if (newVal > 200) newVal = 200;
+    newVal = Math.round(newVal * 10) / 10;
+    formSizeEl.value = newVal.toFixed(1);
+    
+    handleFormSizeChange();
+}
+
+// Sync form capacity changes back to calculator recommended capacity and stats
+function handleFormSizeChange() {
+    const formSizeEl = document.getElementById('form-size');
+    if (!formSizeEl) return;
+    
+    let capacity = parseFloat(formSizeEl.value) || 4.0;
+    if (capacity < 0.1) capacity = 0.1;
+    if (capacity > 200) capacity = 200;
+    
+    // Update calculator recommended capacity field
+    outSize.value = capacity.toFixed(1);
+    
+    // Show calculator reset/back button since capacity is overridden
+    const resetBtn = document.getElementById('btn-reset-capacity');
+    if (resetBtn) {
+        resetBtn.classList.remove('hidden');
+    }
+    
+    // Sync other calculator inputs (bill, units) and perform financial stats math
+    const units = Math.round(capacity * 120);
+    unitsInput.value = units;
+    unitsDisplay.textContent = units.toLocaleString('en-IN');
+    
+    const calculatedBill = unitsToBill(units, currentMode);
+    billManualInput.value = calculatedBill;
+    
+    if (calculatedBill >= parseInt(billInput.min) && calculatedBill <= parseInt(billInput.max)) {
+        billInput.value = calculatedBill;
+    } else if (calculatedBill < parseInt(billInput.min)) {
+        billInput.value = billInput.min;
+    } else {
+        billInput.value = billInput.max;
+    }
+    
+    // Trigger standard direct calculations skipping formSize sync
+    performCalculationsDirect(capacity, units, true);
 }
 
 // Normalize district spellings for strict comparisons
@@ -564,12 +648,14 @@ function handleDistrictChange(districtValue) {
     matchedDealers.forEach((dealer, index) => {
         const opt = document.createElement('option');
         opt.value = dealer.code;
-        opt.textContent = `${dealer.area} - ${dealer.name} (Ph: ${dealer.phone})`;
+        opt.textContent = `${dealer.name} - ${dealer.area} (Ph: ${dealer.phone})`;
         if (index === 0) {
             opt.selected = true;
         }
         formDealer.appendChild(opt);
     });
+    
+    updateFormMessageDetails();
 }
 
 function handleFormSubmit(event) {
@@ -583,6 +669,7 @@ function handleFormSubmit(event) {
     const dealerCode = document.getElementById('form-dealer').value;
     const connection = document.getElementById('form-connection').value;
     const capacity = document.getElementById('form-size').value;
+    const loanRequired = document.getElementById('form-loan').checked ? 'Yes' : 'No';
     const message = document.getElementById('form-message').value.trim();
     
     // Validate fields
@@ -626,7 +713,8 @@ function handleFormSubmit(event) {
             "Matched Dealer Phone": dealer.phone,
             "Matched Dealer Area": dealer.area,
             "System Type": connection,
-            "Requested Capacity": capacity,
+            "Requested Capacity": capacity + ' kW',
+            "Bank Loan Required": loanRequired,
             "Message / Site Details": message,
             _subject: `New Solar Inquiry from ${name} (${location}, ${district}) - Dealer: ${dealer.name}`
         })
@@ -652,7 +740,8 @@ function handleFormSubmit(event) {
 - District: ${district}
 - Location: ${location}
 - System Type: ${systemDesc}
-- Capacity: ${capacity}
+- Capacity: ${capacity} kW
+- Bank Loan Required: ${loanRequired}
 - Site Details: ${message || 'None'}
 - Assigned Partner: ${dealer.name}`;
 
@@ -694,6 +783,7 @@ function handleFormSubmit(event) {
         document.getElementById('form-location').value = '';
         document.getElementById('form-district').value = 'Idukki';
         handleDistrictChange('Idukki');
+        document.getElementById('form-loan').checked = false;
         document.getElementById('form-message').value = '';
     })
     .catch(error => {

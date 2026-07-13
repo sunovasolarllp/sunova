@@ -21,7 +21,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="style.css?v=1.5">
+    <link rel="stylesheet" href="style.css?v=3.1">
 </head>
 <body class="dark-theme">
     <!-- Header/Navigation -->
@@ -86,12 +86,14 @@
         </div>
         <div class="container hero-container">
             <div class="hero-content scroll-reveal-left">
-                <span class="badge">Approved Solar Installer in Kerala</span>
+                <span class="badge"><strong>Approved Solar Installer across Kerala</strong></span>
                 <h1 class="hero-title">Empowering Kerala's Future with <span class="gradient-text">Clean Solar Energy</span></h1>
-                <p class="hero-desc">SUNOVA SOLAR LLP delivers high-efficiency rooftop solar installations for homes and businesses. Maximize your savings, secure government subsidies, and build a sustainable tomorrow.</p>
+                <div class="hero-desc-panel">
+                    <p class="hero-desc-text">SUNOVA SOLAR LLP delivers high-efficiency rooftop solar installations for homes and businesses. Maximize your savings, secure government subsidies, and build a sustainable tomorrow.</p>
+                </div>
                 <div class="hero-buttons">
                     <a href="#calculator" class="cta-btn primary-btn" id="btn-hero-calc">Calculate Savings</a>
-                    <a href="#contact" class="cta-btn outline-btn" id="btn-hero-contact">Contact Offices</a>
+                    <a href="#contact" class="cta-btn green-btn" id="btn-hero-contact">Contact Offices</a>
                 </div>
             </div>
             <div class="hero-card scroll-reveal-right">
@@ -211,6 +213,10 @@
             <div class="calc-wrapper scroll-reveal-up">
                 <!-- Inputs Column -->
                 <div class="calc-inputs-panel">
+                    <div class="calc-banner">
+                        <img src="assets/logo-banner.jpg" alt="Sunova Solar Logo Banner">
+                    </div>
+
                     <div class="calc-toggle-wrapper">
                         <button type="button" class="toggle-btn active" id="toggle-res" onclick="setCalculatorMode('residential')">Residential (Subsidy Eligible)</button>
                         <button type="button" class="toggle-btn" id="toggle-com" onclick="setCalculatorMode('commercial')">Commercial / Business</button>
@@ -295,7 +301,7 @@
 
                     <div class="financial-breakdown">
                         <div class="financial-row">
-                            <span>Approx. Installation Cost</span>
+                            <span>Approx. Installation Cost *</span>
                             <span class="val bold">₹<span id="out-cost">2,40,000</span></span>
                         </div>
                         <div class="financial-row subsidy-row" id="subsidy-container">
@@ -332,6 +338,10 @@
                         <span><strong>Green Impact:</strong> You will offset <strong id="out-co2">4.8</strong> tonnes of carbon dioxide emissions (CO₂) every year, equivalent to planting <strong id="out-trees">80</strong> trees!</span>
                     </div>
 
+                    <div class="calc-disclaimer" style="font-size: 0.72rem; color: var(--color-text-subtle); line-height: 1.3; text-align: center; margin-top: -0.5rem; margin-bottom: 1.5rem;">
+                        * Note: This price is variable and depends on the rooftop structure type.
+                    </div>
+
                     <div class="calc-action-btn">
                         <a href="#contact" class="cta-btn primary-btn full-width text-center" onclick="transferCalculatorDetails()">Book Site Survey</a>
                     </div>
@@ -351,6 +361,10 @@
                     <p class="about-text">SUNOVA SOLAR LLP is a registered Limited Liability Partnership (LLP) incorporated under the Ministry of Corporate Affairs, Government of India. Operating from Thodupuzha, Kerala, our goal is to deliver state-of-the-art rooftop solar systems that provide maximum performance, structural durability, and financial yield.</p>
                     
                     <p class="about-text">Managed by its designated partners, we operate with transparent ethics, compliance-first documentation, and premium-tier engineering to design and deliver high-performance solar systems.</p>
+                    
+                    <div class="about-mnre-card">
+                        <img src="assets/mnre-approved.jpg" alt="Sunova Solar is Now an MNRE Approved Vendor and ISO 9001:2015 Certified Company">
+                    </div>
                 </div>
                 
                 <div class="about-visual scroll-reveal-right">
@@ -539,8 +553,20 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="form-size">Requested Capacity</label>
-                                    <input type="text" id="form-size" placeholder="e.g. 3 kW" readonly class="readonly-input">
+                                    <div class="manual-input-wrapper form-size-wrapper">
+                                        <button type="button" class="spin-btn" onclick="adjustFormCapacity(-0.5)" title="Decrease Capacity">▼</button>
+                                        <input type="number" id="form-size" min="0.5" max="200" step="0.1" value="4.0" required oninput="handleFormSizeChange()">
+                                        <span class="unit">kW</span>
+                                        <button type="button" class="spin-btn" onclick="adjustFormCapacity(0.5)" title="Increase Capacity">▲</button>
+                                    </div>
                                 </div>
+                            </div>
+
+                            <div class="form-group" style="margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                                <label class="checkbox-label" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.9rem;">
+                                    <input type="checkbox" id="form-loan" style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--color-sun-yellow);">
+                                    <span>Do you require a Bank Loan / Financing assistance?</span>
+                                </label>
                             </div>
                             
                             <div class="form-group">
@@ -604,6 +630,6 @@
     </a>
 
     <!-- Scripts -->
-    <script src="app.js?v=1.5"></script>
+    <script src="app.js?v=3.1"></script>
 </body>
 </html>
