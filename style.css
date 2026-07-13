@@ -880,6 +880,13 @@ section {
     flex-direction: column;
 }
 
+@media(max-width: 991px) {
+    .calc-inputs-panel {
+        background-color: var(--color-surface-opaque);
+        padding: 1.5rem;
+    }
+}
+
 .calc-banner {
     width: 100%;
     margin-bottom: 2rem;
