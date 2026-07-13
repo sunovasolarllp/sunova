@@ -1977,6 +1977,60 @@ form {
     text-decoration: underline;
 }
 
+/* Success Card WhatsApp Buttons */
+.success-wa-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: 1rem;
+}
+
+@media(min-width: 576px) {
+    .success-wa-buttons {
+        flex-direction: row;
+    }
+}
+
+.wa-btn-success {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+    cursor: pointer;
+}
+
+.partner-wa-btn {
+    background-color: #25d366;
+    color: #fff !important;
+    border: none;
+    box-shadow: 0 4px 10px rgba(37, 211, 102, 0.2);
+}
+
+.partner-wa-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 15px rgba(37, 211, 102, 0.3);
+}
+
+.office-wa-btn {
+    background-color: var(--color-surface-opaque);
+    color: var(--color-text) !important;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 4px 10px var(--color-shadow);
+}
+
+.office-wa-btn:hover {
+    transform: translateY(-1px);
+    border-color: var(--color-sun-yellow);
+    color: var(--color-sun-yellow) !important;
+}
+
+
 
 
 

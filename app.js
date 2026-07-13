@@ -562,22 +562,10 @@ function handleFormSubmit(event) {
         });
     })
     .then(data => {
-        // Build success feedback detailing the assigned partner
-        const successMessage = `
-            <strong>Submission Successful!</strong><br>
-            Thank you, ${name}. Your quote request has been sent to our head office. <br>
-            We have assigned your inquiry to our authorized district partner:<br>
-            👤 <strong>Dealer Name:</strong> ${dealer.name}<br>
-            📍 <strong>Service Area:</strong> ${dealer.area} (${dealer.district})<br>
-            📞 <strong>Contact Phone:</strong> <a href="tel:+91${dealer.phone}" style="color:var(--color-sun-yellow); font-weight:bold;">+91 ${dealer.phone}</a><br>
-            <br>
-            <em>Redirecting you to WhatsApp to connect directly with your partner...</em>
-        `;
-        showFormFeedback(successMessage, 'success');
-        
-        // Construct WhatsApp message text for the dealer
         const systemDesc = connection === 'residential' ? 'Residential (Home Solar)' : 'Commercial / Business';
-        const waMessage = `Hi ${dealer.name}, I've submitted a Sunova Solar Feasibility & Quote Request.
+        
+        // Construct WhatsApp message text for both partner and office
+        const waMessage = `Hi, I've submitted a Sunova Solar Feasibility & Quote Request.
 - Name: ${name}
 - Phone: ${phone}
 - Email: ${email || 'Not Provided'}
@@ -586,14 +574,37 @@ function handleFormSubmit(event) {
 - System Type: ${systemDesc}
 - Capacity: ${capacity}
 - Site Details: ${message || 'None'}
-- Assigned Dealer: ${dealer.name}`;
-        
+- Assigned Partner: ${dealer.name}`;
+
         const partnerPhone = "91" + dealer.phone;
-        const waUrl = `https://wa.me/${partnerPhone}?text=${encodeURIComponent(waMessage)}`;
+        const waPartnerUrl = `https://wa.me/${partnerPhone}?text=${encodeURIComponent(waMessage)}`;
+        
+        const officePhone = "919072522277";
+        const waOfficeUrl = `https://wa.me/${officePhone}?text=${encodeURIComponent(waMessage)}`;
+
+        // Build success feedback detailing the assigned partner
+        const successMessage = `
+            <strong>Submission Successful!</strong><br>
+            Thank you, ${name}. Your quote request has been sent to our head office. <br><br>
+            <strong>Matched Authorized Partner:</strong><br>
+            👤 <strong>Partner Name:</strong> ${dealer.name}<br>
+            📍 <strong>Service Area:</strong> ${dealer.area} (${dealer.district})<br>
+            📞 <strong>Contact Phone:</strong> <a href="tel:+91${dealer.phone}" style="color:var(--color-sun-yellow); font-weight:bold;">+91 ${dealer.phone}</a><br>
+            <br>
+            <strong>WhatsApp Copies:</strong><br>
+            Click below to send a copy of your details on WhatsApp directly:<br>
+            <div class="success-wa-buttons">
+                <a href="${waPartnerUrl}" target="_blank" class="wa-btn-success partner-wa-btn">💬 Chat with Partner</a>
+                <a href="${waOfficeUrl}" target="_blank" class="wa-btn-success office-wa-btn">🏢 Chat with Head Office</a>
+            </div>
+            <br>
+            <em>Automatically opening partner chat in 3 seconds...</em>
+        `;
+        showFormFeedback(successMessage, 'success');
         
         // Redirect to WhatsApp partner after 3 seconds
         setTimeout(() => {
-            window.open(waUrl, '_blank');
+            window.open(waPartnerUrl, '_blank');
         }, 3000);
         
         // Reset form inputs except readonly fields
