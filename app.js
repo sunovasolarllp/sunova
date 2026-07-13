@@ -1,5 +1,6 @@
 // --- Application Variables & State ---
 let currentMode = 'residential'; // 'residential' or 'commercial'
+let currentSystemType = 'ongrid'; // 'ongrid' or 'hybrid'
 
 // Authorized Sunova Solar Dealers List
 const DEALERS = [
@@ -230,6 +231,46 @@ function setCalculatorMode(mode) {
     
     // Recalculate
     updateCalculatorOutputs();
+}
+
+function setSystemType(type) {
+    currentSystemType = type;
+    
+    const btnOnGrid = document.getElementById('toggle-ongrid');
+    const btnHybrid = document.getElementById('toggle-hybrid');
+    const formSystemModel = document.getElementById('form-system-model');
+    
+    if (type === 'ongrid') {
+        if (btnOnGrid) btnOnGrid.classList.add('active');
+        if (btnHybrid) btnHybrid.classList.remove('active');
+        if (formSystemModel) formSystemModel.value = 'ongrid';
+    } else {
+        if (btnHybrid) btnHybrid.classList.add('active');
+        if (btnOnGrid) btnOnGrid.classList.remove('active');
+        if (formSystemModel) formSystemModel.value = 'hybrid';
+    }
+    
+    // Recalculate
+    updateCalculatorOutputs();
+}
+
+function handleFormSystemModelChange(value) {
+    currentSystemType = value;
+    
+    const btnOnGrid = document.getElementById('toggle-ongrid');
+    const btnHybrid = document.getElementById('toggle-hybrid');
+    
+    if (value === 'ongrid') {
+        if (btnOnGrid) btnOnGrid.classList.add('active');
+        if (btnHybrid) btnHybrid.classList.remove('active');
+    } else {
+        if (btnHybrid) btnHybrid.classList.add('active');
+        if (btnOnGrid) btnOnGrid.classList.remove('active');
+    }
+    
+    // Recalculate and update the detail textarea greeting message
+    updateCalculatorOutputs();
+    updateFormMessageDetails();
 }
 
 // When page loads, sync values
@@ -481,21 +522,31 @@ function performCalculationsDirect(capacity, units, skipSyncForm = false) {
         }
     }
     
-    // 7. Net Cost
-    const netCost = rawCost - subsidy;
+    // 7. Battery Cost (for hybrid system)
+    let batteryCost = 0;
+    let batterySize = 0;
+    if (currentSystemType === 'hybrid') {
+        batterySize = Math.round(capacity * 1.5 * 10) / 10;
+        if (batterySize < 2.4) batterySize = 2.4; // Minimum battery bank for hybrid system
+        batteryCost = Math.round(capacity * 25000);
+    }
+    const totalInstallationCost = rawCost + batteryCost;
     
-    // 8. Financial Savings
+    // 8. Net Cost
+    const netCost = totalInstallationCost - subsidy;
+    
+    // 9. Financial Savings
     // Kerala average unit charge: Residential saved ₹8.20/unit, Commercial saved ₹10.80/unit
     const unitValue = currentMode === 'residential' ? 8.20 : 10.80;
     // Cap energy savings to actual generation or consumption (whichever is lower)
     const activeSavingsUnits = Math.min(units, generationPerMonth);
     const annualSavingsVal = Math.round(activeSavingsUnits * unitValue * 12);
     
-    // 9. Return on Investment (ROI) & Payback
+    // 10. Return on Investment (ROI) & Payback
     const paybackVal = annualSavingsVal > 0 ? (netCost / annualSavingsVal).toFixed(1) : '0';
     const roiVal = netCost > 0 ? ((annualSavingsVal / netCost) * 100).toFixed(1) : '0';
     
-    // 10. Environmental Impact
+    // 11. Environmental Impact
     // 1 kW offsets 1.25 metric tonnes of CO2 per year
     const co2Offset = (capacity * 1.25).toFixed(1);
     const equivalentTrees = Math.round(parseFloat(co2Offset) * 16.6); // 1 tonne = ~16.6 mature trees/yr
@@ -505,7 +556,7 @@ function performCalculationsDirect(capacity, units, skipSyncForm = false) {
     outPanels.textContent = panelsCount;
     outArea.textContent = areaRequired.toLocaleString('en-IN');
     outGeneration.textContent = generationPerMonth.toLocaleString('en-IN');
-    outCost.textContent = rawCost.toLocaleString('en-IN');
+    outCost.textContent = totalInstallationCost.toLocaleString('en-IN');
     outSubsidy.textContent = subsidy.toLocaleString('en-IN');
     outNetCost.textContent = netCost.toLocaleString('en-IN');
     outSavings.textContent = annualSavingsVal.toLocaleString('en-IN');
@@ -513,6 +564,16 @@ function performCalculationsDirect(capacity, units, skipSyncForm = false) {
     outRoi.textContent = roiVal;
     outCo2.textContent = co2Offset;
     outTrees.textContent = equivalentTrees;
+    
+    // Dynamic battery metric UI updates
+    const batteryMetricContainer = document.getElementById('battery-metric-container');
+    const outBattery = document.getElementById('out-battery');
+    if (currentSystemType === 'hybrid') {
+        if (batteryMetricContainer) batteryMetricContainer.style.display = 'flex';
+        if (outBattery) outBattery.textContent = batterySize.toFixed(1);
+    } else {
+        if (batteryMetricContainer) batteryMetricContainer.style.display = 'none';
+    }
     
     // Sync size back to contact form requested size field
     if (!skipSyncForm) {
@@ -553,9 +614,12 @@ function updateFormMessageDetails() {
     const dealer = DEALERS.find(d => d.code === dealerCode);
     const partnerName = dealer ? dealer.name : "Partner";
     
+    const systemTypeLabel = currentSystemType === 'hybrid' ? 'Hybrid (Grid + Battery Backup)' : 'On-Grid';
+    const batteryDetail = currentSystemType === 'hybrid' ? ` with a recommended battery bank of ${(size * 1.5 < 2.4 ? 2.4 : Math.round(size * 1.5 * 10) / 10).toFixed(1)} kWh` : '';
+    
     // Update message text only if it has not been customized or is empty
     if (!msgArea.value || msgArea.value.startsWith("Hi ")) {
-        msgArea.value = `Hi ${partnerName}, I am interested in a ${size.toFixed(1)} kW system containing ${panels} panels. My current monthly bill is approximately ₹${billVal}. Please perform a feasibility study for my site.`;
+        msgArea.value = `Hi ${partnerName}, I am interested in a ${size.toFixed(1)} kW ${systemTypeLabel} solar system containing ${panels} panels${batteryDetail}. My current monthly bill is approximately ₹${billVal}. Please perform a feasibility study for my site.`;
     }
 }
 
@@ -609,6 +673,17 @@ function handleFormSizeChange() {
     
     // Trigger standard direct calculations skipping formSize sync
     performCalculationsDirect(capacity, units, true);
+}
+
+// Toggle visibility of the solar bank loan required documents checklist
+function toggleLoanDocsInfo(isChecked) {
+    const loanDocsBox = document.getElementById('loan-docs-box');
+    if (!loanDocsBox) return;
+    if (isChecked) {
+        loanDocsBox.classList.remove('hidden');
+    } else {
+        loanDocsBox.classList.add('hidden');
+    }
 }
 
 // Normalize district spellings for strict comparisons
@@ -669,6 +744,8 @@ function handleFormSubmit(event) {
     const dealerCode = document.getElementById('form-dealer').value;
     const connection = document.getElementById('form-connection').value;
     const capacity = document.getElementById('form-size').value;
+    const systemModelVal = document.getElementById('form-system-model').value;
+    const systemModelLabel = systemModelVal === 'hybrid' ? 'Hybrid (With Battery Backup)' : 'On-Grid';
     const loanRequired = document.getElementById('form-loan').checked ? 'Yes' : 'No';
     const message = document.getElementById('form-message').value.trim();
     
@@ -713,6 +790,7 @@ function handleFormSubmit(event) {
             "Matched Dealer Phone": dealer.phone,
             "Matched Dealer Area": dealer.area,
             "System Type": connection,
+            "System Technology Model": systemModelLabel,
             "Requested Capacity": capacity + ' kW',
             "Bank Loan Required": loanRequired,
             "Message / Site Details": message,
@@ -739,7 +817,8 @@ function handleFormSubmit(event) {
 - Email: ${email || 'Not Provided'}
 - District: ${district}
 - Location: ${location}
-- System Type: ${systemDesc}
+- System Category: ${systemDesc}
+- System Model: ${systemModelLabel}
 - Capacity: ${capacity} kW
 - Bank Loan Required: ${loanRequired}
 - Site Details: ${message || 'None'}
@@ -783,7 +862,11 @@ function handleFormSubmit(event) {
         document.getElementById('form-location').value = '';
         document.getElementById('form-district').value = 'Idukki';
         handleDistrictChange('Idukki');
+        document.getElementById('form-system-model').value = 'ongrid';
+        setSystemType('ongrid');
         document.getElementById('form-loan').checked = false;
+        const loanDocsBox = document.getElementById('loan-docs-box');
+        if (loanDocsBox) loanDocsBox.classList.add('hidden');
         document.getElementById('form-message').value = '';
     })
     .catch(error => {
