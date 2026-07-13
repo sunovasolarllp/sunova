@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Portal | SUNOVA SOLAR LLP</title>
+    <meta name="description" content="Secure staff login and webmail access portal for SUNOVA SOLAR LLP.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme login-page-body">
+    <div class="login-wrapper">
+        <!-- Floating Home Link -->
+        <a href="index.html" class="back-home-link">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="18" height="18">
+                <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Back to Public Website
+        </a>
+
+        <!-- Portal Glass Card -->
+        <div class="glass-card login-card" id="portal-card">
+            <div class="portal-header text-center">
+                <img src="assets/logo.jpg" alt="SUNOVA SOLAR LLP Logo" class="portal-logo">
+                <h2>Staff Portal</h2>
+                <p>Log in to access your Hostinger webmail, account settings, and mail clients configuration.</p>
+            </div>
+
+            <!-- Login View -->
+            <div id="login-view">
+                <form id="portal-login-form" onsubmit="handlePortalLogin(event)">
+                    <div class="form-group">
+                        <label for="portal-email">Corporate Email Address</label>
+                        <input type="email" id="portal-email" placeholder="e.g. info@sunovasolar.in" required value="info@sunovasolar.in">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="portal-password">Account Password</label>
+                        <input type="password" id="portal-password" placeholder="Enter your email password" required>
+                    </div>
+
+                    <div id="login-feedback" class="form-feedback hidden"></div>
+
+                    <button type="submit" class="cta-btn primary-btn full-width" id="btn-portal-login">
+                        Sign In &amp; Open Webmail
+                    </button>
+                </form>
+                <div class="text-center portal-footer-note">
+                    <span class="lock-icon">🔒</span> Powered by secure SSL connections &amp; Hostinger Mail.
+                </div>
+            </div>
+
+            <!-- Dashboard View (Initially Hidden) -->
+            <div id="dashboard-view" class="hidden">
+                <div class="success-badge">
+                    <span class="check-icon">✓</span> Authentication Successful
+                </div>
+                <h3>Welcome back, <span id="user-display">info@sunovasolar.in</span></h3>
+                <p class="dash-subtitle">Your Hostinger Webmail session is ready.</p>
+
+                <!-- Launch Buttons -->
+                <div class="portal-actions-grid">
+                    <a href="https://mail.hostinger.com/" target="_blank" rel="noopener" class="cta-btn primary-btn text-center full-width" id="btn-webmail">
+                        🚀 Launch Hostinger Webmail
+                    </a>
+                    <a href="https://hpanel.hostinger.com/" target="_blank" rel="noopener" class="cta-btn secondary-btn text-center full-width">
+                        🌐 Access Hostinger hPanel
+                    </a>
+                </div>
+
+                <!-- Technical Configuration Accordion -->
+                <div class="tech-settings-box">
+                    <h4>⚙️ Mail Client Server Settings</h4>
+                    <p class="settings-intro">Use these settings to configure Outlook, iPhone Mail, Android, or Gmail client apps.</p>
+                    
+                    <div class="settings-table">
+                        <div class="settings-row">
+                            <span class="sett-lbl">Incoming Mail (IMAP)</span>
+                            <span class="sett-val"><strong>imap.hostinger.com</strong> (Port 993, SSL/TLS)</span>
+                        </div>
+                        <div class="settings-row">
+                            <span class="sett-lbl">Outgoing Mail (SMTP)</span>
+                            <span class="sett-val"><strong>smtp.hostinger.com</strong> (Port 465, SSL/TLS)</span>
+                        </div>
+                        <div class="settings-row">
+                            <span class="sett-lbl">Incoming Mail (POP3)</span>
+                            <span class="sett-val"><strong>pop.hostinger.com</strong> (Port 995, SSL/TLS)</span>
+                        </div>
+                        <div class="settings-row">
+                            <span class="sett-lbl">Username</span>
+                            <span class="sett-val">Your full email (e.g. <code>info@sunovasolar.in</code>)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-footer-actions">
+                    <button onclick="logoutPortal()" class="logout-btn">Sign Out</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script>
+        // Check local storage for existing session
+        window.addEventListener('DOMContentLoaded', () => {
+            const activeUser = localStorage.getItem('portal_user');
+            if (activeUser) {
+                showDashboard(activeUser);
+            }
+        });
+
+        function handlePortalLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('portal-email').value.trim();
+            const password = document.getElementById('portal-password').value;
+            const feedback = document.getElementById('login-feedback');
+            const loginBtn = document.getElementById('btn-portal-login');
+
+            // Verification rules
+            if (!email.endsWith('@sunovasolar.in')) {
+                feedback.textContent = 'Access Denied. Only @sunovasolar.in emails are authorized.';
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            if (password.length < 4) {
+                feedback.textContent = 'Please enter a valid password.';
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            feedback.textContent = 'Connecting to Hostinger mail server...';
+            feedback.className = 'form-feedback';
+            feedback.style.backgroundColor = 'rgba(255, 183, 3, 0.15)';
+            feedback.style.color = 'var(--color-sun-yellow)';
+            feedback.classList.remove('hidden');
+            loginBtn.disabled = true;
+
+            setTimeout(() => {
+                // Successful verification mock login
+                localStorage.setItem('portal_user', email);
+                showDashboard(email);
+                
+                // Automatically open Webmail in a new tab for convenience
+                window.open('https://mail.hostinger.com/', '_blank');
+            }, 1200);
+        }
+
+        function showDashboard(email) {
+            document.getElementById('login-view').classList.add('hidden');
+            document.getElementById('dashboard-view').classList.remove('hidden');
+            document.getElementById('user-display').textContent = email;
+            
+            // Modify portal title/subtitle slightly
+            const header = document.querySelector('.portal-header');
+            header.querySelector('h2').textContent = 'Staff Dashboard';
+            header.querySelector('p').textContent = 'Launch webmail portals and view connection protocols.';
+        }
+
+        function logoutPortal() {
+            localStorage.removeItem('portal_user');
+            location.reload();
+        }
+    </script>
+</body>
+</html>

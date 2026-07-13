@@ -1,31 +1,521 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sunova Solar LLP</title>
-    <style>
-        body{
-            margin:0;
-            font-family:Arial,sans-serif;
-            background:#0f172a;
-            color:white;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            height:100vh;
-            text-align:center;
-        }
-        h1{font-size:3rem;color:#22c55e;}
-        p{font-size:1.2rem;}
-    </style>
+    <title>SUNOVA SOLAR LLP | Premium Solar Solutions in Thodupuzha, Kerala</title>
+    <meta name="description" content="Sunova Solar LLP is Thodupuzha's leading solar system installation and service provider. Specialized in premium residential and commercial rooftop solar. Estimate your savings with our interactive solar calculator.">
+    <meta name="keywords" content="solar installation Kerala, rooftop solar Thodupuzha, Sunova Solar, solar panels Idukki, solar subsidy PM Surya Ghar, solar company Kerala">
+    <meta name="author" content="Sunova Solar LLP">
+    <link rel="canonical" href="https://sunovasolar.in">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="SUNOVA SOLAR LLP | Premium Solar Solutions">
+    <meta property="og:description" content="Specialized construction & installation of domestic and commercial solar power systems in Thodupuzha, Kerala. Calculate your savings.">
+    <meta property="og:image" content="assets/hero.jpg">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div>
-        <h1>Sunova Solar LLP</h1>
-        <p>Website is under construction.</p>
-        <p>Powered by GitHub Pages.</p>
-    </div>
+<body class="dark-theme">
+    <!-- Header/Navigation -->
+    <header class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo" id="nav-logo">
+                <img src="assets/logo.jpg" alt="SUNOVA SOLAR LLP Logo" class="logo-img-file">
+            </a>
+            
+            <nav class="nav-menu" id="nav-menu">
+                <a href="#hero" class="nav-link active" id="link-hero">Home</a>
+                <a href="#services" class="nav-link" id="link-services">Services</a>
+                <a href="#calculator" class="nav-link" id="link-calculator">Calculator</a>
+                <a href="#about" class="nav-link" id="link-about">About Us</a>
+                <a href="#contact" class="nav-link" id="link-contact">Contact</a>
+            </nav>
+            
+            <div class="nav-actions">
+                <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
+                    <!-- Sun Icon -->
+                    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 3V4M12 20V21M4.22 4.22L4.93 4.93M19.07 19.07L19.78 19.78M2 12H3M20 12H21M4.22 19.78L4.93 19.07M19.07 4.93L19.78 4.22M12 7C9.24 7 7 9.24 7 12C7 14.76 9.24 17 12 17C14.76 17 17 14.76 17 12C17 9.24 14.76 7 12 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <!-- Moon Icon -->
+                    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" fill="currentColor"/>
+                    </svg>
+                </button>
+                <a href="login.html" class="theme-btn" aria-label="Staff Login" title="Staff Portal">
+                    <!-- Key/Lock Icon -->
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                        <path d="M12 15V17M17 11V7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7V11M5 11H19C20.1046 11 21 11.8954 21 13V20C21 21.1046 20.1046 22 19 22H5C3.89543 22 3 21.1046 3 20V13C3 11.8954 3.89543 11 5 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+                <a href="#calculator" class="cta-btn secondary-btn" id="btn-quick-calc">Get Estimate</a>
+                <button class="hamburger" id="hamburger" aria-label="Open menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+        <div class="hero-bg">
+            <img src="assets/hero.jpg" alt="Beautiful residential home with solar panels in Kerala" class="hero-img">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="container hero-container">
+            <div class="hero-content scroll-reveal-left">
+                <span class="badge">Approved Solar Installer in Kerala</span>
+                <h1 class="hero-title">Empowering Kerala's Future with <span class="gradient-text">Clean Solar Energy</span></h1>
+                <p class="hero-desc">SUNOVA SOLAR LLP delivers high-efficiency rooftop solar installations for homes and businesses. Maximize your savings, secure government subsidies, and build a sustainable tomorrow.</p>
+                <div class="hero-buttons">
+                    <a href="#calculator" class="cta-btn primary-btn" id="btn-hero-calc">Calculate Savings</a>
+                    <a href="#contact" class="cta-btn outline-btn" id="btn-hero-contact">Contact Offices</a>
+                </div>
+            </div>
+            <div class="hero-card scroll-reveal-right">
+                <div class="glass-card">
+                    <h3>Quick solar benefits</h3>
+                    <ul class="benefit-list">
+                        <li>
+                            <div class="benefit-icon">🌿</div>
+                            <div>
+                                <h4>Eco-Friendly Energy</h4>
+                                <p>Reduce carbon footprint and offset metric tons of CO2 yearly.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="benefit-icon">💰</div>
+                            <div>
+                                <h4>Up to 90% Bill Reduction</h4>
+                                <p>Drastically cut KSEB monthly power bills with net metering.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="benefit-icon">🏢</div>
+                            <div>
+                                <h4>Govt. Subsidy (Up to ₹78,000)</h4>
+                                <p>Direct bank transfer subsidy for residential installations.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="hero-wave">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V0C26.9,8.75,57.05,18.3,94.43,26.29,187.35,46.2,261.38,67.24,321.39,56.44Z" class="wave-path"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section" id="services">
+        <div class="container">
+            <div class="section-header scroll-reveal">
+                <span class="sub-title">WHAT WE DO</span>
+                <h2 class="section-title">Core Solar Services &amp; Operations</h2>
+                <div class="title-line"></div>
+                <p class="section-desc">We specialize in engineering, procurement, and construction (EPC) of high-grade solar photovoltaic power systems tailored for various applications.</p>
+            </div>
+            
+            <div class="services-grid">
+                <!-- Service 1 -->
+                <div class="service-card scroll-reveal-up">
+                    <div class="service-img-wrapper">
+                        <img src="assets/hero.jpg" alt="Domestic Solar Installation" class="service-img">
+                    </div>
+                    <div class="service-info">
+                        <div class="service-icon-bg">🏡</div>
+                        <h3>Residential Rooftop Solar</h3>
+                        <p>Complete on-grid solar solutions for homes under the PM Surya Ghar Yojana. Tailored to support heavy domestic appliances like air conditioners and water pumps while slashing KSEB tariffs.</p>
+                        <ul class="card-features">
+                            <li>Subsidy support &amp; paperless application</li>
+                            <li>Monocrystalline PERC half-cut panels</li>
+                            <li>Grid-tied inverter with mobile app monitoring</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="service-card scroll-reveal-up" style="animation-delay: 0.1s;">
+                    <div class="service-img-wrapper">
+                        <img src="assets/commercial.jpg" alt="Commercial Solar Installation" class="service-img">
+                    </div>
+                    <div class="service-info">
+                        <div class="service-icon-bg">🏢</div>
+                        <h3>Commercial &amp; Business Systems</h3>
+                        <p>Custom rooftop structures for commercial complexes, offices, retail spaces, and factories. Lower operating expenses, hedge against rising commercial power tariffs, and enjoy tax depreciation benefits.</p>
+                        <ul class="card-features">
+                            <li>Accelerated depreciation tax benefits</li>
+                            <li>High load capacity and structural engineering</li>
+                            <li>ROI starting in just 3 to 4 years</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="service-card scroll-reveal-up" style="animation-delay: 0.2s;">
+                    <div class="service-info-full">
+                        <div class="grid-2-col">
+                            <div>
+                                <span class="card-badge">Maintenance</span>
+                                <h3>Operations &amp; Maintenance Services</h3>
+                                <p>To maximize power generation, solar systems require routine care. Sunova Solar LLP provides comprehensive checkups, cleaning, and performance audits for installations throughout the Idukki district.</p>
+                            </div>
+                            <div class="details-list-col">
+                                <ul class="details-list">
+                                    <li><strong>Pressure Washing:</strong> Specialized cleaning of solar glass for higher light absorption.</li>
+                                    <li><strong>Electrical Audits:</strong> String testing, checking DC/AC isolators, and health audits of inverters.</li>
+                                    <li><strong>Net Metering Setup:</strong> KSEB feasibility applications, installation, and inspection liaison.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solar Savings Calculator Section -->
+    <section class="calculator-section" id="calculator">
+        <div class="container">
+            <div class="section-header scroll-reveal">
+                <span class="sub-title">SOLAR SIZING CALCULATOR</span>
+                <h2 class="section-title">Estimate Your System &amp; Savings</h2>
+                <div class="title-line"></div>
+                <p class="section-desc">Instantly compute your recommended solar plant size, initial investment, potential subsidies, monthly savings, and payback period under Kerala conditions.</p>
+            </div>
+            
+            <div class="calc-wrapper scroll-reveal-up">
+                <!-- Inputs Column -->
+                <div class="calc-inputs-panel">
+                    <div class="calc-toggle-wrapper">
+                        <button type="button" class="toggle-btn active" id="toggle-res" onclick="setCalculatorMode('residential')">Residential (Subsidy Eligible)</button>
+                        <button type="button" class="toggle-btn" id="toggle-com" onclick="setCalculatorMode('commercial')">Commercial / Business</button>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-header">
+                            <label for="input-bill">Average Monthly Electricity Bill (INR)</label>
+                            <span class="input-val-display">₹<span id="bill-val-display">4,000</span></span>
+                        </div>
+                        <input type="range" id="input-bill" min="500" max="50000" step="500" value="4000" oninput="updateCalculatorOutputs()">
+                        <div class="range-markers">
+                            <span>₹500</span>
+                            <span>₹10,000</span>
+                            <span>₹25,000</span>
+                            <span>₹50,000</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-header">
+                            <label for="input-units">Alternative: Monthly Consumption (kWh / Units)</label>
+                            <span class="input-val-display"><span id="units-val-display">500</span> Units</span>
+                        </div>
+                        <input type="number" id="input-units" min="50" max="6000" value="500" oninput="handleUnitInput(this.value)">
+                        <span class="input-helper">Adjust consumption directly to override bill calculation.</span>
+                    </div>
+
+                    <div class="calculator-infobox">
+                        <div class="info-icon">💡</div>
+                        <p id="calc-kseb-note">Calculated using typical KSEB telescopic domestic tariff rates. Higher consumption levels fall under higher rate slabs.</p>
+                    </div>
+                </div>
+
+                <!-- Outputs Column -->
+                <div class="calc-outputs-panel">
+                    <div class="outputs-title">Your Solar Proposal</div>
+                    
+                    <div class="metrics-grid">
+                        <div class="metric-box">
+                            <span class="metric-label">Recommended Capacity</span>
+                            <span class="metric-value"><span id="out-size">4.0</span> <span class="unit">kW</span></span>
+                        </div>
+                        <div class="metric-box">
+                            <span class="metric-label">Solar Panels (500W)</span>
+                            <span class="metric-value"><span id="out-panels">8</span> <span class="unit">Nos</span></span>
+                        </div>
+                        <div class="metric-box">
+                            <span class="metric-label">Required Roof Area</span>
+                            <span class="metric-value"><span id="out-area">360</span> <span class="unit">sq.ft</span></span>
+                        </div>
+                        <div class="metric-box">
+                            <span class="metric-label">Estimated Solar Generation</span>
+                            <span class="metric-value"><span id="out-generation">480</span> <span class="unit">Units/Mo</span></span>
+                        </div>
+                    </div>
+
+                    <div class="financial-breakdown">
+                        <div class="financial-row">
+                            <span>Approx. Installation Cost</span>
+                            <span class="val bold">₹<span id="out-cost">2,40,000</span></span>
+                        </div>
+                        <div class="financial-row subsidy-row" id="subsidy-container">
+                            <span class="subsidy-label">Govt. Subsidy (PM Surya Ghar)</span>
+                            <span class="val text-green">- ₹<span id="out-subsidy">78,000</span></span>
+                        </div>
+                        <div class="financial-row divider"></div>
+                        <div class="financial-row total-row">
+                            <span>Net Out-of-pocket Cost</span>
+                            <span class="val highlight-green">₹<span id="out-net-cost">1,62,000</span></span>
+                        </div>
+                    </div>
+
+                    <div class="savings-card">
+                        <div class="savings-header">Estimated Returns</div>
+                        <div class="savings-metrics">
+                            <div class="sav-box">
+                                <span class="sav-lbl">Annual Savings</span>
+                                <span class="sav-val">₹<span id="out-savings">38,400</span></span>
+                            </div>
+                            <div class="sav-box">
+                                <span class="sav-lbl">Payback Period</span>
+                                <span class="sav-val"><span id="out-payback">4.2</span> <span class="lbl-small">Years</span></span>
+                            </div>
+                            <div class="sav-box">
+                                <span class="sav-lbl">Annual ROI</span>
+                                <span class="sav-val"><span id="out-roi">23.7</span>%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="eco-benefit">
+                        <span class="eco-leaf">🌱</span>
+                        <span><strong>Green Impact:</strong> You will offset <strong id="out-co2">4.8</strong> tonnes of carbon dioxide emissions (CO₂) every year, equivalent to planting <strong id="out-trees">80</strong> trees!</span>
+                    </div>
+
+                    <div class="calc-action-btn">
+                        <a href="#contact" class="cta-btn primary-btn full-width text-center" onclick="transferCalculatorDetails()">Book Site Survey</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <div class="grid-2-col">
+                <div class="about-content scroll-reveal-left">
+                    <span class="sub-title">ABOUT SUNOVA SOLAR LLP</span>
+                    <h2 class="section-title">Specialized Construction &amp; Installation of Solar Power</h2>
+                    <div class="title-line left"></div>
+                    <p class="about-text">SUNOVA SOLAR LLP is a registered Limited Liability Partnership (LLP) incorporated under the Ministry of Corporate Affairs, Government of India. Operating from Thodupuzha, Kerala, our goal is to deliver state-of-the-art rooftop solar systems that provide maximum performance, structural durability, and financial yield.</p>
+                    
+                    <p class="about-text">Managed by its designated partners, we operate with transparent ethics, compliance-first documentation, and premium-tier engineering to design and deliver high-performance solar systems.</p>
+                </div>
+                
+                <div class="about-visual scroll-reveal-right">
+                    <div class="glass-container">
+                        <div class="stat-highlight">
+                            <span class="stat-num">LLP</span>
+                            <span class="stat-lbl">Registered Corporate Entity</span>
+                        </div>
+                        <div class="stat-grid">
+                            <div class="stat-item">
+                                <div class="stat-icon">✅</div>
+                                <h4>KSEB Compliant</h4>
+                                <p>All components meet KSEB technical regulations for on-grid systems.</p>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon">🏗️</div>
+                                <h4>Premium Structures</h4>
+                                <p>Custom hot-dip galvanized mounting structures that withstand high-speed winds and monsoon weather in Idukki.</p>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon">🔧</div>
+                                <h4>Post-sales Support</h4>
+                                <p>Local maintenance teams situated in Thodupuzha bypass for rapid response.</p>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon">📈</div>
+                                <h4>Performance Audits</h4>
+                                <p>Advanced monitoring applications that trace daily power generation parameters.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location & Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="section-header scroll-reveal">
+                <span class="sub-title">CONTACT &amp; ADDRESS</span>
+                <h2 class="section-title">Head Office &amp; Service Locations</h2>
+                <div class="title-line"></div>
+                <p class="section-desc">Get in touch with us. Visit our offices in Thodupuzha or fill out the form to request an on-site feasibility evaluation.</p>
+            </div>
+            
+            <div class="grid-2-col-equal">
+                <!-- Location Cards Panel -->
+                <div class="contact-locations scroll-reveal-left">
+                    <!-- Registered Office Card -->
+                    <div class="location-card">
+                        <div class="loc-header">
+                            <div class="loc-icon-bg">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M12 8V12L14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <span class="loc-badge">REGISTERED HEAD OFFICE</span>
+                                <h3>Puthiyedath Tower</h3>
+                            </div>
+                        </div>
+                        <p class="loc-address">27/284, Puthiyedath Tower, Near KSRTC Thodupuzha, Idukki, Kerala - 685584.</p>
+                        <div class="loc-meta">
+                            <span class="meta-item">📍 Near KSRTC Bus Stand</span>
+                        </div>
+                    </div>
+
+                    <!-- Service Outlet Card -->
+                    <div class="location-card">
+                        <div class="loc-header">
+                            <div class="loc-icon-bg">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.77 3.77z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <span class="loc-badge">SERVICE OUTLET / BYPASS OUTLET</span>
+                                <h3>Vengalloor - Mangattukavala Bypass</h3>
+                            </div>
+                        </div>
+                        <p class="loc-address">Vengalloor - Mangattukavala Bypass Road, Thodupuzha, Kerala - 685608.</p>
+                        <div class="loc-meta">
+                            <span class="meta-item">🔧 Service, Installation Equipment &amp; Technical Site Office</span>
+                        </div>
+                    </div>
+
+                    <!-- Working Hours & LLP Info -->
+                    <div class="business-info-card">
+                        <div class="business-row">
+                            <span class="info-label">📅 Working Hours:</span>
+                            <span class="info-val">Monday to Saturday: 9:00 AM – 5:00 PM<br><span class="text-red">Closed on Sundays</span></span>
+                        </div>
+                        <div class="business-row">
+                            <span class="info-label">✉️ Email Address:</span>
+                            <span class="info-val"><a href="mailto:info@sunovasolar.in">info@sunovasolar.in</a></span>
+                        </div>
+                        <div class="business-row">
+                            <span class="info-label">🌐 Web Address:</span>
+                            <span class="info-val"><a href="https://sunovasolar.in" target="_blank" rel="noopener">sunovasolar.in</a></span>
+                        </div>
+                        <div class="business-row">
+                            <span class="info-label">💼 Corporate Status:</span>
+                            <span class="info-val">Active Limited Liability Partnership (LLP)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form Panel -->
+                <div class="contact-form-wrapper scroll-reveal-right">
+                    <div class="glass-card contact-card">
+                        <h3>Feasibility &amp; Quote Request</h3>
+                        <p>Fill out the form below to receive a customized design layout proposal for your rooftop.</p>
+                        
+                        <form id="contact-form" onsubmit="handleFormSubmit(event)">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="form-name">Full Name</label>
+                                    <input type="text" id="form-name" placeholder="Enter your name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="form-phone">Phone Number</label>
+                                    <input type="tel" id="form-phone" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="form-email">Email Address (Optional)</label>
+                                <input type="email" id="form-email" placeholder="example@domain.com">
+                            </div>
+                            
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="form-connection">System Type</label>
+                                    <select id="form-connection">
+                                        <option value="residential">Residential (Home Solar)</option>
+                                        <option value="commercial">Commercial / Industrial</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="form-size">Requested Capacity</label>
+                                    <input type="text" id="form-size" placeholder="e.g. 3 kW" readonly class="readonly-input">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="form-message">Detailed Requirements / Site Details</label>
+                                <textarea id="form-message" rows="4" placeholder="Mention your location, roof type (flat concrete / pitched roof), or current monthly electricity consumption..."></textarea>
+                            </div>
+                            
+                            <div id="form-feedback" class="form-feedback hidden"></div>
+                            
+                            <button type="submit" class="cta-btn primary-btn full-width" id="btn-submit">Submit Feasibility Form</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-info">
+                <div class="logo">
+                    <img src="assets/logo.jpg" alt="SUNOVA SOLAR LLP Logo" class="logo-img-file">
+                </div>
+                <p class="footer-desc">SUNOVA SOLAR LLP is a registered Limited Liability Partnership based in Thodupuzha, Kerala (LLPIN: MCA Registered). Specialized rooftop engineering and installation services.</p>
+                <div class="footer-llp">
+                    <span>Ministry of Corporate Affairs Registered LLP</span>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Quick Navigation</h4>
+                <a href="#hero">Home Page</a>
+                <a href="#services">Our Services</a>
+                <a href="#calculator">Solar Calculator</a>
+                <a href="#about">About LLP</a>
+                <a href="#contact">Offices &amp; Inquiries</a>
+                <a href="login.html">🔒 Staff Portal</a>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Contact Details</h4>
+                <p>📍 <strong>HQ:</strong> 27/284, Puthiyedath Tower, Near KSRTC, Thodupuzha - 685584</p>
+                <p>📍 <strong>Outlet:</strong> Vengalloor - Mangattukavala Bypass, Thodupuzha - 685608</p>
+                <p>✉️ <strong>Email:</strong> <a href="mailto:info@sunovasolar.in">info@sunovasolar.in</a></p>
+                <p>🌐 <strong>Website:</strong> <a href="https://sunovasolar.in" target="_blank" rel="noopener">sunovasolar.in</a></p>
+                <p>⏰ <strong>Hours:</strong> Mon - Sat: 9:00 AM - 5:00 PM</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container footer-bottom-container">
+                <p>&copy; 2026 SUNOVA SOLAR LLP. All Rights Reserved. MCA Registered LLP.</p>
+                <p>Designed with Clean Solar Energy in Kerala.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
 </body>
 </html>
