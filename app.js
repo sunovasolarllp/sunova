@@ -484,7 +484,7 @@ function handleDistrictChange(districtValue) {
     matchedDealers.forEach((dealer, index) => {
         const opt = document.createElement('option');
         opt.value = dealer.code;
-        opt.textContent = `${dealer.area} - ${dealer.name} (Ph: ${dealer.phone}) [${dealer.code}]`;
+        opt.textContent = `${dealer.area} - ${dealer.name} (Ph: ${dealer.phone})`;
         if (index === 0) {
             opt.selected = true;
         }
@@ -529,7 +529,7 @@ function handleFormSubmit(event) {
     showFormFeedback('Sending your inquiry...', 'info');
     
     // Send form data to FormSubmit.co via AJAX
-    fetch('https://formsubmit.co/ajax/info@sunovasolar.in', {
+    fetch('https://formsubmit.co/ajax/b1ebd95b70dc040e3935087370fc44ab', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -570,7 +570,6 @@ function handleFormSubmit(event) {
             👤 <strong>Dealer Name:</strong> ${dealer.name}<br>
             📍 <strong>Service Area:</strong> ${dealer.area} (${dealer.district})<br>
             📞 <strong>Contact Phone:</strong> <a href="tel:+91${dealer.phone}" style="color:var(--color-sun-yellow); font-weight:bold;">+91 ${dealer.phone}</a><br>
-            🎫 <strong>Dealer Code:</strong> ${dealer.code}<br>
             <br>
             <em>Redirecting you to WhatsApp to connect directly with your partner...</em>
         `;
@@ -587,7 +586,7 @@ function handleFormSubmit(event) {
 - System Type: ${systemDesc}
 - Capacity: ${capacity}
 - Site Details: ${message || 'None'}
-- Assigned Dealer: ${dealer.name} (${dealer.code})`;
+- Assigned Dealer: ${dealer.name}`;
         
         const partnerPhone = "91" + dealer.phone;
         const waUrl = `https://wa.me/${partnerPhone}?text=${encodeURIComponent(waMessage)}`;
