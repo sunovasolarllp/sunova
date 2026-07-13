@@ -555,7 +555,11 @@ function handleFormSubmit(event) {
         if (response.ok) {
             return response.json();
         }
-        throw new Error('Network response was not ok.');
+        return response.json().then(errData => {
+            throw new Error(errData.message || 'Server error occurred.');
+        }).catch(() => {
+            throw new Error('Response status ' + response.status + ': Failed to contact submission server.');
+        });
     })
     .then(data => {
         // Build success feedback detailing the assigned partner
@@ -604,7 +608,7 @@ function handleFormSubmit(event) {
     })
     .catch(error => {
         console.error('Error:', error);
-        showFormFeedback('Something went wrong. Please try again or email us directly at info@sunovasolar.in', 'error');
+        showFormFeedback(`<strong>Submission Error:</strong> ${error.message}<br>Please check if <code>info@sunovasolar.in</code> has received and activated the confirmation link from FormSubmit.co in your Hostinger webmail, or contact us directly.`, 'error');
     });
 }
 
