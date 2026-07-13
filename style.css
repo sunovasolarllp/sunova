@@ -422,9 +422,14 @@ body {
 
 .hero-desc {
     font-size: 1.1rem;
-    color: var(--color-text-muted);
+    color: #e2e8f0;
     margin-bottom: 2rem;
     max-width: 600px;
+}
+
+.light-theme .hero-desc {
+    color: #000000;
+    font-weight: 500;
 }
 
 .hero-buttons {

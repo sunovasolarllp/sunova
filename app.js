@@ -1,6 +1,60 @@
 // --- Application Variables & State ---
 let currentMode = 'residential'; // 'residential' or 'commercial'
 
+// Authorized Sunova Solar Dealers List
+const DEALERS = [
+    { code: "TVM-JOBI", name: "JOBI SEBASTIAN", area: "ATTINGAL", district: "Thiruvananthapuram", phone: "8590085856" },
+    { code: "TVM-BENJ", name: "BENJOSE FG", area: "BALARAMAPURAM", district: "Thiruvananthapuram", phone: "9037273767" },
+    { code: "TVM-ANAN", name: "ANAND SREEDHAR", area: "NEYYATTINKARA", district: "Thiruvananthapuram", phone: "7994430742" },
+    { code: "KLA-VARG", name: "VARGHESE NELLIMOOTTIL", area: "AYOOR", district: "Kollam", phone: "9020202222" },
+    { code: "KLA-NIYA", name: "NIYAS K", area: "KARUNAGAPPALLY", district: "Kollam", phone: "9656366068" },
+    { code: "KLA-UDAY", name: "UDAYABHANU J", area: "KOLLAM", district: "Kollam", phone: "9349136882" },
+    { code: "KLA-RAJE", name: "RAJEEV R", area: "PUNALUR", district: "Kollam", phone: "9567970077" },
+    { code: "KLA-RATH", name: "RATHIL KUMAR", area: "WEST KALLADA", district: "Kollam", phone: "7907878797" },
+    { code: "PTA-SREE", name: "SREEJITH TR", area: "MALLAPPALLY", district: "Pathanamthitta", phone: "9947030669" },
+    { code: "PTA-JIJU", name: "JIJUKUMAR MC", area: "PANDALAM", district: "Pathanamthitta", phone: "9388133400" },
+    { code: "PTA-PKPR", name: "PK PRASANNAKUMAR", area: "PATHANAMTHITTA", district: "Pathanamthitta", phone: "7034023301" },
+    { code: "PTA-BIJU", name: "BIJUMON J", area: "RANNI", district: "Pathanamthitta", phone: "9995990372" },
+    { code: "ALP-SHIN", name: "SHINAS SHAMSUDEEN", area: "ALAPPUZHA", district: "Alappuzha", phone: "9995550888" },
+    { code: "ALP-NISS", name: "NISSAR HAMEED", area: "KAYAMKULAM", district: "Alappuzha", phone: "9895497090" },
+    { code: "ALP-RENJ", name: "RENJITH PS", area: "MAVELIKKARA", district: "Alappuzha", phone: "9447866958" },
+    { code: "ALP-BAIJ", name: "BAIJU SASIDHARAN", area: "VALLIKUNNAM", district: "Alappuzha", phone: "9747186818" },
+    { code: "KTM-SALY", name: "SALY SAINUDEEN", area: "ERATTUPETTA", district: "Kottayam", phone: "9446200616" },
+    { code: "KTM-ANIS", name: "ANISH KUMAR", area: "KALLARA", district: "Kottayam", phone: "9387220162" },
+    { code: "KTM-SANI", name: "SANIL KUMAR", area: "KOTTAYAM TOWN", district: "Kottayam", phone: "9061189784" },
+    { code: "IDK-OUSE", name: "OUSEPH KA", area: "ARAKULAM", district: "Idukki", phone: "9495737628" },
+    { code: "IDK-MGAJ", name: "MG AJAY", area: "THODUPUZHA", district: "Idukki", phone: "9447254142" },
+    { code: "EKM-SHIY", name: "SHIYAS RASHEED", area: "EDAPPALLY", district: "Ernakulam", phone: "9847859859" },
+    { code: "EKM-BHAV", name: "BHAVYA M", area: "KALAMASSERY", district: "Ernakulam", phone: "8301026309" },
+    { code: "EKM-JIBI", name: "JIBIN GEORGE", area: "THRIPUNITHURA", district: "Ernakulam", phone: "9995996240" },
+    { code: "TCR-JAIS", name: "JAISON JOSE MELETH", area: "AYYANTHOL", district: "Thrissur", phone: "9995601923" },
+    { code: "TCR-COAT", name: "COATS THEKKAN", area: "CHALAKUDY", district: "Thrissur", phone: "8129119222" },
+    { code: "TCR-JISO", name: "JISON GEORGE", area: "CHELAKKARA", district: "Thrissur", phone: "9746666535" },
+    { code: "TCR-SINI", name: "SINISH KM", area: "KODAKARA", district: "Thrissur", phone: "9946101892" },
+    { code: "TCR-BINU", name: "BINU YACOB", area: "PAZHAYANNUR", district: "Thrissur", phone: "9946033807" },
+    { code: "TCR-JITH", name: "JITHESH THARAYIL", area: "PO ROAD", district: "Thrissur", phone: "7356347700" },
+    { code: "TCR-AKAN", name: "AK ANIL", area: "VALAPPAD", district: "Thrissur", phone: "9746891854" },
+    { code: "PKD-SUHA", name: "SUHAIB S", area: "ALATHUR", district: "Palakkad", phone: "9988553585" },
+    { code: "PKD-PRAM", name: "PRAMOD", area: "CHITTUR", district: "Palakkad", phone: "9746611002" },
+    { code: "PKD-BIJO", name: "BIJO VARGHESE", area: "ELAPPULLY", district: "Palakkad", phone: "9388883222" },
+    { code: "PKD-ANAN", name: "ANAND P", area: "KODUVAYUR", district: "Palakkad", phone: "9349811101" },
+    { code: "MPM-NASS", name: "NASSARUDHEEN E", area: "EDAKKARA", district: "Malappuram", phone: "9946139955" },
+    { code: "MPM-FAIS", name: "FAISAL K", area: "MANJERY", district: "Malappuram", phone: "7994035923" },
+    { code: "MPM-RAVI", name: "RAVINDRAN K", area: "TIRUR", district: "Malappuram", phone: "9961476748" },
+    { code: "KKD-RAJA", name: "RAJAN MADAVOOR", area: "KODUVALLY", district: "Kozhikode", phone: "9497345868" },
+    { code: "KKD-YOOS", name: "YOOSAF NV", area: "PERAMBRA", district: "Kozhikode", phone: "9539724724" },
+    { code: "KKD-SAFE", name: "SAFEER", area: "VADAKARA", district: "Kozhikode", phone: "9995330555" },
+    { code: "KKD-RAHU", name: "RAHUL RN", area: "VATAKARA", district: "Kozhikode", phone: "9645464733" },
+    { code: "WYD-SINI", name: "SINIL CHACKO K", area: "MANATHAWADY", district: "Wayanad", phone: "8921794334" },
+    { code: "KNR-ACFA", name: "AC FAISAL", area: "IRIKKOOR", district: "Kannur", phone: "9656069964" },
+    { code: "KNR-NOUS", name: "NOUSHAD T", area: "MATTANNUR", district: "Kannur", phone: "9847761018" },
+    { code: "KNR-SURI", name: "SURIYA SUBASH", area: "PANOOR", district: "Kannur", phone: "9946809010" },
+    { code: "KNR-NISH", name: "NISHAD NK", area: "THALASSERY", district: "Kannur", phone: "9562028244" },
+    { code: "KNR-KASO", name: "KA SOJU", area: "THALIPARAMBU", district: "Kannur", phone: "9447548430" },
+    { code: "KSD-PRAD", name: "PRADEEP K", area: "BADIADUKA", district: "Kasaragod", phone: "9744880900" },
+    { code: "KSD-SURE", name: "SURESH KUMAR", area: "PANATHUR", district: "Kasaragod", phone: "9946960604" }
+];
+
 // --- DOM elements ---
 const body = document.body;
 const themeToggleBtn = document.getElementById('theme-toggle');
@@ -33,6 +87,7 @@ const subsidyContainer = document.getElementById('subsidy-container');
 // Contact Form DOM elements
 const formConnection = document.getElementById('form-connection');
 const formSize = document.getElementById('form-size');
+const formDealer = document.getElementById('form-dealer');
 const contactForm = document.getElementById('contact-form');
 const formFeedback = document.getElementById('form-feedback');
 
@@ -392,40 +447,67 @@ function transferCalculatorDetails() {
     msgArea.value = `Hi Sunova Solar, I am interested in a ${size} kW system containing ${panels} panels. My current monthly bill is approximately ₹${billInput.value}. Please perform a feasibility study for my site.`;
 }
 
+// Normalize district spellings for strict comparisons
+function getNormalizedDistrict(dist) {
+    if (!dist) return "";
+    const d = dist.toUpperCase().trim();
+    if (d === "THIRUVANANTHAPURAM" || d === "THIRUVANTHAPURAM" || d === "TVM") {
+        return "THIRUVANANTHAPURAM";
+    }
+    return d;
+}
+
+// Function to handle district select changes and dynamically populate dealer choices
+function handleDistrictChange(districtValue) {
+    if (!formDealer) return;
+    
+    // Clear current options
+    formDealer.innerHTML = '';
+    
+    const normalizedSelected = getNormalizedDistrict(districtValue);
+    
+    // Filter dealers matching this district
+    const matchedDealers = DEALERS.filter(d => {
+        const normalizedDealerDist = getNormalizedDistrict(d.district);
+        return normalizedDealerDist === normalizedSelected;
+    });
+    
+    if (matchedDealers.length === 0) {
+        const opt = document.createElement('option');
+        opt.value = "";
+        opt.textContent = "No dealers found for this district";
+        formDealer.appendChild(opt);
+        return;
+    }
+    
+    // Populate select menu
+    matchedDealers.forEach((dealer, index) => {
+        const opt = document.createElement('option');
+        opt.value = dealer.code;
+        opt.textContent = `${dealer.area} - ${dealer.name} (Ph: ${dealer.phone}) [${dealer.code}]`;
+        if (index === 0) {
+            opt.selected = true;
+        }
+        formDealer.appendChild(opt);
+    });
+}
+
 function handleFormSubmit(event) {
     event.preventDefault();
-    
-    // District WhatsApp partners mapping configuration
-    // (Edit these numbers to link specific partners for each district)
-    const DISTRICT_PARTNERS = {
-        "Idukki": "919072522277",
-        "Alappuzha": "919072522277",
-        "Ernakulam": "919072522277",
-        "Kannur": "919072522277",
-        "Kasaragod": "919072522277",
-        "Kollam": "919072522277",
-        "Kottayam": "919072522277",
-        "Kozhikode": "919072522277",
-        "Malappuram": "919072522277",
-        "Palakkad": "919072522277",
-        "Pathanamthitta": "919072522277",
-        "Thiruvananthapuram": "919072522277",
-        "Thrissur": "919072522277",
-        "Wayanad": "919072522277"
-    };
     
     const name = document.getElementById('form-name').value.trim();
     const phone = document.getElementById('form-phone').value.trim();
     const email = document.getElementById('form-email').value.trim();
     const district = document.getElementById('form-district').value;
     const location = document.getElementById('form-location').value.trim();
+    const dealerCode = document.getElementById('form-dealer').value;
     const connection = document.getElementById('form-connection').value;
     const capacity = document.getElementById('form-size').value;
     const message = document.getElementById('form-message').value.trim();
     
-    // Validate District and Location are not empty
-    if (!district || !location) {
-        showFormFeedback('District and Location fields are mandatory.', 'error');
+    // Validate fields
+    if (!district || !location || !dealerCode) {
+        showFormFeedback('District, Location, and Dealer fields are mandatory.', 'error');
         return;
     }
     
@@ -433,6 +515,13 @@ function handleFormSubmit(event) {
     const phoneRegex = /^[0-9]{10}$/;
     if (!phoneRegex.test(phone)) {
         showFormFeedback('Please enter a valid 10-digit mobile number.', 'error');
+        return;
+    }
+    
+    // Find selected dealer details
+    const dealer = DEALERS.find(d => d.code === dealerCode);
+    if (!dealer) {
+        showFormFeedback('Selected dealer details could not be found.', 'error');
         return;
     }
     
@@ -452,10 +541,14 @@ function handleFormSubmit(event) {
             Email: email,
             District: district,
             Location: location,
+            "Matched Dealer Code": dealer.code,
+            "Matched Dealer Name": dealer.name,
+            "Matched Dealer Phone": dealer.phone,
+            "Matched Dealer Area": dealer.area,
             "System Type": connection,
             "Requested Capacity": capacity,
             "Message / Site Details": message,
-            _subject: `New Solar Inquiry from ${name} (${location}, ${district})`
+            _subject: `New Solar Inquiry from ${name} (${location}, ${district}) - Dealer: ${dealer.name}`
         })
     })
     .then(response => {
@@ -465,11 +558,23 @@ function handleFormSubmit(event) {
         throw new Error('Network response was not ok.');
     })
     .then(data => {
-        showFormFeedback(`Thank you, ${name}! Your inquiry has been sent to our email. Redirecting you to WhatsApp to connect with our ${district} partner...`, 'success');
+        // Build success feedback detailing the assigned partner
+        const successMessage = `
+            <strong>Submission Successful!</strong><br>
+            Thank you, ${name}. Your quote request has been sent to our head office. <br>
+            We have assigned your inquiry to our authorized district partner:<br>
+            👤 <strong>Dealer Name:</strong> ${dealer.name}<br>
+            📍 <strong>Service Area:</strong> ${dealer.area} (${dealer.district})<br>
+            📞 <strong>Contact Phone:</strong> <a href="tel:+91${dealer.phone}" style="color:var(--color-sun-yellow); font-weight:bold;">+91 ${dealer.phone}</a><br>
+            🎫 <strong>Dealer Code:</strong> ${dealer.code}<br>
+            <br>
+            <em>Redirecting you to WhatsApp to connect directly with your partner...</em>
+        `;
+        showFormFeedback(successMessage, 'success');
         
-        // Construct WhatsApp message text
+        // Construct WhatsApp message text for the dealer
         const systemDesc = connection === 'residential' ? 'Residential (Home Solar)' : 'Commercial / Business';
-        const waMessage = `Hi Sunova Solar Partner, I've submitted a Feasibility & Quote Request on the website.
+        const waMessage = `Hi ${dealer.name}, I've submitted a Sunova Solar Feasibility & Quote Request.
 - Name: ${name}
 - Phone: ${phone}
 - Email: ${email || 'Not Provided'}
@@ -477,15 +582,16 @@ function handleFormSubmit(event) {
 - Location: ${location}
 - System Type: ${systemDesc}
 - Capacity: ${capacity}
-- Site Details: ${message || 'None'}`;
+- Site Details: ${message || 'None'}
+- Assigned Dealer: ${dealer.name} (${dealer.code})`;
         
-        const partnerPhone = DISTRICT_PARTNERS[district] || "919072522277";
+        const partnerPhone = "91" + dealer.phone;
         const waUrl = `https://wa.me/${partnerPhone}?text=${encodeURIComponent(waMessage)}`;
         
-        // Redirect to WhatsApp partner after 1.5 seconds
+        // Redirect to WhatsApp partner after 3 seconds
         setTimeout(() => {
             window.open(waUrl, '_blank');
-        }, 1500);
+        }, 3000);
         
         // Reset form inputs except readonly fields
         document.getElementById('form-name').value = '';
@@ -493,6 +599,7 @@ function handleFormSubmit(event) {
         document.getElementById('form-email').value = '';
         document.getElementById('form-location').value = '';
         document.getElementById('form-district').value = 'Idukki';
+        handleDistrictChange('Idukki');
         document.getElementById('form-message').value = '';
     })
     .catch(error => {
@@ -502,7 +609,7 @@ function handleFormSubmit(event) {
 }
 
 function showFormFeedback(msg, type) {
-    formFeedback.textContent = msg;
+    formFeedback.innerHTML = msg;
     formFeedback.className = 'form-feedback'; // reset
     
     if (type === 'success') {
@@ -521,4 +628,5 @@ function showFormFeedback(msg, type) {
 // Initialize on page load
 window.addEventListener('DOMContentLoaded', () => {
     updateCalculatorOutputs();
+    handleDistrictChange('Idukki'); // Initialize the dealer dropdown for default district
 });

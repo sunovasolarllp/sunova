@@ -479,28 +479,35 @@
                             <div class="form-grid">
                                 <div class="form-group">
                                     <label for="form-district">District (Kerala)</label>
-                                    <select id="form-district" required>
+                                    <select id="form-district" required onchange="handleDistrictChange(this.value)">
                                         <option value="" disabled>Select your district</option>
-                                        <option value="Idukki" selected>Idukki</option>
+                                        <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                                        <option value="Kollam">Kollam</option>
+                                        <option value="Pathanamthitta">Pathanamthitta</option>
                                         <option value="Alappuzha">Alappuzha</option>
+                                        <option value="Kottayam">Kottayam</option>
+                                        <option value="Idukki" selected>Idukki</option>
                                         <option value="Ernakulam">Ernakulam</option>
+                                        <option value="Thrissur">Thrissur</option>
+                                        <option value="Palakkad">Palakkad</option>
+                                        <option value="Malappuram">Malappuram</option>
+                                        <option value="Kozhikode">Kozhikode</option>
+                                        <option value="Wayanad">Wayanad</option>
                                         <option value="Kannur">Kannur</option>
                                         <option value="Kasaragod">Kasaragod</option>
-                                        <option value="Kollam">Kollam</option>
-                                        <option value="Kottayam">Kottayam</option>
-                                        <option value="Kozhikode">Kozhikode</option>
-                                        <option value="Malappuram">Malappuram</option>
-                                        <option value="Palakkad">Palakkad</option>
-                                        <option value="Pathanamthitta">Pathanamthitta</option>
-                                        <option value="Thiruvananthapuram">Thiruvananthapuram</option>
-                                        <option value="Thrissur">Thrissur</option>
-                                        <option value="Wayanad">Wayanad</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="form-location">City / Location</label>
                                     <input type="text" id="form-location" placeholder="e.g. Thodupuzha" required>
                                 </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="form-dealer">Partner Area</label>
+                                <select id="form-dealer" required>
+                                    <!-- Populated dynamically based on selected District -->
+                                </select>
                             </div>
                             
                             <div class="form-grid">
