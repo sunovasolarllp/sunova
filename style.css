@@ -399,6 +399,12 @@ body {
     letter-spacing: 1px;
 }
 
+.light-theme .badge {
+    color: #000000;
+    border-color: rgba(0, 0, 0, 0.15);
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
 .hero-title {
     font-family: var(--font-heading);
     font-weight: 800;
@@ -2029,6 +2035,75 @@ form {
     border-color: var(--color-sun-yellow);
     color: var(--color-sun-yellow) !important;
 }
+
+/* Metric Sizing Action Buttons (Reset/Back & Scroll) */
+.metric-action-btn {
+    background: none;
+    border: none;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+    border-radius: 6px;
+    transition: color var(--transition-fast), background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.metric-action-btn:hover {
+    color: var(--color-sun-yellow);
+    background-color: var(--color-bg-alt);
+    transform: scale(1.15);
+}
+
+.metric-action-btn.hidden {
+    display: none;
+}
+
+/* Custom Input Increment/Decrement Spin Buttons */
+.spin-btn {
+    background: none;
+    border: none;
+    color: var(--color-text-muted);
+    font-size: 0.65rem;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0.15rem 0.4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: color var(--transition-fast), background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.spin-btn:hover {
+    color: var(--color-sun-yellow);
+    background-color: var(--color-bg);
+    transform: scale(1.2);
+}
+
+.spin-btn-metric {
+    background: none;
+    border: none;
+    color: var(--color-text-muted);
+    font-size: 0.7rem;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0.15rem 0.4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: color var(--transition-fast), background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.spin-btn-metric:hover {
+    color: var(--color-sun-yellow);
+    background-color: var(--color-bg-alt);
+    transform: scale(1.2);
+}
+
+
 
 
 

@@ -322,6 +322,12 @@ function performCalculations(units) {
         if (calculatedCapacity > 100) calculatedCapacity = 100.0; // Com cap
     }
     
+    // Hide reset button since it matches the calculated capacity
+    const resetBtn = document.getElementById('btn-reset-capacity');
+    if (resetBtn) {
+        resetBtn.classList.add('hidden');
+    }
+    
     performCalculationsDirect(calculatedCapacity, units);
 }
 
@@ -330,6 +336,12 @@ function handleCapacityInput(val) {
     let capacity = parseFloat(val);
     if (isNaN(capacity) || capacity < 0.1) {
         capacity = 0.1;
+    }
+    
+    // Show reset button since customer has manually overridden capacity
+    const resetBtn = document.getElementById('btn-reset-capacity');
+    if (resetBtn) {
+        resetBtn.classList.remove('hidden');
     }
     
     // Calculate units corresponding to this capacity (120 units per kW)
@@ -354,6 +366,74 @@ function handleCapacityInput(val) {
     // Run financial calculations directly with this capacity
     performCalculationsDirect(capacity, units);
 }
+
+// Reset overridden capacity back to KSEB bill recommendations
+function resetCapacityToCalculated() {
+    const billVal = parseInt(billInput.value);
+    const calculatedUnits = billToUnits(billVal, currentMode);
+    
+    let calculatedCapacity = calculatedUnits / 120;
+    if (currentMode === 'residential') {
+        calculatedCapacity = Math.round(calculatedCapacity * 2) / 2;
+        if (calculatedCapacity < 1) calculatedCapacity = 1.0;
+        if (calculatedCapacity > 15) calculatedCapacity = 15.0;
+    } else {
+        calculatedCapacity = Math.round(calculatedCapacity);
+        if (calculatedCapacity < 1) calculatedCapacity = 1.0;
+        if (calculatedCapacity > 100) calculatedCapacity = 100.0;
+    }
+    
+    outSize.value = calculatedCapacity.toFixed(1);
+    
+    const resetBtn = document.getElementById('btn-reset-capacity');
+    if (resetBtn) {
+        resetBtn.classList.add('hidden');
+    }
+    
+    performCalculations(calculatedUnits);
+}
+
+// Transfer sizing info to form and scroll down smoothly
+function scrollToContactForm() {
+    transferCalculatorDetails();
+    const contactSec = document.getElementById('contact');
+    if (contactSec) {
+        contactSec.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+// Adjust manual bill value via custom spin buttons
+function adjustManualBill(amount) {
+    let currentVal = parseInt(billManualInput.value) || 0;
+    let newVal = currentVal + amount;
+    if (newVal < 500) newVal = 500;
+    if (newVal > 100000) newVal = 100000;
+    billManualInput.value = newVal;
+    handleBillManualInput(newVal);
+}
+
+// Adjust manual units value via custom spin buttons
+function adjustManualUnits(amount) {
+    let currentVal = parseInt(unitsInput.value) || 0;
+    let newVal = currentVal + amount;
+    if (newVal < 10) newVal = 10;
+    if (newVal > 6000) newVal = 6000;
+    unitsInput.value = newVal;
+    handleUnitInput(newVal);
+}
+
+// Adjust manual capacity value via custom spin buttons
+function adjustCapacity(amount) {
+    let currentVal = parseFloat(outSize.value) || 0;
+    let newVal = currentVal + amount;
+    if (newVal < 0.5) newVal = 0.5;
+    if (newVal > 200) newVal = 200;
+    // Format to 1 decimal place
+    newVal = Math.round(newVal * 10) / 10;
+    outSize.value = newVal.toFixed(1);
+    handleCapacityInput(newVal);
+}
+
 
 function performCalculationsDirect(capacity, units) {
     // 2. Solar Panels needed (assuming high quality 500W monocrystalline panels)
