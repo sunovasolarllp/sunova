@@ -860,8 +860,8 @@ function handleFormSubmit(event) {
         document.getElementById('form-phone').value = '';
         document.getElementById('form-email').value = '';
         document.getElementById('form-location').value = '';
-        document.getElementById('form-district').value = 'Idukki';
-        handleDistrictChange('Idukki');
+        document.getElementById('form-district').value = 'Alappuzha';
+        handleDistrictChange('Alappuzha');
         document.getElementById('form-system-model').value = 'ongrid';
         setSystemType('ongrid');
         document.getElementById('form-loan').checked = false;
@@ -895,5 +895,5 @@ function showFormFeedback(msg, type) {
 // Initialize on page load
 window.addEventListener('DOMContentLoaded', () => {
     updateCalculatorOutputs();
-    handleDistrictChange('Idukki'); // Initialize the dealer dropdown for default district
+    handleDistrictChange('Alappuzha'); // Initialize the dealer dropdown for default district
 });
