@@ -2,7 +2,7 @@
 let currentMode = 'residential'; // 'residential' or 'commercial'
 let currentSystemType = 'ongrid'; // 'ongrid' or 'hybrid'
 
-// Authorized Sunova Solar Dealers List
+// Authorized Sunova Solar Partners List
 const DEALERS = [
     { code: "TVM-JOBI", name: "JOBI SEBASTIAN", area: "ATTINGAL", district: "Thiruvananthapuram", phone: "8590085856" },
     { code: "TVM-BENJ", name: "BENJOSE FG", area: "BALARAMAPURAM", district: "Thiruvananthapuram", phone: "9037273767" },
@@ -785,10 +785,10 @@ function handleFormSubmit(event) {
             Email: email,
             District: district,
             Location: location,
-            "Matched Dealer Code": dealer.code,
-            "Matched Dealer Name": dealer.name,
-            "Matched Dealer Phone": dealer.phone,
-            "Matched Dealer Area": dealer.area,
+            "Matched Partner Code": dealer.code,
+            "Matched Partner Name": dealer.name,
+            "Matched Partner Phone": dealer.phone,
+            "Matched Partner Area": dealer.area,
             "System Type": connection,
             "System Technology Model": systemModelLabel,
             "Requested Capacity": capacity + ' kW',

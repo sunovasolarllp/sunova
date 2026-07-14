@@ -26,14 +26,21 @@
 
         <!-- Portal Glass Card -->
         <div class="glass-card login-card" id="portal-card">
+            <!-- Portal Tabs -->
+            <div class="portal-tabs">
+                <button type="button" class="portal-tab active" id="tab-staff" onclick="switchPortalTab('staff')">Staff Login</button>
+                <button type="button" class="portal-tab" id="tab-partner" onclick="switchPortalTab('partner')">Partner Login</button>
+            </div>
+
             <div class="portal-header text-center">
                 <img src="assets/logo.jpg" alt="SUNOVA SOLAR LLP Logo" class="portal-logo">
-                <h2>Staff Portal</h2>
-                <p>Log in to access your Hostinger webmail, account settings, and mail clients configuration.</p>
+                <h2 id="portal-title">Staff Portal</h2>
+                <p id="portal-subtitle">Log in to access your Hostinger webmail, account settings, and mail clients configuration.</p>
             </div>
 
             <!-- Login View -->
             <div id="login-view">
+                <!-- Staff Login Form -->
                 <form id="portal-login-form" onsubmit="handlePortalLogin(event)">
                     <div class="form-group">
                         <label for="portal-email">Corporate Email Address</label>
@@ -51,7 +58,33 @@
                         Sign In &amp; Open Webmail
                     </button>
                 </form>
-                <div class="text-center portal-footer-note">
+
+                <!-- Partner Login Form (Initially Hidden) -->
+                <form id="partner-login-form" class="hidden" onsubmit="return false;">
+                    <div id="partner-otp-inputs">
+                        <div class="form-group">
+                            <label for="partner-mobile">Registered Mobile Number</label>
+                            <input type="tel" id="partner-mobile" placeholder="e.g. 8590085856" maxlength="10" required>
+                        </div>
+
+                        <div id="otp-entry-group" class="form-group hidden">
+                            <label for="partner-otp">6-Digit Verification OTP</label>
+                            <input type="text" id="partner-otp" placeholder="Enter 6-digit OTP" maxlength="6">
+                        </div>
+
+                        <button type="button" class="cta-btn primary-btn full-width" id="btn-partner-send-otp" onclick="handlePartnerSendOTP()">
+                            Send Verification OTP
+                        </button>
+                        
+                        <button type="button" class="cta-btn primary-btn full-width hidden" id="btn-partner-verify-otp" onclick="handlePartnerVerifyOTP()">
+                            Verify OTP &amp; Sign In
+                        </button>
+                    </div>
+
+                    <div id="partner-login-feedback" class="form-feedback hidden"></div>
+                </form>
+
+                <div class="text-center portal-footer-note" id="portal-footer-note">
                     <span class="lock-icon">🔒</span> Powered by secure SSL connections &amp; Hostinger Mail.
                 </div>
             </div>
@@ -150,18 +183,141 @@
                     <button onclick="logoutPortal()" class="logout-btn">Sign Out</button>
                 </div>
             </div>
+
+            <!-- Partner Dashboard View (Initially Hidden) -->
+            <div id="partner-dashboard-view" class="hidden">
+                <div class="success-badge" style="background-color: rgba(37, 211, 102, 0.15); color: #25d366; border-color: rgba(37, 211, 102, 0.25);">
+                    <span class="check-icon" style="background-color: #25d366;">✓</span> Partner Verified
+                </div>
+                <h3>Welcome, <span id="partner-display-name">Partner Name</span></h3>
+                <p class="dash-subtitle" style="margin-bottom: 1.5rem;">Territory Partner Portal | Code: <span id="partner-display-code" style="color: var(--color-sun-yellow); font-weight: bold;">IDK-MGAJ</span></p>
+
+                <!-- Partner Territory Details -->
+                <div class="tech-settings-box" style="padding: 1rem 1.25rem; margin-bottom: 1.5rem;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.8rem;">
+                        <div>
+                            <span style="color: var(--color-text-muted); display: block; font-size: 0.7rem; font-weight: 600; text-transform: uppercase;">Service District</span>
+                            <strong id="partner-display-district" style="font-size: 0.9rem;">Idukki</strong>
+                        </div>
+                        <div>
+                            <span style="color: var(--color-text-muted); display: block; font-size: 0.7rem; font-weight: 600; text-transform: uppercase;">Primary Area</span>
+                            <strong id="partner-display-area" style="font-size: 0.9rem;">Thodupuzha</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Assigned Feasibility Leads Section -->
+                <div class="tech-settings-box" style="margin-bottom: 1.5rem; border-color: rgba(255, 183, 3, 0.2);">
+                    <h4 style="display: flex; align-items: center; gap: 0.4rem; color: var(--color-sun-yellow); margin-bottom: 0.5rem;">
+                        📬 Allocated Leads &amp; Surveys
+                    </h4>
+                    <p class="settings-intro">These solar feasibility inquiries match your district and require site inspections.</p>
+                    
+                    <div id="partner-leads-list" style="display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1rem;">
+                        <!-- Lead rows will be dynamically populated here by script -->
+                    </div>
+                </div>
+
+                <div class="dashboard-footer-actions">
+                    <button onclick="logoutPortal()" class="logout-btn">Sign Out</button>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Script -->
     <script>
+        // Authorized Sunova Solar Partners List for partner code resolution
+        const DEALERS = [
+            { code: "TVM-JOBI", name: "JOBI SEBASTIAN", area: "ATTINGAL", district: "Thiruvananthapuram", phone: "8590085856" },
+            { code: "TVM-BENJ", name: "BENJOSE FG", area: "BALARAMAPURAM", district: "Thiruvananthapuram", phone: "9037273767" },
+            { code: "TVM-ANAN", name: "ANAND SREEDHAR", area: "NEYYATTINKARA", district: "Thiruvananthapuram", phone: "7994430742" },
+            { code: "KLA-VARG", name: "VARGHESE NELLIMOOTTIL", area: "AYOOR", district: "Kollam", phone: "9020202222" },
+            { code: "KLA-NIYA", name: "NIYAS K", area: "KARUNAGAPPALLY", district: "Kollam", phone: "9656366068" },
+            { code: "KLA-UDAY", name: "UDAYABHANU J", area: "KOLLAM", district: "Kollam", phone: "9349136882" },
+            { code: "KLA-RAJE", name: "RAJEEV R", area: "PUNALUR", district: "Kollam", phone: "9567970077" },
+            { code: "KLA-RATH", name: "RATHIL KUMAR", area: "WEST KALLADA", district: "Kollam", phone: "7907878797" },
+            { code: "PTA-SREE", name: "SREEJITH TR", area: "MALLAPPALLY", district: "Pathanamthitta", phone: "9947030669" },
+            { code: "PTA-JIJU", name: "JIJUKUMAR MC", area: "PANDALAM", district: "Pathanamthitta", phone: "9388133400" },
+            { code: "PTA-PKPR", name: "PK PRASANNAKUMAR", area: "PATHANAMTHITTA", district: "Pathanamthitta", phone: "7034023301" },
+            { code: "PTA-BIJU", name: "BIJUMON J", area: "RANNI", district: "Pathanamthitta", phone: "9995990372" },
+            { code: "ALP-SHIN", name: "SHINAS SHAMSUDEEN", area: "ALAPPUZHA", district: "Alappuzha", phone: "9995550888" },
+            { code: "ALP-NISS", name: "NISSAR HAMEED", area: "KAYAMKULAM", district: "Alappuzha", phone: "9895497090" },
+            { code: "ALP-RENJ", name: "RENJITH PS", area: "MAVELIKKARA", district: "Alappuzha", phone: "9447866958" },
+            { code: "ALP-BAIJ", name: "BAIJU SASIDHARAN", area: "VALLIKUNNAM", district: "Alappuzha", phone: "9747186818" },
+            { code: "KTM-SALY", name: "SALY SAINUDEEN", area: "ERATTUPETTA", district: "Kottayam", phone: "9446200616" },
+            { code: "KTM-ANIS", name: "ANISH KUMAR", area: "KALLARA", district: "Kottayam", phone: "9387220162" },
+            { code: "KTM-SANI", name: "SANIL KUMAR", area: "KOTTAYAM TOWN", district: "Kottayam", phone: "9061189784" },
+            { code: "IDK-OUSE", name: "OUSEPH KA", area: "ARAKULAM", district: "Idukki", phone: "9495737628" },
+            { code: "IDK-MGAJ", name: "MG AJAY", area: "THODUPUZHA", district: "Idukki", phone: "9447254142" },
+            { code: "EKM-SHIY", name: "SHIYAS RASHEED", area: "EDAPPALLY", district: "Ernakulam", phone: "9847859859" },
+            { code: "EKM-BHAV", name: "BHAVYA M", area: "KALAMASSERY", district: "Ernakulam", phone: "8301026309" },
+            { code: "EKM-JIBI", name: "JIBIN GEORGE", area: "THRIPUNITHURA", district: "Ernakulam", phone: "9995996240" },
+            { code: "TCR-JAIS", name: "JAISON JOSE MELETH", area: "AYYANTHOL", district: "Thrissur", phone: "9995601923" },
+            { code: "TCR-COAT", name: "COATS THEKKAN", area: "CHALAKUDY", district: "Thrissur", phone: "8129119222" },
+            { code: "TCR-JISO", name: "JISON GEORGE", area: "CHELAKKARA", district: "Thrissur", phone: "9746666535" },
+            { code: "TCR-SINI", name: "SINISH KM", area: "KODAKARA", district: "Thrissur", phone: "9946101892" },
+            { code: "TCR-BINU", name: "BINU YACOB", area: "PAZHAYANNUR", district: "Thrissur", phone: "9946033807" },
+            { code: "TCR-JITH", name: "JITHESH THARAYIL", area: "PO ROAD", district: "Thrissur", phone: "7356347700" },
+            { code: "TCR-AKAN", name: "AK ANIL", area: "VALAPPAD", district: "Thrissur", phone: "9746891854" },
+            { code: "PKD-SUHA", name: "SUHAIB S", area: "ALATHUR", district: "Palakkad", phone: "9988553585" },
+            { code: "PKD-PRAM", name: "PRAMOD", area: "CHITTUR", district: "Palakkad", phone: "9746611002" },
+            { code: "PKD-BIJO", name: "BIJO VARGHESE", area: "ELAPPULLY", district: "Palakkad", phone: "9388883222" },
+            { code: "PKD-ANAN", name: "ANAND P", area: "KODUVAYUR", district: "Palakkad", phone: "9349811101" },
+            { code: "MPM-NASS", name: "NASSARUDHEEN E", area: "EDAKKARA", district: "Malappuram", phone: "9946139955" },
+            { code: "MPM-FAIS", name: "FAISAL K", area: "MANJERY", district: "Malappuram", phone: "7994035923" },
+            { code: "MPM-RAVI", name: "RAVINDRAN K", area: "TIRUR", district: "Malappuram", phone: "9961476748" },
+            { code: "KKD-RAJA", name: "RAJAN MADAVOOR", area: "KODUVALLY", district: "Kozhikode", phone: "9497345868" },
+            { code: "KKD-YOOS", name: "YOOSAF NV", area: "PERAMBRA", district: "Kozhikode", phone: "9539724724" },
+            { code: "KKD-SAFE", name: "SAFEER", area: "VADAKARA", district: "Kozhikode", phone: "9995330555" },
+            { code: "KKD-RAHU", name: "RAHUL RN", area: "VATAKARA", district: "Kozhikode", phone: "9645464733" },
+            { code: "WYD-SINI", name: "SINIL CHACKO K", area: "MANATHAWADY", district: "Wayanad", phone: "8921794334" },
+            { code: "KNR-ACFA", name: "AC FAISAL", area: "IRIKKOOR", district: "Kannur", phone: "9656069964" },
+            { code: "KNR-NOUS", name: "NOUSHAD T", area: "MATTANNUR", district: "Kannur", phone: "9847761018" }
+        ];
+
+        let activeTab = 'staff';
+
         // Check local storage for existing session
         window.addEventListener('DOMContentLoaded', () => {
             const activeUser = localStorage.getItem('portal_user');
+            const activePartner = localStorage.getItem('portal_partner');
+            
             if (activeUser) {
                 showDashboard(activeUser);
+            } else if (activePartner) {
+                showPartnerDashboard(activePartner);
             }
         });
+
+        function switchPortalTab(tab) {
+            activeTab = tab;
+            const tabStaff = document.getElementById('tab-staff');
+            const tabPartner = document.getElementById('tab-partner');
+            const staffForm = document.getElementById('portal-login-form');
+            const partnerForm = document.getElementById('partner-login-form');
+            const title = document.getElementById('portal-title');
+            const subtitle = document.getElementById('portal-subtitle');
+            const footerNote = document.getElementById('portal-footer-note');
+
+            if (tab === 'staff') {
+                tabStaff.classList.add('active');
+                tabPartner.classList.remove('active');
+                staffForm.classList.remove('hidden');
+                partnerForm.classList.add('hidden');
+                title.textContent = 'Staff Portal';
+                subtitle.textContent = 'Log in to access your Hostinger webmail, account settings, and mail clients configuration.';
+                footerNote.innerHTML = '<span class="lock-icon">🔒</span> Powered by secure SSL connections &amp; Hostinger Mail.';
+            } else {
+                tabPartner.classList.add('active');
+                tabStaff.classList.remove('active');
+                partnerForm.classList.remove('hidden');
+                staffForm.classList.add('hidden');
+                title.textContent = 'Partner Portal';
+                subtitle.textContent = 'Enter your registered mobile number to receive a verification OTP code.';
+                footerNote.innerHTML = '<span class="lock-icon">🔒</span> Enter any registered mobile number to test (default OTP: <code>123456</code>).';
+            }
+        }
 
         function handlePortalLogin(e) {
             e.preventDefault();
@@ -193,28 +349,173 @@
             loginBtn.disabled = true;
 
             setTimeout(() => {
-                // Successful verification mock login
                 localStorage.setItem('portal_user', email);
                 showDashboard(email);
-                
-                // Automatically open Webmail in a new tab for convenience
                 window.open('https://mail.hostinger.com/', '_blank');
             }, 1200);
         }
+
+        let generatedOTP = '';
+        let targetPartnerCode = '';
+
+        function handlePartnerSendOTP() {
+            const mobile = document.getElementById('partner-mobile').value.trim();
+            const feedback = document.getElementById('partner-login-feedback');
+            const sendBtn = document.getElementById('btn-partner-send-otp');
+            
+            // Validate 10-digit number
+            const phoneRegex = /^[0-9]{10}$/;
+            if (!phoneRegex.test(mobile)) {
+                feedback.textContent = 'Please enter a valid 10-digit registered mobile number.';
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+            
+            // Check if mobile number belongs to any dealer in our DEALERS list
+            const matchedDealer = DEALERS.find(d => d.phone === mobile);
+            if (!matchedDealer) {
+                feedback.textContent = `Mobile number ${mobile} is not registered with any partner.`;
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+            
+            targetPartnerCode = matchedDealer.code;
+            
+            feedback.textContent = 'Sending SMS OTP verification code...';
+            feedback.className = 'form-feedback';
+            feedback.style.backgroundColor = 'rgba(255, 183, 3, 0.15)';
+            feedback.style.color = 'var(--color-sun-yellow)';
+            feedback.style.border = '1px solid rgba(255, 183, 3, 0.3)';
+            feedback.classList.remove('hidden');
+            sendBtn.disabled = true;
+            
+            setTimeout(() => {
+                generatedOTP = "123456"; // Standard OTP for testing/verification
+                
+                feedback.innerHTML = `🔐 <strong>Mock SMS Sent!</strong><br>Verification code sent to +91 ${mobile.slice(0, 3)}***${mobile.slice(7)}.<br>For testing, enter OTP: <strong>123456</strong>`;
+                feedback.className = 'form-feedback success';
+                feedback.style.backgroundColor = 'rgba(37, 211, 102, 0.15)';
+                feedback.style.color = '#25d366';
+                feedback.style.border = '1px solid rgba(37, 211, 102, 0.3)';
+                
+                document.getElementById('otp-entry-group').classList.remove('hidden');
+                sendBtn.classList.add('hidden');
+                document.getElementById('btn-partner-verify-otp').classList.remove('hidden');
+                sendBtn.disabled = false;
+            }, 1200);
+        }
+
+        function handlePartnerVerifyOTP() {
+            const enteredOtp = document.getElementById('partner-otp').value.trim();
+            const feedback = document.getElementById('partner-login-feedback');
+            const verifyBtn = document.getElementById('btn-partner-verify-otp');
+            
+            if (enteredOtp !== '123456') {
+                feedback.textContent = 'Invalid Verification OTP. Enter "123456" for mock testing.';
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+            
+            feedback.textContent = 'OTP Verified! Loading partner dashboard...';
+            feedback.className = 'form-feedback success';
+            feedback.style.backgroundColor = 'rgba(37, 211, 102, 0.15)';
+            feedback.style.color = '#25d366';
+            feedback.style.border = '1px solid rgba(37, 211, 102, 0.3)';
+            feedback.classList.remove('hidden');
+            verifyBtn.disabled = true;
+            
+            setTimeout(() => {
+                localStorage.setItem('portal_partner', targetPartnerCode);
+                showPartnerDashboard(targetPartnerCode);
+                verifyBtn.disabled = false;
+            }, 1000);
+        }
+
+
 
         function showDashboard(email) {
             document.getElementById('login-view').classList.add('hidden');
             document.getElementById('dashboard-view').classList.remove('hidden');
             document.getElementById('user-display').textContent = email;
             
-            // Modify portal title/subtitle slightly
             const header = document.querySelector('.portal-header');
             header.querySelector('h2').textContent = 'Staff Dashboard';
             header.querySelector('p').textContent = 'Launch webmail portals and view connection protocols.';
+            
+            // Hide tabs inside dashboard view
+            document.querySelector('.portal-tabs').style.display = 'none';
+        }
+
+        function showPartnerDashboard(code) {
+            document.getElementById('login-view').classList.add('hidden');
+            document.getElementById('partner-dashboard-view').classList.remove('hidden');
+            
+            // Hide tabs inside dashboard view
+            document.querySelector('.portal-tabs').style.display = 'none';
+
+            const partner = DEALERS.find(d => d.code === code);
+            if (!partner) return;
+
+            document.getElementById('partner-display-name').textContent = partner.name;
+            document.getElementById('partner-display-code').textContent = partner.code;
+            document.getElementById('partner-display-district').textContent = partner.district;
+            document.getElementById('partner-display-area').textContent = partner.area;
+
+            // Generate mock leads for partner's area
+            const leadsList = document.getElementById('partner-leads-list');
+            leadsList.innerHTML = ''; // clear
+
+            // Create 2 mock leads matching partner territory
+            const mockLeads = [
+                {
+                    name: "Rajesh Kumar",
+                    phone: "9447211022",
+                    location: partner.area,
+                    details: "3 kWp On-Grid solar installation request. Monthly bill is approx ₹5,200.",
+                    status: "Survey Scheduled"
+                },
+                {
+                    name: "Anjali Mathew",
+                    phone: "8590022311",
+                    location: "Nearby Area",
+                    details: "5 kWp Hybrid with battery backup. Wants details on bank financing option.",
+                    status: "Feasibility Review"
+                }
+            ];
+
+            mockLeads.forEach((lead, idx) => {
+                const leadRow = document.createElement('div');
+                leadRow.style.backgroundColor = 'var(--color-bg)';
+                leadRow.style.border = '1px solid var(--color-border)';
+                leadRow.style.borderRadius = '10px';
+                leadRow.style.padding = '0.85rem';
+                leadRow.style.fontSize = '0.8rem';
+                leadRow.style.display = 'flex';
+                leadRow.style.flexDirection = 'column';
+                leadRow.style.gap = '0.4rem';
+
+                leadRow.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed var(--color-border); padding-bottom: 0.3rem; margin-bottom: 0.2rem;">
+                        <strong style="color: var(--color-text);">${lead.name}</strong>
+                        <span style="color: var(--color-sun-yellow); font-weight: 600; font-size: 0.72rem;">${lead.status}</span>
+                    </div>
+                    <div style="color: var(--color-text-muted);">📍 <strong>Location:</strong> ${lead.location}</div>
+                    <div style="color: var(--color-text-muted); font-size: 0.75rem; line-height: 1.3;">${lead.details}</div>
+                    <div style="display: flex; gap: 0.5rem; margin-top: 0.4rem;">
+                        <a href="tel:${lead.phone}" class="cta-btn secondary-btn text-center" style="font-size: 0.68rem; padding: 0.3rem 0.6rem; flex: 1;">📞 Call Client</a>
+                        <a href="https://wa.me/91${lead.phone}?text=${encodeURIComponent('Hello ' + lead.name + ', this is ' + partner.name + ' from Sunova Solar. I have received your site feasibility request and would like to schedule a survey.')}" target="_blank" class="cta-btn secondary-btn text-center" style="font-size: 0.68rem; padding: 0.3rem 0.6rem; flex: 1; border-color: #25d366; color: #25d366 !important;">💬 WhatsApp</a>
+                    </div>
+                `;
+                leadsList.appendChild(leadRow);
+            });
         }
 
         function logoutPortal() {
             localStorage.removeItem('portal_user');
+            localStorage.removeItem('portal_partner');
             location.reload();
         }
     </script>
