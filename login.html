@@ -99,6 +99,53 @@
                     </div>
                 </div>
 
+                <!-- Tally Prime Accounting & Analytics Panel -->
+                <div class="tech-settings-box" style="margin-top: 1.5rem; border-color: rgba(37, 211, 102, 0.25);">
+                    <h4 style="color: #25d366; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                        📊 Financial Accounts &amp; Tally Prime
+                    </h4>
+                    <p class="settings-intro">Sync local ledgers, GSTR tax returns, and track outstanding customer project payments.</p>
+                    
+                    <div class="portal-actions-grid" style="margin-bottom: 1.25rem;">
+                        <a href="https://tallysolutions.com/tallyprime-on-cloud/" target="_blank" rel="noopener" class="cta-btn secondary-btn text-center full-width" style="font-size: 0.8rem; padding: 0.5rem 0.8rem; border-color: #25d366; color: #25d366 !important; font-weight: 600;">
+                            ☁️ Launch Tally Cloud (TVO)
+                        </a>
+                        <a href="https://drive.google.com/" target="_blank" rel="noopener" class="cta-btn secondary-btn text-center full-width" style="font-size: 0.8rem; padding: 0.5rem 0.8rem; font-weight: 600;">
+                            📁 Shared Accounts Drive
+                        </a>
+                    </div>
+                    
+                    <!-- Live Tally Dashboard Mock -->
+                    <div style="background-color: var(--color-bg); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; font-size: 0.82rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem; border-bottom: 1px dashed var(--color-border); padding-bottom: 0.5rem;">
+                            <strong style="color: var(--color-text);">FY 2026-27 Ledgers (Active Sync)</strong>
+                            <span style="color: #25d366; font-weight: 700; display: flex; align-items: center; gap: 0.25rem;">
+                                <span style="width: 8px; height: 8px; background-color: #25d366; border-radius: 50%; display: inline-block;"></span> Connected
+                            </span>
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: var(--color-text-muted);">Total Revenue (Sales):</span>
+                                <strong style="color: var(--color-text);">₹48,50,000</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: var(--color-text-muted);">Project Expenses (Purchase):</span>
+                                <strong style="color: var(--color-text);">₹32,10,000</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: var(--color-text-muted);">Sundry Debtors (Receivables):</span>
+                                <strong style="color: var(--color-sun-yellow);">₹16,40,000</strong>
+                            </div>
+                        </div>
+                        
+                        <!-- Sync Info Note -->
+                        <div style="margin-top: 0.75rem; font-size: 0.72rem; color: var(--color-text-subtle); line-height: 1.3;">
+                            ℹ️ To configure local ODBC sync, ensure the Tally XML Port is enabled at <code>http://localhost:9000</code> and bound inside your system configuration settings.
+                        </div>
+                    </div>
+                </div>
+
                 <div class="dashboard-footer-actions">
                     <button onclick="logoutPortal()" class="logout-btn">Sign Out</button>
                 </div>
