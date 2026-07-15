@@ -179,30 +179,48 @@
                 return;
             }
 
-            // Retrieve custom staff password or default to Sunova@26
-            const currentStaffPass = localStorage.getItem('staff_portal_password') || 'Sunova@26';
-
-            if (password !== currentStaffPass) {
-                feedback.textContent = 'Access Denied. Invalid portal password.';
-                feedback.className = 'form-feedback error';
-                feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
-                feedback.style.color = '#ef4444';
-                feedback.classList.remove('hidden');
-                return;
-            }
-
-            feedback.textContent = 'Authenticating staff session...';
+            feedback.textContent = 'Connecting to Hostinger email network...';
             feedback.className = 'form-feedback';
             feedback.style.backgroundColor = 'rgba(255, 183, 3, 0.15)';
             feedback.style.color = 'var(--color-sun-yellow)';
             feedback.classList.remove('hidden');
             loginBtn.disabled = true;
 
-            setTimeout(() => {
-                // Successful verification login
-                localStorage.setItem('portal_user', email);
-                showDashboard(email);
-            }, 1000);
+            // Attempt session connection to server for IMAP access
+            fetch('proxy.php?action=connect', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            })
+            .then(res => {
+                if (res.ok) return res.json();
+                throw new Error('Connection failed');
+            })
+            .then(data => {
+                if (data && data.success) {
+                    localStorage.setItem('portal_user', email);
+                    localStorage.setItem('email_connected', 'true');
+                    showDashboard(email);
+                } else {
+                    throw new Error('Verification failed');
+                }
+            })
+            .catch(() => {
+                // Fallback to client-side portal password check
+                const currentStaffPass = localStorage.getItem('staff_portal_password') || 'Sunova@26';
+                if (password === currentStaffPass) {
+                    localStorage.setItem('portal_user', email);
+                    localStorage.setItem('email_connected', 'false');
+                    showDashboard(email);
+                } else {
+                    feedback.textContent = 'Access Denied. Invalid email or portal password.';
+                    feedback.className = 'form-feedback error';
+                    feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
+                    feedback.style.color = '#ef4444';
+                    feedback.classList.remove('hidden');
+                    loginBtn.disabled = false;
+                }
+            });
         }
 
         function handlePortalReset(e) {
@@ -496,6 +514,13 @@
 
         function syncMailboxLeads(event) {
             const btn = event.target;
+            const isConnected = localStorage.getItem('email_connected') === 'true';
+            
+            if (!isConnected) {
+                alert('You are logged in using the local portal fallback password.\n\nTo sync leads directly from your email inbox, please sign out and sign back in using your actual info@sunovasolar.in Hostinger email password.');
+                return;
+            }
+            
             const originalText = btn.textContent;
             btn.textContent = '🔄 Syncing...';
             btn.disabled = true;
