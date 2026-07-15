@@ -830,7 +830,7 @@ function handleFormSubmit(event) {
         
         let form = document.createElement('form');
         form.method = 'POST';
-        form.action = 'https://formsubmit.co/info@sunovasolar.in';
+        form.action = 'https://formspree.io/info@sunovasolar.in';
         form.target = 'hidden-form-iframe';
         
         const fields = {
