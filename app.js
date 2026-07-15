@@ -821,40 +821,81 @@ function handleFormSubmit(event) {
     const officePhone = "919072522277";
     const waOfficeUrl = `https://wa.me/${officePhone}?text=${encodeURIComponent(waMessage)}`;
 
-    // 3. Automated Background Email Copy (FormSubmit AJAX API routed to Gmail Bridge)
-    const emailPayload = {
-        Name: name,
-        Phone: phone,
-        Email: email || 'Not Provided',
-        District: district,
-        Location: location,
-        "System Type": connection,
-        "System Technology Model": systemModelLabel,
-        "Requested Capacity": capacity + ' kWp',
-        "Bank Loan Required": loanRequired,
-        "Message / Site Details": message || 'None',
-        "Matched Dealer": `${dealer.name} (${dealer.code})`,
-        _subject: `New Solar Inquiry from ${name} (${location}, ${district}) - Dealer: ${dealer.name}`
-    };
+    // 3. Automated Background Email Copy (Web3Forms API or FormSubmit Fallback)
+    // To activate: Go to https://web3forms.com/, enter your email, copy the free Access Key, and paste it below:
+    const WEB3FORMS_ACCESS_KEY = "YOUR_ACCESS_KEY_HERE";
 
-    fetch('https://formsubmit.co/ajax/sunovasolarllp@gmail.com', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify(emailPayload)
-    })
-    .then(response => {
-        if (response.ok) {
-            console.log('[Submit] Background email copy successfully dispatched to Gmail bridge.');
-        } else {
-            console.warn('[Submit] FormSubmit server returned status: ' + response.status);
-        }
-    })
-    .catch(err => {
-        console.error('[Submit] FormSubmit dispatch failed:', err);
-    });
+    if (WEB3FORMS_ACCESS_KEY !== "YOUR_ACCESS_KEY_HERE") {
+        const emailPayload = {
+            access_key: WEB3FORMS_ACCESS_KEY,
+            name: name,
+            phone: phone,
+            email: email || 'Not Provided',
+            district: district,
+            location: location,
+            "System Type": connection,
+            "System Technology Model": systemModelLabel,
+            "Requested Capacity": capacity + ' kWp',
+            "Bank Loan Required": loanRequired,
+            "Message / Site Details": message || 'None',
+            "Matched Dealer": `${dealer.name} (${dealer.code})`,
+            subject: `New Solar Inquiry from ${name} (${location})`
+        };
+
+        fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(emailPayload)
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('[Web3Forms] Background email copy successfully dispatched.');
+            } else {
+                console.warn('[Web3Forms] Server returned status: ' + response.status);
+            }
+        })
+        .catch(err => {
+            console.error('[Web3Forms] Dispatch failed:', err);
+        });
+    } else {
+        // Fallback Route: FormSubmit AJAX API using the pre-verified hash token
+        const emailPayload = {
+            Name: name,
+            Phone: phone,
+            Email: email || 'Not Provided',
+            District: district,
+            Location: location,
+            "System Type": connection,
+            "System Technology Model": systemModelLabel,
+            "Requested Capacity": capacity + ' kWp',
+            "Bank Loan Required": loanRequired,
+            "Message / Site Details": message || 'None',
+            "Matched Dealer": `${dealer.name} (${dealer.code})`,
+            _subject: `New Solar Inquiry from ${name} (${location}, ${district}) - Dealer: ${dealer.name}`
+        };
+
+        fetch('https://formsubmit.co/ajax/b1ebd95b70dc040e3935087370fc44ab', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(emailPayload)
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('[Submit] Background email copy successfully dispatched.');
+            } else {
+                console.warn('[Submit] FormSubmit server returned status: ' + response.status);
+            }
+        })
+        .catch(err => {
+            console.error('[Submit] FormSubmit dispatch failed:', err);
+        });
+    }
 
     // 4. Build success feedback detailing the assigned partner
     const successMessage = `
