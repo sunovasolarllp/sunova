@@ -817,14 +817,52 @@
                 </div>
             `;
 
-            callApi(`/api/emails?folder=${activeFolder}`)
+            let serverInquiries = [];
+            
+            // Fetch logged database inquiries from server first
+            callApi('proxy.php?action=get_inquiries')
             .then(data => {
-                mailboxEmails = data.emails || [];
-                renderMailRows();
+                if (data && data.inquiries) {
+                    serverInquiries = data.inquiries;
+                }
             })
-            .catch(() => {
-                console.log('[Webmail] Offline mode. Loading leads from inquiries memory.');
-                loadMockEmailsFromInquiries();
+            .catch(() => {})
+            .finally(() => {
+                callApi(`/api/emails?folder=${activeFolder}`)
+                .then(data => {
+                    mailboxEmails = data.emails || [];
+                    
+                    if (activeFolder === 'inbox' && serverInquiries.length > 0) {
+                        const parsedInqs = serverInquiries.map(inq => {
+                            const mailBody = `CUSTOMER INQUIRY (Logged on Server):
+Name: ${inq.name}
+Phone: ${inq.phone}
+Email: ${inq.email}
+Location: ${inq.location}, ${inq.district}
+System Capacity: ${inq.capacity}
+Model: ${inq.systemModel} (${inq.connection})
+Loan: ${inq.loan}
+Assigned Partner: ${inq.dealer}
+Message: ${inq.message}`;
+
+                            return {
+                                uid: 'db_' + inq.uid,
+                                name: inq.name,
+                                email: inq.email,
+                                subject: `🎯 [Portal Lead] ${inq.name} (${inq.location})`,
+                                timestamp: inq.timestamp,
+                                message: mailBody,
+                                unread: true
+                            };
+                        });
+                        mailboxEmails = parsedInqs.concat(mailboxEmails);
+                    }
+                    renderMailRows();
+                })
+                .catch(() => {
+                    console.log('[Webmail] Offline mode. Loading leads from inquiries memory.');
+                    loadMockEmailsFromInquiries();
+                });
             });
         }
 
@@ -939,7 +977,7 @@ Status: ${inq.status || 'Pending'}`;
             }
 
             targetRows.innerHTML = filtered.map(mail => `
-                <div class="mail-row ${mail.unread ? 'unread' : ''}" onclick="openDetailedMail(${mail.uid})">
+                <div class="mail-row ${mail.unread ? 'unread' : ''}" onclick="openDetailedMail('${mail.uid}')">
                     <div class="mail-col-sender">👤 ${mail.name}</div>
                     <div class="mail-col-body">
                         <strong>${mail.subject}</strong> - 
@@ -1013,6 +1051,20 @@ Status: ${inq.status || 'Pending'}`;
             const uid = detailedMailObj.uid;
             
             if (confirm('Are you sure you want to delete this message?')) {
+                if (typeof uid === 'string' && uid.startsWith('db_')) {
+                    const rawUid = uid.replace('db_', '');
+                    callApi(`proxy.php?action=delete_inquiry&uid=${rawUid}`)
+                    .then(() => {
+                        showToast('Logged inquiry deleted from server successfully.');
+                        closeDetailedMail();
+                        refreshMailbox();
+                    })
+                    .catch(() => {
+                        showToast('Failed to delete inquiry from server.');
+                    });
+                    return;
+                }
+
                 callApi(`/api/emails/${uid}/delete?folder=${activeFolder}`, { method: 'POST' })
                 .then(() => {
                     showToast('Message deleted successfully.');
@@ -1097,11 +1149,33 @@ Status: ${inq.status || 'Pending'}`;
                 });
                 localStorage.setItem('sunova_sent_mails', JSON.stringify(sentMails));
                 
-                // Launch native mail handler to dispatch email securely without server dependencies
-                const mailtoUrl = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-                window.location.href = mailtoUrl;
+                // Check if SMTPJS secure token is available in settings
+                const smtpjsToken = localStorage.getItem('smtpjs_secure_token');
+                if (smtpjsToken && smtpjsToken.trim() !== '') {
+                    Email.send({
+                        SecureToken: smtpjsToken.trim(),
+                        To: to,
+                        From: 'info@sunovasolar.in',
+                        Subject: subject,
+                        Body: body
+                    })
+                    .then(msg => {
+                        if (msg === 'OK') {
+                            showToast('Message sent successfully via SMTPJS client-side relay!');
+                        } else {
+                            showToast('SMTPJS Error: ' + msg);
+                        }
+                    })
+                    .catch(err => {
+                        showToast('SMTPJS failed to relay message.');
+                    });
+                } else {
+                    // Launch native mail handler to dispatch email securely without server dependencies
+                    const mailtoUrl = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                    window.location.href = mailtoUrl;
+                    showToast('Mail template dispatched to your system mail client!');
+                }
 
-                showToast('Mail template dispatched to your system mail client!');
                 closeComposeModal();
                 refreshMailbox();
             });

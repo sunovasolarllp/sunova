@@ -896,6 +896,34 @@ function handleFormSubmit(event) {
         });
     }
 
+    // 3.5. Also Log Inquiry to Local Server database securely (so staff can view it in Sunova Mail inbox)
+    const logPayload = {
+        name: name,
+        phone: phone,
+        email: email || 'Not Provided',
+        district: district,
+        location: location,
+        connection: connection,
+        systemModel: systemModelLabel,
+        capacity: capacity,
+        loan: loanRequired,
+        message: message || 'None',
+        dealer: `${dealer.name} (${dealer.code})`
+    };
+
+    fetch('proxy.php?action=log_inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(logPayload)
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log('[Database] Lead logged to server successfully:', data);
+    })
+    .catch(err => {
+        console.warn('[Database] Local fallback logging only (offline):', err);
+    });
+
     // 4. Build success feedback detailing the assigned partner
     const successMessage = `
         <strong>Submission Successful!</strong><br>

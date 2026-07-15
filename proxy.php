@@ -51,6 +51,39 @@ if ($action === 'connect') {
     exit;
 }
 
+// 7. Log Inquiry (Publicly accessible from homepage form)
+if ($action === 'log_inquiry') {
+    $data = json_decode(file_get_contents('php://input'), true);
+    if (!$data) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Invalid data']);
+        exit;
+    }
+    
+    $file = 'inquiries_db.php';
+    $inquiries = [];
+    
+    if (file_exists($file)) {
+        $content = file_get_contents($file);
+        $jsonStr = str_replace('<?php http_response_code(403); exit; ?>', '', $content);
+        $inquiries = json_decode($jsonStr, true);
+        if (!is_array($inquiries)) $inquiries = [];
+    }
+    
+    // Append timestamp and unique ID
+    $data['uid'] = time() . '_' . rand(1000, 9999);
+    $data['timestamp'] = date('Y-m-d H:i:s');
+    
+    array_unshift($inquiries, $data);
+    
+    // Save with security header
+    $saveContent = '<?php http_response_code(403); exit; ?>' . json_encode($inquiries, JSON_PRETTY_PRINT);
+    file_put_contents($file, $saveContent);
+    
+    echo json_encode(['success' => true]);
+    exit;
+}
+
 // Check session
 if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
     http_response_code(401);
@@ -226,6 +259,50 @@ if ($action === 'delete') {
     imap_delete($mbox, $uid);
     imap_expunge($mbox);
     imap_close($mbox);
+    
+    echo json_encode(['success' => true]);
+    exit;
+}
+
+// 8. Retrieve Logged Inquiries (Requires Auth Session)
+if ($action === 'get_inquiries') {
+    $file = 'inquiries_db.php';
+    $inquiries = [];
+    
+    if (file_exists($file)) {
+        $content = file_get_contents($file);
+        $jsonStr = str_replace('<?php http_response_code(403); exit; ?>', '', $content);
+        $inquiries = json_decode($jsonStr, true);
+        if (!is_array($inquiries)) $inquiries = [];
+    }
+    
+    echo json_encode(['inquiries' => $inquiries]);
+    exit;
+}
+
+// 9. Delete Logged Inquiry (Requires Auth Session)
+if ($action === 'delete_inquiry') {
+    $uid = isset($_GET['uid']) ? $_GET['uid'] : '';
+    if (!$uid) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Inquiry UID is required']);
+        exit;
+    }
+    
+    $file = 'inquiries_db.php';
+    if (file_exists($file)) {
+        $content = file_get_contents($file);
+        $jsonStr = str_replace('<?php http_response_code(403); exit; ?>', '', $content);
+        $inquiries = json_decode($jsonStr, true);
+        if (is_array($inquiries)) {
+            $inquiries = array_values(array_filter($inquiries, function($inq) use ($uid) {
+                return $inq['uid'] !== $uid;
+            }));
+            
+            $saveContent = '<?php http_response_code(403); exit; ?>' . json_encode($inquiries, JSON_PRETTY_PRINT);
+            file_put_contents($file, $saveContent);
+        }
+    }
     
     echo json_encode(['success' => true]);
     exit;
