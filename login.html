@@ -69,9 +69,9 @@
                 <div id="staff-main-dashboard">
                     <!-- Quick Stats Row -->
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; margin-top: 1rem;">
-                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; text-align: center;">
-                            <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">
-                                Total Leads
+                        <div onclick="openCorporateMail()" style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; text-align: center; cursor: pointer; transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.borderColor='var(--color-sun-yellow)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='var(--color-border)'; this.style.transform='none';">
+                            <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 0.25rem;">
+                                Total Leads <span style="font-size: 0.7rem; color: var(--color-sun-yellow);">↗</span>
                             </span>
                             <div id="stats-total-leads" style="font-size: 1.8rem; font-weight: 700; color: var(--color-sun-yellow); margin-top: 0.25rem;">0</div>
                         </div>
@@ -81,11 +81,18 @@
                         </div>
                     </div>
 
+                    <!-- Sleek Mail Access Button -->
+                    <div style="text-align: right; margin-bottom: 1.5rem; margin-top: -0.5rem;">
+                        <button onclick="openCorporateMail()" class="cta-btn secondary-btn" style="padding: 0.5rem 1rem; font-size: 0.78rem; border-color: var(--color-sun-yellow); color: var(--color-sun-yellow); width: auto; display: inline-flex; align-items: center; gap: 0.4rem; cursor: pointer;">
+                            📧 Mail Access
+                        </button>
+                    </div>
+
                     <!-- Live Inquiries Log Section -->
                     <div class="tech-settings-box">
                         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem;">
-                            <h4 style="margin: 0; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
-                                📥 Live Customer Inquiries Log
+                            <h4 onclick="openCorporateMail()" style="margin: 0; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; cursor: pointer; transition: color 0.2s;" onmouseover="this.style.color='var(--color-sun-yellow)';" onmouseout="this.style.color='inherit';">
+                                📥 Live Customer Inquiries Log <span style="font-size: 0.7rem; color: var(--color-text-muted);">↗</span>
                                 <span id="inquiry-count" style="background: var(--color-sun-yellow); color: #0d1321; font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 10px; font-weight: 700;">0</span>
                             </h4>
                             <button onclick="clearInquiriesLog()" style="background: none; border: none; color: #ef4444; font-size: 0.72rem; cursor: pointer; font-weight: 600;">Clear All Log</button>
@@ -252,6 +259,10 @@
                 localStorage.removeItem('sunova_inquiries');
                 renderInquiries();
             }
+        }
+
+        function openCorporateMail() {
+            window.open('mail.html', '_blank');
         }
 
         function logoutPortal() {

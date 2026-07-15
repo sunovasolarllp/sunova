@@ -3,1678 +3,1086 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SunovaMail</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <title>Sunova Mail | Webmail Client</title>
+    <meta name="description" content="Secure corporate webmail client for SUNOVA SOLAR LLP.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css?v=4.2">
+    
+    <!-- SMTPJS Direct Relay Library -->
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+
     <style>
-        /* Gmail Theme & Palette */
         :root {
-            --gmail-bg: #f6f8fc;
-            --gmail-sidebar: #f6f8fc;
-            --gmail-sidebar-hover: #eaf1fb;
-            --gmail-sidebar-active: #d3e3fd;
-            --gmail-text-primary: #1f1f1f;
-            --gmail-text-muted: #5e5e5e;
-            --gmail-border: #e0e2e6;
-            --gmail-blue: #0b57d0;
-            --gmail-search-bg: #eaf1fb;
-            --gmail-card-bg: #ffffff;
-            --font-gmail: 'Roboto', sans-serif;
+            --color-gmail-bg: #0f172a;
+            --color-gmail-surface: #1e293b;
+            --color-gmail-border: rgba(255, 255, 255, 0.08);
+            --color-gmail-active: rgba(255, 183, 3, 0.15);
+            --color-gmail-hover: rgba(255, 255, 255, 0.04);
+            --color-gmail-text: #f8fafc;
+            --color-gmail-muted: #94a3b8;
         }
 
-        body {
+        body.webmail-body {
+            background-color: var(--color-gmail-bg);
+            color: var(--color-gmail-text);
+            font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: var(--gmail-bg);
-            color: var(--gmail-text-primary);
-            font-family: var(--font-gmail);
             height: 100vh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
         }
 
-        /* 1. Gmail Header */
-        .gmail-header {
+        /* Login Layout styling override */
+        .webmail-login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #0d1321 0%, #1e293b 100%);
+        }
+
+        /* Main Workspace Layout */
+        .mail-header {
             height: 64px;
-            padding: 0 1rem;
+            background-color: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--color-gmail-border);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid var(--gmail-border);
-            background-color: #ffffff;
-            box-sizing: border-box;
+            padding: 0 1.5rem;
+            z-index: 100;
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            min-width: 200px;
-        }
-
-        .menu-btn {
-            background: none;
-            border: none;
-            padding: 8px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .menu-btn:hover {
-            background-color: #f1f3f4;
-        }
-
-        .menu-btn svg {
-            width: 20px;
-            height: 20px;
-            fill: var(--gmail-text-muted);
-        }
-
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        /* Styled envelope icon similar to Gmail multi-colored M */
-        .logo-icon {
-            width: 24px;
-            height: 24px;
-        }
-
-        .logo-text {
-            font-size: 1.3rem;
-            font-weight: 500;
-            color: #5f6368;
-            letter-spacing: -0.5px;
-        }
-
-        .logo-text span {
-            color: var(--gmail-blue);
-            font-weight: 700;
-        }
-
-        .header-center {
+        .mail-search-bar {
             flex: 1;
-            max-width: 720px;
+            max-width: 600px;
             margin: 0 2rem;
+            position: relative;
         }
 
-        .search-container {
-            display: flex;
-            align-items: center;
-            background-color: var(--gmail-search-bg);
-            border-radius: 24px;
-            padding: 0 12px;
-            height: 48px;
-            box-sizing: border-box;
-        }
-
-        .search-container svg {
-            width: 20px;
-            height: 20px;
-            fill: var(--gmail-text-muted);
-            margin-right: 12px;
-        }
-
-        .search-container input {
-            border: none;
-            background: transparent;
+        .mail-search-bar input {
             width: 100%;
-            height: 100%;
-            font-size: 0.95rem;
-            color: var(--gmail-text-primary);
-            font-family: inherit;
+            padding: 0.65rem 1rem 0.65rem 2.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--color-gmail-border);
+            border-radius: 24px;
+            color: white;
+            font-size: 0.88rem;
+            transition: background 0.2s, border-color 0.2s;
         }
 
-        .search-container input:focus {
+        .mail-search-bar input:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--color-sun-yellow);
             outline: none;
         }
 
-        .header-right {
+        .mail-search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-gmail-muted);
+        }
+
+        .mail-layout {
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .header-icon-btn {
-            background: none;
-            border: none;
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .header-icon-btn:hover {
-            background-color: #f1f3f4;
-        }
-
-        .header-icon-btn svg {
-            width: 20px;
-            height: 20px;
-            fill: var(--gmail-text-muted);
-        }
-
-        .profile-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background-color: var(--gmail-blue);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 0.9rem;
-            margin-left: 8px;
-            cursor: pointer;
-            border: 2px solid white;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-        }
-
-        /* 2. Main Layout */
-        .gmail-body {
             flex: 1;
-            display: flex;
+            height: calc(100vh - 64px);
             overflow: hidden;
         }
 
-        /* 3. Left Sidebar */
-        .gmail-sidebar {
+        .mail-sidebar {
             width: 256px;
-            background-color: var(--gmail-sidebar);
-            padding: 1rem 0.5rem;
+            background-color: rgba(15, 23, 42, 0.4);
+            border-right: 1px solid var(--color-gmail-border);
+            padding: 1.5rem 0.8rem;
             display: flex;
             flex-direction: column;
-            gap: 0.2rem;
-            box-sizing: border-box;
+            gap: 0.4rem;
         }
 
-        .compose-pill {
-            background-color: #c2e7ff;
-            color: #001d35;
-            border: none;
-            border-radius: 16px;
-            padding: 1rem 1.5rem;
-            font-size: 0.88rem;
-            font-weight: 500;
-            display: flex;
+        .compose-btn {
+            background: linear-gradient(135deg, var(--color-sun-yellow) 0%, #f5b002 100%);
+            color: #0d1321 !important;
+            font-weight: 700;
+            border-radius: 24px;
+            padding: 0.85rem 1.5rem;
+            display: inline-flex;
             align-items: center;
-            gap: 0.75rem;
-            width: fit-content;
-            min-width: 140px;
+            justify-content: center;
+            gap: 0.6rem;
+            margin-bottom: 1.5rem;
+            border: none;
             cursor: pointer;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
-            margin-bottom: 1rem;
-            margin-left: 0.5rem;
-            transition: box-shadow 0.2s, background-color 0.2s;
+            box-shadow: 0 4px 15px rgba(255, 183, 3, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .compose-pill:hover {
-            background-color: #b3dbf9;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        }
-
-        .compose-pill svg {
-            width: 20px;
-            height: 20px;
-            fill: #001d35;
+        .compose-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(255, 183, 3, 0.3);
         }
 
         .sidebar-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0.6rem 1.5rem;
-            border-radius: 0 20px 20px 0;
-            color: #444746;
-            text-decoration: none;
+            padding: 0.65rem 1rem;
+            border-radius: 20px;
+            color: var(--color-gmail-muted);
             font-size: 0.88rem;
-            font-weight: 500;
             cursor: pointer;
-            margin-right: 0.5rem;
-            transition: background-color 0.15s;
+            font-weight: 500;
+            transition: background 0.15s, color 0.15s;
         }
 
-        .sidebar-item:hover {
-            background-color: var(--gmail-sidebar-hover);
+        .sidebar-item:hover, .sidebar-item.active {
+            background-color: var(--color-gmail-active);
+            color: var(--color-sun-yellow);
         }
 
-        .sidebar-item.active {
-            background-color: var(--gmail-sidebar-active);
-            color: #001d35;
-            font-weight: 700;
-        }
-
-        .sidebar-item-left {
+        .sidebar-item-label {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-        }
-
-        .sidebar-item-left svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
+            gap: 0.8rem;
         }
 
         .sidebar-badge {
-            font-size: 0.75rem;
-            color: var(--gmail-text-muted);
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--color-gmail-muted);
+            padding: 0.1rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.72rem;
             font-weight: 600;
         }
 
-        .sidebar-badge.unread {
-            color: #001d35;
-            font-weight: 700;
+        .sidebar-item.active .sidebar-badge {
+            background: var(--color-sun-yellow);
+            color: #0d1321;
         }
 
-        /* 4. Main Content Panel */
-        .gmail-main {
+        .mail-content-area {
             flex: 1;
-            margin: 0.5rem 1rem 1rem 0;
-            background-color: var(--gmail-card-bg);
-            border-radius: 16px;
-            border: 1px solid var(--gmail-border);
             display: flex;
             flex-direction: column;
+            background-color: rgba(30, 41, 59, 0.2);
             overflow: hidden;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
 
-        /* Action Toolbar */
-        .toolbar {
-            height: 48px;
-            border-bottom: 1px solid var(--gmail-border);
+        /* Message List */
+        .mail-list-header {
+            padding: 0.8rem 1.5rem;
+            border-bottom: 1px solid var(--color-gmail-border);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 1rem;
-            box-sizing: border-box;
-            background-color: #ffffff;
+            font-size: 0.82rem;
+            color: var(--color-gmail-muted);
         }
 
-        .toolbar-left, .toolbar-right {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .toolbar-btn {
-            background: none;
-            border: none;
-            padding: 8px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gmail-text-muted);
-        }
-
-        .toolbar-btn:hover {
-            background-color: #f1f3f4;
-            color: var(--gmail-text-primary);
-        }
-
-        .toolbar-btn svg {
-            width: 18px;
-            height: 18px;
-            fill: currentColor;
-        }
-
-        .toolbar-separator {
-            width: 1px;
-            height: 20px;
-            background-color: var(--gmail-border);
-            margin: 0 4px;
-        }
-
-        .toolbar-text {
-            font-size: 0.75rem;
-            color: var(--gmail-text-muted);
-        }
-
-        /* 5. Mail Thread Rows List */
-        .threads-pane {
+        .mail-list-container {
             flex: 1;
             overflow-y: auto;
-            background-color: #ffffff;
         }
 
         .mail-row {
             display: flex;
             align-items: center;
-            padding: 0 1rem;
-            height: 40px;
-            border-bottom: 1px solid #f1f3f4;
+            padding: 0.75rem 1.5rem;
+            border-bottom: 1px solid var(--color-gmail-border);
             cursor: pointer;
             font-size: 0.88rem;
-            box-sizing: border-box;
-            user-select: none;
-            transition: box-shadow 0.15s;
+            transition: background-color 0.15s;
+            position: relative;
         }
 
         .mail-row:hover {
-            box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
-            z-index: 2;
+            background-color: var(--color-gmail-hover);
         }
 
         .mail-row.unread {
             font-weight: 700;
-            background-color: #f8fafc;
+            color: white;
+            background-color: rgba(255, 255, 255, 0.01);
         }
 
-        .mail-row.active {
-            background-color: #e8f0fe;
-        }
-
-        .mail-row-actions {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            margin-right: 1rem;
-            color: var(--gmail-text-muted);
-        }
-
-        .mail-row-checkbox {
-            width: 18px;
-            height: 18px;
-            border: 2px solid var(--gmail-text-muted);
-            border-radius: 2px;
-            cursor: pointer;
-        }
-
-        .star-icon {
-            cursor: pointer;
-            padding: 4px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .star-icon:hover {
-            background-color: #f1f3f4;
-        }
-
-        .star-icon svg {
-            width: 18px;
-            height: 18px;
-            fill: #dadce0;
-        }
-
-        .star-icon.starred svg {
-            fill: #f4b400;
-        }
-
-        .mail-sender {
+        .mail-col-sender {
             width: 180px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             padding-right: 1rem;
-            box-sizing: border-box;
         }
 
-        .mail-content-cell {
+        .mail-col-body {
             flex: 1;
-            display: flex;
-            gap: 0.4rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            color: var(--color-gmail-muted);
             padding-right: 1rem;
-            box-sizing: border-box;
         }
 
-        .mail-subject {
-            color: var(--gmail-text-primary);
+        .mail-row.unread .mail-col-body {
+            color: #f1f5f9;
         }
 
-        .mail-snippet {
-            color: var(--gmail-text-muted);
-            font-weight: 400;
-        }
-
-        .mail-date {
-            width: 80px;
+        .mail-col-date {
+            width: 90px;
             text-align: right;
-            font-size: 0.75rem;
-            color: var(--gmail-text-muted);
-            font-weight: 500;
+            font-size: 0.76rem;
+            color: var(--color-gmail-muted);
         }
 
-        .empty-inbox-message {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            color: var(--gmail-text-muted);
-            padding: 3rem;
-            text-align: center;
-        }
-
-        .empty-inbox-message svg {
-            width: 80px;
-            height: 80px;
-            fill: #e8eaed;
-            margin-bottom: 1rem;
-        }
-
-        /* 6. Reading Pane Viewer */
-        .viewer-pane {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            background-color: #ffffff;
-        }
-
-        .viewer-header {
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid #f1f3f4;
-        }
-
-        .viewer-subject {
-            font-size: 1.35rem;
-            font-weight: 400;
-            color: var(--gmail-text-primary);
-            margin: 0 0 1.25rem 0;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .viewer-sender-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .sender-info-left {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .sender-circle {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #e3e3e3;
-            color: var(--gmail-text-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .sender-details-text {
-            font-size: 0.88rem;
-        }
-
-        .sender-details-text strong {
-            color: var(--gmail-text-primary);
-        }
-
-        .sender-details-text span {
-            color: var(--gmail-text-muted);
-            font-size: 0.78rem;
-        }
-
-        .sender-info-right {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.75rem;
-            color: var(--gmail-text-muted);
-        }
-
-        .viewer-body {
-            flex: 1;
-            padding: 2rem 2.5rem;
-            overflow-y: auto;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            color: #333333;
-        }
-
-        .email-letter-content {
-            white-space: pre-wrap;
-            font-family: inherit;
-            color: #202124;
-        }
-
-        .viewer-pills-row {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 2rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid #f1f3f4;
-        }
-
-        .gmail-pill-btn {
-            background-color: #ffffff;
-            border: 1px solid #dadce0;
-            color: #3c4043;
-            padding: 0.5rem 1.5rem;
-            border-radius: 18px;
-            font-size: 0.88rem;
-            font-weight: 500;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: background-color 0.15s;
-        }
-
-        .gmail-pill-btn:hover {
-            background-color: #f8f9fa;
-            border-color: #c7c7c7;
-        }
-
-        .gmail-pill-btn svg {
-            width: 16px;
-            height: 16px;
-            fill: currentColor;
-        }
-
-        /* 7. Compose Bottom-Right Window Popup */
-        .compose-popup {
+        /* Floating Compose Modal */
+        .compose-modal {
             position: fixed;
             bottom: 0;
-            right: 80px;
-            width: 500px;
-            height: 450px;
-            background-color: #ffffff;
-            border-radius: 12px 12px 0 0;
-            box-shadow: 0 12px 24px rgba(0,0,0,0.15), 0 0 8px rgba(0,0,0,0.1);
-            border: 1px solid #dadce0;
+            right: 50px;
+            width: 550px;
+            background-color: var(--color-gmail-surface);
+            border: 1px solid var(--color-gmail-border);
+            border-bottom: none;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             display: flex;
             flex-direction: column;
             z-index: 1000;
-            overflow: hidden;
-            animation: slide-up-compose 0.2s ease-out;
+            transition: transform 0.2s ease-out;
         }
 
-        @keyframes slide-up-compose {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
-        }
-
-        .compose-titlebar {
-            height: 40px;
-            background-color: #f2f6fc;
-            padding: 0 1rem;
+        .compose-modal-header {
+            background-color: rgba(15, 23, 42, 0.6);
+            padding: 0.8rem 1.2rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 0.88rem;
-            font-weight: 500;
-            color: #1f1f1f;
-            border-bottom: 1px solid #f1f3f4;
-            user-select: none;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            border-bottom: 1px solid var(--color-gmail-border);
         }
 
-        .compose-titlebar-actions {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        .compose-modal-header h4 {
+            margin: 0;
+            font-family: 'Outfit', sans-serif;
+            color: white;
+            font-size: 0.92rem;
+        }
+
+        .compose-close-btn {
+            background: none;
+            border: none;
+            color: var(--color-gmail-muted);
+            cursor: pointer;
             font-size: 1.1rem;
         }
 
-        .compose-titlebar-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gmail-text-muted);
-        }
-
-        .compose-titlebar-btn:hover {
-            color: var(--gmail-text-primary);
-        }
-
-        .compose-fields {
+        .compose-form {
             display: flex;
             flex-direction: column;
+            padding: 0.8rem 1.2rem;
+            gap: 0.8rem;
         }
 
-        .compose-input-row {
-            height: 40px;
-            border-bottom: 1px solid #f1f3f4;
+        .compose-input-group {
             display: flex;
+            border-bottom: 1px solid var(--color-gmail-border);
+            padding-bottom: 0.4rem;
             align-items: center;
-            padding: 0 1rem;
-            box-sizing: border-box;
         }
 
-        .compose-input-row input {
+        .compose-input-group label {
+            width: 50px;
+            color: var(--color-gmail-muted);
+            font-size: 0.84rem;
+        }
+
+        .compose-input-group input {
+            flex: 1;
+            background: none;
             border: none;
-            width: 100%;
-            height: 100%;
+            color: white;
             font-size: 0.88rem;
-            font-family: inherit;
         }
 
-        .compose-input-row input:focus {
+        .compose-input-group input:focus {
             outline: none;
         }
 
-        .compose-body-textarea {
-            flex: 1;
-            padding: 1rem;
+        .compose-textarea {
+            width: 100%;
+            min-height: 200px;
+            background: none;
             border: none;
-            resize: none;
+            color: white;
             font-size: 0.88rem;
-            font-family: inherit;
-            box-sizing: border-box;
+            resize: none;
+            line-height: 1.6;
         }
 
-        .compose-body-textarea:focus {
+        .compose-textarea:focus {
             outline: none;
         }
 
         .compose-footer {
-            height: 56px;
-            padding: 0 1rem;
+            padding: 0.8rem 1.2rem;
+            border-top: 1px solid var(--color-gmail-border);
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            border-top: 1px solid #f1f3f4;
-            box-sizing: border-box;
-            background-color: #ffffff;
+            align-items: center;
         }
 
-        .gmail-send-btn {
-            background-color: var(--gmail-blue);
-            color: white;
-            border: none;
-            padding: 0.6rem 1.8rem;
-            border-radius: 20px;
+        /* Profile Dropdown */
+        .profile-container {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .avatar-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--color-sun-yellow);
+            color: #0d1321;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-weight: 700;
             font-size: 0.88rem;
-            cursor: pointer;
-            transition: background-color 0.15s;
         }
 
-        .gmail-send-btn:hover {
-            background-color: #0947b1;
-        }
-
-        .compose-footer-tools {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            color: var(--gmail-text-muted);
-            font-size: 1.1rem;
-            cursor: pointer;
-        }
-
-        .compose-feedback {
-            padding: 8px;
-            font-size: 0.75rem;
+        .profile-dropdown-card {
+            position: absolute;
+            top: 45px;
+            right: 0;
+            width: 280px;
+            background-color: var(--color-gmail-surface);
+            border: 1px solid var(--color-gmail-border);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            padding: 1.5rem;
+            z-index: 500;
             text-align: center;
-            border-radius: 4px;
-            display: inline-block;
+            cursor: default;
         }
 
-        .compose-feedback.success {
-            background-color: #e6f4ea;
-            color: #137333;
+        .profile-dropdown-card h4 {
+            margin: 0.5rem 0 0.2rem 0;
+            color: white;
+            font-size: 0.95rem;
         }
 
-        /* 8. Toast Banner Notifications */
-        .toast-banner {
+        .profile-dropdown-card p {
+            margin: 0 0 1rem 0;
+            color: var(--color-gmail-muted);
+            font-size: 0.78rem;
+        }
+
+        .dropdown-actions {
+            border-top: 1px solid var(--color-gmail-border);
+            padding-top: 1rem;
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        /* Toast notifications */
+        .toast-notification {
             position: fixed;
             bottom: 24px;
             left: 24px;
-            background-color: #323232;
-            color: #ffffff;
-            padding: 0.75rem 1.5rem;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            animation: fade-in-toast 0.2s;
-        }
-
-        @keyframes fade-in-toast {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .toast-undo-btn {
-            color: #a1c2fa;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-weight: 700;
-            font-family: inherit;
-            font-size: 0.85rem;
-        }
-
-        /* 9. Sign in Screen - Google Accounts style */
-        .google-signin-wrapper {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 5000;
-        }
-
-        .google-signin-box {
-            width: 450px;
-            border: 1px solid #dadce0;
-            border-radius: 8px;
-            padding: 2.5rem;
-            box-sizing: border-box;
-            text-align: center;
-        }
-
-        .google-logo-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 1rem;
-        }
-
-        .google-logo-svg {
-            height: 36px;
-        }
-
-        .signin-title {
-            font-size: 1.5rem;
-            font-weight: 400;
-            color: #202124;
-            margin: 0 0 0.5rem 0;
-        }
-
-        .signin-subtitle {
-            font-size: 1rem;
-            color: #202124;
-            margin: 0 0 2.5rem 0;
-        }
-
-        .signin-form-group {
-            margin-bottom: 1.5rem;
-            position: relative;
-            text-align: left;
-        }
-
-        .signin-input {
-            width: 100%;
-            padding: 1rem 0.8rem;
-            border: 1px solid #dadce0;
-            border-radius: 4px;
-            font-size: 1rem;
-            box-sizing: border-box;
-            font-family: inherit;
-        }
-
-        .signin-input:focus {
-            outline: none;
-            border-color: var(--gmail-blue);
-            box-shadow: 0 0 0 2px rgba(11, 87, 208, 0.2);
-        }
-
-        .signin-input-label {
-            font-size: 0.8rem;
-            color: var(--gmail-text-muted);
-            margin-bottom: 0.4rem;
-            display: block;
-        }
-
-        .signin-feedback {
-            background-color: #fce8e6;
-            color: #c5221f;
-            border: 1px solid #fad2cf;
-            padding: 0.5rem;
-            font-size: 0.78rem;
-            border-radius: 4px;
-            margin-bottom: 1.5rem;
-            text-align: left;
-        }
-
-        .signin-buttons-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 2rem;
-        }
-
-        .signin-link {
-            color: var(--gmail-blue);
-            text-decoration: none;
-            font-size: 0.88rem;
-            font-weight: 500;
-        }
-
-        .signin-link:hover {
-            text-decoration: underline;
-        }
-
-        .signin-next-btn {
-            background-color: var(--gmail-blue);
+            background-color: #1e293b;
             color: white;
-            border: none;
-            padding: 0.6rem 1.5rem;
-            border-radius: 4px;
-            font-weight: 500;
-            font-size: 0.88rem;
-            cursor: pointer;
-        }
-
-        .signin-next-btn:hover {
-            background-color: #1a57c0;
-        }
-
-        .avatar-dropdown-card {
-            position: absolute;
-            top: 55px;
-            right: 15px;
-            width: 280px;
-            background-color: #ffffff;
-            border: 1px solid #dadce0;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15), 0 0 4px rgba(0,0,0,0.05);
+            border: 1px solid var(--color-gmail-border);
+            border-radius: 8px;
+            padding: 0.8rem 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.84rem;
             z-index: 10000;
-            animation: fade-in-dropdown 0.15s ease-out;
-        }
-
-        @keyframes fade-in-dropdown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .dropdown-link-btn:hover {
-            opacity: 0.9;
-        }
-
-        .hidden {
-            display: none !important;
+            transition: opacity 0.2s, transform 0.2s;
         }
     </style>
-    <!-- SMTPJS Library for Client-side SMTP connection (Hostinger proxy fallback) -->
-    <script src="https://smtpjs.com/v3/smtp.js"></script>
 </head>
-<body>
+<body class="webmail-body">
 
-    <!-- Header bar -->
-    <header class="gmail-header" style="position: relative;">
-        <div class="header-left">
-            <button class="menu-btn" title="Main menu">
-                <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
-            </button>
-            <a href="index.html" class="logo-area">
-                <img src="assets/logo.jpg" class="logo-icon" style="border-radius: 4px; object-fit: contain; width: 28px; height: 28px;" alt="Sunova Solar Logo">
-                <span class="logo-text">Sunova<span>Mail</span></span>
-            </a>
-        </div>
-        <div class="header-center">
-            <div class="search-container">
-                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                <input type="text" placeholder="Search in mail" id="gmail-search">
+    <!-- 1. Secure Webmail Login Overlay View -->
+    <div class="webmail-login-container" id="webmail-login-view">
+        <div class="glass-card login-card" style="max-width: 420px; width: 100%; padding: 2.5rem; border-radius: 16px;">
+            <div class="portal-header text-center" style="margin-bottom: 2rem;">
+                <img src="assets/logo.jpg" alt="SUNOVA SOLAR LLP Logo" class="portal-logo" style="width: 70px; height: 70px; border-radius: 50%; margin-bottom: 0.8rem; border: 2px solid var(--color-sun-yellow);">
+                <h2 style="font-family: 'Outfit', sans-serif; color: white; margin: 0; font-size: 1.6rem;">Sunova Solar Webmail</h2>
+                <p style="color: var(--color-gmail-muted); font-size: 0.82rem; margin-top: 0.4rem;">Connect securely to your hostinger mail inbox.</p>
             </div>
-        </div>
-        <div class="header-right">
-            <button class="header-icon-btn" title="Help"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h-2v2zm0-4h-2v-4h2v4z"/></svg></button>
-            <button class="header-icon-btn" title="Settings"><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></button>
-            <div class="profile-avatar" id="avatar-circle" onclick="toggleAvatarDropdown(event)" style="cursor: pointer;">S</div>
-        </div>
+            
+            <form id="webmail-login-form" onsubmit="handleWebmailLogin(event)">
+                <div class="form-group" style="margin-bottom: 1.2rem;">
+                    <label style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 0.35rem; display: block; text-transform: uppercase; font-weight: 600;">Login Username ID</label>
+                    <input type="text" value="info@sunovasolar.in" readonly style="width: 100%; padding: 0.75rem 1rem; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; color: var(--color-text-muted); font-size: 0.9rem; cursor: not-allowed; font-weight: 600;">
+                </div>
+                
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label for="webmail-pass" style="font-size: 0.76rem; color: white; margin-bottom: 0.35rem; display: block; text-transform: uppercase; font-weight: 600;">Hostinger Mail Password</label>
+                    <input type="password" id="webmail-pass" placeholder="Enter info@sunovasolar.in password" required style="width: 100%; padding: 0.75rem 1rem; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--color-gmail-border); border-radius: 8px; color: white; font-size: 0.9rem; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--color-sun-yellow)'" onblur="this.style.borderColor='var(--color-gmail-border)'">
+                </div>
 
-        <!-- Profile Dropdown Menu Card (Initially Hidden) -->
-        <div id="avatar-dropdown" class="avatar-dropdown-card hidden" onclick="event.stopPropagation()">
-            <div style="padding: 0.5rem 1rem; background-color: #f1f3f4; display: flex; justify-content: center; align-items: center; gap: 0.4rem; border-bottom: 1px solid var(--gmail-border); font-size: 0.72rem; font-weight: 600; color: var(--gmail-text-muted);" id="connection-status-banner">
-                <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background-color:#f4b400; transition: background-color 0.2s;" id="status-dot"></span>
-                <span id="status-text">Detecting server connection...</span>
-            </div>
-            <div style="padding: 1.25rem; text-align: center; border-bottom: 1px solid var(--gmail-border);">
-                <div style="width: 48px; height: 48px; border-radius: 50%; background-color: var(--gmail-blue); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.4rem; margin: 0 auto 0.75rem auto;" id="dropdown-avatar-letter">S</div>
-                <strong style="font-size: 0.95rem; display: block; color: var(--gmail-text-primary); margin-bottom: 0.15rem;">Sunova Solar LLP</strong>
-                <span style="font-size: 0.8rem; color: var(--gmail-text-muted);" id="dropdown-user-email">info@sunovasolar.in</span>
-            </div>
-            <div style="padding: 0.75rem; display: flex; flex-direction: column; gap: 0.4rem;">
-                <a href="https://mail.hostinger.com/" target="_blank" rel="noopener" class="dropdown-link-btn" style="background-color: var(--gmail-blue); color: white; border-radius: 8px; text-decoration: none; padding: 0.6rem; font-size: 0.8rem; font-weight: 600; text-align: center; display: block; transition: opacity 0.15s;">
-                    🚀 Open Webmail
-                </a>
-            </div>
-            <!-- Gmail Style Sign Out Button -->
-            <div style="padding: 0.8rem; border-top: 1px solid var(--gmail-border); text-align: center; background-color: #f8f9fa; border-radius: 0 0 12px 12px;">
-                <button onclick="logoutPortal()" style="background-color: #ffffff; border: 1px solid #dadce0; color: #3c4043; border-radius: 20px; padding: 0.45rem 1.2rem; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: background-color 0.15s; width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.3rem;">
-                    Sign Out
+                <div id="login-error-msg" class="form-feedback error hidden" style="margin-bottom: 1.2rem; font-size: 0.78rem;"></div>
+
+                <button type="submit" class="cta-btn primary-btn full-width" style="padding: 0.85rem; font-size: 0.92rem; font-weight: 700; border-radius: 8px; cursor: pointer; border: none; width: 100%;">
+                    Connect &amp; Open Webmail
                 </button>
+            </form>
+            <div style="text-align: center; margin-top: 1.5rem; font-size: 0.72rem; color: var(--color-gmail-muted);">
+                🔒 Protected by TLS/SSL secure hostinger configuration relays.
             </div>
         </div>
-    </header>
-
-    <!-- Body Layout -->
-    <div class="gmail-body">
-        <!-- Sidebar -->
-        <aside class="gmail-sidebar">
-            <button onclick="openGmailCompose()" class="compose-pill">
-                <svg viewBox="0 0 24 24">
-                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
-                </svg>
-                <span>Compose</span>
-            </button>
-            
-            <a onclick="switchFolder('inbox')" id="sidebar-inbox" class="sidebar-item active">
-                <span class="sidebar-item-left">
-                    <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-4-4h-2v-2h-2v2H9v-6h6v6z"/></svg>
-                    <span>Inbox</span>
-                </span>
-                <span class="sidebar-badge" id="badge-inbox">0</span>
-            </a>
-            <a onclick="switchFolder('sent')" id="sidebar-sent" class="sidebar-item">
-                <span class="sidebar-item-left">
-                    <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-                    <span>Sent</span>
-                </span>
-                <span class="sidebar-badge zero" id="badge-sent">0</span>
-            </a>
-            <a onclick="switchFolder('trash')" id="sidebar-trash" class="sidebar-item">
-                <span class="sidebar-item-left">
-                    <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
-                    <span>Trash</span>
-                </span>
-                <span class="sidebar-badge zero" id="badge-trash">0</span>
-            </a>
-        </aside>
-
-        <!-- Main mail client window container -->
-        <main class="gmail-main" id="gmail-main-pane">
-            
-            <!-- Toolbar -->
-            <div class="toolbar" id="toolbar-area">
-                <div class="toolbar-left">
-                    <button class="toolbar-btn" title="Select"><input type="checkbox" style="cursor:pointer;" class="mail-row-checkbox"></button>
-                    <button class="toolbar-btn" onclick="initMailClient()" title="Refresh">
-                        <svg viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
-                    </button>
-                    <button class="toolbar-btn" title="More"><svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg></button>
-                </div>
-                <div class="toolbar-right">
-                    <span class="toolbar-text" id="toolbar-count">1-0 of 0</span>
-                    <button class="toolbar-btn" title="Older"><svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
-                    <button class="toolbar-btn" title="Newer"><svg viewBox="0 0 24 24"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg></button>
-                </div>
-            </div>
-
-            <!-- Email Rows List Pane -->
-            <div class="threads-pane" id="pane-threads-list">
-                <div id="threads-rows-container">
-                    <!-- Dynamic email rows generated by JS -->
-                </div>
-            </div>
-
-            <!-- Reading Pane Viewer (Initially Hidden) -->
-            <div class="viewer-pane hidden" id="pane-reader-view">
-                <!-- Inner header actions toolbar -->
-                <div class="toolbar" style="border-bottom: 1px solid #f1f3f4;">
-                    <div class="toolbar-left">
-                        <button class="toolbar-btn" onclick="exitReaderView()" title="Back to Inbox">
-                            <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-                        </button>
-                        <button class="toolbar-btn" id="btn-delete-reader" title="Delete">
-                            <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
-                        </button>
-                        <div class="toolbar-separator"></div>
-                        <button class="toolbar-btn" title="Mark as unread">
-                            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Email Message Details -->
-                <div class="viewer-header">
-                    <h3 class="viewer-subject" id="read-subject">
-                        New Feasibility Quote Request
-                    </h3>
-                    <div class="viewer-sender-row">
-                        <div class="sender-info-left">
-                            <div class="sender-circle" id="read-sender-circle">F</div>
-                            <div class="sender-details-text">
-                                <strong id="read-sender-name">FormSubmit.co</strong> 
-                                <span id="read-sender-email">&lt;inquiry@formsubmit.co&gt;</span><br>
-                                <span>to me ▾</span>
-                            </div>
-                        </div>
-                        <div class="sender-info-right">
-                            <span id="read-timestamp">12:30 PM (2 hours ago)</span>
-                            <button class="toolbar-btn" title="Star"><svg viewBox="0 0 24 24" style="width:16px; height:16px;"><path d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.35-2.9 4.42-.38L12 6.1l1.69 4.01 4.42.38-3.35 2.9 1 4.28L12 15.4z"/></svg></button>
-                            <button class="toolbar-btn" title="Reply" id="btn-reply-shortcut"><svg viewBox="0 0 24 24" style="width:16px; height:16px;"><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></svg></button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="viewer-body">
-                    <div class="email-letter-content" id="read-body">
-                        <!-- Message text content -->
-                    </div>
-
-                    <!-- Gmail styled reply buttons at bottom -->
-                    <div class="viewer-pills-row">
-                        <button class="gmail-pill-btn" id="btn-reply-pill">
-                            <svg viewBox="0 0 24 24"><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></svg>
-                            Reply
-                        </button>
-                        <button class="gmail-pill-btn" id="btn-forward-pill">
-                            <svg viewBox="0 0 24 24"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/></svg>
-                            Forward
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-
-        </main>
     </div>
 
-    <!-- Gmail Compose Floating Window Popup (Bottom-Right) -->
-    <div id="gmail-compose-window" class="compose-popup hidden">
-        <div class="compose-titlebar">
-            <span>New Message</span>
-            <div class="compose-titlebar-actions">
-                <button class="compose-titlebar-btn" onclick="closeGmailCompose()" title="Close">×</button>
+    <!-- 2. Main Google-style Webmail Workspace Layout (Hidden initially) -->
+    <div id="webmail-workspace-view" class="hidden" style="display: flex; flex-direction: column; height: 100vh;">
+        <!-- Header -->
+        <header class="mail-header">
+            <div style="display: flex; align-items: center; gap: 0.8rem;">
+                <img src="assets/logo.jpg" alt="Logo" style="width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--color-sun-yellow);">
+                <span style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.15rem; color: white; letter-spacing: 0.5px;">SUNOVA MAIL</span>
+                <span id="connection-status-badge" style="background: rgba(34, 197, 94, 0.15); color: #22c55e; font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 10px; text-transform: uppercase; margin-left: 0.4rem;">Connected</span>
             </div>
+            
+            <div class="mail-search-bar">
+                <span class="mail-search-icon">🔍</span>
+                <input type="text" placeholder="Search mail" oninput="handleMailSearch(this.value)">
+            </div>
+            
+            <!-- User Avatar & Profile Card -->
+            <div class="profile-container" onclick="toggleProfileDropdown(event)">
+                <div class="avatar-circle">S</div>
+                
+                <div class="profile-dropdown-card hidden" id="profile-dropdown">
+                    <div style="background: var(--color-sun-yellow); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.3rem; color: #0d1321; margin: 0 auto 0.5rem auto;">S</div>
+                    <h4>SUNOVA SOLAR LLP</h4>
+                    <p>info@sunovasolar.in</p>
+                    
+                    <div class="dropdown-actions">
+                        <a href="https://mail.hostinger.com/" target="_blank" class="cta-btn secondary-btn text-center" style="font-size: 0.78rem; padding: 0.45rem;">
+                            📥 Open Hostinger Webmail
+                        </a>
+                        <button onclick="logoutWebmail()" class="logout-btn" style="padding: 0.45rem; font-size: 0.78rem; width: 100%;">
+                            Sign Out
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Mail Layout -->
+        <div class="mail-layout">
+            <!-- Sidebar -->
+            <aside class="mail-sidebar">
+                <button class="compose-btn" onclick="openComposeModal()">
+                    <span style="font-size: 1.1rem;">✏️</span> Compose
+                </button>
+                
+                <div class="sidebar-item active" onclick="switchFolder('inbox', this)">
+                    <div class="sidebar-item-label">
+                        <span>📥</span> Inbox
+                    </div>
+                    <span class="sidebar-badge" id="inbox-count-badge">0</span>
+                </div>
+                
+                <div class="sidebar-item" onclick="switchFolder('sent', this)">
+                    <div class="sidebar-item-label">
+                        <span>📤</span> Sent
+                    </div>
+                </div>
+                
+                <div class="sidebar-item" onclick="switchFolder('trash', this)">
+                    <div class="sidebar-item-label">
+                        <span>🗑️</span> Trash
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Mail List Area -->
+            <main class="mail-content-area" id="mail-list-panel">
+                <div class="mail-list-header">
+                    <div>
+                        <span style="font-weight: 600;" id="folder-title">Inbox</span>
+                    </div>
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <span id="range-indicator">Showing 0-0 of 0</span>
+                        <button onclick="refreshMailbox()" style="background: none; border: none; color: var(--color-gmail-muted); cursor: pointer; font-size: 0.95rem;">🔄 Refresh</button>
+                    </div>
+                </div>
+                
+                <div class="mail-list-container" id="mail-list-rows-target">
+                    <!-- Dynamically Injected Email Rows -->
+                </div>
+            </main>
+
+            <!-- Detailed Message View (Initially Hidden) -->
+            <main class="mail-content-area hidden" id="mail-detail-panel">
+                <div class="mail-list-header">
+                    <button onclick="closeDetailedMail()" style="background: none; border: none; color: var(--color-gmail-muted); cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem;">
+                        ⬅️ Back to List
+                    </button>
+                    <div>
+                        <button onclick="deleteDetailedMail()" style="background: none; border: none; color: #ef4444; cursor: pointer; font-weight: 600; font-size: 0.8rem;">🗑️ Delete Message</button>
+                    </div>
+                </div>
+                
+                <div style="flex: 1; overflow-y: auto; padding: 2rem 2.5rem; text-align: left;" id="mail-detail-content-target">
+                    <!-- Injected detailed body content -->
+                </div>
+            </main>
         </div>
-        <form id="gmail-compose-form" onsubmit="sendGmailMessage(event)" style="flex:1; display:flex; flex-direction:column; background-color:white;">
-            <div class="compose-fields">
-                <div class="compose-input-row">
-                    <input type="email" id="compose-mail-to" placeholder="To" required>
-                </div>
-                <div class="compose-input-row">
-                    <input type="text" id="compose-mail-subject" placeholder="Subject" required>
-                </div>
+    </div>
+
+    <!-- 3. Floating Compose Window (Hidden initially) -->
+    <div class="compose-modal hidden" id="mail-compose-modal">
+        <div class="compose-modal-header">
+            <h4>New Message</h4>
+            <button class="compose-close-btn" onclick="closeComposeModal()">&times;</button>
+        </div>
+        <form class="compose-form" onsubmit="handleSendCompose(event)">
+            <div class="compose-input-group">
+                <label for="compose-to">To</label>
+                <input type="email" id="compose-to" required placeholder="recipients@email.com">
             </div>
-            <textarea class="compose-body-textarea" id="compose-mail-body" placeholder="Write message..." required></textarea>
+            <div class="compose-input-group">
+                <label for="compose-subject">Subject</label>
+                <input type="text" id="compose-subject" required placeholder="Subject text heading">
+            </div>
+            <textarea class="compose-textarea" id="compose-body" placeholder="Write message body content here..."></textarea>
             
             <div class="compose-footer">
-                <div style="display:flex; align-items:center; gap:1rem;">
-                    <button type="submit" class="gmail-send-btn" id="btn-gmail-send">Send</button>
-                    <div id="compose-feedback-toast" class="compose-feedback hidden"></div>
-                </div>
-                <div class="compose-footer-tools" title="Formatting Options">
-                    <span>A 📎 🔗  смайл 🗑️</span>
-                </div>
+                <button type="submit" class="cta-btn primary-btn" style="padding: 0.55rem 1.8rem; font-size: 0.84rem; border-radius: 20px; font-weight: 700; width: auto; cursor: pointer; border: none;" id="compose-send-btn">
+                    Send Mail
+                </button>
             </div>
         </form>
     </div>
 
-    <!-- Sign In Screen Overlay - Google style -->
-    <div class="google-signin-wrapper" id="gmail-login-overlay">
-        <div class="google-signin-box">
-            <div class="google-logo-container">
-                <img src="assets/logo.jpg" style="height: 54px; border-radius: 8px; object-fit: contain; margin-bottom: 0.5rem;" alt="Sunova Solar Logo">
-            </div>
-            <h2 class="signin-title">Sign in</h2>
-            <p class="signin-subtitle">to continue to SunovaMail</p>
-            
-            <form id="google-login-form" onsubmit="handleGoogleLogin(event)">
-                <div class="signin-form-group">
-                    <span class="signin-input-label">Email or phone</span>
-                    <input type="email" id="login-email" class="signin-input" placeholder="e.g. info@sunovasolar.in" required>
-                </div>
-                <div class="signin-form-group">
-                    <span class="signin-input-label">Password</span>
-                    <input type="password" id="login-password" class="signin-input" placeholder="Enter your Webmail password" required>
-                    <span style="font-size: 0.72rem; color: var(--gmail-text-muted); display: block; margin-top: 0.35rem;">* Requires your real email password to connect &amp; send emails.</span>
-                </div>
-
-                <div id="login-feedback" class="signin-feedback hidden"></div>
-
-                <div class="signin-buttons-row">
-                    <a href="index.html" class="signin-link">Cancel</a>
-                    <button type="submit" class="signin-next-btn" id="btn-signin-next">Sign In</button>
-                </div>
-            </form>
-        </div>
+    <!-- Toast message banner -->
+    <div id="toast-banner" class="toast-notification hidden">
+        <span>✉️</span> <span id="toast-msg-target">Notification text</span>
     </div>
 
-    <!-- Toast Notification Overlay (Bottom Left) -->
-    <div id="toast-notification" class="toast-banner hidden">
-        <span id="toast-message">Message sent.</span>
-        <button class="toast-undo-btn" onclick="undoGmailAction()">Undo</button>
-    </div>
-
+    <!-- Script Logic -->
     <script>
-        let isServerMode = false;
-        let serverActiveUserPassword = '';
-        let currentFolder = 'inbox';
-        let selectedMailIndex = -1;
-        
-        // Active data lists
-        let leadsInbox = [];
-        let sentMails = [];
-        let trashMails = [];
+        // Store Active Auth configuration locally in memory
+        let activeMailPassword = '';
+        let activeFolder = 'inbox';
+        let mailboxEmails = [];
+        let detailedMailObj = null;
 
+        // Check active session on load
         window.addEventListener('DOMContentLoaded', () => {
-            detectBackendServer();
+            const savedSession = sessionStorage.getItem('webmail_active_session');
+            if (savedSession) {
+                activeMailPassword = savedSession;
+                initializeMailbox();
+            }
         });
 
-        async function detectBackendServer() {
-            const statusDot = document.getElementById('status-dot');
-            const statusText = document.getElementById('status-text');
-            try {
-                const res = await fetch('/api/health');
-                if (res.ok) {
-                    isServerMode = true;
-                    statusDot.style.backgroundColor = '#22c55e'; // Green
-                    statusText.textContent = 'Connected to Hostinger Server';
-                    console.log('[Mail] Hostinger Proxy Server is online.');
-                } else {
-                    throw new Error('Offline check failed');
-                }
-            } catch (e) {
-                isServerMode = false;
-                statusDot.style.backgroundColor = '#f59e0b'; // Amber
-                statusText.textContent = 'Local Sync Mode (Offline)';
-                console.log('[Mail] Hostinger Proxy Server is offline. Falling back to local storage.');
+        // Click outside closes profile dropdown
+        window.addEventListener('click', (e) => {
+            const profileCard = document.getElementById('profile-dropdown');
+            const container = document.querySelector('.profile-container');
+            if (profileCard && !profileCard.classList.contains('hidden') && !container.contains(e.target)) {
+                profileCard.classList.add('hidden');
             }
+        });
 
-            const activeUser = localStorage.getItem('portal_user');
-            if (activeUser) {
-                if (isServerMode) {
-                    // Force log in to capture password for IMAP connection
-                    document.getElementById('gmail-login-overlay').classList.remove('hidden');
-                    document.getElementById('login-email').value = activeUser;
-                } else {
-                    bypassLogin(activeUser);
-                }
-            } else {
-                document.getElementById('gmail-login-overlay').classList.remove('hidden');
-            }
+        function toggleProfileDropdown(e) {
+            e.stopPropagation();
+            const card = document.getElementById('profile-dropdown');
+            card.classList.toggle('hidden');
         }
 
-        async function handleGoogleLogin(e) {
+        // Login Handler
+        function handleWebmailLogin(e) {
             e.preventDefault();
-            const email = document.getElementById('login-email').value.trim();
-            const password = document.getElementById('login-password').value;
-            const feedback = document.getElementById('login-feedback');
-            const loginBtn = document.getElementById('btn-signin-next');
-
-            if (!email.endsWith('@sunovasolar.in') && !email.endsWith('@sunova.in')) {
-                feedback.textContent = 'Access Denied. Could not find your Google Account.';
-                feedback.classList.remove('hidden');
+            const pass = document.getElementById('webmail-pass').value;
+            const errorMsg = document.getElementById('login-error-msg');
+            
+            if (pass.length < 4) {
+                errorMsg.textContent = 'Please enter a valid password.';
+                errorMsg.className = 'form-feedback error';
+                errorMsg.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
+                errorMsg.style.color = '#ef4444';
+                errorMsg.classList.remove('hidden');
                 return;
             }
 
-            feedback.textContent = isServerMode ? 'Connecting to mail server...' : 'Authenticating session...';
-            feedback.style.backgroundColor = '#e8f0fe';
-            feedback.style.color = '#1a73e8';
-            feedback.style.borderColor = '#d2e3fc';
-            feedback.classList.remove('hidden');
-            loginBtn.disabled = true;
+            // Connection checks
+            errorMsg.textContent = 'Connecting to Hostinger mail server...';
+            errorMsg.className = 'form-feedback';
+            errorMsg.style.backgroundColor = 'rgba(255, 183, 3, 0.1)';
+            errorMsg.style.color = 'var(--color-sun-yellow)';
+            errorMsg.classList.remove('hidden');
 
-            if (isServerMode) {
-                try {
-                    const res = await fetch('/api/connect', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ email, password })
+            // 1. First attempt verification via Node.js secure IMAP proxy (if running)
+            fetch('/api/connect', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: 'info@sunovasolar.in',
+                    password: pass
+                })
+            })
+            .then(res => {
+                if (res.ok) return res.json();
+                return res.json().then(errData => {
+                    throw new Error(errData.error || 'Authentication failed');
+                });
+            })
+            .then(data => {
+                // Verification successful
+                activeMailPassword = pass;
+                sessionStorage.setItem('webmail_active_session', pass);
+                initializeMailbox();
+            })
+            .catch(err => {
+                // 2. If local server is offline, fall back to direct client-side SMTP authentication check
+                if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError')) {
+                    errorMsg.textContent = 'Directly validating credentials via Hostinger SMTP...';
+                    
+                    Email.send({
+                        Host: "smtp.hostinger.com",
+                        Username: "info@sunovasolar.in",
+                        Password: pass,
+                        To: "info@sunovasolar.in",
+                        From: "info@sunovasolar.in",
+                        Subject: "Webmail Connection Check PING",
+                        Body: "Verifying secure login credentials."
+                    })
+                    .then(smtpResponse => {
+                        if (smtpResponse === 'OK' || smtpResponse.includes('OK') || smtpResponse.includes('success')) {
+                            // Credentials accepted by Hostinger SMTP
+                            activeMailPassword = pass;
+                            sessionStorage.setItem('webmail_active_session', pass);
+                            initializeMailbox();
+                        } else {
+                            // Credentials rejected
+                            errorMsg.textContent = 'Authentication Failed: Invalid password or connection issue.';
+                            errorMsg.className = 'form-feedback error';
+                            errorMsg.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
+                            errorMsg.style.color = '#ef4444';
+                        }
+                    })
+                    .catch(smtpErr => {
+                        errorMsg.textContent = 'Connection Error: ' + smtpErr.message;
+                        errorMsg.className = 'form-feedback error';
+                        errorMsg.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
+                        errorMsg.style.color = '#ef4444';
                     });
-                    
-                    if (res.ok) {
-                        serverActiveUserPassword = password;
-                        localStorage.setItem('portal_user', email);
-                        bypassLogin(email);
-                    } else {
-                        const err = await res.json();
-                        throw new Error(err.error || 'Authentication failed.');
-                    }
-                } catch (err) {
-                    feedback.textContent = err.message;
-                    feedback.style.backgroundColor = '#fce8e6';
-                    feedback.style.color = '#c5221f';
-                    feedback.style.borderColor = '#fad2cf';
-                } finally {
-                    loginBtn.disabled = false;
+                } else {
+                    // Password was explicitly rejected by the IMAP backend
+                    errorMsg.textContent = 'Authentication Failed: ' + err.message;
+                    errorMsg.className = 'form-feedback error';
+                    errorMsg.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
+                    errorMsg.style.color = '#ef4444';
                 }
-            } else {
-                if (password.length < 4) {
-                    feedback.textContent = 'Wrong password. Try again or click Forgot password to reset it.';
-                    feedback.classList.remove('hidden');
-                    loginBtn.disabled = false;
-                    return;
-                }
-                setTimeout(() => {
-                    serverActiveUserPassword = password; // Save in-memory for SMTPJS
-                    localStorage.setItem('portal_user', email);
-                    bypassLogin(email);
-                    loginBtn.disabled = false;
-                }, 1000);
+            });
+        }
+
+        function initializeMailbox() {
+            document.getElementById('webmail-login-view').classList.add('hidden');
+            document.getElementById('webmail-workspace-view').classList.remove('hidden');
+            
+            // Check Server Health to set Connection Status Badge
+            checkServerHealth();
+            
+            // Refresh listing
+            refreshMailbox();
+        }
+
+        function checkServerHealth() {
+            const badge = document.getElementById('connection-status-badge');
+            fetch('/api/health')
+            .then(res => {
+                if (res.ok) return res.json();
+                throw new Error();
+            })
+            .then(data => {
+                badge.textContent = 'Connected (Proxy Mode)';
+                badge.style.background = 'rgba(34, 197, 94, 0.15)';
+                badge.style.color = '#22c55e';
+            })
+            .catch(() => {
+                badge.textContent = 'Connected (Direct Mode)';
+                badge.style.background = 'rgba(255, 183, 3, 0.15)';
+                badge.style.color = 'var(--color-sun-yellow)';
+            });
+        }
+
+        // Refresh & Retrieve headers
+        function refreshMailbox() {
+            const targetRows = document.getElementById('mail-list-rows-target');
+            const rangeIndicator = document.getElementById('range-indicator');
+            targetRows.innerHTML = `
+                <div style="text-align: center; padding: 3rem; color: var(--color-gmail-muted); font-size: 0.88rem;">
+                    🔄 Refreshing mailbox folders, please wait...
+                </div>
+            `;
+
+            // Try requesting from proxy backend
+            fetch(`/api/emails?folder=${activeFolder}`)
+            .then(res => {
+                if (res.ok) return res.json();
+                throw new Error();
+            })
+            .then(data => {
+                mailboxEmails = data.emails || [];
+                renderMailRows();
+            })
+            .catch(() => {
+                // Proxy Server Offline: Fallback to reading from local inquiries memory to mock mail copy
+                console.log('[Webmail] Offline mode. Loading leads from inquiries memory.');
+                loadMockEmailsFromInquiries();
+            });
+        }
+
+        function loadMockEmailsFromInquiries() {
+            let inquiries = [];
+            try {
+                inquiries = JSON.parse(localStorage.getItem('sunova_inquiries')) || [];
+            } catch (e) {
+                console.error(e);
             }
+
+            // Map inquiries list to mail format
+            mailboxEmails = inquiries.map((inq, index) => {
+                const isCompleted = inq.status === 'Completed';
+                const subjectText = isCompleted 
+                    ? `[INSTALLATION COMPLETED] ${inq.name} - System: ${inq.capacity} kWp` 
+                    : `New Solar Inquiry: ${inq.name} (${inq.location})`;
+                
+                const mailBodyText = `Customer Feasibility details:
+Name: ${inq.name}
+Phone: ${inq.phone}
+Email: ${inq.email}
+Location: ${inq.location}, ${inq.district}
+System Capacity: ${inq.capacity} kWp
+Type: ${inq.category} (${inq.model})
+Loan Required: ${inq.loan}
+Site Message: ${inq.message}
+Match Area Partner: ${inq.partner} (${inq.partnerCode})
+Timestamp: ${inq.timestamp}
+Status: ${inq.status || 'Pending'}`;
+
+                return {
+                    id: index + 1,
+                    uid: index + 1,
+                    name: inq.name,
+                    email: inq.email || 'Not Provided',
+                    to: 'info@sunovasolar.in',
+                    subject: subjectText,
+                    message: mailBodyText,
+                    timestamp: inq.timestamp,
+                    unread: index < 2 // mark first two as unread mock
+                };
+            });
+
+            // Filter if we are in Sent folder or Trash folder
+            if (activeFolder === 'sent') {
+                // Show items sent from compose portal
+                let sentMails = [];
+                try {
+                    sentMails = JSON.parse(localStorage.getItem('sunova_sent_mails')) || [];
+                } catch(e){}
+                mailboxEmails = sentMails;
+            } else if (activeFolder === 'trash') {
+                mailboxEmails = []; // Empty mock trash
+            }
+
+            renderMailRows();
         }
 
-        function bypassLogin(email) {
-            document.getElementById('gmail-login-overlay').classList.add('hidden');
-            
-            // Set first letter in avatar bubble
-            const firstLetter = email.charAt(0).toUpperCase();
-            document.getElementById('avatar-circle').textContent = firstLetter;
-            
-            // Sync with dropdown labels
-            document.getElementById('dropdown-avatar-letter').textContent = firstLetter;
-            document.getElementById('dropdown-user-email').textContent = email;
-            
-            initMailClient();
-        }
+        function renderMailRows() {
+            const targetRows = document.getElementById('mail-list-rows-target');
+            const rangeIndicator = document.getElementById('range-indicator');
+            const inboxBadge = document.getElementById('inbox-count-badge');
 
-        function initMailClient() {
-            // Load DB
-            leadsInbox = JSON.parse(localStorage.getItem('sunova_inquiries')) || [];
-            sentMails = JSON.parse(localStorage.getItem('sunova_sent_mails')) || [];
-            trashMails = JSON.parse(localStorage.getItem('sunova_trash_mails')) || [];
+            if (activeFolder === 'inbox') {
+                const unreadCount = mailboxEmails.filter(m => m.unread).length;
+                inboxBadge.textContent = unreadCount;
+                inboxBadge.style.display = unreadCount > 0 ? 'inline-block' : 'none';
+            }
 
-            updateBadgeCounters();
-            renderFolderList();
-        }
-
-        function updateBadgeCounters() {
-            const inboxBadge = document.getElementById('badge-inbox');
-            const sentBadge = document.getElementById('badge-sent');
-            const trashBadge = document.getElementById('badge-trash');
-
-            inboxBadge.textContent = leadsInbox.length;
-            inboxBadge.style.display = leadsInbox.length > 0 ? 'inline' : 'none';
-
-            sentBadge.textContent = sentMails.length;
-            sentBadge.style.display = sentMails.length > 0 ? 'inline' : 'none';
-
-            trashBadge.textContent = trashMails.length;
-            trashBadge.style.display = trashMails.length > 0 ? 'inline' : 'none';
-
-            // Toolbar count
-            const folderCount = getFolderSource().length;
-            document.getElementById('toolbar-count').textContent = folderCount > 0 ? `1-${folderCount} of ${folderCount}` : '0-0 of 0';
-        }
-
-        function switchFolder(folder) {
-            currentFolder = folder;
-            selectedMailIndex = -1;
-
-            // Highlight active sidebar item
-            document.querySelectorAll('.gmail-sidebar a').forEach(a => a.classList.remove('active'));
-            document.getElementById(`sidebar-${folder}`).classList.add('active');
-
-            // Reset viewer to list view
-            exitReaderView();
-            initMailClient();
-        }
-
-        function getFolderSource() {
-            if (currentFolder === 'inbox') return leadsInbox;
-            if (currentFolder === 'sent') return sentMails;
-            if (currentFolder === 'trash') return trashMails;
-            return [];
-        }
-
-        function renderFolderList() {
-            const container = document.getElementById('threads-rows-container');
-            const mails = getFolderSource();
-
-            if (mails.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-inbox-message">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                        </svg>
-                        <h3>Your ${currentFolder} folder is clean!</h3>
-                        <p style="font-size:0.85rem;">No customer inquiries in this folder.</p>
+            if (mailboxEmails.length === 0) {
+                targetRows.innerHTML = `
+                    <div style="text-align: center; padding: 4rem; color: var(--color-gmail-muted); font-size: 0.88rem;">
+                        📭 Folder is empty. No messages found.
                     </div>
                 `;
+                rangeIndicator.textContent = 'Showing 0-0 of 0';
                 return;
             }
 
-            container.innerHTML = mails.map((mail, idx) => {
-                const isUnreadClass = currentFolder === 'inbox' ? 'unread' : '';
-                const senderDisplay = currentFolder === 'sent' ? `To: ${mail.to}` : mail.name;
-                const subjectDisplay = currentFolder === 'sent' ? mail.subject : `Feasibility Study Sizing - ${mail.location}`;
-                const snippetDisplay = currentFolder === 'sent' ? mail.body : mail.message;
-
-                return `
-                    <div class="mail-row ${isUnreadClass}" onclick="openMailRow(${idx})">
-                        <div class="mail-row-actions" onclick="event.stopPropagation()">
-                            <input type="checkbox" class="mail-row-checkbox">
-                            <span class="star-icon" onclick="toggleRowStar(this)"><svg viewBox="0 0 24 24"><path d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.35-2.9 4.42-.38L12 6.1l1.69 4.01 4.42.38-3.35 2.9 1 4.28L12 15.4z"/></svg></span>
-                        </div>
-                        <div class="mail-sender">${senderDisplay}</div>
-                        <div class="mail-content-cell">
-                            <span class="mail-subject">${subjectDisplay}</span>
-                            <span class="mail-snippet"> — ${snippetDisplay}</span>
-                        </div>
-                        <div class="mail-date">${mail.timestamp.split(',')[0]}</div>
+            rangeIndicator.textContent = `Showing 1-${mailboxEmails.length} of ${mailboxEmails.length}`;
+            
+            targetRows.innerHTML = mailboxEmails.map(mail => `
+                <div class="mail-row ${mail.unread ? 'unread' : ''}" onclick="openDetailedMail(${mail.uid})">
+                    <div class="mail-col-sender">👤 ${mail.name}</div>
+                    <div class="mail-col-body">
+                        <strong>${mail.subject}</strong> - 
+                        <span>${mail.message.substring(0, 100)}...</span>
                     </div>
-                `;
-            }).join('');
+                    <div class="mail-col-date">${mail.timestamp.split(',')[0]}</div>
+                </div>
+            `).join('');
         }
 
-        function toggleRowStar(element) {
-            element.classList.toggle('starred');
-        }
-
-        async function openMailRow(idx) {
-            selectedMailIndex = idx;
-            document.getElementById('pane-threads-list').classList.add('hidden');
-            document.getElementById('pane-reader-view').classList.remove('hidden');
-            document.getElementById('toolbar-area').classList.add('hidden');
-
-            const mails = getFolderSource();
-            const mail = mails[idx];
-
-            const subjectEl = document.getElementById('read-subject');
-            const nameEl = document.getElementById('read-sender-name');
-            const emailEl = document.getElementById('read-sender-email');
-            const dateEl = document.getElementById('read-timestamp');
-            const bodyEl = document.getElementById('read-body');
-            const avatarEl = document.getElementById('read-sender-circle');
-
-            // Set sender initial avatar
-            const senderInitial = currentFolder === 'sent' ? 'T' : mail.name.charAt(0).toUpperCase();
-            avatarEl.textContent = senderInitial;
-
-            if (isServerMode) {
-                subjectEl.textContent = mail.subject;
-                nameEl.textContent = currentFolder === 'sent' ? `To: ${mail.to}` : mail.name;
-                emailEl.textContent = currentFolder === 'sent' ? '' : `<${mail.email}>`;
-                dateEl.textContent = mail.timestamp;
-                
-                bodyEl.textContent = 'Loading message payload from Hostinger server...';
-                
-                try {
-                    const res = await fetch(`/api/emails/${mail.uid}/body?folder=${currentFolder}`);
-                    if (res.ok) {
-                        const data = await res.json();
-                        bodyEl.innerHTML = data.body.replace(/\n/g, '<br>');
-                    } else {
-                        throw new Error('Failed body parse');
-                    }
-                } catch (e) {
-                    bodyEl.textContent = 'Failed to load email body. Verify IMAP server status.';
-                }
-                
-                if (currentFolder === 'sent') {
-                    document.getElementById('btn-reply-shortcut').classList.add('hidden');
-                    document.getElementById('btn-reply-pill').classList.add('hidden');
-                    document.getElementById('btn-forward-pill').classList.add('hidden');
-                } else {
-                    document.getElementById('btn-reply-shortcut').classList.remove('hidden');
-                    document.getElementById('btn-reply-pill').classList.remove('hidden');
-                    document.getElementById('btn-forward-pill').classList.remove('hidden');
-                    document.getElementById('btn-reply-shortcut').onclick = () => prefillGmailReply(mail.email, mail.name);
-                    document.getElementById('btn-reply-pill').onclick = () => prefillGmailReply(mail.email, mail.name);
-                }
-            } else {
-                if (currentFolder === 'sent') {
-                    subjectEl.textContent = mail.subject;
-                    nameEl.textContent = `To: ${mail.to}`;
-                    emailEl.textContent = '';
-                    dateEl.textContent = mail.timestamp;
-                    bodyEl.innerHTML = mail.body.replace(/\n/g, '<br>');
-                    
-                    document.getElementById('btn-reply-shortcut').classList.add('hidden');
-                    document.getElementById('btn-reply-pill').classList.add('hidden');
-                    document.getElementById('btn-forward-pill').classList.add('hidden');
-                } else {
-                    subjectEl.textContent = `New Feasibility Sizing Inquiry - ${mail.location}`;
-                    nameEl.textContent = mail.name;
-                    emailEl.textContent = `<${mail.email}>`;
-                    dateEl.textContent = mail.timestamp;
-                    
-                    bodyEl.textContent = formatInquiryBody(mail);
-
-                    document.getElementById('btn-reply-shortcut').classList.remove('hidden');
-                    document.getElementById('btn-reply-pill').classList.remove('hidden');
-                    document.getElementById('btn-forward-pill').classList.remove('hidden');
-
-                    // Bind reply actions
-                    document.getElementById('btn-reply-shortcut').onclick = () => prefillGmailReply(mail.email, mail.name);
-                    document.getElementById('btn-reply-pill').onclick = () => prefillGmailReply(mail.email, mail.name);
-                }
+        // Search mailbox list
+        function handleMailSearch(query) {
+            const q = query.toLowerCase().trim();
+            if (!q) {
+                renderMailRows();
+                return;
+            }
+            const targetRows = document.getElementById('mail-list-rows-target');
+            const filtered = mailboxEmails.filter(mail => 
+                mail.name.toLowerCase().includes(q) || 
+                mail.subject.toLowerCase().includes(q) || 
+                mail.message.toLowerCase().includes(q)
+            );
+            
+            if (filtered.length === 0) {
+                targetRows.innerHTML = `<div style="text-align: center; padding: 3rem; color: var(--color-gmail-muted);">No messages match search.</div>`;
+                return;
             }
 
-            // Bind delete button
-            document.getElementById('btn-delete-reader').onclick = () => deleteGmailItem(idx);
+            targetRows.innerHTML = filtered.map(mail => `
+                <div class="mail-row ${mail.unread ? 'unread' : ''}" onclick="openDetailedMail(${mail.uid})">
+                    <div class="mail-col-sender">👤 ${mail.name}</div>
+                    <div class="mail-col-body">
+                        <strong>${mail.subject}</strong> - 
+                        <span>${mail.message.substring(0, 100)}...</span>
+                    </div>
+                    <div class="mail-col-date">${mail.timestamp.split(',')[0]}</div>
+                </div>
+            `).join('');
         }
 
-        function formatInquiryBody(mail) {
-            return `Dear Sunova Solar Team,
-
-A new customer feasibility inquiry was submitted:
-
-• Customer Name: ${mail.name}
-• Contact Phone: ${mail.phone}
-• Email Address: ${mail.email}
-• City/Location: ${mail.location} (${mail.district})
-• Sizing Capacity: ${mail.capacity} kW
-• Technology Model: ${mail.model}
-• Bank Financing Required: ${mail.loan}
-
-Customer Message / Notes:
-"${mail.message}"
-
---------------------------------------------------
-Assigned Local Partner:
-👤 ${mail.partner} (Code: ${mail.partnerCode})
-📞 Contact Phone: +91 ${mail.partnerPhone}
-
-Best regards,
-FormSubmit Team`;
+        // Folder switching
+        function switchFolder(folder, element) {
+            activeFolder = folder;
+            document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
+            
+            // Set title
+            document.getElementById('folder-title').textContent = folder.charAt(0).toUpperCase() + folder.slice(1);
+            
+            // Close detail and open list
+            closeDetailedMail();
+            
+            // Fetch mails
+            refreshMailbox();
         }
 
-        function exitReaderView() {
-            document.getElementById('pane-reader-view').classList.add('hidden');
-            document.getElementById('pane-threads-list').classList.remove('hidden');
-            document.getElementById('toolbar-area').classList.remove('hidden');
-            selectedMailIndex = -1;
+        // View single email detail
+        function openDetailedMail(uid) {
+            const mail = mailboxEmails.find(m => m.uid === uid);
+            if (!mail) return;
+            
+            detailedMailObj = mail;
+            mail.unread = false; // Mark read locally
+
+            document.getElementById('mail-list-panel').classList.add('hidden');
+            const detailPanel = document.getElementById('mail-detail-panel');
+            detailPanel.classList.remove('hidden');
+
+            const contentTarget = document.getElementById('mail-detail-content-target');
+            contentTarget.innerHTML = `
+                <div style="border-bottom: 1px solid var(--color-gmail-border); padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                    <h2 style="font-family: 'Outfit', sans-serif; color: white; margin: 0 0 0.8rem 0; font-size: 1.4rem;">${mail.subject}</h2>
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.84rem;">
+                        <div>
+                            <strong style="color: var(--color-sun-yellow);">From:</strong> ${mail.name} &lt;<span style="color: var(--color-gmail-muted);">${mail.email}</span>&gt;<br>
+                            <strong style="color: var(--color-sun-yellow); margin-top: 0.2rem; display: inline-block;">To:</strong> info@sunovasolar.in
+                        </div>
+                        <span style="color: var(--color-gmail-muted);">${mail.timestamp}</span>
+                    </div>
+                </div>
+                <div style="line-height: 1.7; font-size: 0.9rem; color: #cbd5e1; white-space: pre-wrap; background: rgba(255,255,255,0.01); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--color-gmail-border);">${mail.message}</div>
+            `;
+
+            // If proxy online, fetch full content
+            fetch(`/api/emails/${uid}/body?folder=${activeFolder}`)
+            .then(res => {
+                if (res.ok) return res.json();
+                throw new Error();
+            })
+            .then(data => {
+                if (data.body) {
+                    contentTarget.querySelector('div:last-child').textContent = data.body;
+                }
+            })
+            .catch(() => {});
         }
 
-        /* Compose Actions */
-        function openGmailCompose() {
-            document.getElementById('gmail-compose-window').classList.remove('hidden');
-            document.getElementById('compose-mail-to').focus();
+        function closeDetailedMail() {
+            document.getElementById('mail-detail-panel').classList.add('hidden');
+            document.getElementById('mail-list-panel').classList.remove('hidden');
+            detailedMailObj = null;
         }
 
-        function closeGmailCompose() {
-            document.getElementById('gmail-compose-window').classList.add('hidden');
+        function deleteDetailedMail() {
+            if (!detailedMailObj) return;
+            const uid = detailedMailObj.uid;
+            
+            if (confirm('Are you sure you want to delete this message?')) {
+                // Try API delete
+                fetch(`/api/emails/${uid}/delete?folder=${activeFolder}`, { method: 'POST' })
+                .then(res => {
+                    showToast('Message deleted successfully.');
+                    closeDetailedMail();
+                    refreshMailbox();
+                })
+                .catch(() => {
+                    // Local Delete Fallback
+                    let inquiries = [];
+                    try {
+                        inquiries = JSON.parse(localStorage.getItem('sunova_inquiries')) || [];
+                    } catch (e) {}
+                    
+                    if (activeFolder === 'inbox') {
+                        // Delete mock inquiry
+                        inquiries.splice(uid - 1, 1);
+                        localStorage.setItem('sunova_inquiries', JSON.stringify(inquiries));
+                    } else if (activeFolder === 'sent') {
+                        let sentMails = JSON.parse(localStorage.getItem('sunova_sent_mails')) || [];
+                        sentMails = sentMails.filter(m => m.uid !== uid);
+                        localStorage.setItem('sunova_sent_mails', JSON.stringify(sentMails));
+                    }
+                    
+                    showToast('Message deleted locally.');
+                    closeDetailedMail();
+                    refreshMailbox();
+                });
+            }
         }
 
-        function prefillGmailReply(email, name) {
-            openGmailCompose();
-            document.getElementById('compose-mail-to').value = email === 'Not Provided' ? '' : email;
-            document.getElementById('compose-mail-subject').value = `Re: Sunova Solar Feasibility Study Sizing`;
-            document.getElementById('compose-mail-body').value = `Dear ${name},\n\nWe received your inquiry. A solar technical expert will review your site layout...\n\nBest regards,\nSunova Solar LLP Client Help desk`;
-            document.getElementById('compose-mail-body').focus();
+        // Floating Compose Actions
+        function openComposeModal() {
+            document.getElementById('mail-compose-modal').classList.remove('hidden');
         }
 
-        async function sendGmailMessage(e) {
+        function closeComposeModal() {
+            document.getElementById('mail-compose-modal').classList.add('hidden');
+            document.getElementById('compose-to').value = '';
+            document.getElementById('compose-subject').value = '';
+            document.getElementById('compose-body').value = '';
+        }
+
+        // Send Email Handler
+        function handleSendCompose(e) {
             e.preventDefault();
-            const to = document.getElementById('compose-mail-to').value;
-            const subject = document.getElementById('compose-mail-subject').value;
-            const body = document.getElementById('compose-mail-body').value;
-            const sendBtn = document.getElementById('btn-gmail-send');
-
+            const to = document.getElementById('compose-to').value.trim();
+            const subject = document.getElementById('compose-subject').value.trim();
+            const body = document.getElementById('compose-body').value.trim();
+            const sendBtn = document.getElementById('compose-send-btn');
+            
             sendBtn.disabled = true;
             sendBtn.textContent = 'Sending...';
 
-            if (isServerMode) {
-                try {
-                    const res = await fetch('/api/send', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ to, subject, body })
-                    });
-                    
-                    if (res.ok) {
-                        // Clear Compose form
-                        document.getElementById('compose-mail-to').value = '';
-                        document.getElementById('compose-mail-subject').value = '';
-                        document.getElementById('compose-mail-body').value = '';
+            // Try Node Server SMTP API Connect
+            fetch('/api/send', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ to, subject, body })
+            })
+            .then(res => {
+                if (res.ok) return res.json();
+                throw new Error();
+            })
+            .then(data => {
+                showToast(`Message sent successfully (SMTP Relayed).`);
+                closeComposeModal();
+                refreshMailbox();
+            })
+            .catch(() => {
+                // Server Proxy Offline: Fallback to SMTPJS client-side dispatch
+                console.log('[Webmail] Server offline. Dispatched directly via SMTPJS using Hostinger relays.');
+                
+                Email.send({
+                    Host: "smtp.hostinger.com",
+                    Username: "info@sunovasolar.in",
+                    Password: activeMailPassword,
+                    To: to,
+                    From: "info@sunovasolar.in",
+                    Subject: subject,
+                    Body: body
+                })
+                .then(message => {
+                    if (message === 'OK' || message.includes('OK') || message.includes('success')) {
+                        showToast('Message sent successfully!');
                         
-                        closeGmailCompose();
-                        await initMailClient();
-                        showGmailToast('Message sent.');
+                        // Save in Sent folder locally
+                        let sentMails = [];
+                        try {
+                            sentMails = JSON.parse(localStorage.getItem('sunova_sent_mails')) || [];
+                        } catch (e) {}
+                        
+                        sentMails.unshift({
+                            uid: Date.now(),
+                            name: 'Me (info@sunovasolar.in)',
+                            email: 'info@sunovasolar.in',
+                            to: to,
+                            subject: subject,
+                            message: body,
+                            timestamp: new Date().toLocaleString('en-IN')
+                        });
+                        localStorage.setItem('sunova_sent_mails', JSON.stringify(sentMails));
+                        
+                        closeComposeModal();
+                        refreshMailbox();
                     } else {
-                        const err = await res.json();
-                        throw new Error(err.error || 'Failed to dispatch email.');
+                        alert('SMTP Direct Send Failed: ' + message + '\nPlease confirm your Hostinger email password is correct.');
+                        sendBtn.disabled = false;
+                        sendBtn.textContent = 'Send Mail';
                     }
-                } catch (err) {
-                    alert(`Failed to send email: ${err.message}`);
-                } finally {
+                })
+                .catch(smtpErr => {
+                    alert('SMTPJS Connection Error: ' + smtpErr.message);
                     sendBtn.disabled = false;
-                    sendBtn.textContent = 'Send';
-                }
-            } else {
-                // Attempt direct client-side delivery via SMTPJS if credentials are valid
-                const activeUser = localStorage.getItem('portal_user');
-                if (activeUser && serverActiveUserPassword && serverActiveUserPassword !== '12345' && serverActiveUserPassword !== 'secret') {
-                    console.log(`[SMTPJS] Dispatching client-side email from ${activeUser} to ${to}...`);
-                    Email.send({
-                        Host: "smtp.hostinger.com",
-                        Username: activeUser,
-                        Password: serverActiveUserPassword,
-                        To: to,
-                        From: activeUser,
-                        Subject: subject,
-                        Body: body
-                    }).then(msg => {
-                        if (msg === 'OK') {
-                            console.log('[SMTPJS] Email delivered successfully.');
-                            showGmailToast('Message sent via Hostinger SMTP.');
-                        } else {
-                            console.warn('[SMTPJS] SMTPJS transmission error:', msg);
-                            showGmailToast('Mock message sent (SMTP verification failed).');
-                        }
-                    }).catch(err => {
-                        console.error('[SMTPJS] Connection error:', err);
-                        showGmailToast('Mock message sent (Offline).');
-                    });
-                } else {
-                    showGmailToast('Mock message sent.');
-                }
-
-                setTimeout(() => {
-                    const newSent = {
-                        timestamp: new Date().toLocaleString('en-IN'),
-                        to: to,
-                        subject: subject,
-                        body: body
-                    };
-
-                    sentMails.unshift(newSent);
-                    localStorage.setItem('sunova_sent_mails', JSON.stringify(sentMails));
-
-                    // Reset Compose form
-                    document.getElementById('compose-mail-to').value = '';
-                    document.getElementById('compose-mail-subject').value = '';
-                    document.getElementById('compose-mail-body').value = '';
-                    sendBtn.disabled = false;
-                    sendBtn.textContent = 'Send';
-
-                    closeGmailCompose();
-                    initMailClient();
-                }, 1000);
-            }
+                    sendBtn.textContent = 'Send Mail';
+                });
+            });
         }
 
-        function showGmailToast(msg) {
-            const toast = document.getElementById('toast-notification');
-            document.getElementById('toast-message').textContent = msg;
+        // Toast show helper
+        function showToast(msg) {
+            const toast = document.getElementById('toast-banner');
+            document.getElementById('toast-msg-target').textContent = msg;
             toast.classList.remove('hidden');
-
             setTimeout(() => {
                 toast.classList.add('hidden');
-            }, 4000);
+            }, 3000);
         }
 
-        function undoGmailAction() {
-            document.getElementById('toast-notification').classList.add('hidden');
-        }
-
-        async function deleteGmailItem(idx) {
-            let list = getFolderSource();
-            const mail = list[idx];
-
-            if (isServerMode) {
-                try {
-                    const res = await fetch(`/api/emails/${mail.uid}/delete?folder=${currentFolder}`, {
-                        method: 'POST'
-                    });
-                    
-                    if (res.ok) {
-                        showGmailToast(currentFolder === 'trash' ? 'Conversation permanently deleted.' : 'Conversation moved to Trash.');
-                        exitReaderView();
-                        await initMailClient();
-                    } else {
-                        throw new Error('Failed to delete on server.');
-                    }
-                } catch (err) {
-                    alert(`Failed to delete email: ${err.message}`);
-                }
-            } else {
-                const deleted = list.splice(idx, 1)[0];
-
-                if (currentFolder === 'trash') {
-                    // Permanent delete
-                    localStorage.setItem('sunova_trash_mails', JSON.stringify(trashMails));
-                    showGmailToast('Conversation permanently deleted.');
-                } else {
-                    // Move to trash
-                    trashMails.unshift(deleted);
-                    localStorage.setItem('sunova_trash_mails', JSON.stringify(trashMails));
-
-                    if (currentFolder === 'inbox') {
-                        localStorage.setItem('sunova_inquiries', JSON.stringify(leadsInbox));
-                    } else if (currentFolder === 'sent') {
-                        localStorage.setItem('sunova_sent_mails', JSON.stringify(sentMails));
-                    }
-
-                    showGmailToast('Conversation moved to Trash.');
-                }
-
-                exitReaderView();
-                initMailClient();
-            }
-        }
-
-        function logoutPortal() {
-            localStorage.removeItem('portal_user');
+        function logoutWebmail() {
+            sessionStorage.removeItem('webmail_active_session');
+            activeMailPassword = '';
             location.reload();
         }
-
-        function toggleAvatarDropdown(e) {
-            e.stopPropagation();
-            document.getElementById('avatar-dropdown').classList.toggle('hidden');
-        }
-
-        // Close dropdown when clicking outside
-        window.addEventListener('click', () => {
-            const dropdown = document.getElementById('avatar-dropdown');
-            if (dropdown) dropdown.classList.add('hidden');
-        });
     </script>
 </body>
 </html>
