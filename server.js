@@ -337,6 +337,73 @@ Sent automatically by Sunova Solar Web Portal.`;
     res.json({ success: false, error: 'No active SMTP session found on proxy server.' });
 });
 
+const fs = require('fs');
+
+// Mock proxy.php router for local Node.js server testing
+app.all('/proxy.php', (req, res) => {
+    const action = req.query.action || req.body.action;
+    
+    if (action === 'log_inquiry') {
+        const payload = req.method === 'POST' ? req.body : req.query;
+        const dbFile = path.join(__dirname, 'inquiries_db.json');
+        let inquiries = [];
+        if (fs.existsSync(dbFile)) {
+            try {
+                inquiries = JSON.parse(fs.readFileSync(dbFile, 'utf8')) || [];
+            } catch (e) {}
+        }
+        
+        const newInq = {
+            uid: Date.now().toString(),
+            name: payload.name,
+            phone: payload.phone,
+            email: payload.email,
+            district: payload.district,
+            location: payload.location,
+            connection: payload.connection,
+            systemModel: payload.systemModel,
+            capacity: payload.capacity,
+            loan: payload.loan,
+            message: payload.message,
+            dealer: payload.dealer,
+            timestamp: new Date().toLocaleString('en-IN')
+        };
+        
+        inquiries.push(newInq);
+        fs.writeFileSync(dbFile, JSON.stringify(inquiries, null, 2));
+        console.log(`[Local Server] Lead logged to inquiries_db.json for ${payload.name}`);
+        return res.json({ success: true, inquiry: newInq });
+    }
+    
+    if (action === 'get_inquiries') {
+        const dbFile = path.join(__dirname, 'inquiries_db.json');
+        let inquiries = [];
+        if (fs.existsSync(dbFile)) {
+            try {
+                inquiries = JSON.parse(fs.readFileSync(dbFile, 'utf8')) || [];
+            } catch (e) {}
+        }
+        return res.json({ inquiries: inquiries });
+    }
+    
+    if (action === 'delete_inquiry') {
+        const uid = req.query.uid;
+        const dbFile = path.join(__dirname, 'inquiries_db.json');
+        let inquiries = [];
+        if (fs.existsSync(dbFile)) {
+            try {
+                inquiries = JSON.parse(fs.readFileSync(dbFile, 'utf8')) || [];
+            } catch (e) {}
+        }
+        inquiries = inquiries.filter(inq => inq.uid !== uid);
+        fs.writeFileSync(dbFile, JSON.stringify(inquiries, null, 2));
+        console.log(`[Local Server] Lead deleted: ${uid}`);
+        return res.json({ success: true });
+    }
+    
+    res.status(400).json({ error: 'Unknown action in mock proxy' });
+});
+
 // Redirect any other route to index.html
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));

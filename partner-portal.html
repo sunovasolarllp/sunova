@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -365,6 +365,48 @@
             }, 1000);
         }
 
+        // Load inquiries from server or local storage
+        function loadInquiries(callback) {
+            fetch('proxy.php?action=get_inquiries')
+            .then(res => {
+                if (res.ok) return res.json();
+                throw new Error();
+            })
+            .then(data => {
+                if (data && data.inquiries) {
+                    const mapped = data.inquiries.map(inq => {
+                        return {
+                            name: inq.name,
+                            phone: inq.phone,
+                            email: inq.email,
+                            district: inq.district,
+                            location: inq.location,
+                            category: inq.connection === 'residential' ? 'Residential' : 'Commercial',
+                            model: inq.systemModel,
+                            capacity: parseFloat(inq.capacity) || 3.0,
+                            loan: inq.loan === 'Yes' || inq.loan === true,
+                            message: inq.message,
+                            partner: inq.dealer,
+                            partnerCode: inq.dealer ? inq.dealer.split('(')[1].replace(')', '') : '',
+                            timestamp: inq.timestamp,
+                            status: inq.status || 'Pending',
+                            commission: inq.commission || 0
+                        };
+                    });
+                    callback(mapped);
+                } else {
+                    throw new Error();
+                }
+            })
+            .catch(() => {
+                let inquiries = [];
+                try {
+                    inquiries = JSON.parse(localStorage.getItem('sunova_inquiries')) || [];
+                } catch (e) {}
+                callback(inquiries);
+            });
+        }
+
         function showDashboard(dealerCode) {
             document.getElementById('login-view').classList.add('hidden');
             document.getElementById('dashboard-view').classList.remove('hidden');
@@ -420,37 +462,34 @@
                 dashView.insertBefore(infoContainer, resourceBox);
             }
 
-            // Calculate actual statistics from sunova_inquiries
-            let inquiries = [];
-            try {
-                inquiries = JSON.parse(localStorage.getItem('sunova_inquiries')) || [];
-            } catch (e) {
-                console.error(e);
-            }
-            
-            const dealerLeads = inquiries.filter(lead => lead.partnerCode === dealerCode);
-            const activeLeadsCount = dealerLeads.filter(lead => lead.status !== 'Completed').length;
-            const completedLeads = dealerLeads.filter(lead => lead.status === 'Completed');
-            const totalCommission = completedLeads.reduce((sum, lead) => sum + (parseFloat(lead.commission) || 0), 0);
-            
-            document.getElementById('partner-active-leads').textContent = activeLeadsCount;
-            document.getElementById('partner-commission-earned').textContent = `₹${totalCommission.toLocaleString('en-IN')}`;
-            
-            // Populate auto-fill leads dropdown
-            populateLeadsDropdown(dealerCode);
+            // Calculate actual statistics dynamically
+            loadInquiries(function(inquiries) {
+                const dealerLeads = inquiries.filter(lead => lead.partnerCode === dealerCode);
+                const activeLeadsCount = dealerLeads.filter(lead => lead.status !== 'Completed').length;
+                const completedLeads = dealerLeads.filter(lead => lead.status === 'Completed');
+                const totalCommission = completedLeads.reduce((sum, lead) => sum + (parseFloat(lead.commission) || 0), 0);
+                
+                document.getElementById('partner-active-leads').textContent = activeLeadsCount;
+                document.getElementById('partner-commission-earned').textContent = `₹${totalCommission.toLocaleString('en-IN')}`;
+                
+                // Populate auto-fill leads dropdown
+                populateLeadsDropdown(dealerCode, inquiries);
+            });
         }
 
-        function populateLeadsDropdown(dealerCode) {
+        function populateLeadsDropdown(dealerCode, providedInquiries) {
             const dropdown = document.getElementById('quote-select-lead');
             if (!dropdown) return;
             
             dropdown.innerHTML = '<option value="">-- Choose an Allocated Lead --</option>';
             
-            let inquiries = [];
-            try {
-                inquiries = JSON.parse(localStorage.getItem('sunova_inquiries')) || [];
-            } catch (e) {
-                console.error(e);
+            let inquiries = providedInquiries;
+            if (!inquiries) {
+                try {
+                    inquiries = JSON.parse(localStorage.getItem('sunova_inquiries')) || [];
+                } catch (e) {
+                    console.error(e);
+                }
             }
             
             // Filter leads allocated to this specific partner
