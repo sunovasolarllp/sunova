@@ -772,10 +772,56 @@ function handleFormSubmit(event) {
         return;
     }
     
-    // Show sending feedback
-    showFormFeedback('Sending your inquiry...', 'info');
+    // Show processing feedback
+    showFormFeedback('Processing your site survey request...', 'info');
+
+    // 1. Immediately Save Inquiry locally (shared with partner logins & staff portal)
+    const systemDesc = connection === 'residential' ? 'Residential (Home Solar)' : 'Commercial / Business';
+    try {
+        const inquiries = JSON.parse(localStorage.getItem('sunova_inquiries')) || [];
+        const newInquiry = {
+            timestamp: new Date().toLocaleString('en-IN'),
+            name: name,
+            phone: phone,
+            email: email || 'Not Provided',
+            district: district,
+            location: location,
+            category: systemDesc,
+            model: systemModelLabel,
+            capacity: capacity,
+            loan: loanRequired,
+            message: message || 'None',
+            partner: dealer.name,
+            partnerCode: dealer.code,
+            partnerPhone: dealer.phone
+        };
+        inquiries.unshift(newInquiry); // Add to top
+        localStorage.setItem('sunova_inquiries', JSON.stringify(inquiries));
+    } catch (e) {
+        console.error('Local storage save failed:', e);
+    }
+
+    // 2. Construct WhatsApp messages
+    const waMessage = `Hi, I've submitted a Sunova Solar Feasibility & Quote Request.
+- Name: ${name}
+- Phone: ${phone}
+- Email: ${email || 'Not Provided'}
+- District: ${district}
+- Location: ${location}
+- System Category: ${systemDesc}
+- System Model: ${systemModelLabel}
+- Capacity: ${capacity} kW
+- Bank Loan Required: ${loanRequired}
+- Site Details: ${message || 'None'}
+- Assigned Partner: ${dealer.name}`;
+
+    const partnerPhone = "91" + dealer.phone;
+    const waPartnerUrl = `https://wa.me/${partnerPhone}?text=${encodeURIComponent(waMessage)}`;
     
-    // Send form data to FormSubmit.co via AJAX
+    const officePhone = "919072522277";
+    const waOfficeUrl = `https://wa.me/${officePhone}?text=${encodeURIComponent(waMessage)}`;
+
+    // 3. Fire AJAX request in background (non-blocking)
     fetch('https://formsubmit.co/ajax/b1ebd95b70dc040e3935087370fc44ab', {
         method: 'POST',
         headers: {
@@ -801,107 +847,60 @@ function handleFormSubmit(event) {
             _cc: "info@sunovasolar.in"
         })
     })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
+    .then(res => {
+        if (!res.ok) {
+            console.warn('FormSubmit returned error status:', res.status);
         }
-        return response.json().then(errData => {
-            throw new Error(errData.message || 'Server error occurred.');
-        }).catch(() => {
-            throw new Error('Response status ' + response.status + ': Failed to contact submission server.');
-        });
     })
-    .then(data => {
-        const systemDesc = connection === 'residential' ? 'Residential (Home Solar)' : 'Commercial / Business';
-        
-        // Save inquiry details locally for staff portal retrieval
-        try {
-            const inquiries = JSON.parse(localStorage.getItem('sunova_inquiries')) || [];
-            const newInquiry = {
-                timestamp: new Date().toLocaleString('en-IN'),
-                name: name,
-                phone: phone,
-                email: email || 'Not Provided',
-                district: district,
-                location: location,
-                category: systemDesc,
-                model: systemModelLabel,
-                capacity: capacity,
-                loan: loanRequired,
-                message: message || 'None',
-                partner: dealer.name,
-                partnerCode: dealer.code,
-                partnerPhone: dealer.phone
-            };
-            inquiries.unshift(newInquiry); // Add to top
-            localStorage.setItem('sunova_inquiries', JSON.stringify(inquiries));
-        } catch (e) {
-            console.error('Local storage save failed:', e);
+    .catch(err => {
+        console.warn('FormSubmit background dispatch failed:', err);
+        const alertEl = document.getElementById('email-status-alert');
+        if (alertEl) {
+            alertEl.style.display = 'block';
         }
-        
-        // Construct WhatsApp message text for both partner and office
-        const waMessage = `Hi, I've submitted a Sunova Solar Feasibility & Quote Request.
-- Name: ${name}
-- Phone: ${phone}
-- Email: ${email || 'Not Provided'}
-- District: ${district}
-- Location: ${location}
-- System Category: ${systemDesc}
-- System Model: ${systemModelLabel}
-- Capacity: ${capacity} kW
-- Bank Loan Required: ${loanRequired}
-- Site Details: ${message || 'None'}
-- Assigned Partner: ${dealer.name}`;
-
-        const partnerPhone = "91" + dealer.phone;
-        const waPartnerUrl = `https://wa.me/${partnerPhone}?text=${encodeURIComponent(waMessage)}`;
-        
-        const officePhone = "919072522277";
-        const waOfficeUrl = `https://wa.me/${officePhone}?text=${encodeURIComponent(waMessage)}`;
-
-        // Build success feedback detailing the assigned partner
-        const successMessage = `
-            <strong>Submission Successful!</strong><br>
-            Thank you, ${name}. Your quote request has been sent to our head office. <br><br>
-            <strong>Matched Authorized Partner:</strong><br>
-            👤 <strong>Partner Name:</strong> ${dealer.name}<br>
-            📍 <strong>Service Area:</strong> ${dealer.area} (${dealer.district})<br>
-            📞 <strong>Contact Phone:</strong> <a href="tel:+91${dealer.phone}" style="color:var(--color-sun-yellow); font-weight:bold;">+91 ${dealer.phone}</a><br>
-            <br>
-            <strong>WhatsApp Copies:</strong><br>
-            Click below to send a copy of your details on WhatsApp directly:<br>
-            <div class="success-wa-buttons">
-                <a href="${waPartnerUrl}" target="_blank" class="wa-btn-success partner-wa-btn">💬 Chat with Partner</a>
-                <a href="${waOfficeUrl}" target="_blank" class="wa-btn-success office-wa-btn">🏢 Chat with Head Office</a>
-            </div>
-            <br>
-            <em>Automatically opening partner chat in 3 seconds...</em>
-        `;
-        showFormFeedback(successMessage, 'success');
-        
-        // Redirect to WhatsApp partner after 3 seconds
-        setTimeout(() => {
-            window.open(waPartnerUrl, '_blank');
-        }, 3000);
-        
-        // Reset form inputs except readonly fields
-        document.getElementById('form-name').value = '';
-        document.getElementById('form-phone').value = '';
-        document.getElementById('form-email').value = '';
-        document.getElementById('form-location').value = '';
-        document.getElementById('form-district').value = 'Alappuzha';
-        handleDistrictChange('Alappuzha');
-        document.getElementById('form-system-model').value = 'ongrid';
-        setSystemType('ongrid');
-        document.getElementById('form-loan').checked = false;
-        const loanDocsBox = document.getElementById('loan-docs-box');
-        if (loanDocsBox) loanDocsBox.classList.add('hidden');
-        document.getElementById('form-message').value = '';
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        showFormFeedback(`<strong>Submission Error:</strong> ${error.message}<br>Please check if <code>info@sunovasolar.in</code> has received and activated the confirmation link from FormSubmit.co in your Hostinger webmail, or contact us directly.`, 'error');
     });
+
+    // 4. Build success feedback detailing the assigned partner
+    const successMessage = `
+        <strong>Submission Successful!</strong><br>
+        Thank you, ${name}. Your quote request has been registered in our portal. <br><br>
+        <strong>Matched Authorized Partner:</strong><br>
+        👤 <strong>Partner Name:</strong> ${dealer.name}<br>
+        📍 <strong>Service Area:</strong> ${dealer.area} (${dealer.district})<br>
+        📞 <strong>Contact Phone:</strong> <a href="tel:+91${dealer.phone}" style="color:var(--color-sun-yellow); font-weight:bold;">+91 ${dealer.phone}</a><br>
+        <br>
+        <div id="email-status-alert" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 0.6rem; margin-bottom: 0.8rem; font-size: 0.74rem; color: #f87171; line-height: 1.4;">
+            ⚠️ Note: Background email copy to head office failed (Failed to fetch). However, your lead is saved, shared with partner logins, and WhatsApp is ready to message!
+        </div>
+        <strong>WhatsApp Copies:</strong><br>
+        Click below to send a copy of your details on WhatsApp directly:<br>
+        <div class="success-wa-buttons">
+            <a href="${waPartnerUrl}" target="_blank" class="wa-btn-success partner-wa-btn">💬 Chat with Partner</a>
+            <a href="${waOfficeUrl}" target="_blank" class="wa-btn-success office-wa-btn">🏢 Chat with Head Office</a>
+        </div>
+        <br>
+        <em>Automatically opening partner chat in 3 seconds...</em>
+    `;
+    showFormFeedback(successMessage, 'success');
+    
+    // 5. Open Partner WhatsApp in 3 seconds
+    setTimeout(() => {
+        window.open(waPartnerUrl, '_blank');
+    }, 3000);
+
+    // 6. Reset form fields
+    document.getElementById('form-name').value = '';
+    document.getElementById('form-phone').value = '';
+    document.getElementById('form-email').value = '';
+    document.getElementById('form-location').value = '';
+    document.getElementById('form-district').value = 'Alappuzha';
+    handleDistrictChange('Alappuzha');
+    document.getElementById('form-system-model').value = 'ongrid';
+    setSystemType('ongrid');
+    document.getElementById('form-loan').checked = false;
+    const loanDocsBox = document.getElementById('loan-docs-box');
+    if (loanDocsBox) loanDocsBox.classList.add('hidden');
+    document.getElementById('form-message').value = '';
 }
 
 function showFormFeedback(msg, type) {
