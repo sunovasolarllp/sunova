@@ -289,6 +289,54 @@ app.post('/api/emails/:uid/delete', async (req, res) => {
     }
 });
 
+// 7. Submit customer inquiry from public website (local secure mail proxy dispatch)
+app.post('/api/submit-inquiry', async (req, res) => {
+    const { name, phone, email, district, location, connection, systemModelLabel, capacity, loanRequired, message, partnerName, partnerCode } = req.body;
+    
+    // Construct email content
+    const emailBody = `New Solar Inquiry Details:
+----------------------------------------
+Customer Name: ${name}
+Phone: ${phone}
+Email: ${email || 'Not Provided'}
+District: ${district}
+Location: ${location}
+System Type: ${connection === 'residential' ? 'Residential (Home Solar)' : 'Commercial / Business'}
+System Model: ${systemModelLabel}
+Capacity: ${capacity} kWp
+Loan Required: ${loanRequired}
+Site Message: ${message || 'None'}
+Assigned Partner: ${partnerName} (${partnerCode})
+----------------------------------------
+Sent automatically by Sunova Solar Web Portal.`;
+
+    // If a staff session is authenticated, use it to dispatch emails directly to info@sunovasolar.in
+    if (currentSession && currentSession.email && currentSession.password) {
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.hostinger.com',
+            port: 465,
+            secure: true,
+            auth: { user: currentSession.email, pass: currentSession.password }
+        });
+        
+        try {
+            await transporter.sendMail({
+                from: currentSession.email,
+                to: 'info@sunovasolar.in',
+                subject: `New Solar Inquiry from ${name} (${location})`,
+                text: emailBody
+            });
+            console.log(`[Local SMTP Proxy] Sent inquiry copy to info@sunovasolar.in`);
+            return res.json({ success: true, method: 'Local SMTP Session' });
+        } catch (err) {
+            console.error('[Local SMTP Proxy] Failed to send email copy:', err.message);
+        }
+    }
+    
+    console.log(`[Local Proxy] Inquiry received but no active SMTP session is online.`);
+    res.json({ success: false, error: 'No active SMTP session found on proxy server.' });
+});
+
 // Redirect any other route to index.html
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));

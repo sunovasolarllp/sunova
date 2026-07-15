@@ -821,43 +821,35 @@ function handleFormSubmit(event) {
     const officePhone = "919072522277";
     const waOfficeUrl = `https://wa.me/${officePhone}?text=${encodeURIComponent(waMessage)}`;
 
-    // 3. Fire AJAX request in background (non-blocking)
-    fetch('https://formsubmit.co/ajax/info@sunovasolar.in', {
+    // 3. Fire AJAX request to local secure SMTP proxy (silent background check)
+    fetch('/api/submit-inquiry', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            Name: name,
-            Phone: phone,
-            Email: email,
-            District: district,
-            Location: location,
-            "Matched Dealer Code": dealer.code,
-            "Matched Dealer Name": dealer.name,
-            "Matched Dealer Phone": dealer.phone,
-            "Matched Dealer Area": dealer.area,
-            "System Type": connection,
-            "System Technology Model": systemModelLabel,
-            "Requested Capacity": capacity + ' kW',
-            "Bank Loan Required": loanRequired,
-            "Message / Site Details": message,
-            _subject: `New Solar Inquiry from ${name} (${location}, ${district}) - Dealer: ${dealer.name}`,
-            _cc: "info@sunovasolar.in"
+            name, phone, email, district, location, connection, systemModelLabel, capacity, loanRequired, message,
+            partnerName: dealer.name, partnerCode: dealer.code
         })
     })
     .then(res => {
-        if (!res.ok) {
-            console.warn('FormSubmit returned error status:', res.status);
+        if (res.ok) return res.json();
+        throw new Error('Local server offline');
+    })
+    .then(data => {
+        if (data.success) {
+            console.log('[Submit] Inquiry copy successfully sent via local SMTP proxy.');
+        } else {
+            throw new Error(data.error || 'SMTP inactive');
         }
     })
     .catch(err => {
-        console.warn('FormSubmit background dispatch failed:', err);
-        const alertEl = document.getElementById('email-status-alert');
-        if (alertEl) {
-            alertEl.style.display = 'block';
-        }
+        console.log('[Submit] Local SMTP server inactive/offline. Triggering mailto fallback client launch...');
+        // Launch mailto fallback pre-filled so they can send the copy with 1 click
+        setTimeout(() => {
+            const mailtoUrl = `mailto:info@sunovasolar.in?subject=${encodeURIComponent(`New Solar Inquiry: ${name} (${location})`)}&body=${encodeURIComponent(waMessage)}`;
+            window.location.href = mailtoUrl;
+        }, 1500);
     });
 
     // 4. Build success feedback detailing the assigned partner
@@ -869,9 +861,6 @@ function handleFormSubmit(event) {
         📍 <strong>Service Area:</strong> ${dealer.area} (${dealer.district})<br>
         📞 <strong>Contact Phone:</strong> <a href="tel:+91${dealer.phone}" style="color:var(--color-sun-yellow); font-weight:bold;">+91 ${dealer.phone}</a><br>
         <br>
-        <div id="email-status-alert" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 0.6rem; margin-bottom: 0.8rem; font-size: 0.74rem; color: #f87171; line-height: 1.4;">
-            ⚠️ Note: Background email copy to head office failed (Failed to fetch). However, your lead is saved, shared with partner logins, and WhatsApp is ready to message!
-        </div>
         <strong>WhatsApp Copies:</strong><br>
         Click below to send a copy of your details on WhatsApp directly:<br>
         <div class="success-wa-buttons">
@@ -879,7 +868,7 @@ function handleFormSubmit(event) {
             <a href="${waOfficeUrl}" target="_blank" class="wa-btn-success office-wa-btn">🏢 Chat with Head Office</a>
         </div>
         <br>
-        <em>Automatically opening partner chat in 3 seconds...</em>
+        <em>Launching email client copy and redirecting to partner WhatsApp in 3 seconds...</em>
     `;
     showFormFeedback(successMessage, 'success');
     
