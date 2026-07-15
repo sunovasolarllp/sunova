@@ -662,9 +662,20 @@
             .catch(err => {
                 // 2. If proxy is offline, non-existent, or returns html error pages, fall back to direct SMTPJS check
                 console.log('[Login] Proxy check failed (' + err.message + '). Attempting direct SMTP validation...');
+                
+                // Safety Check: Check if SMTPJS library loaded successfully
+                if (typeof Email === 'undefined') {
+                    errorMsg.textContent = 'Verification service offline. Please check your internet connection.';
+                    errorMsg.className = 'form-feedback error';
+                    errorMsg.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
+                    errorMsg.style.color = '#ef4444';
+                    return;
+                }
+
                 errorMsg.textContent = 'Directly validating credentials via Hostinger SMTP...';
                 
-                Email.send({
+                // Wrap SMTPJS dispatch in a timeout promise to prevent page hang
+                const smtpPromise = Email.send({
                     Host: "smtp.hostinger.com",
                     Username: "info@sunovasolar.in",
                     Password: pass,
@@ -672,7 +683,13 @@
                     From: "info@sunovasolar.in",
                     Subject: "Webmail Connection Check PING",
                     Body: "Verifying secure login credentials."
-                })
+                });
+
+                const timeoutPromise = new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error('Connection timed out. Please check your internet connection.')), 6000)
+                );
+
+                Promise.race([smtpPromise, timeoutPromise])
                 .then(smtpResponse => {
                     if (smtpResponse === 'OK' || smtpResponse.includes('OK') || smtpResponse.includes('success')) {
                         // Credentials accepted by Hostinger SMTP
