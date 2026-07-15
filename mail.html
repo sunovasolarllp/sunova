@@ -449,6 +449,74 @@
             <div style="text-align: center; margin-top: 1.5rem; font-size: 0.72rem; color: var(--color-gmail-muted);">
                 🔒 Protected by TLS/SSL secure hostinger configuration relays.
             </div>
+            
+            <div style="text-align: center; margin-top: 1.2rem; border-top: 1px solid var(--color-gmail-border); padding-top: 1rem;">
+                <button type="button" onclick="toggleSettingsPanel()" style="background: none; border: none; color: var(--color-sun-yellow); font-size: 0.76rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.3rem;">
+                    &#9881;&#65039; Mail Server & Integration Settings
+                </button>
+            </div>
+
+    <!-- 1b. Connection Settings Modal -->
+    <div id="mail-settings-modal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 10000;">
+        <div class="glass-card" style="max-width: 500px; width: 100%; padding: 2.2rem; border-radius: 16px; border: 1px solid var(--color-gmail-border); background: var(--color-gmail-surface); box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-gmail-border); padding-bottom: 0.8rem; margin-bottom: 1.5rem;">
+                <h3 style="font-family: 'Outfit', sans-serif; color: white; margin: 0; font-size: 1.2rem; display: flex; align-items: center; gap: 0.4rem;">&#9881;&#65039; Mail Integration Dashboard</h3>
+                <button onclick="toggleSettingsPanel()" style="background: none; border: none; color: var(--color-gmail-muted); font-size: 1.5rem; cursor: pointer; line-height: 1;">&times;</button>
+            </div>
+            
+            <form id="mail-settings-form" onsubmit="saveMailSettings(event)">
+                <!-- Group 1: API Gateways -->
+                <div style="margin-bottom: 1.2rem;">
+                    <h4 style="font-size: 0.8rem; color: var(--color-sun-yellow); margin: 0 0 0.8rem 0; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">API Integrations (Local & Static Sends)</h4>
+                    
+                    <div class="form-group" style="margin-bottom: 0.8rem;">
+                        <label style="font-size: 0.72rem; color: #cbd5e1; margin-bottom: 0.25rem; display: block;">Web3Forms Access Key (Inquiry Forwarding)</label>
+                        <input type="text" id="setting-web3-key" placeholder="Paste your Web3Forms Access Key" style="width: 100%; padding: 0.6rem 0.8rem; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--color-gmail-border); border-radius: 6px; color: white; font-size: 0.82rem;">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label style="font-size: 0.72rem; color: #cbd5e1; margin-bottom: 0.25rem; display: block;">SMTPJS Secure Token (Client-Side SMTP Bypass)</label>
+                        <input type="text" id="setting-smtpjs-token" placeholder="Paste your SMTPJS Secure Token" style="width: 100%; padding: 0.6rem 0.8rem; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--color-gmail-border); border-radius: 6px; color: white; font-size: 0.82rem;">
+                    </div>
+                </div>
+
+                <!-- Group 2: Hostinger Server Settings -->
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="font-size: 0.8rem; color: var(--color-sun-yellow); margin: 0 0 0.8rem 0; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Hostinger Gateway Connection</h4>
+                    
+                    <div style="display: grid; grid-template-columns: 3fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                        <div>
+                            <label style="font-size: 0.72rem; color: #cbd5e1; margin-bottom: 0.25rem; display: block;">IMAP Incoming Server</label>
+                            <input type="text" id="setting-imap-host" value="imap.hostinger.com" style="width: 100%; padding: 0.6rem 0.8rem; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--color-gmail-border); border-radius: 6px; color: white; font-size: 0.82rem;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.72rem; color: #cbd5e1; margin-bottom: 0.25rem; display: block;">Port</label>
+                            <input type="number" id="setting-imap-port" value="993" style="width: 100%; padding: 0.6rem 0.8rem; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--color-gmail-border); border-radius: 6px; color: white; font-size: 0.82rem;">
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 3fr 1fr; gap: 0.8rem;">
+                        <div>
+                            <label style="font-size: 0.72rem; color: #cbd5e1; margin-bottom: 0.25rem; display: block;">SMTP Outgoing Server</label>
+                            <input type="text" id="setting-smtp-host" value="smtp.hostinger.com" style="width: 100%; padding: 0.6rem 0.8rem; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--color-gmail-border); border-radius: 6px; color: white; font-size: 0.82rem;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.72rem; color: #cbd5e1; margin-bottom: 0.25rem; display: block;">Port</label>
+                            <input type="number" id="setting-smtp-port" value="465" style="width: 100%; padding: 0.6rem 0.8rem; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--color-gmail-border); border-radius: 6px; color: white; font-size: 0.82rem;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div style="display: flex; gap: 0.8rem; justify-content: flex-end;">
+                    <button type="button" onclick="toggleSettingsPanel()" style="padding: 0.7rem 1.2rem; font-size: 0.84rem; border-radius: 6px; border: 1px solid var(--color-gmail-border); background: none; color: white; cursor: pointer; font-weight: 600;">Cancel</button>
+                    <button type="submit" style="padding: 0.7rem 1.2rem; font-size: 0.84rem; border-radius: 6px; background: var(--color-sun-yellow); color: #0d1321; border: none; cursor: pointer; font-weight: 700;">Save Settings</button>
+                </div>
+            </form>
+        </div>
+    </div>
+            <div>
+            </div>
         </div>
     </div>
 
@@ -512,6 +580,12 @@
                 <div class="sidebar-item" onclick="switchFolder('trash', this)">
                     <div class="sidebar-item-label">
                         <span>🗑️</span> Trash
+                    </div>
+                </div>
+                
+                <div class="sidebar-item" onclick="toggleSettingsPanel()" style="margin-top: auto; border-top: 1px solid var(--color-gmail-border); padding-top: 1rem;">
+                    <div class="sidebar-item-label" style="color: var(--color-sun-yellow); font-weight: 700;">
+                        <span>&#9881;&#65039;</span> Settings Dashboard
                     </div>
                 </div>
             </aside>
@@ -675,10 +749,19 @@
             errorMsg.style.color = 'var(--color-sun-yellow)';
             errorMsg.classList.remove('hidden');
 
+            const payload = {
+                email: 'info@sunovasolar.in',
+                password: pass,
+                imap_host: localStorage.getItem('imap_host') || 'imap.hostinger.com',
+                imap_port: localStorage.getItem('imap_port') || 993,
+                smtp_host: localStorage.getItem('smtp_host') || 'smtp.hostinger.com',
+                smtp_port: localStorage.getItem('smtp_port') || 465
+            };
+
             callApi('/api/connect', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: 'info@sunovasolar.in', password: pass })
+                body: JSON.stringify(payload)
             })
             .then(() => {
                 activeMailPassword = pass;
@@ -1022,6 +1105,46 @@ Status: ${inq.status || 'Pending'}`;
                 closeComposeModal();
                 refreshMailbox();
             });
+        }
+
+        // Toggle Settings Overlay Panel
+        function toggleSettingsPanel() {
+            const modal = document.getElementById('mail-settings-modal');
+            if (modal.classList.contains('hidden')) {
+                document.getElementById('setting-web3-key').value = localStorage.getItem('web3forms_access_key') || '';
+                document.getElementById('setting-smtpjs-token').value = localStorage.getItem('smtpjs_secure_token') || '';
+                document.getElementById('setting-imap-host').value = localStorage.getItem('imap_host') || 'imap.hostinger.com';
+                document.getElementById('setting-imap-port').value = localStorage.getItem('imap_port') || '993';
+                document.getElementById('setting-smtp-host').value = localStorage.getItem('smtp_host') || 'smtp.hostinger.com';
+                document.getElementById('setting-smtp-port').value = localStorage.getItem('smtp_port') || '465';
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
+            }
+        }
+
+        function saveMailSettings(e) {
+            e.preventDefault();
+            const web3Key = document.getElementById('setting-web3-key').value.trim();
+            const smtpjsToken = document.getElementById('setting-smtpjs-token').value.trim();
+            const imapHost = document.getElementById('setting-imap-host').value.trim();
+            const imapPort = document.getElementById('setting-imap-port').value.trim();
+            const smtpHost = document.getElementById('setting-smtp-host').value.trim();
+            const smtpPort = document.getElementById('setting-smtp-port').value.trim();
+
+            if (web3Key) localStorage.setItem('web3forms_access_key', web3Key);
+            else localStorage.removeItem('web3forms_access_key');
+
+            if (smtpjsToken) localStorage.setItem('smtpjs_secure_token', smtpjsToken);
+            else localStorage.removeItem('smtpjs_secure_token');
+
+            localStorage.setItem('imap_host', imapHost);
+            localStorage.setItem('imap_port', imapPort);
+            localStorage.setItem('smtp_host', smtpHost);
+            localStorage.setItem('smtp_port', smtpPort);
+
+            showToast('Mail settings saved successfully!');
+            toggleSettingsPanel();
         }
 
         // Toast show helper

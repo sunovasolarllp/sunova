@@ -28,11 +28,20 @@ if ($action === 'connect') {
         exit;
     }
     
+    $imapHost = isset($data['imap_host']) ? $data['imap_host'] : 'imap.hostinger.com';
+    $imapPort = isset($data['imap_port']) ? intval($data['imap_port']) : 993;
+    $smtpHost = isset($data['smtp_host']) ? $data['smtp_host'] : 'smtp.hostinger.com';
+    $smtpPort = isset($data['smtp_port']) ? intval($data['smtp_port']) : 465;
+    
     // Attempt IMAP connection to verify credentials
-    $mbox = @imap_open("{imap.hostinger.com:993/imap/ssl}INBOX", $email, $password, OP_HALFOPEN);
+    $mbox = @imap_open("{" . $imapHost . ":" . $imapPort . "/imap/ssl}INBOX", $email, $password, OP_HALFOPEN);
     if ($mbox) {
         $_SESSION['email'] = $email;
         $_SESSION['password'] = $password;
+        $_SESSION['imap_host'] = $imapHost;
+        $_SESSION['imap_port'] = $imapPort;
+        $_SESSION['smtp_host'] = $smtpHost;
+        $_SESSION['smtp_port'] = $smtpPort;
         imap_close($mbox);
         echo json_encode(['success' => true, 'email' => $email]);
     } else {
@@ -60,7 +69,7 @@ if ($action === 'fetch') {
     if ($folderLower === 'sent') $imapFolder = 'Sent';
     if ($folderLower === 'trash') $imapFolder = 'Trash';
     
-    $mbox = @imap_open("{imap.hostinger.com:993/imap/ssl}$imapFolder", $email, $password);
+    $mbox = @imap_open("{" . $_SESSION['imap_host'] . ":" . $_SESSION['imap_port'] . "/imap/ssl}$imapFolder", $email, $password);
     if (!$mbox) {
         http_response_code(500);
         echo json_encode(['error' => 'Failed to connect to Hostinger IMAP.']);
@@ -105,7 +114,7 @@ if ($action === 'body') {
     if ($folderLower === 'sent') $imapFolder = 'Sent';
     if ($folderLower === 'trash') $imapFolder = 'Trash';
     
-    $mbox = @imap_open("{imap.hostinger.com:993/imap/ssl}$imapFolder", $email, $password);
+    $mbox = @imap_open("{" . $_SESSION['imap_host'] . ":" . $_SESSION['imap_port'] . "/imap/ssl}$imapFolder", $email, $password);
     if (!$mbox) {
         http_response_code(500);
         echo json_encode(['error' => 'Failed to connect to IMAP']);
@@ -138,9 +147,9 @@ if ($action === 'send') {
         exit;
     }
     
-    // Connect to SMTP secure server on port 465 using direct socket connection
-    $host = 'ssl://smtp.hostinger.com';
-    $port = 465;
+    // Connect to SMTP secure server using direct socket connection
+    $host = 'ssl://' . $_SESSION['smtp_host'];
+    $port = $_SESSION['smtp_port'];
     $timeout = 30;
     
     $socket = @fsockopen($host, $port, $errno, $errstr, $timeout);
@@ -207,7 +216,7 @@ if ($action === 'delete') {
     if ($folderLower === 'sent') $imapFolder = 'Sent';
     if ($folderLower === 'trash') $imapFolder = 'Trash';
     
-    $mbox = @imap_open("{imap.hostinger.com:993/imap/ssl}$imapFolder", $email, $password);
+    $mbox = @imap_open("{" . $_SESSION['imap_host'] . ":" . $_SESSION['imap_port'] . "/imap/ssl}$imapFolder", $email, $password);
     if (!$mbox) {
         http_response_code(500);
         echo json_encode(['error' => 'Failed to connect to IMAP']);

@@ -821,13 +821,12 @@ function handleFormSubmit(event) {
     const officePhone = "919072522277";
     const waOfficeUrl = `https://wa.me/${officePhone}?text=${encodeURIComponent(waMessage)}`;
 
-    // 3. Automated Background Email Copy (Web3Forms API or FormSubmit Fallback)
-    // To activate: Go to https://web3forms.com/, enter your email, copy the free Access Key, and paste it below:
     const WEB3FORMS_ACCESS_KEY = "YOUR_ACCESS_KEY_HERE";
+    const activeWeb3Key = localStorage.getItem('web3forms_access_key') || WEB3FORMS_ACCESS_KEY;
 
-    if (WEB3FORMS_ACCESS_KEY !== "YOUR_ACCESS_KEY_HERE") {
+    if (activeWeb3Key && activeWeb3Key !== "YOUR_ACCESS_KEY_HERE") {
         const emailPayload = {
-            access_key: WEB3FORMS_ACCESS_KEY,
+            access_key: activeWeb3Key,
             name: name,
             phone: phone,
             email: email || 'Not Provided',
@@ -959,7 +958,7 @@ window.addEventListener('DOMContentLoaded', () => {
     updateCalculatorOutputs();
     handleDistrictChange('Alappuzha'); // Initialize the dealer dropdown for default district
 
-    // Setup developer secret click trigger on copyright footer to set SMTP password
+    // Setup developer secret click trigger on copyright footer to set SMTP password and Web3Forms key
     const devTrigger = document.getElementById('developer-trigger');
     if (devTrigger) {
         let clickCount = 0;
@@ -967,12 +966,31 @@ window.addEventListener('DOMContentLoaded', () => {
             clickCount++;
             if (clickCount >= 5) {
                 clickCount = 0;
-                const pass = prompt("Enter Hostinger SMTP Password for Local Testing:");
-                if (pass !== null) {
-                    localStorage.setItem('hostinger_smtp_password', pass);
-                    alert("Hostinger SMTP Password successfully saved locally! Reloading page...");
-                    location.reload();
+                
+                // Prompt 1: Web3Forms Access Key
+                const currentKey = localStorage.getItem('web3forms_access_key') || '';
+                const key = prompt("Enter Web3Forms Access Key for Mail Automation (leave blank to clear / skip):", currentKey);
+                if (key !== null) {
+                    if (key.trim() !== '') {
+                        localStorage.setItem('web3forms_access_key', key.trim());
+                    } else {
+                        localStorage.removeItem('web3forms_access_key');
+                    }
                 }
+
+                // Prompt 2: Hostinger Password
+                const currentPass = localStorage.getItem('hostinger_smtp_password') || '';
+                const pass = prompt("Enter Hostinger SMTP Password for Webmail Client (leave blank to clear / skip):", currentPass);
+                if (pass !== null) {
+                    if (pass.trim() !== '') {
+                        localStorage.setItem('hostinger_smtp_password', pass.trim());
+                    } else {
+                        localStorage.removeItem('hostinger_smtp_password');
+                    }
+                }
+
+                alert("Configuration successfully saved! Reloading page to apply changes...");
+                location.reload();
             }
         });
     }
