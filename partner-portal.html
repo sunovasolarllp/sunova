@@ -92,22 +92,75 @@
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
                     <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; text-align: center;">
                         <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Active Leads</span>
-                        <div style="font-size: 1.8rem; font-weight: 700; color: var(--color-sun-yellow); margin-top: 0.25rem;">4</div>
+                        <div id="partner-active-leads" style="font-size: 1.8rem; font-weight: 700; color: var(--color-sun-yellow); margin-top: 0.25rem;">0</div>
                     </div>
                     <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; text-align: center;">
                         <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Commission Earned</span>
-                        <div style="font-size: 1.4rem; font-weight: 700; color: var(--color-text); margin-top: 0.45rem;">₹42,500</div>
+                        <div id="partner-commission-earned" style="font-size: 1.4rem; font-weight: 700; color: var(--color-text); margin-top: 0.45rem;">₹0</div>
                     </div>
                 </div>
 
                 <!-- Launch Buttons -->
                 <div class="portal-actions-grid" style="display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1.5rem;">
-                    <a href="index.html#contact" class="cta-btn primary-btn text-center full-width">
+                    <button type="button" onclick="toggleAllocatedLeads()" class="cta-btn primary-btn text-center full-width" style="cursor: pointer; width: 100%; border: none; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
                         📋 View Allocated Customer Inquiries
-                    </a>
-                    <a href="assets/mnre-approved.jpg" target="_blank" class="cta-btn secondary-btn text-center full-width">
-                        📥 Download MNRE Compliance Certificate
-                    </a>
+                    </button>
+                </div>
+
+                <!-- Allocated Leads Panel (Collapsible) -->
+                <div id="allocated-leads-panel" class="hidden" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                    <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                        📋 Allocated Customer Inquiries
+                    </h4>
+                    <p style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.45;">Below are inquiries submitted by customers selecting your dealership area on the feasibility form.</p>
+                    
+                    <div id="allocated-leads-list" style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 350px; overflow-y: auto; padding-right: 0.3rem;">
+                        <!-- Dynamically Injected leads list -->
+                    </div>
+                </div>
+
+                <!-- Solar Quotation Generator Card -->
+                <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;" id="quotation-form-section">
+                    <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); display: flex; align-items: center; gap: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                        ⚡ Solar Quotation Generator
+                    </h4>
+                    <p style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.45;">Generate custom, print-ready quotations for customer proposals and official KSEB net-metering applications.</p>
+                    
+                    <form id="quote-generator-form" onsubmit="event.preventDefault();">
+                        <div class="form-group" style="margin-bottom: 0.8rem;">
+                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Customer Name</label>
+                            <input type="text" id="quote-cust-name" placeholder="e.g. Radhakrishnan Nair" style="width: 100%; padding: 0.55rem; background: rgba(255,255,255,0.05); border: 1px solid var(--color-border); border-radius: 8px; color: white; font-size: 0.82rem;" required>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0.8rem;">
+                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Installation Address</label>
+                            <input type="text" id="quote-cust-addr" placeholder="e.g. House No 15, Near Temple, Alappuzha" style="width: 100%; padding: 0.55rem; background: rgba(255,255,255,0.05); border: 1px solid var(--color-border); border-radius: 8px; color: white; font-size: 0.82rem;" required>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                            <div class="form-group">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Capacity (kWp)</label>
+                                <input type="number" id="quote-capacity" value="3" min="1" max="100" style="width: 100%; padding: 0.55rem; background: rgba(255,255,255,0.05); border: 1px solid var(--color-border); border-radius: 8px; color: white; font-size: 0.82rem;" required>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Solar Panel Model</label>
+                                <select id="quote-panel-brand" style="width: 100%; padding: 0.55rem; background: #121824; border: 1px solid var(--color-border); border-radius: 8px; color: white; font-size: 0.82rem;">
+                                    <option value="Waaree Elite Bifacial">Waaree Elite Bifacial (540Wp)</option>
+                                    <option value="Adani Elan Mono PERC">Adani Elan Mono PERC (550Wp)</option>
+                                    <option value="Tata Power Solaro">Tata Power Solaro (530Wp)</option>
+                                    <option value="Vikram Prexos Half-Cut">Vikram Prexos Half-Cut (545Wp)</option>
+                                    <option value="Premier Energies Supreme">Premier Energies Supreme (540Wp)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1.2rem;">
+                            <button type="button" onclick="generateQuotation('customer')" class="cta-btn primary-btn text-center" style="padding: 0.65rem 0.5rem; font-size: 0.8rem; font-weight: 700; border-radius: 8px; display: block; width: 100%; cursor: pointer;">
+                                👤 Customer Proposal
+                            </button>
+                            <button type="button" onclick="generateQuotation('kseb')" class="cta-btn text-center" style="background: #28a745; color: white; border: none; padding: 0.65rem 0.5rem; font-size: 0.8rem; font-weight: 700; border-radius: 8px; display: block; width: 100%; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                                ⚡ KSEB Submission
+                            </button>
+                        </div>
+                    </form>
                 </div>
 
                 <!-- Technical Configuration Accordion -->
@@ -360,6 +413,367 @@
                 const resourceBox = dashView.querySelector('.tech-settings-box');
                 dashView.insertBefore(infoContainer, resourceBox);
             }
+
+            // Calculate actual statistics from sunova_inquiries
+            let inquiries = [];
+            try {
+                inquiries = JSON.parse(localStorage.getItem('sunova_inquiries')) || [];
+            } catch (e) {
+                console.error(e);
+            }
+            
+            const dealerLeads = inquiries.filter(lead => lead.partnerCode === dealerCode);
+            const activeLeadsCount = dealerLeads.filter(lead => lead.status !== 'Completed').length;
+            const completedLeads = dealerLeads.filter(lead => lead.status === 'Completed');
+            const totalCommission = completedLeads.reduce((sum, lead) => sum + (parseFloat(lead.commission) || 0), 0);
+            
+            document.getElementById('partner-active-leads').textContent = activeLeadsCount;
+            document.getElementById('partner-commission-earned').textContent = `₹${totalCommission.toLocaleString('en-IN')}`;
+        }
+
+        function closeQuoteModal() {
+            document.getElementById('quote-modal-overlay').classList.add('hidden');
+        }
+
+        function generateQuotation(type) {
+            const name = document.getElementById('quote-cust-name').value.trim();
+            const addr = document.getElementById('quote-cust-addr').value.trim();
+            const capacityVal = parseFloat(document.getElementById('quote-capacity').value);
+            const panelModel = document.getElementById('quote-panel-brand').value;
+            
+            if (!name || !addr || isNaN(capacityVal) || capacityVal <= 0) {
+                alert('Please enter all customer details and system capacity first.');
+                return;
+            }
+            
+            const activePartnerCode = localStorage.getItem('partner_code') || 'TVM-JOBI';
+            const dealer = DEALERS.find(d => d.code === activePartnerCode) || DEALERS[0];
+            
+            const quoteNo = `SNS/QTN/2026/${Math.floor(1000 + Math.random() * 9000)}`;
+            const dateStr = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+            
+            // Panel parameters calculation
+            const panelWattage = 540;
+            const panelCount = Math.ceil((capacityVal * 1000) / panelWattage);
+            
+            let quoteHTML = '';
+            
+            if (type === 'customer') {
+                const basicCost = capacityVal * 54000;
+                const netMeteringCost = capacityVal * 6000;
+                const grossTotal = basicCost + netMeteringCost;
+                
+                let subsidy = 0;
+                if (capacityVal === 1) subsidy = 30000;
+                else if (capacityVal === 2) subsidy = 60000;
+                else if (capacityVal >= 3) subsidy = 78000;
+                
+                const netPayable = grossTotal - subsidy;
+                
+                quoteHTML = `
+                    <div style="font-family: 'Inter', sans-serif; color: #333; line-height: 1.5;">
+                        <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #ffb703; padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                            <div>
+                                <img src="assets/logo.jpg" style="height: 55px; border-radius: 6px;" alt="SUNOVA SOLAR Logo">
+                                <h1 style="font-size: 1.6rem; color: #0d1321; font-family: 'Outfit', sans-serif; margin: 0.4rem 0 0 0; font-weight: 800;">SUNOVA SOLAR LLP</h1>
+                                <p style="margin: 0.15rem 0 0 0; font-size: 0.8rem; color: #555;">Opp. KSEB Section, Alappuzha, Kerala - 688001 | Support: +91 90725 22277</p>
+                            </div>
+                            <div style="text-align: right;">
+                                <h2 style="margin: 0; color: #ffb703; font-family: 'Outfit', sans-serif; font-size: 1.5rem;">SOLAR PROPOSAL</h2>
+                                <p style="margin: 0.2rem 0; font-size: 0.8rem;"><strong>Quote No:</strong> ${quoteNo}</p>
+                                <p style="margin: 0.2rem 0; font-size: 0.8rem;"><strong>Date:</strong> ${dateStr}</p>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 1.5rem; font-size: 0.85rem;">
+                            <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 3px solid #ffb703;">
+                                <strong style="color: #0d1321; display: block; margin-bottom: 0.4rem; font-size: 0.9rem;">Customer Details</strong>
+                                <strong>Name:</strong> ${name}<br>
+                                <strong>Installation Address:</strong> ${addr}<br>
+                                <strong>District:</strong> ${dealer.district}
+                            </div>
+                            <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 3px solid #0d1321;">
+                                <strong style="color: #0d1321; display: block; margin-bottom: 0.4rem; font-size: 0.9rem;">Dealer Representative</strong>
+                                <strong>Partner Name:</strong> ${dealer.name}<br>
+                                <strong>Partner Area:</strong> ${dealer.area}<br>
+                                <strong>Phone Helpline:</strong> +91 ${dealer.phone}
+                            </div>
+                        </div>
+
+                        <h4 style="margin: 1.5rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #eee; padding-bottom: 0.3rem;">🛠️ Proposed System Specifications</h4>
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.85rem; text-align: left;">
+                            <thead>
+                                <tr style="background: #f1f3f5; color: #0d1321; font-weight: 600;">
+                                    <th style="padding: 0.6rem; border: 1px solid #ddd;">Component Description</th>
+                                    <th style="padding: 0.6rem; border: 1px solid #ddd;">Brand & Model Specs</th>
+                                    <th style="padding: 0.6rem; border: 1px solid #ddd; text-align: center;">Qty</th>
+                                    <th style="padding: 0.6rem; border: 1px solid #ddd;">Warranty Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 0.6rem; border: 1px solid #ddd; font-weight: 600;">Solar PV Modules</td>
+                                    <td style="padding: 0.6rem; border: 1px solid #ddd;">${panelModel} (Mono PERC High Efficiency)</td>
+                                    <td style="padding: 0.6rem; border: 1px solid #ddd; text-align: center;">${panelCount} Nos</td>
+                                    <td style="padding: 0.6rem; border: 1px solid #ddd;">25 Years performance warranty</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.6rem; border: 1px solid #ddd; font-weight: 600;">Solar Grid-Tied Inverter</td>
+                                    <td style="padding: 0.6rem; border: 1px solid #ddd;">Sunova Approved Inverter (Anti-islanding / Wi-Fi logger)</td>
+                                    <td style="padding: 0.6rem; border: 1px solid #ddd; text-align: center;">1 Unit</td>
+                                    <td style="padding: 0.6rem; border: 1px solid #ddd;">5 Years replacement warranty</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.6rem; border: 1px solid #ddd; font-weight: 600;">Mounting Structure</td>
+                                    <td style="padding: 0.6rem; border: 1px solid #ddd;">Hot-dip Galvanized Iron (GI) high-rise structure</td>
+                                    <td style="padding: 0.6rem; border: 1px solid #ddd; text-align: center;">1 Set</td>
+                                    <td style="padding: 0.6rem; border: 1px solid #ddd;">5 Years installation warranty</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.6rem; border: 1px solid #ddd; font-weight: 600;">DC/AC Cabling & Protection</td>
+                                    <td style="padding: 0.6rem; border: 1px solid #ddd;">4 sq mm Solar Copper Cables, MC4 connectors, IP65 DBs</td>
+                                    <td style="padding: 0.6rem; border: 1px solid #ddd; text-align: center;">1 Set</td>
+                                    <td style="padding: 0.6rem; border: 1px solid #ddd;">5 Years workmanship warranty</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h4 style="margin: 1.5rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #eee; padding-bottom: 0.3rem;">💰 Commercial Quote Breakdown</h4>
+                        <div style="background: #fdfefe; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; margin-bottom: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; padding: 0.65rem 1rem; border-bottom: 1px solid #eee; font-size: 0.85rem;">
+                                <span>Solar System Supply Cost (${capacityVal} kWp PV Modules &amp; Inverter)</span>
+                                <strong>₹ ${basicCost.toLocaleString('en-IN')}</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 0.65rem 1rem; border-bottom: 1px solid #eee; font-size: 0.85rem;">
+                                <span>Structure, Wiring, Net Metering &amp; Liaisoning fee</span>
+                                <strong>₹ ${netMeteringCost.toLocaleString('en-IN')}</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 0.8rem 1rem; border-bottom: 2px solid #ddd; font-size: 0.9rem; background: #f8f9fa; font-weight: 600; color: #0d1321;">
+                                <span>Gross Project Cost (inclusive of GST)</span>
+                                <span>₹ ${grossTotal.toLocaleString('en-IN')}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 0.65rem 1rem; border-bottom: 1px solid #eee; font-size: 0.85rem; color: #c5221f; font-weight: 600;">
+                                <span>Less: PM Surya Ghar Residential Subsidy Benefit (Direct DBT)</span>
+                                <strong>- ₹ ${subsidy.toLocaleString('en-IN')}</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 1rem; font-size: 1.1rem; background: rgba(255, 183, 3, 0.1); font-weight: 800; color: #0d1321; font-family: 'Outfit', sans-serif;">
+                                <span>Net Customer Payable Amount</span>
+                                <span style="color: #ffb703;">₹ ${netPayable.toLocaleString('en-IN')}</span>
+                            </div>
+                        </div>
+
+                        <div style="font-size: 0.72rem; color: #666; border-top: 1px dashed #ddd; padding-top: 1rem; margin-top: 2rem;">
+                            <strong>Terms & Conditions:</strong><br>
+                            1. Net Metering Approval is subject to feasibility clearance from KSEB local section office.<br>
+                            2. Subsidy benefits are credited directly into customer bank account after installation and solar net-metering completion by KSEB.<br>
+                            3. Delivery of materials within 10-15 working days from advance layout clearance confirmation.
+                        </div>
+                    </div>
+                `;
+            } else {
+                const grossLiaison = capacityVal * 60000;
+                const gstVal = Math.round(grossLiaison * 0.138);
+                const grossTotalKseb = grossLiaison + gstVal;
+                
+                quoteHTML = `
+                    <div style="font-family: 'Inter', sans-serif; color: #333; line-height: 1.6;">
+                        <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #28a745; padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                            <div>
+                                <img src="assets/logo.jpg" style="height: 55px; border-radius: 6px;" alt="SUNOVA SOLAR Logo">
+                                <h1 style="font-size: 1.5rem; color: #0d1321; font-family: 'Outfit', sans-serif; margin: 0.4rem 0 0 0; font-weight: 800;">SUNOVA SOLAR LLP</h1>
+                                <p style="margin: 0.15rem 0 0 0; font-size: 0.78rem; color: #555;">Empaneled Solar Installer (Kerala State) | Reg No: SNS-EMP/2025/AL5</p>
+                            </div>
+                            <div style="text-align: right;">
+                                <h2 style="margin: 0; color: #28a745; font-family: 'Outfit', sans-serif; font-size: 1.3rem;">PROFORMA INVOICE</h2>
+                                <p style="margin: 0.2rem 0; font-size: 0.78rem;"><strong>Ref Qtn:</strong> ${quoteNo}</p>
+                                <p style="margin: 0.2rem 0; font-size: 0.78rem;"><strong>Date:</strong> ${dateStr}</p>
+                            </div>
+                        </div>
+
+                        <div style="font-size: 0.82rem; line-height: 1.6; margin-bottom: 1.2rem;">
+                            <strong>To,</strong><br>
+                            The Assistant Executive Engineer,<br>
+                            Electrical Section Office, KSEB Limited,<br>
+                            ${dealer.area} Section, ${dealer.district} District, Kerala
+                        </div>
+
+                        <div style="font-size: 0.84rem; font-weight: 600; line-height: 1.5; margin-bottom: 1.5rem; background: #f8f9fa; padding: 0.75rem; border-left: 4px solid #28a745; border-radius: 4px;">
+                            Subject: Solar rooftop grid-tied feasibility proforma &amp; components compliance checklist for ${capacityVal} kWp net-metering application.
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; margin-bottom: 1.5rem; font-size: 0.8rem;">
+                            <div>
+                                <strong style="color: #0d1321; display: block; margin-bottom: 0.3rem;">Consumer Details (Site Address)</strong>
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <tr><td style="color: #666; width: 95px;">Consumer Name:</td><td><strong>${name}</strong></td></tr>
+                                    <tr><td style="color: #666;">Site Address:</td><td>${addr}</td></tr>
+                                    <tr><td style="color: #666;">Consumer No:</td><td style="border-bottom: 1px dotted #999; font-weight: bold; color: #c5221f;">__________________</td></tr>
+                                </table>
+                            </div>
+                            <div>
+                                <strong style="color: #0d1321; display: block; margin-bottom: 0.3rem;">Empaneled Installer Details</strong>
+                                <strong>Partner:</strong> Sunova Solar LLP - ${dealer.name}<br>
+                                <strong>Area Office:</strong> ${dealer.area} Office<br>
+                                <strong>Contact No:</strong> +91 ${dealer.phone}
+                            </div>
+                        </div>
+
+                        <h4 style="margin: 1.5rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; font-size: 0.9rem; border-bottom: 1px solid #eee; padding-bottom: 0.3rem;">📋 Components Technical Compliance details</h4>
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.78rem; text-align: left;">
+                            <thead>
+                                <tr style="background: #f1f3f5; color: #0d1321; font-weight: 600;">
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd; width: 140px;">Component</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Manufacturer / Brand Specs</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Standards & Certifications</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: center;">Compliance Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">PV Modules</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">${panelModel} (MNRE ALMM listed, 540Wp)</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">IEC 61215, IEC 61730, ALMM Approved</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center; color: #28a745; font-weight: bold;">✅ Compliant</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Grid Tie Inverter</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Sunova approved string inverter (Max Eff 98%)</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">IEC 62109, IEC 61000 (Anti-islanding protection)</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center; color: #28a745; font-weight: bold;">✅ Compliant</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">DC/AC Solar Cable</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">4 sq mm multi-strand copper solar cables</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">EN 50618 Compliant</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center; color: #28a745; font-weight: bold;">✅ Compliant</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Protection Systems</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">SPDs (Type II), MCB, ELCB in AJB &amp; ACDB boxes</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">IP65 rated, IEC 60947 certified</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center; color: #28a745; font-weight: bold;">✅ Compliant</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h4 style="margin: 1.5rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; font-size: 0.9rem; border-bottom: 1px solid #eee; padding-bottom: 0.3rem;">💰 Commercial Value Statement</h4>
+                        <div style="background: #fdfefe; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; margin-bottom: 1.5rem; font-size: 0.8rem;">
+                            <div style="display: flex; justify-content: space-between; padding: 0.6rem 1rem; border-bottom: 1px solid #eee;">
+                                <span>Supply &amp; Installation cost of ${capacityVal} kWp Grid Tied Rooftop Solar System</span>
+                                <strong>₹ ${grossLiaison.toLocaleString('en-IN')}</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 0.6rem 1rem; border-bottom: 1px solid #eee;">
+                                <span>Add: GST Tax @ 13.8%</span>
+                                <strong>₹ ${gstVal.toLocaleString('en-IN')}</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 0.8rem 1rem; background: #f8f9fa; font-weight: 700; color: #0d1321; font-size: 0.88rem;">
+                                <span>Total Gross Quotation contract value (inclusive of GST)</span>
+                                <span>₹ ${grossTotalKseb.toLocaleString('en-IN')}</span>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; margin-top: 3.5rem; font-size: 0.82rem;">
+                            <div style="text-align: center; width: 180px;">
+                                <div style="border-bottom: 1px solid #999; height: 35px; margin-bottom: 0.35rem;"></div>
+                                <span>Signature of Consumer</span>
+                            </div>
+                            <div style="text-align: center; width: 220px;">
+                                <div style="font-family: 'Outfit', sans-serif; font-weight: 700; color: #0d1321; font-size: 0.84rem; margin-bottom: 0.35rem;">For SUNOVA SOLAR LLP</div>
+                                <div style="border-bottom: 1px solid #999; height: 18px; margin-bottom: 0.35rem;"></div>
+                                <span>Empaneled Channel Partner Stamp</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('quote-render-area').innerHTML = quoteHTML;
+            document.getElementById('quote-modal-overlay').classList.remove('hidden');
+        }
+
+        function toggleAllocatedLeads() {
+            const panel = document.getElementById('allocated-leads-panel');
+            if (panel.classList.contains('hidden')) {
+                renderAllocatedLeads();
+                panel.classList.remove('hidden');
+            } else {
+                panel.classList.add('hidden');
+            }
+        }
+
+        function renderAllocatedLeads() {
+            const activePartnerCode = localStorage.getItem('partner_code');
+            if (!activePartnerCode) return;
+            
+            const container = document.getElementById('allocated-leads-list');
+            let inquiries = [];
+            try {
+                inquiries = JSON.parse(localStorage.getItem('sunova_inquiries')) || [];
+            } catch (e) {
+                console.error(e);
+            }
+            
+            // Filter leads allocated to this specific partner
+            const allocatedLeads = inquiries.filter(lead => lead.partnerCode === activePartnerCode);
+            
+            // Re-update metrics at the top dynamically
+            const activeLeadsCount = allocatedLeads.filter(lead => lead.status !== 'Completed').length;
+            const completedLeads = allocatedLeads.filter(lead => lead.status === 'Completed');
+            const totalCommission = completedLeads.reduce((sum, lead) => sum + (parseFloat(lead.commission) || 0), 0);
+            
+            document.getElementById('partner-active-leads').textContent = activeLeadsCount;
+            document.getElementById('partner-commission-earned').textContent = `₹${totalCommission.toLocaleString('en-IN')}`;
+            
+            if (allocatedLeads.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 2rem 1rem; color: var(--color-text-muted); font-size: 0.84rem;">
+                        📭 No allocated inquiries found for your partner area yet.
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = allocatedLeads.map(lead => `
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; font-size: 0.82rem; line-height: 1.5; color: var(--color-text); margin-bottom: 0.6rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.3rem;">
+                        <strong style="color: var(--color-sun-yellow); font-size: 0.88rem;">👤 ${lead.name}</strong>
+                        <span style="font-size: 0.72rem; color: var(--color-text-muted);">${lead.timestamp}</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem 1rem; margin-bottom: 0.6rem;">
+                        <div>📞 <strong>Phone:</strong> ${lead.phone}</div>
+                        <div>📧 <strong>Email:</strong> ${lead.email}</div>
+                        <div>📍 <strong>Location:</strong> ${lead.location}, ${lead.district}</div>
+                        <div>⚡ <strong>System Specs:</strong> ${lead.capacity} kWp (${lead.category})</div>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.15); padding: 0.5rem; border-radius: 6px; font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 0.6rem; border-left: 2px solid var(--color-sun-yellow);">
+                        <strong>Site Message:</strong> ${lead.message}
+                    </div>
+                    <div style="display: flex; gap: 0.6rem;">
+                        <a href="https://wa.me/91${lead.phone}?text=Hi%20${encodeURIComponent(lead.name)},%20this%20is%20${encodeURIComponent(DEALERS.find(d => d.code === activePartnerCode).name)}%20from%20Sunova%20Solar.%20We%20received%20your%20solar%20inquiry%20leads." target="_blank" rel="noopener" style="flex: 1; text-align: center; background: #25d366; color: white; border: none; border-radius: 6px; padding: 0.45rem; font-size: 0.75rem; font-weight: 600; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 0.3rem; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                            💬 WhatsApp Client
+                        </a>
+                        <button type="button" onclick="prefillFormForQuote('${lead.name.replace(/'/g, "\\'")}', '${lead.location.replace(/'/g, "\\'")}', ${lead.capacity})" style="flex: 1; background: var(--color-sun-yellow); color: #0d1321; border: none; border-radius: 6px; padding: 0.45rem; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                            ⚡ Load into Generator
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function prefillFormForQuote(name, address, capacity) {
+            document.getElementById('quote-cust-name').value = name;
+            document.getElementById('quote-cust-addr').value = address;
+            document.getElementById('quote-capacity').value = capacity;
+            
+            // Scroll to the generator form smoothly
+            document.getElementById('quotation-form-section').scrollIntoView({ behavior: 'smooth' });
+            
+            // Highlight container briefly
+            const genSection = document.getElementById('quotation-form-section');
+            genSection.style.borderColor = 'var(--color-sun-yellow)';
+            setTimeout(() => {
+                genSection.style.borderColor = 'var(--color-border)';
+            }, 1000);
         }
 
         function logoutPartner() {
@@ -367,5 +781,28 @@
             location.reload();
         }
     </script>
+
+    <!-- Printable Quotation Modal Overlay (Hidden initially) -->
+    <div id="quote-modal-overlay" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 20000; overflow-y: auto; display: flex; justify-content: center; align-items: flex-start; padding: 2rem 1rem;">
+        <div style="background: white; color: #333; width: 100%; max-width: 800px; border-radius: 12px; padding: 2.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative; text-align: left;" id="printable-quote-content">
+            <!-- Modal Header Actions (Not Printed) -->
+            <div class="no-print" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                <h3 style="margin: 0; color: #333; font-family: 'Outfit', sans-serif;">Solar Quotation Preview</h3>
+                <div style="display: flex; gap: 0.6rem;">
+                    <button onclick="window.print()" style="background: #1a73e8; color: white; border: none; border-radius: 6px; padding: 0.5rem 1rem; font-weight: 600; font-size: 0.82rem; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                        🖨️ Print / Save PDF
+                    </button>
+                    <button onclick="closeQuoteModal()" style="background: #e0e0e0; color: #333; border: none; border-radius: 6px; padding: 0.5rem 1rem; font-weight: 600; font-size: 0.82rem; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                        Close Preview
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Quotation Template Contents -->
+            <div id="quote-render-area">
+                <!-- Dynamically Injected Quote Layout -->
+            </div>
+        </div>
+    </div>
 </body>
 </html>

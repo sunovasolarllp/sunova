@@ -917,6 +917,8 @@
             display: none !important;
         }
     </style>
+    <!-- SMTPJS Library for Client-side SMTP connection (Hostinger proxy fallback) -->
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
 </head>
 <body>
 
@@ -927,13 +929,7 @@
                 <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
             </button>
             <a href="index.html" class="logo-area">
-                <!-- SVG styled envelope like Gmail logo -->
-                <svg class="logo-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z" fill="#EA4335"/>
-                    <path d="M22 6v12c0 1.1-.9 2-2 2h-2V8l-6 4-6-4v12H4c-1.1 0-2-.9-2-2V6l10 6.5L22 6z" fill="#FBBC05"/>
-                    <path d="M22 6L12 12.5 2 6v2l10 6.5L22 8V6z" fill="#34A853"/>
-                    <path d="M2 6v2l10 6.5L22 8V6H2z" fill="#4285F4"/>
-                </svg>
+                <img src="assets/logo.jpg" class="logo-icon" style="border-radius: 4px; object-fit: contain; width: 28px; height: 28px;" alt="Sunova Solar Logo">
                 <span class="logo-text">Sunova<span>Mail</span></span>
             </a>
         </div>
@@ -951,6 +947,10 @@
 
         <!-- Profile Dropdown Menu Card (Initially Hidden) -->
         <div id="avatar-dropdown" class="avatar-dropdown-card hidden" onclick="event.stopPropagation()">
+            <div style="padding: 0.5rem 1rem; background-color: #f1f3f4; display: flex; justify-content: center; align-items: center; gap: 0.4rem; border-bottom: 1px solid var(--gmail-border); font-size: 0.72rem; font-weight: 600; color: var(--gmail-text-muted);" id="connection-status-banner">
+                <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background-color:#f4b400; transition: background-color 0.2s;" id="status-dot"></span>
+                <span id="status-text">Detecting server connection...</span>
+            </div>
             <div style="padding: 1.25rem; text-align: center; border-bottom: 1px solid var(--gmail-border);">
                 <div style="width: 48px; height: 48px; border-radius: 50%; background-color: var(--gmail-blue); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.4rem; margin: 0 auto 0.75rem auto;" id="dropdown-avatar-letter">S</div>
                 <strong style="font-size: 0.95rem; display: block; color: var(--gmail-text-primary); margin-bottom: 0.15rem;">Sunova Solar LLP</strong>
@@ -958,15 +958,14 @@
             </div>
             <div style="padding: 0.75rem; display: flex; flex-direction: column; gap: 0.4rem;">
                 <a href="https://mail.hostinger.com/" target="_blank" rel="noopener" class="dropdown-link-btn" style="background-color: var(--gmail-blue); color: white; border-radius: 8px; text-decoration: none; padding: 0.6rem; font-size: 0.8rem; font-weight: 600; text-align: center; display: block; transition: opacity 0.15s;">
-                    🚀 Open Hostinger Webmail
-                </a>
-                <a href="https://hpanel.hostinger.com/" target="_blank" rel="noopener" class="dropdown-link-btn" style="background-color: #ffffff; border: 1px solid var(--gmail-border); color: var(--gmail-text-primary); border-radius: 8px; text-decoration: none; padding: 0.6rem; font-size: 0.8rem; font-weight: 600; text-align: center; display: block; transition: opacity 0.15s;">
-                    🌐 Access Hostinger hPanel
+                    🚀 Open Webmail
                 </a>
             </div>
-            <div style="padding: 0.75rem 1.25rem; background-color: #f8f9fa; font-size: 0.7rem; color: var(--gmail-text-muted); border-top: 1px solid var(--gmail-border); border-radius: 0 0 12px 12px; text-align: left; line-height: 1.45;">
-                <strong>IMAP:</strong> imap.hostinger.com (Port 993)<br>
-                <strong>SMTP:</strong> smtp.hostinger.com (Port 465)
+            <!-- Gmail Style Sign Out Button -->
+            <div style="padding: 0.8rem; border-top: 1px solid var(--gmail-border); text-align: center; background-color: #f8f9fa; border-radius: 0 0 12px 12px;">
+                <button onclick="logoutPortal()" style="background-color: #ffffff; border: 1px solid #dadce0; color: #3c4043; border-radius: 20px; padding: 0.45rem 1.2rem; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: background-color 0.15s; width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.3rem;">
+                    Sign Out
+                </button>
             </div>
         </div>
     </header>
@@ -1129,15 +1128,7 @@
     <div class="google-signin-wrapper" id="gmail-login-overlay">
         <div class="google-signin-box">
             <div class="google-logo-container">
-                <!-- Google multi-colored logo mock -->
-                <svg class="google-logo-svg" viewBox="0 0 272 92" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M41.4 50.1C35.8 55.4 28.5 58 20.7 58 9.3 58 0 48.7 0 37.3 0 25.9 9.3 16.6 20.7 16.6c7.7 0 14.8 2.5 20.3 7.7l-5.6 5.6C30.9 25.8 26.2 24 20.7 24c-7.3 0-13.3 6-13.3 13.3s6 13.3 13.3 13.3c5.8 0 10.3-2.1 13.7-5.6 2.3-2.3 3.6-5.4 4-8.8H20.7v-7.8h24.3c.2 1.3.4 2.8.4 4.3.1 7.2-2.3 15.1-4 19.1z" fill="#4285F4"/>
-                    <path d="M72.2 41.5c0 9.8-7.7 16.5-16.5 16.5-8.8 0-16.5-6.7-16.5-16.5 0-9.9 7.7-16.5 16.5-16.5s16.5 6.6 16.5 16.5zm-8 0c0-6.1-4.3-10.4-8.5-10.4s-8.5 4.3-8.5 10.4c0 6 4.3 10.4 8.5 10.4s8.5-4.4 8.5-10.4z" fill="#EA4335"/>
-                    <path d="M106.8 41.5c0 9.8-7.7 16.5-16.5 16.5-8.8 0-16.5-6.7-16.5-16.5 0-9.9 7.7-16.5 16.5-16.5s16.5 6.6 16.5 16.5zm-8 0c0-6.1-4.3-10.4-8.5-10.4S81.8 35.4 81.8 41.5c0 6 4.3 10.4 8.5 10.4s8.5-4.4 8.5-10.4z" fill="#FBBC05"/>
-                    <path d="M140.5 25.8V55c0 12-7.1 16.9-15.5 16.9-7.9 0-12.7-5.3-14.5-9.8l6.8-2.8c1.2 2.9 4.1 6.3 7.7 6.3 4.8 0 7.7-3 7.7-8.6v-2.1h-.3c-1.6 2-4.6 3.7-8.4 3.7-7.9 0-15.1-6.8-15.1-16.5s7.2-16.6 15.1-16.6c3.8 0 6.8 1.7 8.4 3.6h.3v-2.7h7.9zm-7.4 15.8c0-6.1-4.1-10.5-8.3-10.5-4.3 0-8.3 4.4-8.3 10.5s4 10.4 8.3 10.4c4.2.1 8.3-4.3 8.3-10.4z" fill="#4285F4"/>
-                    <path d="M150.1 2.2h8.1V57h-8.1z" fill="#34A853"/>
-                    <path d="M181.7 49.3l6.2 4.1c-1.9 2.9-6.6 7.9-14.7 7.9-10 0-17.5-7.8-17.5-16.5 0-9.3 7.6-16.5 16.6-16.5s9.1 7.2 11.2 10.5L166 43.9c-2 3.9-5.1 5.4-8.8 5.4-3.7 0-6.7-1.8-8.4-4.8l22.9-9.5V35z" fill="#EA4335"/>
-                </svg>
+                <img src="assets/logo.jpg" style="height: 54px; border-radius: 8px; object-fit: contain; margin-bottom: 0.5rem;" alt="Sunova Solar Logo">
             </div>
             <h2 class="signin-title">Sign in</h2>
             <p class="signin-subtitle">to continue to SunovaMail</p>
@@ -1149,7 +1140,8 @@
                 </div>
                 <div class="signin-form-group">
                     <span class="signin-input-label">Password</span>
-                    <input type="password" id="login-password" class="signin-input" placeholder="Enter your password" required>
+                    <input type="password" id="login-password" class="signin-input" placeholder="Enter your Webmail password" required>
+                    <span style="font-size: 0.72rem; color: var(--gmail-text-muted); display: block; margin-top: 0.35rem;">* Requires your real email password to connect &amp; send emails.</span>
                 </div>
 
                 <div id="login-feedback" class="signin-feedback hidden"></div>
@@ -1169,6 +1161,8 @@
     </div>
 
     <script>
+        let isServerMode = false;
+        let serverActiveUserPassword = '';
         let currentFolder = 'inbox';
         let selectedMailIndex = -1;
         
@@ -1178,15 +1172,44 @@
         let trashMails = [];
 
         window.addEventListener('DOMContentLoaded', () => {
+            detectBackendServer();
+        });
+
+        async function detectBackendServer() {
+            const statusDot = document.getElementById('status-dot');
+            const statusText = document.getElementById('status-text');
+            try {
+                const res = await fetch('/api/health');
+                if (res.ok) {
+                    isServerMode = true;
+                    statusDot.style.backgroundColor = '#22c55e'; // Green
+                    statusText.textContent = 'Connected to Hostinger Server';
+                    console.log('[Mail] Hostinger Proxy Server is online.');
+                } else {
+                    throw new Error('Offline check failed');
+                }
+            } catch (e) {
+                isServerMode = false;
+                statusDot.style.backgroundColor = '#f59e0b'; // Amber
+                statusText.textContent = 'Local Sync Mode (Offline)';
+                console.log('[Mail] Hostinger Proxy Server is offline. Falling back to local storage.');
+            }
+
             const activeUser = localStorage.getItem('portal_user');
             if (activeUser) {
-                bypassLogin(activeUser);
+                if (isServerMode) {
+                    // Force log in to capture password for IMAP connection
+                    document.getElementById('gmail-login-overlay').classList.remove('hidden');
+                    document.getElementById('login-email').value = activeUser;
+                } else {
+                    bypassLogin(activeUser);
+                }
             } else {
                 document.getElementById('gmail-login-overlay').classList.remove('hidden');
             }
-        });
+        }
 
-        function handleGoogleLogin(e) {
+        async function handleGoogleLogin(e) {
             e.preventDefault();
             const email = document.getElementById('login-email').value.trim();
             const password = document.getElementById('login-password').value;
@@ -1199,23 +1222,51 @@
                 return;
             }
 
-            if (password.length < 4) {
-                feedback.textContent = 'Wrong password. Try again or click Forgot password to reset it.';
-                feedback.classList.remove('hidden');
-                return;
-            }
-
-            feedback.textContent = 'Authenticating session...';
+            feedback.textContent = isServerMode ? 'Connecting to mail server...' : 'Authenticating session...';
             feedback.style.backgroundColor = '#e8f0fe';
             feedback.style.color = '#1a73e8';
             feedback.style.borderColor = '#d2e3fc';
             feedback.classList.remove('hidden');
             loginBtn.disabled = true;
 
-            setTimeout(() => {
-                localStorage.setItem('portal_user', email);
-                bypassLogin(email);
-            }, 1000);
+            if (isServerMode) {
+                try {
+                    const res = await fetch('/api/connect', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, password })
+                    });
+                    
+                    if (res.ok) {
+                        serverActiveUserPassword = password;
+                        localStorage.setItem('portal_user', email);
+                        bypassLogin(email);
+                    } else {
+                        const err = await res.json();
+                        throw new Error(err.error || 'Authentication failed.');
+                    }
+                } catch (err) {
+                    feedback.textContent = err.message;
+                    feedback.style.backgroundColor = '#fce8e6';
+                    feedback.style.color = '#c5221f';
+                    feedback.style.borderColor = '#fad2cf';
+                } finally {
+                    loginBtn.disabled = false;
+                }
+            } else {
+                if (password.length < 4) {
+                    feedback.textContent = 'Wrong password. Try again or click Forgot password to reset it.';
+                    feedback.classList.remove('hidden');
+                    loginBtn.disabled = false;
+                    return;
+                }
+                setTimeout(() => {
+                    serverActiveUserPassword = password; // Save in-memory for SMTPJS
+                    localStorage.setItem('portal_user', email);
+                    bypassLogin(email);
+                    loginBtn.disabled = false;
+                }, 1000);
+            }
         }
 
         function bypassLogin(email) {
@@ -1325,7 +1376,7 @@
             element.classList.toggle('starred');
         }
 
-        function openMailRow(idx) {
+        async function openMailRow(idx) {
             selectedMailIndex = idx;
             document.getElementById('pane-threads-list').classList.add('hidden');
             document.getElementById('pane-reader-view').classList.remove('hidden');
@@ -1342,34 +1393,67 @@
             const avatarEl = document.getElementById('read-sender-circle');
 
             // Set sender initial avatar
-            const senderInitial = currentFolder === 'sent' ? 'Y' : mail.name.charAt(0).toUpperCase();
+            const senderInitial = currentFolder === 'sent' ? 'T' : mail.name.charAt(0).toUpperCase();
             avatarEl.textContent = senderInitial;
 
-            if (currentFolder === 'sent') {
+            if (isServerMode) {
                 subjectEl.textContent = mail.subject;
-                nameEl.textContent = `To: ${mail.to}`;
-                emailEl.textContent = '';
+                nameEl.textContent = currentFolder === 'sent' ? `To: ${mail.to}` : mail.name;
+                emailEl.textContent = currentFolder === 'sent' ? '' : `<${mail.email}>`;
                 dateEl.textContent = mail.timestamp;
-                bodyEl.innerHTML = mail.body.replace(/\n/g, '<br>');
                 
-                document.getElementById('btn-reply-shortcut').classList.add('hidden');
-                document.getElementById('btn-reply-pill').classList.add('hidden');
-                document.getElementById('btn-forward-pill').classList.add('hidden');
+                bodyEl.textContent = 'Loading message payload from Hostinger server...';
+                
+                try {
+                    const res = await fetch(`/api/emails/${mail.uid}/body?folder=${currentFolder}`);
+                    if (res.ok) {
+                        const data = await res.json();
+                        bodyEl.innerHTML = data.body.replace(/\n/g, '<br>');
+                    } else {
+                        throw new Error('Failed body parse');
+                    }
+                } catch (e) {
+                    bodyEl.textContent = 'Failed to load email body. Verify IMAP server status.';
+                }
+                
+                if (currentFolder === 'sent') {
+                    document.getElementById('btn-reply-shortcut').classList.add('hidden');
+                    document.getElementById('btn-reply-pill').classList.add('hidden');
+                    document.getElementById('btn-forward-pill').classList.add('hidden');
+                } else {
+                    document.getElementById('btn-reply-shortcut').classList.remove('hidden');
+                    document.getElementById('btn-reply-pill').classList.remove('hidden');
+                    document.getElementById('btn-forward-pill').classList.remove('hidden');
+                    document.getElementById('btn-reply-shortcut').onclick = () => prefillGmailReply(mail.email, mail.name);
+                    document.getElementById('btn-reply-pill').onclick = () => prefillGmailReply(mail.email, mail.name);
+                }
             } else {
-                subjectEl.textContent = `New Feasibility Sizing Inquiry - ${mail.location}`;
-                nameEl.textContent = mail.name;
-                emailEl.textContent = `<${mail.email}>`;
-                dateEl.textContent = mail.timestamp;
-                
-                bodyEl.textContent = formatInquiryBody(mail);
+                if (currentFolder === 'sent') {
+                    subjectEl.textContent = mail.subject;
+                    nameEl.textContent = `To: ${mail.to}`;
+                    emailEl.textContent = '';
+                    dateEl.textContent = mail.timestamp;
+                    bodyEl.innerHTML = mail.body.replace(/\n/g, '<br>');
+                    
+                    document.getElementById('btn-reply-shortcut').classList.add('hidden');
+                    document.getElementById('btn-reply-pill').classList.add('hidden');
+                    document.getElementById('btn-forward-pill').classList.add('hidden');
+                } else {
+                    subjectEl.textContent = `New Feasibility Sizing Inquiry - ${mail.location}`;
+                    nameEl.textContent = mail.name;
+                    emailEl.textContent = `<${mail.email}>`;
+                    dateEl.textContent = mail.timestamp;
+                    
+                    bodyEl.textContent = formatInquiryBody(mail);
 
-                document.getElementById('btn-reply-shortcut').classList.remove('hidden');
-                document.getElementById('btn-reply-pill').classList.remove('hidden');
-                document.getElementById('btn-forward-pill').classList.remove('hidden');
+                    document.getElementById('btn-reply-shortcut').classList.remove('hidden');
+                    document.getElementById('btn-reply-pill').classList.remove('hidden');
+                    document.getElementById('btn-forward-pill').classList.remove('hidden');
 
-                // Bind reply actions
-                document.getElementById('btn-reply-shortcut').onclick = () => prefillGmailReply(mail.email, mail.name);
-                document.getElementById('btn-reply-pill').onclick = () => prefillGmailReply(mail.email, mail.name);
+                    // Bind reply actions
+                    document.getElementById('btn-reply-shortcut').onclick = () => prefillGmailReply(mail.email, mail.name);
+                    document.getElementById('btn-reply-pill').onclick = () => prefillGmailReply(mail.email, mail.name);
+                }
             }
 
             // Bind delete button
@@ -1426,7 +1510,7 @@ FormSubmit Team`;
             document.getElementById('compose-mail-body').focus();
         }
 
-        function sendGmailMessage(e) {
+        async function sendGmailMessage(e) {
             e.preventDefault();
             const to = document.getElementById('compose-mail-to').value;
             const subject = document.getElementById('compose-mail-subject').value;
@@ -1436,31 +1520,84 @@ FormSubmit Team`;
             sendBtn.disabled = true;
             sendBtn.textContent = 'Sending...';
 
-            setTimeout(() => {
-                // Add to sent
-                const newSent = {
-                    timestamp: new Date().toLocaleString('en-IN'),
-                    to: to,
-                    subject: subject,
-                    body: body
-                };
+            if (isServerMode) {
+                try {
+                    const res = await fetch('/api/send', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ to, subject, body })
+                    });
+                    
+                    if (res.ok) {
+                        // Clear Compose form
+                        document.getElementById('compose-mail-to').value = '';
+                        document.getElementById('compose-mail-subject').value = '';
+                        document.getElementById('compose-mail-body').value = '';
+                        
+                        closeGmailCompose();
+                        await initMailClient();
+                        showGmailToast('Message sent.');
+                    } else {
+                        const err = await res.json();
+                        throw new Error(err.error || 'Failed to dispatch email.');
+                    }
+                } catch (err) {
+                    alert(`Failed to send email: ${err.message}`);
+                } finally {
+                    sendBtn.disabled = false;
+                    sendBtn.textContent = 'Send';
+                }
+            } else {
+                // Attempt direct client-side delivery via SMTPJS if credentials are valid
+                const activeUser = localStorage.getItem('portal_user');
+                if (activeUser && serverActiveUserPassword && serverActiveUserPassword !== '12345' && serverActiveUserPassword !== 'secret') {
+                    console.log(`[SMTPJS] Dispatching client-side email from ${activeUser} to ${to}...`);
+                    Email.send({
+                        Host: "smtp.hostinger.com",
+                        Username: activeUser,
+                        Password: serverActiveUserPassword,
+                        To: to,
+                        From: activeUser,
+                        Subject: subject,
+                        Body: body
+                    }).then(msg => {
+                        if (msg === 'OK') {
+                            console.log('[SMTPJS] Email delivered successfully.');
+                            showGmailToast('Message sent via Hostinger SMTP.');
+                        } else {
+                            console.warn('[SMTPJS] SMTPJS transmission error:', msg);
+                            showGmailToast('Mock message sent (SMTP verification failed).');
+                        }
+                    }).catch(err => {
+                        console.error('[SMTPJS] Connection error:', err);
+                        showGmailToast('Mock message sent (Offline).');
+                    });
+                } else {
+                    showGmailToast('Mock message sent.');
+                }
 
-                sentMails.unshift(newSent);
-                localStorage.setItem('sunova_sent_mails', JSON.stringify(sentMails));
+                setTimeout(() => {
+                    const newSent = {
+                        timestamp: new Date().toLocaleString('en-IN'),
+                        to: to,
+                        subject: subject,
+                        body: body
+                    };
 
-                // Reset Compose form
-                document.getElementById('compose-mail-to').value = '';
-                document.getElementById('compose-mail-subject').value = '';
-                document.getElementById('compose-mail-body').value = '';
-                sendBtn.disabled = false;
-                sendBtn.textContent = 'Send';
+                    sentMails.unshift(newSent);
+                    localStorage.setItem('sunova_sent_mails', JSON.stringify(sentMails));
 
-                closeGmailCompose();
-                initMailClient();
+                    // Reset Compose form
+                    document.getElementById('compose-mail-to').value = '';
+                    document.getElementById('compose-mail-subject').value = '';
+                    document.getElementById('compose-mail-body').value = '';
+                    sendBtn.disabled = false;
+                    sendBtn.textContent = 'Send';
 
-                // Show Gmail success toast
-                showGmailToast('Message sent.');
-            }, 1000);
+                    closeGmailCompose();
+                    initMailClient();
+                }, 1000);
+            }
         }
 
         function showGmailToast(msg) {
@@ -1477,30 +1614,50 @@ FormSubmit Team`;
             document.getElementById('toast-notification').classList.add('hidden');
         }
 
-        function deleteGmailItem(idx) {
+        async function deleteGmailItem(idx) {
             let list = getFolderSource();
-            const deleted = list.splice(idx, 1)[0];
+            const mail = list[idx];
 
-            if (currentFolder === 'trash') {
-                // Permanent delete
-                localStorage.setItem('sunova_trash_mails', JSON.stringify(trashMails));
-                showGmailToast('Conversation permanently deleted.');
+            if (isServerMode) {
+                try {
+                    const res = await fetch(`/api/emails/${mail.uid}/delete?folder=${currentFolder}`, {
+                        method: 'POST'
+                    });
+                    
+                    if (res.ok) {
+                        showGmailToast(currentFolder === 'trash' ? 'Conversation permanently deleted.' : 'Conversation moved to Trash.');
+                        exitReaderView();
+                        await initMailClient();
+                    } else {
+                        throw new Error('Failed to delete on server.');
+                    }
+                } catch (err) {
+                    alert(`Failed to delete email: ${err.message}`);
+                }
             } else {
-                // Move to trash
-                trashMails.unshift(deleted);
-                localStorage.setItem('sunova_trash_mails', JSON.stringify(trashMails));
+                const deleted = list.splice(idx, 1)[0];
 
-                if (currentFolder === 'inbox') {
-                    localStorage.setItem('sunova_inquiries', JSON.stringify(leadsInbox));
-                } else if (currentFolder === 'sent') {
-                    localStorage.setItem('sunova_sent_mails', JSON.stringify(sentMails));
+                if (currentFolder === 'trash') {
+                    // Permanent delete
+                    localStorage.setItem('sunova_trash_mails', JSON.stringify(trashMails));
+                    showGmailToast('Conversation permanently deleted.');
+                } else {
+                    // Move to trash
+                    trashMails.unshift(deleted);
+                    localStorage.setItem('sunova_trash_mails', JSON.stringify(trashMails));
+
+                    if (currentFolder === 'inbox') {
+                        localStorage.setItem('sunova_inquiries', JSON.stringify(leadsInbox));
+                    } else if (currentFolder === 'sent') {
+                        localStorage.setItem('sunova_sent_mails', JSON.stringify(sentMails));
+                    }
+
+                    showGmailToast('Conversation moved to Trash.');
                 }
 
-                showGmailToast('Conversation moved to Trash.');
+                exitReaderView();
+                initMailClient();
             }
-
-            exitReaderView();
-            initMailClient();
         }
 
         function logoutPortal() {

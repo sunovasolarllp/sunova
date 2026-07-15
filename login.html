@@ -211,7 +211,13 @@
                     
                     <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.5rem; margin-top: 0.4rem;">
                         <span style="color: var(--color-text-muted);">Assigned Partner: <strong>${inq.partner}</strong> (${inq.partnerCode})</span>
-                        <div style="display: flex; gap: 0.5rem;">
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            ${inq.status === 'Completed' ? `
+                                <span style="color: #22c55e; font-weight: 700; background: rgba(34,197,94,0.15); padding: 0.2rem 0.5rem; border-radius: 4px;">✅ Completed (Commission: ₹${(parseFloat(inq.commission) || 0).toLocaleString('en-IN')})</span>
+                            ` : `
+                                <button onclick="markLeadCompleted(${idx})" style="background: rgba(255, 183, 3, 0.15); color: var(--color-sun-yellow); border: 1px solid rgba(255,183,3,0.3); border-radius: 4px; padding: 0.25rem 0.5rem; font-weight: 600; cursor: pointer; font-size: 0.7rem; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">⚡ Complete Install</button>
+                            `}
+                            <span style="color: var(--color-border);">|</span>
                             <a href="https://wa.me/91${inq.phone}?text=Hi%20${inq.name},%20this%20is%20Sunova%20Solar.%20We%20received%20your%20quote%20request..." target="_blank" style="color: #22c55e; font-weight: 700; text-decoration: none;">💬 WhatsApp Client</a>
                             <span style="color: var(--color-border);">|</span>
                             <button onclick="deleteInquiry(${idx})" style="background: none; border: none; color: #ef4444; font-weight: 600; cursor: pointer; font-size: 0.72rem;">Delete Lead</button>
@@ -219,6 +225,24 @@
                     </div>
                 </div>
             `).join('');
+        }
+
+        function markLeadCompleted(idx) {
+            const inquiries = JSON.parse(localStorage.getItem('sunova_inquiries')) || [];
+            const lead = inquiries[idx];
+            const defaultCommission = lead.capacity * 5000;
+            const entered = prompt(`Mark installation as Completed for ${lead.name}?\nEnter partner commission amount in ₹ (or leave blank to auto-calculate at ₹5,000/kWp = ₹${defaultCommission}):`, defaultCommission);
+            
+            if (entered !== null) {
+                let commissionVal = parseFloat(entered);
+                if (isNaN(commissionVal)) commissionVal = defaultCommission;
+                
+                lead.status = 'Completed';
+                lead.commission = commissionVal;
+                
+                localStorage.setItem('sunova_inquiries', JSON.stringify(inquiries));
+                renderInquiries();
+            }
         }
 
         function deleteInquiry(idx) {

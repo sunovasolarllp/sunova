@@ -2130,7 +2130,7 @@ form {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 /* Footer Section */
@@ -2817,6 +2817,37 @@ form {
     color: var(--color-text-muted);
     font-weight: 600;
     margin-right: 0.5rem;
+}
+
+/* Print Media Styles for Solar Quotations */
+@media print {
+    body * {
+        visibility: hidden !important;
+    }
+    #quote-modal-overlay, #quote-modal-overlay * {
+        visibility: visible !important;
+    }
+    #quote-modal-overlay {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        background: white !important;
+        color: #333 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: visible !important;
+    }
+    #printable-quote-content {
+        box-shadow: none !important;
+        padding: 0 !important;
+        border: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    .no-print {
+        display: none !important;
+    }
 }
 
 
