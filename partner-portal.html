@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,7 +14,7 @@
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css?v=4.2">
 </head>
-<body class="dark-theme login-page-body">
+<body class="light-theme login-page-body">
     <div class="login-wrapper">
         <!-- Floating Home Link -->
         <a href="index.html" class="back-home-link">
@@ -25,7 +25,7 @@
         </a>
 
         <!-- Portal Glass Card -->
-        <div class="glass-card login-card" id="portal-card" style="max-width: 550px;">
+        <div class="glass-card login-card" id="portal-card">
             <div class="portal-header text-center">
                 <img src="assets/logo.jpg" alt="SUNOVA SOLAR LLP Logo" class="portal-logo">
                 <h2>Partner Portal</h2>
@@ -128,27 +128,27 @@
                     
                     <form id="quote-generator-form" onsubmit="event.preventDefault();">
                         <div class="form-group" style="margin-bottom: 0.8rem;">
-                            <label style="font-size: 0.76rem; color: var(--color-sun-yellow); margin-bottom: 0.3rem; display: block; font-weight: 600;">Select Allocated Lead (Auto-fill)</label>
-                            <select id="quote-select-lead" onchange="autoFillFromDropdown(this.value)" style="width: 100%; padding: 0.55rem; background: #121824; border: 1px solid var(--color-border); border-radius: 8px; color: white; font-size: 0.82rem;">
+                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Select Allocated Lead (Auto-fill)</label>
+                            <select id="quote-select-lead" onchange="autoFillFromDropdown(this.value)" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
                                 <option value="">-- Choose an Allocated Lead --</option>
                             </select>
                         </div>
                         <div class="form-group" style="margin-bottom: 0.8rem;">
                             <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Customer Name</label>
-                            <input type="text" id="quote-cust-name" placeholder="e.g. Radhakrishnan Nair" style="width: 100%; padding: 0.55rem; background: rgba(255,255,255,0.05); border: 1px solid var(--color-border); border-radius: 8px; color: white; font-size: 0.82rem;" required>
+                            <input type="text" id="quote-cust-name" placeholder="e.g. Radhakrishnan Nair" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
                         </div>
                         <div class="form-group" style="margin-bottom: 0.8rem;">
                             <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Installation Address</label>
-                            <input type="text" id="quote-cust-addr" placeholder="e.g. House No 15, Near Temple, Alappuzha" style="width: 100%; padding: 0.55rem; background: rgba(255,255,255,0.05); border: 1px solid var(--color-border); border-radius: 8px; color: white; font-size: 0.82rem;" required>
+                            <input type="text" id="quote-cust-addr" placeholder="e.g. House No 15, Near Temple, Alappuzha" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
                         </div>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
                             <div class="form-group">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Capacity (kWp)</label>
-                                <input type="number" id="quote-capacity" value="3" min="1" max="100" style="width: 100%; padding: 0.55rem; background: rgba(255,255,255,0.05); border: 1px solid var(--color-border); border-radius: 8px; color: white; font-size: 0.82rem;" required>
+                                <input type="number" id="quote-capacity" value="3" min="1" max="100" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
                             </div>
                             <div class="form-group">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Solar Panel Model</label>
-                                <select id="quote-panel-brand" style="width: 100%; padding: 0.55rem; background: #121824; border: 1px solid var(--color-border); border-radius: 8px; color: white; font-size: 0.82rem;">
+                                <select id="quote-panel-brand" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
                                     <option value="Waaree Elite Bifacial">Waaree Elite Bifacial (540Wp)</option>
                                     <option value="Adani Elan Mono PERC">Adani Elan Mono PERC (550Wp)</option>
                                     <option value="Tata Power Solaro">Tata Power Solaro (530Wp)</option>
@@ -408,6 +408,8 @@
         }
 
         function showDashboard(dealerCode) {
+            const wrapper = document.querySelector('.login-wrapper');
+            if (wrapper) wrapper.classList.add('dashboard-active');
             document.getElementById('login-view').classList.add('hidden');
             document.getElementById('dashboard-view').classList.remove('hidden');
             
@@ -804,61 +806,58 @@
             if (!activePartnerCode) return;
             
             const container = document.getElementById('allocated-leads-list');
-            let inquiries = [];
-            try {
-                inquiries = JSON.parse(localStorage.getItem('sunova_inquiries')) || [];
-            } catch (e) {
-                console.error(e);
-            }
+            container.innerHTML = `<div style="text-align: center; padding: 2rem 1rem; color: var(--color-text-muted); font-size: 0.84rem;">🔄 Loading allocated leads from database...</div>`;
             
-            // Filter leads allocated to this specific partner
-            const allocatedLeads = inquiries.filter(lead => lead.partnerCode === activePartnerCode);
-            
-            // Re-update metrics at the top dynamically
-            const activeLeadsCount = allocatedLeads.filter(lead => lead.status !== 'Completed').length;
-            const completedLeads = allocatedLeads.filter(lead => lead.status === 'Completed');
-            const totalCommission = completedLeads.reduce((sum, lead) => sum + (parseFloat(lead.commission) || 0), 0);
-            
-            document.getElementById('partner-active-leads').textContent = activeLeadsCount;
-            document.getElementById('partner-commission-earned').textContent = `₹${totalCommission.toLocaleString('en-IN')}`;
-            
-            // Sync dropdown options too
-            populateLeadsDropdown(activePartnerCode);
-            
-            if (allocatedLeads.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 2rem 1rem; color: var(--color-text-muted); font-size: 0.84rem;">
-                        📭 No allocated inquiries found for your partner area yet.
+            loadInquiries(function(inquiries) {
+                // Filter leads allocated to this specific partner
+                const allocatedLeads = inquiries.filter(lead => lead.partnerCode === activePartnerCode);
+                
+                // Re-update metrics dynamically
+                const activeLeadsCount = allocatedLeads.filter(lead => lead.status !== 'Completed').length;
+                const completedLeads = allocatedLeads.filter(lead => lead.status === 'Completed');
+                const totalCommission = completedLeads.reduce((sum, lead) => sum + (parseFloat(lead.commission) || 0), 0);
+                
+                document.getElementById('partner-active-leads').textContent = activeLeadsCount;
+                document.getElementById('partner-commission-earned').textContent = `₹${totalCommission.toLocaleString('en-IN')}`;
+                
+                // Sync dropdown options too
+                populateLeadsDropdown(activePartnerCode, inquiries);
+                
+                if (allocatedLeads.length === 0) {
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 2rem 1rem; color: var(--color-text-muted); font-size: 0.84rem;">
+                            📭 No allocated inquiries found for your partner area yet.
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = allocatedLeads.map(lead => `
+                    <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 10px; padding: 1.2rem; font-size: 0.82rem; line-height: 1.55; color: var(--color-text); margin-bottom: 0.8rem; box-shadow: 0 4px 15px var(--color-shadow);">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem;">
+                            <strong style="color: var(--color-text); font-size: 0.9rem;">👤 ${lead.name}</strong>
+                            <span style="font-size: 0.72rem; color: var(--color-text-muted);">${lead.timestamp}</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem 1rem; margin-bottom: 0.6rem; color: var(--color-text-muted);">
+                            <div>📞 <strong style="color: var(--color-text);">Phone:</strong> ${lead.phone}</div>
+                            <div>📧 <strong style="color: var(--color-text);">Email:</strong> ${lead.email}</div>
+                            <div>📍 <strong style="color: var(--color-text);">Location:</strong> ${lead.location}, ${lead.district}</div>
+                            <div>⚡ <strong style="color: var(--color-text);">System Specs:</strong> ${lead.capacity} kWp (${lead.category})</div>
+                        </div>
+                        <div style="background: var(--color-bg-alt); padding: 0.6rem 0.8rem; border-radius: 6px; font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 0.8rem; border-left: 3px solid var(--color-sun-yellow); line-height: 1.45;">
+                            <strong style="color: var(--color-text);">Site Message:</strong> "${lead.message}"
+                        </div>
+                        <div style="display: flex; gap: 0.6rem;">
+                            <a href="https://wa.me/91${lead.phone}?text=${encodeURIComponent(`Hi ${lead.name}, this is ${DEALERS.find(d => d.code === activePartnerCode).name} from Sunova Solar. We received your quote request for a ${lead.capacity} kWp system. (Bank Loan Required: ${lead.loan ? 'Yes' : 'No'}). We would love to discuss the details.`)}" target="_blank" rel="noopener" style="flex: 1; text-align: center; background: #25d366; color: white; border: none; border-radius: 6px; padding: 0.45rem; font-size: 0.75rem; font-weight: 600; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 0.3rem; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                                💬 WhatsApp Client
+                            </a>
+                            <button type="button" onclick="prefillFormForQuote('${lead.name.replace(/'/g, "\\'")}', '${lead.location.replace(/'/g, "\\'")}', ${lead.capacity})" style="flex: 1; background: var(--color-sun-yellow); color: #0d1321; border: none; border-radius: 6px; padding: 0.45rem; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                                ⚡ Load into Generator
+                            </button>
+                        </div>
                     </div>
-                `;
-                return;
-            }
-            
-            container.innerHTML = allocatedLeads.map(lead => `
-                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; font-size: 0.82rem; line-height: 1.5; color: var(--color-text); margin-bottom: 0.6rem;">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.3rem;">
-                        <strong style="color: var(--color-sun-yellow); font-size: 0.88rem;">👤 ${lead.name}</strong>
-                        <span style="font-size: 0.72rem; color: var(--color-text-muted);">${lead.timestamp}</span>
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem 1rem; margin-bottom: 0.6rem;">
-                        <div>📞 <strong>Phone:</strong> ${lead.phone}</div>
-                        <div>📧 <strong>Email:</strong> ${lead.email}</div>
-                        <div>📍 <strong>Location:</strong> ${lead.location}, ${lead.district}</div>
-                        <div>⚡ <strong>System Specs:</strong> ${lead.capacity} kWp (${lead.category})</div>
-                    </div>
-                    <div style="background: rgba(0,0,0,0.15); padding: 0.5rem; border-radius: 6px; font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 0.6rem; border-left: 2px solid var(--color-sun-yellow);">
-                        <strong>Site Message:</strong> ${lead.message}
-                    </div>
-                    <div style="display: flex; gap: 0.6rem;">
-                        <a href="https://wa.me/91${lead.phone}?text=Hi%20${encodeURIComponent(lead.name)},%20this%20is%20${encodeURIComponent(DEALERS.find(d => d.code === activePartnerCode).name)}%20from%20Sunova%20Solar.%20We%20received%20your%20solar%20inquiry%20leads." target="_blank" rel="noopener" style="flex: 1; text-align: center; background: #25d366; color: white; border: none; border-radius: 6px; padding: 0.45rem; font-size: 0.75rem; font-weight: 600; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 0.3rem; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
-                            💬 WhatsApp Client
-                        </a>
-                        <button type="button" onclick="prefillFormForQuote('${lead.name.replace(/'/g, "\\'")}', '${lead.location.replace(/'/g, "\\'")}', ${lead.capacity})" style="flex: 1; background: var(--color-sun-yellow); color: #0d1321; border: none; border-radius: 6px; padding: 0.45rem; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
-                            ⚡ Load into Generator
-                        </button>
-                    </div>
-                </div>
-            `).join('');
+                `).join('');
+            });
         }
 
         function prefillFormForQuote(name, address, capacity) {

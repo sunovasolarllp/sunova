@@ -4,6 +4,68 @@ header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Content-Type');
 
+function write_db($file, $content) {
+    $result = @file_put_contents($file, $content);
+    if ($result === false) {
+        @chmod($file, 0666);
+        $result = @file_put_contents($file, $content);
+    }
+    return $result !== false;
+}
+
+function parse_lead_from_email($body, $date) {
+    $body = str_replace("\r", "", $body);
+    
+    $name = "";
+    $phone = "";
+    $email = "Not Provided";
+    $district = "";
+    $location = "";
+    $capacity = "3";
+    $model = "On-Grid";
+    $loan = false;
+    $message = "None";
+    $dealer = "None";
+    
+    if (preg_match('/(?:Name|name):\s*(.*)/i', $body, $matches)) $name = trim($matches[1]);
+    if (preg_match('/(?:Phone|phone):\s*([0-9\+\s]+)/i', $body, $matches)) $phone = preg_replace('/[^0-9]/', '', $matches[1]);
+    if (preg_match('/(?:Email|email):\s*([a-zA-Z0-9\._%+-]+@[a-zA-Z0-9\.-]+\.[a-zA-Z]{2,})/i', $body, $matches)) $email = trim($matches[1]);
+    if (preg_match('/(?:District|district):\s*(.*)/i', $body, $matches)) $district = trim($matches[1]);
+    if (preg_match('/(?:Location|location):\s*(.*)/i', $body, $matches)) $location = trim($matches[1]);
+    if (preg_match('/(?:Requested Capacity|Capacity):\s*([0-9\.]+)/i', $body, $matches)) $capacity = trim($matches[1]);
+    if (preg_match('/(?:System Technology Model|Model):\s*(.*)/i', $body, $matches)) $model = trim($matches[1]);
+    if (preg_match('/(?:Bank Loan Required|Loan):\s*(Yes|No|true|false)/i', $body, $matches)) {
+        $lVal = strtolower(trim($matches[1]));
+        $loan = ($lVal === 'yes' || $lVal === 'true');
+    }
+    if (preg_match('/(?:Message|Site Details):\s*(.*)/i', $body, $matches)) $message = trim($matches[1]);
+    if (preg_match('/(?:Matched Dealer|Dealer):\s*(.*)/i', $body, $matches)) $dealer = trim($matches[1]);
+    
+    if (strlen($phone) == 12 && substr($phone, 0, 2) == '91') {
+        $phone = substr($phone, 2);
+    }
+    
+    if (!$name || !$phone) return null;
+    
+    return [
+        'uid' => 'email_' . md5($phone . $date),
+        'name' => $name,
+        'phone' => $phone,
+        'email' => $email,
+        'district' => $district,
+        'location' => $location,
+        'capacity' => $capacity,
+        'systemModel' => $model,
+        'connection' => (stripos($body, 'Commercial') !== false) ? 'commercial' : 'residential',
+        'loan' => $loan ? 'Yes' : 'No',
+        'message' => $message,
+        'dealer' => $dealer,
+        'timestamp' => $date,
+        'status' => 'Pending',
+        'commission' => 0
+    ];
+}
+
 $action = isset($_GET['action']) ? $_GET['action'] : '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -78,7 +140,83 @@ if ($action === 'log_inquiry') {
     
     // Save with security header
     $saveContent = '<?php http_response_code(403); exit; ?>' . json_encode($inquiries, JSON_PRETTY_PRINT);
-    file_put_contents($file, $saveContent);
+    write_db($file, $saveContent);
+    
+    echo json_encode(['success' => true]);
+    exit;
+}
+
+// 8. Retrieve Logged Inquiries
+if ($action === 'get_inquiries') {
+    $file = 'inquiries_db.php';
+    $inquiries = [];
+    
+    if (file_exists($file)) {
+        $content = file_get_contents($file);
+        $jsonStr = str_replace('<?php http_response_code(403); exit; ?>', '', $content);
+        $inquiries = json_decode($jsonStr, true);
+        if (!is_array($inquiries)) $inquiries = [];
+    }
+    
+    echo json_encode(['inquiries' => $inquiries]);
+    exit;
+}
+
+// 9. Delete Logged Inquiry
+if ($action === 'delete_inquiry') {
+    $uid = isset($_GET['uid']) ? $_GET['uid'] : '';
+    if (!$uid) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Inquiry UID is required']);
+        exit;
+    }
+    
+    $file = 'inquiries_db.php';
+    if (file_exists($file)) {
+        $content = file_get_contents($file);
+        $jsonStr = str_replace('<?php http_response_code(403); exit; ?>', '', $content);
+        $inquiries = json_decode($jsonStr, true);
+        if (is_array($inquiries)) {
+            $inquiries = array_values(array_filter($inquiries, function($inq) use ($uid) {
+                return $inq['uid'] !== $uid;
+            }));
+            
+            $saveContent = '<?php http_response_code(403); exit; ?>' . json_encode($inquiries, JSON_PRETTY_PRINT);
+            write_db($file, $saveContent);
+        }
+    }
+    
+    echo json_encode(['success' => true]);
+    exit;
+}
+
+// 10. Complete Logged Inquiry
+if ($action === 'complete_inquiry') {
+    $uid = isset($_GET['uid']) ? $_GET['uid'] : '';
+    $commission = isset($_GET['commission']) ? $_GET['commission'] : 0;
+    if (!$uid) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Inquiry UID is required']);
+        exit;
+    }
+    
+    $file = 'inquiries_db.php';
+    if (file_exists($file)) {
+        $content = file_get_contents($file);
+        $jsonStr = str_replace('<?php http_response_code(403); exit; ?>', '', $content);
+        $inquiries = json_decode($jsonStr, true);
+        if (is_array($inquiries)) {
+            foreach ($inquiries as &$inq) {
+                if ($inq['uid'] === $uid) {
+                    $inq['status'] = 'Completed';
+                    $inq['commission'] = $commission;
+                    break;
+                }
+            }
+            $saveContent = '<?php http_response_code(403); exit; ?>' . json_encode($inquiries, JSON_PRETTY_PRINT);
+            write_db($file, $saveContent);
+        }
+    }
     
     echo json_encode(['success' => true]);
     exit;
@@ -88,6 +226,78 @@ if ($action === 'log_inquiry') {
 if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
     http_response_code(401);
     echo json_encode(['error' => 'No active session']);
+    exit;
+}
+
+// 11. Sync Mailbox Inquiries (Requires Auth Session)
+if ($action === 'sync_mailbox') {
+    $email = $_SESSION['email'];
+    $password = $_SESSION['password'];
+    $mbox = @imap_open("{" . $_SESSION['imap_host'] . ":" . $_SESSION['imap_port'] . "/imap/ssl}INBOX", $email, $password);
+    if (!$mbox) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Failed to connect to Hostinger IMAP.']);
+        exit;
+    }
+    
+    $emails = imap_search($mbox, 'SUBJECT "New Solar Inquiry"');
+    $syncedCount = 0;
+    
+    if ($emails) {
+        $file = 'inquiries_db.php';
+        $inquiries = [];
+        if (file_exists($file)) {
+            $content = file_get_contents($file);
+            $jsonStr = str_replace('<?php http_response_code(403); exit; ?>', '', $content);
+            $inquiries = json_decode($jsonStr, true);
+            if (!is_array($inquiries)) $inquiries = [];
+        }
+        
+        $emails = array_reverse($emails);
+        $limit = min(30, count($emails));
+        
+        for ($i = 0; $i < $limit; $i++) {
+            $msgId = $emails[$i];
+            $header = imap_headerinfo($mbox, $msgId);
+            $date = date('Y-m-d H:i:s', strtotime($header->date));
+            
+            $body = imap_fetchbody($mbox, $msgId, 1);
+            $structure = imap_fetchstructure($mbox, $msgId);
+            if ($structure->encoding == 3) {
+                $body = base64_decode($body);
+            } elseif ($structure->encoding == 4) {
+                $body = quoted_printable_decode($body);
+            }
+            
+            $lead = parse_lead_from_email($body, $date);
+            if ($lead) {
+                $exists = false;
+                foreach ($inquiries as $inq) {
+                    if (isset($inq['phone']) && $inq['phone'] === $lead['phone']) {
+                        $exists = true;
+                        break;
+                    }
+                }
+                
+                if (!$exists) {
+                    $inquiries[] = $lead;
+                    $syncedCount++;
+                }
+            }
+        }
+        
+        if ($syncedCount > 0) {
+            usort($inquiries, function($a, $b) {
+                return strcmp($b['timestamp'], $a['timestamp']);
+            });
+            
+            $saveContent = '<?php http_response_code(403); exit; ?>' . json_encode($inquiries, JSON_PRETTY_PRINT);
+            write_db($file, $saveContent);
+        }
+    }
+    
+    imap_close($mbox);
+    echo json_encode(['success' => true, 'synced' => $syncedCount]);
     exit;
 }
 
@@ -264,49 +474,7 @@ if ($action === 'delete') {
     exit;
 }
 
-// 8. Retrieve Logged Inquiries (Requires Auth Session)
-if ($action === 'get_inquiries') {
-    $file = 'inquiries_db.php';
-    $inquiries = [];
-    
-    if (file_exists($file)) {
-        $content = file_get_contents($file);
-        $jsonStr = str_replace('<?php http_response_code(403); exit; ?>', '', $content);
-        $inquiries = json_decode($jsonStr, true);
-        if (!is_array($inquiries)) $inquiries = [];
-    }
-    
-    echo json_encode(['inquiries' => $inquiries]);
-    exit;
-}
 
-// 9. Delete Logged Inquiry (Requires Auth Session)
-if ($action === 'delete_inquiry') {
-    $uid = isset($_GET['uid']) ? $_GET['uid'] : '';
-    if (!$uid) {
-        http_response_code(400);
-        echo json_encode(['error' => 'Inquiry UID is required']);
-        exit;
-    }
-    
-    $file = 'inquiries_db.php';
-    if (file_exists($file)) {
-        $content = file_get_contents($file);
-        $jsonStr = str_replace('<?php http_response_code(403); exit; ?>', '', $content);
-        $inquiries = json_decode($jsonStr, true);
-        if (is_array($inquiries)) {
-            $inquiries = array_values(array_filter($inquiries, function($inq) use ($uid) {
-                return $inq['uid'] !== $uid;
-            }));
-            
-            $saveContent = '<?php http_response_code(403); exit; ?>' . json_encode($inquiries, JSON_PRETTY_PRINT);
-            file_put_contents($file, $saveContent);
-        }
-    }
-    
-    echo json_encode(['success' => true]);
-    exit;
-}
 
 http_response_code(400);
 echo json_encode(['error' => 'Invalid action']);

@@ -2317,6 +2317,11 @@ form {
     flex-direction: column;
     gap: 1.5rem;
     position: relative;
+    transition: max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.login-wrapper.dashboard-active {
+    max-width: 1100px;
 }
 
 .back-home-link {

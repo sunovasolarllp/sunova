@@ -401,6 +401,28 @@ app.all('/proxy.php', (req, res) => {
         return res.json({ success: true });
     }
     
+    if (action === 'complete_inquiry') {
+        const uid = req.query.uid;
+        const commission = req.query.commission || 0;
+        const dbFile = path.join(__dirname, 'inquiries_db.json');
+        let inquiries = [];
+        if (fs.existsSync(dbFile)) {
+            try {
+                inquiries = JSON.parse(fs.readFileSync(dbFile, 'utf8')) || [];
+            } catch (e) {}
+        }
+        inquiries = inquiries.map(inq => {
+            if (inq.uid === uid) {
+                inq.status = 'Completed';
+                inq.commission = commission;
+            }
+            return inq;
+        });
+        fs.writeFileSync(dbFile, JSON.stringify(inquiries, null, 2));
+        console.log(`[Local Server] Lead completed: ${uid} (Commission: ${commission})`);
+        return res.json({ success: true });
+    }
+    
     res.status(400).json({ error: 'Unknown action in mock proxy' });
 });
 

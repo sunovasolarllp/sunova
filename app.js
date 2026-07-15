@@ -821,47 +821,45 @@ function handleFormSubmit(event) {
     const officePhone = "919072522277";
     const waOfficeUrl = `https://wa.me/${officePhone}?text=${encodeURIComponent(waMessage)}`;
 
-    const WEB3FORMS_ACCESS_KEY = "YOUR_ACCESS_KEY_HERE";
-    const activeWeb3Key = localStorage.getItem('web3forms_access_key') || WEB3FORMS_ACCESS_KEY;
+    const WEB3FORMS_ACCESS_KEY = "3b85044a-ed95-42ed-b465-e6afcaeb60a2";
 
-    if (activeWeb3Key && activeWeb3Key !== "YOUR_ACCESS_KEY_HERE") {
-        const emailPayload = {
-            access_key: activeWeb3Key,
-            name: name,
-            phone: phone,
-            email: email || 'Not Provided',
-            district: district,
-            location: location,
-            "System Type": connection,
-            "System Technology Model": systemModelLabel,
-            "Requested Capacity": capacity + ' kWp',
-            "Bank Loan Required": loanRequired,
-            "Message / Site Details": message || 'None',
-            "Matched Dealer": `${dealer.name} (${dealer.code})`,
-            subject: `New Solar Inquiry from ${name} (${location})`
-        };
+    const emailPayload = {
+        access_key: WEB3FORMS_ACCESS_KEY,
+        name: name,
+        phone: phone,
+        email: email || 'Not Provided',
+        district: district,
+        location: location,
+        "System Type": connection,
+        "System Technology Model": systemModelLabel,
+        "Requested Capacity": capacity + ' kWp',
+        "Bank Loan Required": loanRequired,
+        "Message / Site Details": message || 'None',
+        "Matched Dealer": `${dealer.name} (${dealer.code})`,
+        subject: `New Solar Inquiry from ${name} (${location})`
+    };
 
-        fetch('https://api.web3forms.com/submit', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(emailPayload)
-        })
-        .then(response => {
-            if (response.ok) {
-                console.log('[Web3Forms] Background email copy successfully dispatched.');
-            } else {
-                console.warn('[Web3Forms] Server returned status: ' + response.status);
-            }
-        })
-        .catch(err => {
-            console.error('[Web3Forms] Dispatch failed:', err);
-        });
-    } else {
-        // Fallback Route: FormSubmit AJAX API using the pre-verified hash token
-        const emailPayload = {
+    // Primary Dispatch: Web3Forms (using your verified Access Key)
+    fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(emailPayload)
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('[Web3Forms] Email successfully dispatched.');
+        } else {
+            throw new Error('Web3Forms returned status: ' + response.status);
+        }
+    })
+    .catch(err => {
+        console.warn('[Web3Forms] Primary dispatch failed. Attempting FormSubmit fallback...', err);
+        
+        // Redundancy Dispatch: FormSubmit AJAX API
+        const fsPayload = {
             Name: name,
             Phone: phone,
             Email: email || 'Not Provided',
@@ -882,19 +880,19 @@ function handleFormSubmit(event) {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
-            body: JSON.stringify(emailPayload)
+            body: JSON.stringify(fsPayload)
         })
         .then(response => {
             if (response.ok) {
-                console.log('[Submit] Background email copy successfully dispatched.');
+                console.log('[FormSubmit] Fallback email successfully dispatched.');
             } else {
-                console.warn('[Submit] FormSubmit server returned status: ' + response.status);
+                console.warn('[FormSubmit] Fallback returned status: ' + response.status);
             }
         })
-        .catch(err => {
-            console.error('[Submit] FormSubmit dispatch failed:', err);
+        .catch(fsErr => {
+            console.error('[Submit] All mail automation systems blocked by local network:', fsErr);
         });
-    }
+    });
 
     // 3.5. Also Log Inquiry to Local Server database securely (so staff can view it in Sunova Mail inbox)
     const logPayload = {
