@@ -37,7 +37,7 @@
                 <form id="portal-login-form" onsubmit="handlePortalLogin(event)">
                     <div class="form-group">
                         <label for="portal-email">Corporate Email Address</label>
-                        <input type="email" id="portal-email" placeholder="e.g. info@sunovasolar.in" required value="info@sunovasolar.in">
+                        <input type="text" id="portal-email" placeholder="e.g. info@sunovasolar.in" required value="info@sunovasolar.in">
                     </div>
                     
                     <div class="form-group">
@@ -54,6 +54,31 @@
                 <div class="text-center portal-footer-note">
                     <span class="lock-icon">🔒</span> Powered by secure SSL connections.
                 </div>
+            </div>
+
+            <!-- Password Reset View (Initially Hidden) -->
+            <div id="reset-view" class="hidden">
+                <form id="portal-reset-form" onsubmit="handlePortalReset(event)">
+                    <div style="background: rgba(255, 183, 3, 0.1); border: 1px solid var(--color-sun-yellow); border-radius: 8px; padding: 0.8rem; margin-bottom: 1.2rem; font-size: 0.78rem; color: var(--color-sun-yellow); line-height: 1.4;">
+                        🔑 <strong>Admin Mode Activated:</strong> Please define a new custom password for corporate staff login access.
+                    </div>
+                    <div class="form-group">
+                        <label for="portal-new-password">New Staff Password</label>
+                        <input type="password" id="portal-new-password" placeholder="Enter new password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="portal-confirm-password">Confirm New Password</label>
+                        <input type="password" id="portal-confirm-password" placeholder="Confirm new password" required>
+                    </div>
+                    <div id="reset-feedback" class="form-feedback hidden"></div>
+                    
+                    <button type="submit" class="cta-btn primary-btn full-width" style="margin-top: 0.5rem;">
+                        Save Password &amp; Continue
+                    </button>
+                    <button type="button" onclick="cancelReset()" class="cta-btn secondary-btn full-width" style="margin-top: 0.5rem;">
+                        Cancel
+                    </button>
+                </form>
             </div>
 
             <!-- Dashboard View (Initially Hidden) -->
@@ -129,22 +154,41 @@
             const feedback = document.getElementById('login-feedback');
             const loginBtn = document.getElementById('btn-portal-login');
 
-            // Verification rules
+            // 1. Check for Password Reset Trigger (login as admin / password as admin)
+            if (email.toLowerCase() === 'admin' && password === 'admin') {
+                feedback.classList.add('hidden');
+                document.getElementById('login-view').classList.add('hidden');
+                document.getElementById('reset-view').classList.remove('hidden');
+                
+                const header = document.querySelector('.portal-header');
+                header.querySelector('h2').textContent = 'Reset Password';
+                header.querySelector('p').textContent = 'Define a custom password for corporate staff access.';
+                return;
+            }
+
+            // 2. Standard Staff Login Validation
             if (!email.endsWith('@sunovasolar.in')) {
                 feedback.textContent = 'Access Denied. Only @sunovasolar.in emails are authorized.';
                 feedback.className = 'form-feedback error';
+                feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
+                feedback.style.color = '#ef4444';
                 feedback.classList.remove('hidden');
                 return;
             }
 
-            if (password.length < 4) {
-                feedback.textContent = 'Please enter a valid password.';
+            // Retrieve custom staff password or default to Sunova@26
+            const currentStaffPass = localStorage.getItem('staff_portal_password') || 'Sunova@26';
+
+            if (password !== currentStaffPass) {
+                feedback.textContent = 'Access Denied. Invalid portal password.';
                 feedback.className = 'form-feedback error';
+                feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
+                feedback.style.color = '#ef4444';
                 feedback.classList.remove('hidden');
                 return;
             }
 
-            feedback.textContent = 'Connecting to Hostinger mail server...';
+            feedback.textContent = 'Authenticating staff session...';
             feedback.className = 'form-feedback';
             feedback.style.backgroundColor = 'rgba(255, 183, 3, 0.15)';
             feedback.style.color = 'var(--color-sun-yellow)';
@@ -152,10 +196,67 @@
             loginBtn.disabled = true;
 
             setTimeout(() => {
-                // Successful verification mock login
+                // Successful verification login
                 localStorage.setItem('portal_user', email);
                 showDashboard(email);
-            }, 1200);
+            }, 1000);
+        }
+
+        function handlePortalReset(e) {
+            e.preventDefault();
+            const newPass = document.getElementById('portal-new-password').value;
+            const confirmPass = document.getElementById('portal-confirm-password').value;
+            const feedback = document.getElementById('reset-feedback');
+
+            if (newPass.length < 6) {
+                feedback.textContent = 'Password must be at least 6 characters long.';
+                feedback.className = 'form-feedback error';
+                feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
+                feedback.style.color = '#ef4444';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            if (newPass !== confirmPass) {
+                feedback.textContent = 'Passwords do not match.';
+                feedback.className = 'form-feedback error';
+                feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
+                feedback.style.color = '#ef4444';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            // Save new password
+            localStorage.setItem('staff_portal_password', newPass);
+
+            feedback.textContent = 'Password updated successfully! Returning to login...';
+            feedback.className = 'form-feedback';
+            feedback.style.backgroundColor = 'rgba(34, 197, 94, 0.15)';
+            feedback.style.color = '#22c55e';
+            feedback.classList.remove('hidden');
+
+            setTimeout(() => {
+                cancelReset();
+                document.getElementById('portal-password').value = '';
+                document.getElementById('login-feedback').textContent = 'Password updated successfully. Please login with your new credentials.';
+                document.getElementById('login-feedback').className = 'form-feedback';
+                document.getElementById('login-feedback').style.backgroundColor = 'rgba(34, 197, 94, 0.15)';
+                document.getElementById('login-feedback').style.color = '#22c55e';
+                document.getElementById('login-feedback').classList.remove('hidden');
+            }, 1500);
+        }
+
+        function cancelReset() {
+            document.getElementById('reset-view').classList.add('hidden');
+            document.getElementById('login-view').classList.remove('hidden');
+            
+            const header = document.querySelector('.portal-header');
+            header.querySelector('h2').textContent = 'Staff Portal';
+            header.querySelector('p').textContent = 'Log in to access your staff dashboard and live customer inquiries log.';
+            
+            document.getElementById('portal-new-password').value = '';
+            document.getElementById('portal-confirm-password').value = '';
+            document.getElementById('reset-feedback').classList.add('hidden');
         }
 
         function showDashboard(email) {
@@ -166,7 +267,7 @@
             // Modify portal title/subtitle slightly
             const header = document.querySelector('.portal-header');
             header.querySelector('h2').textContent = 'Staff Dashboard';
-            header.querySelector('p').textContent = 'Launch webmail portals and view connection protocols.';
+            header.querySelector('p').textContent = 'View and manage customer inquiries log.';
             
             // Load and render dynamic inquiries list
             renderInquiries();
