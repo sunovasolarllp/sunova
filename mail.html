@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SunovaMail</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Gmail Theme & Palette */
+        :root {
+            --gmail-bg: #f6f8fc;
+            --gmail-sidebar: #f6f8fc;
+            --gmail-sidebar-hover: #eaf1fb;
+            --gmail-sidebar-active: #d3e3fd;
+            --gmail-text-primary: #1f1f1f;
+            --gmail-text-muted: #5e5e5e;
+            --gmail-border: #e0e2e6;
+            --gmail-blue: #0b57d0;
+            --gmail-search-bg: #eaf1fb;
+            --gmail-card-bg: #ffffff;
+            --font-gmail: 'Roboto', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--gmail-bg);
+            color: var(--gmail-text-primary);
+            font-family: var(--font-gmail);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* 1. Gmail Header */
+        .gmail-header {
+            height: 64px;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--gmail-border);
+            background-color: #ffffff;
+            box-sizing: border-box;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            min-width: 200px;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            padding: 8px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-btn:hover {
+            background-color: #f1f3f4;
+        }
+
+        .menu-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--gmail-text-muted);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Styled envelope icon similar to Gmail multi-colored M */
+        .logo-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .logo-text {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #5f6368;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text span {
+            color: var(--gmail-blue);
+            font-weight: 700;
+        }
+
+        .header-center {
+            flex: 1;
+            max-width: 720px;
+            margin: 0 2rem;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            background-color: var(--gmail-search-bg);
+            border-radius: 24px;
+            padding: 0 12px;
+            height: 48px;
+            box-sizing: border-box;
+        }
+
+        .search-container svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--gmail-text-muted);
+            margin-right: 12px;
+        }
+
+        .search-container input {
+            border: none;
+            background: transparent;
+            width: 100%;
+            height: 100%;
+            font-size: 0.95rem;
+            color: var(--gmail-text-primary);
+            font-family: inherit;
+        }
+
+        .search-container input:focus {
+            outline: none;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .header-icon-btn {
+            background: none;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-icon-btn:hover {
+            background-color: #f1f3f4;
+        }
+
+        .header-icon-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--gmail-text-muted);
+        }
+
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--gmail-blue);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-left: 8px;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* 2. Main Layout */
+        .gmail-body {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* 3. Left Sidebar */
+        .gmail-sidebar {
+            width: 256px;
+            background-color: var(--gmail-sidebar);
+            padding: 1rem 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            box-sizing: border-box;
+        }
+
+        .compose-pill {
+            background-color: #c2e7ff;
+            color: #001d35;
+            border: none;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            font-size: 0.88rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            width: fit-content;
+            min-width: 140px;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+            margin-bottom: 1rem;
+            margin-left: 0.5rem;
+            transition: box-shadow 0.2s, background-color 0.2s;
+        }
+
+        .compose-pill:hover {
+            background-color: #b3dbf9;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .compose-pill svg {
+            width: 20px;
+            height: 20px;
+            fill: #001d35;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.6rem 1.5rem;
+            border-radius: 0 20px 20px 0;
+            color: #444746;
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 500;
+            cursor: pointer;
+            margin-right: 0.5rem;
+            transition: background-color 0.15s;
+        }
+
+        .sidebar-item:hover {
+            background-color: var(--gmail-sidebar-hover);
+        }
+
+        .sidebar-item.active {
+            background-color: var(--gmail-sidebar-active);
+            color: #001d35;
+            font-weight: 700;
+        }
+
+        .sidebar-item-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .sidebar-item-left svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .sidebar-badge {
+            font-size: 0.75rem;
+            color: var(--gmail-text-muted);
+            font-weight: 600;
+        }
+
+        .sidebar-badge.unread {
+            color: #001d35;
+            font-weight: 700;
+        }
+
+        /* 4. Main Content Panel */
+        .gmail-main {
+            flex: 1;
+            margin: 0.5rem 1rem 1rem 0;
+            background-color: var(--gmail-card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--gmail-border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        /* Action Toolbar */
+        .toolbar {
+            height: 48px;
+            border-bottom: 1px solid var(--gmail-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1rem;
+            box-sizing: border-box;
+            background-color: #ffffff;
+        }
+
+        .toolbar-left, .toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toolbar-btn {
+            background: none;
+            border: none;
+            padding: 8px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gmail-text-muted);
+        }
+
+        .toolbar-btn:hover {
+            background-color: #f1f3f4;
+            color: var(--gmail-text-primary);
+        }
+
+        .toolbar-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        .toolbar-separator {
+            width: 1px;
+            height: 20px;
+            background-color: var(--gmail-border);
+            margin: 0 4px;
+        }
+
+        .toolbar-text {
+            font-size: 0.75rem;
+            color: var(--gmail-text-muted);
+        }
+
+        /* 5. Mail Thread Rows List */
+        .threads-pane {
+            flex: 1;
+            overflow-y: auto;
+            background-color: #ffffff;
+        }
+
+        .mail-row {
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            height: 40px;
+            border-bottom: 1px solid #f1f3f4;
+            cursor: pointer;
+            font-size: 0.88rem;
+            box-sizing: border-box;
+            user-select: none;
+            transition: box-shadow 0.15s;
+        }
+
+        .mail-row:hover {
+            box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
+            z-index: 2;
+        }
+
+        .mail-row.unread {
+            font-weight: 700;
+            background-color: #f8fafc;
+        }
+
+        .mail-row.active {
+            background-color: #e8f0fe;
+        }
+
+        .mail-row-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-right: 1rem;
+            color: var(--gmail-text-muted);
+        }
+
+        .mail-row-checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--gmail-text-muted);
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        .star-icon {
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .star-icon:hover {
+            background-color: #f1f3f4;
+        }
+
+        .star-icon svg {
+            width: 18px;
+            height: 18px;
+            fill: #dadce0;
+        }
+
+        .star-icon.starred svg {
+            fill: #f4b400;
+        }
+
+        .mail-sender {
+            width: 180px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-right: 1rem;
+            box-sizing: border-box;
+        }
+
+        .mail-content-cell {
+            flex: 1;
+            display: flex;
+            gap: 0.4rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-right: 1rem;
+            box-sizing: border-box;
+        }
+
+        .mail-subject {
+            color: var(--gmail-text-primary);
+        }
+
+        .mail-snippet {
+            color: var(--gmail-text-muted);
+            font-weight: 400;
+        }
+
+        .mail-date {
+            width: 80px;
+            text-align: right;
+            font-size: 0.75rem;
+            color: var(--gmail-text-muted);
+            font-weight: 500;
+        }
+
+        .empty-inbox-message {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--gmail-text-muted);
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .empty-inbox-message svg {
+            width: 80px;
+            height: 80px;
+            fill: #e8eaed;
+            margin-bottom: 1rem;
+        }
+
+        /* 6. Reading Pane Viewer */
+        .viewer-pane {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background-color: #ffffff;
+        }
+
+        .viewer-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #f1f3f4;
+        }
+
+        .viewer-subject {
+            font-size: 1.35rem;
+            font-weight: 400;
+            color: var(--gmail-text-primary);
+            margin: 0 0 1.25rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .viewer-sender-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sender-info-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .sender-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e3e3e3;
+            color: var(--gmail-text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .sender-details-text {
+            font-size: 0.88rem;
+        }
+
+        .sender-details-text strong {
+            color: var(--gmail-text-primary);
+        }
+
+        .sender-details-text span {
+            color: var(--gmail-text-muted);
+            font-size: 0.78rem;
+        }
+
+        .sender-info-right {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--gmail-text-muted);
+        }
+
+        .viewer-body {
+            flex: 1;
+            padding: 2rem 2.5rem;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #333333;
+        }
+
+        .email-letter-content {
+            white-space: pre-wrap;
+            font-family: inherit;
+            color: #202124;
+        }
+
+        .viewer-pills-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #f1f3f4;
+        }
+
+        .gmail-pill-btn {
+            background-color: #ffffff;
+            border: 1px solid #dadce0;
+            color: #3c4043;
+            padding: 0.5rem 1.5rem;
+            border-radius: 18px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.15s;
+        }
+
+        .gmail-pill-btn:hover {
+            background-color: #f8f9fa;
+            border-color: #c7c7c7;
+        }
+
+        .gmail-pill-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        /* 7. Compose Bottom-Right Window Popup */
+        .compose-popup {
+            position: fixed;
+            bottom: 0;
+            right: 80px;
+            width: 500px;
+            height: 450px;
+            background-color: #ffffff;
+            border-radius: 12px 12px 0 0;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15), 0 0 8px rgba(0,0,0,0.1);
+            border: 1px solid #dadce0;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            overflow: hidden;
+            animation: slide-up-compose 0.2s ease-out;
+        }
+
+        @keyframes slide-up-compose {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .compose-titlebar {
+            height: 40px;
+            background-color: #f2f6fc;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: #1f1f1f;
+            border-bottom: 1px solid #f1f3f4;
+            user-select: none;
+        }
+
+        .compose-titlebar-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .compose-titlebar-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gmail-text-muted);
+        }
+
+        .compose-titlebar-btn:hover {
+            color: var(--gmail-text-primary);
+        }
+
+        .compose-fields {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .compose-input-row {
+            height: 40px;
+            border-bottom: 1px solid #f1f3f4;
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            box-sizing: border-box;
+        }
+
+        .compose-input-row input {
+            border: none;
+            width: 100%;
+            height: 100%;
+            font-size: 0.88rem;
+            font-family: inherit;
+        }
+
+        .compose-input-row input:focus {
+            outline: none;
+        }
+
+        .compose-body-textarea {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            resize: none;
+            font-size: 0.88rem;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+
+        .compose-body-textarea:focus {
+            outline: none;
+        }
+
+        .compose-footer {
+            height: 56px;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid #f1f3f4;
+            box-sizing: border-box;
+            background-color: #ffffff;
+        }
+
+        .gmail-send-btn {
+            background-color: var(--gmail-blue);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.8rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: background-color 0.15s;
+        }
+
+        .gmail-send-btn:hover {
+            background-color: #0947b1;
+        }
+
+        .compose-footer-tools {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--gmail-text-muted);
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .compose-feedback {
+            padding: 8px;
+            font-size: 0.75rem;
+            text-align: center;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .compose-feedback.success {
+            background-color: #e6f4ea;
+            color: #137333;
+        }
+
+        /* 8. Toast Banner Notifications */
+        .toast-banner {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            background-color: #323232;
+            color: #ffffff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            animation: fade-in-toast 0.2s;
+        }
+
+        @keyframes fade-in-toast {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .toast-undo-btn {
+            color: #a1c2fa;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            font-family: inherit;
+            font-size: 0.85rem;
+        }
+
+        /* 9. Sign in Screen - Google Accounts style */
+        .google-signin-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 5000;
+        }
+
+        .google-signin-box {
+            width: 450px;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            padding: 2.5rem;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .google-logo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .google-logo-svg {
+            height: 36px;
+        }
+
+        .signin-title {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: #202124;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .signin-subtitle {
+            font-size: 1rem;
+            color: #202124;
+            margin: 0 0 2.5rem 0;
+        }
+
+        .signin-form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+            text-align: left;
+        }
+
+        .signin-input {
+            width: 100%;
+            padding: 1rem 0.8rem;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .signin-input:focus {
+            outline: none;
+            border-color: var(--gmail-blue);
+            box-shadow: 0 0 0 2px rgba(11, 87, 208, 0.2);
+        }
+
+        .signin-input-label {
+            font-size: 0.8rem;
+            color: var(--gmail-text-muted);
+            margin-bottom: 0.4rem;
+            display: block;
+        }
+
+        .signin-feedback {
+            background-color: #fce8e6;
+            color: #c5221f;
+            border: 1px solid #fad2cf;
+            padding: 0.5rem;
+            font-size: 0.78rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .signin-buttons-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .signin-link {
+            color: var(--gmail-blue);
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 500;
+        }
+
+        .signin-link:hover {
+            text-decoration: underline;
+        }
+
+        .signin-next-btn {
+            background-color: var(--gmail-blue);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 0.88rem;
+            cursor: pointer;
+        }
+
+        .signin-next-btn:hover {
+            background-color: #1a57c0;
+        }
+
+        .avatar-dropdown-card {
+            position: absolute;
+            top: 55px;
+            right: 15px;
+            width: 280px;
+            background-color: #ffffff;
+            border: 1px solid #dadce0;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15), 0 0 4px rgba(0,0,0,0.05);
+            z-index: 10000;
+            animation: fade-in-dropdown 0.15s ease-out;
+        }
+
+        @keyframes fade-in-dropdown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dropdown-link-btn:hover {
+            opacity: 0.9;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header bar -->
+    <header class="gmail-header" style="position: relative;">
+        <div class="header-left">
+            <button class="menu-btn" title="Main menu">
+                <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+            </button>
+            <a href="index.html" class="logo-area">
+                <!-- SVG styled envelope like Gmail logo -->
+                <svg class="logo-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z" fill="#EA4335"/>
+                    <path d="M22 6v12c0 1.1-.9 2-2 2h-2V8l-6 4-6-4v12H4c-1.1 0-2-.9-2-2V6l10 6.5L22 6z" fill="#FBBC05"/>
+                    <path d="M22 6L12 12.5 2 6v2l10 6.5L22 8V6z" fill="#34A853"/>
+                    <path d="M2 6v2l10 6.5L22 8V6H2z" fill="#4285F4"/>
+                </svg>
+                <span class="logo-text">Sunova<span>Mail</span></span>
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                <input type="text" placeholder="Search in mail" id="gmail-search">
+            </div>
+        </div>
+        <div class="header-right">
+            <button class="header-icon-btn" title="Help"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h-2v2zm0-4h-2v-4h2v4z"/></svg></button>
+            <button class="header-icon-btn" title="Settings"><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></button>
+            <div class="profile-avatar" id="avatar-circle" onclick="toggleAvatarDropdown(event)" style="cursor: pointer;">S</div>
+        </div>
+
+        <!-- Profile Dropdown Menu Card (Initially Hidden) -->
+        <div id="avatar-dropdown" class="avatar-dropdown-card hidden" onclick="event.stopPropagation()">
+            <div style="padding: 1.25rem; text-align: center; border-bottom: 1px solid var(--gmail-border);">
+                <div style="width: 48px; height: 48px; border-radius: 50%; background-color: var(--gmail-blue); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.4rem; margin: 0 auto 0.75rem auto;" id="dropdown-avatar-letter">S</div>
+                <strong style="font-size: 0.95rem; display: block; color: var(--gmail-text-primary); margin-bottom: 0.15rem;">Sunova Solar LLP</strong>
+                <span style="font-size: 0.8rem; color: var(--gmail-text-muted);" id="dropdown-user-email">info@sunovasolar.in</span>
+            </div>
+            <div style="padding: 0.75rem; display: flex; flex-direction: column; gap: 0.4rem;">
+                <a href="https://mail.hostinger.com/" target="_blank" rel="noopener" class="dropdown-link-btn" style="background-color: var(--gmail-blue); color: white; border-radius: 8px; text-decoration: none; padding: 0.6rem; font-size: 0.8rem; font-weight: 600; text-align: center; display: block; transition: opacity 0.15s;">
+                    🚀 Open Hostinger Webmail
+                </a>
+                <a href="https://hpanel.hostinger.com/" target="_blank" rel="noopener" class="dropdown-link-btn" style="background-color: #ffffff; border: 1px solid var(--gmail-border); color: var(--gmail-text-primary); border-radius: 8px; text-decoration: none; padding: 0.6rem; font-size: 0.8rem; font-weight: 600; text-align: center; display: block; transition: opacity 0.15s;">
+                    🌐 Access Hostinger hPanel
+                </a>
+            </div>
+            <div style="padding: 0.75rem 1.25rem; background-color: #f8f9fa; font-size: 0.7rem; color: var(--gmail-text-muted); border-top: 1px solid var(--gmail-border); border-radius: 0 0 12px 12px; text-align: left; line-height: 1.45;">
+                <strong>IMAP:</strong> imap.hostinger.com (Port 993)<br>
+                <strong>SMTP:</strong> smtp.hostinger.com (Port 465)
+            </div>
+        </div>
+    </header>
+
+    <!-- Body Layout -->
+    <div class="gmail-body">
+        <!-- Sidebar -->
+        <aside class="gmail-sidebar">
+            <button onclick="openGmailCompose()" class="compose-pill">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                </svg>
+                <span>Compose</span>
+            </button>
+            
+            <a onclick="switchFolder('inbox')" id="sidebar-inbox" class="sidebar-item active">
+                <span class="sidebar-item-left">
+                    <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-4-4h-2v-2h-2v2H9v-6h6v6z"/></svg>
+                    <span>Inbox</span>
+                </span>
+                <span class="sidebar-badge" id="badge-inbox">0</span>
+            </a>
+            <a onclick="switchFolder('sent')" id="sidebar-sent" class="sidebar-item">
+                <span class="sidebar-item-left">
+                    <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                    <span>Sent</span>
+                </span>
+                <span class="sidebar-badge zero" id="badge-sent">0</span>
+            </a>
+            <a onclick="switchFolder('trash')" id="sidebar-trash" class="sidebar-item">
+                <span class="sidebar-item-left">
+                    <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                    <span>Trash</span>
+                </span>
+                <span class="sidebar-badge zero" id="badge-trash">0</span>
+            </a>
+        </aside>
+
+        <!-- Main mail client window container -->
+        <main class="gmail-main" id="gmail-main-pane">
+            
+            <!-- Toolbar -->
+            <div class="toolbar" id="toolbar-area">
+                <div class="toolbar-left">
+                    <button class="toolbar-btn" title="Select"><input type="checkbox" style="cursor:pointer;" class="mail-row-checkbox"></button>
+                    <button class="toolbar-btn" onclick="initMailClient()" title="Refresh">
+                        <svg viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+                    </button>
+                    <button class="toolbar-btn" title="More"><svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg></button>
+                </div>
+                <div class="toolbar-right">
+                    <span class="toolbar-text" id="toolbar-count">1-0 of 0</span>
+                    <button class="toolbar-btn" title="Older"><svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+                    <button class="toolbar-btn" title="Newer"><svg viewBox="0 0 24 24"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg></button>
+                </div>
+            </div>
+
+            <!-- Email Rows List Pane -->
+            <div class="threads-pane" id="pane-threads-list">
+                <div id="threads-rows-container">
+                    <!-- Dynamic email rows generated by JS -->
+                </div>
+            </div>
+
+            <!-- Reading Pane Viewer (Initially Hidden) -->
+            <div class="viewer-pane hidden" id="pane-reader-view">
+                <!-- Inner header actions toolbar -->
+                <div class="toolbar" style="border-bottom: 1px solid #f1f3f4;">
+                    <div class="toolbar-left">
+                        <button class="toolbar-btn" onclick="exitReaderView()" title="Back to Inbox">
+                            <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                        </button>
+                        <button class="toolbar-btn" id="btn-delete-reader" title="Delete">
+                            <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                        </button>
+                        <div class="toolbar-separator"></div>
+                        <button class="toolbar-btn" title="Mark as unread">
+                            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Email Message Details -->
+                <div class="viewer-header">
+                    <h3 class="viewer-subject" id="read-subject">
+                        New Feasibility Quote Request
+                    </h3>
+                    <div class="viewer-sender-row">
+                        <div class="sender-info-left">
+                            <div class="sender-circle" id="read-sender-circle">F</div>
+                            <div class="sender-details-text">
+                                <strong id="read-sender-name">FormSubmit.co</strong> 
+                                <span id="read-sender-email">&lt;inquiry@formsubmit.co&gt;</span><br>
+                                <span>to me ▾</span>
+                            </div>
+                        </div>
+                        <div class="sender-info-right">
+                            <span id="read-timestamp">12:30 PM (2 hours ago)</span>
+                            <button class="toolbar-btn" title="Star"><svg viewBox="0 0 24 24" style="width:16px; height:16px;"><path d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.35-2.9 4.42-.38L12 6.1l1.69 4.01 4.42.38-3.35 2.9 1 4.28L12 15.4z"/></svg></button>
+                            <button class="toolbar-btn" title="Reply" id="btn-reply-shortcut"><svg viewBox="0 0 24 24" style="width:16px; height:16px;"><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></svg></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="viewer-body">
+                    <div class="email-letter-content" id="read-body">
+                        <!-- Message text content -->
+                    </div>
+
+                    <!-- Gmail styled reply buttons at bottom -->
+                    <div class="viewer-pills-row">
+                        <button class="gmail-pill-btn" id="btn-reply-pill">
+                            <svg viewBox="0 0 24 24"><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></svg>
+                            Reply
+                        </button>
+                        <button class="gmail-pill-btn" id="btn-forward-pill">
+                            <svg viewBox="0 0 24 24"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/></svg>
+                            Forward
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Gmail Compose Floating Window Popup (Bottom-Right) -->
+    <div id="gmail-compose-window" class="compose-popup hidden">
+        <div class="compose-titlebar">
+            <span>New Message</span>
+            <div class="compose-titlebar-actions">
+                <button class="compose-titlebar-btn" onclick="closeGmailCompose()" title="Close">×</button>
+            </div>
+        </div>
+        <form id="gmail-compose-form" onsubmit="sendGmailMessage(event)" style="flex:1; display:flex; flex-direction:column; background-color:white;">
+            <div class="compose-fields">
+                <div class="compose-input-row">
+                    <input type="email" id="compose-mail-to" placeholder="To" required>
+                </div>
+                <div class="compose-input-row">
+                    <input type="text" id="compose-mail-subject" placeholder="Subject" required>
+                </div>
+            </div>
+            <textarea class="compose-body-textarea" id="compose-mail-body" placeholder="Write message..." required></textarea>
+            
+            <div class="compose-footer">
+                <div style="display:flex; align-items:center; gap:1rem;">
+                    <button type="submit" class="gmail-send-btn" id="btn-gmail-send">Send</button>
+                    <div id="compose-feedback-toast" class="compose-feedback hidden"></div>
+                </div>
+                <div class="compose-footer-tools" title="Formatting Options">
+                    <span>A 📎 🔗  смайл 🗑️</span>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Sign In Screen Overlay - Google style -->
+    <div class="google-signin-wrapper" id="gmail-login-overlay">
+        <div class="google-signin-box">
+            <div class="google-logo-container">
+                <!-- Google multi-colored logo mock -->
+                <svg class="google-logo-svg" viewBox="0 0 272 92" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M41.4 50.1C35.8 55.4 28.5 58 20.7 58 9.3 58 0 48.7 0 37.3 0 25.9 9.3 16.6 20.7 16.6c7.7 0 14.8 2.5 20.3 7.7l-5.6 5.6C30.9 25.8 26.2 24 20.7 24c-7.3 0-13.3 6-13.3 13.3s6 13.3 13.3 13.3c5.8 0 10.3-2.1 13.7-5.6 2.3-2.3 3.6-5.4 4-8.8H20.7v-7.8h24.3c.2 1.3.4 2.8.4 4.3.1 7.2-2.3 15.1-4 19.1z" fill="#4285F4"/>
+                    <path d="M72.2 41.5c0 9.8-7.7 16.5-16.5 16.5-8.8 0-16.5-6.7-16.5-16.5 0-9.9 7.7-16.5 16.5-16.5s16.5 6.6 16.5 16.5zm-8 0c0-6.1-4.3-10.4-8.5-10.4s-8.5 4.3-8.5 10.4c0 6 4.3 10.4 8.5 10.4s8.5-4.4 8.5-10.4z" fill="#EA4335"/>
+                    <path d="M106.8 41.5c0 9.8-7.7 16.5-16.5 16.5-8.8 0-16.5-6.7-16.5-16.5 0-9.9 7.7-16.5 16.5-16.5s16.5 6.6 16.5 16.5zm-8 0c0-6.1-4.3-10.4-8.5-10.4S81.8 35.4 81.8 41.5c0 6 4.3 10.4 8.5 10.4s8.5-4.4 8.5-10.4z" fill="#FBBC05"/>
+                    <path d="M140.5 25.8V55c0 12-7.1 16.9-15.5 16.9-7.9 0-12.7-5.3-14.5-9.8l6.8-2.8c1.2 2.9 4.1 6.3 7.7 6.3 4.8 0 7.7-3 7.7-8.6v-2.1h-.3c-1.6 2-4.6 3.7-8.4 3.7-7.9 0-15.1-6.8-15.1-16.5s7.2-16.6 15.1-16.6c3.8 0 6.8 1.7 8.4 3.6h.3v-2.7h7.9zm-7.4 15.8c0-6.1-4.1-10.5-8.3-10.5-4.3 0-8.3 4.4-8.3 10.5s4 10.4 8.3 10.4c4.2.1 8.3-4.3 8.3-10.4z" fill="#4285F4"/>
+                    <path d="M150.1 2.2h8.1V57h-8.1z" fill="#34A853"/>
+                    <path d="M181.7 49.3l6.2 4.1c-1.9 2.9-6.6 7.9-14.7 7.9-10 0-17.5-7.8-17.5-16.5 0-9.3 7.6-16.5 16.6-16.5s9.1 7.2 11.2 10.5L166 43.9c-2 3.9-5.1 5.4-8.8 5.4-3.7 0-6.7-1.8-8.4-4.8l22.9-9.5V35z" fill="#EA4335"/>
+                </svg>
+            </div>
+            <h2 class="signin-title">Sign in</h2>
+            <p class="signin-subtitle">to continue to SunovaMail</p>
+            
+            <form id="google-login-form" onsubmit="handleGoogleLogin(event)">
+                <div class="signin-form-group">
+                    <span class="signin-input-label">Email or phone</span>
+                    <input type="email" id="login-email" class="signin-input" placeholder="e.g. info@sunovasolar.in" required>
+                </div>
+                <div class="signin-form-group">
+                    <span class="signin-input-label">Password</span>
+                    <input type="password" id="login-password" class="signin-input" placeholder="Enter your password" required>
+                </div>
+
+                <div id="login-feedback" class="signin-feedback hidden"></div>
+
+                <div class="signin-buttons-row">
+                    <a href="index.html" class="signin-link">Cancel</a>
+                    <button type="submit" class="signin-next-btn" id="btn-signin-next">Sign In</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification Overlay (Bottom Left) -->
+    <div id="toast-notification" class="toast-banner hidden">
+        <span id="toast-message">Message sent.</span>
+        <button class="toast-undo-btn" onclick="undoGmailAction()">Undo</button>
+    </div>
+
+    <script>
+        let currentFolder = 'inbox';
+        let selectedMailIndex = -1;
+        
+        // Active data lists
+        let leadsInbox = [];
+        let sentMails = [];
+        let trashMails = [];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const activeUser = localStorage.getItem('portal_user');
+            if (activeUser) {
+                bypassLogin(activeUser);
+            } else {
+                document.getElementById('gmail-login-overlay').classList.remove('hidden');
+            }
+        });
+
+        function handleGoogleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+            const feedback = document.getElementById('login-feedback');
+            const loginBtn = document.getElementById('btn-signin-next');
+
+            if (!email.endsWith('@sunovasolar.in') && !email.endsWith('@sunova.in')) {
+                feedback.textContent = 'Access Denied. Could not find your Google Account.';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            if (password.length < 4) {
+                feedback.textContent = 'Wrong password. Try again or click Forgot password to reset it.';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            feedback.textContent = 'Authenticating session...';
+            feedback.style.backgroundColor = '#e8f0fe';
+            feedback.style.color = '#1a73e8';
+            feedback.style.borderColor = '#d2e3fc';
+            feedback.classList.remove('hidden');
+            loginBtn.disabled = true;
+
+            setTimeout(() => {
+                localStorage.setItem('portal_user', email);
+                bypassLogin(email);
+            }, 1000);
+        }
+
+        function bypassLogin(email) {
+            document.getElementById('gmail-login-overlay').classList.add('hidden');
+            
+            // Set first letter in avatar bubble
+            const firstLetter = email.charAt(0).toUpperCase();
+            document.getElementById('avatar-circle').textContent = firstLetter;
+            
+            // Sync with dropdown labels
+            document.getElementById('dropdown-avatar-letter').textContent = firstLetter;
+            document.getElementById('dropdown-user-email').textContent = email;
+            
+            initMailClient();
+        }
+
+        function initMailClient() {
+            // Load DB
+            leadsInbox = JSON.parse(localStorage.getItem('sunova_inquiries')) || [];
+            sentMails = JSON.parse(localStorage.getItem('sunova_sent_mails')) || [];
+            trashMails = JSON.parse(localStorage.getItem('sunova_trash_mails')) || [];
+
+            updateBadgeCounters();
+            renderFolderList();
+        }
+
+        function updateBadgeCounters() {
+            const inboxBadge = document.getElementById('badge-inbox');
+            const sentBadge = document.getElementById('badge-sent');
+            const trashBadge = document.getElementById('badge-trash');
+
+            inboxBadge.textContent = leadsInbox.length;
+            inboxBadge.style.display = leadsInbox.length > 0 ? 'inline' : 'none';
+
+            sentBadge.textContent = sentMails.length;
+            sentBadge.style.display = sentMails.length > 0 ? 'inline' : 'none';
+
+            trashBadge.textContent = trashMails.length;
+            trashBadge.style.display = trashMails.length > 0 ? 'inline' : 'none';
+
+            // Toolbar count
+            const folderCount = getFolderSource().length;
+            document.getElementById('toolbar-count').textContent = folderCount > 0 ? `1-${folderCount} of ${folderCount}` : '0-0 of 0';
+        }
+
+        function switchFolder(folder) {
+            currentFolder = folder;
+            selectedMailIndex = -1;
+
+            // Highlight active sidebar item
+            document.querySelectorAll('.gmail-sidebar a').forEach(a => a.classList.remove('active'));
+            document.getElementById(`sidebar-${folder}`).classList.add('active');
+
+            // Reset viewer to list view
+            exitReaderView();
+            initMailClient();
+        }
+
+        function getFolderSource() {
+            if (currentFolder === 'inbox') return leadsInbox;
+            if (currentFolder === 'sent') return sentMails;
+            if (currentFolder === 'trash') return trashMails;
+            return [];
+        }
+
+        function renderFolderList() {
+            const container = document.getElementById('threads-rows-container');
+            const mails = getFolderSource();
+
+            if (mails.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-inbox-message">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
+                        <h3>Your ${currentFolder} folder is clean!</h3>
+                        <p style="font-size:0.85rem;">No customer inquiries in this folder.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = mails.map((mail, idx) => {
+                const isUnreadClass = currentFolder === 'inbox' ? 'unread' : '';
+                const senderDisplay = currentFolder === 'sent' ? `To: ${mail.to}` : mail.name;
+                const subjectDisplay = currentFolder === 'sent' ? mail.subject : `Feasibility Study Sizing - ${mail.location}`;
+                const snippetDisplay = currentFolder === 'sent' ? mail.body : mail.message;
+
+                return `
+                    <div class="mail-row ${isUnreadClass}" onclick="openMailRow(${idx})">
+                        <div class="mail-row-actions" onclick="event.stopPropagation()">
+                            <input type="checkbox" class="mail-row-checkbox">
+                            <span class="star-icon" onclick="toggleRowStar(this)"><svg viewBox="0 0 24 24"><path d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.35-2.9 4.42-.38L12 6.1l1.69 4.01 4.42.38-3.35 2.9 1 4.28L12 15.4z"/></svg></span>
+                        </div>
+                        <div class="mail-sender">${senderDisplay}</div>
+                        <div class="mail-content-cell">
+                            <span class="mail-subject">${subjectDisplay}</span>
+                            <span class="mail-snippet"> — ${snippetDisplay}</span>
+                        </div>
+                        <div class="mail-date">${mail.timestamp.split(',')[0]}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleRowStar(element) {
+            element.classList.toggle('starred');
+        }
+
+        function openMailRow(idx) {
+            selectedMailIndex = idx;
+            document.getElementById('pane-threads-list').classList.add('hidden');
+            document.getElementById('pane-reader-view').classList.remove('hidden');
+            document.getElementById('toolbar-area').classList.add('hidden');
+
+            const mails = getFolderSource();
+            const mail = mails[idx];
+
+            const subjectEl = document.getElementById('read-subject');
+            const nameEl = document.getElementById('read-sender-name');
+            const emailEl = document.getElementById('read-sender-email');
+            const dateEl = document.getElementById('read-timestamp');
+            const bodyEl = document.getElementById('read-body');
+            const avatarEl = document.getElementById('read-sender-circle');
+
+            // Set sender initial avatar
+            const senderInitial = currentFolder === 'sent' ? 'Y' : mail.name.charAt(0).toUpperCase();
+            avatarEl.textContent = senderInitial;
+
+            if (currentFolder === 'sent') {
+                subjectEl.textContent = mail.subject;
+                nameEl.textContent = `To: ${mail.to}`;
+                emailEl.textContent = '';
+                dateEl.textContent = mail.timestamp;
+                bodyEl.innerHTML = mail.body.replace(/\n/g, '<br>');
+                
+                document.getElementById('btn-reply-shortcut').classList.add('hidden');
+                document.getElementById('btn-reply-pill').classList.add('hidden');
+                document.getElementById('btn-forward-pill').classList.add('hidden');
+            } else {
+                subjectEl.textContent = `New Feasibility Sizing Inquiry - ${mail.location}`;
+                nameEl.textContent = mail.name;
+                emailEl.textContent = `<${mail.email}>`;
+                dateEl.textContent = mail.timestamp;
+                
+                bodyEl.textContent = formatInquiryBody(mail);
+
+                document.getElementById('btn-reply-shortcut').classList.remove('hidden');
+                document.getElementById('btn-reply-pill').classList.remove('hidden');
+                document.getElementById('btn-forward-pill').classList.remove('hidden');
+
+                // Bind reply actions
+                document.getElementById('btn-reply-shortcut').onclick = () => prefillGmailReply(mail.email, mail.name);
+                document.getElementById('btn-reply-pill').onclick = () => prefillGmailReply(mail.email, mail.name);
+            }
+
+            // Bind delete button
+            document.getElementById('btn-delete-reader').onclick = () => deleteGmailItem(idx);
+        }
+
+        function formatInquiryBody(mail) {
+            return `Dear Sunova Solar Team,
+
+A new customer feasibility inquiry was submitted:
+
+• Customer Name: ${mail.name}
+• Contact Phone: ${mail.phone}
+• Email Address: ${mail.email}
+• City/Location: ${mail.location} (${mail.district})
+• Sizing Capacity: ${mail.capacity} kW
+• Technology Model: ${mail.model}
+• Bank Financing Required: ${mail.loan}
+
+Customer Message / Notes:
+"${mail.message}"
+
+--------------------------------------------------
+Assigned Local Partner:
+👤 ${mail.partner} (Code: ${mail.partnerCode})
+📞 Contact Phone: +91 ${mail.partnerPhone}
+
+Best regards,
+FormSubmit Team`;
+        }
+
+        function exitReaderView() {
+            document.getElementById('pane-reader-view').classList.add('hidden');
+            document.getElementById('pane-threads-list').classList.remove('hidden');
+            document.getElementById('toolbar-area').classList.remove('hidden');
+            selectedMailIndex = -1;
+        }
+
+        /* Compose Actions */
+        function openGmailCompose() {
+            document.getElementById('gmail-compose-window').classList.remove('hidden');
+            document.getElementById('compose-mail-to').focus();
+        }
+
+        function closeGmailCompose() {
+            document.getElementById('gmail-compose-window').classList.add('hidden');
+        }
+
+        function prefillGmailReply(email, name) {
+            openGmailCompose();
+            document.getElementById('compose-mail-to').value = email === 'Not Provided' ? '' : email;
+            document.getElementById('compose-mail-subject').value = `Re: Sunova Solar Feasibility Study Sizing`;
+            document.getElementById('compose-mail-body').value = `Dear ${name},\n\nWe received your inquiry. A solar technical expert will review your site layout...\n\nBest regards,\nSunova Solar LLP Client Help desk`;
+            document.getElementById('compose-mail-body').focus();
+        }
+
+        function sendGmailMessage(e) {
+            e.preventDefault();
+            const to = document.getElementById('compose-mail-to').value;
+            const subject = document.getElementById('compose-mail-subject').value;
+            const body = document.getElementById('compose-mail-body').value;
+            const sendBtn = document.getElementById('btn-gmail-send');
+
+            sendBtn.disabled = true;
+            sendBtn.textContent = 'Sending...';
+
+            setTimeout(() => {
+                // Add to sent
+                const newSent = {
+                    timestamp: new Date().toLocaleString('en-IN'),
+                    to: to,
+                    subject: subject,
+                    body: body
+                };
+
+                sentMails.unshift(newSent);
+                localStorage.setItem('sunova_sent_mails', JSON.stringify(sentMails));
+
+                // Reset Compose form
+                document.getElementById('compose-mail-to').value = '';
+                document.getElementById('compose-mail-subject').value = '';
+                document.getElementById('compose-mail-body').value = '';
+                sendBtn.disabled = false;
+                sendBtn.textContent = 'Send';
+
+                closeGmailCompose();
+                initMailClient();
+
+                // Show Gmail success toast
+                showGmailToast('Message sent.');
+            }, 1000);
+        }
+
+        function showGmailToast(msg) {
+            const toast = document.getElementById('toast-notification');
+            document.getElementById('toast-message').textContent = msg;
+            toast.classList.remove('hidden');
+
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 4000);
+        }
+
+        function undoGmailAction() {
+            document.getElementById('toast-notification').classList.add('hidden');
+        }
+
+        function deleteGmailItem(idx) {
+            let list = getFolderSource();
+            const deleted = list.splice(idx, 1)[0];
+
+            if (currentFolder === 'trash') {
+                // Permanent delete
+                localStorage.setItem('sunova_trash_mails', JSON.stringify(trashMails));
+                showGmailToast('Conversation permanently deleted.');
+            } else {
+                // Move to trash
+                trashMails.unshift(deleted);
+                localStorage.setItem('sunova_trash_mails', JSON.stringify(trashMails));
+
+                if (currentFolder === 'inbox') {
+                    localStorage.setItem('sunova_inquiries', JSON.stringify(leadsInbox));
+                } else if (currentFolder === 'sent') {
+                    localStorage.setItem('sunova_sent_mails', JSON.stringify(sentMails));
+                }
+
+                showGmailToast('Conversation moved to Trash.');
+            }
+
+            exitReaderView();
+            initMailClient();
+        }
+
+        function logoutPortal() {
+            localStorage.removeItem('portal_user');
+            location.reload();
+        }
+
+        function toggleAvatarDropdown(e) {
+            e.stopPropagation();
+            document.getElementById('avatar-dropdown').classList.toggle('hidden');
+        }
+
+        // Close dropdown when clicking outside
+        window.addEventListener('click', () => {
+            const dropdown = document.getElementById('avatar-dropdown');
+            if (dropdown) dropdown.classList.add('hidden');
+        });
+    </script>
+</body>
+</html>

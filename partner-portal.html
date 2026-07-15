@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner Portal | SUNOVA SOLAR LLP</title>
+    <meta name="description" content="Authorized partner portal login for SUNOVA SOLAR LLP district channel partners.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css?v=4.2">
+</head>
+<body class="dark-theme login-page-body">
+    <div class="login-wrapper">
+        <!-- Floating Home Link -->
+        <a href="index.html" class="back-home-link">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="18" height="18">
+                <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Back to Public Website
+        </a>
+
+        <!-- Portal Glass Card -->
+        <div class="glass-card login-card" id="portal-card" style="max-width: 550px;">
+            <div class="portal-header text-center">
+                <img src="assets/logo.jpg" alt="SUNOVA SOLAR LLP Logo" class="portal-logo">
+                <h2>Partner Portal</h2>
+                <p>Log in to access your district customer leads, design templates, and subsidy commission tracking.</p>
+            </div>
+
+            <!-- Login View -->
+            <div id="login-view">
+                <form id="portal-login-form" onsubmit="handlePartnerLogin(event)">
+                    <div class="form-group">
+                        <label for="partner-code">Authorized Partner Code / Phone</label>
+                        <input type="text" id="partner-code" placeholder="e.g. TVM-JOBI or Mobile Number" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="partner-password">Partner Access PIN</label>
+                        <input type="password" id="partner-password" placeholder="Enter your 4-digit security PIN" required>
+                        <div style="font-size: 0.74rem; color: var(--color-text-muted); margin-top: 0.35rem;">💡 First-time logging in? Use the default security PIN: <strong>2277</strong></div>
+                    </div>
+
+                    <div id="login-feedback" class="form-feedback hidden"></div>
+
+                    <button type="submit" class="cta-btn primary-btn full-width" id="btn-partner-login">
+                        Sign In to Partner Dashboard
+                    </button>
+                </form>
+                <div class="text-center portal-footer-note" style="margin-top: 1.5rem;">
+                    <span class="lock-icon">🔒</span> Exclusive access for Sunova Solar LLP authorized district partners.
+                </div>
+            </div>
+
+            <!-- Must Change PIN View (Initially Hidden) -->
+            <div id="change-pin-view" class="hidden">
+                <div style="background: rgba(255, 183, 3, 0.1); border: 1px solid rgba(255, 183, 3, 0.2); border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem; font-size: 0.82rem; line-height: 1.45; color: var(--color-text-muted);">
+                    ⚠️ <strong>Security Setup Required:</strong> You are using the default partner security PIN. You must create your own private 4-digit PIN before you can access the dashboard.
+                </div>
+                <form id="change-pin-form" onsubmit="handlePinChangeSubmit(event)">
+                    <div class="form-group">
+                        <label for="new-pin">Create New 4-Digit PIN</label>
+                        <input type="password" id="new-pin" maxlength="4" placeholder="e.g. 5839" required pattern="[0-9]{4}">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-new-pin">Confirm New PIN</label>
+                        <input type="password" id="confirm-new-pin" maxlength="4" placeholder="Confirm your new PIN" required pattern="[0-9]{4}">
+                    </div>
+                    
+                    <div id="change-pin-feedback" class="form-feedback hidden"></div>
+
+                    <button type="submit" class="cta-btn primary-btn full-width" id="btn-change-pin">
+                        Save PIN &amp; Open Dashboard
+                    </button>
+                </form>
+            </div>
+
+            <!-- Dashboard View (Initially Hidden) -->
+            <div id="dashboard-view" class="hidden">
+                <div class="success-badge">
+                    <span class="check-icon">✓</span> Session Authenticated
+                </div>
+                <h3>Welcome back, Partner</h3>
+                <p class="dash-subtitle" style="margin-bottom: 1.5rem;">Sunova Solar Channel Partner Dashboard</p>
+
+                <!-- Lead metrics quick stats -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; text-align: center;">
+                        <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Active Leads</span>
+                        <div style="font-size: 1.8rem; font-weight: 700; color: var(--color-sun-yellow); margin-top: 0.25rem;">4</div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; text-align: center;">
+                        <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Commission Earned</span>
+                        <div style="font-size: 1.4rem; font-weight: 700; color: var(--color-text); margin-top: 0.45rem;">₹42,500</div>
+                    </div>
+                </div>
+
+                <!-- Launch Buttons -->
+                <div class="portal-actions-grid" style="display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1.5rem;">
+                    <a href="index.html#contact" class="cta-btn primary-btn text-center full-width">
+                        📋 View Allocated Customer Inquiries
+                    </a>
+                    <a href="assets/mnre-approved.jpg" target="_blank" class="cta-btn secondary-btn text-center full-width">
+                        📥 Download MNRE Compliance Certificate
+                    </a>
+                </div>
+
+                <!-- Technical Configuration Accordion -->
+                <div class="tech-settings-box">
+                    <h4>📘 Partner Resources &amp; Downloads</h4>
+                    <p class="settings-intro">Authorized document downloads and technical rules for KSEB Soura integration.</p>
+                    
+                    <div class="settings-table">
+                        <div class="settings-row">
+                            <span class="sett-lbl">KSEB Feasibility Specs</span>
+                            <span class="sett-val"><a href="#" style="color: var(--color-sun-yellow);">Download PDF Guide</a></span>
+                        </div>
+                        <div class="settings-row">
+                            <span class="sett-lbl">Proforma Invoice Template</span>
+                            <span class="sett-val"><a href="#" style="color: var(--color-sun-yellow);">Download Excel Sheet</a></span>
+                        </div>
+                        <div class="settings-row">
+                            <span class="sett-lbl">Net Metering Checklist</span>
+                            <span class="sett-val"><a href="#" style="color: var(--color-sun-yellow);">View Online List</a></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-footer-actions" style="margin-top: 1.5rem;">
+                    <button onclick="logoutPartner()" class="logout-btn">Sign Out</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script>
+        // Authorized Sunova Solar Dealers List
+        const DEALERS = [
+            { code: "TVM-JOBI", name: "JOBI SEBASTIAN", area: "ATTINGAL", district: "Thiruvananthapuram", phone: "8590085856" },
+            { code: "TVM-BENJ", name: "BENJOSE FG", area: "BALARAMAPURAM", district: "Thiruvananthapuram", phone: "9037273767" },
+            { code: "TVM-ANAN", name: "ANAND SREEDHAR", area: "NEYYATTINKARA", district: "Thiruvananthapuram", phone: "7994430742" },
+            { code: "KLA-VARG", name: "VARGHESE NELLIMOOTTIL", area: "AYOOR", district: "Kollam", phone: "9020202222" },
+            { code: "KLA-NIYA", name: "NIYAS K", area: "KARUNAGAPPALLY", district: "Kollam", phone: "9656366068" },
+            { code: "KLA-UDAY", name: "UDAYABHANU J", area: "KOLLAM", district: "Kollam", phone: "9349136882" },
+            { code: "KLA-RAJE", name: "RAJEEV R", area: "PUNALUR", district: "Kollam", phone: "9567970077" },
+            { code: "KLA-RATH", name: "RATHIL KUMAR", area: "WEST KALLADA", district: "Kollam", phone: "7907878797" },
+            { code: "PTA-SREE", name: "SREEJITH TR", area: "MALLAPPALLY", district: "Pathanamthitta", phone: "9947030669" },
+            { code: "PTA-JIJU", name: "JIJUKUMAR MC", area: "PANDALAM", district: "Pathanamthitta", phone: "9388133400" },
+            { code: "PTA-PKPR", name: "PK PRASANNAKUMAR", area: "PATHANAMTHITTA", district: "Pathanamthitta", phone: "7034023301" },
+            { code: "PTA-BIJU", name: "BIJUMON J", area: "RANNI", district: "Pathanamthitta", phone: "9995990372" },
+            { code: "ALP-SHIN", name: "SHINAS SHAMSUDEEN", area: "ALAPPUZHA", district: "Alappuzha", phone: "9995550888" },
+            { code: "ALP-NISS", name: "NISSAR HAMEED", area: "KAYAMKULAM", district: "Alappuzha", phone: "9895497090" },
+            { code: "ALP-RENJ", name: "RENJITH PS", area: "MAVELIKKARA", district: "Alappuzha", phone: "9447866958" },
+            { code: "ALP-BAIJ", name: "BAIJU SASIDHARAN", area: "VALLIKUNNAM", district: "Alappuzha", phone: "9747186818" },
+            { code: "KTM-SALY", name: "SALY SAINUDEEN", area: "ERATTUPETTA", district: "Kottayam", phone: "9446200616" },
+            { code: "KTM-ANIS", name: "ANISH KUMAR", area: "KALLARA", district: "Kottayam", phone: "9387220162" },
+            { code: "KTM-SANI", name: "SANIL KUMAR", area: "KOTTAYAM TOWN", district: "Kottayam", phone: "9061189784" },
+            { code: "IDK-OUSE", name: "OUSEPH KA", area: "ARAKULAM", district: "Idukki", phone: "9495737628" },
+            { code: "IDK-MGAJ", name: "MG AJAY", area: "THODUPUZHA", district: "Idukki", phone: "9447254142" },
+            { code: "EKM-SHIY", name: "SHIYAS RASHEED", area: "EDAPPALLY", district: "Ernakulam", phone: "9847859859" },
+            { code: "EKM-BHAV", name: "BHAVYA M", area: "KALAMASSERY", district: "Ernakulam", phone: "8301026309" },
+            { code: "EKM-JIBI", name: "JIBIN GEORGE", area: "THRIPUNITHURA", district: "Ernakulam", phone: "9995996240" },
+            { code: "TCR-JAIS", name: "JAISON JOSE MELETH", area: "AYYANTHOL", district: "Thrissur", phone: "9995601923" },
+            { code: "TCR-COAT", name: "COATS THEKKAN", area: "CHALAKUDY", district: "Thrissur", phone: "8129119222" },
+            { code: "TCR-JISO", name: "JISON GEORGE", area: "CHELAKKARA", district: "Thrissur", phone: "9746666535" },
+            { code: "TCR-SINI", name: "SINISH KM", area: "KODAKARA", district: "Thrissur", phone: "9946101892" },
+            { code: "TCR-BINU", name: "BINU YACOB", area: "PAZHAYANNUR", district: "Thrissur", phone: "9946033807" },
+            { code: "TCR-JITH", name: "JITHESH THARAYIL", area: "PO ROAD", district: "Thrissur", phone: "7356347700" },
+            { code: "TCR-AKAN", name: "AK ANIL", area: "VALAPPAD", district: "Thrissur", phone: "9746891854" },
+            { code: "PKD-SUHA", name: "SUHAIB S", area: "ALATHUR", district: "Palakkad", phone: "9988553585" },
+            { code: "PKD-PRAM", name: "PRAMOD", area: "CHITTUR", district: "Palakkad", phone: "9746611002" },
+            { code: "PKD-BIJO", name: "BIJO VARGHESE", area: "ELAPPULLY", district: "Palakkad", phone: "9388883222" },
+            { code: "PKD-ANAN", name: "ANAND P", area: "KODUVAYUR", district: "Palakkad", phone: "9349811101" },
+            { code: "MPM-NASS", name: "NASSARUDHEEN E", area: "EDAKKARA", district: "Malappuram", phone: "9946139955" },
+            { code: "MPM-FAIS", name: "FAISAL K", area: "MANJERY", district: "Malappuram", phone: "7994035923" },
+            { code: "MPM-RAVI", name: "RAVINDRAN K", area: "TIRUR", district: "Malappuram", phone: "9961476748" },
+            { code: "KKD-RAJA", name: "RAJAN MADAVOOR", area: "KODUVALLY", district: "Kozhikode", phone: "9497345868" },
+            { code: "KKD-YOOS", name: "YOOSAF NV", area: "PERAMBRA", district: "Kozhikode", phone: "9539724724" },
+            { code: "KKD-SAFE", name: "SAFEER", area: "VADAKARA", district: "Kozhikode", phone: "9995330555" },
+            { code: "KKD-RAHU", name: "RAHUL RN", area: "VATAKARA", district: "Kozhikode", phone: "9645464733" },
+            { code: "WYD-SINI", name: "SINIL CHACKO K", area: "MANATHAWADY", district: "Wayanad", phone: "8921794334" },
+            { code: "KNR-ACFA", name: "AC FAISAL", area: "IRIKKOOR", district: "Kannur", phone: "9656069964" },
+            { code: "KNR-NOUS", name: "NOUSHAD T", area: "MATTANNUR", district: "Kannur", phone: "9847761018" }
+        ];
+
+        // Check local storage for existing session
+        window.addEventListener('DOMContentLoaded', () => {
+            const activePartnerCode = localStorage.getItem('partner_code');
+            if (activePartnerCode) {
+                showDashboard(activePartnerCode);
+            }
+        });
+
+        function handlePartnerLogin(e) {
+            e.preventDefault();
+            const inputVal = document.getElementById('partner-code').value.trim();
+            const pin = document.getElementById('partner-password').value;
+            const feedback = document.getElementById('login-feedback');
+            const loginBtn = document.getElementById('btn-partner-login');
+
+            // Find matching dealer by phone or code
+            const matchedDealer = DEALERS.find(d => {
+                const searchVal = inputVal.toUpperCase();
+                return d.code === searchVal || d.phone === inputVal;
+            });
+
+            if (!matchedDealer) {
+                feedback.textContent = 'Access Denied. Your partner code or mobile number is not registered in our dealer list.';
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            if (pin.length !== 4 || isNaN(pin)) {
+                feedback.textContent = 'Please enter a valid 4-digit security PIN.';
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            // Retrieve registered custom PIN if set, otherwise default is '2277'
+            const customPin = localStorage.getItem('partner_pin_' + matchedDealer.code);
+            const requiredPin = customPin || '2277';
+
+            if (pin !== requiredPin) {
+                feedback.textContent = customPin ? 'Incorrect security PIN. Please enter your custom PIN.' : 'Invalid security PIN. For first-time login, use default PIN: 2277.';
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            feedback.textContent = 'Authenticating Partner credentials...';
+            feedback.className = 'form-feedback';
+            feedback.style.backgroundColor = 'rgba(255, 183, 3, 0.15)';
+            feedback.style.color = 'var(--color-sun-yellow)';
+            feedback.classList.remove('hidden');
+            loginBtn.disabled = true;
+
+            setTimeout(() => {
+                loginBtn.disabled = false;
+                if (requiredPin === '2277') {
+                    // Default PIN used, must force change PIN screen
+                    tempLoginDealerCode = matchedDealer.code;
+                    document.getElementById('login-view').classList.add('hidden');
+                    document.getElementById('change-pin-view').classList.remove('hidden');
+                } else {
+                    // Custom PIN used, log in successfully
+                    localStorage.setItem('partner_code', matchedDealer.code);
+                    showDashboard(matchedDealer.code);
+                }
+            }, 1200);
+        }
+
+        let tempLoginDealerCode = '';
+
+        function handlePinChangeSubmit(e) {
+            e.preventDefault();
+            const newPin = document.getElementById('new-pin').value;
+            const confirmPin = document.getElementById('confirm-new-pin').value;
+            const feedback = document.getElementById('change-pin-feedback');
+            const saveBtn = document.getElementById('btn-change-pin');
+
+            if (newPin.length !== 4 || isNaN(newPin)) {
+                feedback.textContent = 'PIN must be exactly 4 digits.';
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            if (newPin === '2277') {
+                feedback.textContent = 'You cannot use the default PIN. Please choose a new PIN.';
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            if (newPin !== confirmPin) {
+                feedback.textContent = 'PINs do not match. Please re-enter.';
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            feedback.textContent = 'Updating security PIN...';
+            feedback.className = 'form-feedback';
+            feedback.style.backgroundColor = 'rgba(255, 183, 3, 0.15)';
+            feedback.style.color = 'var(--color-sun-yellow)';
+            feedback.classList.remove('hidden');
+            saveBtn.disabled = true;
+
+            setTimeout(() => {
+                // Save custom PIN in localStorage
+                localStorage.setItem('partner_pin_' + tempLoginDealerCode, newPin);
+                // Complete session login
+                localStorage.setItem('partner_code', tempLoginDealerCode);
+                
+                // Hide change pin view, show dashboard
+                document.getElementById('change-pin-view').classList.add('hidden');
+                showDashboard(tempLoginDealerCode);
+            }, 1000);
+        }
+
+        function showDashboard(dealerCode) {
+            document.getElementById('login-view').classList.add('hidden');
+            document.getElementById('dashboard-view').classList.remove('hidden');
+            
+            // Find dealer details in database
+            const dealer = DEALERS.find(d => d.code === dealerCode);
+            if (!dealer) return;
+            
+            // Update portal headers
+            const header = document.querySelector('.portal-header');
+            header.querySelector('h2').textContent = 'Partner Dashboard';
+            header.querySelector('p').textContent = 'Access local leads and download technical documentation assets.';
+            
+            // Render dealer info card
+            const welcomeTitle = document.querySelector('#dashboard-view h3');
+            if (welcomeTitle) welcomeTitle.textContent = `Welcome back, ${dealer.name}`;
+            
+            // Dynamically inject dealer detailed profile rows
+            let infoContainer = document.getElementById('dealer-profile-details');
+            if (!infoContainer) {
+                infoContainer = document.createElement('div');
+                infoContainer.id = 'dealer-profile-details';
+                infoContainer.style.background = 'rgba(255, 255, 255, 0.02)';
+                infoContainer.style.border = '1px solid var(--color-border)';
+                infoContainer.style.borderRadius = '15px';
+                infoContainer.style.padding = '1.2rem';
+                infoContainer.style.marginBottom = '1.5rem';
+                infoContainer.style.fontSize = '0.84rem';
+                infoContainer.style.lineHeight = '1.6';
+                
+                infoContainer.innerHTML = `
+                    <h4 style="margin-top: 0; margin-bottom: 0.8rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; color: var(--color-sun-yellow);">📋 Authorized Profile Details</h4>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+                        <span style="color: var(--color-text-muted);">Partner ID Code:</span>
+                        <strong>${dealer.code}</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+                        <span style="color: var(--color-text-muted);">Service Area:</span>
+                        <strong>${dealer.area}</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+                        <span style="color: var(--color-text-muted);">District:</span>
+                        <strong>${dealer.district}</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--color-text-muted);">Registered Phone:</span>
+                        <strong>+91 ${dealer.phone}</strong>
+                    </div>
+                `;
+                
+                const dashView = document.getElementById('dashboard-view');
+                const resourceBox = dashView.querySelector('.tech-settings-box');
+                dashView.insertBefore(infoContainer, resourceBox);
+            }
+        }
+
+        function logoutPartner() {
+            localStorage.removeItem('partner_code');
+            location.reload();
+        }
+    </script>
+</body>
+</html>

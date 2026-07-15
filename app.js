@@ -2,7 +2,7 @@
 let currentMode = 'residential'; // 'residential' or 'commercial'
 let currentSystemType = 'ongrid'; // 'ongrid' or 'hybrid'
 
-// Authorized Sunova Solar Partners List
+// Authorized Sunova Solar Dealers List
 const DEALERS = [
     { code: "TVM-JOBI", name: "JOBI SEBASTIAN", area: "ATTINGAL", district: "Thiruvananthapuram", phone: "8590085856" },
     { code: "TVM-BENJ", name: "BENJOSE FG", area: "BALARAMAPURAM", district: "Thiruvananthapuram", phone: "9037273767" },
@@ -719,11 +719,14 @@ function handleDistrictChange(districtValue) {
         return;
     }
     
-    // Populate select menu
+    // Sort dealers alphabetically by Area name (A to Z)
+    matchedDealers.sort((a, b) => a.area.localeCompare(b.area));
+    
+    // Populate select menu with Area/Location showing first
     matchedDealers.forEach((dealer, index) => {
         const opt = document.createElement('option');
         opt.value = dealer.code;
-        opt.textContent = `${dealer.name} - ${dealer.area} (Ph: ${dealer.phone})`;
+        opt.textContent = `${dealer.area} - ${dealer.name} (Ph: ${dealer.phone})`;
         if (index === 0) {
             opt.selected = true;
         }
@@ -785,10 +788,10 @@ function handleFormSubmit(event) {
             Email: email,
             District: district,
             Location: location,
-            "Matched Partner Code": dealer.code,
-            "Matched Partner Name": dealer.name,
-            "Matched Partner Phone": dealer.phone,
-            "Matched Partner Area": dealer.area,
+            "Matched Dealer Code": dealer.code,
+            "Matched Dealer Name": dealer.name,
+            "Matched Dealer Phone": dealer.phone,
+            "Matched Dealer Area": dealer.area,
             "System Type": connection,
             "System Technology Model": systemModelLabel,
             "Requested Capacity": capacity + ' kW',
@@ -809,6 +812,31 @@ function handleFormSubmit(event) {
     })
     .then(data => {
         const systemDesc = connection === 'residential' ? 'Residential (Home Solar)' : 'Commercial / Business';
+        
+        // Save inquiry details locally for staff portal retrieval
+        try {
+            const inquiries = JSON.parse(localStorage.getItem('sunova_inquiries')) || [];
+            const newInquiry = {
+                timestamp: new Date().toLocaleString('en-IN'),
+                name: name,
+                phone: phone,
+                email: email || 'Not Provided',
+                district: district,
+                location: location,
+                category: systemDesc,
+                model: systemModelLabel,
+                capacity: capacity,
+                loan: loanRequired,
+                message: message || 'None',
+                partner: dealer.name,
+                partnerCode: dealer.code,
+                partnerPhone: dealer.phone
+            };
+            inquiries.unshift(newInquiry); // Add to top
+            localStorage.setItem('sunova_inquiries', JSON.stringify(inquiries));
+        } catch (e) {
+            console.error('Local storage save failed:', e);
+        }
         
         // Construct WhatsApp message text for both partner and office
         const waMessage = `Hi, I've submitted a Sunova Solar Feasibility & Quote Request.
