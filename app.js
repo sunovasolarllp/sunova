@@ -821,36 +821,54 @@ function handleFormSubmit(event) {
     const officePhone = "919072522277";
     const waOfficeUrl = `https://wa.me/${officePhone}?text=${encodeURIComponent(waMessage)}`;
 
-    // 3. Fire AJAX request to local secure SMTP proxy (silent background check)
-    fetch('/api/submit-inquiry', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            name, phone, email, district, location, connection, systemModelLabel, capacity, loanRequired, message,
-            partnerName: dealer.name, partnerCode: dealer.code
-        })
-    })
-    .then(res => {
-        if (res.ok) return res.json();
-        throw new Error('Local server offline');
-    })
-    .then(data => {
-        if (data.success) {
-            console.log('[Submit] Inquiry copy successfully sent via local SMTP proxy.');
-        } else {
-            throw new Error(data.error || 'SMTP inactive');
+    // 3. Automated Background Email Copy (using a hidden form targeting a hidden iframe to bypass CORS blocks on file://)
+    try {
+        let iframe = document.createElement('iframe');
+        iframe.name = 'hidden-form-iframe';
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+        
+        let form = document.createElement('form');
+        form.method = 'POST';
+        form.action = 'https://formsubmit.co/info@sunovasolar.in';
+        form.target = 'hidden-form-iframe';
+        
+        const fields = {
+            Name: name,
+            Phone: phone,
+            Email: email || 'Not Provided',
+            District: district,
+            Location: location,
+            SystemType: connection,
+            SystemModel: systemModelLabel,
+            Capacity: capacity + ' kWp',
+            LoanRequired: loanRequired,
+            Message: message || 'None',
+            AssignedPartner: `${dealer.name} (${dealer.code})`,
+            _subject: `New Solar Inquiry: ${name} (${location})`,
+            _cc: "info@sunovasolar.in"
+        };
+        
+        for (const key in fields) {
+            let input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = fields[key];
+            form.appendChild(input);
         }
-    })
-    .catch(err => {
-        console.log('[Submit] Local SMTP server inactive/offline. Triggering mailto fallback client launch...');
-        // Launch mailto fallback pre-filled so they can send the copy with 1 click
+        
+        document.body.appendChild(form);
+        form.submit();
+        
         setTimeout(() => {
-            const mailtoUrl = `mailto:info@sunovasolar.in?subject=${encodeURIComponent(`New Solar Inquiry: ${name} (${location})`)}&body=${encodeURIComponent(waMessage)}`;
-            window.location.href = mailtoUrl;
+            document.body.removeChild(form);
+            document.body.removeChild(iframe);
         }, 1500);
-    });
+        
+        console.log('[Submit] Background email copy successfully dispatched.');
+    } catch (e) {
+        console.error('[Submit] Background form creation failed:', e);
+    }
 
     // 4. Build success feedback detailing the assigned partner
     const successMessage = `
@@ -868,7 +886,7 @@ function handleFormSubmit(event) {
             <a href="${waOfficeUrl}" target="_blank" class="wa-btn-success office-wa-btn">🏢 Chat with Head Office</a>
         </div>
         <br>
-        <em>Launching email client copy and redirecting to partner WhatsApp in 3 seconds...</em>
+        <em>Automatically opening partner WhatsApp chat in 3 seconds...</em>
     `;
     showFormFeedback(successMessage, 'success');
     
