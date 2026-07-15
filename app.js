@@ -797,7 +797,8 @@ function handleFormSubmit(event) {
             "Requested Capacity": capacity + ' kW',
             "Bank Loan Required": loanRequired,
             "Message / Site Details": message,
-            _subject: `New Solar Inquiry from ${name} (${location}, ${district}) - Dealer: ${dealer.name}`
+            _subject: `New Solar Inquiry from ${name} (${location}, ${district}) - Dealer: ${dealer.name}`,
+            _cc: "info@sunovasolar.in"
         })
     })
     .then(response => {
