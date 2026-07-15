@@ -821,58 +821,40 @@ function handleFormSubmit(event) {
     const officePhone = "919072522277";
     const waOfficeUrl = `https://wa.me/${officePhone}?text=${encodeURIComponent(waMessage)}`;
 
-    // 3. Automated Background Email Copy (using a hidden form targeting a hidden iframe to bypass CORS blocks on file://)
-    try {
-        let iframe = document.createElement('iframe');
-        iframe.name = 'hidden-form-iframe';
-        iframe.style.display = 'none';
-        document.body.appendChild(iframe);
-        
-        let form = document.createElement('form');
-        form.method = 'POST';
-        form.action = 'https://formsubmit.co/b1ebd95b70dc040e3935087370fc44ab';
-        form.target = 'hidden-form-iframe';
-        
-        const fields = {
-            Name: name,
-            Phone: phone,
-            Email: email || 'Not Provided',
-            District: district,
-            Location: location,
-            SystemType: connection,
-            SystemModel: systemModelLabel,
-            Capacity: capacity + ' kWp',
-            LoanRequired: loanRequired,
-            Message: message || 'None',
-            AssignedPartner: `${dealer.name} (${dealer.code})`,
-            _subject: `New Solar Inquiry from ${name} (${location}, ${district}) - Dealer: ${dealer.name}`,
-            _captcha: "false"
-        };
-        
-        for (const key in fields) {
-            let input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = key;
-            input.value = fields[key];
-            form.appendChild(input);
+    // 3. Automated Background Email Copy (FormSubmit AJAX API routed to Gmail Bridge)
+    const emailPayload = {
+        Name: name,
+        Phone: phone,
+        Email: email || 'Not Provided',
+        District: district,
+        Location: location,
+        "System Type": connection,
+        "System Technology Model": systemModelLabel,
+        "Requested Capacity": capacity + ' kWp',
+        "Bank Loan Required": loanRequired,
+        "Message / Site Details": message || 'None',
+        "Matched Dealer": `${dealer.name} (${dealer.code})`,
+        _subject: `New Solar Inquiry from ${name} (${location}, ${district}) - Dealer: ${dealer.name}`
+    };
+
+    fetch('https://formsubmit.co/ajax/sunovasolarllp@gmail.com', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(emailPayload)
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('[Submit] Background email copy successfully dispatched to Gmail bridge.');
+        } else {
+            console.warn('[Submit] FormSubmit server returned status: ' + response.status);
         }
-        
-        document.body.appendChild(form);
-        
-        // Wait 50ms for DOM registration to ensure target iframe is resolved, forcing a POST submit
-        setTimeout(() => {
-            form.submit();
-            
-            setTimeout(() => {
-                document.body.removeChild(form);
-                document.body.removeChild(iframe);
-            }, 1500);
-        }, 50);
-        
-        console.log('[Submit] Background email copy successfully dispatched.');
-    } catch (e) {
-        console.error('[Submit] Background form creation failed:', e);
-    }
+    })
+    .catch(err => {
+        console.error('[Submit] FormSubmit dispatch failed:', err);
+    });
 
     // 4. Build success feedback detailing the assigned partner
     const successMessage = `
@@ -935,4 +917,22 @@ function showFormFeedback(msg, type) {
 window.addEventListener('DOMContentLoaded', () => {
     updateCalculatorOutputs();
     handleDistrictChange('Alappuzha'); // Initialize the dealer dropdown for default district
+
+    // Setup developer secret click trigger on copyright footer to set SMTP password
+    const devTrigger = document.getElementById('developer-trigger');
+    if (devTrigger) {
+        let clickCount = 0;
+        devTrigger.addEventListener('click', () => {
+            clickCount++;
+            if (clickCount >= 5) {
+                clickCount = 0;
+                const pass = prompt("Enter Hostinger SMTP Password for Local Testing:");
+                if (pass !== null) {
+                    localStorage.setItem('hostinger_smtp_password', pass);
+                    alert("Hostinger SMTP Password successfully saved locally! Reloading page...");
+                    location.reload();
+                }
+            }
+        });
+    }
 });
