@@ -326,8 +326,8 @@
                             connection: inq.connection === 'residential' ? 'Residential' : 'Commercial',
                             loan: inq.loan === 'Yes' || inq.loan === true,
                             message: inq.message,
-                            partner: inq.dealer ? inq.dealer.split(' (')[0] : 'None',
-                            partnerCode: inq.dealer ? inq.dealer.split('(')[1].replace(')', '') : 'None',
+                            partner: inq.dealer ? (inq.dealer.includes(' (') ? inq.dealer.split(' (')[0] : inq.dealer) : 'None',
+                            partnerCode: inq.dealer ? (inq.dealer.includes(' (') ? inq.dealer.split(' (')[1].replace(')', '') : inq.dealer) : 'None',
                             timestamp: inq.timestamp,
                             status: inq.status || 'Pending',
                             commission: inq.commission || 0
