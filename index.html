@@ -1050,7 +1050,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="form-phone">Phone Number</label>
-                                    <input type="tel" id="form-phone" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
+                                    <input type="tel" id="form-phone" placeholder="10-digit mobile number" pattern="[6-9][0-9]{9}" maxlength="10" oninput="let val = this.value.replace(/[^0-9]/g, ''); if (val.length === 12 && val.startsWith('91')) val = val.substring(2); if (val.length > 0 && !/^[6-9]/.test(val)) val = ''; this.value = val;" required>
                                 </div>
                             </div>
                             

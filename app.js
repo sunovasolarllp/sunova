@@ -758,10 +758,10 @@ function handleFormSubmit(event) {
         return;
     }
     
-    // Phone validation (10 digits check)
-    const phoneRegex = /^[0-9]{10}$/;
+    // Phone validation (10 digits starting with 6-9)
+    const phoneRegex = /^[6-9][0-9]{9}$/;
     if (!phoneRegex.test(phone)) {
-        showFormFeedback('Please enter a valid 10-digit mobile number.', 'error');
+        showFormFeedback('Please enter a valid 10-digit mobile number starting with 6-9.', 'error');
         return;
     }
     

@@ -37,7 +37,7 @@
                 <form id="portal-login-form" onsubmit="handlePartnerLogin(event)">
                     <div class="form-group">
                         <label for="partner-code">Authorized Partner Code / Phone</label>
-                        <input type="text" id="partner-code" placeholder="e.g. TVM-JOBI or Mobile Number" required>
+                        <input type="text" id="partner-code" placeholder="e.g. TVM-JOBI or Mobile Number" oninput="let val = this.value; val = val.replace(/[^A-Za-z0-9\-]/g, ''); if (val.length > 0 && /^[0-9]/.test(val)) { val = val.replace(/[^0-9]/g, ''); if (val.length === 12 && val.startsWith('91')) { val = val.substring(2); } if (val.length > 0 && !/^[6-9]/.test(val)) { val = ''; } if (val.length > 10) { val = val.substring(0, 10); } } this.value = val;" required>
                     </div>
                     
                     <div class="form-group">
@@ -262,11 +262,31 @@
             const pin = document.getElementById('partner-password').value;
             const feedback = document.getElementById('login-feedback');
             const loginBtn = document.getElementById('btn-partner-login');
+            
+            let inputValCleaned = inputVal;
+            
+            // Validate if logging in with a phone number
+            const isNumeric = /^[0-9\+\s\-]+$/.test(inputVal);
+            if (isNumeric) {
+                let cleanPhone = inputVal.replace(/[^0-9]/g, '');
+                if (cleanPhone.length === 12 && cleanPhone.startsWith('91')) {
+                    cleanPhone = cleanPhone.substring(2);
+                }
+                
+                const phoneRegex = /^[6-9][0-9]{9}$/;
+                if (!phoneRegex.test(cleanPhone)) {
+                    feedback.textContent = 'Invalid Phone. If logging in with a mobile number, it must be exactly 10 digits starting with 6-9.';
+                    feedback.className = 'form-feedback error';
+                    feedback.classList.remove('hidden');
+                    return;
+                }
+                inputValCleaned = cleanPhone;
+            }
 
             // Find matching dealer by phone or code
             const matchedDealer = DEALERS.find(d => {
-                const searchVal = inputVal.toUpperCase();
-                return d.code === searchVal || d.phone === inputVal;
+                const searchVal = inputValCleaned.toUpperCase();
+                return d.code === searchVal || d.phone === inputValCleaned;
             });
 
             if (!matchedDealer) {
