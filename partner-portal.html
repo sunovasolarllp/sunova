@@ -128,6 +128,12 @@
                     
                     <form id="quote-generator-form" onsubmit="event.preventDefault();">
                         <div class="form-group" style="margin-bottom: 0.8rem;">
+                            <label style="font-size: 0.76rem; color: var(--color-sun-yellow); margin-bottom: 0.3rem; display: block; font-weight: 600;">Select Allocated Lead (Auto-fill)</label>
+                            <select id="quote-select-lead" onchange="autoFillFromDropdown(this.value)" style="width: 100%; padding: 0.55rem; background: #121824; border: 1px solid var(--color-border); border-radius: 8px; color: white; font-size: 0.82rem;">
+                                <option value="">-- Choose an Allocated Lead --</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0.8rem;">
                             <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Customer Name</label>
                             <input type="text" id="quote-cust-name" placeholder="e.g. Radhakrishnan Nair" style="width: 100%; padding: 0.55rem; background: rgba(255,255,255,0.05); border: 1px solid var(--color-border); border-radius: 8px; color: white; font-size: 0.82rem;" required>
                         </div>
@@ -171,15 +177,15 @@
                     <div class="settings-table">
                         <div class="settings-row">
                             <span class="sett-lbl">KSEB Feasibility Specs</span>
-                            <span class="sett-val"><a href="#" style="color: var(--color-sun-yellow);">Download PDF Guide</a></span>
+                            <span class="sett-val"><a href="https://www.kseb.in/images/soura/Soura_Phase_II_Guidelines.pdf" target="_blank" rel="noopener" style="color: var(--color-sun-yellow);">Download PDF Guide</a></span>
                         </div>
                         <div class="settings-row">
                             <span class="sett-lbl">Proforma Invoice Template</span>
-                            <span class="sett-val"><a href="#" style="color: var(--color-sun-yellow);">Download Excel Sheet</a></span>
+                            <span class="sett-val"><a href="javascript:void(0)" onclick="downloadProformaTemplate()" style="color: var(--color-sun-yellow);">Download Excel Sheet</a></span>
                         </div>
                         <div class="settings-row">
                             <span class="sett-lbl">Net Metering Checklist</span>
-                            <span class="sett-val"><a href="#" style="color: var(--color-sun-yellow);">View Online List</a></span>
+                            <span class="sett-val"><a href="javascript:void(0)" onclick="showChecklistModal()" style="color: var(--color-sun-yellow);">View Online List</a></span>
                         </div>
                     </div>
                 </div>
@@ -429,6 +435,59 @@
             
             document.getElementById('partner-active-leads').textContent = activeLeadsCount;
             document.getElementById('partner-commission-earned').textContent = `₹${totalCommission.toLocaleString('en-IN')}`;
+            
+            // Populate auto-fill leads dropdown
+            populateLeadsDropdown(dealerCode);
+        }
+
+        function populateLeadsDropdown(dealerCode) {
+            const dropdown = document.getElementById('quote-select-lead');
+            if (!dropdown) return;
+            
+            dropdown.innerHTML = '<option value="">-- Choose an Allocated Lead --</option>';
+            
+            let inquiries = [];
+            try {
+                inquiries = JSON.parse(localStorage.getItem('sunova_inquiries')) || [];
+            } catch (e) {
+                console.error(e);
+            }
+            
+            // Filter leads allocated to this specific partner
+            const allocatedLeads = inquiries.filter(lead => lead.partnerCode === dealerCode);
+            
+            allocatedLeads.forEach((lead, idx) => {
+                const opt = document.createElement('option');
+                opt.value = idx;
+                opt.textContent = `${lead.name} (${lead.location}) - ${lead.capacity} kWp`;
+                dropdown.appendChild(opt);
+            });
+            
+            window.currentDealerLeads = allocatedLeads;
+        }
+
+        function autoFillFromDropdown(idx) {
+            if (idx === "") {
+                document.getElementById('quote-cust-name').value = '';
+                document.getElementById('quote-cust-addr').value = '';
+                document.getElementById('quote-capacity').value = 3;
+                return;
+            }
+            
+            const leads = window.currentDealerLeads;
+            if (leads && leads[idx]) {
+                const lead = leads[idx];
+                document.getElementById('quote-cust-name').value = lead.name;
+                document.getElementById('quote-cust-addr').value = `${lead.location}, ${lead.district}`;
+                document.getElementById('quote-capacity').value = lead.capacity;
+                
+                // Show visual highlight feedback
+                const formCard = document.getElementById('quotation-form-section');
+                formCard.style.borderColor = 'var(--color-sun-yellow)';
+                setTimeout(() => {
+                    formCard.style.borderColor = 'var(--color-border)';
+                }, 1000);
+            }
         }
 
         function closeQuoteModal() {
@@ -724,6 +783,9 @@
             document.getElementById('partner-active-leads').textContent = activeLeadsCount;
             document.getElementById('partner-commission-earned').textContent = `₹${totalCommission.toLocaleString('en-IN')}`;
             
+            // Sync dropdown options too
+            populateLeadsDropdown(activePartnerCode);
+            
             if (allocatedLeads.length === 0) {
                 container.innerHTML = `
                     <div style="text-align: center; padding: 2rem 1rem; color: var(--color-text-muted); font-size: 0.84rem;">
@@ -776,11 +838,90 @@
             }, 1000);
         }
 
+        function showChecklistModal() {
+            const listItems = [
+                "Consumer registration submitted on KSEB Soura Portal.",
+                "Feasibility clearance certificate obtained from local Section Office.",
+                "System installation executed by empaneled installer (Sunova Solar LLP).",
+                "Submitting Solar Modules ALMM MNRE compliance datasheet.",
+                "Submitting Inverter Type-Test Certificate (IEC 62109 compliance).",
+                "Physical inspection and single line diagram (SLD) clearance by Section Engineer.",
+                "Net-meter testing and accuracy clearance report from KSEB TMR Division.",
+                "Procurement of dual-dial Net Meter & Generation Meter by Consumer.",
+                "Verification of separate chemical earthing pits (AC, DC, and Lightning Arrester).",
+                "Work Completion Report filing at KSEB local section office.",
+                "Signing of Net Metering Agreement between KSEB, Installer, and Consumer."
+            ];
+            
+            const listContainer = document.getElementById('checklist-items-list');
+            listContainer.innerHTML = listItems.map((item, idx) => `
+                <label style="display: flex; gap: 0.6rem; align-items: flex-start; cursor: pointer; padding: 0.35rem 0; border-bottom: 1px solid rgba(255,255,255,0.03);">
+                    <input type="checkbox" id="chk-item-${idx}" style="margin-top: 0.2rem; cursor: pointer;">
+                    <span>${item}</span>
+                </label>
+            `).join('');
+            
+            document.getElementById('checklist-modal-overlay').classList.remove('hidden');
+        }
+        
+        function closeChecklistModal() {
+            document.getElementById('checklist-modal-overlay').classList.add('hidden');
+        }
+
+        function downloadProformaTemplate() {
+            const csvContent = [
+                ["SUNOVA SOLAR LLP - PROFORMA INVOICE TEMPLATE"],
+                ["Empaneled Solar rooftop Installer | Opp. KSEB Section, Alappuzha"],
+                [""],
+                ["Consumer Name:", "[Enter Customer Name]", "", "Proforma Qtn No:", "SNS/PRO/2026/XXXX"],
+                ["Consumer No:", "[Enter 13-digit Consumer No]", "", "Date:", new Date().toLocaleDateString('en-IN')],
+                [""],
+                ["Item No", "Component Description & Specification", "Quantity", "Unit Rate (₹)", "Total Value (₹)"],
+                [1, "MNRE ALMM Approved Mono PERC Solar PV Modules (540Wp+)", 6, 16000, 96000],
+                [2, "On-Grid Tied Solar Inverter with Anti-islanding & Wi-Fi logger", 1, 38000, 38000],
+                [3, "Hot-dip Galvanized Iron (GI) high-rise structure with anchoring", 1, 18000, 18000],
+                [4, "ACDB/DCDB protection boxes, SPDs, Copper Cables & earthings", 1, 14000, 14000],
+                [5, "Liaisoning, net-metering feasibility processing & commissioning", 1, 12000, 12000],
+                [""],
+                ["", "Subtotal Basic Cost", "", "", 178000],
+                ["", "GST Tax @ 13.8%", "", "", 24564],
+                ["", "Grand Total Contract Value", "", "", 202564]
+            ];
+            
+            let tsv = csvContent.map(row => row.join("\t")).join("\n");
+            
+            const blob = new Blob([tsv], { type: 'application/vnd.ms-excel;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", "proforma_invoice_template.xls");
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
         function logoutPartner() {
             localStorage.removeItem('partner_code');
             location.reload();
         }
     </script>
+
+    <!-- Net Metering Checklist Modal Overlay (Initially Hidden) -->
+    <div id="checklist-modal-overlay" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 20000; display: flex; justify-content: center; align-items: center; padding: 1rem;">
+        <div style="background: #121824; border: 1px solid var(--color-border); border-radius: 12px; padding: 2rem; width: 100%; max-width: 550px; text-align: left; color: white; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.8rem; margin-bottom: 1.2rem;">
+                <h3 style="margin: 0; color: var(--color-sun-yellow); font-family: var(--font-heading); font-size: 1.2rem;">📋 KSEB Net Metering Checklist</h3>
+                <button onclick="closeChecklistModal()" style="background: none; border: none; color: var(--color-text-muted); font-size: 1.5rem; cursor: pointer; line-height: 1;">&times;</button>
+            </div>
+            <div style="font-size: 0.82rem; line-height: 1.6; display: flex; flex-direction: column; gap: 0.6rem; max-height: 320px; overflow-y: auto; padding-right: 0.2rem;" id="checklist-items-list">
+                <!-- Injected checklist labels -->
+            </div>
+            <div style="text-align: right; border-top: 1px solid var(--color-border); padding-top: 1rem; margin-top: 1.2rem;">
+                <button onclick="closeChecklistModal()" class="cta-btn secondary-btn" style="padding: 0.45rem 1.2rem; font-size: 0.8rem; border-radius: 6px; cursor: pointer; width: auto;">Close</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Printable Quotation Modal Overlay (Hidden initially) -->
     <div id="quote-modal-overlay" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 20000; overflow-y: auto; display: flex; justify-content: center; align-items: flex-start; padding: 2rem 1rem;">
