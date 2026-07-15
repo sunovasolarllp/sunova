@@ -858,12 +858,16 @@ function handleFormSubmit(event) {
         }
         
         document.body.appendChild(form);
-        form.submit();
         
+        // Wait 50ms for DOM registration to ensure target iframe is resolved, forcing a POST submit
         setTimeout(() => {
-            document.body.removeChild(form);
-            document.body.removeChild(iframe);
-        }, 1500);
+            form.submit();
+            
+            setTimeout(() => {
+                document.body.removeChild(form);
+                document.body.removeChild(iframe);
+            }, 1500);
+        }, 50);
         
         console.log('[Submit] Background email copy successfully dispatched.');
     } catch (e) {
