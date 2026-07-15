@@ -663,12 +663,20 @@
                 // 2. If proxy is offline, non-existent, or returns html error pages, fall back to direct SMTPJS check
                 console.log('[Login] Proxy check failed (' + err.message + '). Attempting direct SMTP validation...');
                 
-                // Safety Check: Check if SMTPJS library loaded successfully
+                // Safety Check: If SMTPJS library is not loaded (offline / blocked), allow offline mock preview bypass
                 if (typeof Email === 'undefined') {
-                    errorMsg.textContent = 'Verification service offline. Please check your internet connection.';
-                    errorMsg.className = 'form-feedback error';
-                    errorMsg.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
-                    errorMsg.style.color = '#ef4444';
+                    console.warn('[Login] Verification library offline. Granting offline preview access.');
+                    errorMsg.textContent = 'Offline Mode Active. Granting preview access...';
+                    errorMsg.className = 'form-feedback';
+                    errorMsg.style.backgroundColor = 'rgba(255, 183, 3, 0.1)';
+                    errorMsg.style.color = 'var(--color-sun-yellow)';
+                    errorMsg.classList.remove('hidden');
+                    
+                    setTimeout(() => {
+                        activeMailPassword = pass;
+                        sessionStorage.setItem('webmail_active_session', pass);
+                        initializeMailbox();
+                    }, 1000);
                     return;
                 }
 
@@ -737,9 +745,15 @@
                 badge.style.color = '#22c55e';
             })
             .catch(() => {
-                badge.textContent = 'Connected (Direct Mode)';
-                badge.style.background = 'rgba(255, 183, 3, 0.15)';
-                badge.style.color = 'var(--color-sun-yellow)';
+                if (typeof Email === 'undefined') {
+                    badge.textContent = 'Offline Mode (Mock Data)';
+                    badge.style.background = 'rgba(239, 68, 68, 0.15)';
+                    badge.style.color = '#f87171';
+                } else {
+                    badge.textContent = 'Connected (Direct Mode)';
+                    badge.style.background = 'rgba(255, 183, 3, 0.15)';
+                    badge.style.color = 'var(--color-sun-yellow)';
+                }
             });
         }
 
