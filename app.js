@@ -822,7 +822,7 @@ function handleFormSubmit(event) {
     const waOfficeUrl = `https://wa.me/${officePhone}?text=${encodeURIComponent(waMessage)}`;
 
     // 3. Fire AJAX request in background (non-blocking)
-    fetch('https://formsubmit.co/ajax/b1ebd95b70dc040e3935087370fc44ab', {
+    fetch('https://formsubmit.co/ajax/info@sunovasolar.in', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
