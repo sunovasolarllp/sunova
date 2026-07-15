@@ -830,7 +830,7 @@ function handleFormSubmit(event) {
         
         let form = document.createElement('form');
         form.method = 'POST';
-        form.action = 'https://formspree.io/info@sunovasolar.in';
+        form.action = 'https://formsubmit.co/b1ebd95b70dc040e3935087370fc44ab';
         form.target = 'hidden-form-iframe';
         
         const fields = {
@@ -846,7 +846,7 @@ function handleFormSubmit(event) {
             Message: message || 'None',
             AssignedPartner: `${dealer.name} (${dealer.code})`,
             _subject: `New Solar Inquiry: ${name} (${location})`,
-            _cc: "info@sunovasolar.in"
+            _captcha: "false"
         };
         
         for (const key in fields) {
