@@ -647,10 +647,11 @@
                 })
             })
             .then(res => {
-                if (res.ok) return res.json();
-                return res.json().then(errData => {
-                    throw new Error(errData.error || 'Authentication failed');
-                });
+                const contentType = res.headers.get('content-type');
+                if (!res.ok || !contentType || !contentType.includes('application/json')) {
+                    throw new Error('Server offline or returned non-JSON response');
+                }
+                return res.json();
             })
             .then(data => {
                 // Verification successful
@@ -659,46 +660,39 @@
                 initializeMailbox();
             })
             .catch(err => {
-                // 2. If local server is offline, fall back to direct client-side SMTP authentication check
-                if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError')) {
-                    errorMsg.textContent = 'Directly validating credentials via Hostinger SMTP...';
-                    
-                    Email.send({
-                        Host: "smtp.hostinger.com",
-                        Username: "info@sunovasolar.in",
-                        Password: pass,
-                        To: "info@sunovasolar.in",
-                        From: "info@sunovasolar.in",
-                        Subject: "Webmail Connection Check PING",
-                        Body: "Verifying secure login credentials."
-                    })
-                    .then(smtpResponse => {
-                        if (smtpResponse === 'OK' || smtpResponse.includes('OK') || smtpResponse.includes('success')) {
-                            // Credentials accepted by Hostinger SMTP
-                            activeMailPassword = pass;
-                            sessionStorage.setItem('webmail_active_session', pass);
-                            initializeMailbox();
-                        } else {
-                            // Credentials rejected
-                            errorMsg.textContent = 'Authentication Failed: Invalid password or connection issue.';
-                            errorMsg.className = 'form-feedback error';
-                            errorMsg.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
-                            errorMsg.style.color = '#ef4444';
-                        }
-                    })
-                    .catch(smtpErr => {
-                        errorMsg.textContent = 'Connection Error: ' + smtpErr.message;
+                // 2. If proxy is offline, non-existent, or returns html error pages, fall back to direct SMTPJS check
+                console.log('[Login] Proxy check failed (' + err.message + '). Attempting direct SMTP validation...');
+                errorMsg.textContent = 'Directly validating credentials via Hostinger SMTP...';
+                
+                Email.send({
+                    Host: "smtp.hostinger.com",
+                    Username: "info@sunovasolar.in",
+                    Password: pass,
+                    To: "info@sunovasolar.in",
+                    From: "info@sunovasolar.in",
+                    Subject: "Webmail Connection Check PING",
+                    Body: "Verifying secure login credentials."
+                })
+                .then(smtpResponse => {
+                    if (smtpResponse === 'OK' || smtpResponse.includes('OK') || smtpResponse.includes('success')) {
+                        // Credentials accepted by Hostinger SMTP
+                        activeMailPassword = pass;
+                        sessionStorage.setItem('webmail_active_session', pass);
+                        initializeMailbox();
+                    } else {
+                        // Credentials rejected
+                        errorMsg.textContent = 'Authentication Failed: Invalid password or connection issue.';
                         errorMsg.className = 'form-feedback error';
                         errorMsg.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
                         errorMsg.style.color = '#ef4444';
-                    });
-                } else {
-                    // Password was explicitly rejected by the IMAP backend
-                    errorMsg.textContent = 'Authentication Failed: ' + err.message;
+                    }
+                })
+                .catch(smtpErr => {
+                    errorMsg.textContent = 'Connection Error: ' + smtpErr.message;
                     errorMsg.className = 'form-feedback error';
                     errorMsg.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
                     errorMsg.style.color = '#ef4444';
-                }
+                });
             });
         }
 
