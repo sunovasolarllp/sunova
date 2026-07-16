@@ -1,0 +1,959 @@
+/* 
+   Sunova Solar Mobile Application Stylesheet
+   Design: Premium, Dark-first Glassmorphism with Warm Yellow/Gold Solar Accents
+   Fully responsive with a mock-smartphone wrapper for desktop viewports
+*/
+
+:root {
+    /* Brand Theme Colors */
+    --color-bg: #0a0f1d;
+    --color-surface: #121829;
+    --color-surface-card: rgba(255, 255, 255, 0.03);
+    --color-border: rgba(255, 255, 255, 0.07);
+    --color-text: #f8f9fa;
+    --color-text-muted: #8e9bb4;
+    --color-sun-yellow: #ffb703;
+    --color-sun-orange: #fb8500;
+    --color-success: #02c39a;
+    --color-danger: #ff4d4d;
+    --color-shadow: rgba(0, 0, 0, 0.3);
+    --color-glow: rgba(255, 183, 3, 0.15);
+    
+    /* Native App Standards */
+    --safe-area-top: env(safe-area-inset-top, 0px);
+    --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+    --nav-bar-height: 64px;
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+/* Light Theme Variables */
+.light-theme {
+    --color-bg: #f5f7fb;
+    --color-surface: #ffffff;
+    --color-surface-card: rgba(0, 0, 0, 0.02);
+    --color-border: rgba(0, 0, 0, 0.08);
+    --color-text: #0d1321;
+    --color-text-muted: #5c677d;
+    --color-shadow: rgba(13, 19, 33, 0.06);
+    --color-glow: rgba(255, 183, 3, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: #050811;
+    color: var(--color-text);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+/* --- Mobile Frame Wrapper (For Desktop Viewers) --- */
+.app-container {
+    width: 100%;
+    height: 100vh;
+    max-width: 480px; /* Capped for mobile app emulation on desktop */
+    background-color: var(--color-bg);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* On Desktop, show simulated phone frame */
+@media (min-width: 481px) {
+    .app-container {
+        height: 850px;
+        border-radius: 40px;
+        border: 12px solid #1a2238;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 0 4px #0c101c;
+    }
+    
+    /* Simulated Phone Notch */
+    .app-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 150px;
+        height: 24px;
+        background-color: #1a2238;
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+        z-index: 1000;
+        pointer-events: none;
+    }
+}
+
+/* --- App Headers --- */
+.app-header {
+    background: rgba(var(--color-bg), 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-border);
+    padding: calc(15px + var(--safe-area-top)) 18px 12px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+.brand-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.app-logo {
+    height: 30px;
+    width: auto;
+    border-radius: 6px;
+}
+
+.brand-name {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--color-sun-yellow), var(--color-sun-orange));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 0.5px;
+}
+
+.header-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.icon-btn {
+    background: var(--color-surface-card);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.icon-btn:hover {
+    transform: scale(1.05);
+    border-color: var(--color-sun-yellow);
+}
+
+.icon-btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    fill: none;
+}
+
+/* --- Navigation & Router Screen Shell --- */
+.screen-container {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding: 16px 16px calc(16px + var(--nav-bar-height) + var(--safe-area-bottom)) 16px;
+    opacity: 0;
+    transform: translateX(30px);
+    pointer-events: none;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    scrollbar-width: none; /* Hide scrollbar for clean app design */
+}
+
+.screen::-webkit-scrollbar {
+    display: none;
+}
+
+.screen.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+
+/* Slide Left / Right animation helpers */
+.slide-out-left {
+    transform: translateX(-30px);
+    opacity: 0;
+}
+
+.slide-in-right {
+    transform: translateX(30px);
+    opacity: 0;
+}
+
+/* --- Custom Bottom Navigation Tab Bar --- */
+.bottom-nav {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: calc(var(--nav-bar-height) + var(--safe-area-bottom));
+    background: rgba(var(--color-surface), 0.9);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-bottom: var(--safe-area-bottom);
+    z-index: 100;
+    box-shadow: 0 -4px 20px var(--color-shadow);
+}
+
+.nav-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-size: 0.65rem;
+    font-weight: 500;
+    gap: 4px;
+    height: 100%;
+    flex: 1;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.nav-tab svg {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+    fill: none;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.nav-tab.active {
+    color: var(--color-sun-yellow);
+}
+
+.nav-tab.active svg {
+    transform: translateY(-2px);
+    filter: drop-shadow(0 0 5px var(--color-glow));
+    stroke: var(--color-sun-yellow);
+}
+
+/* Glowing Indicator bar under active tab */
+.nav-tab::after {
+    content: '';
+    position: absolute;
+    bottom: calc(var(--safe-area-bottom) + 2px);
+    width: 12px;
+    height: 3px;
+    background-color: var(--color-sun-yellow);
+    border-radius: 2px;
+    opacity: 0;
+    transform: scaleX(0.1);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.nav-tab.active::after {
+    opacity: 1;
+    transform: scaleX(1);
+}
+
+/* --- Common UI Components (Cards, Buttons, Inputs) --- */
+
+.section-title {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+    color: var(--color-text);
+}
+
+.section-subtitle {
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+/* Cards with Glassmorphism */
+.glass-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    box-shadow: 0 8px 32px var(--color-shadow);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-card:hover {
+    border-color: rgba(255, 183, 3, 0.25);
+    box-shadow: 0 8px 32px var(--color-glow);
+}
+
+/* Interactive Buttons */
+.cta-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.cta-btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+}
+
+.primary-btn {
+    background: linear-gradient(135deg, var(--color-sun-yellow), var(--color-sun-orange));
+    color: #0d1321;
+    box-shadow: 0 4px 15px rgba(251, 133, 0, 0.25);
+}
+
+.primary-btn:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+}
+
+.secondary-btn {
+    background: var(--color-surface-card);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+}
+
+.secondary-btn:active {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.whatsapp-btn {
+    background: #25d366;
+    color: white;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2);
+}
+
+.whatsapp-btn:active {
+    opacity: 0.9;
+}
+
+/* Inputs & Form Controls */
+.form-group {
+    margin-bottom: 14px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control:focus {
+    border-color: var(--color-sun-yellow);
+    box-shadow: 0 0 0 3px var(--color-glow);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+/* Sliders for Touch Interactivity */
+.slider-container {
+    margin: 20px 0;
+}
+
+.slider-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.slider-value-display {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--color-sun-yellow);
+}
+
+.slider-control {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--color-border);
+    outline: none;
+}
+
+.slider-control::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--color-sun-yellow);
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255, 183, 3, 0.4);
+    transition: transform 0.1s ease;
+}
+
+.slider-control::-webkit-slider-thumb:active {
+    transform: scale(1.2);
+}
+
+/* --- SCREEN 1: HOME --- */
+.hero-card {
+    background: linear-gradient(135deg, rgba(26, 34, 56, 0.8), rgba(10, 15, 29, 0.9)), url('assets/hero.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 20px;
+    padding: 24px 18px;
+    color: white;
+    margin-bottom: 20px;
+    text-align: center;
+    border: 1px solid var(--color-border);
+}
+
+.hero-subtitle {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--color-sun-yellow);
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.hero-title {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 800;
+    line-height: 1.25;
+    margin-bottom: 12px;
+}
+
+.hero-desc {
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.45;
+    margin-bottom: 18px;
+}
+
+/* Badge Row */
+.badge-row {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.status-badge {
+    background: rgba(2, 195, 154, 0.15);
+    border: 1px solid rgba(2, 195, 154, 0.3);
+    color: var(--color-success);
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.status-badge .dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-success);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.9); opacity: 0.6; }
+    50% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(0.9); opacity: 0.6; }
+}
+
+/* Services horizontal scroll */
+.horizontal-scroll-container {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+    scrollbar-width: none;
+}
+
+.horizontal-scroll-container::-webkit-scrollbar {
+    display: none;
+}
+
+.scroll-card {
+    flex: 0 0 280px;
+    padding: 16px;
+    border-radius: 14px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+}
+
+.scroll-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.scroll-card-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: var(--color-glow);
+    color: var(--color-sun-yellow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scroll-card-title {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.scroll-card-text {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+}
+
+/* Action Quick Links Grid */
+.action-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.action-card {
+    padding: 16px;
+    border-radius: 14px;
+    text-align: center;
+    background: var(--color-surface-card);
+    border: 1px solid var(--color-border);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.action-card:active {
+    transform: scale(0.97);
+    border-color: var(--color-sun-yellow);
+}
+
+.action-card svg {
+    width: 28px;
+    height: 28px;
+    stroke: var(--color-sun-yellow);
+    margin-bottom: 8px;
+}
+
+.action-card h3 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.action-card p {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+}
+
+/* --- SCREEN 2: CALCULATOR --- */
+.segmented-control {
+    display: flex;
+    background: var(--color-surface-card);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 16px;
+}
+
+.segment-btn {
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    background: none;
+    color: var(--color-text-muted);
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.segment-btn.active {
+    background: var(--color-bg);
+    color: var(--color-text);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Results Grid style */
+.results-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.result-card {
+    background: var(--color-surface-card);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.result-label {
+    font-size: 0.72rem;
+    color: var(--color-text-muted);
+    margin-bottom: 4px;
+}
+
+.result-value {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+.result-value.highlight {
+    color: var(--color-sun-yellow);
+}
+
+.result-value.success {
+    color: var(--color-success);
+}
+
+/* Pure CSS Gauge chart */
+.gauge-chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 0;
+    position: relative;
+}
+
+.gauge-svg {
+    width: 160px;
+    height: 160px;
+}
+
+.gauge-bg {
+    stroke: var(--color-border);
+    stroke-width: 10;
+    fill: none;
+}
+
+.gauge-fill {
+    stroke: var(--color-sun-yellow);
+    stroke-width: 10;
+    stroke-linecap: round;
+    fill: none;
+    stroke-dasharray: 440;
+    stroke-dashoffset: 440;
+    transition: stroke-dashoffset 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gauge-text {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.gauge-percentage {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--color-success);
+}
+
+.gauge-label {
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+}
+
+/* --- PORTAL COMMONS (PARTNER & STAFF) --- */
+.login-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.login-header-logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+.login-header h2 {
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    font-weight: 800;
+}
+
+.login-header p {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    margin-top: 4px;
+}
+
+.form-feedback {
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    margin-bottom: 14px;
+}
+
+.form-feedback.error {
+    background: rgba(255, 77, 77, 0.1);
+    border: 1px solid rgba(255, 77, 77, 0.2);
+    color: var(--color-danger);
+}
+
+.form-feedback.success {
+    background: rgba(2, 195, 154, 0.1);
+    border: 1px solid rgba(2, 195, 154, 0.2);
+    color: var(--color-success);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Lead Log Items */
+.portal-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.metric-card {
+    background: var(--color-surface-card);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+}
+
+.metric-card span {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    letter-spacing: 0.5px;
+}
+
+.metric-card div {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--color-sun-yellow);
+    margin-top: 4px;
+}
+
+.leads-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.leads-list-header h4 {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+}
+
+.leads-list-header button {
+    background: none;
+    border: none;
+    color: var(--color-sun-yellow);
+    font-size: 0.78rem;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.leads-scroll-box {
+    max-height: 400px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-right: 4px;
+}
+
+.lead-item-card {
+    background: var(--color-surface-card);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 12px;
+    position: relative;
+}
+
+.lead-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 6px;
+}
+
+.lead-name {
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.lead-tag {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.tag-new {
+    background: rgba(255, 183, 3, 0.15);
+    color: var(--color-sun-yellow);
+}
+
+.tag-contacted {
+    background: rgba(2, 195, 154, 0.15);
+    color: var(--color-success);
+}
+
+.lead-detail-row {
+    display: flex;
+    font-size: 0.74rem;
+    color: var(--color-text-muted);
+    margin-bottom: 4px;
+}
+
+.lead-detail-row strong {
+    color: var(--color-text);
+    margin-right: 4px;
+}
+
+.lead-actions-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.lead-mini-btn {
+    flex: 1;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.lead-mini-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* User Account Summary top bar in portal */
+.portal-user-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--color-surface-card);
+    padding: 10px 14px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    font-size: 0.8rem;
+    border: 1px solid var(--color-border);
+}
+
+.portal-user-bar span {
+    font-weight: 600;
+}
+
+.logout-link {
+    color: var(--color-danger);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+/* Quote generator styling (partner portal) */
+.quote-preview-card {
+    background: #0d1321;
+    color: white;
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 16px;
+    font-family: monospace;
+    font-size: 0.72rem;
+    white-space: pre-wrap;
+    border: 1px solid var(--color-border);
+    max-height: 250px;
+    overflow-y: auto;
+}

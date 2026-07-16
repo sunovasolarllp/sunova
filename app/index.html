@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Sunova Solar Mobile</title>
+    
+    <!-- PWA Settings -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ffb703">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Sunova Solar">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+
+    <div class="app-container">
+        
+        <!-- App Top Header -->
+        <header class="app-header">
+            <div class="brand-wrapper">
+                <img src="assets/logo.jpg" alt="Sunova Solar Logo" class="app-logo">
+                <span class="brand-name">SUNOVA SOLAR</span>
+            </div>
+            <div class="header-actions">
+                <button id="theme-toggle" class="icon-btn" aria-label="Toggle Theme">
+                    <!-- Sun Icon -->
+                    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <!-- Moon Icon (Hidden inside CSS depending on theme) -->
+                    <svg class="moon-icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"></path>
+                    </svg>
+                </button>
+                <a href="tel:+919072522277" class="icon-btn" aria-label="Call Helpline">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+                </a>
+            </div>
+        </header>
+
+        <!-- Dynamic Screen Content -->
+        <main class="screen-container">
+
+            <!-- SCREEN 1: HOME -->
+            <section id="screen-home" class="screen active">
+                <div class="hero-card">
+                    <div class="hero-subtitle">Premium Solar Solutions</div>
+                    <h1 class="hero-title">Go Solar, Save Big Across Kerala</h1>
+                    <p class="hero-desc">Registered solar contractor providing structural durability, max financial yield, and subsidy support under PM Surya Ghar.</p>
+                    <div class="badge-row">
+                        <div class="status-badge">
+                            <span class="dot"></span> Government Subsidized
+                        </div>
+                        <div class="status-badge" style="background: rgba(251, 133, 0, 0.15); border-color: rgba(251, 133, 0, 0.3); color: var(--color-sun-orange);">
+                            ANERT Listed
+                        </div>
+                    </div>
+                    <button class="cta-btn primary-btn" onclick="navigateToTab('calc')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+                            <line x1="9" y1="9" x2="15" y2="9"></line>
+                            <line x1="9" y1="13" x2="15" y2="13"></line>
+                            <line x1="9" y1="17" x2="15" y2="17"></line>
+                        </svg>
+                        Calculate Solar Savings
+                    </button>
+                </div>
+
+                <h2 class="section-title" style="font-size: 1.15rem; margin-bottom: 12px;">Quick Operations</h2>
+                <div class="action-grid">
+                    <div class="action-card" onclick="navigateToTab('calc')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                            <polyline points="2 17 12 22 22 17"></polyline>
+                            <polyline points="2 12 12 17 22 12"></polyline>
+                        </svg>
+                        <h3>Calculator</h3>
+                        <p>Estimate savings & capacity</p>
+                    </div>
+                    <a href="https://wa.me/919072522277?text=Hi%20Sunova%20Solar,%20I'm%20interested%20in%20a%20solar%20system%20installation." target="_blank" style="text-decoration: none; color: inherit;">
+                        <div class="action-card">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="stroke: #25d366;">
+                                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                            </svg>
+                            <h3>WhatsApp</h3>
+                            <p>Direct chat with engineers</p>
+                        </div>
+                    </a>
+                    <div class="action-card" onclick="navigateToTab('partner')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        <h3>Partner Log</h3>
+                        <p>Dealers area & quotes</p>
+                    </div>
+                    <div class="action-card" onclick="navigateToTab('staff')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <h3>Staff Portal</h3>
+                        <p>Lead manager & sync</p>
+                    </div>
+                </div>
+
+                <h2 class="section-title" style="font-size: 1.15rem; margin-bottom: 12px;">Premium Installations</h2>
+                <div class="horizontal-scroll-container">
+                    <div class="scroll-card">
+                        <div class="scroll-card-header">
+                            <div class="scroll-card-icon">⚡</div>
+                            <span class="scroll-card-title">Residential Rooftop</span>
+                        </div>
+                        <p class="scroll-card-text">Reduce bills to zero. Clean Mono PERC half-cut modules with 25-year structural warranty & state-level subsidies.</p>
+                    </div>
+                    <div class="scroll-card">
+                        <div class="scroll-card-header">
+                            <div class="scroll-card-icon">🏢</div>
+                            <span class="scroll-card-title">Commercial & Industrial</span>
+                        </div>
+                        <p class="scroll-card-text">High-yield systems engineered for factories, hospitals, and complexes. Capital cost amortization benefits.</p>
+                    </div>
+                    <div class="scroll-card">
+                        <div class="scroll-card-header">
+                            <div class="scroll-card-icon">🛡️</div>
+                            <span class="scroll-card-title">On-Grid & Hybrid Solar</span>
+                        </div>
+                        <p class="scroll-card-text">Select On-Grid for net metering utility offsets, or Hybrid for seamless battery backup against grid outages.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SCREEN 2: CALCULATOR -->
+            <section id="screen-calc" class="screen">
+                <h2 class="section-title">Solar Calculator</h2>
+                <p class="section-subtitle">Estimate system requirements and savings based on your average monthly electricity consumption.</p>
+
+                <!-- Type Selector Segments -->
+                <div class="segmented-control">
+                    <button class="segment-btn active" id="segment-res" onclick="toggleCalculatorMode('residential')">Residential</button>
+                    <button class="segment-btn" id="segment-com" onclick="toggleCalculatorMode('commercial')">Commercial</button>
+                </div>
+                
+                <div class="segmented-control" style="margin-bottom: 20px;">
+                    <button class="segment-btn active" id="segment-ongrid" onclick="toggleSystemType('ongrid')">On-Grid (Net Metering)</button>
+                    <button class="segment-btn" id="segment-hybrid" onclick="toggleSystemType('hybrid')">Hybrid (Backup)</button>
+                </div>
+
+                <!-- Slider Card -->
+                <div class="glass-card">
+                    <div class="slider-container">
+                        <div class="slider-label-row">
+                            <label style="font-weight:700; font-size:0.8rem; color:var(--color-text-muted);">Avg. Monthly Bill</label>
+                            <span class="slider-value-display" id="bill-val">₹ 4,000</span>
+                        </div>
+                        <input type="range" min="300" max="15000" step="100" value="4000" class="slider-control" id="slider-bill" oninput="updateCalculatorByBill(this.value)">
+                    </div>
+                    
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label for="calc-units-input">Or Input Monthly Units (kWh)</label>
+                        <input type="number" class="form-control" id="calc-units-input" placeholder="e.g. 350" oninput="updateCalculatorByUnits(this.value)">
+                    </div>
+                </div>
+
+                <!-- Circular Gauge -->
+                <div class="glass-card" style="text-align: center;">
+                    <h3 style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 5px;">Recommended Capacity</h3>
+                    <div class="gauge-chart-container">
+                        <svg class="gauge-svg" viewBox="0 0 160 160">
+                            <circle cx="80" cy="80" r="70" class="gauge-bg"></circle>
+                            <circle cx="80" cy="80" r="70" class="gauge-fill" id="gauge-capacity-ring"></circle>
+                        </svg>
+                        <div class="gauge-text">
+                            <span class="gauge-percentage" id="gauge-capacity-val">3.0 kW</span>
+                            <span class="gauge-label" id="gauge-panels-val">8 Panels</span>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.74rem; color: var(--color-text-muted);" id="kseb-tariff-note">Based on telescopic residential slab tariff structure.</p>
+                </div>
+
+                <!-- Financial Breakdown -->
+                <h3 class="section-title" style="font-size: 1.1rem; margin-top: 24px; margin-bottom: 12px;">Financial Estimate</h3>
+                <div class="results-grid">
+                    <div class="result-card">
+                        <span class="result-label">Gross Project Cost</span>
+                        <span class="result-value" id="res-gross">₹ 1,95,000</span>
+                    </div>
+                    <div class="result-card">
+                        <span class="result-label">Govt. Subsidy</span>
+                        <span class="result-value success" id="res-subsidy">-₹ 78,000</span>
+                    </div>
+                    <div class="result-card" style="grid-column: span 2; background: rgba(255, 183, 3, 0.05); border-color: rgba(255, 183, 3, 0.2);">
+                        <span class="result-label" style="color: var(--color-sun-yellow); font-weight:700;">Net Investment</span>
+                        <span class="result-value highlight" style="font-size: 1.4rem;" id="res-net">₹ 1,17,000</span>
+                    </div>
+                    <div class="result-card">
+                        <span class="result-label">Est. Monthly Savings</span>
+                        <span class="result-value success" id="res-savings">₹ 3,450 /mo</span>
+                    </div>
+                    <div class="result-card">
+                        <span class="result-label">Payback Period</span>
+                        <span class="result-value" id="res-payback">2.8 Years</span>
+                    </div>
+                </div>
+
+                <!-- Environmental Impact -->
+                <div class="glass-card" style="display:flex; justify-content:space-around; align-items:center; background: rgba(2, 195, 154, 0.05); border-color: rgba(2, 195, 154, 0.2); padding: 12px 16px;">
+                    <div style="text-align:center;">
+                        <span style="font-size:1.4rem;">🌳</span>
+                        <div style="font-size:0.85rem; font-weight:700; color:var(--color-success);" id="env-trees">48 Trees</div>
+                        <span style="font-size:0.62rem; color:var(--color-text-muted);">Equivalent Planted</span>
+                    </div>
+                    <div style="width: 1px; height: 35px; background: var(--color-border);"></div>
+                    <div style="text-align:center;">
+                        <span style="font-size:1.4rem;">💨</span>
+                        <div style="font-size:0.85rem; font-weight:700; color:var(--color-success);" id="env-co2">3.1 Tons</div>
+                        <span style="font-size:0.62rem; color:var(--color-text-muted);">CO2 Offset / Year</span>
+                    </div>
+                </div>
+
+                <!-- Submit Request Card -->
+                <div class="glass-card" style="margin-top: 20px;">
+                    <h3 style="font-family: var(--font-heading); font-size: 1.1rem; margin-bottom: 12px;">Get a Feasibility Quote</h3>
+                    <form id="calc-feasibility-form" onsubmit="handleCalculatorSubmit(event)">
+                        <div class="form-group">
+                            <label for="cust-name">Full Name</label>
+                            <input type="text" class="form-control" id="cust-name" placeholder="Enter your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cust-phone">Mobile Number</label>
+                            <input type="tel" class="form-control" id="cust-phone" placeholder="10-digit number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cust-location">Location (Kerala)</label>
+                            <input type="text" class="form-control" id="cust-location" placeholder="e.g. Thodupuzha, Ernakulam" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cust-dealer">Select Nearest Dealer</label>
+                            <select class="form-control" id="cust-dealer">
+                                <option value="">Auto-Assign (Based on location)</option>
+                                <!-- Injected dynamically by JS -->
+                            </select>
+                        </div>
+                        <div class="form-group" style="display:flex; align-items:center; gap:8px; margin-top:8px;">
+                            <input type="checkbox" id="cust-loan" style="width:18px; height:18px; accent-color:var(--color-sun-yellow);">
+                            <label for="cust-loan" style="margin-bottom:0; text-transform:none; font-size:0.8rem; cursor:pointer;">Require bank loan support</label>
+                        </div>
+
+                        <div id="calc-form-feedback" class="form-feedback hidden"></div>
+
+                        <button type="submit" class="cta-btn primary-btn" style="margin-top: 14px;">
+                            Request Free Technical Survey
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- SCREEN 3: PARTNER PORTAL -->
+            <section id="screen-partner" class="screen">
+                <div id="partner-login-view">
+                    <div class="login-header">
+                        <img src="assets/logo.jpg" alt="Logo" class="login-header-logo">
+                        <h2>Partner Access</h2>
+                        <p>Authorized channel partner leads & quotation portal.</p>
+                    </div>
+                    
+                    <div class="glass-card">
+                        <form id="partner-login-form" onsubmit="handlePartnerLogin(event)">
+                            <div class="form-group">
+                                <label for="part-code">Partner Dealer Code</label>
+                                <input type="text" class="form-control" id="part-code" placeholder="e.g. IDK-MGAJ" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="part-pin">Partner Security PIN</label>
+                                <input type="password" class="form-control" id="part-pin" placeholder="4-digit PIN" required pattern="[0-9]{4}">
+                            </div>
+
+                            <div id="partner-login-feedback" class="form-feedback hidden"></div>
+
+                            <button type="submit" class="cta-btn primary-btn">
+                                Sign In
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Dashboard view (hidden initially) -->
+                <div id="partner-dashboard-view" class="hidden">
+                    <div class="portal-user-bar">
+                        <div>Partner: <span id="partner-user-code">IDK-MGAJ</span></div>
+                        <a href="#" class="logout-link" onclick="handlePartnerLogout(event)">Logout</a>
+                    </div>
+
+                    <div class="portal-metrics">
+                        <div class="metric-card">
+                            <span>My Leads</span>
+                            <div id="partner-leads-count">0</div>
+                        </div>
+                        <div class="metric-card">
+                            <span>Commission</span>
+                            <div id="partner-commission-val">₹0</div>
+                        </div>
+                    </div>
+
+                    <div class="leads-list-header">
+                        <h4>Assigned Customer Leads</h4>
+                        <button onclick="fetchPartnerLeads()">🔄 Refresh</button>
+                    </div>
+
+                    <div class="leads-scroll-box" id="partner-leads-list">
+                        <!-- Loaded dynamically -->
+                    </div>
+
+                    <!-- APK Download Card -->
+                    <div class="glass-card" style="text-align: center; border-color: rgba(255, 183, 3, 0.25); margin-top: 16px;">
+                        <h3 style="font-family: var(--font-heading); font-size: 1.05rem; margin-bottom: 6px;">📥 Download Native App</h3>
+                        <p style="font-size: 0.74rem; color: var(--color-text-muted); margin-bottom: 10px;">Get the dedicated Android app installer (.apk) for offline access.</p>
+                        <a href="sunova-partner.apk" class="cta-btn secondary-btn" download style="display: inline-flex; width: auto; font-size: 0.8rem; padding: 8px 16px; text-decoration: none; justify-content: center; gap: 6px; align-items: center; border: 1px solid var(--color-border); background: var(--color-surface-card); color: var(--color-text);">
+                            🤖 Download APK Installer
+                        </a>
+                    </div>
+
+                    <!-- Quotation Generator -->
+                    <div class="glass-card" style="margin-top: 24px;">
+                        <h3 style="font-family:var(--font-heading); font-size:1.1rem; margin-bottom:12px;">Quotation Generator</h3>
+                        <form id="partner-quote-form" onsubmit="generatePartnerQuote(event)">
+                            <div class="form-group">
+                                <label for="quote-capacity">System Capacity (kW)</label>
+                                <input type="number" step="0.5" class="form-control" id="quote-capacity" value="3" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="quote-panels">Panel Count &amp; Tech</label>
+                                <input type="text" class="form-control" id="quote-panels" value="8 Panels, 440W Mono PERC" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="quote-price">Special Dealer Price (INR)</label>
+                                <input type="number" class="form-control" id="quote-price" value="185000" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="quote-subsidy">Eligible Govt Subsidy (INR)</label>
+                                <input type="number" class="form-control" id="quote-subsidy" value="78000" required>
+                            </div>
+                            <button type="submit" class="cta-btn primary-btn">
+                                Generate WhatsApp Quote
+                            </button>
+                        </form>
+                        <div id="quote-preview-container" class="hidden">
+                            <div class="quote-preview-card" id="quote-preview-box"></div>
+                            <button class="cta-btn whatsapp-btn" style="margin-top: 10px;" id="btn-share-quote-whatsapp">
+                                💬 Share via WhatsApp
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SCREEN 4: STAFF PORTAL -->
+            <section id="screen-staff" class="screen">
+                <div id="staff-login-view">
+                    <div class="login-header">
+                        <img src="assets/logo.jpg" alt="Logo" class="login-header-logo">
+                        <h2>Staff Login</h2>
+                        <p>Internal lead management and webmail mailbox sync portal.</p>
+                    </div>
+
+                    <div class="glass-card">
+                        <form id="staff-login-form" onsubmit="handleStaffLogin(event)">
+                            <div class="form-group">
+                                <label for="st-email">Corporate Email</label>
+                                <input type="email" class="form-control" id="st-email" placeholder="info@sunovasolar.in" required value="info@sunovasolar.in">
+                            </div>
+                            <div class="form-group">
+                                <label for="st-pass">Password</label>
+                                <input type="password" class="form-control" id="st-pass" placeholder="Enter staff password" required>
+                            </div>
+
+                            <div id="staff-login-feedback" class="form-feedback hidden"></div>
+
+                            <button type="submit" class="cta-btn primary-btn">
+                                Sign In
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Dashboard view (hidden initially) -->
+                <div id="staff-dashboard-view" class="hidden">
+                    <div class="portal-user-bar">
+                        <div>Staff Workspace</div>
+                        <a href="#" class="logout-link" onclick="handleStaffLogout(event)">Logout</a>
+                    </div>
+
+                    <div class="portal-metrics">
+                        <div class="metric-card">
+                            <span>Total Leads Logged</span>
+                            <div id="staff-leads-count">0</div>
+                        </div>
+                        <div class="metric-card" style="background: rgba(2, 195, 154, 0.03); cursor: pointer;" onclick="syncStaffEmailLeads()">
+                            <span style="color: var(--color-success);">Sync Webmail</span>
+                            <div id="staff-sync-btn-text" style="font-size: 0.95rem; color: var(--color-success); margin-top: 8px;">🔄 Sync Mailbox</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="staff-lead-search" placeholder="🔍 Search name, phone or district" oninput="filterStaffLeads(this.value)">
+                    </div>
+
+                    <div class="leads-list-header">
+                        <h4>All Inquiries Registry</h4>
+                        <button onclick="fetchStaffLeads()">🔄 Refresh</button>
+                    </div>
+
+                    <div class="leads-scroll-box" id="staff-leads-list">
+                        <!-- Loaded dynamically -->
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Custom Bottom Navigation Bar -->
+        <nav class="bottom-nav">
+            <a class="nav-tab active" id="tab-home" onclick="navigateToTab('home')">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                <span>Home</span>
+            </a>
+            <a class="nav-tab" id="tab-calc" onclick="navigateToTab('calc')">
+                <svg viewBox="0 0 24 24">
+                    <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+                    <line x1="9" y1="9" x2="15" y2="9"></line>
+                    <line x1="9" y1="13" x2="15" y2="13"></line>
+                    <line x1="9" y1="17" x2="15" y2="17"></line>
+                </svg>
+                <span>Calculator</span>
+            </a>
+            <a class="nav-tab" id="tab-partner" onclick="navigateToTab('partner')">
+                <svg viewBox="0 0 24 24">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+                <span>Partner</span>
+            </a>
+            <a class="nav-tab" id="tab-staff" onclick="navigateToTab('staff')">
+                <svg viewBox="0 0 24 24">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <span>Staff</span>
+            </a>
+        </nav>
+
+    </div>
+
+    <!-- Application Script -->
+    <script src="app.js"></script>
+
+    <!-- Register PWA Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(reg => console.log('Service Worker registered successfully!', reg.scope))
+                    .catch(err => console.log('Service Worker registration failed.', err));
+            });
+        }
+    </script>
+
+</body>
+</html>

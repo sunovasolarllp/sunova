@@ -1,0 +1,18 @@
+{
+  "name": "Sunova Solar Mobile",
+  "short_name": "Sunova Solar",
+  "description": "Premium Solar Solutions mobile application for customers, partners, and staff.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0a0f1d",
+  "theme_color": "#ffb703",
+  "icons": [
+    {
+      "src": "assets/logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}
