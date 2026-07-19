@@ -492,21 +492,13 @@ function performCalculationsDirect(capacity, units, skipSyncForm = false) {
     const generationPerMonth = Math.round(capacity * 120);
     
     // 5. Total Installation Cost (estimated Indian averages with discount rates)
+// 5. Total Installation Cost (estimated Indian averages with discount rates)
     let rawCost = 0;
     if (currentMode === 'residential') {
-        if (capacity === 1.0) {
-            rawCost = 75000;
-        } else if (capacity === 2.0) {
-            rawCost = 140000;
-        } else if (capacity <= 3.0) {
-            rawCost = 195000; // ~₹65,000/kW
-        } else if (capacity <= 10.0) {
-            rawCost = capacity * 60000;
-        } else {
-            rawCost = capacity * 55000;
-        }
+        // Linear price: 50,000 per kW + 70,000 base
+        rawCost = Math.round(capacity * 50000 + 70000);
     } else {
-        // Commercial bulk pricing
+        // Commercial bulk pricing (unchanged)
         rawCost = capacity * 52000;
     }
     
@@ -603,6 +595,14 @@ function transferCalculatorDetails() {
 function updateFormMessageDetails() {
     const formSizeEl = document.getElementById('form-size');
     const msgArea = document.getElementById('form-message');
+    const nameInput = document.getElementById('form-name');
+    // Upper‑case name as user types
+    if (nameInput) {
+      nameInput.addEventListener('input', () => {
+        nameInput.value = nameInput.value.toUpperCase();
+      });
+    }
+    const locationSelect = document.getElementById('form-location');
     if (!formSizeEl || !msgArea) return;
     
     const size = parseFloat(formSizeEl.value) || 4.0;
@@ -617,9 +617,13 @@ function updateFormMessageDetails() {
     const systemTypeLabel = currentSystemType === 'hybrid' ? 'Hybrid (Grid + Battery Backup)' : 'On-Grid';
     const batteryDetail = currentSystemType === 'hybrid' ? ` with a recommended battery bank of ${(size * 1.5 < 2.4 ? 2.4 : Math.round(size * 1.5 * 10) / 10).toFixed(1)} kWh` : '';
     
+    // Get customer name and selected KSEB section
+    const customerName = nameInput ? nameInput.value.trim() : '';
+    const selectedSection = locationSelect ? locationSelect.value : '';
+    
     // Update message text only if it has not been customized or is empty
     if (!msgArea.value || msgArea.value.startsWith("Hi ")) {
-        msgArea.value = `Hi ${partnerName}, I am interested in a ${size.toFixed(1)} kW ${systemTypeLabel} solar system containing ${panels} panels${batteryDetail}. My current monthly bill is approximately ₹${billVal}. Please perform a feasibility study for my site.`;
+        msgArea.value = `Hi ${partnerName}, my name is ${customerName} from ${selectedSection} KSEB section. I am interested in a ${size.toFixed(1)} kW ${systemTypeLabel} solar system containing ${panels} panels${batteryDetail}. My current monthly bill is approximately ₹${billVal}. Please perform a feasibility study for my site.`;
     }
 }
 
@@ -684,6 +688,8 @@ function toggleLoanDocsInfo(isChecked) {
     } else {
         loanDocsBox.classList.add('hidden');
     }
+    // Refresh the form message preview to reflect any changes when bank loan checkbox is toggled
+    updateFormMessageDetails();
 }
 
 // Normalize district spellings for strict comparisons
@@ -733,7 +739,84 @@ function handleDistrictChange(districtValue) {
         formDealer.appendChild(opt);
     });
     
+    // Also populate KSEB Section dropdown based on selected district
+    populateKSEBSections(districtValue);
+    
     updateFormMessageDetails();
+}
+
+// KSEB Section Data (fetched from wss.kseb.in/selfservices API)
+const KSEB_SECTIONS = {
+    "Thiruvananthapuram": {"Amboori":4656,"Aryanad":4652,"Attingal":4531,"Avanavancherry":4532,"Balaramapuram":4542,"Beach Trivandrum":4513,"Cantonment TVM":4506,"Chirayinkeezhu":4529,"Chullimanoor":4653,"Edava":4526,"Fort Trivandrum":4503,"Kachani":4691,"Kadakkavoor":4528,"Kallambalam":4533,"Kallara":4557,"Kalliyoor":4675,"Kamukinkode":4868,"Kaniyapuram":4522,"Kanjiramkulam":4544,"Kanyakulangara":4556,"Karamana":4510,"Kattakada":4552,"Kazhakuttam":4521,"Kedakulam":4527,"Kesavadasapuram":4516,"Kilimannoor":4535,"Kottukal":4657,"Kudappanakkunnu":4676,"Kulathoor":4520,"Kunnathukal":4667,"Madavoor":4536,"Malayinkeezh":4666,"Manacaud":4501,"Mangalapuram":4523,"Maranalloor":4553,"Marayamuttom":4539,"Nagaroor":4654,"Nalanchira":4518,"Nedumangad":4547,"Nemom":4543,"Neyyattinkara":4537,"Ottasekharamangalam":4554,"Palachira":4534,"Pallickal [Attingal Dvn.]":4680,"Palode":4548,"Parassala":4540,"Paravoor":4576,"Peringamala":4674,"Peroorkada":4508,"Pettah":4514,"Peyad":4550,"Poojappura":4512,"Poonthura":4679,"Poothakulam":4671,"Poovachal":4864,"Poovar":4545,"Poozhikunnu":4688,"Pothencode":4524,"Puthenchantha":4504,"Sreekariyam":4519,"Sreevaraham":4515,"Thirumala":4511,"Thiruvallam":4502,"Tholicode":4681,"Thycaud":4505,"Uchakkada":4655,"Udiyankulangara":4538,"Ulloor":4517,"Uzhamalakkal":4673,"Vakkom":4530,"Vamanapuram":4821,"Varkala":4525,"Vattappara":4678,"Vattiyoorkavu":4509,"Vellanad":4551,"Vellarada":4541,"Vellayambalam":4507,"Venjaramood":4555,"Vithura":4549,"Vizhinjam":4546},
+    "Kollam": {"Anchal West":4669,"Anchal":4597,"Ayathil":4565,"Ayoor":4591,"Cantonment Kollam":4558,"Chadayamangalam":4672,"Chathannoor":4575,"Chavara":4571,"Chengamanad KTRA":4590,"Chithara":4662,"East kallada":4583,"Ezhukone":4582,"Kadakkal":4599,"Kadambanad":4613,"Kadappakkada":4559,"Kallambalam":4533,"Kanjiramkuzhy":4670,"Kannanalloor":4579,"Karavaloor":4677,"Karukone":4661,"Karunagappally North":4569,"Karunagappally South":4570,"Kilikolloor":4564,"Kottarakkara East":4683,"Kottarakkara":4587,"Kottiyam":4578,"Kulakkada":4588,"Kulathupuzha":4598,"Kundara":4581,"Madavoor":4536,"Manappally":4658,"Manipuzha":4620,"Mayyanad":4580,"Mynagappally":4659,"Nallila":4586,"Oachira":4567,"Olai":4560,"Oyoor":4660,"Pallimukku":4566,"Panmana":4682,"Paravoor":4576,"Parippally":4577,"Pathanapuram":4595,"Pattazhy":4685,"Perinad":4563,"Perumpuzha":4585,"Piravanthoor":4668,"Poothakulam":4671,"Punalur":4593,"Puthur Kottarakkara":4589,"Sakthikulangara":4561,"Sasthamcotta":4573,"Sooranad":4574,"Thankasserry":4562,"Thengamom-Pallickal":4663,"Thenmala":4594,"Thevalakkara":4572,"Valakom":4592,"Vallikunnam":5754,"Veliyam":4584,"Vilakkudi":4596},
+    "Pathanamthitta": {"Adoor":4609,"Aranmula":5535,"Ayirur Kathakali Gramam":4608,"Changanachery":4636,"Elavumthitta":4616,"Enathu":4806,"Erumely":5637,"Ezhamkulam":4611,"Kadambanad":4613,"Kadapra":4621,"Kaippattoor":4610,"Kakkad":4604,"Kalanjoor":4612,"Karukachal":4641,"Konni":4602,"Kozhenchery":4605,"Kulanada":4615,"Kumbanad":4619,"Kumbazha":4601,"Mallappally":4623,"Manimala":4642,"Manipuzha":4620,"Pandalam Thekkekkara":4692,"Pandalam":4614,"Pathanamthitta":4600,"Pathanapuram":4595,"Ranni Perunad":4690,"Ranny North":4607,"Ranny South":4606,"Thengamom-Pallickal":4663,"Thiruvalla":4617,"Thottabhagom":4618,"Vadasserikkara":4603,"Vaipur":4624,"Vakayar":4687,"Vechoochira":4665,"Venmony":5824,"Vennikulam":4622},
+    "Alappuzha": {"Alappuzha North":5501,"Alappuzha South":5503,"Alappuzha Town":5502,"Ambalappuzha":5505,"Arattupuzha":5833,"Arookutty":5705,"Aroor":5515,"Arthinkal":5518,"Chambakulam":5508,"Charummood":5527,"Chenganoor":5533,"Chennithala":5538,"Cheppad":5530,"Cherthala East":5704,"Cherthala":5512,"Edathua":5507,"Harippad":5524,"Kainakari":5511,"Kalavoor":5726,"Kallissery":5534,"Karthikappally":5526,"Karuvatta":5525,"Kattanam":5528,"Kayamkulam East":5531,"Kayamkulam West":5532,"Kidangara":5510,"Kollakadavu":5537,"Krishnapuram":4568,"Kuthiathode":5516,"Manipuzha":4620,"Mankombu":5509,"Mannar":5539,"Mavelikkara":5522,"Muhamma":5519,"Mulakuzha":5536,"Muthukulam":5741,"Nooranad":5529,"Oachira":4567,"Pallippad":5725,"Pathirappally":5521,"Pattanakadu":5517,"Poochakkal":5514,"Punja Pallom":4626,"Punnapra":5504,"S.L.Puram":5520,"Thakazhy":5506,"Thannermukkom":5513,"Thattarambalam":5523,"Thengamom-Pallickal":4663,"Vallikunnam":5754,"Venmony":5824},
+    "Kottayam": {"Athirampuzha":4664,"Ayarkunnam":4632,"Aymanam":4629,"Bharananganam":5627,"Changanachery":4636,"Chempu":4644,"Erattupetta":5630,"Erumely":5637,"Ettumanur":4646,"Gandhinagar":4628,"Kaduthuruthy":4651,"Kanjirappally":5636,"Karukachal":4641,"Kidangoor":5625,"Kollappally":5740,"Kooroppada":5749,"Koothattukulam":5598,"Koottikkal":5721,"Kottayam Central":4634,"Kottayam East":4635,"Kumarakam":4630,"Kuravilangad":4649,"Kurichy":4637,"Kuruppanthara":4647,"Manarcad":4631,"Manimala":4642,"Manipuzha":4620,"Marangattupally":5628,"Meenadom":4689,"Mundakkayam":5638,"Nattakam":4627,"Neendoor":4648,"Paika":5626,"Pala":5624,"Pallickathode":5707,"Pallom":4625,"Pampady":5635,"Parathode":5745,"Pathanad":4684,"Peerumade":5612,"Peruva":4686,"Pinnakkanad":5632,"Piravom":5597,"Ponkunnam":5633,"Poonjar":5631,"Punja Pallom":4626,"Puthuppally":4633,"Ramapuram":5629,"Teekoy":5744,"Thalayazham":4645,"Thalayolaparambu":4650,"Thengana":4638,"Thiruvalla":4617,"Thodupuzha-I":5618,"Thrikkodithanam":4640,"Vaikom":4643,"Vakathanam":4639,"Vandiperiyar":5614,"Vazhoor":5634},
+    "Idukki": {"Adimali":5617,"Alakode-Thodupuzha":5753,"Anakkara":5742,"Chithirapuram":5615,"Erattayar":5724,"Kalloorkad":5593,"Kambilikandom":5710,"Kanchiyar":5746,"Kanjikuzhy":5722,"Karimannur":5621,"Kattapana":5609,"Koothattukulam":5598,"Kothamangalam-II":5601,"Kumily":5708,"Manjalloor":5752,"Marayoor":5616,"Moolamattom":5619,"Murikkassery":5711,"Nedumkandam":5610,"Painavu":5623,"Peerumade":5612,"Peruvanthanam":5720,"Pothanikad":5592,"Purappuzha":5743,"Rajakkad":5730,"Rajakumary":5709,"Thodupuzha-I":5618,"Thodupuzha-II":5620,"Thookkupalam":5723,"Udumbanchola":5755,"Upputhara":5613,"Vandanmedu":5611,"Vandiperiyar":5614,"Vannapuram":5622},
+    "Ernakulam": {"Alangad":5737,"Aluva North":5568,"Aluva Town":5567,"Aluva West":5569,"Amballoor":5552,"Angamaly":5579,"Arakkunnam":5553,"Athani":5572,"Chendamangalam":5606,"Chengamanad PBVR":5571,"Cherai":5605,"Cheranellore":5739,"Chottanikkara":5551,"Chowara":5570,"College Ernakulam":5540,"Edappally":5544,"Edathala":5750,"Edayar(Muppathadom)":5712,"Eloor":5574,"Ernakulam Central":5546,"Eroor":5733,"Ezhikkara":5603,"Fort Cochin":5564,"Girinagar":5542,"Kalady":5576,"Kalamassery":5573,"Kalloorkad":5593,"Kaloor":5545,"Kanjoor":5747,"Kannamali":5560,"Karakutty":5581,"Keerampara":5713,"Kizhakkambalam":5586,"Kolencherry":5554,"Koothattukulam":5598,"Koovappady":5590,"Kothamangalam-I":5600,"Kothamangalam-II":5601,"Kumbalangi":5561,"Kunnukara":5575,"Kurupampady":5588,"Kuzhoor":5657,"Malayattoor":5715,"Manjalloor":5752,"Manjapra":5578,"Mannam":5736,"Maradu":5550,"Mattancherry":5563,"Meloor":5650,"Mookannur":5582,"Moothakunnam":5608,"Moovattupuzha-I":5591,"Moovattupuzha-II":5594,"Mulanthuruthy":5748,"Nellikuzhy":5751,"Njarackkal":5566,"North Paravur":5604,"Okkal":5738,"Palarivattom":5543,"Palluruthy":5559,"Pampakuda":5599,"Panangad":5735,"Parakadavu PBVR":5580,"Pattimattam":5587,"Perumbavoor":5583,"Piravom":5597,"Pothanikad":5592,"Puthencruz":5555,"Puthenvelikkara":5659,"Thevakkal":5558,"Thevara":5541,"Thiruvaniyoor":5734,"Thodupuzha-I":5618,"Thodupuzha-II":5620,"Thoppumpady":5562,"Thrikkakkara West":5731,"Thrikkakkara":5557,"Thripunithura":5548,"Thuravoor":5577,"Udayamperoor":5549,"Vadakkekkara":5607,"Vaduthala":5547,"Valayanchirangara":5596,"Varapuzha":5602,"Vazhakulam":5584,"Velloorkunnam":5595,"Vengola":5585,"Vengoor":5589,"Vennala":5732,"Vypin":5565,"Vyttila":5556},
+    "Thrissur": {"Ammadam":5670,"Annamanada":5648,"Arimboor":5679,"Ayyanthole":5678,"Beach Chavakkad":5699,"Big Bazar Thrissur":5702,"Chalakkudy":5651,"Chalissery":6538,"Chavakkad":5698,"Chelakara":5691,"Cherpu":5639,"Cheruthuruthy":5692,"Chirakkal":5642,"Desamangalam":5717,"Eriyad":5665,"Guruvayoor":5697,"Irinjalakuda- I":5644,"Irinjalakuda-II":5647,"Kaipamangalam":5660,"Kandassankadavu":5689,"Karuvannur":5640,"Kattoor":5643,"Kecheri":5694,"Kodakara":5654,"Kodungalloor- II":5664,"Kodungalloor-I":5663,"Kombodinjamakkal":5645,"Koonamoochy":5696,"Koorkancherry":5669,"Koratty":5649,"Kundannur":5684,"Kunnamkulam":5700,"Kuriachira":5671,"Kuttichira":5729,"Kuzhoor":5657,"Mala":5658,"Mannuthy":5675,"Marathakara":5673,"Mathilakom":5661,"Medical College(Peringandoor)":5714,"Meloor":5650,"Mulamkunnathukavu":5682,"Mundur Thrissur":5695,"Muthuvara":5685,"Nadathara":5677,"Ollur":5672,"Parappookara":5641,"Parappur":5686,"Pariyaram IRJKDA":5652,"Pattikad":5676,"Pavaratty":5687,"Pazhanji":5701,"Pazhayannur":5719,"Peringode":6705,"Peringottukara":5666,"Perinjanam":5662,"Perumbilavu":5727,"Punnamparambu":5718,"Punnayoorkulam":5703,"Puthenchira":5728,"Puthenvelikkara":5659,"Puthucode":6508,"Puthukkad":5655,"Puthur Thrissur":5674,"Ramavarmapuram":5681,"Thalikulam":5716,"Thiruvillwamala":5693,"Thriprayar":5667,"Vadanappally":5688,"Valappad":5668,"Varandarappally":5656,"Vellangallur":5646,"Vellikulangara":5653,"Vengidange":5690,"Viyur":5680,"Wadakkanchery":5683},
+    "Palakkad": {"Agali":6516,"Alanallur":6521,"Alathur":6509,"Ambalappara":6534,"Big Bazar Palakkad":6518,"Chalissery":6538,"Cherpulassery":6541,"Chittur":6501,"Desamangalam":5717,"Elapully":6530,"Kadambazhippuram":6786,"Kalpathy":6531,"Kanjikode":6528,"Kanjirapuzha":6771,"Kayaradi":6822,"Kizhakkancherry":6754,"Koduvayur":6505,"Kollengode":6510,"Kongad":6523,"Koottupatha":6791,"Koppam":6537,"Kothakurussy":6542,"Kottathara":6785,"Kottayi":6526,"Kozhinjampara":6502,"Kumaramputhur":6742,"Kumbidi":6812,"Kunnissery":6726,"Kuthannur":6728,"Kuzhalmannam":6525,"Lakkidi":6824,"Malampuzha":6725,"Mannarkkad":6520,"Marutharoad":6529,"Melamuri":6519,"Mudappallur":6514,"Mundur Palakkad":6740,"Muthalamada":6511,"Muthuthala":6704,"Nelliampathy":6512,"Nemmara":6513,"Olavakkode":6532,"Ongallur":6801,"Ottappalam":6533,"Padinjarangadi":6540,"Padoor":6507,"Parali":6527,"Pathirippala":6729,"Pattambi":6536,"Pengattiri":6784,"Peringode":6705,"Peringottukurissy":6727,"Pudunagaram":6506,"Puthucode":6508,"Shoranur":6535,"Sreekrishnapuram":6524,"Sulthanpet":6517,"Tachampara":6522,"Tattamangalam":6504,"Thazhecode":6710,"Thiruvegapura":6753,"Thrithala":6539,"Vadakkumchery":6515,"Vadavannur":6810,"Vallapuzha":6703,"Vandithavalam":6809,"Vaniyamkulam":6733,"Velanthavalam":6503,"Vilayur":6821,"Walayar":6819},
+    "Malappuram": {"Akambadam":6796,"Alathiyur":6574,"Anakkayam":6756,"Angadippuram":6748,"Areekode":6549,"Chalissery":6538,"Changaramkulam":6585,"Chattiparamba":6708,"Chelari":6577,"Cherpulassery":6541,"Chungathara":6713,"Edakkara":6544,"Edappal":6584,"Edarikode":6558,"Edavanna":6548,"Edavannappara":6550,"Edayoor":6769,"Ezhuvathurithy":6802,"Kadalundi":6632,"Kadampuzha":6572,"Kadungathukundu":6741,"Kalikavu":6560,"Kandanakom-Kalady":6755,"Karad":6768,"Karulai":6795,"Karuvarakundu":6794,"Keezhuparamba":6707,"Kizzhissery":6551,"Kolathur":6567,"Kondotty":6552,"Koombara":6805,"Kottakkal":6557,"Kumbidi":6812,"Kunnumpuram (AR Nagar)":6739,"Kuttipuram":6712,"Makkaraparamba":6565,"Malappuram East":6555,"Malappuram West":6780,"Mampad":6814,"Manjeri North":6547,"Manjeri South":6546,"Mankada":6711,"Melattoor":6563,"Moothedam":6807,"Mundakkulam":6823,"Nilambur":6543,"Oorakam":6808,"Othukungal":6709,"Pandikkad":6561,"Pannikkode":6777,"Parappanangadi":6575,"Pattikkad Chungam":6779,"Perinthalmanna":6562,"Perumpadappu":6803,"Ponmundam (Vylathur)":6570,"Ponnani":6581,"Pookottumpadam":6545,"Pothukallu":6310,"Pulamanthole":6564,"Pulikkal":6553,"Purangu":6583,"Purathur":6781,"Puthenathani":6571,"Puzhakkattiri":6820,"Thalappara":6580,"Thanalur":6736,"Thanur East":6798,"Thanur":6576,"Thavanur":6582,"Thazhecode":6710,"Thirunavaya":6573,"Thiruvali":6770,"Thrikkalangode":6706,"Thuvvakkad":6797,"Tirur East":6568,"Tirur West":6569,"Tirurangadi":6578,"Tuvvur":6815,"Valancheri":6566,"Vallikunnu":6715,"Vaniyambalam":6793,"Vazhikkadavu":6714,"Velluvambram":6554,"Vengara":6556,"Venniyoor":6579,"Vettom":6730,"Wandoor":6559},
+    "Kozhikode": {"Areekkad":6789,"Areekkulam":6767,"Atholi":6615,"Ayenchery":6624,"Azhiyoor":6743,"Balussery":6613,"Beach Kozhikkode":6603,"Beypur":6635,"Central Kozhikode":6602,"Chakkittapara":6716,"Chelannur":6744,"Edacherri":6627,"Eranhikkal":6606,"Feroke":6631,"Kadalundi":6632,"Kakkattil":6735,"Kakkodi":6599,"Kakkoor":6764,"Kallai":6634,"Karaparamba":6598,"Kattangal":6747,"Keezhuparamba":6707,"Kodencheri":6612,"Koduvally":6611,"Koombara":6805,"Koorachundu":6763,"Koottalida":6765,"Kovoor":6595,"Kunnamangalam":6607,"Kuttiyadi":6629,"Maniyoor":6717,"Mankavu":6636,"Mavoor":6596,"Melady":6620,"Meppayoor":6617,"Moodadi":6766,"Mukkam":6608,"Muttungal":6625,"Nadakkave":6601,"Nadapuram":6628,"Naduvannur":6618,"Narikkuni":6600,"Omassery":6751,"Orkkatteri":6626,"Pannikkode":6777,"Pantheerankavu":6637,"Parakkadavu KKD":6724,"Parappupara":6752,"Perambra North":6778,"Perambra":6616,"Peringathur":6817,"Perumanna":6734,"Pottammal":6597,"Puthuppady":6732,"Quilandi North":6619,"Quilandi South":6621,"Ramanattukara":6633,"Thamarassery":6610,"Thikkody":6746,"Thiruvallur":6738,"Thiruvambadi":6609,"Thottilpalam":6630,"Thuneri":6731,"Unnikulam":6614,"Vadakara Beach":6737,"Vadakara North":6623,"Vadakara South":6622,"Vellimadukunnu":6605,"WestHill":6604},
+    "Wayanad": {"Ambalavayal":6762,"Kalpetta":6586,"Kambalakkad":6718,"Kattikulam":6783,"Korom":6806,"Mananthavady":6589,"Meenangadi":6593,"Meppadi":6588,"Muttil":6792,"Padichira":6811,"Padinjarethara":6782,"Panamaram":6590,"Pulpally":6594,"Sultan Bathery West":6720,"Sultan Bathery":6592,"Thavinhal":6719,"Vellamunda":6591,"Vythiri":6587},
+    "Kannur": {"Alakkode":6648,"Azheekode":6662,"Burnasseri":6655,"Chakkarakallu":6660,"Chalode":6661,"Chapparappadavu":6745,"Chemperi":6721,"Cherukunnu":6664,"Cherupuzha":6816,"Chokli":6671,"Chovva":6657,"Dharmadom":6677,"Dharmassala":6646,"Eaichur":6659,"Edoor":6722,"Irikkur":6649,"Iritty":6674,"Kadachira":6658,"Kakkayangad":6787,"Kannur":6654,"Karimbam":6645,"Karivellur":6651,"Karthikapuram":6799,"Kathiroor":6682,"Kelakom":6759,"Kodiyeri":6670,"Kolachery":6666,"Kolayad":6758,"Koothuparamba":6680,"Kunhimangalam":6639,"Madai":6643,"Mathamangalam":6641,"Mattannur":6675,"Mayyil":6667,"Padiyottuchal":6652,"Pallikunnu":6653,"Panoor":6672,"Pappinisseri":6663,"Parad":6673,"Pariyaram Kannur":6760,"Pattiyam":6681,"Payyangadi":6642,"Payyanur":6638,"Payyavur":6775,"Peralassery":6790,"Peringathur":6817,"Pinarayi":6679,"Ramanthali":6640,"Sivapuram":6776,"Sreekantapuram":6647,"Thalassery North":6669,"Thalassery South":6668,"Thaliparamba":6644,"Thayyil":6656,"Thondiyil":6676,"Ulikkal":6761,"Valapattanam":6665,"Vallithode":6813,"Vellur":6650,"Vengad":6678},
+    "Kasaragod": {"Badiadka":6690,"Balamthode":6773,"Bhimanadi":6697,"Chattanchal":6772,"Cherkala":6689,"Cherupuzha":6816,"Chittari":6695,"Choyamkode":6750,"Kanhangad":6694,"Karivellur":6651,"Kasargode":6688,"Kayyur":6699,"Kumbala":6687,"Kuttikole":6693,"Manjeswar":6684,"Mavungal":6701,"Mulleria":6691,"Nallompuzha":6749,"Neeleswar":6696,"Nellikunnu":6686,"Padanna":6723,"Padannakkad":6804,"Paivalika":6757,"Periya Bazar":6774,"Perla":6800,"Pilicode":6698,"Rajapuram":6702,"Seethangoli":6818,"Thrikaripur":6700,"Udma":6692,"Uppala":6683,"Vellur":6650,"Vorkady":6685}
+};
+
+// Populate KSEB Section dropdown based on selected district
+function populateKSEBSections(districtValue) {
+    const sectionSelect = document.getElementById('form-location');
+    if (!sectionSelect) return;
+    
+    sectionSelect.innerHTML = '';
+    
+    // Match district name to KSEB data key
+    const districtMap = {
+        "Thiruvananthapuram": "Thiruvananthapuram",
+        "Kollam": "Kollam",
+        "Pathanamthitta": "Pathanamthitta",
+        "Alappuzha": "Alappuzha",
+        "Kottayam": "Kottayam",
+        "Idukki": "Idukki",
+        "Ernakulam": "Ernakulam",
+        "Thrissur": "Thrissur",
+        "Palakkad": "Palakkad",
+        "Malappuram": "Malappuram",
+        "Kozhikode": "Kozhikode",
+        "Wayanad": "Wayanad",
+        "Kannur": "Kannur",
+        "Kasaragod": "Kasaragod"
+    };
+    
+    const ksebKey = districtMap[districtValue];
+    const sections = ksebKey ? KSEB_SECTIONS[ksebKey] : null;
+    
+    if (!sections || Object.keys(sections).length === 0) {
+        const opt = document.createElement('option');
+        opt.value = '';
+        opt.textContent = '-- Select district first --';
+        opt.disabled = true;
+        opt.selected = true;
+        sectionSelect.appendChild(opt);
+        return;
+    }
+    
+    // Add placeholder
+    const placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = '-- Select your KSEB section --';
+    placeholder.disabled = true;
+    placeholder.selected = true;
+    sectionSelect.appendChild(placeholder);
+    
+    // Sort sections alphabetically and populate
+    const sortedSections = Object.keys(sections).sort();
+    sortedSections.forEach(name => {
+        const opt = document.createElement('option');
+        opt.value = name;
+        opt.textContent = name;
+        sectionSelect.appendChild(opt);
+    });
 }
 
 function handleFormSubmit(event) {
@@ -925,7 +1008,10 @@ function handleFormSubmit(event) {
     // 4. Build success feedback detailing the assigned partner
     const successMessage = `
         <strong>Submission Successful!</strong><br>
-        Thank you, ${name}. Your quote request has been registered in our portal. <br><br>
+        Thank you, ${name.toUpperCase()}. Your quote request has been registered in our portal.<br><br>
+        <strong>Details Provided:</strong><br>
+        • District: ${district}<br>
+        • KSEB Section: ${location}<br><br>
         <strong>Matched Authorized Partner:</strong><br>
         👤 <strong>Partner Name:</strong> ${dealer.name}<br>
         📍 <strong>Service Area:</strong> ${dealer.area} (${dealer.district})<br>
