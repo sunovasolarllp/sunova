@@ -4,9 +4,9 @@ let currentSystemType = 'ongrid'; // 'ongrid' or 'hybrid'
 
 // Authorized Sunova Solar Dealers List
 const DEALERS = [
-    { code: "TVM-JOBI", name: "JOBI SEBASTIAN", area: "ATTINGAL", district: "Thiruvananthapuram", phone: "8590085856" },
-    { code: "TVM-BENJ", name: "BENJOSE FG", area: "BALARAMAPURAM", district: "Thiruvananthapuram", phone: "9037273767" },
-    { code: "TVM-ANAN", name: "ANAND SREEDHAR", area: "NEYYATTINKARA", district: "Thiruvananthapuram", phone: "7994430742" },
+    { code: "KNR-JOBI", name: "JOBI SEBASTIAN", area: "KANNUR", district: "Kannur", phone: "8590085856" },
+    { code: "TVM-BENJ", name: "BENJOSE FG", area: "BALARAMAPURAM", district: "Thiruvanthapuram", phone: "9037273767" },
+    { code: "TVM-ANAN", name: "ANAND SREEDHAR", area: "NEYYATTINKARA", district: "Thiruvanthapuram", phone: "7994430742" },
     { code: "KLA-VARG", name: "VARGHESE NELLIMOOTTIL", area: "AYOOR", district: "Kollam", phone: "9020202222" },
     { code: "KLA-NIYA", name: "NIYAS K", area: "KARUNAGAPPALLY", district: "Kollam", phone: "9656366068" },
     { code: "KLA-UDAY", name: "UDAYABHANU J", area: "KOLLAM", district: "Kollam", phone: "9349136882" },
@@ -227,6 +227,15 @@ function setCalculatorMode(mode) {
         ksebNote.textContent = 'Calculated using commercial LT-VIIA rates. Businesses are not eligible for direct PM Surya Ghar subsidy but can avail 40% accelerated depreciation tax benefits.';
         subsidyContainer.classList.add('hidden');
         formConnection.value = 'commercial';
+        
+        // Auto-switch to manual input for commercial since sizes vary wildly
+        const calcSelect = document.getElementById('calc-size-select');
+        if (calcSelect && calcSelect.value !== 'custom') {
+            calcSelect.value = 'custom';
+            if (typeof handleCalcSizeSelectChange === 'function') {
+                handleCalcSizeSelectChange('custom');
+            }
+        }
     }
     
     // Recalculate
@@ -434,6 +443,12 @@ function resetCapacityToCalculated() {
     const resetBtn = document.getElementById('btn-reset-capacity');
     if (resetBtn) {
         resetBtn.classList.add('hidden');
+    }
+    
+    const calcSelect = document.getElementById('calc-size-select');
+    if (calcSelect) {
+        calcSelect.value = 'auto';
+        document.getElementById('calc-size-manual-wrapper').style.display = 'none';
     }
     
     performCalculations(calculatedUnits);
@@ -819,6 +834,37 @@ function populateKSEBSections(districtValue) {
     });
 }
 
+const formLocation = document.getElementById('form-location');
+if (formLocation) {
+    formLocation.addEventListener('change', function() {
+        const sectionName = this.value;
+        if (!formDealer || !sectionName) return;
+        
+        const searchStr = sectionName.toUpperCase();
+        let bestMatch = null;
+        let maxMatchLen = 0;
+        
+        Array.from(formDealer.options).forEach(opt => {
+            if (!opt.value) return;
+            const dealer = DEALERS.find(d => d.code === opt.value);
+            if (dealer) {
+                const areaUpper = dealer.area.toUpperCase();
+                // Simple string match
+                if (searchStr.includes(areaUpper) || areaUpper.includes(searchStr)) {
+                    if (areaUpper.length > maxMatchLen) {
+                        maxMatchLen = areaUpper.length;
+                        bestMatch = opt.value;
+                    }
+                }
+            }
+        });
+        
+        if (bestMatch) {
+            formDealer.value = bestMatch;
+        }
+    });
+}
+
 function handleFormSubmit(event) {
     event.preventDefault();
     
@@ -1036,6 +1082,12 @@ function handleFormSubmit(event) {
     // 6. Reset form fields
     document.getElementById('form-name').value = '';
     document.getElementById('form-phone').value = '';
+    const consumerNoEl = document.getElementById('form-consumer-no');
+    if (consumerNoEl) consumerNoEl.value = '';
+    const regMobileEl = document.getElementById('form-reg-mobile');
+    if (regMobileEl) regMobileEl.value = '';
+    const ksebStatusEl = document.getElementById('kseb-status');
+    if (ksebStatusEl) ksebStatusEl.style.display = 'none';
     document.getElementById('form-email').value = '';
     document.getElementById('form-location').value = '';
     document.getElementById('form-district').value = 'Alappuzha';
@@ -1107,3 +1159,137 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// Capacity and Connection Category change handlers
+window.handleFormSizeSelectChange = function(val) {
+    const manualWrapper = document.getElementById('form-size-manual-wrapper');
+    const sizeInput = document.getElementById('form-size');
+    if (val === 'custom') {
+        manualWrapper.style.display = 'flex';
+    } else {
+        manualWrapper.style.display = 'none';
+        sizeInput.value = val;
+    }
+};
+
+window.handleFormConnectionChange = function(val) {
+    const sizeSelect = document.getElementById('form-size-select');
+    if (!sizeSelect) return;
+    
+    if (val === 'commercial') {
+        sizeSelect.value = 'custom';
+        window.handleFormSizeSelectChange('custom');
+    } else {
+        sizeSelect.value = '3.0';
+        window.handleFormSizeSelectChange('3.0');
+        document.getElementById('form-size').value = 3.0;
+    }
+};
+
+window.handleCalcSizeSelectChange = function(val) {
+    const manualWrapper = document.getElementById('calc-size-manual-wrapper');
+    const sizeSelect = document.getElementById('calc-size-select');
+    
+    if (val === 'auto') {
+        manualWrapper.style.display = 'none';
+        if (typeof resetCapacityToCalculated === 'function') {
+            resetCapacityToCalculated();
+        }
+    } else if (val === 'custom') {
+        manualWrapper.style.display = 'flex';
+    } else {
+        manualWrapper.style.display = 'none';
+        if (typeof handleCapacityInput === 'function') {
+            handleCapacityInput(val);
+        }
+    }
+};
+
+// KSEB Auto-Fill Functions
+let ksebFetchTimer = null;
+
+window.triggerKSEBAutoFetch = function() {
+    const consumerNo = (document.getElementById('form-consumer-no')?.value || '').trim();
+    const regMobile  = (document.getElementById('form-reg-mobile')?.value  || '').trim();
+    
+    // Only fire when both fields are complete
+    if (consumerNo.length !== 13 || !/^[0-9]{13}$/.test(consumerNo)) return;
+    if (regMobile.length  !== 10 || !/^[6-9][0-9]{9}$/.test(regMobile))  return;
+    
+    // Debounce — wait 600ms after last keystroke
+    clearTimeout(ksebFetchTimer);
+    ksebFetchTimer = setTimeout(() => fetchKSEBDetails(consumerNo, regMobile), 600);
+};
+
+function setKSEBStatus(msg, type) {
+    const el = document.getElementById('kseb-status');
+    if (!el) return;
+    el.style.display = 'block';
+    el.textContent = msg;
+    if (type === 'loading') {
+        el.style.background = 'rgba(255,183,3,0.1)';
+        el.style.color = 'var(--color-sun-yellow)';
+        el.style.border = '1px solid rgba(255,183,3,0.3)';
+    } else if (type === 'success') {
+        el.style.background = 'rgba(34,197,94,0.12)';
+        el.style.color = '#4ade80';
+        el.style.border = '1px solid rgba(34,197,94,0.3)';
+    } else {
+        el.style.background = 'rgba(239,68,68,0.1)';
+        el.style.color = '#f87171';
+        el.style.border = '1px solid rgba(239,68,68,0.3)';
+    }
+}
+
+async function fetchKSEBDetails(consumerNo, regMobile) {
+    setKSEBStatus('⏳ Fetching from KSEB…', 'loading');
+    
+    try {
+        const resp = await fetch('/api/kseb_fetch', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ consumerno: consumerNo, regmobno: regMobile })
+        });
+        
+        const json = await resp.json();
+        
+        if (!resp.ok || json.error) {
+            setKSEBStatus('❌ ' + (json.error || 'Could not fetch bill details'), 'error');
+            return;
+        }
+        
+        const d = json.data;
+        
+        // Fill in name if not already typed
+        const nameInput = document.getElementById('form-name');
+        if (nameInput && d.name) {
+            if (!nameInput.value || nameInput.value.trim() === '') {
+                nameInput.value = d.name;
+            }
+        }
+        
+        // Auto-fill last bill amount to calculator inputs
+        if (d.amount) {
+            const amountVal = parseInt(d.amount);
+            if (!isNaN(amountVal) && amountVal > 0) {
+                if (typeof handleBillManualInput === 'function') {
+                    handleBillManualInput(amountVal);
+                }
+            }
+        }
+        
+        // Build success summary
+        let summary = '✅ Details fetched!';
+        if (d.name)     summary += ` Name: ${d.name}.`;
+        if (d.section)  summary += ` Section: ${d.section}.`;
+        if (d.amount)   summary += ` Amount Due: ₹${d.amount}.`;
+        if (d.units)    summary += ` Units: ${d.units}.`;
+        if (d.due_date) summary += ` Due: ${d.due_date}.`;
+        
+        setKSEBStatus(summary, 'success');
+        
+    } catch (err) {
+        setKSEBStatus('❌ Network error. Is the proxy running?', 'error');
+    }
+};
+

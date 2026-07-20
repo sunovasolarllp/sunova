@@ -1,0 +1,389 @@
+<!DOCTYPE HTML>
+
+
+
+<html>
+<head>
+	<title>KSEB Web Self Service</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="-1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+	<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">  
+	<META HTTP-EQUIV="EXPIRES" CONTENT="Mon, 22 Jul 2002 11:12:01 GMT"-->
+	
+	<link rel="apple-touch-icon-precomposed" sizes="57x57" href="/selfservices/resources/favkseb/apple-touch-icon-57x57.png" />
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/selfservices/resources/favkseb/apple-touch-icon-114x114.png" />
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/selfservices/resources/favkseb/apple-touch-icon-72x72.png" />
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/selfservices/resources/favkseb/apple-touch-icon-144x144.png" />
+<link rel="apple-touch-icon-precomposed" sizes="60x60" href="/selfservices/resources/favkseb/apple-touch-icon-60x60.png" />
+<link rel="apple-touch-icon-precomposed" sizes="120x120" href="/selfservices/resources/favkseb/apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon-precomposed" sizes="76x76" href="/selfservices/resources/favkseb/apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/selfservices/resources/favkseb/apple-touch-icon-152x152.png" />
+<link rel="icon" type="image/png" href="/selfservices/resources/favkseb/favicon-196x196.png" sizes="196x196" />
+<link rel="icon" type="image/png" href="/selfservices/resources/favkseb/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/png" href="/selfservices/resources/favkseb/favicon-32x32.png" sizes="32x32" />
+<link rel="icon" type="image/png" href="/selfservices/resources/favkseb/favicon-16x16.png" sizes="16x16" />
+<link rel="icon" type="image/png" href="/selfservices/resources/favkseb/favicon-128.png" sizes="128x128" />
+<meta name="application-name" content="&nbsp;"/>
+<meta name="msapplication-TileColor" content="#FFFFFF" />
+<meta name="msapplication-TileImage" content="/selfservices/resources/favkseb/mstile-144x144.png" />
+<meta name="msapplication-square70x70logo" content="/selfservices/resources/favkseb/mstile-70x70.png" />
+<meta name="msapplication-square150x150logo" content="/selfservices/resources/favkseb/mstile-150x150.png" />
+<meta name="msapplication-wide310x150logo" content="/selfservices/resources/favkseb/mstile-310x150.png" />
+<meta name="msapplication-square310x310logo" content="/selfservices/resources/favkseb/mstile-310x310.png" />
+	
+	<link href="/selfservices/resources/CSS/Bootstrap/bootstrap.css" rel="stylesheet" type="text/css">
+	<link href="/selfservices/resources/CSS/homeV12.css" rel="stylesheet" type="text/css">
+	<link href="/selfservices/resources/css_payment/CSS/screenV11.css" rel="stylesheet" type="text/css">
+	<link href="/selfservices/resources/CSS/enzen.css" rel="stylesheet" type="text/css">
+	<link href="/selfservices/resources/CSS/fonts.css" rel="stylesheet" type="text/css">
+	<link href="/selfservices/resources/CSS/Components/UI.css" rel="stylesheet" type="text/css">
+ 	<link href="/selfservices/resources/CSS/Components/jquery-ui.css" rel="stylesheet" /> 
+ 		 <!--  link href="/selfservices/resources/CSS/Components/fa.min.css" rel="stylesheet" /--> 
+	 <link href="https://kit-free.fontawesome.com/releases/v6.5.2/css/free-v4-shims.min.css" media="all" rel="stylesheet">
+	 <link href="https://kit-free.fontawesome.com/releases/v6.5.2/css/free-v4-font-face.min.css" media="all" rel="stylesheet">
+	 <link href="https://kit-free.fontawesome.com/releases/v6.5.2/css/free.min.css" media="all" rel="stylesheet">
+ 	
+	<!-- <link href="/selfservices/resources/CSS/Bootstrap/bootstrap-switch.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+	-->
+	<script src="/selfservices/resources/JS/jquery.min.js"></script>
+	<script	src="/selfservices/resources/css_payment/JS/crawler.js"></script>
+	<script	src="/selfservices/resources/JS/jquery-migrate-1.2.1.js"></script>
+	
+	
+	
+	<!--[if !IE]>
+	<script	src="/selfservices/resources/JS/jquery-2.0.3.min.js"></script>
+	<script	src="/selfservices/resources/JS/Components/jquery-ui.js"></script>
+	<!--<![endif]-->
+
+	<!--[if lt IE 9]
+	<script src="/selfservices/resources/JSIE8/html5shiv-3.7.0.js"></script>
+	<script src="/selfservices/resources/JSIE8/respond.min.js"></script>
+	<script src="/selfservices/resources/JSIE8/IE8.js"></script>  
+	<script	src="/selfservices/resources/JSIE8/jquery-1.7.2.min.js"></script> 
+	<script	src="/selfservices/resources/JS/Components/jquery-ui.js"></script>
+	<script	src="/selfservices/resources/JavaScript_Files/selectivizr.js"></script>
+ 	<noscript><link rel="stylesheet" href="[fallback css]" /></noscript>
+ 		<script src="/selfservices/resources/JSIE8/html5shiv-3.7.0.js"></script>
+ 		-->
+	<![endif]-->
+
+	<!--[if gte IE 9]
+	<script	src="/selfservices/resources/JS/jquery-2.0.3.min.js"></script>
+	<script	src="/selfservices/resources/JS/Components/jquery-ui.js"></script>
+	<script	src="/selfservices/resources/JS/bootstrap.min.js"></script>
+	<![endif]-->
+	<script	src="/selfservices/resources/JS/bootstrap.min.js"></script>
+	<script	src="/selfservices/resources/JS/Components/jquery-ui.min.js"></script>
+	
+	
+	<script>
+		function getBroadcastMsg() {
+	
+			$.ajax({
+				type : "POST",
+				url : "getBroadcastMsg",
+				data : {
+	
+				},
+	
+				success : function(message) {
+					if (message.length > 0) {
+						var res = message.split("<<<<");
+						for ( var i = 0; i < res.length; i++) {
+							$("<span>" + res[i] + "</span>").appendTo("#crawlMarquee");
+						}
+						//mar();
+					}else{
+						$("#marquee").hide();
+					}
+				},
+				error : function(e) {
+					$("<span>------ Error Kindly Refresh------</span>").appendTo("#crawlMarquee");
+				}
+				
+			});
+		}
+		function getReleaseVersion() {
+			$.ajax({
+				type : "POST",
+				url : "getReleaseVersion",
+				data : {
+					releaseName : "WSS",
+				},
+	
+				success : function(releaseDetail) {
+					if (releaseDetail.length > 0 || releaseDetail!=null) {
+						$("<span>" + releaseDetail + "</span>").appendTo("#releaseDtl");
+					}else{
+						$("<span>" + "Failed to get release details" + "</span>").appendTo("#releaseDtl");
+					}
+				},
+				error : function(e) {
+					$("<span>" + "Failed to get release details" + "</span>").appendTo("#releaseDtl");
+				}
+				
+			});
+		}
+		$(document).ready(function() {
+		//	getReleaseVersion();
+			getBroadcastMsg();
+		});
+	</script>
+	<!-- Navigration LB-->
+	<script src="/selfservices/resources/JS/mobilemenu.js"></script>
+</head>
+<body>
+	
+
+
+
+<div id="disJS">
+	 <noscript>JavaScript is disabled in your browser. Web Self Service application requires JavaScript to be enabled. Kindly enable JavaScript in your browser and reload the application.</noscript>
+</div>
+	
+
+<style>
+.headerSec {
+	box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.4);
+	position: fixed;
+	z-index: 199;
+	width: 100%;
+	background: #f6f6f6;
+}
+
+</style>
+
+
+<header class="streachedContainer topper headerSec">
+	<div class="streachedWrapper">
+		<div class="row topper">
+			<div class="toppergridlogo_counter">
+				<div class="logo" style="position: relative;">
+					<a href="/selfservices"><img src="/selfservices/resources/Images/misc/KSEB_WSS_Logo.png" alt=""></a>
+				</div>
+				<div class="logo_mob">
+					<a href="/selfservices"><img src="/selfservices/resources/Images/misc/logo_mob.png" alt=""></a>
+				</div>
+			</div>
+			
+			<div class="toppergridlogo_counter">
+				<div class="topWelcome toll-number hidden-xs hidden-sm">
+				<a aria-label="Chat on WhatsApp" href="https://wa.me/9496001912?text=Hi"> <img alt="Chat on WhatsApp" src="/selfservices/resources/Images/icons/whatsapp_small.svg" />
+				</a> 
+				<a style="padding-left:24px" href="tel:1912" style="cursor:default;text-decoration:none"> 
+				<img src="/selfservices/resources/Images/icons/phone_icon.png" alt="Phone number image"> 
+				<p> <a href="tel:1912"> 1912 </a> / <a href="tel:04712555544"> 0471-2555544 </a> <span>(24x7 Helpline)</span></p></a>		
+				</div>
+				
+				<div class="topWelcome hidden-md hidden-lg">
+				<div class="site-header__social navbar-nav flex-row">
+				       <a class="nav-item nav-link" rel="noreferrer" target="_blank" href="https://twitter.com/KSEBLtd"><i class="fab fa-square-x-twitter fa-lg"></i></a>
+				       <a class="nav-item nav-link" rel="noreferrer" target="_blank" href="https://www.instagram.com/ksebltd/"><i class="fab fa-square-instagram fa-lg"></i></a>
+				  
+				      <a class="nav-item nav-link" rel="noreferrer" target="_blank" href="https://www.youtube.com/channel/UCAK0P7b-eQ7u5waz93Ld_Ww"><i class="fab fa-youtube fa-lg"></i></a>
+				      <a class="nav-item nav-link" rel="noreferrer" target="_blank" href="https://facebook.com/ksebl"><i class="fab fa-facebook-square  fa-lg"></i></a>
+				</div>
+				</div>
+			</div>
+		
+		</div>
+	</div>
+	<div id="marquee">
+	<div id="marquee">
+		<div class="scrollText">
+			<div class="marquee" id="mycrawler">
+			   <marquee id="crawlMarquee" SCROLLAMOUNT="4" onMouseover="this.scrollAmount=0" onMouseout="this.scrollAmount=4">
+			   </marquee>
+			</div>
+		</div>
+	</div>
+</div>
+</header>
+
+	
+	
+	
+
+
+
+
+<style>
+.subTiteTd{
+	color:#536e92;
+	line-height: 1.43;
+	white-space: pre-wrap;
+	font-size: 1.4rem;
+}
+</style>
+
+<div class="container ncsPage" style="padding-top: 100px;">
+<div class="row">
+	<div class="col-lg-12">
+		<div class="page-header PHmain">
+			<h1>Transformer wise Renewable Energy Systems connected</h1>
+		</div>
+	</div>
+</div>
+<div class="journal-content-article">
+<div class="portlet-inner" id="wrapper">
+	<div class="row">
+		<div class="col-xs-12">
+			
+
+				<!-- Tab option end -->
+				<!-- Tab content start -->
+				<div class="tab-contents" id="tabContent" >
+					<div class="tab-pane active" id="domestic" role="tabpanel">
+						<div class="inside-sub-title">
+							<span class="kusum_icon"></span>
+							<h2>
+								<span>Renewable Energy Systems connected</span> DTR wise
+							</h2>
+						</div>
+						<p style="font-size:18px;">
+						
+						The cumulative capacity of distributed energy systems allowed to be interconnected with the distribution network shall not exceed 90% of the distribution transformer capacity.
+						Data published as per Regulation <strong> 14(2) </strong> of Kerala State Electricity Regulatory Commission (Renewable Energy and Net Metering) Regulations, 2020. <br/><br/>
+						Please select your section to see Transformer wise Renewable Energy Systems connected and balance capacity available. <br/>
+						</p>
+						<div aria-multiselectable="true"
+							class="panel-group" 
+							role="tablist">
+							
+							<div class="row" style="font-size:18px;">
+								<div class="col-lg-12">
+									<div
+										style="text-indent: 12em; font-style: italic; font-size: 15px; color: #d90334; font-family: 'pt_sans_narrowregular';"
+										id="packageNotMsg"></div>
+		
+									<div class="col-lg-6">
+										<div class="signleftbox Connectionleftbox">
+											<h2>Name of the District in which section office is
+												located:</h2>
+										</div>
+		<!-- 								onchange="getPremiseSection(this.value)"  -->
+										<div class="signrightbox ConnectionRightbox" style="padding-top: 18px;">
+										
+											<select name="District" id="District" tabindex="2"  style="width:90%;"
+												onchange="getPremiseSection(this.value)"
+												 class="js-select2-single cdistrict" >
+											</select>
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="signleftbox Connectionleftbox">
+											<h2>Name of Section:</h2>
+										</div>
+		<!-- 								onchange="getPremiseDistrictsOnSectionChange(this.value)" -->
+										<div class="signrightbox ConnectionRightbox" style="padding-top: 18px;">
+										
+											<select name="inputSectionNo" id="inputSectionNo" tabindex="3" style="width:90%;"
+													 class="js-select2-single csection" data-live-search="true" title="Choose a Section Office"
+												  onchange="sectionChange(this.value)">
+												
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							
+							<br/>
+							
+						</div>
+						
+					</div>
+					<!-- EOD Tab One -->
+					<div id="intro" class="container_paddding">
+						<div id="intro_outer"  class = "panel panel-info">
+							   <div class = "panel-heading">
+								  <h3 class = "panel-title">Transformer wise Renewable Energy Systems connected</h3>
+							   </div>
+							   
+							   <div id="panel_body" class = "panel-body container_paddding" >
+										Please select your section to see DTR wise Renewable Energy Systems connected and balance capacity available. <br/> 
+							   </div>
+							   <div id="panel_load" class = "panel-body" style="display:none">
+							  	 <i class="fa fa-spinner fa-spin" style="font-size:48px;"></i><p style="font-size:32px;"> Loading ...</p>
+							   </div>
+							  
+						</div>
+					</div>
+					 <div id="panel_table" class = "panel-body container_paddding" style="display:none">
+						  <div class="alert alert-info alert-dismissible fade in" role="alert">
+				                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">x</span>
+				                    </button>
+				                    <div id="table_head" ></div>
+				
+				          </div>
+				          	<div class="successtransaction_tscroll">
+				           <table id="dtr_cap" class="table projects">
+		                      <thead>
+		                        <tr>
+		                          <th> Sl#</th>
+		                          <th> Transformer Name</th>
+				    			  <th> 90% of DTR <br/>capacity (kW)</th>
+				    			  <th> Feasibility <br/> Issued (kW)</th>
+				    			  <th >Grid Connected (kW)</th>
+		                          <th>Balance Available (kW)</th>
+		                        
+		                        </tr>
+		                      </thead>
+		                      <tbody>
+		                      		
+		                      </tbody>
+		                     </table> 
+		                     </div>
+					</div>
+					<!-- Tab content end -->
+				</div>
+			
+		</div>
+	</div>
+</div>
+</div>
+</div>
+
+
+<link href="/selfservices/resources/CSS/ncsV15.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/selfservices/resources/CSS/Components/select2.min.css">
+<link rel="stylesheet" href="/selfservices/resources/CSS/Components/select2-bootstrap4.min.css">
+<script src="/selfservices/resources/JS/Components/select2.full.min.js"></script>
+<script src="/selfservices/resources/JS/recapV2.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.13.1/b-2.3.3/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.13.1/b-2.3.3/datatables.min.js"></script>
+	
+
+	
+<div class="streachedContainer footer ">
+			<div class="social-media-links hidden-xs hidden-md">
+					<a class="footer nav-link"  rel="noreferrer" target="_blank" href="https://twitter.com/KSEBLtd"><i class="fab fa-x-twitter fa-lg"></i></a>
+					<a class="footer nav-link"  rel="noreferrer" target="_blank" href="https://www.instagram.com/ksebltd/"><i class="fab fa-instagram fa-lg"></i></a>
+				 	 <a class="footer nav-link" rel="noreferrer" target="_blank" href="https://www.youtube.com/channel/UCAK0P7b-eQ7u5waz93Ld_Ww"><i class="fab fa-youtube fa-lg"></i></a>
+				      <a class="footer nav-link" rel="noreferrer" target="_blank" href="https://facebook.com/ksebl"><i class="fab fa-facebook-square  fa-lg"></i></a>
+			</div> 
+			<div class="social-media-links hidden-lg">
+				<a aria-label="Chat on WhatsApp"  target="_blank"  href="https://wa.me/9496001912?text=Hi"> 
+					<img style="height:36px;" alt="Chat on WhatsApp" src="/selfservices/resources/Images/icons/whatsapp_small.png" /></a> 
+		    </div>
+	</div>	
+	
+		 
+		 
+<footer class="streachedContainer footer" >
+	<div class="streachedWrapper">
+		
+		<div class="footerLeft">&copy; 2026 KSEB-WSS. All Rights Reserved</div>
+		<div class="footerRight">Best viewed in  Firefox 50.x or higher, Google Chrome 60.x or higher, IE 11.x or higher browsers with resolution 1600x900</div>
+	</div>
+</footer>
+
+</body>
+</html>

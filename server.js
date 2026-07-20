@@ -3,6 +3,8 @@ const cors = require('cors');
 const nodemailer = require('nodemailer');
 const { ImapFlow } = require('imapflow');
 const path = require('path');
+const https = require('https');
+const querystring = require('querystring');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -424,6 +426,90 @@ app.all('/proxy.php', (req, res) => {
     }
     
     res.status(400).json({ error: 'Unknown action in mock proxy' });
+});
+
+// KSEB Bill Fetch - server-side proxy to avoid browser CORS restrictions
+app.post('/api/kseb_fetch', async (req, res) => {
+    const { consumerno, regmobno } = req.body;
+
+    if (!consumerno || consumerno.length !== 13 || !/^[0-9]{13}$/.test(consumerno)) {
+        return res.status(400).json({ error: 'Consumer number must be exactly 13 digits' });
+    }
+    if (!regmobno || regmobno.length !== 10 || !/^[6-9][0-9]{9}$/.test(regmobno)) {
+        return res.status(400).json({ error: 'Mobile number must be 10 digits starting with 6-9' });
+    }
+
+    const postData = querystring.stringify({
+        consumerno,
+        regmobno,
+        okey: '44abad315fa48e50eb73a808414a2939',
+        b_submit_0: 'View Bill'
+    });
+
+    const options = {
+        hostname: 'old.kseb.in',
+        path: '/billview/index.php',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': Buffer.byteLength(postData),
+            'Referer': 'https://old.kseb.in/billview/',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        },
+        rejectUnauthorized: false
+    };
+
+    try {
+        const html = await new Promise((resolve, reject) => {
+            const request = https.request(options, (response) => {
+                let data = '';
+                response.on('data', chunk => data += chunk);
+                response.on('end', () => resolve(data));
+            });
+            request.on('error', reject);
+            request.setTimeout(20000, () => { request.destroy(); reject(new Error('KSEB request timed out')); });
+            request.write(postData);
+            request.end();
+        });
+
+        // Helper: extract text from HTML after a label
+        function extractAfterLabel(label, html) {
+            const re = new RegExp(label + '[^<]*<\/(?:td|th)[^>]*>\\s*<(?:td|th)[^>]*>(.*?)<\/(?:td|th)>', 'si');
+            const m = html.match(re);
+            if (!m) return null;
+            return m[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+        }
+
+        const result = {};
+        const name    = extractAfterLabel('Consumer\\s*Name', html);
+        const address = extractAfterLabel('Address', html);
+        const section = extractAfterLabel('Section', html);
+        const amount  = extractAfterLabel('(?:Net Amount|Amount Due|Total Amount)', html);
+        const units   = extractAfterLabel('(?:Units Consumed|Consumption)', html);
+        const due     = extractAfterLabel('Due Date', html);
+
+        if (name)    result.name    = name;
+        if (address) result.address = address;
+        if (section) result.section = section;
+        if (amount)  result.amount  = amount;
+        if (units)   result.units   = units;
+        if (due)     result.due_date = due;
+
+        // Detect KSEB error page
+        if (Object.keys(result).length === 0) {
+            if (/(?:Invalid|not found|incorrect|wrong)/i.test(html)) {
+                return res.status(404).json({ error: 'Consumer not found. Check consumer number and mobile number.' });
+            }
+            return res.status(422).json({ error: 'Bill data received but could not be parsed. Please verify your details.' });
+        }
+
+        console.log(`[KSEB] Fetched details for consumer: ${consumerno}`);
+        return res.json({ success: true, data: result });
+
+    } catch (err) {
+        console.error('[KSEB] Fetch error:', err.message);
+        return res.status(502).json({ error: 'Could not reach KSEB server: ' + err.message });
+    }
 });
 
 // Redirect any other route to index.html

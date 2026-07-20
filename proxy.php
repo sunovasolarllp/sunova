@@ -474,7 +474,105 @@ if ($action === 'delete') {
     exit;
 }
 
+// 7. KSEB Bill Fetch (server-side proxy to avoid CORS)
+if ($action === 'kseb_fetch') {
+    $data = json_decode(file_get_contents('php://input'), true);
+    $consumerno = isset($data['consumerno']) ? preg_replace('/[^0-9]/', '', $data['consumerno']) : '';
+    $regmobno   = isset($data['regmobno'])   ? preg_replace('/[^0-9]/', '', $data['regmobno'])   : '';
 
+    if (strlen($consumerno) !== 13 || strlen($regmobno) !== 10) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Consumer number must be 13 digits and mobile must be 10 digits']);
+        exit;
+    }
+
+    $postFields = http_build_query([
+        'consumerno' => $consumerno,
+        'regmobno'   => $regmobno,
+        'okey'       => '44abad315fa48e50eb73a808414a2939',
+        'b_submit_0' => 'View Bill'
+    ]);
+
+    $ch = curl_init('https://old.kseb.in/billview/index.php');
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => $postFields,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_TIMEOUT        => 20,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_USERAGENT      => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        CURLOPT_HTTPHEADER     => [
+            'Content-Type: application/x-www-form-urlencoded',
+            'Referer: https://old.kseb.in/billview/'
+        ]
+    ]);
+
+    $html = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlErr  = curl_error($ch);
+    curl_close($ch);
+
+    if ($curlErr || !$html) {
+        http_response_code(502);
+        echo json_encode(['error' => 'Could not reach KSEB server: ' . $curlErr]);
+        exit;
+    }
+
+    // Strip tags helper — extracts visible text from a tag match
+    function clean_html_text($str) {
+        return trim(preg_replace('/\s+/', ' ', strip_tags($str)));
+    }
+
+    $result = [];
+
+    // Parse consumer name — typically in a <td> or <th> after "Consumer Name" label
+    if (preg_match('/Consumer\s*Name[^<]*<\/(?:td|th)[^>]*>\s*<(?:td|th)[^>]*>(.*?)<\/(?:td|th)>/si', $html, $m)) {
+        $result['name'] = clean_html_text($m[1]);
+    }
+
+    // Address
+    if (preg_match('/Address[^<]*<\/(?:td|th)[^>]*>\s*<(?:td|th)[^>]*>(.*?)<\/(?:td|th)>/si', $html, $m)) {
+        $result['address'] = clean_html_text($m[1]);
+    }
+
+    // Section / Section Name
+    if (preg_match('/Section[^<]*<\/(?:td|th)[^>]*>\s*<(?:td|th)[^>]*>(.*?)<\/(?:td|th)>/si', $html, $m)) {
+        $result['section'] = clean_html_text($m[1]);
+    }
+
+    // Amount / Net Amount Due
+    if (preg_match('/(?:Net Amount|Amount Due|Total Amount)[^<]*<\/(?:td|th)[^>]*>\s*<(?:td|th)[^>]*>(.*?)<\/(?:td|th)>/si', $html, $m)) {
+        $result['amount'] = clean_html_text($m[1]);
+    }
+
+    // Units consumed
+    if (preg_match('/(?:Units Consumed|Consumption)[^<]*<\/(?:td|th)[^>]*>\s*<(?:td|th)[^>]*>(.*?)<\/(?:td|th)>/si', $html, $m)) {
+        $result['units'] = clean_html_text($m[1]);
+    }
+
+    // Due date
+    if (preg_match('/Due Date[^<]*<\/(?:td|th)[^>]*>\s*<(?:td|th)[^>]*>(.*?)<\/(?:td|th)>/si', $html, $m)) {
+        $result['due_date'] = clean_html_text($m[1]);
+    }
+
+    // Check for error / invalid response
+    if (preg_match('/(?:Invalid|not found|error|wrong)/i', $html) && empty($result)) {
+        http_response_code(404);
+        echo json_encode(['error' => 'Consumer not found. Please verify the consumer number and mobile number.']);
+        exit;
+    }
+
+    if (empty($result)) {
+        // Return raw snippet for debugging if nothing parsed
+        http_response_code(422);
+        echo json_encode(['error' => 'Bill data received but could not be parsed. Please check consumer number and mobile.']);
+        exit;
+    }
+
+    echo json_encode(['success' => true, 'data' => $result]);
+    exit;
+}
 
 http_response_code(400);
 echo json_encode(['error' => 'Invalid action']);

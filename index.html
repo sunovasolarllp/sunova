@@ -630,7 +630,7 @@
 
                     <div class="input-group">
                         <div class="input-header">
-                            <label for="input-bill">Average Monthly Electricity Bill (INR)</label>
+                            <label for="input-bill">Last Billed Amount (INR)</label>
                             <div class="manual-input-wrapper">
                                 <button type="button" class="spin-btn" onclick="adjustManualBill(-500)" title="Decrease Bill">▼</button>
                                 <span>₹</span>
@@ -672,14 +672,25 @@
                     <div class="outputs-title">Your Solar Proposal</div>
                     
                     <div class="metrics-grid">
-                        <div class="metric-box">
+                        <div class="metric-box" style="flex-direction: column; align-items: flex-start; gap: 0.5rem;">
                             <span class="metric-label">Recommended Capacity</span>
-                            <div class="metric-input-wrapper">
-                                <button type="button" class="spin-btn-metric" onclick="adjustCapacity(-0.5)" title="Decrease Capacity">▼</button>
-                                <input type="number" id="out-size" min="0.5" max="200" step="0.1" value="4.0" oninput="handleCapacityInput(this.value)">
-                                <span class="unit">kW</span>
-                                <button type="button" class="spin-btn-metric" onclick="adjustCapacity(0.5)" title="Increase Capacity">▲</button>
-                                <button type="button" id="btn-reset-capacity" class="metric-action-btn hidden" onclick="resetCapacityToCalculated()" title="Reset to calculated capacity based on bill">
+                            <div class="capacity-selector" id="calc-size-select-wrapper" style="width: 100%;">
+                                <select id="calc-size-select" onchange="handleCalcSizeSelectChange(this.value)" style="width: 100%; border-radius: 8px; border: 1px solid var(--color-border); padding: 0.5rem; background-color: rgba(255, 255, 255, 0.05); color: var(--color-text); font-size: 0.9rem;">
+                                    <option value="auto">Auto-Calculate from Bill</option>
+                                    <option value="3.0">3.0 kW</option>
+                                    <option value="5.0">5.0 kW</option>
+                                    <option value="custom">Others (Type Manually)</option>
+                                </select>
+                            </div>
+                            <div class="metric-input-wrapper" id="calc-size-manual-wrapper" style="display: none; width: 100%; justify-content: space-between;">
+                                <div style="display: flex; align-items: center;">
+                                    <button type="button" class="spin-btn-metric" onclick="adjustCapacity(-0.5)" title="Decrease Capacity">▼</button>
+                                    <input type="number" id="out-size" min="0.5" max="200" step="0.1" value="4.0" oninput="handleCapacityInput(this.value)" style="width: 60px;">
+                                    <span class="unit" style="margin-left: 0.25rem;">kW</span>
+                                    <button type="button" class="spin-btn-metric" onclick="adjustCapacity(0.5)" title="Increase Capacity">▲</button>
+                                </div>
+                                <div style="display: flex; gap: 0.25rem;">
+                                    <button type="button" id="btn-reset-capacity" class="metric-action-btn hidden" onclick="resetCapacityToCalculated()" title="Reset to calculated capacity based on bill">
                                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
                                         <path d="M3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C9.9113 3 7.98906 3.70997 6.46484 4.89844L3 8M3 8H7.5M3 8V3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
@@ -856,27 +867,46 @@
 
                 <!-- Contact Form Panel -->
                 <div class="contact-form-wrapper scroll-reveal-right">
-                    <div class="glass-card contact-card">
+                        <div class="glass-card contact-card">
                         <h3>Feasibility &amp; Quote Request</h3>
                         <p>Fill out the form below to receive a customized design layout proposal for your rooftop.</p>
                         
                         <form id="contact-form" onsubmit="handleFormSubmit(event)">
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label for="form-name">Full Name</label>
-                                    <input type="text" id="form-name" placeholder="Enter your name" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="form-phone">Phone Number</label>
-                                    <input type="tel" id="form-phone" placeholder="10-digit mobile number" pattern="[6-9][0-9]{9}" maxlength="10" oninput="let val = this.value.replace(/[^0-9]/g, ''); if (val.length === 12 && val.startsWith('91')) val = val.substring(2); if (val.length > 0 && !/^[6-9]/.test(val)) val = ''; this.value = val;" required>
-                                </div>
+<!-- KSEB Bill Lookup -->
+<div class="kseb-lookup-box" style="background: rgba(3,149,217,0.08); border: 1px solid rgba(3,149,217,0.3); border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
+    <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
+        <span style="font-size:1.1rem;">⚡</span>
+        <span style="font-weight:700; font-size:0.92rem; color:var(--color-sun-yellow);">Auto-Fill from KSEB (Optional)</span>
+    </div>
+    <p style="font-size:0.78rem; color:var(--color-text-muted); margin-bottom:0.75rem; line-height:1.4;">Enter your KSEB consumer number and registered mobile — your name and bill details will be filled in automatically.</p>
+    <div class="form-grid">
+        <div class="form-group" style="margin-bottom:0.5rem;">
+            <label for="form-consumer-no" style="font-size:0.82rem;">Consumer Number (13 digits)</label>
+            <input type="text" id="form-consumer-no" placeholder="e.g. 2104060012345" maxlength="13" pattern="[0-9]{13}" oninput="this.value=this.value.replace(/[^0-9]/g,''); triggerKSEBAutoFetch();" style="letter-spacing:0.05em;">
+        </div>
+        <div class="form-group" style="margin-bottom:0.5rem;">
+            <label for="form-reg-mobile" style="font-size:0.82rem;">Registered Mobile Number:</label>
+            <input type="text" id="form-reg-mobile" placeholder="Mobile no. linked to KSEB" maxlength="10" pattern="[6-9][0-9]{9}" oninput="this.value=this.value.replace(/[^0-9]/g,''); document.getElementById('form-phone').value = this.value; triggerKSEBAutoFetch();" required>
+        </div>
+    </div>
+    <!-- Status indicator -->
+    <div id="kseb-status" style="display:none; font-size:0.8rem; margin-top:0.5rem; padding:0.5rem 0.75rem; border-radius:8px; line-height:1.4;"></div>
+</div>
+                            <div class="form-group">
+                                <label for="form-name">Full Name</label>
+                                <input type="text" id="form-name" placeholder="Enter your name" required>
+                            </div>
+                            <div class="form-group" style="display: none;">
+                                <label for="form-phone">Phone Number</label>
+                                <input type="tel" id="form-phone" placeholder="10-digit mobile number">
                             </div>
                             
                             <div class="form-group">
                                 <label for="form-email">Email Address (Optional)</label>
                                 <input type="email" id="form-email" placeholder="example@domain.com">
                             </div>
-                            
+
+
                             <div class="form-grid">
                                 <div class="form-group">
                                     <label for="form-district">District (Kerala)</label>
@@ -919,14 +949,21 @@
                             <div class="form-grid">
                                 <div class="form-group">
                                     <label for="form-connection">Connection Category</label>
-                                    <select id="form-connection">
+                                    <select id="form-connection" onchange="handleFormConnectionChange(this.value)">
                                         <option value="residential">Residential (Home Solar)</option>
                                         <option value="commercial">Commercial / Industrial</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="form-size">Requested Capacity</label>
-                                    <div class="manual-input-wrapper form-size-wrapper">
+                                    <div class="capacity-selector" style="margin-bottom: 0.5rem;" id="form-size-select-wrapper">
+                                        <select id="form-size-select" onchange="handleFormSizeSelectChange(this.value)" style="width: 100%; border-radius: 8px; border: 1px solid var(--color-border); padding: 0.8rem; background-color: var(--color-bg-alt); color: var(--color-text);">
+                                            <option value="3.0">3.0 kW</option>
+                                            <option value="5.0">5.0 kW</option>
+                                            <option value="custom">Others (Type Manually)</option>
+                                        </select>
+                                    </div>
+                                    <div class="manual-input-wrapper form-size-wrapper" id="form-size-manual-wrapper" style="display: none;">
                                         <button type="button" class="spin-btn" onclick="adjustFormCapacity(-0.5)" title="Decrease Capacity">▼</button>
                                         <input type="number" id="form-size" min="0.5" max="200" step="0.1" value="3.0" required oninput="handleFormSizeChange()">
                                         <span class="unit">kW</span>
