@@ -4,56 +4,56 @@ let currentSystemType = 'ongrid'; // 'ongrid' or 'hybrid'
 
 // Authorized Sunova Solar Dealers List
 const DEALERS = [
-    { code: "KNR-JOBI", name: "JOBI SEBASTIAN", area: "KANNUR", district: "Kannur", phone: "8590085856" },
-    { code: "TVM-BENJ", name: "BENJOSE FG", area: "BALARAMAPURAM", district: "Thiruvanthapuram", phone: "9037273767" },
-    { code: "TVM-ANAN", name: "ANAND SREEDHAR", area: "NEYYATTINKARA", district: "Thiruvanthapuram", phone: "7994430742" },
-    { code: "KLA-VARG", name: "VARGHESE NELLIMOOTTIL", area: "AYOOR", district: "Kollam", phone: "9020202222" },
-    { code: "KLA-NIYA", name: "NIYAS K", area: "KARUNAGAPPALLY", district: "Kollam", phone: "9656366068" },
-    { code: "KLA-UDAY", name: "UDAYABHANU J", area: "KOLLAM", district: "Kollam", phone: "9349136882" },
-    { code: "KLA-RAJE", name: "RAJEEV R", area: "PUNALUR", district: "Kollam", phone: "9567970077" },
-    { code: "KLA-RATH", name: "RATHIL KUMAR", area: "WEST KALLADA", district: "Kollam", phone: "7907878797" },
-    { code: "PTA-SREE", name: "SREEJITH TR", area: "MALLAPPALLY", district: "Pathanamthitta", phone: "9947030669" },
-    { code: "PTA-JIJU", name: "JIJUKUMAR MC", area: "PANDALAM", district: "Pathanamthitta", phone: "9388133400" },
-    { code: "PTA-PKPR", name: "PK PRASANNAKUMAR", area: "PATHANAMTHITTA", district: "Pathanamthitta", phone: "7034023301" },
-    { code: "PTA-BIJU", name: "BIJUMON J", area: "RANNI", district: "Pathanamthitta", phone: "9995990372" },
-    { code: "ALP-SHIN", name: "SHINAS SHAMSUDEEN", area: "ALAPPUZHA", district: "Alappuzha", phone: "9995550888" },
-    { code: "ALP-NISS", name: "NISSAR HAMEED", area: "KAYAMKULAM", district: "Alappuzha", phone: "9895497090" },
-    { code: "ALP-RENJ", name: "RENJITH PS", area: "MAVELIKKARA", district: "Alappuzha", phone: "9447866958" },
-    { code: "ALP-BAIJ", name: "BAIJU SASIDHARAN", area: "VALLIKUNNAM", district: "Alappuzha", phone: "9747186818" },
-    { code: "KTM-SALY", name: "SALY SAINUDEEN", area: "ERATTUPETTA", district: "Kottayam", phone: "9446200616" },
-    { code: "KTM-ANIS", name: "ANISH KUMAR", area: "KALLARA", district: "Kottayam", phone: "9387220162" },
-    { code: "KTM-SANI", name: "SANIL KUMAR", area: "KOTTAYAM TOWN", district: "Kottayam", phone: "9061189784" },
-    { code: "IDK-OUSE", name: "OUSEPH KA", area: "ARAKULAM", district: "Idukki", phone: "9495737628" },
-    { code: "IDK-MGAJ", name: "MG AJAY", area: "THODUPUZHA", district: "Idukki", phone: "9447254142" },
-    { code: "EKM-SHIY", name: "SHIYAS RASHEED", area: "EDAPPALLY", district: "Ernakulam", phone: "9847859859" },
-    { code: "EKM-BHAV", name: "BHAVYA M", area: "KALAMASSERY", district: "Ernakulam", phone: "8301026309" },
-    { code: "EKM-JIBI", name: "JIBIN GEORGE", area: "THRIPUNITHURA", district: "Ernakulam", phone: "9995996240" },
-    { code: "TCR-JAIS", name: "JAISON JOSE MELETH", area: "AYYANTHOL", district: "Thrissur", phone: "9995601923" },
-    { code: "TCR-COAT", name: "COATS THEKKAN", area: "CHALAKUDY", district: "Thrissur", phone: "8129119222" },
-    { code: "TCR-JISO", name: "JISON GEORGE", area: "CHELAKKARA", district: "Thrissur", phone: "9746666535" },
-    { code: "TCR-SINI", name: "SINISH KM", area: "KODAKARA", district: "Thrissur", phone: "9946101892" },
-    { code: "TCR-BINU", name: "BINU YACOB", area: "PAZHAYANNUR", district: "Thrissur", phone: "9946033807" },
-    { code: "TCR-JITH", name: "JITHESH THARAYIL", area: "PO ROAD", district: "Thrissur", phone: "7356347700" },
-    { code: "TCR-AKAN", name: "AK ANIL", area: "VALAPPAD", district: "Thrissur", phone: "9746891854" },
-    { code: "PKD-SUHA", name: "SUHAIB S", area: "ALATHUR", district: "Palakkad", phone: "9988553585" },
-    { code: "PKD-PRAM", name: "PRAMOD", area: "CHITTUR", district: "Palakkad", phone: "9746611002" },
-    { code: "PKD-BIJO", name: "BIJO VARGHESE", area: "ELAPPULLY", district: "Palakkad", phone: "9388883222" },
-    { code: "PKD-ANAN", name: "ANAND P", area: "KODUVAYUR", district: "Palakkad", phone: "9349811101" },
-    { code: "MPM-NASS", name: "NASSARUDHEEN E", area: "EDAKKARA", district: "Malappuram", phone: "9946139955" },
-    { code: "MPM-FAIS", name: "FAISAL K", area: "MANJERY", district: "Malappuram", phone: "7994035923" },
-    { code: "MPM-RAVI", name: "RAVINDRAN K", area: "TIRUR", district: "Malappuram", phone: "9961476748" },
-    { code: "KKD-RAJA", name: "RAJAN MADAVOOR", area: "KODUVALLY", district: "Kozhikode", phone: "9497345868" },
-    { code: "KKD-YOOS", name: "YOOSAF NV", area: "PERAMBRA", district: "Kozhikode", phone: "9539724724" },
-    { code: "KKD-SAFE", name: "SAFEER", area: "VADAKARA", district: "Kozhikode", phone: "9995330555" },
-    { code: "KKD-RAHU", name: "RAHUL RN", area: "VATAKARA", district: "Kozhikode", phone: "9645464733" },
-    { code: "WYD-SINI", name: "SINIL CHACKO K", area: "MANATHAWADY", district: "Wayanad", phone: "8921794334" },
-    { code: "KNR-ACFA", name: "AC FAISAL", area: "IRIKKOOR", district: "Kannur", phone: "9656069964" },
-    { code: "KNR-NOUS", name: "NOUSHAD T", area: "MATTANNUR", district: "Kannur", phone: "9847761018" },
-    { code: "KNR-SURI", name: "SURIYA SUBASH", area: "PANOOR", district: "Kannur", phone: "9946809010" },
-    { code: "KNR-NISH", name: "NISHAD NK", area: "THALASSERY", district: "Kannur", phone: "9562028244" },
-    { code: "KNR-KASO", name: "KA SOJU", area: "THALIPARAMBU", district: "Kannur", phone: "9447548430" },
-    { code: "KSD-PRAD", name: "PRADEEP K", area: "BADIADUKA", district: "Kasaragod", phone: "9744880900" },
-    { code: "KSD-SURE", name: "SURESH KUMAR", area: "PANATHUR", district: "Kasaragod", phone: "9946960604" }
+    { code: "TVM-BENJ", name: "Benjose FG", area: "Balaramapuram", district: "Thiruvananthapuram", phone: "9037273767" },
+    { code: "TVM-ANAN", name: "Anand Sreedhar", area: "Neyyattinkara", district: "Thiruvananthapuram", phone: "7994430742" },
+    { code: "KLA-VARG", name: "Varghese Nellimoottil", area: "Ayoor", district: "Kollam", phone: "9020202222" },
+    { code: "KLA-NIYA", name: "Niyas K", area: "Karunagappally", district: "Kollam", phone: "9656366068" },
+    { code: "KLA-UDAY", name: "Udayabhanu J", area: "Kadappakkada", district: "Kollam", phone: "9349136882" },
+    { code: "KLA-RAJE", name: "Rajeev R", area: "Punalur", district: "Kollam", phone: "9567970077" },
+    { code: "KLA-RATH", name: "Rathil Kumar", area: "Sasthamkotta", district: "Kollam", phone: "7907878797" },
+    { code: "PTA-SREE", name: "Sreejith TR", area: "Mallappally", district: "Pathanamthitta", phone: "9947030669" },
+    { code: "PTA-JIJU", name: "Jijukumar MC", area: "Pandalam", district: "Pathanamthitta", phone: "9388133400" },
+    { code: "PTA-PKPR", name: "PK Prasannakumar", area: "Pathanamthitta", district: "Pathanamthitta", phone: "7034023301" },
+    { code: "PTA-BIJU", name: "Bijumon J", area: "Ranni", district: "Pathanamthitta", phone: "9995990372" },
+    { code: "ALP-SHIN", name: "Shinas Shamsudeen", area: "Alappuzha", district: "Alappuzha", phone: "9995550888" },
+    { code: "ALP-NISS", name: "Nissar Hameed", area: "Kayamkulam", district: "Alappuzha", phone: "9895497090" },
+    { code: "ALP-RENJ", name: "Renjith PS", area: "Mavelikkara", district: "Alappuzha", phone: "9447866958" },
+    { code: "ALP-BAIJ", name: "Baiju Sasidharan", area: "Vallikunnam", district: "Alappuzha", phone: "9747186818" },
+    { code: "KTM-SALY", name: "Saly Sainudeen", area: "Erattupetta", district: "Kottayam", phone: "9446200616" },
+    { code: "KTM-ANIS", name: "Anish Kumar", area: "Kallara", district: "Kottayam", phone: "9387220162" },
+    { code: "KTM-SANI", name: "Sanil Kumar", area: "Kottayam", district: "Kottayam", phone: "9061189784" },
+    { code: "IDK-OUSE", name: "Ouseph KA", area: "Moolamattom", district: "Idukki", phone: "9495737628" },
+    { code: "IDK-MGAJ", name: "MG Ajay", area: "Thodupuzha", district: "Idukki", phone: "9447254142" },
+    { code: "EKM-SHIY", name: "Shiyas Rasheed", area: "Edappally", district: "Ernakulam", phone: "9847859859" },
+    { code: "EKM-BHAV", name: "Bhavya M", area: "Kalamassery", district: "Ernakulam", phone: "8301026309" },
+    { code: "EKM-JIBI", name: "Jibin George", area: "Thripunithura", district: "Ernakulam", phone: "9995996240" },
+    { code: "TCR-JAIS", name: "Jaison Jose Meleth", area: "Ayyanthole", district: "Thrissur", phone: "9995601923" },
+    { code: "TCR-COAT", name: "Coats Thekkan", area: "Chalakudy", district: "Thrissur", phone: "8129119222" },
+    { code: "TCR-JISO", name: "Jison George", area: "Chelakkara", district: "Thrissur", phone: "9746666535" },
+    { code: "TCR-SINI", name: "Sinish KM", area: "Kodakara", district: "Thrissur", phone: "9946101892" },
+    { code: "TCR-BINU", name: "Binu Yacob", area: "Pazhayannur", district: "Thrissur", phone: "9946033807" },
+    { code: "TCR-JITH", name: "Jithesh Tharayil", area: "Ramavarmapuram", district: "Thrissur", phone: "7356347700" },
+    { code: "TCR-AKAN", name: "AK Anil", area: "Valappad", district: "Thrissur", phone: "9746891854" },
+    { code: "PKD-SUHA", name: "Suhaib S", area: "Alathur", district: "Palakkad", phone: "9988553585" },
+    { code: "PKD-PRAM", name: "Pramod", area: "Chittur", district: "Palakkad", phone: "9746611002" },
+    { code: "PKD-BIJO", name: "Bijo Varghese", area: "Elappully", district: "Palakkad", phone: "9388883222" },
+    { code: "PKD-ANAN", name: "Anand P", area: "Koduvayur", district: "Palakkad", phone: "9349811101" },
+    { code: "MPM-NASS", name: "Nassarudheen E", area: "Edakkara", district: "Malappuram", phone: "9946139955" },
+    { code: "MPM-FAIS", name: "Faisal K", area: "Manjeri", district: "Malappuram", phone: "7994035923" },
+    { code: "MPM-RAVI", name: "Ravindran K", area: "Tirur", district: "Malappuram", phone: "9961476748" },
+    { code: "KKD-RAJA", name: "Rajan Madavoor", area: "Koduvally", district: "Kozhikode", phone: "9497345868" },
+    { code: "KKD-YOOS", name: "Yoosaf NV", area: "Perambra", district: "Kozhikode", phone: "9539724724" },
+    { code: "KKD-SAFE", name: "Safeer", area: "Vadakara", district: "Kozhikode", phone: "9995330555" },
+    { code: "KKD-RAHU", name: "Rahul RN", area: "Vadakara", district: "Kozhikode", phone: "9645464733" },
+    { code: "WYD-SINI", name: "Sinil Chacko K", area: "Mananthavady", district: "Wayanad", phone: "8921794334" },
+    { code: "KNR-JOBI", name: "Jobi Sebastian", area: "Kannur", district: "Kannur", phone: "8590085865" },
+    { code: "KNR-ACFA", name: "AC Faisal", area: "Irikkoor", district: "Kannur", phone: "9656069964" },
+    { code: "KNR-NOUS", name: "Noushad T", area: "Mattannur", district: "Kannur", phone: "9847761018" },
+    { code: "KNR-SURI", name: "Suriya Subash", area: "Panoor", district: "Kannur", phone: "9946809010" },
+    { code: "KNR-NISH", name: "Nishad NK", area: "Thalassery", district: "Kannur", phone: "9562028244" },
+    { code: "KNR-KASO", name: "KA Soju", area: "Taliparamba", district: "Kannur", phone: "9447548430" },
+    { code: "KSD-PRAD", name: "Pradeep K", area: "Badiadka", district: "Kasaragod", phone: "9744880900" },
+    { code: "KSD-SURE", name: "Suresh Kumar", area: "Panathur", district: "Kasaragod", phone: "9946960604" }
 ];
 
 // --- DOM elements ---
@@ -228,14 +228,6 @@ function setCalculatorMode(mode) {
         subsidyContainer.classList.add('hidden');
         formConnection.value = 'commercial';
         
-        // Auto-switch to manual input for commercial since sizes vary wildly
-        const calcSelect = document.getElementById('calc-size-select');
-        if (calcSelect && calcSelect.value !== 'custom') {
-            calcSelect.value = 'custom';
-            if (typeof handleCalcSizeSelectChange === 'function') {
-                handleCalcSizeSelectChange('custom');
-            }
-        }
     }
     
     // Recalculate
@@ -368,12 +360,12 @@ function performCalculations(units) {
     if (currentMode === 'residential') {
         // Round to nearest 0.5 kW
         calculatedCapacity = Math.round(calculatedCapacity * 2) / 2;
-        if (calculatedCapacity < 1) calculatedCapacity = 1.0;
+        if (calculatedCapacity < 3.0) calculatedCapacity = 3.0;
         if (calculatedCapacity > 15) calculatedCapacity = 15.0; // Typical res cap
     } else {
         // Round to nearest 1.0 kW
         calculatedCapacity = Math.round(calculatedCapacity);
-        if (calculatedCapacity < 1) calculatedCapacity = 1.0;
+        if (calculatedCapacity < 3.0) calculatedCapacity = 3.0;
         if (calculatedCapacity > 100) calculatedCapacity = 100.0; // Com cap
     }
     
@@ -383,7 +375,7 @@ function performCalculations(units) {
         resetBtn.classList.add('hidden');
     }
     
-    performCalculationsDirect(calculatedCapacity, units);
+    performCalculationsDirect(calculatedCapacity, units, false, false);
 }
 
 // When capacity number input is typed directly
@@ -430,11 +422,11 @@ function resetCapacityToCalculated() {
     let calculatedCapacity = calculatedUnits / 120;
     if (currentMode === 'residential') {
         calculatedCapacity = Math.round(calculatedCapacity * 2) / 2;
-        if (calculatedCapacity < 1) calculatedCapacity = 1.0;
+        if (calculatedCapacity < 3.0) calculatedCapacity = 3.0;
         if (calculatedCapacity > 15) calculatedCapacity = 15.0;
     } else {
         calculatedCapacity = Math.round(calculatedCapacity);
-        if (calculatedCapacity < 1) calculatedCapacity = 1.0;
+        if (calculatedCapacity < 3.0) calculatedCapacity = 3.0;
         if (calculatedCapacity > 100) calculatedCapacity = 100.0;
     }
     
@@ -445,11 +437,7 @@ function resetCapacityToCalculated() {
         resetBtn.classList.add('hidden');
     }
     
-    const calcSelect = document.getElementById('calc-size-select');
-    if (calcSelect) {
-        calcSelect.value = 'auto';
-        document.getElementById('calc-size-manual-wrapper').style.display = 'none';
-    }
+
     
     performCalculations(calculatedUnits);
 }
@@ -485,9 +473,19 @@ function adjustManualUnits(amount) {
 
 // Adjust manual capacity value via custom spin buttons
 function adjustCapacity(amount) {
-    let currentVal = parseFloat(outSize.value) || 0;
-    let newVal = currentVal + amount;
-    if (newVal < 0.5) newVal = 0.5;
+    let currentVal = parseFloat(outSize.value) || 3.0;
+    let newVal;
+    
+    // Custom jump logic for 3.0kW to 5.0kW
+    if (currentVal === 3.0 && amount > 0) {
+        newVal = 5.0;
+    } else if (currentVal === 5.0 && amount < 0) {
+        newVal = 3.0;
+    } else {
+        newVal = currentVal + amount;
+    }
+    
+    if (newVal < 3.0) newVal = 3.0;
     if (newVal > 200) newVal = 200;
     // Format to 1 decimal place
     newVal = Math.round(newVal * 10) / 10;
@@ -495,10 +493,18 @@ function adjustCapacity(amount) {
     handleCapacityInput(newVal);
 }
 
+function handlePanelBrandChange() {
+    const capacity = parseFloat(outSize.value) || 3.0;
+    const units = parseInt(unitsInput.value) || Math.round(capacity * 120);
+    performCalculationsDirect(capacity, units, false);
+}
 
-function performCalculationsDirect(capacity, units, skipSyncForm = false) {
-    // 2. Solar Panels needed (assuming high quality 500W monocrystalline panels)
-    const panelsCount = Math.round((capacity * 1000) / 500);
+
+function performCalculationsDirect(capacity, units, skipSyncForm = false, syncBill = true) {
+    // 2. Solar Panels needed (dynamically based on selected brand watts)
+    const brandSelect = document.getElementById('calc-panel-brand');
+    const panelWatts = brandSelect ? (parseInt(brandSelect.value) || 550) : 550;
+    const panelsCount = Math.ceil((capacity * 1000) / panelWatts);
     
     // 3. Roof area required (~90 sq ft per kW)
     const areaRequired = Math.round(capacity * 90);
@@ -572,10 +578,20 @@ function performCalculationsDirect(capacity, units, skipSyncForm = false) {
     outCo2.textContent = co2Offset;
     outTrees.textContent = equivalentTrees;
     
-    const outLastBill = document.getElementById('out-last-bill');
-    if (outLastBill) {
-        const currentBill = parseInt(document.getElementById('input-bill-manual')?.value || '0');
-        outLastBill.textContent = currentBill.toLocaleString('en-IN');
+    // Sync Average Monthly Bill to reflect the recommended capacity (only when capacity is the source)
+    if (syncBill) {
+        const derivedUnits = Math.round(capacity * 120);
+        const derivedBill = unitsToBill(derivedUnits, currentMode);
+        billManualInput.value = derivedBill;
+        unitsInput.value = derivedUnits;
+        unitsDisplay.textContent = derivedUnits.toLocaleString('en-IN');
+        if (derivedBill >= parseInt(billInput.min) && derivedBill <= parseInt(billInput.max)) {
+            billInput.value = derivedBill;
+        } else if (derivedBill < parseInt(billInput.min)) {
+            billInput.value = billInput.min;
+        } else {
+            billInput.value = billInput.max;
+        }
     }
     
     // Dynamic battery metric UI updates
@@ -591,6 +607,21 @@ function performCalculationsDirect(capacity, units, skipSyncForm = false) {
     // Sync size back to contact form requested size field
     if (!skipSyncForm) {
         formSize.value = capacity.toFixed(1);
+        
+        const formSizeSelect = document.getElementById('form-size-select');
+        const manualWrapper = document.getElementById('form-size-manual-wrapper');
+        if (formSizeSelect) {
+            if (capacity === 3.0) {
+                formSizeSelect.value = "3.0";
+                if (manualWrapper) manualWrapper.style.display = 'none';
+            } else if (capacity === 5.0) {
+                formSizeSelect.value = "5.0";
+                if (manualWrapper) manualWrapper.style.display = 'none';
+            } else {
+                formSizeSelect.value = "custom";
+                if (manualWrapper) manualWrapper.style.display = 'flex';
+            }
+        }
     }
     updateFormMessageDetails();
 }
@@ -626,8 +657,10 @@ function updateFormMessageDetails() {
     const locationSelect = document.getElementById('form-location');
     if (!formSizeEl || !msgArea) return;
     
-    const size = parseFloat(formSizeEl.value) || 4.0;
-    const panels = Math.round((size * 1000) / 500);
+    const size = parseFloat(formSizeEl.value) || 3.0;
+    const brandSelect = document.getElementById('calc-panel-brand');
+    const panelWatts = brandSelect ? (parseInt(brandSelect.value) || 550) : 550;
+    const panels = Math.ceil((size * 1000) / panelWatts);
     const billVal = billManualInput.value || billInput.value || "4000";
     
     // Matched partner details
@@ -652,9 +685,18 @@ function updateFormMessageDetails() {
 function adjustFormCapacity(amount) {
     const formSizeEl = document.getElementById('form-size');
     if (!formSizeEl) return;
-    let currentVal = parseFloat(formSizeEl.value) || 4.0;
-    let newVal = currentVal + amount;
-    if (newVal < 0.5) newVal = 0.5;
+    let currentVal = parseFloat(formSizeEl.value) || 3.0;
+    let newVal;
+    
+    if (currentVal === 3.0 && amount > 0) {
+        newVal = 5.0;
+    } else if (currentVal === 5.0 && amount < 0) {
+        newVal = 3.0;
+    } else {
+        newVal = currentVal + amount;
+    }
+    
+    if (newVal < 3.0) newVal = 3.0;
     if (newVal > 200) newVal = 200;
     newVal = Math.round(newVal * 10) / 10;
     formSizeEl.value = newVal.toFixed(1);
@@ -667,8 +709,8 @@ function handleFormSizeChange() {
     const formSizeEl = document.getElementById('form-size');
     if (!formSizeEl) return;
     
-    let capacity = parseFloat(formSizeEl.value) || 4.0;
-    if (capacity < 0.1) capacity = 0.1;
+    let capacity = parseFloat(formSizeEl.value) || 3.0;
+    if (capacity < 3.0) capacity = 3.0;
     if (capacity > 200) capacity = 200;
     
     // Update calculator recommended capacity field
@@ -840,48 +882,137 @@ function populateKSEBSections(districtValue) {
     });
 }
 
-// Automatically find and select the correct District and Section based on KSEB section name
-window.autoSelectDistrictAndSection = function(fetchedSectionName) {
-    if (!fetchedSectionName) return;
-    
-    const cleanSection = fetchedSectionName.replace(/electrical|section|office|dvn/gi, '').trim().toLowerCase();
-    if (!cleanSection) return;
-    
-    let matchedDistrict = null;
-    let matchedSectionValue = null;
-    
-    // Look through all districts and their sections to find the best match
-    for (const [distName, sectionsMap] of Object.entries(KSEB_SECTIONS)) {
-        for (const secName of Object.keys(sectionsMap)) {
-            const cleanSecName = secName.replace(/electrical|section|office|dvn/gi, '').trim().toLowerCase();
-            
-            // Match exactly or check if one contains another
-            if (cleanSection === cleanSecName || cleanSection.includes(cleanSecName) || cleanSecName.includes(cleanSection)) {
-                matchedDistrict = distName;
-                matchedSectionValue = secName;
-                break;
-            }
-        }
-        if (matchedDistrict) break;
+// --- Geo Distance Auto-Selection ---
+
+// Haversine distance between two coordinates in km
+function calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Earth's radius in km
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = 
+        Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+        Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+}
+
+// Geocode query with localStorage caching and delay
+async function geocodeLocation(query) {
+    const cacheKey = 'geo_' + query;
+    const cached = localStorage.getItem(cacheKey);
+    if (cached) {
+        return JSON.parse(cached);
     }
     
-    if (matchedDistrict) {
-        // 1. Update District Select
-        const distSelect = document.getElementById('form-district');
-        if (distSelect) {
-            distSelect.value = matchedDistrict;
-            // 2. Load sections for this district
-            handleDistrictChange(matchedDistrict);
-            
-            // 3. Select KSEB Section
-            const locationSelect = document.getElementById('form-location');
-            if (locationSelect && matchedSectionValue) {
-                locationSelect.value = matchedSectionValue;
-                locationSelect.dispatchEvent(new Event('change'));
+    // API rate limit friendly 1-second delay
+    await new Promise(resolve => setTimeout(resolve, 1100));
+    
+    try {
+        const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1`;
+        const res = await fetch(url, { headers: { 'User-Agent': 'SunovaSolarLocator/1.0' } });
+        const data = await res.json();
+        
+        if (data && data.length > 0) {
+            const coords = { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
+            localStorage.setItem(cacheKey, JSON.stringify(coords));
+            return coords;
+        }
+    } catch (e) {
+        console.error("Geocoding failed:", e);
+    }
+    
+    // Cache negative result to prevent retry
+    localStorage.setItem(cacheKey, JSON.stringify({ lat: null, lon: null }));
+    return { lat: null, lon: null };
+}
+
+// Automatically calculate distance and select closest dealer
+async function handleKSEBSectionChange(sectionName) {
+    const districtSelect = document.getElementById('form-district');
+    if (!districtSelect || !districtSelect.value || !sectionName) return;
+    
+    const districtName = districtSelect.options[districtSelect.selectedIndex].text;
+    const formDealerEl = document.getElementById('form-dealer');
+    
+    if (!formDealerEl) return;
+    
+    // Store original selected option and disable it temporarily
+    const originalValue = formDealerEl.value;
+    formDealerEl.disabled = true;
+    
+    // Add loading text to options temporarily
+    Array.from(formDealerEl.options).forEach(opt => {
+        if (!opt.dataset.originalText) {
+            opt.dataset.originalText = opt.textContent;
+        }
+        opt.textContent = `... ${opt.dataset.originalText}`;
+    });
+    
+    // 1. Geocode the KSEB Section
+    const sectionQuery = `${sectionName}, ${districtName}, Kerala, India`;
+    const sectionCoords = await geocodeLocation(sectionQuery);
+    
+    if (!sectionCoords.lat) {
+        // Fallback: restore dropdown
+        formDealerEl.disabled = false;
+        Array.from(formDealerEl.options).forEach(opt => {
+            if (opt.dataset.originalText) {
+                opt.textContent = opt.dataset.originalText;
+            }
+        });
+        return;
+    }
+    
+    // 2. Filter active dealers in this district and geocode them
+    const normalizedSelected = getNormalizedDistrict(districtSelect.value);
+    const matchedDealers = DEALERS.filter(d => getNormalizedDistrict(d.district) === normalizedSelected);
+    
+    let closestDealerCode = null;
+    let minDistance = Infinity;
+    
+    const dealerDistances = {};
+    
+    for (const dealer of matchedDealers) {
+        const dealerQuery = `${dealer.area}, ${dealer.district}, Kerala, India`;
+        let coords = await geocodeLocation(dealerQuery);
+        
+        if (!coords.lat) {
+            // Fallback to district level if exact area fails
+            coords = await geocodeLocation(`${dealer.district}, Kerala, India`);
+        }
+        
+        if (coords.lat) {
+            const dist = calculateDistance(sectionCoords.lat, sectionCoords.lon, coords.lat, coords.lon);
+            dealerDistances[dealer.code] = dist;
+            if (dist < minDistance) {
+                minDistance = dist;
+                closestDealerCode = dealer.code;
             }
         }
     }
-};
+    
+    // 3. Update dropdown options with distance and auto-select
+    Array.from(formDealerEl.options).forEach(opt => {
+        if (opt.dataset.originalText) {
+            let newText = opt.dataset.originalText;
+            const dist = dealerDistances[opt.value];
+            if (dist !== undefined) {
+                newText = `${newText} [~${Math.round(dist)} km]`;
+            }
+            opt.textContent = newText;
+        }
+    });
+    
+    if (closestDealerCode) {
+        formDealerEl.value = closestDealerCode;
+    } else {
+        formDealerEl.value = originalValue;
+    }
+    
+    formDealerEl.disabled = false;
+    updateFormMessageDetails();
+}
 
 const formLocation = document.getElementById('form-location');
 if (formLocation) {
@@ -1235,24 +1366,7 @@ window.handleFormConnectionChange = function(val) {
     }
 };
 
-window.handleCalcSizeSelectChange = function(val) {
-    const manualWrapper = document.getElementById('calc-size-manual-wrapper');
-    const sizeSelect = document.getElementById('calc-size-select');
-    
-    if (val === 'auto') {
-        manualWrapper.style.display = 'none';
-        if (typeof resetCapacityToCalculated === 'function') {
-            resetCapacityToCalculated();
-        }
-    } else if (val === 'custom') {
-        manualWrapper.style.display = 'flex';
-    } else {
-        manualWrapper.style.display = 'none';
-        if (typeof handleCapacityInput === 'function') {
-            handleCapacityInput(val);
-        }
-    }
-};
+
 
 // KSEB Auto-Fill Functions
 let ksebFetchTimer = null;
@@ -1270,15 +1384,7 @@ window.triggerKSEBAutoFetch = function() {
     ksebFetchTimer = setTimeout(() => fetchKSEBDetails(consumerNo, regMobile), 600);
 };
 
-window.openKSEBPortalTab = function() {
-    const consumerNo = (document.getElementById('form-consumer-no')?.value || '').trim();
-    const regMobile  = (document.getElementById('form-reg-mobile')?.value  || '').trim();
-    
-    const url = `kseb.html?consumerno=${encodeURIComponent(consumerNo)}&regmobno=${encodeURIComponent(regMobile)}`;
-    window.open(url, '_blank');
-};
-
-window.setKSEBStatus = function(msg, type) {
+function setKSEBStatus(msg, type) {
     const el = document.getElementById('kseb-status');
     if (!el) return;
     el.style.display = 'block';
@@ -1325,11 +1431,6 @@ async function fetchKSEBDetails(consumerNo, regMobile) {
             }
         }
         
-        // Match and select the district and section office dynamically
-        if (d.section && typeof autoSelectDistrictAndSection === 'function') {
-            autoSelectDistrictAndSection(d.section);
-        }
-        
         // Auto-fill last bill amount to calculator inputs
         if (d.amount) {
             const amountVal = parseInt(d.amount);
@@ -1358,41 +1459,88 @@ async function fetchKSEBDetails(consumerNo, regMobile) {
     }
 };
 
-window.addEventListener('message', (event) => {
-    if (event.data && event.data.type === 'kseb_autofill') {
-        const fetchedData = event.data.data;
-        const regMobile = event.data.regMobile;
-        
-        // Fill Name
-        const nameEl = document.getElementById('form-name');
-        if (nameEl) nameEl.value = fetchedData.name;
-        
-        // Fill Consumer Number
-        const consumerEl = document.getElementById('form-consumer-no');
-        if (consumerEl) consumerEl.value = fetchedData.consumerno;
-        
-        // Match and select the district and section office dynamically
-        if (fetchedData.section && typeof autoSelectDistrictAndSection === 'function') {
-            autoSelectDistrictAndSection(fetchedData.section);
+window.handleKSEBExternalFetch = function(d) {
+    // Fill consumer number & registered mobile
+    const consInput = document.getElementById('form-consumer-no');
+    if (consInput && d.consumerNo) consInput.value = d.consumerNo;
+    
+    const mobInput = document.getElementById('form-reg-mobile');
+    if (mobInput && d.regMobile) {
+        mobInput.value = d.regMobile;
+        // Sync hidden phone field
+        const phoneInput = document.getElementById('form-phone');
+        if (phoneInput) phoneInput.value = d.regMobile;
+    }
+    
+    // Fill name
+    const nameInput = document.getElementById('form-name');
+    if (nameInput && d.name) nameInput.value = d.name;
+    
+    // Fill bill amount in calculator
+    if (d.amount) {
+        const amountVal = parseInt(d.amount);
+        if (!isNaN(amountVal) && amountVal > 0) {
+            if (typeof handleBillManualInput === 'function') {
+                handleBillManualInput(amountVal);
+            }
+        }
+    }
+    
+    // Fill section and district
+    if (d.section && typeof KSEB_SECTIONS !== 'undefined') {
+        let matchedDistrict = null;
+        let matchedSectionKey = null;
+        for (const [dist, sections] of Object.entries(KSEB_SECTIONS)) {
+            for (const secKey of Object.keys(sections)) {
+                if (secKey.toLowerCase() === d.section.toLowerCase() || 
+                    secKey.toLowerCase().includes(d.section.toLowerCase()) ||
+                    d.section.toLowerCase().includes(secKey.toLowerCase())) {
+                    matchedDistrict = dist;
+                    matchedSectionKey = secKey;
+                    break;
+                }
+            }
+            if (matchedDistrict) break;
         }
         
-        // Fill Registered Mobile
-        const regMobileEl = document.getElementById('form-reg-mobile');
-        if (regMobileEl) regMobileEl.value = regMobile;
-        
-        // Fill Hidden Phone
-        const phoneEl = document.getElementById('form-phone');
-        if (phoneEl) phoneEl.value = regMobile;
-        
-        // Sync last bill amount directly to the solar calculator
-        if (typeof handleBillManualInput === 'function') {
-            handleBillManualInput(parseInt(fetchedData.amount));
+        if (matchedDistrict && matchedSectionKey) {
+            const distSelect = document.getElementById('form-district');
+            if (distSelect) {
+                distSelect.value = matchedDistrict;
+                handleDistrictChange(matchedDistrict);
+                populateKSEBSections(matchedDistrict);
+            }
+            const secSelect = document.getElementById('form-location');
+            if (secSelect) {
+                secSelect.value = matchedSectionKey;
+            }
         }
-        
-        // Set success banner on parent
-        if (typeof setKSEBStatus === 'function') {
-            const summary = `✅ Details fetched! Name: ${fetchedData.name}. Section: ${fetchedData.section}. Last Billed Amount: ₹${fetchedData.amount}. Units: ${fetchedData.units}.`;
-            setKSEBStatus(summary, 'success');
+    }
+    
+    // Show success status
+    let summary = '✅ Details auto-filled from KSEB website!';
+    if (d.name)     summary += ` Name: ${d.name}.`;
+    if (d.section)  summary += ` Section: ${d.section}.`;
+    if (d.amount)   summary += ` Last Bill: ₹${d.amount}.`;
+    
+    setKSEBStatus(summary, 'success');
+};
+
+// On page load check for KSEB external fetch redirect data
+window.addEventListener('DOMContentLoaded', () => {
+    const fetched = localStorage.getItem('kseb_fetched_details');
+    if (fetched) {
+        localStorage.removeItem('kseb_fetched_details');
+        try {
+            const data = JSON.parse(fetched);
+            // Delay slightly to ensure dropdowns and scripts are fully initialized
+            setTimeout(() => {
+                if (typeof window.handleKSEBExternalFetch === 'function') {
+                    window.handleKSEBExternalFetch(data);
+                }
+            }, 500);
+        } catch (e) {
+            console.error('Error parsing redirected KSEB details:', e);
         }
     }
 });

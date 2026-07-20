@@ -1,484 +1,515 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+
+
+
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KSEB Web Self Service — Bill View & Quick Pay</title>
-    <style>
-        :root {
-            --color-kseb-blue: #0395d9;
-            --color-kseb-dark: #2c3e50;
-            --color-bg: #f4f7f9;
-            --color-card: #ffffff;
-            --color-text: #333333;
-            --color-text-light: #777777;
-            --color-success: #22c55e;
-            --color-border: #e1e8ed;
-        }
+	<title>KSEB Web Self Service</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="-1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+	<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">  
+	<META HTTP-EQUIV="EXPIRES" CONTENT="Mon, 22 Jul 2002 11:12:01 GMT"-->
+	
+	<link rel="apple-touch-icon-precomposed" sizes="57x57" href="/selfservices/resources/favkseb/apple-touch-icon-57x57.png" />
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/selfservices/resources/favkseb/apple-touch-icon-114x114.png" />
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/selfservices/resources/favkseb/apple-touch-icon-72x72.png" />
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/selfservices/resources/favkseb/apple-touch-icon-144x144.png" />
+<link rel="apple-touch-icon-precomposed" sizes="60x60" href="/selfservices/resources/favkseb/apple-touch-icon-60x60.png" />
+<link rel="apple-touch-icon-precomposed" sizes="120x120" href="/selfservices/resources/favkseb/apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon-precomposed" sizes="76x76" href="/selfservices/resources/favkseb/apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/selfservices/resources/favkseb/apple-touch-icon-152x152.png" />
+<link rel="icon" type="image/png" href="/selfservices/resources/favkseb/favicon-196x196.png" sizes="196x196" />
+<link rel="icon" type="image/png" href="/selfservices/resources/favkseb/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/png" href="/selfservices/resources/favkseb/favicon-32x32.png" sizes="32x32" />
+<link rel="icon" type="image/png" href="/selfservices/resources/favkseb/favicon-16x16.png" sizes="16x16" />
+<link rel="icon" type="image/png" href="/selfservices/resources/favkseb/favicon-128.png" sizes="128x128" />
+<meta name="application-name" content="&nbsp;"/>
+<meta name="msapplication-TileColor" content="#FFFFFF" />
+<meta name="msapplication-TileImage" content="/selfservices/resources/favkseb/mstile-144x144.png" />
+<meta name="msapplication-square70x70logo" content="/selfservices/resources/favkseb/mstile-70x70.png" />
+<meta name="msapplication-square150x150logo" content="/selfservices/resources/favkseb/mstile-150x150.png" />
+<meta name="msapplication-wide310x150logo" content="/selfservices/resources/favkseb/mstile-310x150.png" />
+<meta name="msapplication-square310x310logo" content="/selfservices/resources/favkseb/mstile-310x310.png" />
+	
+	<link href="/selfservices/resources/CSS/Bootstrap/bootstrap.css" rel="stylesheet" type="text/css">
+	<link href="/selfservices/resources/CSS/homeV12.css" rel="stylesheet" type="text/css">
+	<link href="/selfservices/resources/css_payment/CSS/screenV11.css" rel="stylesheet" type="text/css">
+	<link href="/selfservices/resources/CSS/enzen.css" rel="stylesheet" type="text/css">
+	<link href="/selfservices/resources/CSS/fonts.css" rel="stylesheet" type="text/css">
+	<link href="/selfservices/resources/CSS/Components/UI.css" rel="stylesheet" type="text/css">
+ 	<link href="/selfservices/resources/CSS/Components/jquery-ui.css" rel="stylesheet" /> 
+ 		 <!--  link href="/selfservices/resources/CSS/Components/fa.min.css" rel="stylesheet" /--> 
+	 <link href="https://kit-free.fontawesome.com/releases/v6.5.2/css/free-v4-shims.min.css" media="all" rel="stylesheet">
+	 <link href="https://kit-free.fontawesome.com/releases/v6.5.2/css/free-v4-font-face.min.css" media="all" rel="stylesheet">
+	 <link href="https://kit-free.fontawesome.com/releases/v6.5.2/css/free.min.css" media="all" rel="stylesheet">
+ 	
+	<!-- <link href="/selfservices/resources/CSS/Bootstrap/bootstrap-switch.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+	-->
+	<script src="/selfservices/resources/JS/jquery.min.js"></script>
+	<script	src="/selfservices/resources/css_payment/JS/crawler.js"></script>
+	<script	src="/selfservices/resources/JS/jquery-migrate-1.2.1.js"></script>
+	
+	
+	
+	<!--[if !IE]>
+	<script	src="/selfservices/resources/JS/jquery-2.0.3.min.js"></script>
+	<script	src="/selfservices/resources/JS/Components/jquery-ui.js"></script>
+	<!--<![endif]-->
 
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: var(--color-bg);
-            color: var(--color-text);
-            line-height: 1.6;
-        }
+	<!--[if lt IE 9]
+	<script src="/selfservices/resources/JSIE8/html5shiv-3.7.0.js"></script>
+	<script src="/selfservices/resources/JSIE8/respond.min.js"></script>
+	<script src="/selfservices/resources/JSIE8/IE8.js"></script>  
+	<script	src="/selfservices/resources/JSIE8/jquery-1.7.2.min.js"></script> 
+	<script	src="/selfservices/resources/JS/Components/jquery-ui.js"></script>
+	<script	src="/selfservices/resources/JavaScript_Files/selectivizr.js"></script>
+ 	<noscript><link rel="stylesheet" href="[fallback css]" /></noscript>
+ 		<script src="/selfservices/resources/JSIE8/html5shiv-3.7.0.js"></script>
+ 		-->
+	<![endif]-->
 
-        header {
-            background: #ffffff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0.75rem 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .logo-section img {
-            height: 48px;
-        }
-
-        .logo-section h1 {
-            margin: 0;
-            font-size: 1.25rem;
-            color: var(--color-kseb-dark);
-            font-weight: 700;
-        }
-
-        .helpline {
-            text-align: right;
-            font-size: 0.85rem;
-            color: var(--color-text-light);
-        }
-
-        .helpline a {
-            color: var(--color-kseb-blue);
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .main-container {
-            max-width: 600px;
-            margin: 2.5rem auto;
-            padding: 0 1rem;
-        }
-
-        .card {
-            background: var(--color-card);
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-            border: 1px solid var(--color-border);
-            padding: 2rem;
-        }
-
-        .card-title {
-            margin-top: 0;
-            margin-bottom: 0.5rem;
-            color: var(--color-kseb-dark);
-            font-size: 1.4rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .card-desc {
-            color: var(--color-text-light);
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.25rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .form-group label {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--color-kseb-dark);
-        }
-
-        .form-group input {
-            padding: 0.75rem;
-            border: 1px solid var(--color-border);
-            border-radius: 6px;
-            font-size: 1rem;
-            transition: border-color 0.2s;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--color-kseb-blue);
-        }
-
-        .btn {
-            background: var(--color-kseb-blue);
-            color: white;
-            border: none;
-            padding: 0.85rem;
-            border-radius: 6px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            transition: background 0.2s;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn:hover {
-            background: #0282be;
-        }
-
-        .loading-spinner {
-            border: 3px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top: 3px solid #fff;
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-            display: none;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .bill-details-section {
-            margin-top: 2rem;
-            border-top: 2px dashed var(--color-border);
-            padding-top: 1.5rem;
-            display: none;
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .bill-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 1.5rem;
-        }
-
-        .bill-table th, .bill-table td {
-            padding: 0.75rem;
-            border-bottom: 1px solid var(--color-border);
-            text-align: left;
-            font-size: 0.95rem;
-        }
-
-        .bill-table th {
-            color: var(--color-text-light);
-            font-weight: normal;
-            width: 45%;
-        }
-
-        .bill-table td {
-            color: var(--color-kseb-dark);
-            font-weight: 600;
-        }
-
-        .btn-success {
-            background: var(--color-success);
-        }
-
-        .btn-success:hover {
-            background: #1cb053;
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem;
-            color: var(--color-text-light);
-            font-size: 0.8rem;
-            border-top: 1px solid var(--color-border);
-            background: #ffffff;
-            margin-top: 4rem;
-        }
-
-        .back-link {
-            text-align: center;
-            margin-top: 1.5rem;
-        }
-
-        .back-link a {
-            color: var(--color-text-light);
-            font-size: 0.85rem;
-            text-decoration: none;
-        }
-
-        .back-link a:hover {
-            text-decoration: underline;
-        }
-    </style>
+	<!--[if gte IE 9]
+	<script	src="/selfservices/resources/JS/jquery-2.0.3.min.js"></script>
+	<script	src="/selfservices/resources/JS/Components/jquery-ui.js"></script>
+	<script	src="/selfservices/resources/JS/bootstrap.min.js"></script>
+	<![endif]-->
+	<script	src="/selfservices/resources/JS/bootstrap.min.js"></script>
+	<script	src="/selfservices/resources/JS/Components/jquery-ui.min.js"></script>
+	
+	
+	<script>
+		function getBroadcastMsg() {
+	
+			$.ajax({
+				type : "POST",
+				url : "getBroadcastMsg",
+				data : {
+	
+				},
+	
+				success : function(message) {
+					if (message.length > 0) {
+						var res = message.split("<<<<");
+						for ( var i = 0; i < res.length; i++) {
+							$("<span>" + res[i] + "</span>").appendTo("#crawlMarquee");
+						}
+						//mar();
+					}else{
+						$("#marquee").hide();
+					}
+				},
+				error : function(e) {
+					$("<span>------ Error Kindly Refresh------</span>").appendTo("#crawlMarquee");
+				}
+				
+			});
+		}
+		function getReleaseVersion() {
+			$.ajax({
+				type : "POST",
+				url : "getReleaseVersion",
+				data : {
+					releaseName : "WSS",
+				},
+	
+				success : function(releaseDetail) {
+					if (releaseDetail.length > 0 || releaseDetail!=null) {
+						$("<span>" + releaseDetail + "</span>").appendTo("#releaseDtl");
+					}else{
+						$("<span>" + "Failed to get release details" + "</span>").appendTo("#releaseDtl");
+					}
+				},
+				error : function(e) {
+					$("<span>" + "Failed to get release details" + "</span>").appendTo("#releaseDtl");
+				}
+				
+			});
+		}
+		$(document).ready(function() {
+		//	getReleaseVersion();
+			getBroadcastMsg();
+		});
+	</script>
+	<!-- Navigration LB-->
+	<script src="/selfservices/resources/JS/mobilemenu.js"></script>
 </head>
 <body>
+	
 
-<header>
-    <div class="header-container">
-        <div class="logo-section">
-            <!-- Simulated Logo or Placeholder -->
-            <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="50" cy="50" r="48" fill="#0395d9"/>
-                <path d="M50 15L25 50H45L35 85L75 42H52L60 15H50Z" fill="white"/>
-            </svg>
-            <h1>KSEB Web Self Service</h1>
-        </div>
-        <div class="helpline">
-            24x7 Helpline: <a href="tel:1912">1912</a> / <a href="tel:04712555544">0471-2555544</a>
-        </div>
-    </div>
+
+
+<div id="disJS">
+	 <noscript>JavaScript is disabled in your browser. Web Self Service application requires JavaScript to be enabled. Kindly enable JavaScript in your browser and reload the application.</noscript>
+</div>
+	
+
+<style>
+.headerSec {
+	box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.4);
+	position: fixed;
+	z-index: 199;
+	width: 100%;
+	background: #f6f6f6;
+}
+
+</style>
+
+
+<header class="streachedContainer topper headerSec">
+	<div class="streachedWrapper">
+		<div class="row topper">
+			<div class="toppergridlogo_counter">
+				<div class="logo" style="position: relative;">
+					<a href="/selfservices"><img src="/selfservices/resources/Images/misc/KSEB_WSS_Logo.png" alt=""></a>
+				</div>
+				<div class="logo_mob">
+					<a href="/selfservices"><img src="/selfservices/resources/Images/misc/logo_mob.png" alt=""></a>
+				</div>
+			</div>
+			
+			<div class="toppergridlogo_counter">
+				<div class="topWelcome toll-number hidden-xs hidden-sm">
+				<a aria-label="Chat on WhatsApp" href="https://wa.me/9496001912?text=Hi"> <img alt="Chat on WhatsApp" src="/selfservices/resources/Images/icons/whatsapp_small.svg" />
+				</a> 
+				<a style="padding-left:24px" href="tel:1912" style="cursor:default;text-decoration:none"> 
+				<img src="/selfservices/resources/Images/icons/phone_icon.png" alt="Phone number image"> 
+				<p> <a href="tel:1912"> 1912 </a> / <a href="tel:04712555544"> 0471-2555544 </a> <span>(24x7 Helpline)</span></p></a>		
+				</div>
+				
+				<div class="topWelcome hidden-md hidden-lg">
+				<div class="site-header__social navbar-nav flex-row">
+				       <a class="nav-item nav-link" rel="noreferrer" target="_blank" href="https://twitter.com/KSEBLtd"><i class="fab fa-square-x-twitter fa-lg"></i></a>
+				       <a class="nav-item nav-link" rel="noreferrer" target="_blank" href="https://www.instagram.com/ksebltd/"><i class="fab fa-square-instagram fa-lg"></i></a>
+				  
+				      <a class="nav-item nav-link" rel="noreferrer" target="_blank" href="https://www.youtube.com/channel/UCAK0P7b-eQ7u5waz93Ld_Ww"><i class="fab fa-youtube fa-lg"></i></a>
+				      <a class="nav-item nav-link" rel="noreferrer" target="_blank" href="https://facebook.com/ksebl"><i class="fab fa-facebook-square  fa-lg"></i></a>
+				</div>
+				</div>
+			</div>
+		
+		</div>
+	</div>
+	<div id="marquee">
+	<div id="marquee">
+		<div class="scrollText">
+			<div class="marquee" id="mycrawler">
+			   <marquee id="crawlMarquee" SCROLLAMOUNT="4" onMouseover="this.scrollAmount=0" onMouseout="this.scrollAmount=4">
+			   </marquee>
+			</div>
+		</div>
+	</div>
+</div>
 </header>
 
-<div class="main-container">
-    <div class="card">
-        <h2 class="card-title">⚡ Quick Pay &amp; Bill View</h2>
-        <p class="card-desc">Enter your credentials below to fetch your latest electricity bill details directly from the KSEB billing database.</p>
-        
-        <div class="form-group">
-            <label for="consumer_no">Consumer Number (13 digits)</label>
-            <input type="text" id="consumer_no" placeholder="e.g. 2104060012345" maxlength="13">
-        </div>
-        
-        <div class="form-group">
-            <label for="reg_mobile">Registered Mobile Number</label>
-            <input type="text" id="reg_mobile" placeholder="10-digit mobile number" maxlength="10">
-        </div>
-        
-        <button class="btn" id="fetch-btn" onclick="fetchBill()">
-            <span class="loading-spinner" id="spinner"></span>
-            <span id="btn-text">🔍 Fetch Bill Details</span>
-        </button>
+	
+	
+	
 
-        <div class="bill-details-section" id="bill-details">
-            <h3 style="margin-top: 0; color: var(--color-kseb-dark); font-size: 1.15rem;">Latest Bill Details Found</h3>
-            <table class="bill-table">
-                <tr>
-                    <th>Consumer Name</th>
-                    <td id="bill-name">-</td>
-                </tr>
-                <tr>
-                    <th>Consumer Number</th>
-                    <td id="bill-consumer">-</td>
-                </tr>
-                <tr>
-                    <th>Electrical Section</th>
-                    <td id="bill-section">-</td>
-                </tr>
-                <tr>
-                    <th>Bill Date</th>
-                    <td id="bill-date">-</td>
-                </tr>
-                <tr>
-                    <th>Due Date</th>
-                    <td id="bill-due">-</td>
-                </tr>
-                <tr>
-                    <th>Consumption (Units)</th>
-                    <td id="bill-units">-</td>
-                </tr>
-                <tr>
-                    <th>Last Billed Amount</th>
-                    <td id="bill-amount">-</td>
-                </tr>
-            </table>
-            
-            <button class="btn btn-success" onclick="applyAutofill()">
-                ✅ Auto-Fill &amp; Return to Sunova Solar Portal
-            </button>
-        </div>
+
+
+
+<style>
+.subTiteTd{
+	color:#536e92;
+	line-height: 1.43;
+	white-space: pre-wrap;
+	font-size: 1.4rem;
+}
+</style>
+
+<div class="container ncsPage" style="padding-top: 100px;">
+
+<!-- Quick Bill View & Sunova Auto-Fill Helper -->
+<div class="panel panel-primary" style="margin-bottom: 30px; border-color: #2c3e50;">
+    <div class="panel-heading" style="background-color: #2c3e50; border-color: #2c3e50;">
+        <h3 class="panel-title">⚡ Quick Bill View &amp; Sunova Auto-Fill Helper</h3>
     </div>
-    
-    <div class="back-link">
-        <a href="javascript:window.close()">← Close this tab and return</a>
+    <div class="panel-body" style="background: #fbfbfb; padding: 20px;">
+        <p style="font-size: 14px; margin-bottom: 15px; color: #555;">Enter your details below to query your simulated or real KSEB bill. Clicking "Fetch &amp; Auto-Fill" will automatically transfer your bill amount, customer name, and KSEB section details back to your Sunova Solar window and close this tab.</p>
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="form-group">
+                    <label style="font-weight: 600;">Consumer Number (13 digits) <span style="color:red;">*</span></label>
+                    <input type="text" id="kseb-consumer-no" class="form-control" placeholder="e.g. 2104060012345" maxlength="13" value="2104060012345" style="height: 40px; font-size: 15px;">
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="form-group">
+                    <label style="font-weight: 600;">Registered Mobile Number <span style="color:red;">*</span></label>
+                    <input type="text" id="kseb-reg-mobile" class="form-control" placeholder="10-digit mobile number" maxlength="10" value="9995550888" style="height: 40px; font-size: 15px;">
+                </div>
+            </div>
+            <div class="col-sm-2" style="margin-top: 25px;">
+                <button type="button" class="btn btn-success btn-block" onclick="fetchAndRedirect()" style="height: 40px; font-size: 14px; font-weight: bold; background-color: #27ae60; border-color: #27ae60;">Fetch &amp; Auto-Fill</button>
+            </div>
+        </div>
+        <div id="helper-status" style="display: none; margin-top: 15px; font-size: 14px; padding: 10px; border-radius: 4px;" class="alert"></div>
     </div>
 </div>
 
-<footer>
-    &copy; 2026 Kerala State Electricity Board Limited (KSEBL). All Rights Reserved.<br>
-    Best viewed in Google Chrome, Mozilla Firefox, or Safari.
+<div class="row">
+	<div class="col-lg-12">
+		<div class="page-header PHmain">
+			<h1>Transformer wise Renewable Energy Systems connected</h1>
+		</div>
+	</div>
+</div>
+<div class="journal-content-article">
+<div class="portlet-inner" id="wrapper">
+	<div class="row">
+		<div class="col-xs-12">
+			
+
+				<!-- Tab option end -->
+				<!-- Tab content start -->
+				<div class="tab-contents" id="tabContent" >
+					<div class="tab-pane active" id="domestic" role="tabpanel">
+						<div class="inside-sub-title">
+							<span class="kusum_icon"></span>
+							<h2>
+								<span>Renewable Energy Systems connected</span> DTR wise
+							</h2>
+						</div>
+						<p style="font-size:18px;">
+						
+						The cumulative capacity of distributed energy systems allowed to be interconnected with the distribution network shall not exceed 90% of the distribution transformer capacity.
+						Data published as per Regulation <strong> 14(2) </strong> of Kerala State Electricity Regulatory Commission (Renewable Energy and Net Metering) Regulations, 2020. <br/><br/>
+						Please select your section to see Transformer wise Renewable Energy Systems connected and balance capacity available. <br/>
+						</p>
+						<div aria-multiselectable="true"
+							class="panel-group" 
+							role="tablist">
+							
+							<div class="row" style="font-size:18px;">
+								<div class="col-lg-12">
+									<div
+										style="text-indent: 12em; font-style: italic; font-size: 15px; color: #d90334; font-family: 'pt_sans_narrowregular';"
+										id="packageNotMsg"></div>
+		
+									<div class="col-lg-6">
+										<div class="signleftbox Connectionleftbox">
+											<h2>Name of the District in which section office is
+												located:</h2>
+										</div>
+		<!-- 								onchange="getPremiseSection(this.value)"  -->
+										<div class="signrightbox ConnectionRightbox" style="padding-top: 18px;">
+										
+											<select name="District" id="District" tabindex="2"  style="width:90%;"
+												onchange="getPremiseSection(this.value)"
+												 class="js-select2-single cdistrict" >
+											</select>
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="signleftbox Connectionleftbox">
+											<h2>Name of Section:</h2>
+										</div>
+		<!-- 								onchange="getPremiseDistrictsOnSectionChange(this.value)" -->
+										<div class="signrightbox ConnectionRightbox" style="padding-top: 18px;">
+										
+											<select name="inputSectionNo" id="inputSectionNo" tabindex="3" style="width:90%;"
+													 class="js-select2-single csection" data-live-search="true" title="Choose a Section Office"
+												  onchange="sectionChange(this.value)">
+												
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							
+							<br/>
+							
+						</div>
+						
+					</div>
+					<!-- EOD Tab One -->
+					<div id="intro" class="container_paddding">
+						<div id="intro_outer"  class = "panel panel-info">
+							   <div class = "panel-heading">
+								  <h3 class = "panel-title">Transformer wise Renewable Energy Systems connected</h3>
+							   </div>
+							   
+							   <div id="panel_body" class = "panel-body container_paddding" >
+										Please select your section to see DTR wise Renewable Energy Systems connected and balance capacity available. <br/> 
+							   </div>
+							   <div id="panel_load" class = "panel-body" style="display:none">
+							  	 <i class="fa fa-spinner fa-spin" style="font-size:48px;"></i><p style="font-size:32px;"> Loading ...</p>
+							   </div>
+							  
+						</div>
+					</div>
+					 <div id="panel_table" class = "panel-body container_paddding" style="display:none">
+						  <div class="alert alert-info alert-dismissible fade in" role="alert">
+				                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">x</span>
+				                    </button>
+				                    <div id="table_head" ></div>
+				
+				          </div>
+				          	<div class="successtransaction_tscroll">
+				           <table id="dtr_cap" class="table projects">
+		                      <thead>
+		                        <tr>
+		                          <th> Sl#</th>
+		                          <th> Transformer Name</th>
+				    			  <th> 90% of DTR <br/>capacity (kW)</th>
+				    			  <th> Feasibility <br/> Issued (kW)</th>
+				    			  <th >Grid Connected (kW)</th>
+		                          <th>Balance Available (kW)</th>
+		                        
+		                        </tr>
+		                      </thead>
+		                      <tbody>
+		                      		
+		                      </tbody>
+		                     </table> 
+		                     </div>
+					</div>
+					<!-- Tab content end -->
+				</div>
+			
+		</div>
+	</div>
+</div>
+</div>
+</div>
+
+
+<link href="/selfservices/resources/CSS/ncsV15.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/selfservices/resources/CSS/Components/select2.min.css">
+<link rel="stylesheet" href="/selfservices/resources/CSS/Components/select2-bootstrap4.min.css">
+<script src="/selfservices/resources/JS/Components/select2.full.min.js"></script>
+<script src="/selfservices/resources/JS/recapV2.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.13.1/b-2.3.3/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.13.1/b-2.3.3/datatables.min.js"></script>
+	
+
+	
+<div class="streachedContainer footer ">
+			<div class="social-media-links hidden-xs hidden-md">
+					<a class="footer nav-link"  rel="noreferrer" target="_blank" href="https://twitter.com/KSEBLtd"><i class="fab fa-x-twitter fa-lg"></i></a>
+					<a class="footer nav-link"  rel="noreferrer" target="_blank" href="https://www.instagram.com/ksebltd/"><i class="fab fa-instagram fa-lg"></i></a>
+				 	 <a class="footer nav-link" rel="noreferrer" target="_blank" href="https://www.youtube.com/channel/UCAK0P7b-eQ7u5waz93Ld_Ww"><i class="fab fa-youtube fa-lg"></i></a>
+				      <a class="footer nav-link" rel="noreferrer" target="_blank" href="https://facebook.com/ksebl"><i class="fab fa-facebook-square  fa-lg"></i></a>
+			</div> 
+			<div class="social-media-links hidden-lg">
+				<a aria-label="Chat on WhatsApp"  target="_blank"  href="https://wa.me/9496001912?text=Hi"> 
+					<img style="height:36px;" alt="Chat on WhatsApp" src="/selfservices/resources/Images/icons/whatsapp_small.png" /></a> 
+		    </div>
+	</div>	
+	
+		 
+		 
+<footer class="streachedContainer footer" >
+	<div class="streachedWrapper">
+		
+
+	
+<div class="streachedContainer footer ">
+			<div class="social-media-links hidden-xs hidden-md">
+					<a class="footer nav-link"  rel="noreferrer" target="_blank" href="https://twitter.com/KSEBLtd"><i class="fab fa-x-twitter fa-lg"></i></a>
+					<a class="footer nav-link"  rel="noreferrer" target="_blank" href="https://www.instagram.com/ksebltd/"><i class="fab fa-instagram fa-lg"></i></a>
+				 	 <a class="footer nav-link" rel="noreferrer" target="_blank" href="https://www.youtube.com/channel/UCAK0P7b-eQ7u5waz93Ld_Ww"><i class="fab fa-youtube fa-lg"></i></a>
+				      <a class="footer nav-link" rel="noreferrer" target="_blank" href="https://facebook.com/ksebl"><i class="fab fa-facebook-square  fa-lg"></i></a>
+			</div> 
+			<div class="social-media-links hidden-lg">
+				<a aria-label="Chat on WhatsApp"  target="_blank"  href="https://wa.me/9496001912?text=Hi"> 
+					<img style="height:36px;" alt="Chat on WhatsApp" src="/selfservices/resources/Images/icons/whatsapp_small.png" /></a> 
+		    </div>
+	</div>	
+	
+		 
+		 
+<footer class="streachedContainer footer" >
+	<div class="streachedWrapper">
+		
+		<div class="footerLeft">&copy; 2026 KSEB-WSS. All Rights Reserved</div>
+		<div class="footerRight">Best viewed in  Firefox 50.x or higher, Google Chrome 60.x or higher, IE 11.x or higher browsers with resolution 1600x900</div>
+	</div>
 </footer>
 
 <script>
-    // Read query parameters on load
-    window.addEventListener('DOMContentLoaded', () => {
-        const params = new URLSearchParams(window.location.search);
-        const consumerNo = params.get('consumerno') || '';
-        const regMobile = params.get('regmobno') || '';
+async function fetchAndRedirect() {
+    const consumerNo = document.getElementById('kseb-consumer-no').value.trim();
+    const regMobile = document.getElementById('kseb-reg-mobile').value.trim();
+    const statusEl = document.getElementById('helper-status');
+    
+    if (consumerNo.length !== 13 || !/^[0-9]{13}$/.test(consumerNo)) {
+        statusEl.style.display = 'block';
+        statusEl.className = 'alert alert-danger';
+        statusEl.textContent = 'Please enter a valid 13-digit Consumer Number.';
+        return;
+    }
+    if (regMobile.length !== 10 || !/^[6-9][0-9]{9}$/.test(regMobile)) {
+        statusEl.style.display = 'block';
+        statusEl.className = 'alert alert-danger';
+        statusEl.textContent = 'Please enter a valid 10-digit Registered Mobile starting with 6-9.';
+        return;
+    }
+    
+    statusEl.style.display = 'block';
+    statusEl.className = 'alert alert-info';
+    statusEl.textContent = '⏳ Fetching KSEB bill details...';
+    
+    try {
+        const resp = await fetch('/api/kseb_fetch', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ consumerno: consumerNo, regmobno: regMobile })
+        });
+        const json = await resp.json();
         
-        if (consumerNo) {
-            document.getElementById('consumer_no').value = consumerNo;
-        }
-        if (regMobile) {
-            document.getElementById('reg_mobile').value = regMobile;
-        }
-        
-        // If both are provided, auto-trigger fetch
-        if (consumerNo && regMobile) {
-            fetchBill();
-        }
-    });
-
-    let fetchedData = null;
-
-    async function fetchBill() {
-        const consumerNo = document.getElementById('consumer_no').value.trim();
-        const regMobile = document.getElementById('reg_mobile').value.trim();
-        
-        if (consumerNo.length !== 13 || !/^\d{13}$/.test(consumerNo)) {
-            alert('Please enter a valid 13-digit Consumer Number.');
-            return;
-        }
-        if (regMobile.length !== 10 || !/^[6-9]\d{9}$/.test(regMobile)) {
-            alert('Please enter a valid 10-digit Registered Mobile Number.');
-            return;
-        }
-        
-        // UI Loading State
-        const btn = document.getElementById('fetch-btn');
-        const spinner = document.getElementById('spinner');
-        const btnText = document.getElementById('btn-text');
-        
-        btn.disabled = true;
-        spinner.style.display = 'inline-block';
-        btnText.textContent = ' Fetching details...';
-        
-        document.getElementById('bill-details').style.display = 'none';
-        
-        try {
-            // Try fetching from the actual proxy backend first
-            const resp = await fetch('/api/kseb_fetch', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ consumerno: consumerNo, regmobno: regMobile })
-            });
-            
-            const json = await resp.json();
-            
-            if (resp.ok && json.data) {
-                fetchedData = {
-                    name: json.data.name || 'Consumer Name Not Found',
-                    consumerno: consumerNo,
-                    section: json.data.section || 'Alappuzha Section',
-                    amount: json.data.amount || '3450',
-                    units: json.data.units || '380',
-                    due_date: json.data.due_date || '31-Jul-2026',
-                    bill_date: json.data.bill_date || '12-Jul-2026'
-                };
-                displayBill(fetchedData);
-                resetButton(btn, spinner, btnText);
-                return;
-            }
-        } catch (e) {
-            console.warn('Backend proxy offline or CORS blocked, falling back to simulated KSEB database:', e);
+        if (!resp.ok || json.error) {
+            throw new Error(json.error || 'Failed to fetch');
         }
         
-        // Fallback simulated fetch
+        statusEl.className = 'alert alert-success';
+        statusEl.textContent = '✅ Success! Auto-filling and returning...';
+        
+        const data = json.data;
+        data.consumerNo = consumerNo;
+        data.regMobile = regMobile;
+        
         setTimeout(() => {
-            fetchedData = {
-                name: "SHINAS SHAMSUDEEN",
-                consumerno: consumerNo,
-                section: "Alappuzha Electrical Section",
-                amount: "3450",
-                units: "380",
-                due_date: "31-Jul-2026",
-                bill_date: "12-Jul-2026"
-            };
-            displayBill(fetchedData);
-            resetButton(btn, spinner, btnText);
-        }, 1000);
-    }
-
-    function resetButton(btn, spinner, btnText) {
-        btn.disabled = false;
-        spinner.style.display = 'none';
-        btnText.textContent = '🔍 Fetch Bill Details';
-    }
-
-    function displayBill(data) {
-        document.getElementById('bill-name').textContent = data.name;
-        document.getElementById('bill-consumer').textContent = data.consumerno;
-        document.getElementById('bill-section').textContent = data.section;
-        document.getElementById('bill-date').textContent = data.bill_date;
-        document.getElementById('bill-due').textContent = data.due_date;
-        document.getElementById('bill-units').textContent = data.units;
-        document.getElementById('bill-amount').textContent = '₹' + parseFloat(data.amount).toLocaleString('en-IN');
-        
-        document.getElementById('bill-details').style.display = 'block';
-    }
-
-    function applyAutofill() {
-        if (!fetchedData) {
-            // Default mock fallback if clicked without fetching first
-            fetchedData = {
-                name: "SHINAS SHAMSUDEEN",
-                consumerno: document.getElementById('consumer_no').value.trim() || "2104060012345",
-                section: "Alappuzha Electrical Section",
-                amount: "3450",
-                units: "380",
-                due_date: "31-Jul-2026",
-                bill_date: "12-Jul-2026"
-            };
-        }
-        
-        const regMobile = document.getElementById('reg_mobile').value.trim() || "9995550888";
-        
-        if (window.opener && !window.opener.closed) {
-            // Use postMessage to bypass file:// protocol CORS block in Chrome/Edge
-            window.opener.postMessage({
-                type: 'kseb_autofill',
-                data: fetchedData,
-                regMobile: regMobile
-            }, '*');
-            
-            window.close();
-        } else {
-            // Fallback direct access if postMessage not supported or not in browser environment
-            try {
-                const nameEl = window.opener.document.getElementById('form-name');
-                if (nameEl) nameEl.value = fetchedData.name;
-                const consumerEl = window.opener.document.getElementById('form-consumer-no');
-                if (consumerEl) consumerEl.value = fetchedData.consumerno;
-                const regMobileEl = window.opener.document.getElementById('form-reg-mobile');
-                if (regMobileEl) regMobileEl.value = regMobile;
-                const phoneEl = window.opener.document.getElementById('form-phone');
-                if (phoneEl) phoneEl.value = regMobile;
-                
-                if (window.opener.handleBillManualInput) {
-                    window.opener.handleBillManualInput(parseInt(fetchedData.amount));
-                }
-                if (window.opener.setKSEBStatus) {
-                    const summary = `✅ Details fetched! Name: ${fetchedData.name}. Section: ${fetchedData.section}. Last Billed Amount: ₹${fetchedData.amount}. Units: ${fetchedData.units}.`;
-                    window.opener.setKSEBStatus(summary, 'success');
-                }
+            if (window.opener && typeof window.opener.handleKSEBExternalFetch === 'function') {
+                window.opener.handleKSEBExternalFetch(data);
                 window.close();
-            } catch (err) {
-                alert('Could not auto-fill parent window. Please make sure the Sunova Solar Portal tab is open.');
+            } else {
+                localStorage.setItem('kseb_fetched_details', JSON.stringify(data));
+                window.location.href = 'index.html';
             }
-        }
+        }, 1200);
+    } catch (err) {
+        statusEl.className = 'alert alert-warning';
+        statusEl.textContent = '⚠️ Local proxy server not active. Auto-filling with simulated bill details (Name: SHINAS SHAMSUDEEN, Bill: ₹4,850, Section: Alappuzha) and returning...';
+        
+        const mockData = {
+            consumerNo: consumerNo,
+            regMobile: regMobile,
+            name: "SHINAS SHAMSUDEEN",
+            amount: 4850,
+            units: 540,
+            section: "Alappuzha",
+            due_date: "2026-07-30"
+        };
+        
+        setTimeout(() => {
+            if (window.opener && typeof window.opener.handleKSEBExternalFetch === 'function') {
+                window.opener.handleKSEBExternalFetch(mockData);
+                window.close();
+            } else {
+                localStorage.setItem('kseb_fetched_details', JSON.stringify(mockData));
+                window.location.href = 'index.html';
+            }
+        }, 2200);
     }
+}
 </script>
 </body>
 </html>
