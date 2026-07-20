@@ -37,7 +37,7 @@
                 <form id="portal-login-form" onsubmit="handlePartnerLogin(event)">
                     <div class="form-group">
                         <label for="partner-code">Authorized Partner Code / Phone</label>
-                        <input type="text" id="partner-code" placeholder="e.g. TVM-JOBI or Mobile Number" oninput="let val = this.value; val = val.replace(/[^A-Za-z0-9\-]/g, ''); if (val.length > 0 && /^[0-9]/.test(val)) { val = val.replace(/[^0-9]/g, ''); if (val.length === 12 && val.startsWith('91')) { val = val.substring(2); } if (val.length > 0 && !/^[6-9]/.test(val)) { val = ''; } if (val.length > 10) { val = val.substring(0, 10); } } this.value = val;" required>
+                        <input type="text" id="partner-code" placeholder="eg:- ALP-SHIN or Mobile number" oninput="let val = this.value; val = val.replace(/[^A-Za-z0-9\-]/g, ''); if (val.length > 0 && /^[0-9]/.test(val)) { val = val.replace(/[^0-9]/g, ''); if (val.length === 12 && val.startsWith('91')) { val = val.substring(2); } if (val.length > 0 && !/^[6-9]/.test(val)) { val = ''; } if (val.length > 10) { val = val.substring(0, 10); } } this.value = val;" required>
                     </div>
                     
                     <div class="form-group">
@@ -47,6 +47,10 @@
                     </div>
 
                     <div id="login-feedback" class="form-feedback hidden"></div>
+                    
+                    <div style="text-align: right; margin-top: -0.5rem; margin-bottom: 1rem;">
+                        <a href="javascript:void(0)" onclick="resetPin()" style="font-size: 0.75rem; color: var(--color-sun-yellow); text-decoration: none;">Forgot / Reset PIN?</a>
+                    </div>
 
                     <button type="submit" class="cta-btn primary-btn full-width" id="btn-partner-login">
                         Sign In to Partner Dashboard
@@ -105,6 +109,9 @@
                     <button type="button" onclick="toggleAllocatedLeads()" class="cta-btn primary-btn text-center full-width" style="cursor: pointer; width: 100%; border: none; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
                         📋 View Allocated Customer Inquiries
                     </button>
+                    <button type="button" onclick="toggleChangePinPanel()" class="cta-btn text-center full-width" style="background: rgba(255,255,255,0.05); border: 1px solid var(--color-border); color: var(--color-text); cursor: pointer; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
+                        🔒 Change Security PIN
+                    </button>
                 </div>
 
                 <!-- Allocated Leads Panel (Collapsible) -->
@@ -117,6 +124,31 @@
                     <div id="allocated-leads-list" style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 350px; overflow-y: auto; padding-right: 0.3rem;">
                         <!-- Dynamically Injected leads list -->
                     </div>
+                </div>
+
+                <!-- Change PIN Panel (Collapsible) -->
+                <div id="dashboard-change-pin-panel" class="hidden" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                    <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                        🔒 Change Security PIN
+                    </h4>
+                    <form id="dash-change-pin-form" onsubmit="handleDashPinChange(event)">
+                        <div class="form-group" style="margin-bottom: 0.8rem;">
+                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block;">Old PIN</label>
+                            <input type="password" id="dash-old-pin" maxlength="4" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required pattern="[0-9]{4}">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0.8rem;">
+                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block;">New PIN</label>
+                            <input type="password" id="dash-new-pin" maxlength="4" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required pattern="[0-9]{4}">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0.8rem;">
+                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block;">Confirm New PIN</label>
+                            <input type="password" id="dash-confirm-pin" maxlength="4" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required pattern="[0-9]{4}">
+                        </div>
+                        <div id="dash-change-pin-feedback" class="form-feedback hidden"></div>
+                        <button type="submit" class="cta-btn primary-btn full-width" style="margin-top: 0.5rem; padding: 0.65rem; border-radius: 8px;">
+                            Update PIN
+                        </button>
+                    </form>
                 </div>
 
                 <!-- Solar Quotation Generator Card -->
@@ -133,15 +165,27 @@
                                 <option value="">-- Choose an Allocated Lead --</option>
                             </select>
                         </div>
-                        <div class="form-group" style="margin-bottom: 0.8rem;">
-                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Customer Name</label>
-                            <input type="text" id="quote-cust-name" placeholder="e.g. Radhakrishnan Nair" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                            <div class="form-group">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Customer Name</label>
+                                <input type="text" id="quote-cust-name" placeholder="e.g. Radhakrishnan Nair" style="text-transform: uppercase; width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Mobile Number</label>
+                                <input type="tel" id="quote-cust-phone" placeholder="e.g. 9876543210" pattern="^[6-9]\d{9}$" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" title="10-digit mobile number starting with 6-9" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+                            </div>
                         </div>
                         <div class="form-group" style="margin-bottom: 0.8rem;">
                             <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Installation Address</label>
                             <input type="text" id="quote-cust-addr" placeholder="e.g. House No 15, Near Temple, Alappuzha" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
                         </div>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                        <div class="form-group" style="margin-bottom: 0.8rem;">
+                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">KSEB Section</label>
+                            <select id="quote-kseb-section" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                                <option value="">-- Auto-filled by Partner District --</option>
+                            </select>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
                             <div class="form-group">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Capacity (kWp)</label>
                                 <input type="number" id="quote-capacity" value="3" min="1" max="100" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
@@ -149,12 +193,51 @@
                             <div class="form-group">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Solar Panel Model</label>
                                 <select id="quote-panel-brand" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
-                                    <option value="Waaree Elite Bifacial">Waaree Elite Bifacial (540Wp)</option>
-                                    <option value="Adani Elan Mono PERC">Adani Elan Mono PERC (550Wp)</option>
-                                    <option value="Tata Power Solaro">Tata Power Solaro (530Wp)</option>
-                                    <option value="Vikram Prexos Half-Cut">Vikram Prexos Half-Cut (545Wp)</option>
-                                    <option value="Premier Energies Supreme">Premier Energies Supreme (540Wp)</option>
+                                    <option value="Waaree (550W)" selected>Waaree (550W)</option>
+                                    <option value="Adani (610W)">Adani (610W)</option>
+                                    <option value="Emmvee (560W)">Emmvee (560W)</option>
                                 </select>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Inverter Make</label>
+                                <select id="quote-inverter-brand" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                                    <option value="Eastman" selected>Eastman</option>
+                                    <option value="Deye">Deye</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                            <div class="form-group">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Roof Type</label>
+                                <select id="quote-roof-type" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                                    <option value="RCC">RCC</option>
+                                    <option value="Sheet">Sheet</option>
+                                    <option value="Tile">Tile</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Electrical Phase</label>
+                                <select id="quote-phase" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                                    <option value="Single Phase">Single Phase</option>
+                                    <option value="Three Phase">Three Phase</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                            <div class="form-group">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Advance %</label>
+                                <input type="number" id="quote-pay-advance" value="60" min="0" max="100" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Delivery %</label>
+                                <input type="number" id="quote-pay-delivery" value="30" min="0" max="100" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Completion %</label>
+                                <input type="number" id="quote-pay-completion" value="10" min="0" max="100" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
                             </div>
                         </div>
                         
@@ -201,57 +284,74 @@
     <script>
         // Authorized Sunova Solar Dealers List
         const DEALERS = [
-            { code: "KNR-JOBI", name: "JOBI SEBASTIAN", area: "KANNUR", district: "Kannur", phone: "8590085856" },
-            { code: "TVM-BENJ", name: "BENJOSE FG", area: "BALARAMAPURAM", district: "Thiruvanthapuram", phone: "9037273767" },
-            { code: "TVM-ANAN", name: "ANAND SREEDHAR", area: "NEYYATTINKARA", district: "Thiruvanthapuram", phone: "7994430742" },
-            { code: "KLA-VARG", name: "VARGHESE NELLIMOOTTIL", area: "AYOOR", district: "Kollam", phone: "9020202222" },
-            { code: "KLA-NIYA", name: "NIYAS K", area: "KARUNAGAPPALLY", district: "Kollam", phone: "9656366068" },
-            { code: "KLA-UDAY", name: "UDAYABHANU J", area: "KOLLAM", district: "Kollam", phone: "9349136882" },
-            { code: "KLA-RAJE", name: "RAJEEV R", area: "PUNALUR", district: "Kollam", phone: "9567970077" },
-            { code: "KLA-RATH", name: "RATHIL KUMAR", area: "WEST KALLADA", district: "Kollam", phone: "7907878797" },
-            { code: "PTA-SREE", name: "SREEJITH TR", area: "MALLAPPALLY", district: "Pathanamthitta", phone: "9947030669" },
-            { code: "PTA-JIJU", name: "JIJUKUMAR MC", area: "PANDALAM", district: "Pathanamthitta", phone: "9388133400" },
-            { code: "PTA-PKPR", name: "PK PRASANNAKUMAR", area: "PATHANAMTHITTA", district: "Pathanamthitta", phone: "7034023301" },
-            { code: "PTA-BIJU", name: "BIJUMON J", area: "RANNI", district: "Pathanamthitta", phone: "9995990372" },
-            { code: "ALP-SHIN", name: "SHINAS SHAMSUDEEN", area: "ALAPPUZHA", district: "Alappuzha", phone: "9995550888" },
-            { code: "ALP-NISS", name: "NISSAR HAMEED", area: "KAYAMKULAM", district: "Alappuzha", phone: "9895497090" },
-            { code: "ALP-RENJ", name: "RENJITH PS", area: "MAVELIKKARA", district: "Alappuzha", phone: "9447866958" },
-            { code: "ALP-BAIJ", name: "BAIJU SASIDHARAN", area: "VALLIKUNNAM", district: "Alappuzha", phone: "9747186818" },
-            { code: "KTM-SALY", name: "SALY SAINUDEEN", area: "ERATTUPETTA", district: "Kottayam", phone: "9446200616" },
-            { code: "KTM-ANIS", name: "ANISH KUMAR", area: "KALLARA", district: "Kottayam", phone: "9387220162" },
-            { code: "KTM-SANI", name: "SANIL KUMAR", area: "KOTTAYAM TOWN", district: "Kottayam", phone: "9061189784" },
-            { code: "IDK-OUSE", name: "OUSEPH KA", area: "ARAKULAM", district: "Idukki", phone: "9495737628" },
-            { code: "IDK-MGAJ", name: "MG AJAY", area: "THODUPUZHA", district: "Idukki", phone: "9447254142" },
-            { code: "EKM-SHIY", name: "SHIYAS RASHEED", area: "EDAPPALLY", district: "Ernakulam", phone: "9847859859" },
-            { code: "EKM-BHAV", name: "BHAVYA M", area: "KALAMASSERY", district: "Ernakulam", phone: "8301026309" },
-            { code: "EKM-JIBI", name: "JIBIN GEORGE", area: "THRIPUNITHURA", district: "Ernakulam", phone: "9995996240" },
-            { code: "TCR-JAIS", name: "JAISON JOSE MELETH", area: "AYYANTHOL", district: "Thrissur", phone: "9995601923" },
-            { code: "TCR-COAT", name: "COATS THEKKAN", area: "CHALAKUDY", district: "Thrissur", phone: "8129119222" },
-            { code: "TCR-JISO", name: "JISON GEORGE", area: "CHELAKKARA", district: "Thrissur", phone: "9746666535" },
-            { code: "TCR-SINI", name: "SINISH KM", area: "KODAKARA", district: "Thrissur", phone: "9946101892" },
-            { code: "TCR-BINU", name: "BINU YACOB", area: "PAZHAYANNUR", district: "Thrissur", phone: "9946033807" },
-            { code: "TCR-JITH", name: "JITHESH THARAYIL", area: "PO ROAD", district: "Thrissur", phone: "7356347700" },
-            { code: "TCR-AKAN", name: "AK ANIL", area: "VALAPPAD", district: "Thrissur", phone: "9746891854" },
-            { code: "PKD-SUHA", name: "SUHAIB S", area: "ALATHUR", district: "Palakkad", phone: "9988553585" },
-            { code: "PKD-PRAM", name: "PRAMOD", area: "CHITTUR", district: "Palakkad", phone: "9746611002" },
-            { code: "PKD-BIJO", name: "BIJO VARGHESE", area: "ELAPPULLY", district: "Palakkad", phone: "9388883222" },
-            { code: "PKD-ANAN", name: "ANAND P", area: "KODUVAYUR", district: "Palakkad", phone: "9349811101" },
-            { code: "MPM-NASS", name: "NASSARUDHEEN E", area: "EDAKKARA", district: "Malappuram", phone: "9946139955" },
-            { code: "MPM-FAIS", name: "FAISAL K", area: "MANJERY", district: "Malappuram", phone: "7994035923" },
-            { code: "MPM-RAVI", name: "RAVINDRAN K", area: "TIRUR", district: "Malappuram", phone: "9961476748" },
-            { code: "KKD-RAJA", name: "RAJAN MADAVOOR", area: "KODUVALLY", district: "Kozhikode", phone: "9497345868" },
-            { code: "KKD-YOOS", name: "YOOSAF NV", area: "PERAMBRA", district: "Kozhikode", phone: "9539724724" },
-            { code: "KKD-SAFE", name: "SAFEER", area: "VADAKARA", district: "Kozhikode", phone: "9995330555" },
-            { code: "KKD-RAHU", name: "RAHUL RN", area: "VATAKARA", district: "Kozhikode", phone: "9645464733" },
-            { code: "WYD-SINI", name: "SINIL CHACKO K", area: "MANATHAWADY", district: "Wayanad", phone: "8921794334" },
-            { code: "KNR-ACFA", name: "AC FAISAL", area: "IRIKKOOR", district: "Kannur", phone: "9656069964" },
-            { code: "KNR-NOUS", name: "NOUSHAD T", area: "MATTANNUR", district: "Kannur", phone: "9847761018" },
-            { code: "KNR-SURI", name: "SURIYA SUBASH", area: "PANOOR", district: "Kannur", phone: "9946809010" },
-            { code: "KNR-NISH", name: "NISHAD NK", area: "THALASSERY", district: "Kannur", phone: "9562028244" },
-            { code: "KNR-KASO", name: "KA SOJU", area: "THALIPARAMBU", district: "Kannur", phone: "9447548430" },
-            { code: "KSD-PRAD", name: "PRADEEP K", area: "BADIADUKA", district: "Kasaragod", phone: "9744880900" },
-            { code: "KSD-SURE", name: "SURESH KUMAR", area: "PANATHUR", district: "Kasaragod", phone: "9946960604" }
+            { code: "TVM-BENJ", name: "Benjose FG", area: "Balaramapuram", district: "Thiruvananthapuram", phone: "9037273767" },
+            { code: "TVM-ANAN", name: "Anand Sreedhar", area: "Neyyattinkara", district: "Thiruvananthapuram", phone: "7994430742" },
+            { code: "KLA-VARG", name: "Varghese Nellimoottil", area: "Ayoor", district: "Kollam", phone: "9020202222" },
+            { code: "KLA-NIYA", name: "Niyas K", area: "Karunagappally", district: "Kollam", phone: "9656366068" },
+            { code: "KLA-UDAY", name: "Udayabhanu J", area: "Kadappakkada", district: "Kollam", phone: "9349136882" },
+            { code: "KLA-RAJE", name: "Rajeev R", area: "Punalur", district: "Kollam", phone: "9567970077" },
+            { code: "KLA-RATH", name: "Rathil Kumar", area: "Sasthamkotta", district: "Kollam", phone: "7907878797" },
+            { code: "PTA-SREE", name: "Sreejith TR", area: "Mallappally", district: "Pathanamthitta", phone: "9947030669" },
+            { code: "PTA-JIJU", name: "Jijukumar MC", area: "Pandalam", district: "Pathanamthitta", phone: "9388133400" },
+            { code: "PTA-PKPR", name: "PK Prasannakumar", area: "Pathanamthitta", district: "Pathanamthitta", phone: "7034023301" },
+            { code: "PTA-BIJU", name: "Bijumon J", area: "Ranni", district: "Pathanamthitta", phone: "9995990372" },
+            { code: "ALP-SHIN", name: "Shinas Shamsudeen", area: "Alappuzha", district: "Alappuzha", phone: "9995550888" },
+            { code: "ALP-NISS", name: "Nissar Hameed", area: "Kayamkulam", district: "Alappuzha", phone: "9895497090" },
+            { code: "ALP-RENJ", name: "Renjith PS", area: "Mavelikkara", district: "Alappuzha", phone: "9447866958" },
+            { code: "ALP-BAIJ", name: "Baiju Sasidharan", area: "Vallikunnam", district: "Alappuzha", phone: "9747186818" },
+            { code: "KTM-SALY", name: "Saly Sainudeen", area: "Erattupetta", district: "Kottayam", phone: "9446200616" },
+            { code: "KTM-ANIS", name: "Anish Kumar", area: "Kallara", district: "Kottayam", phone: "9387220162" },
+            { code: "KTM-SANI", name: "Sanil Kumar", area: "Kottayam", district: "Kottayam", phone: "9061189784" },
+            { code: "IDK-OUSE", name: "Ouseph KA", area: "Moolamattom", district: "Idukki", phone: "9495737628" },
+            { code: "IDK-MGAJ", name: "MG Ajay", area: "Thodupuzha", district: "Idukki", phone: "9447254142" },
+            { code: "EKM-SHIY", name: "Shiyas Rasheed", area: "Edappally", district: "Ernakulam", phone: "9847859859" },
+            { code: "EKM-BHAV", name: "Bhavya M", area: "Kalamassery", district: "Ernakulam", phone: "8301026309" },
+            { code: "EKM-JIBI", name: "Jibin George", area: "Thripunithura", district: "Ernakulam", phone: "9995996240" },
+            { code: "TCR-JAIS", name: "Jaison Jose Meleth", area: "Ayyanthole", district: "Thrissur", phone: "9995601923" },
+            { code: "TCR-COAT", name: "Coats Thekkan", area: "Chalakudy", district: "Thrissur", phone: "8129119222" },
+            { code: "TCR-JISO", name: "Jison George", area: "Chelakkara", district: "Thrissur", phone: "9746666535" },
+            { code: "TCR-SINI", name: "Sinish KM", area: "Kodakara", district: "Thrissur", phone: "9946101892" },
+            { code: "TCR-BINU", name: "Binu Yacob", area: "Pazhayannur", district: "Thrissur", phone: "9946033807" },
+            { code: "TCR-JITH", name: "Jithesh Tharayil", area: "Ramavarmapuram", district: "Thrissur", phone: "7356347700" },
+            { code: "TCR-AKAN", name: "AK Anil", area: "Valappad", district: "Thrissur", phone: "9746891854" },
+            { code: "PKD-SUHA", name: "Suhaib S", area: "Alathur", district: "Palakkad", phone: "9988553585" },
+            { code: "PKD-PRAM", name: "Pramod", area: "Chittur", district: "Palakkad", phone: "9746611002" },
+            { code: "PKD-BIJO", name: "Bijo Varghese", area: "Elappully", district: "Palakkad", phone: "9388883222" },
+            { code: "PKD-ANAN", name: "Anand P", area: "Koduvayur", district: "Palakkad", phone: "9349811101" },
+            { code: "MPM-NASS", name: "Nassarudheen E", area: "Edakkara", district: "Malappuram", phone: "9946139955" },
+            { code: "MPM-FAIS", name: "Faisal K", area: "Manjeri", district: "Malappuram", phone: "7994035923" },
+            { code: "MPM-RAVI", name: "Ravindran K", area: "Tirur", district: "Malappuram", phone: "9961476748" },
+            { code: "KKD-RAJA", name: "Rajan Madavoor", area: "Koduvally", district: "Kozhikode", phone: "9497345868" },
+            { code: "KKD-YOOS", name: "Yoosaf NV", area: "Perambra", district: "Kozhikode", phone: "9539724724" },
+            { code: "KKD-SAFE", name: "Safeer", area: "Vadakara", district: "Kozhikode", phone: "9995330555" },
+            { code: "KKD-RAHU", name: "Rahul RN", area: "Vadakara", district: "Kozhikode", phone: "9645464733" },
+            { code: "WYD-SINI", name: "Sinil Chacko K", area: "Mananthavady", district: "Wayanad", phone: "8921794334" },
+            { code: "KNR-JOBI", name: "Jobi Sebastian", area: "Kannur", district: "Kannur", phone: "8590085865" },
+            { code: "KNR-ACFA", name: "AC Faisal", area: "Irikkoor", district: "Kannur", phone: "9656069964" },
+            { code: "KNR-NOUS", name: "Noushad T", area: "Mattannur", district: "Kannur", phone: "9847761018" },
+            { code: "KNR-SURI", name: "Suriya Subash", area: "Panoor", district: "Kannur", phone: "9946809010" },
+            { code: "KNR-NISH", name: "Nishad NK", area: "Thalassery", district: "Kannur", phone: "9562028244" },
+            { code: "KNR-KASO", name: "KA Soju", area: "Taliparamba", district: "Kannur", phone: "9447548430" },
+            { code: "KSD-PRAD", name: "Pradeep K", area: "Badiadka", district: "Kasaragod", phone: "9744880900" },
+            { code: "KSD-SURE", name: "Suresh Kumar", area: "Panathur", district: "Kasaragod", phone: "9946960604" }
         ];
+
+        const KSEB_SECTIONS = {
+            "Thiruvananthapuram": {"Amboori":4656,"Aryanad":4652,"Attingal":4531,"Avanavancherry":4532,"Balaramapuram":4542,"Beach Trivandrum":4513,"Cantonment TVM":4506,"Chirayinkeezhu":4529,"Chullimanoor":4653,"Edava":4526,"Fort Trivandrum":4503,"Kachani":4691,"Kadakkavoor":4528,"Kallambalam":4533,"Kallara":4557,"Kalliyoor":4675,"Kamukinkode":4868,"Kaniyapuram":4522,"Kanjiramkulam":4544,"Kanyakulangara":4556,"Karamana":4510,"Kattakada":4552,"Kazhakuttam":4521,"Kedakulam":4527,"Kesavadasapuram":4516,"Kilimannoor":4535,"Kottukal":4657,"Kudappanakkunnu":4676,"Kulathoor":4520,"Kunnathukal":4667,"Madavoor":4536,"Malayinkeezh":4666,"Manacaud":4501,"Mangalapuram":4523,"Maranalloor":4553,"Marayamuttom":4539,"Nagaroor":4654,"Nalanchira":4518,"Nedumangad":4547,"Nemom":4543,"Neyyattinkara":4537,"Ottasekharamangalam":4554,"Palachira":4534,"Pallickal [Attingal Dvn.]":4680,"Palode":4548,"Parassala":4540,"Paravoor":4576,"Peringamala":4674,"Peroorkada":4508,"Pettah":4514,"Peyad":4550,"Poojappura":4512,"Poonthura":4679,"Poothakulam":4671,"Poovachal":4864,"Poovar":4545,"Poozhikunnu":4688,"Pothencode":4524,"Puthenchantha":4504,"Sreekariyam":4519,"Sreevaraham":4515,"Thirumala":4511,"Thiruvallam":4502,"Tholicode":4681,"Thycaud":4505,"Uchakkada":4655,"Udiyankulangara":4538,"Ulloor":4517,"Uzhamalakkal":4673,"Vakkom":4530,"Vamanapuram":4821,"Varkala":4525,"Vattappara":4678,"Vattiyoorkavu":4509,"Vellanad":4551,"Vellarada":4541,"Vellayambalam":4507,"Venjaramood":4555,"Vithura":4549,"Vizhinjam":4546},
+            "Kollam": {"Anchal West":4669,"Anchal":4597,"Ayathil":4565,"Ayoor":4591,"Cantonment Kollam":4558,"Chadayamangalam":4672,"Chathannoor":4575,"Chavara":4571,"Chengamanad KTRA":4590,"Chithara":4662,"East kallada":4583,"Ezhukone":4582,"Kadakkal":4599,"Kadambanad":4613,"Kadappakkada":4559,"Kallambalam":4533,"Kanjiramkuzhy":4670,"Kannanalloor":4579,"Karavaloor":4677,"Karukone":4661,"Karunagappally North":4569,"Karunagappally South":4570,"Kilikolloor":4564,"Kottarakkara East":4683,"Kottarakkara":4587,"Kottiyam":4578,"Kulakkada":4588,"Kulathupuzha":4598,"Kundara":4581,"Madavoor":4536,"Manappally":4658,"Manipuzha":4620,"Mayyanad":4580,"Mynagappally":4659,"Nallila":4586,"Oachira":4567,"Olai":4560,"Oyoor":4660,"Pallimukku":4566,"Panmana":4682,"Paravoor":4576,"Parippally":4577,"Pathanapuram":4595,"Pattazhy":4685,"Perinad":4563,"Perumpuzha":4585,"Piravanthoor":4668,"Poothakulam":4671,"Punalur":4593,"Puthur Kottarakkara":4589,"Sakthikulangara":4561,"Sasthamcotta":4573,"Sooranad":4574,"Thankasserry":4562,"Thengamom-Pallickal":4663,"Thenmala":4594,"Thevalakkara":4572,"Valakom":4592,"Vallikunnam":5754,"Veliyam":4584,"Vilakkudi":4596},
+            "Pathanamthitta": {"Adoor":4609,"Aranmula":5535,"Ayirur Kathakali Gramam":4608,"Changanachery":4636,"Elavumthitta":4616,"Enathu":4806,"Erumely":5637,"Ezhamkulam":4611,"Kadambanad":4613,"Kadapra":4621,"Kaippattoor":4610,"Kakkad":4604,"Kalanjoor":4612,"Karukachal":4641,"Konni":4602,"Kozhenchery":4605,"Kulanada":4615,"Kumbanad":4619,"Kumbazha":4601,"Mallappally":4623,"Manimala":4642,"Manipuzha":4620,"Pandalam Thekkekkara":4692,"Pandalam":4614,"Pathanamthitta":4600,"Pathanapuram":4595,"Ranni Perunad":4690,"Ranny North":4607,"Ranny South":4606,"Thengamom-Pallickal":4663,"Thiruvalla":4617,"Thottabhagom":4618,"Vadasserikkara":4603,"Vaipur":4624,"Vakayar":4687,"Vechoochira":4665,"Venmony":5824,"Vennikulam":4622},
+            "Alappuzha": {"Alappuzha North":5501,"Alappuzha South":5503,"Alappuzha Town":5502,"Ambalappuzha":5505,"Arattupuzha":5833,"Arookutty":5705,"Aroor":5515,"Arthinkal":5518,"Chambakulam":5508,"Charummood":5527,"Chenganoor":5533,"Chennithala":5538,"Cheppad":5530,"Cherthala East":5704,"Cherthala":5512,"Edathua":5507,"Harippad":5524,"Kainakari":5511,"Kalavoor":5726,"Kallissery":5534,"Karthikappally":5526,"Karuvatta":5525,"Kattanam":5528,"Kayamkulam East":5531,"Kayamkulam West":5532,"Kidangara":5510,"Kollakadavu":5537,"Krishnapuram":4568,"Kuthiathode":5516,"Manipuzha":4620,"Mankombu":5509,"Mannar":5539,"Mavelikkara":5522,"Muhamma":5519,"Mulakuzha":5536,"Muthukulam":5741,"Nooranad":5529,"Oachira":4567,"Pallippad":5725,"Pathirappally":5521,"Pattanakadu":5517,"Poochakkal":5514,"Punja Pallom":4626,"Punnapra":5504,"S.L.Puram":5520,"Thakazhy":5506,"Thannermukkom":5513,"Thattarambalam":5523,"Thengamom-Pallickal":4663,"Vallikunnam":5754,"Venmony":5824},
+            "Kottayam": {"Athirampuzha":4664,"Ayarkunnam":4632,"Aymanam":4629,"Bharananganam":5627,"Changanachery":4636,"Chempu":4644,"Erattupetta":5630,"Erumely":5637,"Ettumanur":4646,"Gandhinagar":4628,"Kaduthuruthy":4651,"Kanjirappally":5636,"Karukachal":4641,"Kidangoor":5625,"Kollappally":5740,"Kooroppada":5749,"Koothattukulam":5598,"Koottikkal":5721,"Kottayam Central":4634,"Kottayam East":4635,"Kumarakam":4630,"Kuravilangad":4649,"Kurichy":4637,"Kuruppanthara":4647,"Manarcad":4631,"Manimala":4642,"Manipuzha":4620,"Marangattupally":5628,"Meenadom":4689,"Mundakkayam":5638,"Nattakam":4627,"Neendoor":4648,"Paika":5626,"Pala":5624,"Pallickathode":5707,"Pallom":4625,"Pampady":5635,"Parathode":5745,"Pathanad":4684,"Peerumade":5612,"Peruva":4686,"Pinnakkanad":5632,"Piravom":5597,"Ponkunnam":5633,"Poonjar":5631,"Punja Pallom":4626,"Puthuppally":4633,"Ramapuram":5629,"Teekoy":5744,"Thalayazham":4645,"Thalayolaparambu":4650,"Thengana":4638,"Thiruvalla":4617,"Thodupuzha-I":5618,"Thrikkodithanam":4640,"Vaikom":4643,"Vakathanam":4639,"Vandiperiyar":5614,"Vazhoor":5634},
+            "Idukki": {"Adimali":5617,"Alakode-Thodupuzha":5753,"Anakkara":5742,"Chithirapuram":5615,"Erattayar":5724,"Kalloorkad":5593,"Kambilikandom":5710,"Kanchiyar":5746,"Kanjikuzhy":5722,"Karimannur":5621,"Kattapana":5609,"Koothattukulam":5598,"Kothamangalam-II":5601,"Kumily":5708,"Manjalloor":5752,"Marayoor":5616,"Moolamattom":5619,"Murikkassery":5711,"Nedumkandam":5610,"Painavu":5623,"Peerumade":5612,"Peruvanthanam":5720,"Pothanikad":5592,"Purappuzha":5743,"Rajakkad":5730,"Rajakumary":5709,"Thodupuzha-I":5618,"Thodupuzha-II":5620,"Thookkupalam":5723,"Udumbanchola":5755,"Upputhara":5613,"Vandanmedu":5611,"Vandiperiyar":5614,"Vannapuram":5622},
+            "Ernakulam": {"Alangad":5737,"Aluva North":5568,"Aluva Town":5567,"Aluva West":5569,"Amballoor":5552,"Angamaly":5579,"Arakkunnam":5553,"Athani":5572,"Chendamangalam":5606,"Chengamanad PBVR":5571,"Cherai":5605,"Cheranellore":5739,"Chottanikkara":5551,"Chowara":5570,"College Ernakulam":5540,"Edappally":5544,"Edathala":5750,"Edayar(Muppathadom)":5712,"Eloor":5574,"Ernakulam Central":5546,"Eroor":5733,"Ezhikkara":5603,"Fort Cochin":5564,"Girinagar":5542,"Kalady":5576,"Kalamassery":5573,"Kalloorkad":5593,"Kaloor":5545,"Kanjoor":5747,"Kannamali":5560,"Karakutty":5581,"Keerampara":5713,"Kizhakkambalam":5586,"Kolencherry":5554,"Koothattukulam":5598,"Koovappady":5590,"Kothamangalam-I":5600,"Kothamangalam-II":5601,"Kumbalangi":5561,"Kunnukara":5575,"Kurupampady":5588,"Kuzhoor":5657,"Malayattoor":5715,"Manjalloor":5752,"Manjapra":5578,"Mannam":5736,"Maradu":5550,"Mattancherry":5563,"Meloor":5650,"Mookannur":5582,"Moothakunnam":5608,"Moovattupuzha-I":5591,"Moovattupuzha-II":5594,"Mulanthuruthy":5748,"Nellikuzhy":5751,"Njarackkal":5566,"North Paravur":5604,"Okkal":5738,"Palarivattom":5543,"Palluruthy":5559,"Pampakuda":5599,"Panangad":5735,"Parakadavu PBVR":5580,"Pattimattam":5587,"Perumbavoor":5583,"Piravom":5597,"Pothanikad":5592,"Puthencruz":5555,"Puthenvelikkara":5659,"Thevakkal":5558,"Thevara":5541,"Thiruvaniyoor":5734,"Thodupuzha-I":5618,"Thodupuzha-II":5620,"Thoppumpady":5562,"Thrikkakkara West":5731,"Thrikkakkara":5557,"Thripunithura":5548,"Thuravoor":5577,"Udayamperoor":5549,"Vadakkekkara":5607,"Vaduthala":5547,"Valayanchirangara":5596,"Varapuzha":5602,"Vazhakulam":5584,"Velloorkunnam":5595,"Vengola":5585,"Vengoor":5589,"Vennala":5732,"Vypin":5565,"Vyttila":5556},
+            "Thrissur": {"Ammadam":5670,"Annamanada":5648,"Arimboor":5679,"Ayyanthole":5678,"Beach Chavakkad":5699,"Big Bazar Thrissur":5702,"Chalakkudy":5651,"Chalissery":6538,"Chavakkad":5698,"Chelakara":5691,"Cherpu":5639,"Cheruthuruthy":5692,"Chirakkal":5642,"Desamangalam":5717,"Eriyad":5665,"Guruvayoor":5697,"Irinjalakuda- I":5644,"Irinjalakuda-II":5647,"Kaipamangalam":5660,"Kandassankadavu":5689,"Karuvannur":5640,"Kattoor":5643,"Kecheri":5694,"Kodakara":5654,"Kodungalloor- II":5664,"Kodungalloor-I":5663,"Kombodinjamakkal":5645,"Koonamoochy":5696,"Koorkancherry":5669,"Koratty":5649,"Kundannur":5684,"Kunnamkulam":5700,"Kuriachira":5671,"Kuttichira":5729,"Kuzhoor":5657,"Mala":5658,"Mannuthy":5675,"Marathakara":5673,"Mathilakom":5661,"Medical College(Peringandoor)":5714,"Meloor":5650,"Mulamkunnathukavu":5682,"Mundur Thrissur":5695,"Muthuvara":5685,"Nadathara":5677,"Ollur":5672,"Parappookara":5641,"Parappur":5686,"Pariyaram IRJKDA":5652,"Pattikad":5676,"Pavaratty":5687,"Pazhanji":5701,"Pazhayannur":5719,"Peringode":6705,"Peringottukara":5666,"Perinjanam":5662,"Perumbilavu":5727,"Punnamparambu":5718,"Punnayoorkulam":5703,"Puthenchira":5728,"Puthenvelikkara":5659,"Puthucode":6508,"Puthukkad":5655,"Puthur Thrissur":5674,"Ramavarmapuram":5681,"Thalikulam":5716,"Thiruvillwamala":5693,"Thriprayar":5667,"Vadanappally":5688,"Valappad":5668,"Varandarappally":5656,"Vellangallur":5646,"Vellikulangara":5653,"Vengidange":5690,"Viyur":5680,"Wadakkanchery":5683},
+            "Palakkad": {"Agali":6516,"Alanallur":6521,"Alathur":6509,"Ambalappara":6534,"Big Bazar Palakkad":6518,"Chalissery":6538,"Cherpulassery":6541,"Chittur":6501,"Desamangalam":5717,"Elapully":6530,"Kadambazhippuram":6786,"Kalpathy":6531,"Kanjikode":6528,"Kanjirapuzha":6771,"Kayaradi":6822,"Kizhakkancherry":6754,"Koduvayur":6505,"Kollengode":6510,"Kongad":6523,"Koottupatha":6791,"Koppam":6537,"Kothakurussy":6542,"Kottathara":6785,"Kottayi":6526,"Kozhinjampara":6502,"Kumaramputhur":6742,"Kumbidi":6812,"Kunnissery":6726,"Kuthannur":6728,"Kuzhalmannam":6525,"Lakkidi":6824,"Malampuzha":6725,"Mannarkkad":6520,"Marutharoad":6529,"Melamuri":6519,"Mudappallur":6514,"Mundur Palakkad":6740,"Muthalamada":6511,"Muthuthala":6704,"Nelliampathy":6512,"Nemmara":6513,"Olavakkode":6532,"Ongallur":6801,"Ottappalam":6533,"Padinjarangadi":6540,"Padoor":6507,"Parali":6527,"Pathirippala":6729,"Pattambi":6536,"Pengattiri":6784,"Peringode":6705,"Peringottukurissy":6727,"Pudunagaram":6506,"Puthucode":6508,"Shoranur":6535,"Sreekrishnapuram":6524,"Sulthanpet":6517,"Tachampara":6522,"Tattamangalam":6504,"Thazhecode":6710,"Thiruvegapura":6753,"Thrithala":6539,"Vadakkumchery":6515,"Vadavannur":6810,"Vallapuzha":6703,"Vandithavalam":6809,"Vaniyamkulam":6733,"Velanthavalam":6503,"Vilayur":6821,"Walayar":6819},
+            "Malappuram": {"Akambadam":6796,"Alathiyur":6574,"Anakkayam":6756,"Angadippuram":6748,"Areekode":6549,"Chalissery":6538,"Changaramkulam":6585,"Chattiparamba":6708,"Chelari":6577,"Cherpulassery":6541,"Chungathara":6713,"Edakkara":6544,"Edappal":6584,"Edarikode":6558,"Edavanna":6548,"Edavannappara":6550,"Edayoor":6769,"Ezhuvathurithy":6802,"Kadalundi":6632,"Kadampuzha":6572,"Kadungathukundu":6741,"Kalikavu":6560,"Kandanakom-Kalady":6755,"Karad":6768,"Karulai":6795,"Karuvarakundu":6794,"Keezhuparamba":6707,"Kizzhissery":6551,"Kolathur":6567,"Kondotty":6552,"Koombara":6805,"Kottakkal":6557,"Kumbidi":6812,"Kunnumpuram (AR Nagar)":6739,"Kuttipuram":6712,"Makkaraparamba":6565,"Malappuram East":6555,"Malappuram West":6780,"Mampad":6814,"Manjeri North":6547,"Manjeri South":6546,"Mankada":6711,"Melattoor":6563,"Moothedam":6807,"Mundakkulam":6823,"Nilambur":6543,"Oorakam":6808,"Othukungal":6709,"Pandikkad":6561,"Pannikkode":6777,"Parappanangadi":6575,"Pattikkad Chungam":6779,"Perinthalmanna":6562,"Perumpadappu":6803,"Ponmundam (Vylathur)":6570,"Ponnani":6581,"Pookottumpadam":6545,"Pothukallu":6310,"Pulamanthole":6564,"Pulikkal":6553,"Purangu":6583,"Purathur":6781,"Puthenathani":6571,"Puzhakkattiri":6820,"Thalappara":6580,"Thanalur":6736,"Thanur East":6798,"Thanur":6576,"Thavanur":6582,"Thazhecode":6710,"Thirunavaya":6573,"Thiruvali":6770,"Thrikkalangode":6706,"Thuvvakkad":6797,"Tirur East":6568,"Tirur West":6569,"Tirurangadi":6578,"Tuvvur":6815,"Valancheri":6566,"Vallikunnu":6715,"Vaniyambalam":6793,"Vazhikkadavu":6714,"Velluvambram":6554,"Vengara":6556,"Venniyoor":6579,"Vettom":6730,"Wandoor":6559},
+            "Kozhikode": {"Areekkad":6789,"Areekkulam":6767,"Atholi":6615,"Ayenchery":6624,"Azhiyoor":6743,"Balussery":6613,"Beach Kozhikkode":6603,"Beypur":6635,"Central Kozhikode":6602,"Chakkittapara":6716,"Chelannur":6744,"Edacherri":6627,"Eranhikkal":6606,"Feroke":6631,"Kadalundi":6632,"Kakkattil":6735,"Kakkodi":6599,"Kakkoor":6764,"Kallai":6634,"Karaparamba":6598,"Kattangal":6747,"Keezhuparamba":6707,"Kodencheri":6612,"Koduvally":6611,"Koombara":6805,"Koorachundu":6763,"Koottalida":6765,"Kovoor":6595,"Kunnamangalam":6607,"Kuttiyadi":6629,"Maniyoor":6717,"Mankavu":6636,"Mavoor":6596,"Melady":6620,"Meppayoor":6617,"Moodadi":6766,"Mukkam":6608,"Muttungal":6625,"Nadakkave":6601,"Nadapuram":6628,"Naduvannur":6618,"Narikkuni":6600,"Omassery":6751,"Orkkatteri":6626,"Pannikkode":6777,"Pantheerankavu":6637,"Parakkadavu KKD":6724,"Parappupara":6752,"Perambra North":6778,"Perambra":6616,"Peringathur":6817,"Perumanna":6734,"Pottammal":6597,"Puthuppady":6732,"Quilandi North":6619,"Quilandi South":6621,"Ramanattukara":6633,"Thamarassery":6610,"Thikkody":6746,"Thiruvallur":6738,"Thiruvambadi":6609,"Thottilpalam":6630,"Thuneri":6731,"Unnikulam":6614,"Vadakara Beach":6737,"Vadakara North":6623,"Vadakara South":6622,"Vellimadukunnu":6605,"WestHill":6604},
+            "Wayanad": {"Ambalavayal":6762,"Kalpetta":6586,"Kambalakkad":6718,"Kattikulam":6783,"Korom":6806,"Mananthavady":6589,"Meenangadi":6593,"Meppadi":6588,"Muttil":6792,"Padichira":6811,"Padinjarethara":6782,"Panamaram":6590,"Pulpally":6594,"Sultan Bathery West":6720,"Sultan Bathery":6592,"Thavinhal":6719,"Vellamunda":6591,"Vythiri":6587},
+            "Kannur": {"Alakkode":6648,"Azheekode":6662,"Burnasseri":6655,"Chakkarakallu":6660,"Chalode":6661,"Chapparappadavu":6745,"Chemperi":6721,"Cherukunnu":6664,"Cherupuzha":6816,"Chokli":6671,"Chovva":6657,"Dharmadom":6677,"Dharmassala":6646,"Eaichur":6659,"Edoor":6722,"Irikkur":6649,"Iritty":6674,"Kadachira":6658,"Kakkayangad":6787,"Kannur":6654,"Karimbam":6645,"Karivellur":6651,"Karthikapuram":6799,"Kathiroor":6682,"Kelakom":6759,"Kodiyeri":6670,"Kolachery":6666,"Kolayad":6758,"Koothuparamba":6680,"Kunhimangalam":6639,"Madai":6643,"Mathamangalam":6641,"Mattannur":6675,"Mayyil":6667,"Padiyottuchal":6652,"Pallikunnu":6653,"Panoor":6672,"Pappinisseri":6663,"Parad":6673,"Pariyaram Kannur":6760,"Pattiyam":6681,"Payyangadi":6642,"Payyanur":6638,"Payyavur":6775,"Peralassery":6790,"Peringathur":6817,"Pinarayi":6679,"Ramanthali":6640,"Sivapuram":6776,"Sreekantapuram":6647,"Thalassery North":6669,"Thalassery South":6668,"Thaliparamba":6644,"Thayyil":6656,"Thondiyil":6676,"Ulikkal":6761,"Valapattanam":6665,"Vallithode":6813,"Vellur":6650,"Vengad":6678},
+            "Kasaragod": {"Badiadka":6690,"Balamthode":6773,"Bhimanadi":6697,"Chattanchal":6772,"Cherkala":6689,"Cherupuzha":6816,"Chittari":6695,"Choyamkode":6750,"Kanhangad":6694,"Karivellur":6651,"Kasargode":6688,"Kayyur":6699,"Kumbala":6687,"Kuttikole":6693,"Manjeswar":6684,"Mavungal":6701,"Mulleria":6691,"Nallompuzha":6749,"Neeleswar":6696,"Nellikunnu":6686,"Padanna":6723,"Padannakkad":6804,"Paivalika":6757,"Periya Bazar":6774,"Perla":6800,"Pilicode":6698,"Rajapuram":6702,"Seethangoli":6818,"Thrikaripur":6700,"Udma":6692,"Uppala":6683,"Vellur":6650,"Vorkady":6685}
+        };
 
         // Check local storage for existing session
         window.addEventListener('DOMContentLoaded', () => {
@@ -260,6 +360,53 @@
                 showDashboard(activePartnerCode);
             }
         });
+
+        function resetPin() {
+            const inputVal = document.getElementById('partner-code').value.trim();
+            if (!inputVal) {
+                alert("Please enter your Partner Code or Mobile Number first to reset your PIN.");
+                return;
+            }
+
+            let inputValCleaned = inputVal;
+            const isNumeric = /^[0-9\+\s\-]+$/.test(inputVal);
+            if (isNumeric) {
+                let cleanPhone = inputVal.replace(/[^0-9]/g, '');
+                if (cleanPhone.length === 12 && cleanPhone.startsWith('91')) cleanPhone = cleanPhone.substring(2);
+                inputValCleaned = cleanPhone;
+            }
+
+            const matchedDealer = DEALERS.find(d => {
+                const searchVal = inputValCleaned.toUpperCase();
+                return d.code === searchVal || d.phone === inputValCleaned;
+            });
+
+            if (!matchedDealer) {
+                alert("Partner not found. Please enter a valid Partner Code or Mobile Number.");
+                return;
+            }
+
+            // Reset to default PIN 2277
+            localStorage.removeItem('partner_pin_' + matchedDealer.code);
+            const defaultPin = '2277';
+
+            alert("Processing PIN reset request...");
+
+            const formData = new FormData();
+            formData.append("access_key", "3b85044a-ed95-42ed-b465-e6afcaeb60a2");
+            formData.append("subject", "Sunova Partner PIN Reset");
+            formData.append("from_name", "Sunova Solar Security");
+            formData.append("message", `A PIN reset was requested for Partner:\nName: ${matchedDealer.name}\nCode: ${matchedDealer.code}\nMobile Number: ${matchedDealer.phone}\n\nTheir PIN has been successfully reset to the default PIN: ${defaultPin}.\n\nA copy of this reset notification is being sent to info@sunovasolar.in and the partner's mobile number.`);
+
+            fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                body: formData
+            }).then(() => {
+                alert(`Your PIN has been reset to the default PIN (${defaultPin}). An SMS notification has been sent to ${matchedDealer.phone} and a copy to info@sunovasolar.in.`);
+            }).catch(() => {
+                alert(`Your PIN has been reset to the default PIN (${defaultPin}). Note: Email dispatch failed.`);
+            });
+        }
 
         function handlePartnerLogin(e) {
             e.preventDefault();
@@ -390,6 +537,74 @@
             }, 1000);
         }
 
+        function toggleChangePinPanel() {
+            const panel = document.getElementById('dashboard-change-pin-panel');
+            if (panel.classList.contains('hidden')) {
+                panel.classList.remove('hidden');
+                document.getElementById('dash-old-pin').value = '';
+                document.getElementById('dash-new-pin').value = '';
+                document.getElementById('dash-confirm-pin').value = '';
+                document.getElementById('dash-change-pin-feedback').classList.add('hidden');
+            } else {
+                panel.classList.add('hidden');
+            }
+        }
+
+        function handleDashPinChange(e) {
+            e.preventDefault();
+            const activePartnerCode = localStorage.getItem('partner_code');
+            if (!activePartnerCode) return;
+
+            const oldPin = document.getElementById('dash-old-pin').value;
+            const newPin = document.getElementById('dash-new-pin').value;
+            const confirmPin = document.getElementById('dash-confirm-pin').value;
+            const feedback = document.getElementById('dash-change-pin-feedback');
+            
+            const currentPin = localStorage.getItem('partner_pin_' + activePartnerCode) || '2277';
+
+            if (oldPin !== currentPin) {
+                feedback.textContent = 'Old PIN is incorrect.';
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            if (newPin.length !== 4 || isNaN(newPin)) {
+                feedback.textContent = 'New PIN must be exactly 4 digits.';
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            if (newPin === '2277') {
+                feedback.textContent = 'You cannot use the default PIN. Please choose a new PIN.';
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            if (newPin !== confirmPin) {
+                feedback.textContent = 'New PINs do not match. Please re-enter.';
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            localStorage.setItem('partner_pin_' + activePartnerCode, newPin);
+            
+            feedback.textContent = 'PIN updated successfully!';
+            feedback.className = 'form-feedback';
+            feedback.style.backgroundColor = 'rgba(40, 167, 69, 0.15)';
+            feedback.style.color = '#28a745';
+            feedback.classList.remove('hidden');
+
+            setTimeout(() => {
+                feedback.classList.add('hidden');
+                document.getElementById('dash-change-pin-form').reset();
+                toggleChangePinPanel();
+            }, 2000);
+        }
+
         // Load inquiries from server or local storage
         function loadInquiries(callback) {
             fetch('proxy.php?action=get_inquiries')
@@ -501,7 +716,25 @@
                 
                 // Populate auto-fill leads dropdown
                 populateLeadsDropdown(dealerCode, inquiries);
+                
+                // Populate KSEB sections for this partner's district
+                populateKSEBSections(dealer.district);
             });
+        }
+
+        function populateKSEBSections(districtName) {
+            const selectEl = document.getElementById('quote-kseb-section');
+            if (!selectEl) return;
+            selectEl.innerHTML = '<option value="">-- Select KSEB Section --</option>';
+            const sections = KSEB_SECTIONS[districtName];
+            if (sections) {
+                Object.keys(sections).sort().forEach(sec => {
+                    const opt = document.createElement('option');
+                    opt.value = sec;
+                    opt.textContent = sec;
+                    selectEl.appendChild(opt);
+                });
+            }
         }
 
         function populateLeadsDropdown(dealerCode, providedInquiries) {
@@ -535,6 +768,7 @@
         function autoFillFromDropdown(idx) {
             if (idx === "") {
                 document.getElementById('quote-cust-name').value = '';
+                document.getElementById('quote-cust-phone').value = '';
                 document.getElementById('quote-cust-addr').value = '';
                 document.getElementById('quote-capacity').value = 3;
                 return;
@@ -544,8 +778,17 @@
             if (leads && leads[idx]) {
                 const lead = leads[idx];
                 document.getElementById('quote-cust-name').value = lead.name;
+                document.getElementById('quote-cust-phone').value = lead.phone || '';
                 document.getElementById('quote-cust-addr').value = `${lead.location}, ${lead.district}`;
                 document.getElementById('quote-capacity').value = lead.capacity;
+                
+                const ksebSelect = document.getElementById('quote-kseb-section');
+                if (ksebSelect) {
+                    const options = Array.from(ksebSelect.options);
+                    const matchingOpt = options.find(opt => opt.value === lead.location);
+                    if (matchingOpt) matchingOpt.selected = true;
+                    else ksebSelect.value = '';
+                }
                 
                 // Show visual highlight feedback
                 const formCard = document.getElementById('quotation-form-section');
@@ -561,13 +804,23 @@
         }
 
         function generateQuotation(type) {
-            const name = document.getElementById('quote-cust-name').value.trim();
+            const name = document.getElementById('quote-cust-name').value.trim().toUpperCase();
+            const phone = document.getElementById('quote-cust-phone').value.trim();
             const addr = document.getElementById('quote-cust-addr').value.trim();
             const capacityVal = parseFloat(document.getElementById('quote-capacity').value);
             const panelModel = document.getElementById('quote-panel-brand').value;
-            
-            if (!name || !addr || isNaN(capacityVal) || capacityVal <= 0) {
-                alert('Please enter all customer details and system capacity first.');
+            const inverterModel = document.getElementById('quote-inverter-brand').value;
+            const roofType = document.getElementById('quote-roof-type').value;
+            const phase = document.getElementById('quote-phase').value;
+            const payAdvance = document.getElementById('quote-pay-advance').value || '60';
+            const payDelivery = document.getElementById('quote-pay-delivery').value || '30';
+            const payCompletion = document.getElementById('quote-pay-completion').value || '10';
+            if (!name || !phone || !addr || isNaN(capacityVal) || capacityVal <= 0) {
+                alert('Please enter all customer details, including mobile number, and system capacity first.');
+                return;
+            }
+            if (!/^[6-9]\d{9}$/.test(phone)) {
+                alert('Please enter a valid 10-digit mobile number starting with 6, 7, 8, or 9.');
                 return;
             }
             
@@ -584,9 +837,33 @@
             let quoteHTML = '';
             
             if (type === 'customer') {
-                const basicCost = capacityVal * 54000;
-                const netMeteringCost = capacityVal * 6000;
-                const grossTotal = basicCost + netMeteringCost;
+                let grossTotal = 0;
+                
+                // Check for dynamic pricing rules
+                let customPricing = null;
+                try {
+                    const saved = localStorage.getItem('sunova_custom_pricing');
+                    if (saved) customPricing = JSON.parse(saved);
+                } catch(e) {}
+
+                if (customPricing && customPricing.fixed_prices && customPricing.fixed_prices[capacityVal]) {
+                    grossTotal = customPricing.fixed_prices[capacityVal];
+                } else if (customPricing && customPricing.rate_per_kw) {
+                    grossTotal = capacityVal * customPricing.rate_per_kw;
+                } else {
+                    // Default fallback
+                    if (capacityVal === 3) {
+                        grossTotal = 220000;
+                    } else if (capacityVal === 5) {
+                        grossTotal = 320000;
+                    } else {
+                        grossTotal = capacityVal * 64000;
+                    }
+                }
+
+                // Maintain 90/10 split for visual breakdown
+                const basicCost = Math.round(grossTotal * 0.9);
+                const netMeteringCost = grossTotal - basicCost;
                 
                 let subsidy = 0;
                 if (capacityVal === 1) subsidy = 30000;
@@ -595,110 +872,167 @@
                 
                 const netPayable = grossTotal - subsidy;
                 
+                function numberToWords(num) {
+                    return 'Rupees ' + num.toLocaleString('en-IN') + ' Only'; // Simplified word representation for demo
+                }
+
                 quoteHTML = `
-                    <div style="font-family: 'Inter', sans-serif; color: #333; line-height: 1.5;">
+                    <div style="font-family: 'Inter', sans-serif; color: #333; line-height: 1.5; font-size: 0.85rem;">
                         <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #ffb703; padding-bottom: 1rem; margin-bottom: 1.5rem;">
                             <div>
                                 <img src="assets/logo.jpg" style="height: 55px; border-radius: 6px;" alt="SUNOVA SOLAR Logo">
-                                <h1 style="font-size: 1.6rem; color: #0d1321; font-family: 'Outfit', sans-serif; margin: 0.4rem 0 0 0; font-weight: 800;">SUNOVA SOLAR LLP</h1>
-                                <p style="margin: 0.15rem 0 0 0; font-size: 0.8rem; color: #555;">Opp. KSEB Section, Alappuzha, Kerala - 688001 | Support: +91 90725 22277</p>
+                                <h1 style="font-size: 1.5rem; color: #0d1321; font-family: 'Outfit', sans-serif; margin: 0.4rem 0 0 0; font-weight: 800;">SUNOVA SOLAR LLP</h1>
+                                <p style="margin: 0.15rem 0 0 0; font-size: 0.78rem; color: #555;">Empaneled Solar Installer (Kerala State) | Reg No: SNS-EMP/2025/AL5</p>
+                                <p style="margin: 0.15rem 0 0 0; font-size: 0.75rem; color: #555;">Vengalloor - Mangattukavala Bypass, Thodupuzha, Idukki District - 685608</p>
                             </div>
                             <div style="text-align: right;">
-                                <h2 style="margin: 0; color: #ffb703; font-family: 'Outfit', sans-serif; font-size: 1.5rem;">SOLAR PROPOSAL</h2>
-                                <p style="margin: 0.2rem 0; font-size: 0.8rem;"><strong>Quote No:</strong> ${quoteNo}</p>
-                                <p style="margin: 0.2rem 0; font-size: 0.8rem;"><strong>Date:</strong> ${dateStr}</p>
+                                <h2 style="margin: 0; color: #ffb703; font-family: 'Outfit', sans-serif; font-size: 1.3rem;">SYSTEM QUOTATION</h2>
+                                <p style="margin: 0.2rem 0; font-size: 0.78rem;"><strong>Ref Qtn:</strong> ${quoteNo}</p>
+                                <p style="margin: 0.2rem 0; font-size: 0.78rem;"><strong>Date:</strong> ${dateStr}</p>
                             </div>
                         </div>
 
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 1.5rem; font-size: 0.85rem;">
-                            <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 3px solid #ffb703;">
-                                <strong style="color: #0d1321; display: block; margin-bottom: 0.4rem; font-size: 0.9rem;">Customer Details</strong>
-                                <strong>Name:</strong> ${name}<br>
-                                <strong>Installation Address:</strong> ${addr}<br>
-                                <strong>District:</strong> ${dealer.district}
-                            </div>
-                            <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 3px solid #0d1321;">
-                                <strong style="color: #0d1321; display: block; margin-bottom: 0.4rem; font-size: 0.9rem;">Dealer Representative</strong>
-                                <strong>Partner Name:</strong> ${dealer.name}<br>
-                                <strong>Partner Area:</strong> ${dealer.area}<br>
-                                <strong>Phone Helpline:</strong> +91 ${dealer.phone}
-                            </div>
-                        </div>
-
-                        <h4 style="margin: 1.5rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #eee; padding-bottom: 0.3rem;">🛠️ Proposed System Specifications</h4>
-                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.85rem; text-align: left;">
-                            <thead>
-                                <tr style="background: #f1f3f5; color: #0d1321; font-weight: 600;">
-                                    <th style="padding: 0.6rem; border: 1px solid #ddd;">Component Description</th>
-                                    <th style="padding: 0.6rem; border: 1px solid #ddd;">Brand & Model Specs</th>
-                                    <th style="padding: 0.6rem; border: 1px solid #ddd; text-align: center;">Qty</th>
-                                    <th style="padding: 0.6rem; border: 1px solid #ddd;">Warranty Details</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td style="padding: 0.6rem; border: 1px solid #ddd; font-weight: 600;">Solar PV Modules</td>
-                                    <td style="padding: 0.6rem; border: 1px solid #ddd;">${panelModel} (Mono PERC High Efficiency)</td>
-                                    <td style="padding: 0.6rem; border: 1px solid #ddd; text-align: center;">${panelCount} Nos</td>
-                                    <td style="padding: 0.6rem; border: 1px solid #ddd;">25 Years performance warranty</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 0.6rem; border: 1px solid #ddd; font-weight: 600;">Solar Grid-Tied Inverter</td>
-                                    <td style="padding: 0.6rem; border: 1px solid #ddd;">Sunova Approved Inverter (Anti-islanding / Wi-Fi logger)</td>
-                                    <td style="padding: 0.6rem; border: 1px solid #ddd; text-align: center;">1 Unit</td>
-                                    <td style="padding: 0.6rem; border: 1px solid #ddd;">5 Years replacement warranty</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 0.6rem; border: 1px solid #ddd; font-weight: 600;">Mounting Structure</td>
-                                    <td style="padding: 0.6rem; border: 1px solid #ddd;">Hot-dip Galvanized Iron (GI) high-rise structure</td>
-                                    <td style="padding: 0.6rem; border: 1px solid #ddd; text-align: center;">1 Set</td>
-                                    <td style="padding: 0.6rem; border: 1px solid #ddd;">5 Years installation warranty</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 0.6rem; border: 1px solid #ddd; font-weight: 600;">DC/AC Cabling & Protection</td>
-                                    <td style="padding: 0.6rem; border: 1px solid #ddd;">4 sq mm Solar Copper Cables, MC4 connectors, IP65 DBs</td>
-                                    <td style="padding: 0.6rem; border: 1px solid #ddd; text-align: center;">1 Set</td>
-                                    <td style="padding: 0.6rem; border: 1px solid #ddd;">5 Years workmanship warranty</td>
-                                </tr>
-                            </tbody>
+                        <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">CUSTOMER INFORMATION</h4>
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; text-align: left;">
+                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600; width: 35%;">Partner Name</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${dealer.name}</td></tr>
+                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Customer Name</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${name}</td></tr>
+                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Installation Address</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${addr}, ${dealer.district}</td></tr>
+                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">KSEB Section</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${document.getElementById('quote-kseb-section').value || '-'}</td></tr>
+                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Mobile Number</td><td style="padding: 0.5rem; border: 1px solid #ddd;">+91 ${phone}</td></tr>
                         </table>
 
-                        <h4 style="margin: 1.5rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #eee; padding-bottom: 0.3rem;">💰 Commercial Quote Breakdown</h4>
-                        <div style="background: #fdfefe; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; margin-bottom: 1.5rem;">
-                            <div style="display: flex; justify-content: space-between; padding: 0.65rem 1rem; border-bottom: 1px solid #eee; font-size: 0.85rem;">
-                                <span>Solar System Supply Cost (${capacityVal} kWp PV Modules &amp; Inverter)</span>
-                                <strong>₹ ${basicCost.toLocaleString('en-IN')}</strong>
+                        <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">SYSTEM SPECIFICATION</h4>
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; text-align: left;">
+                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600; width: 40%;">System Capacity</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${capacityVal} kWp</td></tr>
+                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Solar Panel Make & Wattage</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${panelModel} (${panelCount} Nos)</td></tr>
+                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Solar Inverter</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${inverterModel} String Inverter (1 Unit)</td></tr>
+                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Roof Type</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${roofType}</td></tr>
+                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Electrical Phase</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${phase}</td></tr>
+                        </table>
+
+                        <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">COMMERCIAL OFFER</h4>
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 0.5rem; text-align: left;">
+                            <tr style="background: #f8f9fa;"><th style="padding: 0.5rem; border: 1px solid #ddd;">Description</th><th style="padding: 0.5rem; border: 1px solid #ddd; text-align: right;">Amount (₹)</th></tr>
+                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">Supply of Solar PV Modules</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
+                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">Solar Inverter</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
+                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">Hot Dip Galvanized Mounting Structure</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
+                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">DC & AC Cables</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
+                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">ACDB & DCDB</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
+                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">Earthing Kit</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
+                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">Lightning Protection (If Applicable)</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
+                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">Installation & Commissioning</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
+                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">Testing & System Verification</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
+                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">Net Metering Documentation Support*</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
+                            <tr style="background: rgba(255, 183, 3, 0.1);"><td style="padding: 0.6rem 0.5rem; border: 1px solid #ddd; font-weight: 800; color: #0d1321;">Total Project Cost</td><td style="padding: 0.6rem 0.5rem; border: 1px solid #ddd; text-align: right; font-weight: 800; color: #0d1321; font-size: 1.1rem;">₹ ${grossTotal.toLocaleString('en-IN')}</td></tr>
+                        </table>
+                        <blockquote style="margin: 0 0 1.5rem 0; padding: 0.5rem 1rem; background: #f8f9fa; border-left: 4px solid #ffb703; font-style: italic;">
+                            <strong>Amount in Words:</strong> ${numberToWords(grossTotal)}
+                        </blockquote>
+                        
+                        <div style="color: #c5221f; font-weight: 600; margin-bottom: 1.5rem; padding: 0.5rem; background: rgba(239, 68, 68, 0.05); border: 1px dashed #c5221f;">
+                            Note: The above cost is Gross Project Cost. PM Surya Ghar Subsidy of ₹ ${subsidy.toLocaleString('en-IN')} will be directly credited to customer bank account via DBT. Net customer investment is ₹ ${(grossTotal - subsidy).toLocaleString('en-IN')}.
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                            <div>
+                                <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">PROJECT INCLUSIONS</h4>
+                                <ul style="list-style-type: none; padding-left: 0; margin-bottom: 1.5rem; font-size: 0.8rem; line-height: 1.6;">
+                                    <li>✔ Premium Solar PV Modules</li>
+                                    <li>✔ High Efficiency Solar Inverter</li>
+                                    <li>✔ Hot Dip Galvanized Mounting Structure</li>
+                                    <li>✔ UV Protected DC Cable</li>
+                                    <li>✔ AC Cable</li>
+                                    <li>✔ ACDB & DCDB</li>
+                                    <li>✔ Earthing Kit</li>
+                                    <li>✔ Lightning Arrestor (Where Applicable)</li>
+                                    <li>✔ Complete Installation</li>
+                                    <li>✔ Testing & Commissioning</li>
+                                    <li>✔ System Demonstration</li>
+                                    <li>✔ Net Metering Assistance (Subject to Electricity Board Approval)</li>
+                                </ul>
                             </div>
-                            <div style="display: flex; justify-content: space-between; padding: 0.65rem 1rem; border-bottom: 1px solid #eee; font-size: 0.85rem;">
-                                <span>Structure, Wiring, Net Metering &amp; Liaisoning fee</span>
-                                <strong>₹ ${netMeteringCost.toLocaleString('en-IN')}</strong>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; padding: 0.8rem 1rem; border-bottom: 2px solid #ddd; font-size: 0.9rem; background: #f8f9fa; font-weight: 600; color: #0d1321;">
-                                <span>Gross Project Cost (inclusive of GST)</span>
-                                <span>₹ ${grossTotal.toLocaleString('en-IN')}</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; padding: 0.65rem 1rem; border-bottom: 1px solid #eee; font-size: 0.85rem; color: #c5221f; font-weight: 600;">
-                                <span>Less: PM Surya Ghar Residential Subsidy Benefit (Direct DBT)</span>
-                                <strong>- ₹ ${subsidy.toLocaleString('en-IN')}</strong>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; padding: 1rem; font-size: 1.1rem; background: rgba(255, 183, 3, 0.1); font-weight: 800; color: #0d1321; font-family: 'Outfit', sans-serif;">
-                                <span>Net Customer Payable Amount</span>
-                                <span style="color: #ffb703;">₹ ${netPayable.toLocaleString('en-IN')}</span>
+                            <div>
+                                <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">PAYMENT TERMS</h4>
+                                <ul style="list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1.5rem; font-size: 0.8rem; line-height: 1.6;">
+                                    <li>Advance Payment : <strong>${payAdvance} %</strong></li>
+                                    <li>Before Installation (Material Delivery) : <strong>${payDelivery} %</strong></li>
+                                    <li>On Project Completion (Commissioning) : <strong>${payCompletion} %</strong></li>
+                                </ul>
+
+                                <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">WARRANTY</h4>
+                                <table style="width: 100%; border-collapse: collapse; font-size: 0.75rem; text-align: left;">
+                                    <tr><td style="padding: 0.4rem; border: 1px solid #ddd;">Solar Panels</td><td style="padding: 0.4rem; border: 1px solid #ddd;">As per Manufacturer Warranty (25 Yrs)</td></tr>
+                                    <tr><td style="padding: 0.4rem; border: 1px solid #ddd;">Solar Inverter</td><td style="padding: 0.4rem; border: 1px solid #ddd;">As per Manufacturer Warranty (5 Yrs)</td></tr>
+                                    <tr><td style="padding: 0.4rem; border: 1px solid #ddd;">Mounting Structure</td><td style="padding: 0.4rem; border: 1px solid #ddd;">As per Manufacturer Warranty</td></tr>
+                                    <tr><td style="padding: 0.4rem; border: 1px solid #ddd;">Installation Workmanship</td><td style="padding: 0.4rem; border: 1px solid #ddd;">1 Year</td></tr>
+                                </table>
                             </div>
                         </div>
 
-                        <div style="font-size: 0.72rem; color: #666; border-top: 1px dashed #ddd; padding-top: 1rem; margin-top: 2rem;">
-                            <strong>Terms & Conditions:</strong><br>
-                            1. Net Metering Approval is subject to feasibility clearance from KSEB local section office.<br>
-                            2. Subsidy benefits are credited directly into customer bank account after installation and solar net-metering completion by KSEB.<br>
-                            3. Delivery of materials within 10-15 working days from advance layout clearance confirmation.
+                        <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">TERMS & CONDITIONS</h4>
+                        <ol style="margin-bottom: 1.5rem; font-size: 0.75rem; line-height: 1.6; padding-left: 1rem;">
+                            <li>Prices are inclusive of standard installation.</li>
+                            <li>Civil work, additional fabrication, and electrical modifications are excluded unless specifically mentioned.</li>
+                            <li>Net Metering approval is subject to Electricity Board regulations.</li>
+                            <li>Any additional materials required beyond the standard scope will be charged separately after customer approval.</li>
+                            <li>Delivery and installation will be scheduled after receipt of the advance payment.</li>
+                            <li>This quotation is valid for <strong>15 days</strong> from the date of issue.</li>
+                        </ol>
+
+                        <div style="page-break-inside: avoid;">
+                            <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">CUSTOMER ACCEPTANCE</h4>
+                            <p style="font-size: 0.8rem; margin-bottom: 1.5rem;">I hereby confirm that I have reviewed the above proposal and agree to proceed with the installation as per the specifications and commercial terms mentioned.</p>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem;">
+                                <div>
+                                    <div style="border-bottom: 1px solid #666; width: 200px; margin-bottom: 0.3rem;"></div>
+                                    <strong>Customer Signature</strong><br>
+                                    <span style="font-size: 0.75rem; color: #666;">Name: ______________________<br>Date: ____ / ____ / ______</span>
+                                </div>
+                                <div style="text-align: right;">
+                                    <strong>FOR SUNOVA SOLAR LLP</strong><br><br><br>
+                                    <div style="border-bottom: 1px solid #666; width: 200px; margin-bottom: 0.3rem; display: inline-block;"></div><br>
+                                    <strong>Authorized Signatory</strong>
+                                </div>
+                            </div>
+
+                            <div style="text-align: center; border-top: 2px solid #ffb703; padding-top: 1rem; margin-top: 1rem;">
+                                <div style="font-weight: 800; color: #0d1321; font-family: 'Outfit', sans-serif;">SUNOVA SOLAR LLP</div>
+                                <div style="font-size: 0.75rem; color: #555;">Website: <a href="http://www.sunovasolar.in" style="color: #ffb703;">www.sunovasolar.in</a> | Email: info@sunovasolar.in | Customer Care: +91 90725 22277</div>
+                                <h3 style="color: #ffb703; margin: 0.5rem 0 0 0; font-family: 'Outfit', sans-serif;">Thank You for Choosing SUNOVA SOLAR LLP</h3>
+                                <p style="margin: 0; font-size: 0.8rem; font-style: italic;">Powering Homes. Empowering Tomorrow.</p>
+                            </div>
                         </div>
                     </div>
                 `;
             } else {
-                const grossLiaison = capacityVal * 60000;
-                const gstVal = Math.round(grossLiaison * 0.138);
-                const grossTotalKseb = grossLiaison + gstVal;
+                let totalPrice = 0;
+                
+                // Check for dynamic pricing rules
+                let customPricing = null;
+                try {
+                    const saved = localStorage.getItem('sunova_custom_pricing');
+                    if (saved) customPricing = JSON.parse(saved);
+                } catch(e) {}
+
+                if (customPricing && customPricing.fixed_prices && customPricing.fixed_prices[capacityVal]) {
+                    totalPrice = customPricing.fixed_prices[capacityVal];
+                } else if (customPricing && customPricing.rate_per_kw) {
+                    totalPrice = capacityVal * customPricing.rate_per_kw;
+                } else {
+                    // Default fallback
+                    if (capacityVal === 3) {
+                        totalPrice = 220000;
+                    } else if (capacityVal === 5) {
+                        totalPrice = 320000;
+                    } else {
+                        totalPrice = capacityVal * 64000;
+                    }
+                }
+                
+                const grossLiaison = Math.round(totalPrice / 1.138);
+                const gstVal = totalPrice - grossLiaison;
+                const grossTotalKseb = totalPrice;
                 
                 quoteHTML = `
                     <div style="font-family: 'Inter', sans-serif; color: #333; line-height: 1.6;">
@@ -707,6 +1041,7 @@
                                 <img src="assets/logo.jpg" style="height: 55px; border-radius: 6px;" alt="SUNOVA SOLAR Logo">
                                 <h1 style="font-size: 1.5rem; color: #0d1321; font-family: 'Outfit', sans-serif; margin: 0.4rem 0 0 0; font-weight: 800;">SUNOVA SOLAR LLP</h1>
                                 <p style="margin: 0.15rem 0 0 0; font-size: 0.78rem; color: #555;">Empaneled Solar Installer (Kerala State) | Reg No: SNS-EMP/2025/AL5</p>
+                                <p style="margin: 0.15rem 0 0 0; font-size: 0.75rem; color: #555;">Vengalloor - Mangattukavala Bypass, Thodupuzha, Idukki District - 685608</p>
                             </div>
                             <div style="text-align: right;">
                                 <h2 style="margin: 0; color: #28a745; font-family: 'Outfit', sans-serif; font-size: 1.3rem;">PROFORMA INVOICE</h2>
@@ -719,7 +1054,7 @@
                             <strong>To,</strong><br>
                             The Assistant Executive Engineer,<br>
                             Electrical Section Office, KSEB Limited,<br>
-                            ${dealer.area} Section, ${dealer.district} District, Kerala
+                            ${document.getElementById('quote-kseb-section').value || dealer.area} Section, ${dealer.district} District, Kerala
                         </div>
 
                         <div style="font-size: 0.84rem; font-weight: 600; line-height: 1.5; margin-bottom: 1.5rem; background: #f8f9fa; padding: 0.75rem; border-left: 4px solid #28a745; border-radius: 4px;">
@@ -732,6 +1067,7 @@
                                 <table style="width: 100%; border-collapse: collapse;">
                                     <tr><td style="color: #666; width: 95px;">Consumer Name:</td><td><strong>${name}</strong></td></tr>
                                     <tr><td style="color: #666;">Site Address:</td><td>${addr}</td></tr>
+                                    <tr><td style="color: #666;">Mobile No:</td><td>+91 ${phone}</td></tr>
                                     <tr><td style="color: #666;">Consumer No:</td><td style="border-bottom: 1px dotted #999; font-weight: bold; color: #c5221f;">__________________</td></tr>
                                 </table>
                             </div>
@@ -762,7 +1098,7 @@
                                 </tr>
                                 <tr>
                                     <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Grid Tie Inverter</td>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Sunova approved string inverter (Max Eff 98%)</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">${inverterModel} approved string inverter (Max Eff 98%)</td>
                                     <td style="padding: 0.5rem; border: 1px solid #ddd;">IEC 62109, IEC 61000 (Anti-islanding protection)</td>
                                     <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center; color: #28a745; font-weight: bold;">✅ Compliant</td>
                                 </tr>
@@ -934,7 +1270,7 @@
         function downloadProformaTemplate() {
             const csvContent = [
                 ["SUNOVA SOLAR LLP - PROFORMA INVOICE TEMPLATE"],
-                ["Empaneled Solar rooftop Installer | Opp. KSEB Section, Alappuzha"],
+                ["Empaneled Solar rooftop Installer | Vengalloor - Mangattukavala Bypass Road, Thodupuzha, Idukki District"],
                 [""],
                 ["Consumer Name:", "[Enter Customer Name]", "", "Proforma Qtn No:", "SNS/PRO/2026/XXXX"],
                 ["Consumer No:", "[Enter 13-digit Consumer No]", "", "Date:", new Date().toLocaleDateString('en-IN')],

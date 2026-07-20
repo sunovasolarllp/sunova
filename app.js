@@ -897,16 +897,17 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
     return R * c;
 }
 
-// Geocode query with localStorage caching and delay
-async function geocodeLocation(query) {
+// Geocode query with localStorage caching and staggered delay for parallel use
+async function geocodeLocation(query, staggerIndex = 0) {
     const cacheKey = 'geo_' + query;
     const cached = localStorage.getItem(cacheKey);
     if (cached) {
         return JSON.parse(cached);
     }
     
-    // API rate limit friendly 1-second delay
-    await new Promise(resolve => setTimeout(resolve, 1100));
+    // Stagger parallel requests to respect Nominatim rate limits (~1 req/sec)
+    // Each uncached call waits (staggerIndex * 1100)ms so they fire sequentially
+    await new Promise(resolve => setTimeout(resolve, staggerIndex * 1100));
     
     try {
         const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1`;
@@ -964,7 +965,7 @@ async function handleKSEBSectionChange(sectionName) {
         return;
     }
     
-    // 2. Filter active dealers in this district and geocode them
+    // 2. Filter active dealers in this district and geocode them IN PARALLEL
     const normalizedSelected = getNormalizedDistrict(districtSelect.value);
     const matchedDealers = DEALERS.filter(d => getNormalizedDistrict(d.district) === normalizedSelected);
     
@@ -973,15 +974,24 @@ async function handleKSEBSectionChange(sectionName) {
     
     const dealerDistances = {};
     
-    for (const dealer of matchedDealers) {
+    // Geocode all dealers concurrently instead of one-by-one
+    let uncachedIndex = 0;
+    const geocodeResults = await Promise.all(matchedDealers.map(async (dealer) => {
         const dealerQuery = `${dealer.area}, ${dealer.district}, Kerala, India`;
-        let coords = await geocodeLocation(dealerQuery);
+        // Check cache to determine stagger index (only uncached requests need staggering)
+        const cacheKey = 'geo_' + dealerQuery;
+        const isCached = localStorage.getItem(cacheKey) !== null;
+        const myIndex = isCached ? 0 : uncachedIndex++;
+        
+        let coords = await geocodeLocation(dealerQuery, myIndex);
         
         if (!coords.lat) {
-            // Fallback to district level if exact area fails
             coords = await geocodeLocation(`${dealer.district}, Kerala, India`);
         }
-        
+        return { dealer, coords };
+    }));
+    
+    geocodeResults.forEach(({ dealer, coords }) => {
         if (coords.lat) {
             const dist = calculateDistance(sectionCoords.lat, sectionCoords.lon, coords.lat, coords.lon);
             dealerDistances[dealer.code] = dist;
@@ -990,16 +1000,12 @@ async function handleKSEBSectionChange(sectionName) {
                 closestDealerCode = dealer.code;
             }
         }
-    }
+    });
     
     // 3. Update dropdown options with distance and auto-select
     Array.from(formDealerEl.options).forEach(opt => {
         if (opt.dataset.originalText) {
             let newText = opt.dataset.originalText;
-            const dist = dealerDistances[opt.value];
-            if (dist !== undefined) {
-                newText = `${newText} [~${Math.round(dist)} km]`;
-            }
             opt.textContent = newText;
         }
     });
@@ -1014,36 +1020,7 @@ async function handleKSEBSectionChange(sectionName) {
     updateFormMessageDetails();
 }
 
-const formLocation = document.getElementById('form-location');
-if (formLocation) {
-    formLocation.addEventListener('change', function() {
-        const sectionName = this.value;
-        if (!formDealer || !sectionName) return;
-        
-        const searchStr = sectionName.toUpperCase();
-        let bestMatch = null;
-        let maxMatchLen = 0;
-        
-        Array.from(formDealer.options).forEach(opt => {
-            if (!opt.value) return;
-            const dealer = DEALERS.find(d => d.code === opt.value);
-            if (dealer) {
-                const areaUpper = dealer.area.toUpperCase();
-                // Simple string match
-                if (searchStr.includes(areaUpper) || areaUpper.includes(searchStr)) {
-                    if (areaUpper.length > maxMatchLen) {
-                        maxMatchLen = areaUpper.length;
-                        bestMatch = opt.value;
-                    }
-                }
-            }
-        });
-        
-        if (bestMatch) {
-            formDealer.value = bestMatch;
-        }
-    });
-}
+
 
 function handleFormSubmit(event) {
     event.preventDefault();
@@ -1068,7 +1045,7 @@ function handleFormSubmit(event) {
     }
     
     // Phone validation (10 digits starting with 6-9)
-    const phoneRegex = /^[6-9][0-9]{9}$/;
+    const phoneRegex = /^[6-9]\d{9}$/;
     if (!phoneRegex.test(phone)) {
         showFormFeedback('Please enter a valid 10-digit mobile number starting with 6-9.', 'error');
         return;

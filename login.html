@@ -113,6 +113,20 @@
                         </a>
                     </div>
 
+                    <!-- Pricing & Products Management -->
+                    <div class="tech-settings-box" style="margin-bottom: 1.5rem;">
+                        <h4 style="margin: 0; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem;">
+                            💰 Quotation Pricing Rules
+                        </h4>
+                        <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 1rem;">Upload a CSV file to dynamically set quotation prices for the Partner Portal. <a href="assets/sample_pricing.csv" download style="color: var(--color-sun-yellow); text-decoration: none;">Download Sample Template</a></p>
+                        
+                        <div style="display: flex; gap: 0.8rem; align-items: center;">
+                            <input type="file" id="pricing-upload-file" accept=".csv" style="font-size: 0.78rem; color: var(--color-text); background: rgba(255,255,255,0.02); border: 1px solid var(--color-border); padding: 0.4rem; border-radius: 4px; flex-grow: 1;">
+                            <button onclick="uploadPricingFile()" class="cta-btn primary-btn" style="padding: 0.5rem 1rem; font-size: 0.78rem;">Upload Pricing</button>
+                        </div>
+                        <div id="pricing-upload-feedback" class="form-feedback hidden" style="margin-top: 0.8rem;"></div>
+                    </div>
+
                     <!-- Live Inquiries Log Section -->
                     <div class="tech-settings-box">
                         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem;">
@@ -545,6 +559,69 @@
                 btn.disabled = false;
                 alert('Connection error or session expired. Please ensure you are logged in to the email network.');
             });
+        }
+
+        function uploadPricingFile() {
+            const fileInput = document.getElementById('pricing-upload-file');
+            const feedback = document.getElementById('pricing-upload-feedback');
+            
+            if (fileInput.files.length === 0) {
+                feedback.textContent = 'Please select a CSV file first.';
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                try {
+                    const text = e.target.result;
+                    const lines = text.split('\\n');
+                    
+                    const pricingData = {
+                        fixed_prices: {},
+                        rate_per_kw: 64000 // default fallback
+                    };
+
+                    for (let i = 1; i < lines.length; i++) {
+                        const line = lines[i].trim();
+                        if (!line) continue;
+                        
+                        const parts = line.split(',');
+                        if (parts.length >= 3) {
+                            const ruleType = parts[0].trim();
+                            const capacity = parts[1].trim();
+                            const price = parseInt(parts[2].trim());
+                            
+                            if (ruleType.toLowerCase() === 'fixed' && !isNaN(price)) {
+                                pricingData.fixed_prices[capacity] = price;
+                            } else if (ruleType.toLowerCase() === 'rateperkw' && !isNaN(price)) {
+                                pricingData.rate_per_kw = price;
+                            }
+                        }
+                    }
+
+                    localStorage.setItem('sunova_custom_pricing', JSON.stringify(pricingData));
+                    
+                    feedback.textContent = 'Pricing rules successfully updated globally!';
+                    feedback.className = 'form-feedback';
+                    feedback.style.backgroundColor = 'rgba(40, 167, 69, 0.15)';
+                    feedback.style.color = '#28a745';
+                    feedback.classList.remove('hidden');
+                    fileInput.value = ''; // clear input
+                    
+                    setTimeout(() => feedback.classList.add('hidden'), 3000);
+
+                } catch (err) {
+                    feedback.textContent = 'Failed to parse CSV file. Ensure it follows the template format.';
+                    feedback.className = 'form-feedback error';
+                    feedback.classList.remove('hidden');
+                }
+            };
+            
+            reader.readAsText(file);
         }
 
         function logoutPortal() {

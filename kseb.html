@@ -242,7 +242,7 @@
             <div class="col-sm-5">
                 <div class="form-group">
                     <label style="font-weight: 600;">Registered Mobile Number <span style="color:red;">*</span></label>
-                    <input type="text" id="kseb-reg-mobile" class="form-control" placeholder="10-digit mobile number" maxlength="10" value="9995550888" style="height: 40px; font-size: 15px;">
+                    <input type="tel" id="kseb-reg-mobile" class="form-control" placeholder="10-digit mobile number" pattern="^[6-9]\d{9}$" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" title="10-digit mobile number starting with 6-9" value="9995550888" style="height: 40px; font-size: 15px;" required>
                 </div>
             </div>
             <div class="col-sm-2" style="margin-top: 25px;">
