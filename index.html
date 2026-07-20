@@ -730,6 +730,10 @@
                     </div>
 
                     <div class="financial-breakdown">
+                        <div class="financial-row" id="proposal-last-bill-row">
+                            <span>Last Billed Amount</span>
+                            <span class="val">₹<span id="out-last-bill">1,000</span></span>
+                        </div>
                         <div class="financial-row">
                             <span>Approx. Installation Cost *</span>
                             <span class="val bold">₹<span id="out-cost">2,40,000</span></span>
@@ -888,6 +892,11 @@
             <label for="form-reg-mobile" style="font-size:0.82rem;">Registered Mobile Number:</label>
             <input type="text" id="form-reg-mobile" placeholder="Mobile no. linked to KSEB" maxlength="10" pattern="[6-9][0-9]{9}" oninput="this.value=this.value.replace(/[^0-9]/g,''); document.getElementById('form-phone').value = this.value; triggerKSEBAutoFetch();" required>
         </div>
+    </div>
+    <div style="margin-top: 0.5rem; display: flex; justify-content: flex-end;">
+        <button type="button" onclick="openKSEBPortalTab()" style="background: rgba(3, 149, 217, 0.15); color: var(--color-sun-yellow); border: 1px solid rgba(3, 149, 217, 0.4); padding: 0.35rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.3rem; transition: all 0.2s;" onmouseover="this.style.background='rgba(3, 149, 217, 0.3)'" onmouseout="this.style.background='rgba(3, 149, 217, 0.15)'">
+            🌐 Fetch via KSEB Billview Tab
+        </button>
     </div>
     <!-- Status indicator -->
     <div id="kseb-status" style="display:none; font-size:0.8rem; margin-top:0.5rem; padding:0.5rem 0.75rem; border-radius:8px; line-height:1.4;"></div>

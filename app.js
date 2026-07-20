@@ -572,6 +572,12 @@ function performCalculationsDirect(capacity, units, skipSyncForm = false) {
     outCo2.textContent = co2Offset;
     outTrees.textContent = equivalentTrees;
     
+    const outLastBill = document.getElementById('out-last-bill');
+    if (outLastBill) {
+        const currentBill = parseInt(document.getElementById('input-bill-manual')?.value || '0');
+        outLastBill.textContent = currentBill.toLocaleString('en-IN');
+    }
+    
     // Dynamic battery metric UI updates
     const batteryMetricContainer = document.getElementById('battery-metric-container');
     const outBattery = document.getElementById('out-battery');
@@ -833,6 +839,49 @@ function populateKSEBSections(districtValue) {
         sectionSelect.appendChild(opt);
     });
 }
+
+// Automatically find and select the correct District and Section based on KSEB section name
+window.autoSelectDistrictAndSection = function(fetchedSectionName) {
+    if (!fetchedSectionName) return;
+    
+    const cleanSection = fetchedSectionName.replace(/electrical|section|office|dvn/gi, '').trim().toLowerCase();
+    if (!cleanSection) return;
+    
+    let matchedDistrict = null;
+    let matchedSectionValue = null;
+    
+    // Look through all districts and their sections to find the best match
+    for (const [distName, sectionsMap] of Object.entries(KSEB_SECTIONS)) {
+        for (const secName of Object.keys(sectionsMap)) {
+            const cleanSecName = secName.replace(/electrical|section|office|dvn/gi, '').trim().toLowerCase();
+            
+            // Match exactly or check if one contains another
+            if (cleanSection === cleanSecName || cleanSection.includes(cleanSecName) || cleanSecName.includes(cleanSection)) {
+                matchedDistrict = distName;
+                matchedSectionValue = secName;
+                break;
+            }
+        }
+        if (matchedDistrict) break;
+    }
+    
+    if (matchedDistrict) {
+        // 1. Update District Select
+        const distSelect = document.getElementById('form-district');
+        if (distSelect) {
+            distSelect.value = matchedDistrict;
+            // 2. Load sections for this district
+            handleDistrictChange(matchedDistrict);
+            
+            // 3. Select KSEB Section
+            const locationSelect = document.getElementById('form-location');
+            if (locationSelect && matchedSectionValue) {
+                locationSelect.value = matchedSectionValue;
+                locationSelect.dispatchEvent(new Event('change'));
+            }
+        }
+    }
+};
 
 const formLocation = document.getElementById('form-location');
 if (formLocation) {
@@ -1221,7 +1270,15 @@ window.triggerKSEBAutoFetch = function() {
     ksebFetchTimer = setTimeout(() => fetchKSEBDetails(consumerNo, regMobile), 600);
 };
 
-function setKSEBStatus(msg, type) {
+window.openKSEBPortalTab = function() {
+    const consumerNo = (document.getElementById('form-consumer-no')?.value || '').trim();
+    const regMobile  = (document.getElementById('form-reg-mobile')?.value  || '').trim();
+    
+    const url = `kseb.html?consumerno=${encodeURIComponent(consumerNo)}&regmobno=${encodeURIComponent(regMobile)}`;
+    window.open(url, '_blank');
+};
+
+window.setKSEBStatus = function(msg, type) {
     const el = document.getElementById('kseb-status');
     if (!el) return;
     el.style.display = 'block';
@@ -1268,6 +1325,11 @@ async function fetchKSEBDetails(consumerNo, regMobile) {
             }
         }
         
+        // Match and select the district and section office dynamically
+        if (d.section && typeof autoSelectDistrictAndSection === 'function') {
+            autoSelectDistrictAndSection(d.section);
+        }
+        
         // Auto-fill last bill amount to calculator inputs
         if (d.amount) {
             const amountVal = parseInt(d.amount);
@@ -1289,7 +1351,49 @@ async function fetchKSEBDetails(consumerNo, regMobile) {
         setKSEBStatus(summary, 'success');
         
     } catch (err) {
-        setKSEBStatus('❌ Network error. Is the proxy running?', 'error');
+        // Hide the status indicator on network/CORS error when proxy is not active
+        const el = document.getElementById('kseb-status');
+        if (el) el.style.display = 'none';
+        console.warn('KSEB auto-fetch failed (proxy not running or CORS blocked):', err);
     }
 };
+
+window.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'kseb_autofill') {
+        const fetchedData = event.data.data;
+        const regMobile = event.data.regMobile;
+        
+        // Fill Name
+        const nameEl = document.getElementById('form-name');
+        if (nameEl) nameEl.value = fetchedData.name;
+        
+        // Fill Consumer Number
+        const consumerEl = document.getElementById('form-consumer-no');
+        if (consumerEl) consumerEl.value = fetchedData.consumerno;
+        
+        // Match and select the district and section office dynamically
+        if (fetchedData.section && typeof autoSelectDistrictAndSection === 'function') {
+            autoSelectDistrictAndSection(fetchedData.section);
+        }
+        
+        // Fill Registered Mobile
+        const regMobileEl = document.getElementById('form-reg-mobile');
+        if (regMobileEl) regMobileEl.value = regMobile;
+        
+        // Fill Hidden Phone
+        const phoneEl = document.getElementById('form-phone');
+        if (phoneEl) phoneEl.value = regMobile;
+        
+        // Sync last bill amount directly to the solar calculator
+        if (typeof handleBillManualInput === 'function') {
+            handleBillManualInput(parseInt(fetchedData.amount));
+        }
+        
+        // Set success banner on parent
+        if (typeof setKSEBStatus === 'function') {
+            const summary = `✅ Details fetched! Name: ${fetchedData.name}. Section: ${fetchedData.section}. Last Billed Amount: ₹${fetchedData.amount}. Units: ${fetchedData.units}.`;
+            setKSEBStatus(summary, 'success');
+        }
+    }
+});
 
