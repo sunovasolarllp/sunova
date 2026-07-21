@@ -115,6 +115,23 @@
                     <button type="button" onclick="toggleChangePinPanel()" class="cta-btn text-center full-width" style="background: rgba(255,255,255,0.05); border: 1px solid var(--color-border); color: var(--color-text); cursor: pointer; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
                         🔒 Change Security PIN
                     </button>
+                    <button type="button" onclick="toggleFeasibilityPanel()" class="cta-btn primary-btn text-center full-width" style="cursor: pointer; width: 100%; border: none; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
+                        ✅ Feasibility Check & KSEB Verification
+                    </button>
+                </div>
+
+                <!-- Feasibility Check Panel (Collapsible) -->
+                <div id="feasibility-check-panel" class="hidden" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                    <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                        ✅ Feasibility Check & KSEB Verification
+                    </h4>
+                    <p style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.45;">Verify KSEB section offices and perform feasibility checks for new customer installations.</p>
+                    <div style="background: var(--color-bg-alt); padding: 1rem; border-radius: 8px; text-align: center;">
+                        <span style="display:block; font-size: 0.85rem; font-weight:600; color:var(--color-text); margin-bottom: 0.5rem;">KSEB Section Office Verification</span>
+                        <a href="https://wss.kseb.in/selfservices/reCap" target="_blank" rel="noopener" class="cta-btn primary-btn" style="display:inline-block; font-size:0.8rem; padding: 0.5rem 1rem; text-decoration:none;">
+                            Verify at wss.kseb.in ↗
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Allocated Leads Panel (Collapsible) -->
@@ -206,9 +223,9 @@
                             <div class="form-group">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Solar Panel Model</label>
                                 <select id="quote-panel-brand" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
-                                    <option value="Waaree (550W)" selected>Waaree (550W)</option>
-                                    <option value="Adani (610W)">Adani (610W)</option>
-                                    <option value="Emmvee (560W)">Emmvee (560W)</option>
+                                    <option value="Waaree" selected>Waaree</option>
+                                    <option value="Adani">Adani</option>
+                                    <option value="Emmvee">Emmvee</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -295,58 +312,57 @@
 
     <!-- Script -->
     <script>
-        // Authorized Sunova Solar Dealers List
         const DEALERS = [
-            { code: "TVM-BENJ", name: "Benjose FG", area: "Balaramapuram", district: "Thiruvananthapuram", phone: "9037273767" },
-            { code: "TVM-ANAN", name: "Anand Sreedhar", area: "Neyyattinkara", district: "Thiruvananthapuram", phone: "7994430742" },
-            { code: "KLA-VARG", name: "Varghese Nellimoottil", area: "Ayoor", district: "Kollam", phone: "9020202222" },
-            { code: "KLA-NIYA", name: "Niyas K", area: "Karunagappally", district: "Kollam", phone: "9656366068" },
-            { code: "KLA-UDAY", name: "Udayabhanu J", area: "Kadappakkada", district: "Kollam", phone: "9349136882" },
-            { code: "KLA-RAJE", name: "Rajeev R", area: "Punalur", district: "Kollam", phone: "9567970077" },
-            { code: "KLA-RATH", name: "Rathil Kumar", area: "Sasthamkotta", district: "Kollam", phone: "7907878797" },
-            { code: "PTA-SREE", name: "Sreejith TR", area: "Mallappally", district: "Pathanamthitta", phone: "9947030669" },
-            { code: "PTA-JIJU", name: "Jijukumar MC", area: "Pandalam", district: "Pathanamthitta", phone: "9388133400" },
-            { code: "PTA-PKPR", name: "PK Prasannakumar", area: "Pathanamthitta", district: "Pathanamthitta", phone: "7034023301" },
-            { code: "PTA-BIJU", name: "Bijumon J", area: "Ranni", district: "Pathanamthitta", phone: "9995990372" },
-            { code: "ALP-SHIN", name: "Shinas Shamsudeen", area: "Alappuzha", district: "Alappuzha", phone: "9995550888" },
-            { code: "ALP-NISS", name: "Nissar Hameed", area: "Kayamkulam", district: "Alappuzha", phone: "9895497090" },
-            { code: "ALP-RENJ", name: "Renjith PS", area: "Mavelikkara", district: "Alappuzha", phone: "9447866958" },
-            { code: "ALP-BAIJ", name: "Baiju Sasidharan", area: "Vallikunnam", district: "Alappuzha", phone: "9747186818" },
-            { code: "KTM-SALY", name: "Saly Sainudeen", area: "Erattupetta", district: "Kottayam", phone: "9446200616" },
-            { code: "KTM-ANIS", name: "Anish Kumar", area: "Kallara", district: "Kottayam", phone: "9387220162" },
-            { code: "KTM-SANI", name: "Sanil Kumar", area: "Kottayam", district: "Kottayam", phone: "9061189784" },
-            { code: "IDK-OUSE", name: "Ouseph KA", area: "Moolamattom", district: "Idukki", phone: "9495737628" },
-            { code: "IDK-MGAJ", name: "MG Ajay", area: "Thodupuzha", district: "Idukki", phone: "9447254142" },
-            { code: "EKM-SHIY", name: "Shiyas Rasheed", area: "Edappally", district: "Ernakulam", phone: "9847859859" },
-            { code: "EKM-BHAV", name: "Bhavya M", area: "Kalamassery", district: "Ernakulam", phone: "8301026309" },
-            { code: "EKM-JIBI", name: "Jibin George", area: "Thripunithura", district: "Ernakulam", phone: "9995996240" },
-            { code: "TCR-JAIS", name: "Jaison Jose Meleth", area: "Ayyanthole", district: "Thrissur", phone: "9995601923" },
-            { code: "TCR-COAT", name: "Coats Thekkan", area: "Chalakudy", district: "Thrissur", phone: "8129119222" },
-            { code: "TCR-JISO", name: "Jison George", area: "Chelakkara", district: "Thrissur", phone: "9746666535" },
-            { code: "TCR-SINI", name: "Sinish KM", area: "Kodakara", district: "Thrissur", phone: "9946101892" },
-            { code: "TCR-BINU", name: "Binu Yacob", area: "Pazhayannur", district: "Thrissur", phone: "9946033807" },
-            { code: "TCR-JITH", name: "Jithesh Tharayil", area: "Ramavarmapuram", district: "Thrissur", phone: "7356347700" },
-            { code: "TCR-AKAN", name: "AK Anil", area: "Valappad", district: "Thrissur", phone: "9746891854" },
-            { code: "PKD-SUHA", name: "Suhaib S", area: "Alathur", district: "Palakkad", phone: "9988553585" },
-            { code: "PKD-PRAM", name: "Pramod", area: "Chittur", district: "Palakkad", phone: "9746611002" },
-            { code: "PKD-BIJO", name: "Bijo Varghese", area: "Elappully", district: "Palakkad", phone: "9388883222" },
-            { code: "PKD-ANAN", name: "Anand P", area: "Koduvayur", district: "Palakkad", phone: "9349811101" },
-            { code: "MPM-NASS", name: "Nassarudheen E", area: "Edakkara", district: "Malappuram", phone: "9946139955" },
-            { code: "MPM-FAIS", name: "Faisal K", area: "Manjeri", district: "Malappuram", phone: "7994035923" },
-            { code: "MPM-RAVI", name: "Ravindran K", area: "Tirur", district: "Malappuram", phone: "9961476748" },
-            { code: "KKD-RAJA", name: "Rajan Madavoor", area: "Koduvally", district: "Kozhikode", phone: "9497345868" },
-            { code: "KKD-YOOS", name: "Yoosaf NV", area: "Perambra", district: "Kozhikode", phone: "9539724724" },
-            { code: "KKD-SAFE", name: "Safeer", area: "Vadakara", district: "Kozhikode", phone: "9995330555" },
-            { code: "KKD-RAHU", name: "Rahul RN", area: "Vadakara", district: "Kozhikode", phone: "9645464733" },
-            { code: "WYD-SINI", name: "Sinil Chacko K", area: "Mananthavady", district: "Wayanad", phone: "8921794334" },
-            { code: "KNR-JOBI", name: "Jobi Sebastian", area: "Kannur", district: "Kannur", phone: "8590085865" },
-            { code: "KNR-ACFA", name: "AC Faisal", area: "Irikkoor", district: "Kannur", phone: "9656069964" },
-            { code: "KNR-NOUS", name: "Noushad T", area: "Mattannur", district: "Kannur", phone: "9847761018" },
-            { code: "KNR-SURI", name: "Suriya Subash", area: "Panoor", district: "Kannur", phone: "9946809010" },
-            { code: "KNR-NISH", name: "Nishad NK", area: "Thalassery", district: "Kannur", phone: "9562028244" },
-            { code: "KNR-KASO", name: "KA Soju", area: "Taliparamba", district: "Kannur", phone: "9447548430" },
-            { code: "KSD-PRAD", name: "Pradeep K", area: "Badiadka", district: "Kasaragod", phone: "9744880900" },
-            { code: "KSD-SURE", name: "Suresh Kumar", area: "Panathur", district: "Kasaragod", phone: "9946960604" }
+            { code: "TVM-BENJ", name: "Benjose FG", area: "Balaramapuram", district: "Thiruvananthapuram", phone: "9037273767", lat: 8.4239, lon: 77.0371 },
+            { code: "TVM-ANAN", name: "Anand Sreedhar", area: "Neyyattinkara", district: "Thiruvananthapuram", phone: "7994430742", lat: 8.3995, lon: 77.0863 },
+            { code: "KLA-VARG", name: "Varghese Nellimoottil", area: "Ayoor", district: "Kollam", phone: "9020202222", lat: 8.8787, lon: 76.8407 },
+            { code: "KLA-NIYA", name: "Niyas K", area: "Karunagappally", district: "Kollam", phone: "9656366068", lat: 9.0559, lon: 76.5360 },
+            { code: "KLA-UDAY", name: "Udayabhanu J", area: "Kadappakkada", district: "Kollam", phone: "9349136882", lat: 8.8871, lon: 76.6027 },
+            { code: "KLA-RAJE", name: "Rajeev R", area: "Punalur", district: "Kollam", phone: "9567970077", lat: 9.0182, lon: 76.9298 },
+            { code: "KLA-RATH", name: "Rathil Kumar", area: "Sasthamkotta", district: "Kollam", phone: "7907878797", lat: 9.0346, lon: 76.6268 },
+            { code: "PTA-SREE", name: "Sreejith TR", area: "Mallappally", district: "Pathanamthitta", phone: "9947030669", lat: 9.4215, lon: 76.6358 },
+            { code: "PTA-JIJU", name: "Jijukumar MC", area: "Pandalam", district: "Pathanamthitta", phone: "9388133400", lat: 9.2273, lon: 76.6716 },
+            { code: "PTA-PKPR", name: "PK Prasannakumar", area: "Pathanamthitta", district: "Pathanamthitta", phone: "7034023301", lat: 9.2648, lon: 76.7870 },
+            { code: "PTA-BIJU", name: "Bijumon J", area: "Ranni", district: "Pathanamthitta", phone: "9995990372", lat: 9.3826, lon: 76.7844 },
+            { code: "ALP-SHIN", name: "Shinas Shamsudeen", area: "Alappuzha", district: "Alappuzha", phone: "9995550888", lat: 9.4981, lon: 76.3388 },
+            { code: "ALP-NISS", name: "Nissar Hameed", area: "Kayamkulam", district: "Alappuzha", phone: "9895497090", lat: 9.1738, lon: 76.5009 },
+            { code: "ALP-RENJ", name: "Renjith PS", area: "Mavelikkara", district: "Alappuzha", phone: "9447866958", lat: 9.2458, lon: 76.5518 },
+            { code: "ALP-BAIJ", name: "Baiju Sasidharan", area: "Vallikunnam", district: "Alappuzha", phone: "9747186818", lat: 9.1673, lon: 76.5746 },
+            { code: "KTM-SALY", name: "Saly Sainudeen", area: "Erattupetta", district: "Kottayam", phone: "9446200616", lat: 9.6828, lon: 76.7845 },
+            { code: "KTM-ANIS", name: "Anish Kumar", area: "Kallara", district: "Kottayam", phone: "9387220162", lat: 9.7118, lon: 76.4367 },
+            { code: "KTM-SANI", name: "Sanil Kumar", area: "Kottayam", district: "Kottayam", phone: "9061189784", lat: 9.5916, lon: 76.5222 },
+            { code: "IDK-OUSE", name: "Ouseph KA", area: "Moolamattom", district: "Idukki", phone: "9495737628", lat: 9.7709, lon: 76.8624 },
+            { code: "IDK-MGAJ", name: "MG Ajay", area: "Thodupuzha", district: "Idukki", phone: "9447254142", lat: 9.8959, lon: 76.7183 },
+            { code: "EKM-SHIY", name: "Shiyas Rasheed", area: "Edappally", district: "Ernakulam", phone: "9847859859", lat: 10.0261, lon: 76.3125 },
+            { code: "EKM-BHAV", name: "Bhavya M", area: "Kalamassery", district: "Ernakulam", phone: "8301026309", lat: 10.0468, lon: 76.3175 },
+            { code: "EKM-JIBI", name: "Jibin George", area: "Thripunithura", district: "Ernakulam", phone: "9995996240", lat: 9.9515, lon: 76.3419 },
+            { code: "TCR-JAIS", name: "Jaison Jose Meleth", area: "Ayyanthole", district: "Thrissur", phone: "9995601923", lat: 10.5312, lon: 76.1966 },
+            { code: "TCR-COAT", name: "Coats Thekkan", area: "Chalakudy", district: "Thrissur", phone: "8129119222", lat: 10.3015, lon: 76.3331 },
+            { code: "TCR-JISO", name: "Jison George", area: "Chelakkara", district: "Thrissur", phone: "9746666535", lat: 10.6970, lon: 76.3402 },
+            { code: "TCR-SINI", name: "Sinish KM", area: "Kodakara", district: "Thrissur", phone: "9946101892", lat: 10.3664, lon: 76.2974 },
+            { code: "TCR-BINU", name: "Binu Yacob", area: "Pazhayannur", district: "Thrissur", phone: "9946033807", lat: 10.7101, lon: 76.4026 },
+            { code: "TCR-JITH", name: "Jithesh Tharayil", area: "Ramavarmapuram", district: "Thrissur", phone: "7356347700", lat: 10.5513, lon: 76.2255 },
+            { code: "TCR-AKAN", name: "AK Anil", area: "Valappad", district: "Thrissur", phone: "9746891854", lat: 10.3957, lon: 76.1030 },
+            { code: "PKD-SUHA", name: "Suhaib S", area: "Alathur", district: "Palakkad", phone: "9988553585", lat: 10.6436, lon: 76.5451 },
+            { code: "PKD-PRAM", name: "Pramod", area: "Chittur", district: "Palakkad", phone: "9746611002", lat: 10.7042, lon: 76.7329 },
+            { code: "PKD-BIJO", name: "Bijo Varghese", area: "Elappully", district: "Palakkad", phone: "9388883222", lat: 10.7410, lon: 76.7118 },
+            { code: "PKD-ANAN", name: "Anand P", area: "Koduvayur", district: "Palakkad", phone: "9349811101", lat: 10.6865, lon: 76.6315 },
+            { code: "MPM-NASS", name: "Nassarudheen E", area: "Edakkara", district: "Malappuram", phone: "9946139955", lat: 11.3468, lon: 76.2976 },
+            { code: "MPM-FAIS", name: "Faisal K", area: "Manjeri", district: "Malappuram", phone: "7994035923", lat: 11.1180, lon: 76.1217 },
+            { code: "MPM-RAVI", name: "Ravindran K", area: "Tirur", district: "Malappuram", phone: "9961476748", lat: 10.9157, lon: 75.9238 },
+            { code: "KKD-RAJA", name: "Rajan Madavoor", area: "Koduvally", district: "Kozhikode", phone: "9497345868", lat: 11.3499, lon: 75.9231 },
+            { code: "KKD-YOOS", name: "Yoosaf NV", area: "Perambra", district: "Kozhikode", phone: "9539724724", lat: 11.5647, lon: 75.7486 },
+            { code: "KKD-SAFE", name: "Safeer", area: "Vadakara", district: "Kozhikode", phone: "9995330555", lat: 11.5975, lon: 75.5925 },
+            { code: "KKD-RAHU", name: "Rahul RN", area: "Vadakara", district: "Kozhikode", phone: "9645464733", lat: 11.5975, lon: 75.5925 },
+            { code: "WYD-SINI", name: "Sinil Chacko K", area: "Mananthavady", district: "Wayanad", phone: "8921794334", lat: 11.8023, lon: 76.0029 },
+            { code: "KNR-JOBI", name: "Jobi Sebastian", area: "Kannur", district: "Kannur", phone: "8590085865", lat: 11.8745, lon: 75.3704 },
+            { code: "KNR-ACFA", name: "AC Faisal", area: "Irikkoor", district: "Kannur", phone: "9656069964", lat: 11.9791, lon: 75.5684 },
+            { code: "KNR-NOUS", name: "Noushad T", area: "Mattannur", district: "Kannur", phone: "9847761018", lat: 11.9312, lon: 75.5727 },
+            { code: "KNR-SURI", name: "Suriya Subash", area: "Panoor", district: "Kannur", phone: "9946809010", lat: 11.7583, lon: 75.5670 },
+            { code: "KNR-NISH", name: "Nishad NK", area: "Thalassery", district: "Kannur", phone: "9562028244", lat: 11.7481, lon: 75.4894 },
+            { code: "KNR-KASO", name: "KA Soju", area: "Taliparamba", district: "Kannur", phone: "9447548430", lat: 12.0366, lon: 75.3619 },
+            { code: "KSD-PRAD", name: "Pradeep K", area: "Badiadka", district: "Kasaragod", phone: "9744880900", lat: 12.5923, lon: 75.0566 },
+            { code: "KSD-SURE", name: "Suresh Kumar", area: "Panathur", district: "Kasaragod", phone: "9946960604", lat: 12.4419, lon: 75.3340 }
         ];
 
         const KSEB_SECTIONS = {
@@ -1005,7 +1021,36 @@
             document.getElementById('quote-modal-overlay').classList.add('hidden');
         }
 
-        function generateQuotation(type) {
+        function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+            var R = 6371; // Radius of the earth in km
+            var dLat = deg2rad(lat2-lat1);
+            var dLon = deg2rad(lon2-lon1); 
+            var a = 
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+                Math.sin(dLon/2) * Math.sin(dLon/2); 
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+            return R * c; // Distance in km
+        }
+        
+        function deg2rad(deg) {
+            return deg * (Math.PI/180);
+        }
+
+        async function fetchCoordinates(address) {
+            try {
+                const response = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(address + ', Kerala, India'));
+                const data = await response.json();
+                if (data && data.length > 0) {
+                    return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
+                }
+            } catch(e) {
+                console.error("Geocoding failed", e);
+            }
+            return null;
+        }
+
+        async function generateQuotation(type) {
             const name = document.getElementById('quote-cust-name').value.trim().toUpperCase();
             const phone = document.getElementById('quote-cust-phone').value.trim();
             const addr = document.getElementById('quote-cust-addr').value.trim();
@@ -1021,8 +1066,8 @@
                 alert('Please enter all customer details, including mobile number, and system capacity first.');
                 return;
             }
-            if (!/^[6-9]\d{9}$/.test(phone)) {
-                alert('Please enter a valid 10-digit mobile number starting with 6, 7, 8, or 9.');
+            if (!/^[0-5]\d{9}$/.test(phone)) {
+                alert('Please enter a valid 10-digit mobile number that does NOT start with 6, 7, 8, or 9.');
                 return;
             }
             
@@ -1040,64 +1085,57 @@
             let quoteHTML = '';
             let grossTotal = 0;
             
-            if (type === 'customer') {
-                
-                // Check for dynamic pricing rules
-                let customPricing = null;
-                try {
-                    const saved = localStorage.getItem('sunova_custom_pricing');
-                    if (saved) customPricing = JSON.parse(saved);
-                } catch(e) {}
+            // Check for dynamic pricing rules
+            let customPricing = null;
+            try {
+                const saved = localStorage.getItem('sunova_custom_pricing');
+                if (saved) customPricing = JSON.parse(saved);
+            } catch(e) {}
 
-                if (customPricing && customPricing.fixed_prices && customPricing.fixed_prices[capacityVal]) {
-                    grossTotal = customPricing.fixed_prices[capacityVal];
-                } else if (customPricing && customPricing.rate_per_kw) {
-                    grossTotal = capacityVal * customPricing.rate_per_kw;
-                } else {
-                    // Default fallback
-                    if (capacityVal === 3) {
-                        grossTotal = 220000;
-                    } else if (capacityVal === 5) {
-                        grossTotal = 320000;
-                    } else {
-                        grossTotal = capacityVal * 64000;
-                    }
+            let distBadge = '';
+            if (dealer.lat && dealer.lon) {
+                const coords = await fetchCoordinates(addr);
+                if (coords) {
+                    const dist = getDistanceFromLatLonInKm(dealer.lat, dealer.lon, coords.lat, coords.lon);
+                    distBadge = `<span style="background: #eef2ff; color: #4338ca; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.7rem; margin-left: 0.5rem;">🚗 Approx ${dist.toFixed(1)} km</span>`;
                 }
+            }
 
-                // Maintain 90/10 split for visual breakdown
-                const basicCost = Math.round(grossTotal * 0.9);
-                const netMeteringCost = grossTotal - basicCost;
+            if (type === 'customer') {
+                if (capacityVal === 3) {
+                    grossTotal = (customPricing && customPricing['3']) ? parseFloat(customPricing['3']) : 220000;
+                } else if (capacityVal === 5) {
+                    grossTotal = (customPricing && customPricing['5']) ? parseFloat(customPricing['5']) : 320000;
+                } else {
+                    grossTotal = capacityVal * ((customPricing && customPricing['other']) ? parseFloat(customPricing['other']) : 64000);
+                }
                 
-                let subsidy = 0;
-                if (capacityVal === 1) subsidy = 30000;
-                else if (capacityVal === 2) subsidy = 60000;
-                else if (capacityVal >= 3) subsidy = 78000;
-                
-                const netPayable = grossTotal - subsidy;
+                const gst = grossTotal * 0.138;
+                const net = grossTotal - gst;
                 
                 function numberToWords(num) {
                     return 'Rupees ' + num.toLocaleString('en-IN') + ' Only'; 
                 }
 
                 quoteHTML = `
-                    <div style="font-family: 'Inter', sans-serif; color: #333; line-height: 1.5; font-size: 0.85rem;">
-                        <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #ffb703; padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                    <div style="font-family: 'Inter', sans-serif; color: #333; max-width: 800px; margin: 0 auto; background: #fff; padding: 2rem; box-sizing: border-box;">
+                        <!-- Header Section -->
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #ff7a00; padding-bottom: 1rem; margin-bottom: 1.5rem;">
                             <div>
-                                <img src="assets/logo.jpg" style="height: 55px; border-radius: 6px;" alt="SUNOVA SOLAR Logo">
-                                <h1 style="font-size: 1.5rem; color: #0d1321; font-family: 'Outfit', sans-serif; margin: 0.4rem 0 0 0; font-weight: 800;">SUNOVA SOLAR LLP</h1>
-                                <p style="margin: 0.15rem 0 0 0; font-size: 0.78rem; color: #555;">Empaneled Solar Installer (Kerala State) | Reg No: SNS-EMP/2025/AL5</p>
-                                <p style="margin: 0.15rem 0 0 0; font-size: 0.75rem; color: #555;">Vengalloor - Mangattukavala Bypass, Thodupuzha, Idukki District - 685608</p>
+                                <h2 style="margin: 0; color: #ff7a00; font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 800;">SUNOVA SOLAR LLP</h2>
+                                <p style="margin: 0.2rem 0 0 0; font-size: 0.85rem; color: #555;">Empaneled Installer for KSEB Soura Subsidy Scheme</p>
                             </div>
-                            <div style="text-align: right;">
-                                <h2 style="margin: 0; color: #ffb703; font-family: 'Outfit', sans-serif; font-size: 1.3rem;">SYSTEM QUOTATION</h2>
-                                <p style="margin: 0.2rem 0; font-size: 0.78rem;"><strong>Ref Qtn:</strong> ${quoteNo}</p>
-                                <p style="margin: 0.2rem 0; font-size: 0.78rem;"><strong>Date:</strong> ${dateStr}</p>
+                            <div style="text-align: right; font-size: 0.85rem;">
+                                <strong>Quotation No:</strong> ${quoteNo}<br>
+                                <strong>Date:</strong> ${dateStr}
                             </div>
                         </div>
 
+                        <h3 style="text-align: center; font-family: 'Outfit', sans-serif; color: #0d1321; font-size: 1.3rem; margin-top: 0;">PROFORMA INVOICE & PROPOSAL</h3>
+                        
                         <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">CUSTOMER INFORMATION</h4>
                         <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; text-align: left;">
-                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600; width: 35%;">Partner Name</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${dealer.name}</td></tr>
+                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600; width: 35%;">Partner Name</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${dealer.name} ${distBadge}</td></tr>
                             <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Customer Name</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${name}</td></tr>
                             <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Installation Address</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${addr}, ${dealer.district}</td></tr>
                             <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">KSEB Section</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${document.getElementById('quote-kseb-section').value || '-'}</td></tr>
@@ -1107,7 +1145,7 @@
                         <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">SYSTEM SPECIFICATION</h4>
                         <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; text-align: left;">
                             <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600; width: 40%;">System Capacity</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${capacityVal} kWp</td></tr>
-                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Solar Panel Make & Wattage</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${panelModel} (${panelCount} Nos)</td></tr>
+                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Solar Panel Brand</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${panelModel} (${panelCount} Nos)</td></tr>
                             <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Solar Inverter</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${inverterModel} String Inverter (1 Unit)</td></tr>
                             <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Roof Type</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${roofType}</td></tr>
                             <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Electrical Phase</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${phase}</td></tr>
@@ -1278,7 +1316,7 @@
                             <div>
                                 <strong style="color: #0d1321; display: block; margin-bottom: 0.3rem;">Empaneled Installer Details</strong>
                                 <strong>Partner:</strong> Sunova Solar LLP - ${dealer.name}<br>
-                                <strong>Area Office:</strong> ${dealer.area} Office<br>
+                                <strong>Area Office:</strong> ${dealer.area} Office ${distBadge}<br>
                                 <strong>Contact No:</strong> +91 ${dealer.phone}
                             </div>
                         </div>
@@ -1353,8 +1391,33 @@
             }
             
             document.getElementById('quote-render-area').innerHTML = quoteHTML;
+            
+            // Asynchronously calculate distance and update the badge if available
+            if (dealer.lat && dealer.lon) {
+                fetchCoordinates(addr).then(coords => {
+                    if (coords) {
+                        const dist = getDistanceFromLatLonInKm(dealer.lat, dealer.lon, coords.lat, coords.lon);
+                        const distElements = document.querySelectorAll('#dist-badge-1, #dist-badge-2');
+                        distElements.forEach(el => {
+                            if (el) {
+                                el.innerHTML = `<span style="background: #eef2ff; color: #4338ca; padding: 2px 6px; border-radius: 4px; font-weight: bold;">🚗 Approx ${dist.toFixed(1)} km</span>`;
+                            }
+                        });
+                    } else {
+                        const distElements = document.querySelectorAll('#dist-badge-1, #dist-badge-2');
+                        distElements.forEach(el => {
+                            if (el) el.innerHTML = '';
+                        });
+                    }
+                });
+            } else {
+                const distElements = document.querySelectorAll('#dist-badge-1, #dist-badge-2');
+                distElements.forEach(el => {
+                    if (el) el.innerHTML = '';
+                });
+            }
             document.getElementById('quote-modal-overlay').classList.remove('hidden');
-
+            
             // Store current quote data for saving/sharing
             currentQuoteData = {
                 partnerCode: activePartnerCode,
@@ -1376,6 +1439,15 @@
             const panel = document.getElementById('allocated-leads-panel');
             if (panel.classList.contains('hidden')) {
                 renderAllocatedLeads();
+                panel.classList.remove('hidden');
+            } else {
+                panel.classList.add('hidden');
+            }
+        }
+
+        function toggleFeasibilityPanel() {
+            const panel = document.getElementById('feasibility-check-panel');
+            if (panel.classList.contains('hidden')) {
                 panel.classList.remove('hidden');
             } else {
                 panel.classList.add('hidden');
