@@ -644,7 +644,7 @@
         function emailQuotation() {
             if (!currentQuoteData) return;
             const subject = encodeURIComponent(`New Quotation Generated: ${currentQuoteData.quoteNo}`);
-            const body = encodeURIComponent(`Partner: ${currentQuoteData.partnerName} (${currentQuoteData.partnerCode})\nQuotation No: ${currentQuoteData.quoteNo}\nCustomer: ${currentQuoteData.customerName}\nPhone: ${currentQuoteData.customerPhone}\nCapacity: ${currentQuoteData.capacity} kWp\nGross Value: Rs. ${currentQuoteData.grossTotal}\n\nPlease review this generated quotation.`);
+            const body = encodeURIComponent(`Partner: ${currentQuoteData.partnerName} (${currentQuoteData.partnerCode})\nQuotation No: ${currentQuoteData.quoteNo}\nCustomer: ${currentQuoteData.customerName}\nPhone: ${currentQuoteData.customerPhone}\nCapacity: ${currentQuoteData.capacity} kWp\nGross Value: Rs. ${currentQuoteData.grossTotal || 'N/A'}\n\nPlease review this generated quotation.`);
             window.location.href = `mailto:info@sunovasolar.in?subject=${subject}&body=${body}`;
         }
         
@@ -657,7 +657,8 @@
                 alert('Partner phone number not found in database.');
                 return;
             }
-            const text = encodeURIComponent(`*SUNOVA SOLAR QUOTATION SUMMARY*\n\n*Quote No:* ${currentQuoteData.quoteNo}\n*Customer:* ${currentQuoteData.customerName}\n*Phone:* ${currentQuoteData.customerPhone}\n*Capacity:* ${currentQuoteData.capacity} kWp\n*Total Value:* Rs. ${currentQuoteData.grossTotal.toLocaleString('en-IN')}\n\nThis quote was generated via the Partner Portal.`);
+            const grossVal = currentQuoteData.grossTotal ? currentQuoteData.grossTotal.toLocaleString('en-IN') : 'N/A';
+            const text = encodeURIComponent(`*SUNOVA SOLAR QUOTATION SUMMARY*\n\n*Quote No:* ${currentQuoteData.quoteNo}\n*Customer:* ${currentQuoteData.customerName}\n*Phone:* ${currentQuoteData.customerPhone}\n*Capacity:* ${currentQuoteData.capacity} kWp\n*Total Value:* Rs. ${grossVal}\n\nThis quote was generated via the Partner Portal.`);
             window.open(`https://wa.me/91${dealer.phone}?text=${text}`, '_blank');
         }
 

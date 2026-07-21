@@ -79,6 +79,22 @@ if ($action == 'save_quote') {
         }
         $quotesList[] = $quote;
         write_db($dbFile, json_encode($quotesList));
+        
+        // Automate Email sending to staff
+        $to = "info@sunovasolar.in";
+        $subject = "New Quotation Saved: " . $quote['quoteNo'];
+        $message = "A new quotation was generated and saved by Partner: " . $quote['partnerName'] . " (" . $quote['partnerCode'] . ")\n\n" .
+                   "Quotation No: " . $quote['quoteNo'] . "\n" .
+                   "Customer: " . $quote['customerName'] . "\n" .
+                   "Phone: " . $quote['customerPhone'] . "\n" .
+                   "Capacity: " . $quote['capacity'] . " kWp\n" .
+                   "Gross Value: Rs. " . $quote['grossTotal'] . "\n\n" .
+                   "Please log into the Staff Portal to view and download the full quotation document.";
+        $headers = "From: no-reply@sunovasolar.in\r\n" .
+                   "Reply-To: info@sunovasolar.in\r\n" .
+                   "X-Mailer: PHP/" . phpversion();
+        @mail($to, $subject, $message, $headers);
+        
         echo json_encode(["status" => "success"]);
     } else {
         echo json_encode(["status" => "error", "message" => "Invalid data"]);
