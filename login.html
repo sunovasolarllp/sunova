@@ -144,6 +144,19 @@
                             <p style="font-size: 0.8rem; color: var(--color-text-muted); text-align: center; padding: 1rem 0;">No inquiries logged in this browser session.</p>
                         </div>
                     </div>
+
+                    <!-- Global Saved Quotations Log -->
+                    <div class="tech-settings-box" style="margin-top: 1.5rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem;">
+                            <h4 style="margin: 0; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
+                                💾 Global Saved Quotations
+                                <span id="saved-quotes-count" style="background: var(--color-sun-yellow); color: #0d1321; font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 10px; font-weight: 700;">0</span>
+                            </h4>
+                        </div>
+                        <div id="staff-saved-quotes-container" style="max-height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem;">
+                            <p style="font-size: 0.8rem; color: var(--color-text-muted); text-align: center; padding: 1rem 0;">No quotes saved by partners yet.</p>
+                        </div>
+                    </div>
                 </div>
 
 
@@ -308,6 +321,7 @@
             
             // Load and render dynamic inquiries list
             renderInquiries();
+            renderStaffSavedQuotes();
         }
 
         let activeInquiries = [];
@@ -509,6 +523,88 @@
                     });
                 }
             }
+        }
+
+        function renderStaffSavedQuotes() {
+            const container = document.getElementById('staff-saved-quotes-container');
+            const countBadge = document.getElementById('saved-quotes-count');
+            if (!container || !countBadge) return;
+
+            // Fetch from server DB for persistence across devices
+            fetch('saved_quotes_db.json?t=' + Date.now())
+            .then(res => {
+                if (!res.ok) throw new Error('Not found');
+                return res.json();
+            })
+            .then(data => {
+                if (!Array.isArray(data)) data = [];
+                const savedQuotes = data.reverse(); // Newest first
+                countBadge.textContent = savedQuotes.length;
+
+                if (savedQuotes.length === 0) {
+                    container.innerHTML = `<p style="font-size: 0.8rem; color: var(--color-text-muted); text-align: center; padding: 1.5rem 0;">No quotes saved by partners yet.</p>`;
+                    return;
+                }
+
+                container.innerHTML = savedQuotes.map(quote => `
+                    <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 10px; padding: 1.2rem; font-size: 0.82rem; line-height: 1.55; color: var(--color-text); box-shadow: 0 4px 15px var(--color-shadow); margin-bottom: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem;">
+                            <strong style="color: var(--color-text); font-size: 0.9rem;">[Doc] ${quote.quoteNo}</strong>
+                            <span style="font-size: 0.72rem; color: var(--color-text-muted);">${new Date(quote.timestamp).toLocaleString()}</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem 1rem; margin-bottom: 0.6rem; color: var(--color-text-muted);">
+                            <div><strong style="color: var(--color-text);">Partner:</strong> ${quote.partnerName} (${quote.partnerCode})</div>
+                            <div><strong style="color: var(--color-text);">Customer:</strong> ${quote.customerName}</div>
+                            <div><strong style="color: var(--color-text);">Phone:</strong> ${quote.customerPhone}</div>
+                            <div><strong style="color: var(--color-text);">System:</strong> ${quote.capacity} kWp</div>
+                            <div><strong style="color: var(--color-text);">Value:</strong> Rs. ${(quote.grossTotal || 0).toLocaleString('en-IN')}</div>
+                        </div>
+                        <div style="display: flex; justify-content: flex-end; gap: 0.6rem; margin-top: 0.8rem;">
+                            <button onclick="downloadStaffQuote('${quote.quoteNo}')" class="cta-btn secondary-btn" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;">Download Copy</button>
+                            <button onclick="deleteStaffQuote('${quote.quoteNo}')" class="cta-btn" style="padding: 0.4rem 0.8rem; font-size: 0.75rem; background: #dc3545; color: white; border: none;">Delete</button>
+                        </div>
+                    </div>
+                `).join('');
+            })
+            .catch(err => {
+                container.innerHTML = `<p style="font-size: 0.8rem; color: var(--color-text-muted); text-align: center; padding: 1.5rem 0;">No quotes saved yet or database not available.</p>`;
+            });
+        }
+        
+        function downloadStaffQuote(quoteNo) {
+            fetch('saved_quotes_db.json?t=' + Date.now())
+            .then(res => {
+                if (!res.ok) throw new Error('Not found');
+                return res.json();
+            })
+            .then(data => {
+                if (!Array.isArray(data)) data = [];
+                const quote = data.find(q => q.quoteNo === quoteNo);
+                if (!quote) return alert('Quote not found.');
+                
+                const w = window.open('', '_blank');
+                w.document.write('<html><head><title>Print Quote</title>');
+                w.document.write('<style>body { font-family: sans-serif; padding: 2rem; } @media print { .no-print { display: none !important; } }</style>');
+                w.document.write('</head><body>');
+                w.document.write('<div class="no-print" style="text-align: right; margin-bottom: 20px;"><button onclick="window.print()" style="padding: 10px 20px; font-size: 16px; cursor: pointer; background: #0d1321; color: white; border: none; border-radius: 5px;">Print Quotation</button></div>');
+                w.document.write(quote.html);
+                w.document.write('<script>window.onload = function() { window.print(); };<\\/script>');
+                w.document.write('</body></html>');
+                w.document.close();
+            }).catch(() => alert('Could not retrieve quote database'));
+        }
+        
+        function deleteStaffQuote(quoteNo) {
+            if (!confirm(`Are you sure you want to delete quotation ${quoteNo}?`)) return;
+            fetch(`proxy.php?action=delete_quote&quoteNo=${encodeURIComponent(quoteNo)}`)
+            .then(res => res.json())
+            .then(data => {
+                if(data.status === 'success') {
+                    renderStaffSavedQuotes();
+                } else {
+                    alert('Could not delete quote from server.');
+                }
+            }).catch(() => alert('Network error while deleting quote.'));
         }
 
         function clearInquiriesLog() {

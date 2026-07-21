@@ -68,6 +68,42 @@ function parse_lead_from_email($body, $date) {
 
 $action = isset($_GET['action']) ? $_GET['action'] : '';
 
+if ($action == 'save_quote') {
+    $data = file_get_contents('php://input');
+    $quote = json_decode($data, true);
+    if ($quote && isset($quote['quoteNo'])) {
+        $dbFile = 'saved_quotes_db.json';
+        $quotesList = [];
+        if (file_exists($dbFile)) {
+            $quotesList = json_decode(file_get_contents($dbFile), true) ?: [];
+        }
+        $quotesList[] = $quote;
+        write_db($dbFile, json_encode($quotesList));
+        echo json_encode(["status" => "success"]);
+    } else {
+        echo json_encode(["status" => "error", "message" => "Invalid data"]);
+    }
+    exit;
+}
+
+if ($action == 'delete_quote') {
+    $quoteNo = isset($_GET['quoteNo']) ? $_GET['quoteNo'] : '';
+    if ($quoteNo) {
+        $dbFile = 'saved_quotes_db.json';
+        if (file_exists($dbFile)) {
+            $quotesList = json_decode(file_get_contents($dbFile), true) ?: [];
+            $quotesList = array_filter($quotesList, function($q) use ($quoteNo) {
+                return $q['quoteNo'] !== $quoteNo;
+            });
+            write_db($dbFile, json_encode(array_values($quotesList)));
+        }
+        echo json_encode(["status" => "success"]);
+    } else {
+        echo json_encode(["status" => "error", "message" => "Invalid quote number"]);
+    }
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit(0);
 }

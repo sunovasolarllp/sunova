@@ -109,6 +109,9 @@
                     <button type="button" onclick="toggleAllocatedLeads()" class="cta-btn primary-btn text-center full-width" style="cursor: pointer; width: 100%; border: none; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
                         📋 View Allocated Customer Inquiries
                     </button>
+                    <button type="button" onclick="toggleSavedQuotes()" class="cta-btn primary-btn text-center full-width" style="cursor: pointer; width: 100%; border: none; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
+                        💾 View Saved Quotations
+                    </button>
                     <button type="button" onclick="toggleChangePinPanel()" class="cta-btn text-center full-width" style="background: rgba(255,255,255,0.05); border: 1px solid var(--color-border); color: var(--color-text); cursor: pointer; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
                         🔒 Change Security PIN
                     </button>
@@ -123,6 +126,16 @@
                     
                     <div id="allocated-leads-list" style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 350px; overflow-y: auto; padding-right: 0.3rem;">
                         <!-- Dynamically Injected leads list -->
+                    </div>
+                </div>
+
+                <!-- Saved Quotes Panel (Collapsible) -->
+                <div id="saved-quotes-panel" class="hidden" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                    <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                        💾 Saved Quotations
+                    </h4>
+                    <p style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.45;">Your generated quotes saved to this browser.</p>
+                    <div id="saved-quotes-list" style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 350px; overflow-y: auto; padding-right: 0.3rem;">
                     </div>
                 </div>
 
@@ -165,7 +178,7 @@
                                 <option value="">-- Choose an Allocated Lead --</option>
                             </select>
                         </div>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                        <div class="quote-grid-2">
                             <div class="form-group">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Customer Name</label>
                                 <input type="text" id="quote-cust-name" placeholder="e.g. Radhakrishnan Nair" style="text-transform: uppercase; width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
@@ -185,7 +198,7 @@
                                 <option value="">-- Auto-filled by Partner District --</option>
                             </select>
                         </div>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                        <div class="quote-grid-3">
                             <div class="form-group">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Capacity (kWp)</label>
                                 <input type="number" id="quote-capacity" value="3" min="1" max="100" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
@@ -207,7 +220,7 @@
                             </div>
                         </div>
                         
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                        <div class="quote-grid-2">
                             <div class="form-group">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Roof Type</label>
                                 <select id="quote-roof-type" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
@@ -226,7 +239,7 @@
                             </div>
                         </div>
 
-                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                        <div class="quote-grid-3">
                             <div class="form-group">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Advance %</label>
                                 <input type="number" id="quote-pay-advance" value="60" min="0" max="100" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
@@ -241,7 +254,7 @@
                             </div>
                         </div>
                         
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1.2rem;">
+                        <div class="quote-grid-2" style="margin-top: 1.2rem;">
                             <button type="button" onclick="generateQuotation('customer')" class="cta-btn primary-btn text-center" style="padding: 0.65rem 0.5rem; font-size: 0.8rem; font-weight: 700; border-radius: 8px; display: block; width: 100%; cursor: pointer;">
                                 👤 Customer Proposal
                             </button>
@@ -605,6 +618,194 @@
             }, 2000);
         }
 
+        let currentQuoteData = null; // Global for sharing/saving
+
+        function saveQuotation() {
+            if (!currentQuoteData) return;
+            const dealerCode = localStorage.getItem('partner_code');
+            const savedQuotes = JSON.parse(localStorage.getItem('sunova_saved_quotes') || '[]');
+            savedQuotes.push(currentQuoteData);
+            localStorage.setItem('sunova_saved_quotes', JSON.stringify(savedQuotes));
+            
+            // Increment the sequence counter for this partner
+            let seq = parseInt(localStorage.getItem(`quote_seq_${dealerCode}`) || '0');
+            localStorage.setItem(`quote_seq_${dealerCode}`, seq + 1);
+            
+            // Backup to server
+            fetch('proxy.php?action=save_quote', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(currentQuoteData)
+            }).catch(e => console.log('Server backup failed, saved locally.'));
+            
+            alert('Quotation ' + currentQuoteData.quoteNo + ' saved successfully!');
+        }
+
+        function emailQuotation() {
+            if (!currentQuoteData) return;
+            const subject = encodeURIComponent(`New Quotation Generated: ${currentQuoteData.quoteNo}`);
+            const body = encodeURIComponent(`Partner: ${currentQuoteData.partnerName} (${currentQuoteData.partnerCode})\nQuotation No: ${currentQuoteData.quoteNo}\nCustomer: ${currentQuoteData.customerName}\nPhone: ${currentQuoteData.customerPhone}\nCapacity: ${currentQuoteData.capacity} kWp\nGross Value: Rs. ${currentQuoteData.grossTotal}\n\nPlease review this generated quotation.`);
+            window.location.href = `mailto:info@sunovasolar.in?subject=${subject}&body=${body}`;
+        }
+        
+        function whatsappQuotation() {
+            if (!currentQuoteData) return;
+            // Get partner's phone from DEALERS array based on code
+            const dealerCode = localStorage.getItem('partner_code');
+            const dealer = DEALERS.find(d => d.code === dealerCode);
+            if (!dealer || !dealer.phone) {
+                alert('Partner phone number not found in database.');
+                return;
+            }
+            const text = encodeURIComponent(`*SUNOVA SOLAR QUOTATION SUMMARY*\n\n*Quote No:* ${currentQuoteData.quoteNo}\n*Customer:* ${currentQuoteData.customerName}\n*Phone:* ${currentQuoteData.customerPhone}\n*Capacity:* ${currentQuoteData.capacity} kWp\n*Total Value:* Rs. ${currentQuoteData.grossTotal.toLocaleString('en-IN')}\n\nThis quote was generated via the Partner Portal.`);
+            window.open(`https://wa.me/91${dealer.phone}?text=${text}`, '_blank');
+        }
+
+        function toggleSavedQuotes() {
+            const panel = document.getElementById('saved-quotes-panel');
+            if (panel.classList.contains('hidden')) {
+                renderSavedQuotes();
+                panel.classList.remove('hidden');
+            } else {
+                panel.classList.add('hidden');
+            }
+        }
+
+        function renderSavedQuotes() {
+            const dealerCode = localStorage.getItem('partner_code');
+            const container = document.getElementById('saved-quotes-list');
+            
+            fetch('saved_quotes_db.json?t=' + Date.now())
+            .then(res => {
+                if (!res.ok) throw new Error('Not found');
+                return res.json();
+            })
+            .then(data => {
+                if (!Array.isArray(data)) data = [];
+                const serverQuotes = data.filter(q => q.partnerCode === dealerCode);
+                
+                // Restore any local quotes that were wiped from the server
+                let localQuotes = JSON.parse(localStorage.getItem('sunova_saved_quotes') || '[]');
+                localQuotes = localQuotes.filter(q => q.partnerCode === dealerCode);
+                
+                const missingQuotes = localQuotes.filter(lq => !serverQuotes.some(sq => sq.quoteNo === lq.quoteNo));
+                missingQuotes.forEach(q => {
+                    // Sync back to server
+                    fetch('proxy.php?action=save_quote', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(q)
+                    });
+                });
+                
+                const myQuotes = [...serverQuotes, ...missingQuotes].sort((a, b) => b.timestamp - a.timestamp);
+                
+                if (myQuotes.length === 0) {
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 2rem 1rem; color: var(--color-text-muted); font-size: 0.84rem;">
+                            [Empty] No saved quotations found.
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = myQuotes.map(quote => `
+                    <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 10px; padding: 1.2rem; font-size: 0.82rem; line-height: 1.55; color: var(--color-text); margin-bottom: 0.8rem; box-shadow: 0 4px 15px var(--color-shadow);">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem;">
+                            <strong style="color: var(--color-text); font-size: 0.9rem;">[Doc] ${quote.quoteNo}</strong>
+                            <span style="font-size: 0.72rem; color: var(--color-text-muted);">${new Date(quote.timestamp).toLocaleDateString()}</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem 1rem; margin-bottom: 0.6rem; color: var(--color-text-muted);">
+                            <div><strong style="color: var(--color-text);">Customer:</strong> ${quote.customerName}</div>
+                            <div><strong style="color: var(--color-text);">Phone:</strong> ${quote.customerPhone}</div>
+                            <div><strong style="color: var(--color-text);">System:</strong> ${quote.capacity} kWp</div>
+                            <div><strong style="color: var(--color-text);">Value:</strong> Rs. ${(quote.grossTotal || 0).toLocaleString('en-IN')}</div>
+                        </div>
+                        <div style="display: flex; justify-content: flex-end; gap: 0.6rem; margin-top: 0.8rem;">
+                            <button onclick="viewPartnerQuote('${quote.quoteNo}')" class="cta-btn secondary-btn" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;">View / Print</button>
+                            <button onclick="deletePartnerQuote('${quote.quoteNo}')" class="cta-btn" style="padding: 0.4rem 0.8rem; font-size: 0.75rem; background: #dc3545; color: white; border: none;">Delete</button>
+                        </div>
+                    </div>
+                `).join('');
+            }).catch(err => {
+                // Fallback to local storage if server fails
+                const savedQuotes = JSON.parse(localStorage.getItem('sunova_saved_quotes') || '[]');
+                const myQuotes = savedQuotes.filter(q => q.partnerCode === dealerCode).reverse();
+                if (myQuotes.length === 0) {
+                    container.innerHTML = `<div style="text-align: center; padding: 2rem 1rem; color: var(--color-text-muted); font-size: 0.84rem;">[Empty] No saved quotations found.</div>`;
+                    return;
+                }
+                container.innerHTML = myQuotes.map(quote => `
+                    <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 10px; padding: 1.2rem; font-size: 0.82rem; line-height: 1.55; color: var(--color-text); margin-bottom: 0.8rem; box-shadow: 0 4px 15px var(--color-shadow);">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem;">
+                            <strong style="color: var(--color-text); font-size: 0.9rem;">[Doc] ${quote.quoteNo}</strong>
+                            <span style="font-size: 0.72rem; color: var(--color-text-muted);">${new Date(quote.timestamp).toLocaleDateString()}</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem 1rem; margin-bottom: 0.6rem; color: var(--color-text-muted);">
+                            <div><strong style="color: var(--color-text);">Customer:</strong> ${quote.customerName}</div>
+                            <div><strong style="color: var(--color-text);">Phone:</strong> ${quote.customerPhone}</div>
+                            <div><strong style="color: var(--color-text);">System:</strong> ${quote.capacity} kWp</div>
+                            <div><strong style="color: var(--color-text);">Value:</strong> Rs. ${(quote.grossTotal || 0).toLocaleString('en-IN')}</div>
+                        </div>
+                        <div style="display: flex; justify-content: flex-end; gap: 0.6rem; margin-top: 0.8rem;">
+                            <button onclick="viewPartnerQuote('${quote.quoteNo}')" class="cta-btn secondary-btn" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;">View / Print</button>
+                            <button onclick="deletePartnerQuote('${quote.quoteNo}')" class="cta-btn" style="padding: 0.4rem 0.8rem; font-size: 0.75rem; background: #dc3545; color: white; border: none;">Delete</button>
+                        </div>
+                    </div>
+                `).join('');
+            });
+        }
+        
+        function viewPartnerQuote(quoteNo) {
+            const printHtml = (quote) => {
+                const w = window.open('', '_blank');
+                w.document.write('<html><head><title>Print Quote</title>');
+                w.document.write('<style>body { font-family: sans-serif; padding: 2rem; } @media print { .no-print { display: none !important; } }</style>');
+                w.document.write('</head><body>');
+                w.document.write('<div class="no-print" style="text-align: right; margin-bottom: 20px;"><button onclick="window.print()" style="padding: 10px 20px; font-size: 16px; cursor: pointer; background: #0d1321; color: white; border: none; border-radius: 5px;">Print Quotation</button></div>');
+                w.document.write(quote.html);
+                w.document.write('<script>window.onload = function() { window.print(); };<\\/script>');
+                w.document.write('</body></html>');
+                w.document.close();
+            };
+
+            fetch('saved_quotes_db.json?t=' + Date.now())
+            .then(res => res.json())
+            .then(data => {
+                if (!Array.isArray(data)) data = [];
+                let quote = data.find(q => q.quoteNo === quoteNo);
+                if (!quote) {
+                    let localQuotes = JSON.parse(localStorage.getItem('sunova_saved_quotes') || '[]');
+                    quote = localQuotes.find(q => q.quoteNo === quoteNo);
+                }
+                if (!quote) return alert('Quote not found.');
+                printHtml(quote);
+            }).catch(() => {
+                let localQuotes = JSON.parse(localStorage.getItem('sunova_saved_quotes') || '[]');
+                let quote = localQuotes.find(q => q.quoteNo === quoteNo);
+                if (!quote) return alert('Quote not found.');
+                printHtml(quote);
+            });
+        }
+        
+        function deletePartnerQuote(quoteNo) {
+            if (!confirm(`Are you sure you want to delete quotation ${quoteNo}?`)) return;
+            // Delete from local storage
+            let localQuotes = JSON.parse(localStorage.getItem('sunova_saved_quotes') || '[]');
+            localQuotes = localQuotes.filter(q => q.quoteNo !== quoteNo);
+            localStorage.setItem('sunova_saved_quotes', JSON.stringify(localQuotes));
+            
+            // Delete from server
+            fetch(`proxy.php?action=delete_quote&quoteNo=${encodeURIComponent(quoteNo)}`)
+            .then(res => res.json())
+            .then(data => {
+                renderSavedQuotes();
+            }).catch(() => {
+                alert('Deleted locally, but network error while deleting from server.');
+                renderSavedQuotes();
+            });
+        }
+
         // Load inquiries from server or local storage
         function loadInquiries(callback) {
             fetch('proxy.php?action=get_inquiries')
@@ -827,7 +1028,8 @@
             const activePartnerCode = localStorage.getItem('partner_code') || 'TVM-JOBI';
             const dealer = DEALERS.find(d => d.code === activePartnerCode) || DEALERS[0];
             
-            const quoteNo = `SNS/QTN/2026/${Math.floor(1000 + Math.random() * 9000)}`;
+            let seq = parseInt(localStorage.getItem(`quote_seq_${activePartnerCode}`) || '0') + 1;
+            const quoteNo = `${activePartnerCode}/QTN/${String(seq).padStart(3, '0')}`;
             const dateStr = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
             
             // Panel parameters calculation
@@ -835,9 +1037,9 @@
             const panelCount = Math.ceil((capacityVal * 1000) / panelWattage);
             
             let quoteHTML = '';
+            let grossTotal = 0;
             
             if (type === 'customer') {
-                let grossTotal = 0;
                 
                 // Check for dynamic pricing rules
                 let customPricing = null;
@@ -873,7 +1075,7 @@
                 const netPayable = grossTotal - subsidy;
                 
                 function numberToWords(num) {
-                    return 'Rupees ' + num.toLocaleString('en-IN') + ' Only'; // Simplified word representation for demo
+                    return 'Rupees ' + num.toLocaleString('en-IN') + ' Only'; 
                 }
 
                 quoteHTML = `
@@ -1033,6 +1235,7 @@
                 const grossLiaison = Math.round(totalPrice / 1.138);
                 const gstVal = totalPrice - grossLiaison;
                 const grossTotalKseb = totalPrice;
+                grossTotal = grossTotalKseb; // Fix for reference error
                 
                 quoteHTML = `
                     <div style="font-family: 'Inter', sans-serif; color: #333; line-height: 1.6;">
@@ -1150,6 +1353,22 @@
             
             document.getElementById('quote-render-area').innerHTML = quoteHTML;
             document.getElementById('quote-modal-overlay').classList.remove('hidden');
+
+            // Store current quote data for saving/sharing
+            currentQuoteData = {
+                partnerCode: activePartnerCode,
+                partnerName: dealer.name,
+                quoteNo: quoteNo,
+                date: dateStr,
+                customerName: name,
+                customerPhone: phone,
+                customerAddr: addr,
+                ksebSection: document.getElementById('quote-kseb-section').value,
+                capacity: capacityVal,
+                grossTotal: grossTotal,
+                html: quoteHTML,
+                timestamp: new Date().toISOString()
+            };
         }
 
         function toggleAllocatedLeads() {
@@ -1328,12 +1547,21 @@
             <!-- Modal Header Actions (Not Printed) -->
             <div class="no-print" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; padding-bottom: 1rem; margin-bottom: 1.5rem;">
                 <h3 style="margin: 0; color: #333; font-family: 'Outfit', sans-serif;">Solar Quotation Preview</h3>
-                <div style="display: flex; gap: 0.6rem;">
-                    <button onclick="window.print()" style="background: #1a73e8; color: white; border: none; border-radius: 6px; padding: 0.5rem 1rem; font-weight: 600; font-size: 0.82rem; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
-                        🖨️ Print / Save PDF
+                <div style="display: flex; gap: 0.6rem; flex-wrap: wrap; justify-content: flex-end;">
+                    <button onclick="saveQuotation()" style="background: #28a745; color: white; border: none; border-radius: 6px; padding: 0.5rem 1rem; font-weight: 600; font-size: 0.82rem; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                        💾 Save
+                    </button>
+                    <button onclick="emailQuotation()" style="background: #1a73e8; color: white; border: none; border-radius: 6px; padding: 0.5rem 1rem; font-weight: 600; font-size: 0.82rem; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                        📧 Email Info
+                    </button>
+                    <button onclick="whatsappQuotation()" style="background: #25d366; color: white; border: none; border-radius: 6px; padding: 0.5rem 1rem; font-weight: 600; font-size: 0.82rem; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                        💬 WhatsApp
+                    </button>
+                    <button onclick="window.print()" style="background: #6c757d; color: white; border: none; border-radius: 6px; padding: 0.5rem 1rem; font-weight: 600; font-size: 0.82rem; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                        🖨️ Print
                     </button>
                     <button onclick="closeQuoteModal()" style="background: #e0e0e0; color: #333; border: none; border-radius: 6px; padding: 0.5rem 1rem; font-weight: 600; font-size: 0.82rem; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
-                        Close Preview
+                        Close
                     </button>
                 </div>
             </div>
