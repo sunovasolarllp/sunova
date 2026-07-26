@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunova Mail | Webmail Client</title>
+    <meta name="description" content="Secure corporate webmail client for SUNOVA SOLAR LLP.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css?v=4.2">
+    
+    <!-- SMTPJS Direct Relay Library -->
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+
+    <style>
+        :root {
+            --color-gmail-bg: #0f172a;
+            --color-gmail-surface: #1e293b;
+            --color-gmail-border: rgba(255, 255, 255, 0.08);
+            --color-gmail-active: rgba(255, 183, 3, 0.15);
+            --color-gmail-hover: rgba(255, 255, 255, 0.04);
+            --color-gmail-text: #f8fafc;
+            --color-gmail-muted: #94a3b8;
+        }
+
+        body.webmail-body {
+            background-color: var(--color-gmail-bg);
+            color: var(--color-gmail-text);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Login Layout styling override */
+        .webmail-login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #0d1321 0%, #1e293b 100%);
+        }
+
+        /* Main Workspace Layout */
+        .mail-header {
+            height: 64px;
+            background-color: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--color-gmail-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            z-index: 100;
+        }
+
+        .mail-search-bar {
+            flex: 1;
+            max-width: 600px;
+            margin: 0 2rem;
+            position: relative;
+        }
+
+        .mail-search-bar input {
+            width: 100%;
+            padding: 0.65rem 1rem 0.65rem 2.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--color-gmail-border);
+            border-radius: 24px;
+            color: white;
+            font-size: 0.88rem;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .mail-search-bar input:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--color-sun-yellow);
+            outline: none;
+        }
+
+        .mail-search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-gmail-muted);
+        }
+
+        .mail-layout {
+            display: flex;
+            flex: 1;
+            height: calc(100vh - 64px);
+            overflow: hidden;
+        }
+
+        .mail-sidebar {
+            width: 256px;
+            background-color: rgba(15, 23, 42, 0.4);
+            border-right: 1px solid var(--color-gmail-border);
+            padding: 1.5rem 0.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .compose-btn {
+            background: linear-gradient(135deg, var(--color-sun-yellow) 0%, #f5b002 100%);
+            color: #0d1321 !important;
+            font-weight: 700;
+            border-radius: 24px;
+            padding: 0.85rem 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            margin-bottom: 1.5rem;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 183, 3, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .compose-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(255, 183, 3, 0.3);
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.65rem 1rem;
+            border-radius: 20px;
+            color: var(--color-gmail-muted);
+            font-size: 0.88rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .sidebar-item:hover, .sidebar-item.active {
+            background-color: var(--color-gmail-active);
+            color: var(--color-sun-yellow);
+        }
+
+        .sidebar-item-label {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .sidebar-badge {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--color-gmail-muted);
+            padding: 0.1rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        .sidebar-item.active .sidebar-badge {
+            background: var(--color-sun-yellow);
+            color: #0d1321;
+        }
+
+        .mail-content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(30, 41, 59, 0.2);
+            overflow: hidden;
+        }
+
+        /* Message List */
+        .mail-list-header {
+            padding: 0.8rem 1.5rem;
+            border-bottom: 1px solid var(--color-gmail-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.82rem;
+            color: var(--color-gmail-muted);
+        }
+
+        .mail-list-container {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .mail-row {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            border-bottom: 1px solid var(--color-gmail-border);
+            cursor: pointer;
+            font-size: 0.88rem;
+            transition: background-color 0.15s;
+            position: relative;
+        }
+
+        .mail-row:hover {
+            background-color: var(--color-gmail-hover);
+        }
+
+        .mail-row.unread {
+            font-weight: 700;
+            color: white;
+            background-color: rgba(255, 255, 255, 0.01);
+        }
+
+        .mail-col-sender {
+            width: 180px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-right: 1rem;
+        }
+
+        .mail-col-body {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--color-gmail-muted);
+            padding-right: 1rem;
+        }
+
+        .mail-row.unread .mail-col-body {
+            color: #f1f5f9;
+        }
+
+        .mail-col-date {
+            width: 90px;
+            text-align: right;
+            font-size: 0.76rem;
+            color: var(--color-gmail-muted);
+        }
+
+        /* Floating Compose Modal */
+        .compose-modal {
+            position: fixed;
+            bottom: 0;
+            right: 50px;
+            width: 550px;
+            background-color: var(--color-gmail-surface);
+            border: 1px solid var(--color-gmail-border);
+            border-bottom: none;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transition: transform 0.2s ease-out;
+        }
+
+        .compose-modal-header {
+            background-color: rgba(15, 23, 42, 0.6);
+            padding: 0.8rem 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            border-bottom: 1px solid var(--color-gmail-border);
+        }
+
+        .compose-modal-header h4 {
+            margin: 0;
+            font-family: 'Outfit', sans-serif;
+            color: white;
+            font-size: 0.92rem;
+        }
+
+        .compose-close-btn {
+            background: none;
+            border: none;
+            color: var(--color-gmail-muted);
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .compose-form {
+            display: flex;
+            flex-direction: column;
+            padding: 0.8rem 1.2rem;
+            gap: 0.8rem;
+        }
+
+        .compose-input-group {
+            display: flex;
+            border-bottom: 1px solid var(--color-gmail-border);
+            padding-bottom: 0.4rem;
+            align-items: center;
+        }
+
+        .compose-input-group label {
+            width: 50px;
+            color: var(--color-gmail-muted);
+            font-size: 0.84rem;
+        }
+
+        .compose-input-group input {
+            flex: 1;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 0.88rem;
+        }
+
+        .compose-input-group input:focus {
+            outline: none;
+        }
+
+        .compose-textarea {
+            width: 100%;
+            min-height: 200px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 0.88rem;
+            resize: none;
+            line-height: 1.6;
+        }
+
+        .compose-textarea:focus {
+            outline: none;
+        }
+
+        .compose-footer {
+            padding: 0.8rem 1.2rem;
+            border-top: 1px solid var(--color-gmail-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Profile Dropdown */
+        .profile-container {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .avatar-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--color-sun-yellow);
+            color: #0d1321;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.88rem;
+        }
+
+        .profile-dropdown-card {
+            position: absolute;
+            top: 45px;
+            right: 0;
+            width: 280px;
+            background-color: var(--color-gmail-surface);
+            border: 1px solid var(--color-gmail-border);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            padding: 1.5rem;
+            z-index: 500;
+            text-align: center;
+            cursor: default;
+        }
+
+        .profile-dropdown-card h4 {
+            margin: 0.5rem 0 0.2rem 0;
+            color: white;
+            font-size: 0.95rem;
+        }
+
+        .profile-dropdown-card p {
+            margin: 0 0 1rem 0;
+            color: var(--color-gmail-muted);
+            font-size: 0.78rem;
+        }
+
+        .dropdown-actions {
+            border-top: 1px solid var(--color-gmail-border);
+            padding-top: 1rem;
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        /* Toast notifications */
+        .toast-notification {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            background-color: #1e293b;
+            color: white;
+            border: 1px solid var(--color-gmail-border);
+            border-radius: 8px;
+            padding: 0.8rem 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.84rem;
+            z-index: 10000;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+    </style>
+</head>
+<body class="webmail-body">
+
+    <!-- 1. Secure Webmail Login Overlay View -->
+    <div class="webmail-login-container" id="webmail-login-view">
+        <div class="glass-card login-card" style="max-width: 420px; width: 100%; padding: 2.5rem; border-radius: 16px;">
+            <div class="portal-header text-center" style="margin-bottom: 2rem;">
+                <img src="assets/logo.jpg" alt="SUNOVA SOLAR LLP Logo" class="portal-logo" style="width: 70px; height: 70px; border-radius: 50%; margin-bottom: 0.8rem; border: 2px solid var(--color-sun-yellow);">
+                <h2 style="font-family: 'Outfit', sans-serif; color: white; margin: 0; font-size: 1.6rem;">Sunova Solar Webmail</h2>
+                <p style="color: var(--color-gmail-muted); font-size: 0.82rem; margin-top: 0.4rem;">Connect securely to your hostinger mail inbox.</p>
+            </div>
+            
+            <form id="webmail-login-form" onsubmit="handleWebmailLogin(event)">
+                <div class="form-group" style="margin-bottom: 1.2rem;">
+                    <label style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 0.35rem; display: block; text-transform: uppercase; font-weight: 600;">Login Username ID</label>
+                    <input type="text" value="info@sunovasolar.in" readonly style="width: 100%; padding: 0.75rem 1rem; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; color: var(--color-text-muted); font-size: 0.9rem; cursor: not-allowed; font-weight: 600;">
+                </div>
+                
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label for="webmail-pass" style="font-size: 0.76rem; color: white; margin-bottom: 0.35rem; display: block; text-transform: uppercase; font-weight: 600;">Hostinger Mail Password</label>
+                    <input type="password" id="webmail-pass" placeholder="Enter info@sunovasolar.in password" required style="width: 100%; padding: 0.75rem 1rem; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--color-gmail-border); border-radius: 8px; color: white; font-size: 0.9rem; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--color-sun-yellow)'" onblur="this.style.borderColor='var(--color-gmail-border)'">
+                </div>
+
+                <div id="login-error-msg" class="form-feedback error hidden" style="margin-bottom: 1.2rem; font-size: 0.78rem;"></div>
+
+                <button type="submit" class="cta-btn primary-btn full-width" style="padding: 0.85rem; font-size: 0.92rem; font-weight: 700; border-radius: 8px; cursor: pointer; border: none; width: 100%;">
+                    Connect &amp; Open Webmail
+                </button>
+            </form>
+            <div style="text-align: center; margin-top: 1.5rem; font-size: 0.72rem; color: var(--color-gmail-muted);">
+                🔒 Protected by TLS/SSL secure hostinger configuration relays.
+            </div>
+            
+            <div style="text-align: center; margin-top: 1.2rem; border-top: 1px solid var(--color-gmail-border); padding-top: 1rem;">
+                <button type="button" onclick="toggleSettingsPanel()" style="background: none; border: none; color: var(--color-sun-yellow); font-size: 0.76rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.3rem;">
+                    &#9881;&#65039; Mail Server & Integration Settings
+                </button>
+            </div>
+
+    <!-- 1b. Connection Settings Modal -->
+    <div id="mail-settings-modal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 10000;">
+        <div class="glass-card" style="max-width: 500px; width: 100%; padding: 2.2rem; border-radius: 16px; border: 1px solid var(--color-gmail-border); background: var(--color-gmail-surface); box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-gmail-border); padding-bottom: 0.8rem; margin-bottom: 1.5rem;">
+                <h3 style="font-family: 'Outfit', sans-serif; color: white; margin: 0; font-size: 1.2rem; display: flex; align-items: center; gap: 0.4rem;">&#9881;&#65039; Mail Integration Dashboard</h3>
+                <button onclick="toggleSettingsPanel()" style="background: none; border: none; color: var(--color-gmail-muted); font-size: 1.5rem; cursor: pointer; line-height: 1;">&times;</button>
+            </div>
+            
+            <form id="mail-settings-form" onsubmit="saveMailSettings(event)">
+                <!-- Group 1: API Gateways -->
+                <div style="margin-bottom: 1.2rem;">
+                    <h4 style="font-size: 0.8rem; color: var(--color-sun-yellow); margin: 0 0 0.8rem 0; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">API Integrations (Local & Static Sends)</h4>
+                    
+                    <div class="form-group" style="margin-bottom: 0.8rem;">
+                        <label style="font-size: 0.72rem; color: #cbd5e1; margin-bottom: 0.25rem; display: block;">Web3Forms Access Key (Inquiry Forwarding)</label>
+                        <input type="text" id="setting-web3-key" placeholder="Paste your Web3Forms Access Key" style="width: 100%; padding: 0.6rem 0.8rem; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--color-gmail-border); border-radius: 6px; color: white; font-size: 0.82rem;">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label style="font-size: 0.72rem; color: #cbd5e1; margin-bottom: 0.25rem; display: block;">SMTPJS Secure Token (Client-Side SMTP Bypass)</label>
+                        <input type="text" id="setting-smtpjs-token" placeholder="Paste your SMTPJS Secure Token" style="width: 100%; padding: 0.6rem 0.8rem; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--color-gmail-border); border-radius: 6px; color: white; font-size: 0.82rem;">
+                    </div>
+                </div>
+
+                <!-- Group 2: Hostinger Server Settings -->
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="font-size: 0.8rem; color: var(--color-sun-yellow); margin: 0 0 0.8rem 0; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Hostinger Gateway Connection</h4>
+                    
+                    <div style="display: grid; grid-template-columns: 3fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                        <div>
+                            <label style="font-size: 0.72rem; color: #cbd5e1; margin-bottom: 0.25rem; display: block;">IMAP Incoming Server</label>
+                            <input type="text" id="setting-imap-host" value="imap.hostinger.com" style="width: 100%; padding: 0.6rem 0.8rem; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--color-gmail-border); border-radius: 6px; color: white; font-size: 0.82rem;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.72rem; color: #cbd5e1; margin-bottom: 0.25rem; display: block;">Port</label>
+                            <input type="number" id="setting-imap-port" value="993" style="width: 100%; padding: 0.6rem 0.8rem; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--color-gmail-border); border-radius: 6px; color: white; font-size: 0.82rem;">
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 3fr 1fr; gap: 0.8rem;">
+                        <div>
+                            <label style="font-size: 0.72rem; color: #cbd5e1; margin-bottom: 0.25rem; display: block;">SMTP Outgoing Server</label>
+                            <input type="text" id="setting-smtp-host" value="smtp.hostinger.com" style="width: 100%; padding: 0.6rem 0.8rem; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--color-gmail-border); border-radius: 6px; color: white; font-size: 0.82rem;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.72rem; color: #cbd5e1; margin-bottom: 0.25rem; display: block;">Port</label>
+                            <input type="number" id="setting-smtp-port" value="465" style="width: 100%; padding: 0.6rem 0.8rem; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--color-gmail-border); border-radius: 6px; color: white; font-size: 0.82rem;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div style="display: flex; gap: 0.8rem; justify-content: flex-end;">
+                    <button type="button" onclick="toggleSettingsPanel()" style="padding: 0.7rem 1.2rem; font-size: 0.84rem; border-radius: 6px; border: 1px solid var(--color-gmail-border); background: none; color: white; cursor: pointer; font-weight: 600;">Cancel</button>
+                    <button type="submit" style="padding: 0.7rem 1.2rem; font-size: 0.84rem; border-radius: 6px; background: var(--color-sun-yellow); color: #0d1321; border: none; cursor: pointer; font-weight: 700;">Save Settings</button>
+                </div>
+            </form>
+        </div>
+    </div>
+            <div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Main Google-style Webmail Workspace Layout (Hidden initially) -->
+    <div id="webmail-workspace-view" class="hidden" style="display: flex; flex-direction: column; height: 100vh;">
+        <!-- Header -->
+        <header class="mail-header">
+            <div style="display: flex; align-items: center; gap: 0.8rem;">
+                <img src="assets/logo.jpg" alt="Logo" style="width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--color-sun-yellow);">
+                <span style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.15rem; color: white; letter-spacing: 0.5px;">SUNOVA MAIL</span>
+                <span id="connection-status-badge" style="background: rgba(34, 197, 94, 0.15); color: #22c55e; font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 10px; text-transform: uppercase; margin-left: 0.4rem;">Connected</span>
+            </div>
+            
+            <div class="mail-search-bar">
+                <span class="mail-search-icon">🔍</span>
+                <input type="text" placeholder="Search mail" oninput="handleMailSearch(this.value)">
+            </div>
+            
+            <!-- User Avatar & Profile Card -->
+            <div class="profile-container" onclick="toggleProfileDropdown(event)">
+                <div class="avatar-circle">S</div>
+                
+                <div class="profile-dropdown-card hidden" id="profile-dropdown">
+                    <div style="background: var(--color-sun-yellow); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.3rem; color: #0d1321; margin: 0 auto 0.5rem auto;">S</div>
+                    <h4>SUNOVA SOLAR LLP</h4>
+                    <p>info@sunovasolar.in</p>
+                    
+                    <div class="dropdown-actions">
+                        <a href="https://mail.hostinger.com/" target="_blank" class="cta-btn secondary-btn text-center" style="font-size: 0.78rem; padding: 0.45rem;">
+                            📥 Open Hostinger Webmail
+                        </a>
+                        <button onclick="logoutWebmail()" class="logout-btn" style="padding: 0.45rem; font-size: 0.78rem; width: 100%;">
+                            Sign Out
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Mail Layout -->
+        <div class="mail-layout">
+            <!-- Sidebar -->
+            <aside class="mail-sidebar">
+                <button class="compose-btn" onclick="openComposeModal()">
+                    <span style="font-size: 1.1rem;">✏️</span> Compose
+                </button>
+                
+                <div class="sidebar-item active" onclick="switchFolder('inbox', this)">
+                    <div class="sidebar-item-label">
+                        <span>📥</span> Inbox
+                    </div>
+                    <span class="sidebar-badge" id="inbox-count-badge">0</span>
+                </div>
+                
+                <div class="sidebar-item" onclick="switchFolder('sent', this)">
+                    <div class="sidebar-item-label">
+                        <span>📤</span> Sent
+                    </div>
+                </div>
+                
+                <div class="sidebar-item" onclick="switchFolder('trash', this)">
+                    <div class="sidebar-item-label">
+                        <span>🗑️</span> Trash
+                    </div>
+                </div>
+                
+                <div class="sidebar-item" onclick="toggleSettingsPanel()" style="margin-top: auto; border-top: 1px solid var(--color-gmail-border); padding-top: 1rem;">
+                    <div class="sidebar-item-label" style="color: var(--color-sun-yellow); font-weight: 700;">
+                        <span>&#9881;&#65039;</span> Settings Dashboard
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Mail List Area -->
+            <main class="mail-content-area" id="mail-list-panel">
+                <div class="mail-list-header">
+                    <div>
+                        <span style="font-weight: 600;" id="folder-title">Inbox</span>
+                    </div>
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <span id="range-indicator">Showing 0-0 of 0</span>
+                        <button onclick="refreshMailbox()" style="background: none; border: none; color: var(--color-gmail-muted); cursor: pointer; font-size: 0.95rem;">🔄 Refresh</button>
+                    </div>
+                </div>
+                
+                <div class="mail-list-container" id="mail-list-rows-target">
+                    <!-- Dynamically Injected Email Rows -->
+                </div>
+            </main>
+
+            <!-- Detailed Message View (Initially Hidden) -->
+            <main class="mail-content-area hidden" id="mail-detail-panel">
+                <div class="mail-list-header">
+                    <button onclick="closeDetailedMail()" style="background: none; border: none; color: var(--color-gmail-muted); cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem;">
+                        ⬅️ Back to List
+                    </button>
+                    <div>
+                        <button onclick="deleteDetailedMail()" style="background: none; border: none; color: #ef4444; cursor: pointer; font-weight: 600; font-size: 0.8rem;">🗑️ Delete Message</button>
+                    </div>
+                </div>
+                
+                <div style="flex: 1; overflow-y: auto; padding: 2rem 2.5rem; text-align: left;" id="mail-detail-content-target">
+                    <!-- Injected detailed body content -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- 3. Floating Compose Window (Hidden initially) -->
+    <div class="compose-modal hidden" id="mail-compose-modal">
+        <div class="compose-modal-header">
+            <h4>New Message</h4>
+            <button class="compose-close-btn" onclick="closeComposeModal()">&times;</button>
+        </div>
+        <form class="compose-form" onsubmit="handleSendCompose(event)">
+            <div class="compose-input-group">
+                <label for="compose-to">To</label>
+                <input type="email" id="compose-to" required placeholder="recipients@email.com">
+            </div>
+            <div class="compose-input-group">
+                <label for="compose-subject">Subject</label>
+                <input type="text" id="compose-subject" required placeholder="Subject text heading">
+            </div>
+            <textarea class="compose-textarea" id="compose-body" placeholder="Write message body content here..."></textarea>
+            
+            <div class="compose-footer">
+                <button type="submit" class="cta-btn primary-btn" style="padding: 0.55rem 1.8rem; font-size: 0.84rem; border-radius: 20px; font-weight: 700; width: auto; cursor: pointer; border: none;" id="compose-send-btn">
+                    Send Mail
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Toast message banner -->
+    <div id="toast-banner" class="toast-notification hidden">
+        <span>✉️</span> <span id="toast-msg-target">Notification text</span>
+    </div>
+
+    <!-- Script Logic -->
+    <script>
+        // Store Active Auth configuration locally in memory
+        let activeMailPassword = '';
+        let activeFolder = 'inbox';
+        let mailboxEmails = [];
+        let detailedMailObj = null;
+
+        // Check active session on load
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedSession = sessionStorage.getItem('webmail_active_session');
+            if (savedSession) {
+                activeMailPassword = savedSession;
+                initializeMailbox();
+            }
+        });
+
+        // Click outside closes profile dropdown
+        window.addEventListener('click', (e) => {
+            const profileCard = document.getElementById('profile-dropdown');
+            const container = document.querySelector('.profile-container');
+            if (profileCard && !profileCard.classList.contains('hidden') && !container.contains(e.target)) {
+                profileCard.classList.add('hidden');
+            }
+        });
+
+        function toggleProfileDropdown(e) {
+            e.stopPropagation();
+            const card = document.getElementById('profile-dropdown');
+            card.classList.toggle('hidden');
+        }
+
+        // API Call Helper (tries PHP Proxy first, then Node Server proxy)
+        function callApi(endpoint, options = {}) {
+            let phpUrl = '';
+            if (endpoint === '/api/connect') {
+                phpUrl = 'proxy.php?action=connect';
+            } else if (endpoint.startsWith('/api/emails')) {
+                if (endpoint.includes('/body')) {
+                    const parts = endpoint.split('/');
+                    const uid = parts[3];
+                    phpUrl = `proxy.php?action=body&uid=${uid}&folder=${activeFolder}`;
+                } else if (endpoint.includes('/delete')) {
+                    const parts = endpoint.split('/');
+                    const uid = parts[3];
+                    phpUrl = `proxy.php?action=delete&uid=${uid}&folder=${activeFolder}`;
+                } else {
+                    phpUrl = `proxy.php?action=fetch&folder=${activeFolder}`;
+                }
+            } else if (endpoint === '/api/send') {
+                phpUrl = 'proxy.php?action=send';
+            } else if (endpoint === '/api/health') {
+                phpUrl = 'proxy.php?action=health';
+            }
+
+            if (window.location.protocol === 'file:') {
+                // Instantly fail to trigger offline direct mode if running on local file system
+                return Promise.reject(new Error('Local preview mode'));
+            }
+
+            return fetch(phpUrl, options)
+            .then(res => {
+                if (res.ok) return res.json();
+                return res.json().then(err => { throw err; });
+            })
+            .catch((err) => {
+                if (err && err.error) throw err; // propagate authentication errors
+                // Fallback to Node server
+                return fetch(endpoint, options)
+                .then(res => {
+                    if (res.ok) return res.json();
+                    return res.json().then(e => { throw e; });
+                });
+            });
+        }
+
+        // Login Handler
+        function handleWebmailLogin(e) {
+            e.preventDefault();
+            const pass = document.getElementById('webmail-pass').value;
+            const errorMsg = document.getElementById('login-error-msg');
+            
+            if (pass.length < 4) {
+                errorMsg.textContent = 'Please enter a valid password.';
+                errorMsg.classList.remove('hidden');
+                return;
+            }
+
+            errorMsg.textContent = 'Connecting to secure Hostinger mail server...';
+            errorMsg.className = 'form-feedback';
+            errorMsg.style.backgroundColor = 'rgba(255, 183, 3, 0.1)';
+            errorMsg.style.color = 'var(--color-sun-yellow)';
+            errorMsg.classList.remove('hidden');
+
+            const payload = {
+                email: 'info@sunovasolar.in',
+                password: pass,
+                imap_host: localStorage.getItem('imap_host') || 'imap.hostinger.com',
+                imap_port: localStorage.getItem('imap_port') || 993,
+                smtp_host: localStorage.getItem('smtp_host') || 'smtp.hostinger.com',
+                smtp_port: localStorage.getItem('smtp_port') || 465
+            };
+
+            callApi('/api/connect', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                activeMailPassword = pass;
+                sessionStorage.setItem('webmail_active_session', pass);
+                initializeMailbox();
+            })
+            .catch((err) => {
+                if (err && err.error) {
+                    errorMsg.textContent = err.error;
+                    errorMsg.className = 'form-feedback error';
+                    errorMsg.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
+                    errorMsg.style.color = '#ef4444';
+                } else {
+                    // Offline local system preview fallback
+                    console.log('[Webmail] Offline mode. Logging in with mock session.');
+                    activeMailPassword = pass;
+                    sessionStorage.setItem('webmail_active_session', pass);
+                    initializeMailbox();
+                }
+            });
+        }
+
+        function initializeMailbox() {
+            document.getElementById('webmail-login-view').classList.add('hidden');
+            document.getElementById('webmail-workspace-view').classList.remove('hidden');
+            checkServerHealth();
+            refreshMailbox();
+        }
+
+        function checkServerHealth() {
+            const badge = document.getElementById('connection-status-badge');
+            callApi('/api/health')
+            .then(data => {
+                badge.textContent = data.mode || 'Connected (Proxy Mode)';
+                badge.style.background = 'rgba(34, 197, 94, 0.15)';
+                badge.style.color = '#22c55e';
+                badge.title = "Connected securely to Hostinger IMAP & SMTP gateway.";
+            })
+            .catch(() => {
+                badge.textContent = 'Connected (Direct Mode)';
+                badge.style.background = 'rgba(255, 183, 3, 0.15)';
+                badge.style.color = 'var(--color-sun-yellow)';
+                badge.title = "Offline Preview Mode. Upload these files to your Hostinger live server to activate real mail forwarding.";
+            });
+        }
+
+        // Refresh & Retrieve headers
+        function refreshMailbox() {
+            const targetRows = document.getElementById('mail-list-rows-target');
+            targetRows.innerHTML = `
+                <div style="text-align: center; padding: 3rem; color: var(--color-gmail-muted); font-size: 0.88rem;">
+                    🔄 Refreshing mailbox folders, please wait...
+                </div>
+            `;
+
+            let serverInquiries = [];
+            
+            // Fetch logged database inquiries from server first
+            callApi('proxy.php?action=get_inquiries')
+            .then(data => {
+                if (data && data.inquiries) {
+                    serverInquiries = data.inquiries;
+                }
+            })
+            .catch(() => {})
+            .finally(() => {
+                callApi(`/api/emails?folder=${activeFolder}`)
+                .then(data => {
+                    mailboxEmails = data.emails || [];
+                    
+                    if (activeFolder === 'inbox' && serverInquiries.length > 0) {
+                        const parsedInqs = serverInquiries.map(inq => {
+                            const mailBody = `CUSTOMER INQUIRY (Logged on Server):
+Name: ${inq.name}
+Phone: ${inq.phone}
+Email: ${inq.email}
+Location: ${inq.location}, ${inq.district}
+System Capacity: ${inq.capacity}
+Model: ${inq.systemModel} (${inq.connection})
+Loan: ${inq.loan}
+Assigned Partner: ${inq.dealer}
+Message: ${inq.message}`;
+
+                            return {
+                                uid: 'db_' + inq.uid,
+                                name: inq.name,
+                                email: inq.email,
+                                subject: `🎯 [Portal Lead] ${inq.name} (${inq.location})`,
+                                timestamp: inq.timestamp,
+                                message: mailBody,
+                                unread: true
+                            };
+                        });
+                        mailboxEmails = parsedInqs.concat(mailboxEmails);
+                    }
+                    renderMailRows();
+                })
+                .catch(() => {
+                    console.log('[Webmail] Offline mode. Loading leads from inquiries memory.');
+                    loadMockEmailsFromInquiries();
+                });
+            });
+        }
+
+        function loadMockEmailsFromInquiries() {
+            let inquiries = [];
+            try {
+                inquiries = JSON.parse(localStorage.getItem('sunova_inquiries')) || [];
+            } catch (e) {
+                console.error(e);
+            }
+
+            // Map inquiries list to mail format
+            mailboxEmails = inquiries.map((inq, index) => {
+                const isCompleted = inq.status === 'Completed';
+                const subjectText = isCompleted 
+                    ? `[INSTALLATION COMPLETED] ${inq.name} - System: ${inq.capacity} kWp` 
+                    : `New Solar Inquiry: ${inq.name} (${inq.location})`;
+                
+                const mailBodyText = `Customer Feasibility details:
+Name: ${inq.name}
+Phone: ${inq.phone}
+Email: ${inq.email}
+Location: ${inq.location}, ${inq.district}
+System Capacity: ${inq.capacity} kWp
+Type: ${inq.category} (${inq.model})
+Loan Required: ${inq.loan}
+Site Message: ${inq.message}
+Match Area Partner: ${inq.partner} (${inq.partnerCode})
+Timestamp: ${inq.timestamp}
+Status: ${inq.status || 'Pending'}`;
+
+                return {
+                    id: index + 1,
+                    uid: index + 1,
+                    name: inq.name,
+                    email: inq.email || 'Not Provided',
+                    to: 'info@sunovasolar.in',
+                    subject: subjectText,
+                    message: mailBodyText,
+                    timestamp: inq.timestamp,
+                    unread: index < 2 // mark first two as unread mock
+                };
+            });
+
+            // Filter if we are in Sent folder or Trash folder
+            if (activeFolder === 'sent') {
+                // Show items sent from compose portal
+                let sentMails = [];
+                try {
+                    sentMails = JSON.parse(localStorage.getItem('sunova_sent_mails')) || [];
+                } catch(e){}
+                mailboxEmails = sentMails;
+            } else if (activeFolder === 'trash') {
+                mailboxEmails = []; // Empty mock trash
+            }
+
+            renderMailRows();
+        }
+
+        function renderMailRows() {
+            const targetRows = document.getElementById('mail-list-rows-target');
+            const rangeIndicator = document.getElementById('range-indicator');
+            const inboxBadge = document.getElementById('inbox-count-badge');
+
+            if (activeFolder === 'inbox') {
+                const unreadCount = mailboxEmails.filter(m => m.unread).length;
+                inboxBadge.textContent = unreadCount;
+                inboxBadge.style.display = unreadCount > 0 ? 'inline-block' : 'none';
+            }
+
+            if (mailboxEmails.length === 0) {
+                targetRows.innerHTML = `
+                    <div style="text-align: center; padding: 4rem; color: var(--color-gmail-muted); font-size: 0.88rem;">
+                        📭 Folder is empty. No messages found.
+                    </div>
+                `;
+                rangeIndicator.textContent = 'Showing 0-0 of 0';
+                return;
+            }
+
+            rangeIndicator.textContent = `Showing 1-${mailboxEmails.length} of ${mailboxEmails.length}`;
+            
+            targetRows.innerHTML = mailboxEmails.map(mail => `
+                <div class="mail-row ${mail.unread ? 'unread' : ''}" onclick="openDetailedMail(${mail.uid})">
+                    <div class="mail-col-sender">👤 ${mail.name}</div>
+                    <div class="mail-col-body">
+                        <strong>${mail.subject}</strong> - 
+                        <span>${mail.message.substring(0, 100)}...</span>
+                    </div>
+                    <div class="mail-col-date">${mail.timestamp.split(',')[0]}</div>
+                </div>
+            `).join('');
+        }
+
+        // Search mailbox list
+        function handleMailSearch(query) {
+            const q = query.toLowerCase().trim();
+            if (!q) {
+                renderMailRows();
+                return;
+            }
+            const targetRows = document.getElementById('mail-list-rows-target');
+            const filtered = mailboxEmails.filter(mail => 
+                mail.name.toLowerCase().includes(q) || 
+                mail.subject.toLowerCase().includes(q) || 
+                mail.message.toLowerCase().includes(q)
+            );
+            
+            if (filtered.length === 0) {
+                targetRows.innerHTML = `<div style="text-align: center; padding: 3rem; color: var(--color-gmail-muted);">No messages match search.</div>`;
+                return;
+            }
+
+            targetRows.innerHTML = filtered.map(mail => `
+                <div class="mail-row ${mail.unread ? 'unread' : ''}" onclick="openDetailedMail('${mail.uid}')">
+                    <div class="mail-col-sender">👤 ${mail.name}</div>
+                    <div class="mail-col-body">
+                        <strong>${mail.subject}</strong> - 
+                        <span>${mail.message.substring(0, 100)}...</span>
+                    </div>
+                    <div class="mail-col-date">${mail.timestamp.split(',')[0]}</div>
+                </div>
+            `).join('');
+        }
+
+        // Folder switching
+        function switchFolder(folder, element) {
+            activeFolder = folder;
+            document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
+            
+            // Set title
+            document.getElementById('folder-title').textContent = folder.charAt(0).toUpperCase() + folder.slice(1);
+            
+            // Close detail and open list
+            closeDetailedMail();
+            
+            // Fetch mails
+            refreshMailbox();
+        }
+
+        // View single email detail
+        function openDetailedMail(uid) {
+            const mail = mailboxEmails.find(m => m.uid === uid);
+            if (!mail) return;
+            
+            detailedMailObj = mail;
+            mail.unread = false; // Mark read locally
+
+            document.getElementById('mail-list-panel').classList.add('hidden');
+            const detailPanel = document.getElementById('mail-detail-panel');
+            detailPanel.classList.remove('hidden');
+
+            const contentTarget = document.getElementById('mail-detail-content-target');
+            contentTarget.innerHTML = `
+                <div style="border-bottom: 1px solid var(--color-gmail-border); padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                    <h2 style="font-family: 'Outfit', sans-serif; color: white; margin: 0 0 0.8rem 0; font-size: 1.4rem;">${mail.subject}</h2>
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.84rem;">
+                        <div>
+                            <strong style="color: var(--color-sun-yellow);">From:</strong> ${mail.name} &lt;<span style="color: var(--color-gmail-muted);">${mail.email}</span>&gt;<br>
+                            <strong style="color: var(--color-sun-yellow); margin-top: 0.2rem; display: inline-block;">To:</strong> info@sunovasolar.in
+                        </div>
+                        <span style="color: var(--color-gmail-muted);">${mail.timestamp}</span>
+                    </div>
+                </div>
+                <div style="line-height: 1.7; font-size: 0.9rem; color: #cbd5e1; white-space: pre-wrap; background: rgba(255,255,255,0.01); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--color-gmail-border);">${mail.message}</div>
+            `;
+
+            callApi(`/api/emails/${uid}/body?folder=${activeFolder}`)
+            .then(data => {
+                if (data.body) {
+                    contentTarget.querySelector('div:last-child').textContent = data.body;
+                }
+            })
+            .catch(() => {});
+        }
+
+        function closeDetailedMail() {
+            document.getElementById('mail-detail-panel').classList.add('hidden');
+            document.getElementById('mail-list-panel').classList.remove('hidden');
+            detailedMailObj = null;
+        }
+
+        function deleteDetailedMail() {
+            if (!detailedMailObj) return;
+            const uid = detailedMailObj.uid;
+            
+            if (confirm('Are you sure you want to delete this message?')) {
+                if (typeof uid === 'string' && uid.startsWith('db_')) {
+                    const rawUid = uid.replace('db_', '');
+                    callApi(`proxy.php?action=delete_inquiry&uid=${rawUid}`)
+                    .then(() => {
+                        showToast('Logged inquiry deleted from server successfully.');
+                        closeDetailedMail();
+                        refreshMailbox();
+                    })
+                    .catch(() => {
+                        showToast('Failed to delete inquiry from server.');
+                    });
+                    return;
+                }
+
+                callApi(`/api/emails/${uid}/delete?folder=${activeFolder}`, { method: 'POST' })
+                .then(() => {
+                    showToast('Message deleted successfully.');
+                    closeDetailedMail();
+                    refreshMailbox();
+                })
+                .catch(() => {
+                    // Local Delete Fallback
+                    let inquiries = [];
+                    try {
+                        inquiries = JSON.parse(localStorage.getItem('sunova_inquiries')) || [];
+                    } catch (e) {}
+                    
+                    if (activeFolder === 'inbox') {
+                        // Delete mock inquiry
+                        inquiries.splice(uid - 1, 1);
+                        localStorage.setItem('sunova_inquiries', JSON.stringify(inquiries));
+                    } else if (activeFolder === 'sent') {
+                        let sentMails = JSON.parse(localStorage.getItem('sunova_sent_mails')) || [];
+                        sentMails = sentMails.filter(m => m.uid !== uid);
+                        localStorage.setItem('sunova_sent_mails', JSON.stringify(sentMails));
+                    }
+                    
+                    showToast('Message deleted locally.');
+                    closeDetailedMail();
+                    refreshMailbox();
+                });
+            }
+        }
+
+        // Floating Compose Actions
+        function openComposeModal() {
+            document.getElementById('mail-compose-modal').classList.remove('hidden');
+        }
+
+        function closeComposeModal() {
+            document.getElementById('mail-compose-modal').classList.add('hidden');
+            document.getElementById('compose-to').value = '';
+            document.getElementById('compose-subject').value = '';
+            document.getElementById('compose-body').value = '';
+        }
+
+        // Send Email Handler
+        function handleSendCompose(e) {
+            e.preventDefault();
+            const to = document.getElementById('compose-to').value.trim();
+            const subject = document.getElementById('compose-subject').value.trim();
+            const body = document.getElementById('compose-body').value.trim();
+            const sendBtn = document.getElementById('compose-send-btn');
+            
+            sendBtn.disabled = true;
+            sendBtn.textContent = 'Sending...';
+
+            callApi('/api/send', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ to, subject, body })
+            })
+            .then(data => {
+                showToast(`Message sent successfully (SMTP Relayed).`);
+                closeComposeModal();
+                refreshMailbox();
+            })
+            .catch(() => {
+                // Server Proxy Offline: Bypassing local Node blocks on restricted systems
+                console.log('[Webmail] Running in direct system fallback mode.');
+                
+                // Save in Sent folder locally for UI tracking
+                let sentMails = [];
+                try {
+                    sentMails = JSON.parse(localStorage.getItem('sunova_sent_mails')) || [];
+                } catch (e) {}
+                
+                sentMails.unshift({
+                    uid: Date.now(),
+                    name: 'Me (info@sunovasolar.in)',
+                    email: 'info@sunovasolar.in',
+                    to: to,
+                    subject: subject,
+                    message: body,
+                    timestamp: new Date().toLocaleString('en-IN')
+                });
+                localStorage.setItem('sunova_sent_mails', JSON.stringify(sentMails));
+                
+                // Check if SMTPJS secure token is available in settings
+                const smtpjsToken = localStorage.getItem('smtpjs_secure_token');
+                if (smtpjsToken && smtpjsToken.trim() !== '') {
+                    Email.send({
+                        SecureToken: smtpjsToken.trim(),
+                        To: to,
+                        From: 'info@sunovasolar.in',
+                        Subject: subject,
+                        Body: body
+                    })
+                    .then(msg => {
+                        if (msg === 'OK') {
+                            showToast('Message sent successfully via SMTPJS client-side relay!');
+                        } else {
+                            showToast('SMTPJS Error: ' + msg);
+                        }
+                    })
+                    .catch(err => {
+                        showToast('SMTPJS failed to relay message.');
+                    });
+                } else {
+                    // Launch native mail handler to dispatch email securely without server dependencies
+                    const mailtoUrl = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                    window.location.href = mailtoUrl;
+                    showToast('Mail template dispatched to your system mail client!');
+                }
+
+                closeComposeModal();
+                refreshMailbox();
+            });
+        }
+
+        // Toggle Settings Overlay Panel
+        function toggleSettingsPanel() {
+            const modal = document.getElementById('mail-settings-modal');
+            if (modal.classList.contains('hidden')) {
+                document.getElementById('setting-web3-key').value = localStorage.getItem('web3forms_access_key') || '';
+                document.getElementById('setting-smtpjs-token').value = localStorage.getItem('smtpjs_secure_token') || '';
+                document.getElementById('setting-imap-host').value = localStorage.getItem('imap_host') || 'imap.hostinger.com';
+                document.getElementById('setting-imap-port').value = localStorage.getItem('imap_port') || '993';
+                document.getElementById('setting-smtp-host').value = localStorage.getItem('smtp_host') || 'smtp.hostinger.com';
+                document.getElementById('setting-smtp-port').value = localStorage.getItem('smtp_port') || '465';
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
+            }
+        }
+
+        function saveMailSettings(e) {
+            e.preventDefault();
+            const web3Key = document.getElementById('setting-web3-key').value.trim();
+            const smtpjsToken = document.getElementById('setting-smtpjs-token').value.trim();
+            const imapHost = document.getElementById('setting-imap-host').value.trim();
+            const imapPort = document.getElementById('setting-imap-port').value.trim();
+            const smtpHost = document.getElementById('setting-smtp-host').value.trim();
+            const smtpPort = document.getElementById('setting-smtp-port').value.trim();
+
+            if (web3Key) localStorage.setItem('web3forms_access_key', web3Key);
+            else localStorage.removeItem('web3forms_access_key');
+
+            if (smtpjsToken) localStorage.setItem('smtpjs_secure_token', smtpjsToken);
+            else localStorage.removeItem('smtpjs_secure_token');
+
+            localStorage.setItem('imap_host', imapHost);
+            localStorage.setItem('imap_port', imapPort);
+            localStorage.setItem('smtp_host', smtpHost);
+            localStorage.setItem('smtp_port', smtpPort);
+
+            showToast('Mail settings saved successfully!');
+            toggleSettingsPanel();
+        }
+
+        // Toast show helper
+        function showToast(msg) {
+            const toast = document.getElementById('toast-banner');
+            document.getElementById('toast-msg-target').textContent = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        function logoutWebmail() {
+            sessionStorage.removeItem('webmail_active_session');
+            activeMailPassword = '';
+            location.reload();
+        }
+    </script>
+</body>
+</html>

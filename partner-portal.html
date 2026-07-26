@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner Portal | SUNOVA SOLAR LLP</title>
+    <meta name="description" content="Authorized partner portal login for SUNOVA SOLAR LLP district channel partners.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css?v=4.2">
+</head>
+<body class="light-theme login-page-body">
+    <div class="login-wrapper">
+        <!-- Floating Home Link -->
+        <a href="index.html" class="back-home-link">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="18" height="18">
+                <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Back to Public Website
+        </a>
+
+        <!-- Portal Glass Card -->
+        <div class="glass-card login-card" id="portal-card">
+            <div class="portal-header text-center">
+                <img src="assets/logo.jpg" alt="SUNOVA SOLAR LLP Logo" class="portal-logo">
+                <h2>Partner Portal</h2>
+                <p>Log in to access your district customer leads, design templates, and subsidy commission tracking.</p>
+            </div>
+
+            <!-- Login View -->
+            <div id="login-view">
+                <form id="portal-login-form" onsubmit="handlePartnerLogin(event)">
+                    <div class="form-group">
+                        <label for="partner-code">Authorized Partner Code / Phone</label>
+                        <input type="text" id="partner-code" placeholder="eg:- ALP-SHIN or Mobile number" oninput="let val = this.value; val = val.replace(/[^A-Za-z0-9\-]/g, ''); if (val.length > 0 && /^[0-9]/.test(val)) { val = val.replace(/[^0-9]/g, ''); if (val.length === 12 && val.startsWith('91')) { val = val.substring(2); } if (val.length > 0 && !/^[6-9]/.test(val)) { val = ''; } if (val.length > 10) { val = val.substring(0, 10); } } this.value = val;" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="partner-password">Partner Access PIN</label>
+                        <input type="password" id="partner-password" placeholder="Enter your 4-digit security PIN" required>
+                        <div style="font-size: 0.74rem; color: var(--color-text-muted); margin-top: 0.35rem;">💡 First-time logging in? Use the default security PIN: <strong>2277</strong></div>
+                    </div>
+
+                    <div id="login-feedback" class="form-feedback hidden"></div>
+                    
+                    <div style="text-align: right; margin-top: -0.5rem; margin-bottom: 1rem;">
+                        <a href="javascript:void(0)" onclick="resetPin()" style="font-size: 0.75rem; color: var(--color-sun-yellow); text-decoration: none;">Forgot / Reset PIN?</a>
+                    </div>
+
+                    <button type="submit" class="cta-btn primary-btn full-width" id="btn-partner-login">
+                        Sign In to Partner Dashboard
+                    </button>
+                </form>
+                <div class="text-center portal-footer-note" style="margin-top: 1.5rem;">
+                    <span class="lock-icon">🔒</span> Exclusive access for Sunova Solar LLP authorized district partners.
+                </div>
+            </div>
+
+            <!-- Must Change PIN View (Initially Hidden) -->
+            <div id="change-pin-view" class="hidden">
+                <div style="background: rgba(255, 183, 3, 0.1); border: 1px solid rgba(255, 183, 3, 0.2); border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem; font-size: 0.82rem; line-height: 1.45; color: var(--color-text-muted);">
+                    ⚠️ <strong>Security Setup Required:</strong> You are using the default partner security PIN. You must create your own private 4-digit PIN before you can access the dashboard.
+                </div>
+                <form id="change-pin-form" onsubmit="handlePinChangeSubmit(event)">
+                    <div class="form-group">
+                        <label for="new-pin">Create New 4-Digit PIN</label>
+                        <input type="password" id="new-pin" maxlength="4" placeholder="e.g. 5839" required pattern="[0-9]{4}">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-new-pin">Confirm New PIN</label>
+                        <input type="password" id="confirm-new-pin" maxlength="4" placeholder="Confirm your new PIN" required pattern="[0-9]{4}">
+                    </div>
+                    
+                    <div id="change-pin-feedback" class="form-feedback hidden"></div>
+
+                    <button type="submit" class="cta-btn primary-btn full-width" id="btn-change-pin">
+                        Save PIN &amp; Open Dashboard
+                    </button>
+                </form>
+            </div>
+
+            <!-- Dashboard View (Initially Hidden) -->
+            <div id="dashboard-view" class="hidden">
+                <div class="success-badge">
+                    <span class="check-icon">✓</span> Session Authenticated
+                </div>
+                <h3>Welcome back, Partner</h3>
+                <p class="dash-subtitle" style="margin-bottom: 1.5rem;">Sunova Solar Channel Partner Dashboard</p>
+
+                <!-- Lead metrics quick stats -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; text-align: center;">
+                        <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Active Leads</span>
+                        <div id="partner-active-leads" style="font-size: 1.8rem; font-weight: 700; color: var(--color-sun-yellow); margin-top: 0.25rem;">0</div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; text-align: center;">
+                        <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Commission Earned</span>
+                        <div id="partner-commission-earned" style="font-size: 1.4rem; font-weight: 700; color: var(--color-text); margin-top: 0.45rem;">₹0</div>
+                    </div>
+                </div>
+
+                <!-- Launch Buttons -->
+                <div class="portal-actions-grid" style="display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1.5rem;">
+                    <button type="button" onclick="toggleAllocatedLeads()" class="cta-btn primary-btn text-center full-width" style="cursor: pointer; width: 100%; border: none; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
+                        📋 View Allocated Customer Inquiries
+                    </button>
+                    <button type="button" onclick="toggleSavedQuotes()" class="cta-btn primary-btn text-center full-width" style="cursor: pointer; width: 100%; border: none; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
+                        💾 View Saved Quotations
+                    </button>
+                    <button type="button" onclick="toggleChangePinPanel()" class="cta-btn text-center full-width" style="background: rgba(255,255,255,0.05); border: 1px solid var(--color-border); color: var(--color-text); cursor: pointer; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
+                        🔒 Change Security PIN
+                    </button>
+                    <button type="button" onclick="toggleFeasibilityPanel()" class="cta-btn primary-btn text-center full-width" style="cursor: pointer; width: 100%; border: none; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
+                        ✅ Feasibility Check & KSEB Verification
+                    </button>
+                </div>
+
+                <!-- Feasibility Check Panel (Collapsible) -->
+                <div id="feasibility-check-panel" class="hidden" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                    <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                        ✅ Feasibility Check & KSEB Verification
+                    </h4>
+                    <p style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.45;">Verify KSEB section offices and perform feasibility checks for new customer installations.</p>
+                    <div style="background: var(--color-bg-alt); padding: 1rem; border-radius: 8px; text-align: center;">
+                        <span style="display:block; font-size: 0.85rem; font-weight:600; color:var(--color-text); margin-bottom: 0.5rem;">KSEB Section Office Verification</span>
+                        <a href="https://wss.kseb.in/selfservices/reCap" target="_blank" rel="noopener" class="cta-btn primary-btn" style="display:inline-block; font-size:0.8rem; padding: 0.5rem 1rem; text-decoration:none;">
+                            Verify at wss.kseb.in ↗
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Allocated Leads Panel (Collapsible) -->
+                <div id="allocated-leads-panel" class="hidden" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                    <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                        📋 Allocated Customer Inquiries
+                    </h4>
+                    <p style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.45;">Below are inquiries submitted by customers selecting your dealership area on the feasibility form.</p>
+                    
+                    <div id="allocated-leads-list" style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 350px; overflow-y: auto; padding-right: 0.3rem;">
+                        <!-- Dynamically Injected leads list -->
+                    </div>
+                </div>
+
+                <!-- Saved Quotes Panel (Collapsible) -->
+                <div id="saved-quotes-panel" class="hidden" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                    <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                        💾 Saved Quotations
+                    </h4>
+                    <p style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.45;">Your generated quotes saved to this browser.</p>
+                    <div id="saved-quotes-list" style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 350px; overflow-y: auto; padding-right: 0.3rem;">
+                    </div>
+                </div>
+
+                <!-- Change PIN Panel (Collapsible) -->
+                <div id="dashboard-change-pin-panel" class="hidden" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                    <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                        🔒 Change Security PIN
+                    </h4>
+                    <form id="dash-change-pin-form" onsubmit="handleDashPinChange(event)">
+                        <div class="form-group" style="margin-bottom: 0.8rem;">
+                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block;">Old PIN</label>
+                            <input type="password" id="dash-old-pin" maxlength="4" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required pattern="[0-9]{4}">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0.8rem;">
+                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block;">New PIN</label>
+                            <input type="password" id="dash-new-pin" maxlength="4" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required pattern="[0-9]{4}">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0.8rem;">
+                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block;">Confirm New PIN</label>
+                            <input type="password" id="dash-confirm-pin" maxlength="4" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required pattern="[0-9]{4}">
+                        </div>
+                        <div id="dash-change-pin-feedback" class="form-feedback hidden"></div>
+                        <button type="submit" class="cta-btn primary-btn full-width" style="margin-top: 0.5rem; padding: 0.65rem; border-radius: 8px;">
+                            Update PIN
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Solar Quotation Generator Card -->
+                <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;" id="quotation-form-section">
+                    <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); display: flex; align-items: center; gap: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                        ⚡ Solar Quotation Generator
+                    </h4>
+                    <p style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.45;">Generate custom, print-ready quotations for customer proposals and official KSEB net-metering applications.</p>
+                    
+                    <form id="quote-generator-form" onsubmit="event.preventDefault();">
+                        <div class="form-group" style="margin-bottom: 0.8rem;">
+                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Select Allocated Lead (Auto-fill)</label>
+                            <select id="quote-select-lead" onchange="autoFillFromDropdown(this.value)" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                                <option value="">-- Choose an Allocated Lead --</option>
+                            </select>
+                        </div>
+                        <div class="quote-grid-2">
+                            <div class="form-group">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Customer Name</label>
+                                <input type="text" id="quote-cust-name" placeholder="e.g. Radhakrishnan Nair" style="text-transform: uppercase; width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Mobile Number</label>
+                                <input type="tel" id="quote-cust-phone" placeholder="e.g. 9876543210" pattern="^[6-9]\d{9}$" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" title="10-digit mobile number starting with 6-9" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0.8rem;">
+                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Installation Address</label>
+                            <input type="text" id="quote-cust-addr" placeholder="e.g. House No 15, Near Temple, Alappuzha" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0.8rem;">
+                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">KSEB Section</label>
+                            <select id="quote-kseb-section" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                                <option value="">-- Auto-filled by Partner District --</option>
+                            </select>
+                        </div>
+                        <div class="quote-grid-3">
+                            <div class="form-group">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Capacity (kWp)</label>
+                                <input type="number" id="quote-capacity" value="3" min="1" max="100" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Solar Panel Model</label>
+                                <select id="quote-panel-brand" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                                    <option value="Waaree" selected>Waaree</option>
+                                    <option value="Adani">Adani</option>
+                                    <option value="Emmvee">Emmvee</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Inverter Make</label>
+                                <select id="quote-inverter-brand" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                                    <option value="Eastman" selected>Eastman</option>
+                                    <option value="Deye">Deye</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="quote-grid-2">
+                            <div class="form-group">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Roof Type</label>
+                                <select id="quote-roof-type" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                                    <option value="RCC">RCC</option>
+                                    <option value="Sheet">Sheet</option>
+                                    <option value="Tile">Tile</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Electrical Phase</label>
+                                <select id="quote-phase" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                                    <option value="Single Phase">Single Phase</option>
+                                    <option value="Three Phase">Three Phase</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="quote-grid-3">
+                            <div class="form-group">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Advance %</label>
+                                <input type="number" id="quote-pay-advance" value="60" min="0" max="100" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Delivery %</label>
+                                <input type="number" id="quote-pay-delivery" value="30" min="0" max="100" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Completion %</label>
+                                <input type="number" id="quote-pay-completion" value="10" min="0" max="100" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                            </div>
+                        </div>
+                        
+                        <div class="quote-grid-2" style="margin-top: 1.2rem;">
+                            <button type="button" onclick="generateQuotation('customer')" class="cta-btn primary-btn text-center" style="padding: 0.65rem 0.5rem; font-size: 0.8rem; font-weight: 700; border-radius: 8px; display: block; width: 100%; cursor: pointer;">
+                                👤 Customer Proposal
+                            </button>
+                            <button type="button" onclick="generateQuotation('kseb')" class="cta-btn text-center" style="background: #28a745; color: white; border: none; padding: 0.65rem 0.5rem; font-size: 0.8rem; font-weight: 700; border-radius: 8px; display: block; width: 100%; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                                ⚡ KSEB Submission
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Technical Configuration Accordion -->
+                <div class="tech-settings-box">
+                    <h4>📘 Partner Resources &amp; Downloads</h4>
+                    <p class="settings-intro">Authorized document downloads and technical rules for KSEB Soura integration.</p>
+                    
+                    <div class="settings-table">
+                        <div class="settings-row">
+                            <span class="sett-lbl">KSEB Feasibility Specs</span>
+                            <span class="sett-val"><a href="https://www.kseb.in/images/soura/Soura_Phase_II_Guidelines.pdf" target="_blank" rel="noopener" style="color: var(--color-sun-yellow);">Download PDF Guide</a></span>
+                        </div>
+                        <div class="settings-row">
+                            <span class="sett-lbl">Proforma Invoice Template</span>
+                            <span class="sett-val"><a href="javascript:void(0)" onclick="downloadProformaTemplate()" style="color: var(--color-sun-yellow);">Download Excel Sheet</a></span>
+                        </div>
+                        <div class="settings-row">
+                            <span class="sett-lbl">Net Metering Checklist</span>
+                            <span class="sett-val"><a href="javascript:void(0)" onclick="showChecklistModal()" style="color: var(--color-sun-yellow);">View Online List</a></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-footer-actions" style="margin-top: 1.5rem;">
+                    <button onclick="logoutPartner()" class="logout-btn">Sign Out</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script>
+        const DEALERS = [
+            { code: "TVM-BENJ", name: "Benjose FG", area: "Balaramapuram", district: "Thiruvananthapuram", phone: "9037273767", lat: 8.4239, lon: 77.0371 },
+            { code: "TVM-ANAN", name: "Anand Sreedhar", area: "Neyyattinkara", district: "Thiruvananthapuram", phone: "7994430742", lat: 8.3995, lon: 77.0863 },
+            { code: "KLA-VARG", name: "Varghese Nellimoottil", area: "Ayoor", district: "Kollam", phone: "9020202222", lat: 8.8787, lon: 76.8407 },
+            { code: "KLA-NIYA", name: "Niyas K", area: "Karunagappally", district: "Kollam", phone: "9656366068", lat: 9.0559, lon: 76.5360 },
+            { code: "KLA-UDAY", name: "Udayabhanu J", area: "Kadappakkada", district: "Kollam", phone: "9349136882", lat: 8.8871, lon: 76.6027 },
+            { code: "KLA-RAJE", name: "Rajeev R", area: "Punalur", district: "Kollam", phone: "9567970077", lat: 9.0182, lon: 76.9298 },
+            { code: "KLA-RATH", name: "Rathil Kumar", area: "Sasthamkotta", district: "Kollam", phone: "7907878797", lat: 9.0346, lon: 76.6268 },
+            { code: "PTA-SREE", name: "Sreejith TR", area: "Mallappally", district: "Pathanamthitta", phone: "9947030669", lat: 9.4215, lon: 76.6358 },
+            { code: "PTA-JIJU", name: "Jijukumar MC", area: "Pandalam", district: "Pathanamthitta", phone: "9388133400", lat: 9.2273, lon: 76.6716 },
+            { code: "PTA-PKPR", name: "PK Prasannakumar", area: "Pathanamthitta", district: "Pathanamthitta", phone: "7034023301", lat: 9.2648, lon: 76.7870 },
+            { code: "PTA-BIJU", name: "Bijumon J", area: "Ranni", district: "Pathanamthitta", phone: "9995990372", lat: 9.3826, lon: 76.7844 },
+            { code: "ALP-SHIN", name: "Shinas Shamsudeen", area: "Alappuzha", district: "Alappuzha", phone: "9995550888", lat: 9.4981, lon: 76.3388 },
+            { code: "ALP-NISS", name: "Nissar Hameed", area: "Kayamkulam", district: "Alappuzha", phone: "9895497090", lat: 9.1738, lon: 76.5009 },
+            { code: "ALP-RENJ", name: "Renjith PS", area: "Mavelikkara", district: "Alappuzha", phone: "9447866958", lat: 9.2458, lon: 76.5518 },
+            { code: "ALP-BAIJ", name: "Baiju Sasidharan", area: "Vallikunnam", district: "Alappuzha", phone: "9747186818", lat: 9.1673, lon: 76.5746 },
+            { code: "KTM-SALY", name: "Saly Sainudeen", area: "Erattupetta", district: "Kottayam", phone: "9446200616", lat: 9.6828, lon: 76.7845 },
+            { code: "KTM-ANIS", name: "Anish Kumar", area: "Kallara", district: "Kottayam", phone: "9387220162", lat: 9.7118, lon: 76.4367 },
+            { code: "KTM-SANI", name: "Sanil Kumar", area: "Kottayam", district: "Kottayam", phone: "9061189784", lat: 9.5916, lon: 76.5222 },
+            { code: "IDK-OUSE", name: "Ouseph KA", area: "Moolamattom", district: "Idukki", phone: "9495737628", lat: 9.7709, lon: 76.8624 },
+            { code: "IDK-MGAJ", name: "MG Ajay", area: "Thodupuzha", district: "Idukki", phone: "9447254142", lat: 9.8959, lon: 76.7183 },
+            { code: "EKM-SHIY", name: "Shiyas Rasheed", area: "Edappally", district: "Ernakulam", phone: "9847859859", lat: 10.0261, lon: 76.3125 },
+            { code: "EKM-BHAV", name: "Bhavya M", area: "Kalamassery", district: "Ernakulam", phone: "8301026309", lat: 10.0468, lon: 76.3175 },
+            { code: "EKM-JIBI", name: "Jibin George", area: "Thripunithura", district: "Ernakulam", phone: "9995996240", lat: 9.9515, lon: 76.3419 },
+            { code: "TCR-JAIS", name: "Jaison Jose Meleth", area: "Ayyanthole", district: "Thrissur", phone: "9995601923", lat: 10.5312, lon: 76.1966 },
+            { code: "TCR-COAT", name: "Coats Thekkan", area: "Chalakudy", district: "Thrissur", phone: "8129119222", lat: 10.3015, lon: 76.3331 },
+            { code: "TCR-JISO", name: "Jison George", area: "Chelakkara", district: "Thrissur", phone: "9746666535", lat: 10.6970, lon: 76.3402 },
+            { code: "TCR-SINI", name: "Sinish KM", area: "Kodakara", district: "Thrissur", phone: "9946101892", lat: 10.3664, lon: 76.2974 },
+            { code: "TCR-BINU", name: "Binu Yacob", area: "Pazhayannur", district: "Thrissur", phone: "9946033807", lat: 10.7101, lon: 76.4026 },
+            { code: "TCR-JITH", name: "Jithesh Tharayil", area: "Ramavarmapuram", district: "Thrissur", phone: "7356347700", lat: 10.5513, lon: 76.2255 },
+            { code: "TCR-AKAN", name: "AK Anil", area: "Valappad", district: "Thrissur", phone: "9746891854", lat: 10.3957, lon: 76.1030 },
+            { code: "PKD-SUHA", name: "Suhaib S", area: "Alathur", district: "Palakkad", phone: "9988553585", lat: 10.6436, lon: 76.5451 },
+            { code: "PKD-PRAM", name: "Pramod", area: "Chittur", district: "Palakkad", phone: "9746611002", lat: 10.7042, lon: 76.7329 },
+            { code: "PKD-BIJO", name: "Bijo Varghese", area: "Elappully", district: "Palakkad", phone: "9388883222", lat: 10.7410, lon: 76.7118 },
+            { code: "PKD-ANAN", name: "Anand P", area: "Koduvayur", district: "Palakkad", phone: "9349811101", lat: 10.6865, lon: 76.6315 },
+            { code: "MPM-NASS", name: "Nassarudheen E", area: "Edakkara", district: "Malappuram", phone: "9946139955", lat: 11.3468, lon: 76.2976 },
+            { code: "MPM-FAIS", name: "Faisal K", area: "Manjeri", district: "Malappuram", phone: "7994035923", lat: 11.1180, lon: 76.1217 },
+            { code: "MPM-RAVI", name: "Ravindran K", area: "Tirur", district: "Malappuram", phone: "9961476748", lat: 10.9157, lon: 75.9238 },
+            { code: "KKD-RAJA", name: "Rajan Madavoor", area: "Koduvally", district: "Kozhikode", phone: "9497345868", lat: 11.3499, lon: 75.9231 },
+            { code: "KKD-YOOS", name: "Yoosaf NV", area: "Perambra", district: "Kozhikode", phone: "9539724724", lat: 11.5647, lon: 75.7486 },
+            { code: "KKD-SAFE", name: "Safeer", area: "Vadakara", district: "Kozhikode", phone: "9995330555", lat: 11.5975, lon: 75.5925 },
+            { code: "KKD-RAHU", name: "Rahul RN", area: "Vadakara", district: "Kozhikode", phone: "9645464733", lat: 11.5975, lon: 75.5925 },
+            { code: "WYD-SINI", name: "Sinil Chacko K", area: "Mananthavady", district: "Wayanad", phone: "8921794334", lat: 11.8023, lon: 76.0029 },
+            { code: "KNR-JOBI", name: "Jobi Sebastian", area: "Kannur", district: "Kannur", phone: "8590085865", lat: 11.8745, lon: 75.3704 },
+            { code: "KNR-ACFA", name: "AC Faisal", area: "Irikkoor", district: "Kannur", phone: "9656069964", lat: 11.9791, lon: 75.5684 },
+            { code: "KNR-NOUS", name: "Noushad T", area: "Mattannur", district: "Kannur", phone: "9847761018", lat: 11.9312, lon: 75.5727 },
+            { code: "KNR-SURI", name: "Suriya Subash", area: "Panoor", district: "Kannur", phone: "9946809010", lat: 11.7583, lon: 75.5670 },
+            { code: "KNR-NISH", name: "Nishad NK", area: "Thalassery", district: "Kannur", phone: "9562028244", lat: 11.7481, lon: 75.4894 },
+            { code: "KNR-KASO", name: "KA Soju", area: "Taliparamba", district: "Kannur", phone: "9447548430", lat: 12.0366, lon: 75.3619 },
+            { code: "KSD-PRAD", name: "Pradeep K", area: "Badiadka", district: "Kasaragod", phone: "9744880900", lat: 12.5923, lon: 75.0566 },
+            { code: "KSD-SURE", name: "Suresh Kumar", area: "Panathur", district: "Kasaragod", phone: "9946960604", lat: 12.4419, lon: 75.3340 }
+        ];
+
+        const KSEB_SECTIONS = {
+            "Thiruvananthapuram": {"Amboori":4656,"Aryanad":4652,"Attingal":4531,"Avanavancherry":4532,"Balaramapuram":4542,"Beach Trivandrum":4513,"Cantonment TVM":4506,"Chirayinkeezhu":4529,"Chullimanoor":4653,"Edava":4526,"Fort Trivandrum":4503,"Kachani":4691,"Kadakkavoor":4528,"Kallambalam":4533,"Kallara":4557,"Kalliyoor":4675,"Kamukinkode":4868,"Kaniyapuram":4522,"Kanjiramkulam":4544,"Kanyakulangara":4556,"Karamana":4510,"Kattakada":4552,"Kazhakuttam":4521,"Kedakulam":4527,"Kesavadasapuram":4516,"Kilimannoor":4535,"Kottukal":4657,"Kudappanakkunnu":4676,"Kulathoor":4520,"Kunnathukal":4667,"Madavoor":4536,"Malayinkeezh":4666,"Manacaud":4501,"Mangalapuram":4523,"Maranalloor":4553,"Marayamuttom":4539,"Nagaroor":4654,"Nalanchira":4518,"Nedumangad":4547,"Nemom":4543,"Neyyattinkara":4537,"Ottasekharamangalam":4554,"Palachira":4534,"Pallickal [Attingal Dvn.]":4680,"Palode":4548,"Parassala":4540,"Paravoor":4576,"Peringamala":4674,"Peroorkada":4508,"Pettah":4514,"Peyad":4550,"Poojappura":4512,"Poonthura":4679,"Poothakulam":4671,"Poovachal":4864,"Poovar":4545,"Poozhikunnu":4688,"Pothencode":4524,"Puthenchantha":4504,"Sreekariyam":4519,"Sreevaraham":4515,"Thirumala":4511,"Thiruvallam":4502,"Tholicode":4681,"Thycaud":4505,"Uchakkada":4655,"Udiyankulangara":4538,"Ulloor":4517,"Uzhamalakkal":4673,"Vakkom":4530,"Vamanapuram":4821,"Varkala":4525,"Vattappara":4678,"Vattiyoorkavu":4509,"Vellanad":4551,"Vellarada":4541,"Vellayambalam":4507,"Venjaramood":4555,"Vithura":4549,"Vizhinjam":4546},
+            "Kollam": {"Anchal West":4669,"Anchal":4597,"Ayathil":4565,"Ayoor":4591,"Cantonment Kollam":4558,"Chadayamangalam":4672,"Chathannoor":4575,"Chavara":4571,"Chengamanad KTRA":4590,"Chithara":4662,"East kallada":4583,"Ezhukone":4582,"Kadakkal":4599,"Kadambanad":4613,"Kadappakkada":4559,"Kallambalam":4533,"Kanjiramkuzhy":4670,"Kannanalloor":4579,"Karavaloor":4677,"Karukone":4661,"Karunagappally North":4569,"Karunagappally South":4570,"Kilikolloor":4564,"Kottarakkara East":4683,"Kottarakkara":4587,"Kottiyam":4578,"Kulakkada":4588,"Kulathupuzha":4598,"Kundara":4581,"Madavoor":4536,"Manappally":4658,"Manipuzha":4620,"Mayyanad":4580,"Mynagappally":4659,"Nallila":4586,"Oachira":4567,"Olai":4560,"Oyoor":4660,"Pallimukku":4566,"Panmana":4682,"Paravoor":4576,"Parippally":4577,"Pathanapuram":4595,"Pattazhy":4685,"Perinad":4563,"Perumpuzha":4585,"Piravanthoor":4668,"Poothakulam":4671,"Punalur":4593,"Puthur Kottarakkara":4589,"Sakthikulangara":4561,"Sasthamcotta":4573,"Sooranad":4574,"Thankasserry":4562,"Thengamom-Pallickal":4663,"Thenmala":4594,"Thevalakkara":4572,"Valakom":4592,"Vallikunnam":5754,"Veliyam":4584,"Vilakkudi":4596},
+            "Pathanamthitta": {"Adoor":4609,"Aranmula":5535,"Ayirur Kathakali Gramam":4608,"Changanachery":4636,"Elavumthitta":4616,"Enathu":4806,"Erumely":5637,"Ezhamkulam":4611,"Kadambanad":4613,"Kadapra":4621,"Kaippattoor":4610,"Kakkad":4604,"Kalanjoor":4612,"Karukachal":4641,"Konni":4602,"Kozhenchery":4605,"Kulanada":4615,"Kumbanad":4619,"Kumbazha":4601,"Mallappally":4623,"Manimala":4642,"Manipuzha":4620,"Pandalam Thekkekkara":4692,"Pandalam":4614,"Pathanamthitta":4600,"Pathanapuram":4595,"Ranni Perunad":4690,"Ranny North":4607,"Ranny South":4606,"Thengamom-Pallickal":4663,"Thiruvalla":4617,"Thottabhagom":4618,"Vadasserikkara":4603,"Vaipur":4624,"Vakayar":4687,"Vechoochira":4665,"Venmony":5824,"Vennikulam":4622},
+            "Alappuzha": {"Alappuzha North":5501,"Alappuzha South":5503,"Alappuzha Town":5502,"Ambalappuzha":5505,"Arattupuzha":5833,"Arookutty":5705,"Aroor":5515,"Arthinkal":5518,"Chambakulam":5508,"Charummood":5527,"Chenganoor":5533,"Chennithala":5538,"Cheppad":5530,"Cherthala East":5704,"Cherthala":5512,"Edathua":5507,"Harippad":5524,"Kainakari":5511,"Kalavoor":5726,"Kallissery":5534,"Karthikappally":5526,"Karuvatta":5525,"Kattanam":5528,"Kayamkulam East":5531,"Kayamkulam West":5532,"Kidangara":5510,"Kollakadavu":5537,"Krishnapuram":4568,"Kuthiathode":5516,"Manipuzha":4620,"Mankombu":5509,"Mannar":5539,"Mavelikkara":5522,"Muhamma":5519,"Mulakuzha":5536,"Muthukulam":5741,"Nooranad":5529,"Oachira":4567,"Pallippad":5725,"Pathirappally":5521,"Pattanakadu":5517,"Poochakkal":5514,"Punja Pallom":4626,"Punnapra":5504,"S.L.Puram":5520,"Thakazhy":5506,"Thannermukkom":5513,"Thattarambalam":5523,"Thengamom-Pallickal":4663,"Vallikunnam":5754,"Venmony":5824},
+            "Kottayam": {"Athirampuzha":4664,"Ayarkunnam":4632,"Aymanam":4629,"Bharananganam":5627,"Changanachery":4636,"Chempu":4644,"Erattupetta":5630,"Erumely":5637,"Ettumanur":4646,"Gandhinagar":4628,"Kaduthuruthy":4651,"Kanjirappally":5636,"Karukachal":4641,"Kidangoor":5625,"Kollappally":5740,"Kooroppada":5749,"Koothattukulam":5598,"Koottikkal":5721,"Kottayam Central":4634,"Kottayam East":4635,"Kumarakam":4630,"Kuravilangad":4649,"Kurichy":4637,"Kuruppanthara":4647,"Manarcad":4631,"Manimala":4642,"Manipuzha":4620,"Marangattupally":5628,"Meenadom":4689,"Mundakkayam":5638,"Nattakam":4627,"Neendoor":4648,"Paika":5626,"Pala":5624,"Pallickathode":5707,"Pallom":4625,"Pampady":5635,"Parathode":5745,"Pathanad":4684,"Peerumade":5612,"Peruva":4686,"Pinnakkanad":5632,"Piravom":5597,"Ponkunnam":5633,"Poonjar":5631,"Punja Pallom":4626,"Puthuppally":4633,"Ramapuram":5629,"Teekoy":5744,"Thalayazham":4645,"Thalayolaparambu":4650,"Thengana":4638,"Thiruvalla":4617,"Thodupuzha-I":5618,"Thrikkodithanam":4640,"Vaikom":4643,"Vakathanam":4639,"Vandiperiyar":5614,"Vazhoor":5634},
+            "Idukki": {"Adimali":5617,"Alakode-Thodupuzha":5753,"Anakkara":5742,"Chithirapuram":5615,"Erattayar":5724,"Kalloorkad":5593,"Kambilikandom":5710,"Kanchiyar":5746,"Kanjikuzhy":5722,"Karimannur":5621,"Kattapana":5609,"Koothattukulam":5598,"Kothamangalam-II":5601,"Kumily":5708,"Manjalloor":5752,"Marayoor":5616,"Moolamattom":5619,"Murikkassery":5711,"Nedumkandam":5610,"Painavu":5623,"Peerumade":5612,"Peruvanthanam":5720,"Pothanikad":5592,"Purappuzha":5743,"Rajakkad":5730,"Rajakumary":5709,"Thodupuzha-I":5618,"Thodupuzha-II":5620,"Thookkupalam":5723,"Udumbanchola":5755,"Upputhara":5613,"Vandanmedu":5611,"Vandiperiyar":5614,"Vannapuram":5622},
+            "Ernakulam": {"Alangad":5737,"Aluva North":5568,"Aluva Town":5567,"Aluva West":5569,"Amballoor":5552,"Angamaly":5579,"Arakkunnam":5553,"Athani":5572,"Chendamangalam":5606,"Chengamanad PBVR":5571,"Cherai":5605,"Cheranellore":5739,"Chottanikkara":5551,"Chowara":5570,"College Ernakulam":5540,"Edappally":5544,"Edathala":5750,"Edayar(Muppathadom)":5712,"Eloor":5574,"Ernakulam Central":5546,"Eroor":5733,"Ezhikkara":5603,"Fort Cochin":5564,"Girinagar":5542,"Kalady":5576,"Kalamassery":5573,"Kalloorkad":5593,"Kaloor":5545,"Kanjoor":5747,"Kannamali":5560,"Karakutty":5581,"Keerampara":5713,"Kizhakkambalam":5586,"Kolencherry":5554,"Koothattukulam":5598,"Koovappady":5590,"Kothamangalam-I":5600,"Kothamangalam-II":5601,"Kumbalangi":5561,"Kunnukara":5575,"Kurupampady":5588,"Kuzhoor":5657,"Malayattoor":5715,"Manjalloor":5752,"Manjapra":5578,"Mannam":5736,"Maradu":5550,"Mattancherry":5563,"Meloor":5650,"Mookannur":5582,"Moothakunnam":5608,"Moovattupuzha-I":5591,"Moovattupuzha-II":5594,"Mulanthuruthy":5748,"Nellikuzhy":5751,"Njarackkal":5566,"North Paravur":5604,"Okkal":5738,"Palarivattom":5543,"Palluruthy":5559,"Pampakuda":5599,"Panangad":5735,"Parakadavu PBVR":5580,"Pattimattam":5587,"Perumbavoor":5583,"Piravom":5597,"Pothanikad":5592,"Puthencruz":5555,"Puthenvelikkara":5659,"Thevakkal":5558,"Thevara":5541,"Thiruvaniyoor":5734,"Thodupuzha-I":5618,"Thodupuzha-II":5620,"Thoppumpady":5562,"Thrikkakkara West":5731,"Thrikkakkara":5557,"Thripunithura":5548,"Thuravoor":5577,"Udayamperoor":5549,"Vadakkekkara":5607,"Vaduthala":5547,"Valayanchirangara":5596,"Varapuzha":5602,"Vazhakulam":5584,"Velloorkunnam":5595,"Vengola":5585,"Vengoor":5589,"Vennala":5732,"Vypin":5565,"Vyttila":5556},
+            "Thrissur": {"Ammadam":5670,"Annamanada":5648,"Arimboor":5679,"Ayyanthole":5678,"Beach Chavakkad":5699,"Big Bazar Thrissur":5702,"Chalakkudy":5651,"Chalissery":6538,"Chavakkad":5698,"Chelakara":5691,"Cherpu":5639,"Cheruthuruthy":5692,"Chirakkal":5642,"Desamangalam":5717,"Eriyad":5665,"Guruvayoor":5697,"Irinjalakuda- I":5644,"Irinjalakuda-II":5647,"Kaipamangalam":5660,"Kandassankadavu":5689,"Karuvannur":5640,"Kattoor":5643,"Kecheri":5694,"Kodakara":5654,"Kodungalloor- II":5664,"Kodungalloor-I":5663,"Kombodinjamakkal":5645,"Koonamoochy":5696,"Koorkancherry":5669,"Koratty":5649,"Kundannur":5684,"Kunnamkulam":5700,"Kuriachira":5671,"Kuttichira":5729,"Kuzhoor":5657,"Mala":5658,"Mannuthy":5675,"Marathakara":5673,"Mathilakom":5661,"Medical College(Peringandoor)":5714,"Meloor":5650,"Mulamkunnathukavu":5682,"Mundur Thrissur":5695,"Muthuvara":5685,"Nadathara":5677,"Ollur":5672,"Parappookara":5641,"Parappur":5686,"Pariyaram IRJKDA":5652,"Pattikad":5676,"Pavaratty":5687,"Pazhanji":5701,"Pazhayannur":5719,"Peringode":6705,"Peringottukara":5666,"Perinjanam":5662,"Perumbilavu":5727,"Punnamparambu":5718,"Punnayoorkulam":5703,"Puthenchira":5728,"Puthenvelikkara":5659,"Puthucode":6508,"Puthukkad":5655,"Puthur Thrissur":5674,"Ramavarmapuram":5681,"Thalikulam":5716,"Thiruvillwamala":5693,"Thriprayar":5667,"Vadanappally":5688,"Valappad":5668,"Varandarappally":5656,"Vellangallur":5646,"Vellikulangara":5653,"Vengidange":5690,"Viyur":5680,"Wadakkanchery":5683},
+            "Palakkad": {"Agali":6516,"Alanallur":6521,"Alathur":6509,"Ambalappara":6534,"Big Bazar Palakkad":6518,"Chalissery":6538,"Cherpulassery":6541,"Chittur":6501,"Desamangalam":5717,"Elapully":6530,"Kadambazhippuram":6786,"Kalpathy":6531,"Kanjikode":6528,"Kanjirapuzha":6771,"Kayaradi":6822,"Kizhakkancherry":6754,"Koduvayur":6505,"Kollengode":6510,"Kongad":6523,"Koottupatha":6791,"Koppam":6537,"Kothakurussy":6542,"Kottathara":6785,"Kottayi":6526,"Kozhinjampara":6502,"Kumaramputhur":6742,"Kumbidi":6812,"Kunnissery":6726,"Kuthannur":6728,"Kuzhalmannam":6525,"Lakkidi":6824,"Malampuzha":6725,"Mannarkkad":6520,"Marutharoad":6529,"Melamuri":6519,"Mudappallur":6514,"Mundur Palakkad":6740,"Muthalamada":6511,"Muthuthala":6704,"Nelliampathy":6512,"Nemmara":6513,"Olavakkode":6532,"Ongallur":6801,"Ottappalam":6533,"Padinjarangadi":6540,"Padoor":6507,"Parali":6527,"Pathirippala":6729,"Pattambi":6536,"Pengattiri":6784,"Peringode":6705,"Peringottukurissy":6727,"Pudunagaram":6506,"Puthucode":6508,"Shoranur":6535,"Sreekrishnapuram":6524,"Sulthanpet":6517,"Tachampara":6522,"Tattamangalam":6504,"Thazhecode":6710,"Thiruvegapura":6753,"Thrithala":6539,"Vadakkumchery":6515,"Vadavannur":6810,"Vallapuzha":6703,"Vandithavalam":6809,"Vaniyamkulam":6733,"Velanthavalam":6503,"Vilayur":6821,"Walayar":6819},
+            "Malappuram": {"Akambadam":6796,"Alathiyur":6574,"Anakkayam":6756,"Angadippuram":6748,"Areekode":6549,"Chalissery":6538,"Changaramkulam":6585,"Chattiparamba":6708,"Chelari":6577,"Cherpulassery":6541,"Chungathara":6713,"Edakkara":6544,"Edappal":6584,"Edarikode":6558,"Edavanna":6548,"Edavannappara":6550,"Edayoor":6769,"Ezhuvathurithy":6802,"Kadalundi":6632,"Kadampuzha":6572,"Kadungathukundu":6741,"Kalikavu":6560,"Kandanakom-Kalady":6755,"Karad":6768,"Karulai":6795,"Karuvarakundu":6794,"Keezhuparamba":6707,"Kizzhissery":6551,"Kolathur":6567,"Kondotty":6552,"Koombara":6805,"Kottakkal":6557,"Kumbidi":6812,"Kunnumpuram (AR Nagar)":6739,"Kuttipuram":6712,"Makkaraparamba":6565,"Malappuram East":6555,"Malappuram West":6780,"Mampad":6814,"Manjeri North":6547,"Manjeri South":6546,"Mankada":6711,"Melattoor":6563,"Moothedam":6807,"Mundakkulam":6823,"Nilambur":6543,"Oorakam":6808,"Othukungal":6709,"Pandikkad":6561,"Pannikkode":6777,"Parappanangadi":6575,"Pattikkad Chungam":6779,"Perinthalmanna":6562,"Perumpadappu":6803,"Ponmundam (Vylathur)":6570,"Ponnani":6581,"Pookottumpadam":6545,"Pothukallu":6310,"Pulamanthole":6564,"Pulikkal":6553,"Purangu":6583,"Purathur":6781,"Puthenathani":6571,"Puzhakkattiri":6820,"Thalappara":6580,"Thanalur":6736,"Thanur East":6798,"Thanur":6576,"Thavanur":6582,"Thazhecode":6710,"Thirunavaya":6573,"Thiruvali":6770,"Thrikkalangode":6706,"Thuvvakkad":6797,"Tirur East":6568,"Tirur West":6569,"Tirurangadi":6578,"Tuvvur":6815,"Valancheri":6566,"Vallikunnu":6715,"Vaniyambalam":6793,"Vazhikkadavu":6714,"Velluvambram":6554,"Vengara":6556,"Venniyoor":6579,"Vettom":6730,"Wandoor":6559},
+            "Kozhikode": {"Areekkad":6789,"Areekkulam":6767,"Atholi":6615,"Ayenchery":6624,"Azhiyoor":6743,"Balussery":6613,"Beach Kozhikkode":6603,"Beypur":6635,"Central Kozhikode":6602,"Chakkittapara":6716,"Chelannur":6744,"Edacherri":6627,"Eranhikkal":6606,"Feroke":6631,"Kadalundi":6632,"Kakkattil":6735,"Kakkodi":6599,"Kakkoor":6764,"Kallai":6634,"Karaparamba":6598,"Kattangal":6747,"Keezhuparamba":6707,"Kodencheri":6612,"Koduvally":6611,"Koombara":6805,"Koorachundu":6763,"Koottalida":6765,"Kovoor":6595,"Kunnamangalam":6607,"Kuttiyadi":6629,"Maniyoor":6717,"Mankavu":6636,"Mavoor":6596,"Melady":6620,"Meppayoor":6617,"Moodadi":6766,"Mukkam":6608,"Muttungal":6625,"Nadakkave":6601,"Nadapuram":6628,"Naduvannur":6618,"Narikkuni":6600,"Omassery":6751,"Orkkatteri":6626,"Pannikkode":6777,"Pantheerankavu":6637,"Parakkadavu KKD":6724,"Parappupara":6752,"Perambra North":6778,"Perambra":6616,"Peringathur":6817,"Perumanna":6734,"Pottammal":6597,"Puthuppady":6732,"Quilandi North":6619,"Quilandi South":6621,"Ramanattukara":6633,"Thamarassery":6610,"Thikkody":6746,"Thiruvallur":6738,"Thiruvambadi":6609,"Thottilpalam":6630,"Thuneri":6731,"Unnikulam":6614,"Vadakara Beach":6737,"Vadakara North":6623,"Vadakara South":6622,"Vellimadukunnu":6605,"WestHill":6604},
+            "Wayanad": {"Ambalavayal":6762,"Kalpetta":6586,"Kambalakkad":6718,"Kattikulam":6783,"Korom":6806,"Mananthavady":6589,"Meenangadi":6593,"Meppadi":6588,"Muttil":6792,"Padichira":6811,"Padinjarethara":6782,"Panamaram":6590,"Pulpally":6594,"Sultan Bathery West":6720,"Sultan Bathery":6592,"Thavinhal":6719,"Vellamunda":6591,"Vythiri":6587},
+            "Kannur": {"Alakkode":6648,"Azheekode":6662,"Burnasseri":6655,"Chakkarakallu":6660,"Chalode":6661,"Chapparappadavu":6745,"Chemperi":6721,"Cherukunnu":6664,"Cherupuzha":6816,"Chokli":6671,"Chovva":6657,"Dharmadom":6677,"Dharmassala":6646,"Eaichur":6659,"Edoor":6722,"Irikkur":6649,"Iritty":6674,"Kadachira":6658,"Kakkayangad":6787,"Kannur":6654,"Karimbam":6645,"Karivellur":6651,"Karthikapuram":6799,"Kathiroor":6682,"Kelakom":6759,"Kodiyeri":6670,"Kolachery":6666,"Kolayad":6758,"Koothuparamba":6680,"Kunhimangalam":6639,"Madai":6643,"Mathamangalam":6641,"Mattannur":6675,"Mayyil":6667,"Padiyottuchal":6652,"Pallikunnu":6653,"Panoor":6672,"Pappinisseri":6663,"Parad":6673,"Pariyaram Kannur":6760,"Pattiyam":6681,"Payyangadi":6642,"Payyanur":6638,"Payyavur":6775,"Peralassery":6790,"Peringathur":6817,"Pinarayi":6679,"Ramanthali":6640,"Sivapuram":6776,"Sreekantapuram":6647,"Thalassery North":6669,"Thalassery South":6668,"Thaliparamba":6644,"Thayyil":6656,"Thondiyil":6676,"Ulikkal":6761,"Valapattanam":6665,"Vallithode":6813,"Vellur":6650,"Vengad":6678},
+            "Kasaragod": {"Badiadka":6690,"Balamthode":6773,"Bhimanadi":6697,"Chattanchal":6772,"Cherkala":6689,"Cherupuzha":6816,"Chittari":6695,"Choyamkode":6750,"Kanhangad":6694,"Karivellur":6651,"Kasargode":6688,"Kayyur":6699,"Kumbala":6687,"Kuttikole":6693,"Manjeswar":6684,"Mavungal":6701,"Mulleria":6691,"Nallompuzha":6749,"Neeleswar":6696,"Nellikunnu":6686,"Padanna":6723,"Padannakkad":6804,"Paivalika":6757,"Periya Bazar":6774,"Perla":6800,"Pilicode":6698,"Rajapuram":6702,"Seethangoli":6818,"Thrikaripur":6700,"Udma":6692,"Uppala":6683,"Vellur":6650,"Vorkady":6685}
+        };
+
+        // Check local storage for existing session
+        window.addEventListener('DOMContentLoaded', () => {
+            const activePartnerCode = localStorage.getItem('partner_code');
+            if (activePartnerCode) {
+                showDashboard(activePartnerCode);
+            }
+        });
+
+        function resetPin() {
+            const inputVal = document.getElementById('partner-code').value.trim();
+            if (!inputVal) {
+                alert("Please enter your Partner Code or Mobile Number first to reset your PIN.");
+                return;
+            }
+
+            let inputValCleaned = inputVal;
+            const isNumeric = /^[0-9\+\s\-]+$/.test(inputVal);
+            if (isNumeric) {
+                let cleanPhone = inputVal.replace(/[^0-9]/g, '');
+                if (cleanPhone.length === 12 && cleanPhone.startsWith('91')) cleanPhone = cleanPhone.substring(2);
+                inputValCleaned = cleanPhone;
+            }
+
+            const matchedDealer = DEALERS.find(d => {
+                const searchVal = inputValCleaned.toUpperCase();
+                return d.code === searchVal || d.phone === inputValCleaned;
+            });
+
+            if (!matchedDealer) {
+                alert("Partner not found. Please enter a valid Partner Code or Mobile Number.");
+                return;
+            }
+
+            // Reset to default PIN 2277
+            localStorage.removeItem('partner_pin_' + matchedDealer.code);
+            const defaultPin = '2277';
+
+            alert("Processing PIN reset request...");
+
+            const formData = new FormData();
+            formData.append("access_key", "3b85044a-ed95-42ed-b465-e6afcaeb60a2");
+            formData.append("subject", "Sunova Partner PIN Reset");
+            formData.append("from_name", "Sunova Solar Security");
+            formData.append("message", `A PIN reset was requested for Partner:\nName: ${matchedDealer.name}\nCode: ${matchedDealer.code}\nMobile Number: ${matchedDealer.phone}\n\nTheir PIN has been successfully reset to the default PIN: ${defaultPin}.\n\nA copy of this reset notification is being sent to info@sunovasolar.in and the partner's mobile number.`);
+
+            fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                body: formData
+            }).then(() => {
+                alert(`Your PIN has been reset to the default PIN (${defaultPin}). An SMS notification has been sent to ${matchedDealer.phone} and a copy to info@sunovasolar.in.`);
+            }).catch(() => {
+                alert(`Your PIN has been reset to the default PIN (${defaultPin}). Note: Email dispatch failed.`);
+            });
+        }
+
+        function handlePartnerLogin(e) {
+            e.preventDefault();
+            const inputVal = document.getElementById('partner-code').value.trim();
+            const pin = document.getElementById('partner-password').value;
+            const feedback = document.getElementById('login-feedback');
+            const loginBtn = document.getElementById('btn-partner-login');
+            
+            let inputValCleaned = inputVal;
+            
+            // Validate if logging in with a phone number
+            const isNumeric = /^[0-9\+\s\-]+$/.test(inputVal);
+            if (isNumeric) {
+                let cleanPhone = inputVal.replace(/[^0-9]/g, '');
+                if (cleanPhone.length === 12 && cleanPhone.startsWith('91')) {
+                    cleanPhone = cleanPhone.substring(2);
+                }
+                
+                const phoneRegex = /^[6-9][0-9]{9}$/;
+                if (!phoneRegex.test(cleanPhone)) {
+                    feedback.textContent = 'Invalid Phone. If logging in with a mobile number, it must be exactly 10 digits starting with 6-9.';
+                    feedback.className = 'form-feedback error';
+                    feedback.classList.remove('hidden');
+                    return;
+                }
+                inputValCleaned = cleanPhone;
+            }
+
+            // Find matching dealer by phone or code
+            const matchedDealer = DEALERS.find(d => {
+                const searchVal = inputValCleaned.toUpperCase();
+                return d.code === searchVal || d.phone === inputValCleaned;
+            });
+
+            if (!matchedDealer) {
+                feedback.textContent = 'Access Denied. Your partner code or mobile number is not registered in our dealer list.';
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            if (pin.length !== 4 || isNaN(pin)) {
+                feedback.textContent = 'Please enter a valid 4-digit security PIN.';
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            // Retrieve registered custom PIN if set, otherwise default is '2277'
+            const customPin = localStorage.getItem('partner_pin_' + matchedDealer.code);
+            const requiredPin = customPin || '2277';
+
+            if (pin !== requiredPin) {
+                feedback.textContent = customPin ? 'Incorrect security PIN. Please enter your custom PIN.' : 'Invalid security PIN. For first-time login, use default PIN: 2277.';
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            feedback.textContent = 'Authenticating Partner credentials...';
+            feedback.className = 'form-feedback';
+            feedback.style.backgroundColor = 'rgba(255, 183, 3, 0.15)';
+            feedback.style.color = 'var(--color-sun-yellow)';
+            feedback.classList.remove('hidden');
+            loginBtn.disabled = true;
+
+            setTimeout(() => {
+                loginBtn.disabled = false;
+                if (requiredPin === '2277') {
+                    // Default PIN used, must force change PIN screen
+                    tempLoginDealerCode = matchedDealer.code;
+                    document.getElementById('login-view').classList.add('hidden');
+                    document.getElementById('change-pin-view').classList.remove('hidden');
+                } else {
+                    // Custom PIN used, log in successfully
+                    localStorage.setItem('partner_code', matchedDealer.code);
+                    showDashboard(matchedDealer.code);
+                }
+            }, 1200);
+        }
+
+        let tempLoginDealerCode = '';
+
+        function handlePinChangeSubmit(e) {
+            e.preventDefault();
+            const newPin = document.getElementById('new-pin').value;
+            const confirmPin = document.getElementById('confirm-new-pin').value;
+            const feedback = document.getElementById('change-pin-feedback');
+            const saveBtn = document.getElementById('btn-change-pin');
+
+            if (newPin.length !== 4 || isNaN(newPin)) {
+                feedback.textContent = 'PIN must be exactly 4 digits.';
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            if (newPin === '2277') {
+                feedback.textContent = 'You cannot use the default PIN. Please choose a new PIN.';
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            if (newPin !== confirmPin) {
+                feedback.textContent = 'PINs do not match. Please re-enter.';
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            feedback.textContent = 'Updating security PIN...';
+            feedback.className = 'form-feedback';
+            feedback.style.backgroundColor = 'rgba(255, 183, 3, 0.15)';
+            feedback.style.color = 'var(--color-sun-yellow)';
+            feedback.classList.remove('hidden');
+            saveBtn.disabled = true;
+
+            setTimeout(() => {
+                // Save custom PIN in localStorage
+                localStorage.setItem('partner_pin_' + tempLoginDealerCode, newPin);
+                // Complete session login
+                localStorage.setItem('partner_code', tempLoginDealerCode);
+                
+                // Hide change pin view, show dashboard
+                document.getElementById('change-pin-view').classList.add('hidden');
+                showDashboard(tempLoginDealerCode);
+            }, 1000);
+        }
+
+        function toggleChangePinPanel() {
+            const panel = document.getElementById('dashboard-change-pin-panel');
+            if (panel.classList.contains('hidden')) {
+                panel.classList.remove('hidden');
+                document.getElementById('dash-old-pin').value = '';
+                document.getElementById('dash-new-pin').value = '';
+                document.getElementById('dash-confirm-pin').value = '';
+                document.getElementById('dash-change-pin-feedback').classList.add('hidden');
+            } else {
+                panel.classList.add('hidden');
+            }
+        }
+
+        function handleDashPinChange(e) {
+            e.preventDefault();
+            const activePartnerCode = localStorage.getItem('partner_code');
+            if (!activePartnerCode) return;
+
+            const oldPin = document.getElementById('dash-old-pin').value;
+            const newPin = document.getElementById('dash-new-pin').value;
+            const confirmPin = document.getElementById('dash-confirm-pin').value;
+            const feedback = document.getElementById('dash-change-pin-feedback');
+            
+            const currentPin = localStorage.getItem('partner_pin_' + activePartnerCode) || '2277';
+
+            if (oldPin !== currentPin) {
+                feedback.textContent = 'Old PIN is incorrect.';
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            if (newPin.length !== 4 || isNaN(newPin)) {
+                feedback.textContent = 'New PIN must be exactly 4 digits.';
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            if (newPin === '2277') {
+                feedback.textContent = 'You cannot use the default PIN. Please choose a new PIN.';
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            if (newPin !== confirmPin) {
+                feedback.textContent = 'New PINs do not match. Please re-enter.';
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            localStorage.setItem('partner_pin_' + activePartnerCode, newPin);
+            
+            feedback.textContent = 'PIN updated successfully!';
+            feedback.className = 'form-feedback';
+            feedback.style.backgroundColor = 'rgba(40, 167, 69, 0.15)';
+            feedback.style.color = '#28a745';
+            feedback.classList.remove('hidden');
+
+            setTimeout(() => {
+                feedback.classList.add('hidden');
+                document.getElementById('dash-change-pin-form').reset();
+                toggleChangePinPanel();
+            }, 2000);
+        }
+
+        let currentQuoteData = null; // Global for sharing/saving
+
+        function saveQuotation() {
+            if (!currentQuoteData) return;
+            const dealerCode = localStorage.getItem('partner_code');
+            const savedQuotes = JSON.parse(localStorage.getItem('sunova_saved_quotes') || '[]');
+            savedQuotes.push(currentQuoteData);
+            localStorage.setItem('sunova_saved_quotes', JSON.stringify(savedQuotes));
+            
+            // Increment the sequence counter for this partner
+            let seq = parseInt(localStorage.getItem(`quote_seq_${dealerCode}`) || '0');
+            localStorage.setItem(`quote_seq_${dealerCode}`, seq + 1);
+            
+            // Backup to server
+            fetch('proxy.php?action=save_quote', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(currentQuoteData)
+            }).catch(e => console.log('Server backup failed, saved locally.'));
+            
+            alert('Quotation ' + currentQuoteData.quoteNo + ' saved successfully!');
+        }
+
+        function emailQuotation() {
+            if (!currentQuoteData) return;
+            const subject = encodeURIComponent(`New Quotation Generated: ${currentQuoteData.quoteNo}`);
+            const body = encodeURIComponent(`Partner: ${currentQuoteData.partnerName} (${currentQuoteData.partnerCode})\nQuotation No: ${currentQuoteData.quoteNo}\nCustomer: ${currentQuoteData.customerName}\nPhone: ${currentQuoteData.customerPhone}\nCapacity: ${currentQuoteData.capacity} kWp\nGross Value: Rs. ${currentQuoteData.grossTotal || 'N/A'}\n\nPlease review this generated quotation.`);
+            window.location.href = `mailto:info@sunovasolar.in?subject=${subject}&body=${body}`;
+        }
+        
+        function whatsappQuotation() {
+            if (!currentQuoteData) return;
+            // Get partner's phone from DEALERS array based on code
+            const dealerCode = localStorage.getItem('partner_code');
+            const dealer = DEALERS.find(d => d.code === dealerCode);
+            if (!dealer || !dealer.phone) {
+                alert('Partner phone number not found in database.');
+                return;
+            }
+            const grossVal = currentQuoteData.grossTotal ? currentQuoteData.grossTotal.toLocaleString('en-IN') : 'N/A';
+            const text = encodeURIComponent(`*SUNOVA SOLAR QUOTATION SUMMARY*\n\n*Quote No:* ${currentQuoteData.quoteNo}\n*Customer:* ${currentQuoteData.customerName}\n*Phone:* ${currentQuoteData.customerPhone}\n*Capacity:* ${currentQuoteData.capacity} kWp\n*Total Value:* Rs. ${grossVal}\n\nThis quote was generated via the Partner Portal.`);
+            window.open(`https://wa.me/91${dealer.phone}?text=${text}`, '_blank');
+        }
+
+        function toggleSavedQuotes() {
+            const panel = document.getElementById('saved-quotes-panel');
+            if (panel.classList.contains('hidden')) {
+                renderSavedQuotes();
+                panel.classList.remove('hidden');
+            } else {
+                panel.classList.add('hidden');
+            }
+        }
+
+        function renderSavedQuotes() {
+            const dealerCode = localStorage.getItem('partner_code');
+            const container = document.getElementById('saved-quotes-list');
+            
+            fetch('saved_quotes_db.json?t=' + Date.now())
+            .then(res => {
+                if (!res.ok) throw new Error('Not found');
+                return res.json();
+            })
+            .then(data => {
+                if (!Array.isArray(data)) data = [];
+                const serverQuotes = data.filter(q => q.partnerCode === dealerCode);
+                
+                // Restore any local quotes that were wiped from the server
+                let localQuotes = JSON.parse(localStorage.getItem('sunova_saved_quotes') || '[]');
+                localQuotes = localQuotes.filter(q => q.partnerCode === dealerCode);
+                
+                const missingQuotes = localQuotes.filter(lq => !serverQuotes.some(sq => sq.quoteNo === lq.quoteNo));
+                missingQuotes.forEach(q => {
+                    // Sync back to server
+                    fetch('proxy.php?action=save_quote', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(q)
+                    });
+                });
+                
+                const myQuotes = [...serverQuotes, ...missingQuotes].sort((a, b) => b.timestamp - a.timestamp);
+                
+                if (myQuotes.length === 0) {
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 2rem 1rem; color: var(--color-text-muted); font-size: 0.84rem;">
+                            [Empty] No saved quotations found.
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = myQuotes.map(quote => `
+                    <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 10px; padding: 1.2rem; font-size: 0.82rem; line-height: 1.55; color: var(--color-text); margin-bottom: 0.8rem; box-shadow: 0 4px 15px var(--color-shadow);">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem;">
+                            <strong style="color: var(--color-text); font-size: 0.9rem;">[Doc] ${quote.quoteNo}</strong>
+                            <span style="font-size: 0.72rem; color: var(--color-text-muted);">${new Date(quote.timestamp).toLocaleDateString()}</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem 1rem; margin-bottom: 0.6rem; color: var(--color-text-muted);">
+                            <div><strong style="color: var(--color-text);">Customer:</strong> ${quote.customerName}</div>
+                            <div><strong style="color: var(--color-text);">Phone:</strong> ${quote.customerPhone}</div>
+                            <div><strong style="color: var(--color-text);">System:</strong> ${quote.capacity} kWp</div>
+                            <div><strong style="color: var(--color-text);">Value:</strong> Rs. ${(quote.grossTotal || 0).toLocaleString('en-IN')}</div>
+                        </div>
+                        <div style="display: flex; justify-content: flex-end; gap: 0.6rem; margin-top: 0.8rem;">
+                            <button onclick="viewPartnerQuote('${quote.quoteNo}')" class="cta-btn secondary-btn" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;">View / Print</button>
+                            <button onclick="deletePartnerQuote('${quote.quoteNo}')" class="cta-btn" style="padding: 0.4rem 0.8rem; font-size: 0.75rem; background: #dc3545; color: white; border: none;">Delete</button>
+                        </div>
+                    </div>
+                `).join('');
+            }).catch(err => {
+                // Fallback to local storage if server fails
+                const savedQuotes = JSON.parse(localStorage.getItem('sunova_saved_quotes') || '[]');
+                const myQuotes = savedQuotes.filter(q => q.partnerCode === dealerCode).reverse();
+                if (myQuotes.length === 0) {
+                    container.innerHTML = `<div style="text-align: center; padding: 2rem 1rem; color: var(--color-text-muted); font-size: 0.84rem;">[Empty] No saved quotations found.</div>`;
+                    return;
+                }
+                container.innerHTML = myQuotes.map(quote => `
+                    <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 10px; padding: 1.2rem; font-size: 0.82rem; line-height: 1.55; color: var(--color-text); margin-bottom: 0.8rem; box-shadow: 0 4px 15px var(--color-shadow);">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem;">
+                            <strong style="color: var(--color-text); font-size: 0.9rem;">[Doc] ${quote.quoteNo}</strong>
+                            <span style="font-size: 0.72rem; color: var(--color-text-muted);">${new Date(quote.timestamp).toLocaleDateString()}</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem 1rem; margin-bottom: 0.6rem; color: var(--color-text-muted);">
+                            <div><strong style="color: var(--color-text);">Customer:</strong> ${quote.customerName}</div>
+                            <div><strong style="color: var(--color-text);">Phone:</strong> ${quote.customerPhone}</div>
+                            <div><strong style="color: var(--color-text);">System:</strong> ${quote.capacity} kWp</div>
+                            <div><strong style="color: var(--color-text);">Value:</strong> Rs. ${(quote.grossTotal || 0).toLocaleString('en-IN')}</div>
+                        </div>
+                        <div style="display: flex; justify-content: flex-end; gap: 0.6rem; margin-top: 0.8rem;">
+                            <button onclick="viewPartnerQuote('${quote.quoteNo}')" class="cta-btn secondary-btn" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;">View / Print</button>
+                            <button onclick="deletePartnerQuote('${quote.quoteNo}')" class="cta-btn" style="padding: 0.4rem 0.8rem; font-size: 0.75rem; background: #dc3545; color: white; border: none;">Delete</button>
+                        </div>
+                    </div>
+                `).join('');
+            });
+        }
+        
+        function viewPartnerQuote(quoteNo) {
+            const printHtml = (quote) => {
+                const w = window.open('', '_blank');
+                w.document.write('<html><head><title>Print Quote</title>');
+                w.document.write('<style>body { font-family: sans-serif; padding: 2rem; } @media print { .no-print { display: none !important; } }</style>');
+                w.document.write('</head><body>');
+                w.document.write('<div class="no-print" style="text-align: right; margin-bottom: 20px;"><button onclick="window.print()" style="padding: 10px 20px; font-size: 16px; cursor: pointer; background: #0d1321; color: white; border: none; border-radius: 5px;">Print Quotation</button></div>');
+                w.document.write(quote.html);
+                w.document.write('<script>window.onload = function() { window.print(); };<\\/script>');
+                w.document.write('</body></html>');
+                w.document.close();
+            };
+
+            fetch('saved_quotes_db.json?t=' + Date.now())
+            .then(res => res.json())
+            .then(data => {
+                if (!Array.isArray(data)) data = [];
+                let quote = data.find(q => q.quoteNo === quoteNo);
+                if (!quote) {
+                    let localQuotes = JSON.parse(localStorage.getItem('sunova_saved_quotes') || '[]');
+                    quote = localQuotes.find(q => q.quoteNo === quoteNo);
+                }
+                if (!quote) return alert('Quote not found.');
+                printHtml(quote);
+            }).catch(() => {
+                let localQuotes = JSON.parse(localStorage.getItem('sunova_saved_quotes') || '[]');
+                let quote = localQuotes.find(q => q.quoteNo === quoteNo);
+                if (!quote) return alert('Quote not found.');
+                printHtml(quote);
+            });
+        }
+        
+        function deletePartnerQuote(quoteNo) {
+            if (!confirm(`Are you sure you want to delete quotation ${quoteNo}?`)) return;
+            // Delete from local storage
+            let localQuotes = JSON.parse(localStorage.getItem('sunova_saved_quotes') || '[]');
+            localQuotes = localQuotes.filter(q => q.quoteNo !== quoteNo);
+            localStorage.setItem('sunova_saved_quotes', JSON.stringify(localQuotes));
+            
+            // Delete from server
+            fetch(`proxy.php?action=delete_quote&quoteNo=${encodeURIComponent(quoteNo)}`)
+            .then(res => res.json())
+            .then(data => {
+                renderSavedQuotes();
+            }).catch(() => {
+                alert('Deleted locally, but network error while deleting from server.');
+                renderSavedQuotes();
+            });
+        }
+
+        // Load inquiries from server or local storage
+        function loadInquiries(callback) {
+            fetch('proxy.php?action=get_inquiries')
+            .then(res => {
+                if (res.ok) return res.json();
+                throw new Error();
+            })
+            .then(data => {
+                if (data && data.inquiries) {
+                    const mapped = data.inquiries.map(inq => {
+                        return {
+                            name: inq.name,
+                            phone: inq.phone,
+                            email: inq.email,
+                            district: inq.district,
+                            location: inq.location,
+                            category: inq.connection === 'commercial' ? 'Commercial' : 'Residential',
+                            model: inq.systemModel || inq.model || 'On-Grid',
+                            capacity: parseFloat(inq.capacity) || 3.0,
+                            loan: inq.loan === 'Yes' || inq.loan === true,
+                            message: inq.message || '',
+                            partner: inq.dealer ? (inq.dealer.includes(' (') ? inq.dealer.split(' (')[0] : inq.dealer) : 'None',
+                            partnerCode: inq.dealer ? (inq.dealer.includes(' (') ? inq.dealer.split(' (')[1].replace(')', '') : inq.dealer) : 'None',
+                            timestamp: inq.timestamp,
+                            status: inq.status || 'Pending',
+                            commission: inq.commission || 0
+                        };
+                    });
+                    callback(mapped);
+                } else {
+                    throw new Error();
+                }
+            })
+            .catch(() => {
+                let inquiries = [];
+                try {
+                    inquiries = JSON.parse(localStorage.getItem('sunova_inquiries')) || [];
+                } catch (e) {}
+                callback(inquiries);
+            });
+        }
+
+        function showDashboard(dealerCode) {
+            const wrapper = document.querySelector('.login-wrapper');
+            if (wrapper) wrapper.classList.add('dashboard-active');
+            document.getElementById('login-view').classList.add('hidden');
+            document.getElementById('dashboard-view').classList.remove('hidden');
+            
+            // Find dealer details in database
+            const dealer = DEALERS.find(d => d.code === dealerCode);
+            if (!dealer) return;
+            
+            // Update portal headers
+            const header = document.querySelector('.portal-header');
+            header.querySelector('h2').textContent = 'Partner Dashboard';
+            header.querySelector('p').textContent = 'Access local leads and download technical documentation assets.';
+            
+            // Render dealer info card
+            const welcomeTitle = document.querySelector('#dashboard-view h3');
+            if (welcomeTitle) welcomeTitle.textContent = `Welcome back, ${dealer.name}`;
+            
+            // Dynamically inject dealer detailed profile rows
+            let infoContainer = document.getElementById('dealer-profile-details');
+            if (!infoContainer) {
+                infoContainer = document.createElement('div');
+                infoContainer.id = 'dealer-profile-details';
+                infoContainer.style.background = 'rgba(255, 255, 255, 0.02)';
+                infoContainer.style.border = '1px solid var(--color-border)';
+                infoContainer.style.borderRadius = '15px';
+                infoContainer.style.padding = '1.2rem';
+                infoContainer.style.marginBottom = '1.5rem';
+                infoContainer.style.fontSize = '0.84rem';
+                infoContainer.style.lineHeight = '1.6';
+                
+                infoContainer.innerHTML = `
+                    <h4 style="margin-top: 0; margin-bottom: 0.8rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; color: var(--color-sun-yellow);">📋 Authorized Profile Details</h4>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+                        <span style="color: var(--color-text-muted);">Partner ID Code:</span>
+                        <strong>${dealer.code}</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+                        <span style="color: var(--color-text-muted);">Service Area:</span>
+                        <strong>${dealer.area}</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+                        <span style="color: var(--color-text-muted);">District:</span>
+                        <strong>${dealer.district}</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--color-text-muted);">Registered Phone:</span>
+                        <strong>+91 ${dealer.phone}</strong>
+                    </div>
+                `;
+                
+                const dashView = document.getElementById('dashboard-view');
+                const resourceBox = dashView.querySelector('.tech-settings-box');
+                dashView.insertBefore(infoContainer, resourceBox);
+            }
+
+            // Calculate actual statistics dynamically
+            loadInquiries(function(inquiries) {
+                const dealerLeads = inquiries.filter(lead => lead.partnerCode === dealerCode);
+                const activeLeadsCount = dealerLeads.filter(lead => lead.status !== 'Completed').length;
+                const completedLeads = dealerLeads.filter(lead => lead.status === 'Completed');
+                const totalCommission = completedLeads.reduce((sum, lead) => sum + (parseFloat(lead.commission) || 0), 0);
+                
+                document.getElementById('partner-active-leads').textContent = activeLeadsCount;
+                document.getElementById('partner-commission-earned').textContent = `₹${totalCommission.toLocaleString('en-IN')}`;
+                
+                // Populate auto-fill leads dropdown
+                populateLeadsDropdown(dealerCode, inquiries);
+                
+                // Populate KSEB sections for this partner's district
+                populateKSEBSections(dealer.district);
+            });
+        }
+
+        function populateKSEBSections(districtName) {
+            const selectEl = document.getElementById('quote-kseb-section');
+            if (!selectEl) return;
+            selectEl.innerHTML = '<option value="">-- Select KSEB Section --</option>';
+            const sections = KSEB_SECTIONS[districtName];
+            if (sections) {
+                Object.keys(sections).sort().forEach(sec => {
+                    const opt = document.createElement('option');
+                    opt.value = sec;
+                    opt.textContent = sec;
+                    selectEl.appendChild(opt);
+                });
+            }
+        }
+
+        function populateLeadsDropdown(dealerCode, providedInquiries) {
+            const dropdown = document.getElementById('quote-select-lead');
+            if (!dropdown) return;
+            
+            dropdown.innerHTML = '<option value="">-- Choose an Allocated Lead --</option>';
+            
+            let inquiries = providedInquiries;
+            if (!inquiries) {
+                try {
+                    inquiries = JSON.parse(localStorage.getItem('sunova_inquiries')) || [];
+                } catch (e) {
+                    console.error(e);
+                }
+            }
+            
+            // Filter leads allocated to this specific partner
+            const allocatedLeads = inquiries.filter(lead => lead.partnerCode === dealerCode);
+            
+            allocatedLeads.forEach((lead, idx) => {
+                const opt = document.createElement('option');
+                opt.value = idx;
+                opt.textContent = `${lead.name} (${lead.location}) - ${lead.capacity} kWp`;
+                dropdown.appendChild(opt);
+            });
+            
+            window.currentDealerLeads = allocatedLeads;
+        }
+
+        function autoFillFromDropdown(idx) {
+            if (idx === "") {
+                document.getElementById('quote-cust-name').value = '';
+                document.getElementById('quote-cust-phone').value = '';
+                document.getElementById('quote-cust-addr').value = '';
+                document.getElementById('quote-capacity').value = 3;
+                return;
+            }
+            
+            const leads = window.currentDealerLeads;
+            if (leads && leads[idx]) {
+                const lead = leads[idx];
+                document.getElementById('quote-cust-name').value = lead.name;
+                document.getElementById('quote-cust-phone').value = lead.phone || '';
+                document.getElementById('quote-cust-addr').value = `${lead.location}, ${lead.district}`;
+                document.getElementById('quote-capacity').value = lead.capacity;
+                
+                const ksebSelect = document.getElementById('quote-kseb-section');
+                if (ksebSelect) {
+                    const options = Array.from(ksebSelect.options);
+                    const matchingOpt = options.find(opt => opt.value === lead.location);
+                    if (matchingOpt) matchingOpt.selected = true;
+                    else ksebSelect.value = '';
+                }
+                
+                // Show visual highlight feedback
+                const formCard = document.getElementById('quotation-form-section');
+                formCard.style.borderColor = 'var(--color-sun-yellow)';
+                setTimeout(() => {
+                    formCard.style.borderColor = 'var(--color-border)';
+                }, 1000);
+            }
+        }
+
+        function closeQuoteModal() {
+            document.getElementById('quote-modal-overlay').classList.add('hidden');
+        }
+
+        function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+            var R = 6371; // Radius of the earth in km
+            var dLat = deg2rad(lat2-lat1);
+            var dLon = deg2rad(lon2-lon1); 
+            var a = 
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+                Math.sin(dLon/2) * Math.sin(dLon/2); 
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+            return R * c; // Distance in km
+        }
+        
+        function deg2rad(deg) {
+            return deg * (Math.PI/180);
+        }
+
+        async function fetchCoordinates(address) {
+            try {
+                const response = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(address + ', Kerala, India'));
+                const data = await response.json();
+                if (data && data.length > 0) {
+                    return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
+                }
+            } catch(e) {
+                console.error("Geocoding failed", e);
+            }
+            return null;
+        }
+
+        async function generateQuotation(type) {
+            const name = document.getElementById('quote-cust-name').value.trim().toUpperCase();
+            const phone = document.getElementById('quote-cust-phone').value.trim();
+            const addr = document.getElementById('quote-cust-addr').value.trim();
+            const capacityVal = parseFloat(document.getElementById('quote-capacity').value);
+            const panelModel = document.getElementById('quote-panel-brand').value;
+            const inverterModel = document.getElementById('quote-inverter-brand').value;
+            const roofType = document.getElementById('quote-roof-type').value;
+            const phase = document.getElementById('quote-phase').value;
+            const payAdvance = document.getElementById('quote-pay-advance').value || '60';
+            const payDelivery = document.getElementById('quote-pay-delivery').value || '30';
+            const payCompletion = document.getElementById('quote-pay-completion').value || '10';
+            if (!name || !phone || !addr || isNaN(capacityVal) || capacityVal <= 0) {
+                alert('Please enter all customer details, including mobile number, and system capacity first.');
+                return;
+            }
+            if (!/^[6-9]\d{9}$/.test(phone)) {
+                alert('Please enter a valid 10-digit mobile number starting with 6, 7, 8, or 9.');
+                return;
+            }
+            
+            const activePartnerCode = localStorage.getItem('partner_code') || 'TVM-JOBI';
+            const dealer = DEALERS.find(d => d.code === activePartnerCode) || DEALERS[0];
+            
+            let seq = parseInt(localStorage.getItem(`quote_seq_${activePartnerCode}`) || '0') + 1;
+            const quoteNo = `${activePartnerCode}/QTN/${String(seq).padStart(3, '0')}`;
+            const dateStr = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+            
+            // Panel parameters calculation
+            const panelWattage = 540;
+            const panelCount = Math.ceil((capacityVal * 1000) / panelWattage);
+            
+            let quoteHTML = '';
+            let grossTotal = 0;
+            
+            // Check for dynamic pricing rules
+            let customPricing = null;
+            try {
+                const saved = localStorage.getItem('sunova_custom_pricing');
+                if (saved) customPricing = JSON.parse(saved);
+            } catch(e) {}
+
+            let distBadge = '';
+            if (dealer.lat && dealer.lon) {
+                const coords = await fetchCoordinates(addr);
+                if (coords) {
+                    const dist = getDistanceFromLatLonInKm(dealer.lat, dealer.lon, coords.lat, coords.lon);
+                    distBadge = `<span style="background: #eef2ff; color: #4338ca; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.7rem; margin-left: 0.5rem;">🚗 Approx ${dist.toFixed(1)} km</span>`;
+                }
+            }
+
+            if (type === 'customer') {
+                if (capacityVal === 3) {
+                    grossTotal = (customPricing && customPricing['3']) ? parseFloat(customPricing['3']) : 220000;
+                } else if (capacityVal === 5) {
+                    grossTotal = (customPricing && customPricing['5']) ? parseFloat(customPricing['5']) : 320000;
+                } else {
+                    grossTotal = capacityVal * ((customPricing && customPricing['other']) ? parseFloat(customPricing['other']) : 64000);
+                }
+                
+                const gst = grossTotal * 0.138;
+                const net = grossTotal - gst;
+                
+                function numberToWords(num) {
+                    return 'Rupees ' + num.toLocaleString('en-IN') + ' Only'; 
+                }
+
+                quoteHTML = `
+                    <div style="font-family: 'Inter', sans-serif; color: #333; max-width: 800px; margin: 0 auto; background: #fff; padding: 2rem; box-sizing: border-box;">
+                        <!-- Header Section -->
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #ff7a00; padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                            <div>
+                                <h2 style="margin: 0; color: #ff7a00; font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 800;">SUNOVA SOLAR LLP</h2>
+                                <p style="margin: 0.2rem 0 0 0; font-size: 0.85rem; color: #555;">Empaneled Installer for KSEB Soura Subsidy Scheme</p>
+                            </div>
+                            <div style="text-align: right; font-size: 0.85rem;">
+                                <strong>Quotation No:</strong> ${quoteNo}<br>
+                                <strong>Date:</strong> ${dateStr}
+                            </div>
+                        </div>
+
+                        <h3 style="text-align: center; font-family: 'Outfit', sans-serif; color: #0d1321; font-size: 1.3rem; margin-top: 0;">PROFORMA INVOICE & PROPOSAL</h3>
+                        
+                        <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">CUSTOMER INFORMATION</h4>
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; text-align: left;">
+                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600; width: 35%;">Partner Name</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${dealer.name} ${distBadge}</td></tr>
+                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Customer Name</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${name}</td></tr>
+                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Installation Address</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${addr}, ${dealer.district}</td></tr>
+                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">KSEB Section</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${document.getElementById('quote-kseb-section').value || '-'}</td></tr>
+                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Mobile Number</td><td style="padding: 0.5rem; border: 1px solid #ddd;">+91 ${phone}</td></tr>
+                        </table>
+
+                        <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">SYSTEM SPECIFICATION</h4>
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; text-align: left;">
+                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600; width: 40%;">System Capacity</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${capacityVal} kWp</td></tr>
+                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Solar Panel Brand</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${panelModel} (${panelCount} Nos)</td></tr>
+                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Solar Inverter</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${inverterModel} String Inverter (1 Unit)</td></tr>
+                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Roof Type</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${roofType}</td></tr>
+                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Electrical Phase</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${phase}</td></tr>
+                        </table>
+
+                        <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">COMMERCIAL OFFER</h4>
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 0.5rem; text-align: left;">
+                            <tr style="background: #f8f9fa;"><th style="padding: 0.5rem; border: 1px solid #ddd;">Description</th><th style="padding: 0.5rem; border: 1px solid #ddd; text-align: right;">Amount (₹)</th></tr>
+                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">Supply of Solar PV Modules</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
+                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">Solar Inverter</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
+                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">Hot Dip Galvanized Mounting Structure</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
+                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">DC & AC Cables</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
+                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">ACDB & DCDB</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
+                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">Earthing Kit</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
+                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">Lightning Protection (If Applicable)</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
+                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">Installation & Commissioning</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
+                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">Testing & System Verification</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
+                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">Net Metering Documentation Support*</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
+                            <tr style="background: rgba(255, 183, 3, 0.1);"><td style="padding: 0.6rem 0.5rem; border: 1px solid #ddd; font-weight: 800; color: #0d1321;">Total Project Cost</td><td style="padding: 0.6rem 0.5rem; border: 1px solid #ddd; text-align: right; font-weight: 800; color: #0d1321; font-size: 1.1rem;">₹ ${grossTotal.toLocaleString('en-IN')}</td></tr>
+                        </table>
+                        <blockquote style="margin: 0 0 1.5rem 0; padding: 0.5rem 1rem; background: #f8f9fa; border-left: 4px solid #ffb703; font-style: italic;">
+                            <strong>Amount in Words:</strong> ${numberToWords(grossTotal)}
+                        </blockquote>
+                        
+                        <div style="color: #c5221f; font-weight: 600; margin-bottom: 1.5rem; padding: 0.5rem; background: rgba(239, 68, 68, 0.05); border: 1px dashed #c5221f;">
+                            Note: The above cost is Gross Project Cost. PM Surya Ghar Subsidy of ₹ ${subsidy.toLocaleString('en-IN')} will be directly credited to customer bank account via DBT. Net customer investment is ₹ ${(grossTotal - subsidy).toLocaleString('en-IN')}.
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                            <div>
+                                <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">PROJECT INCLUSIONS</h4>
+                                <ul style="list-style-type: none; padding-left: 0; margin-bottom: 1.5rem; font-size: 0.8rem; line-height: 1.6;">
+                                    <li>✔ Premium Solar PV Modules</li>
+                                    <li>✔ High Efficiency Solar Inverter</li>
+                                    <li>✔ Hot Dip Galvanized Mounting Structure</li>
+                                    <li>✔ UV Protected DC Cable</li>
+                                    <li>✔ AC Cable</li>
+                                    <li>✔ ACDB & DCDB</li>
+                                    <li>✔ Earthing Kit</li>
+                                    <li>✔ Lightning Arrestor (Where Applicable)</li>
+                                    <li>✔ Complete Installation</li>
+                                    <li>✔ Testing & Commissioning</li>
+                                    <li>✔ System Demonstration</li>
+                                    <li>✔ Net Metering Assistance (Subject to Electricity Board Approval)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">PAYMENT TERMS</h4>
+                                <ul style="list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1.5rem; font-size: 0.8rem; line-height: 1.6;">
+                                    <li>Advance Payment : <strong>${payAdvance} %</strong></li>
+                                    <li>Before Installation (Material Delivery) : <strong>${payDelivery} %</strong></li>
+                                    <li>On Project Completion (Commissioning) : <strong>${payCompletion} %</strong></li>
+                                </ul>
+
+                                <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">WARRANTY</h4>
+                                <table style="width: 100%; border-collapse: collapse; font-size: 0.75rem; text-align: left;">
+                                    <tr><td style="padding: 0.4rem; border: 1px solid #ddd;">Solar Panels</td><td style="padding: 0.4rem; border: 1px solid #ddd;">As per Manufacturer Warranty (25 Yrs)</td></tr>
+                                    <tr><td style="padding: 0.4rem; border: 1px solid #ddd;">Solar Inverter</td><td style="padding: 0.4rem; border: 1px solid #ddd;">As per Manufacturer Warranty (5 Yrs)</td></tr>
+                                    <tr><td style="padding: 0.4rem; border: 1px solid #ddd;">Mounting Structure</td><td style="padding: 0.4rem; border: 1px solid #ddd;">As per Manufacturer Warranty</td></tr>
+                                    <tr><td style="padding: 0.4rem; border: 1px solid #ddd;">Installation Workmanship</td><td style="padding: 0.4rem; border: 1px solid #ddd;">1 Year</td></tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">TERMS & CONDITIONS</h4>
+                        <ol style="margin-bottom: 1.5rem; font-size: 0.75rem; line-height: 1.6; padding-left: 1rem;">
+                            <li>Prices are inclusive of standard installation.</li>
+                            <li>Civil work, additional fabrication, and electrical modifications are excluded unless specifically mentioned.</li>
+                            <li>Net Metering approval is subject to Electricity Board regulations.</li>
+                            <li>Any additional materials required beyond the standard scope will be charged separately after customer approval.</li>
+                            <li>Delivery and installation will be scheduled after receipt of the advance payment.</li>
+                            <li>This quotation is valid for <strong>15 days</strong> from the date of issue.</li>
+                        </ol>
+
+                        <div style="page-break-inside: avoid;">
+                            <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">CUSTOMER ACCEPTANCE</h4>
+                            <p style="font-size: 0.8rem; margin-bottom: 1.5rem;">I hereby confirm that I have reviewed the above proposal and agree to proceed with the installation as per the specifications and commercial terms mentioned.</p>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem;">
+                                <div>
+                                    <div style="border-bottom: 1px solid #666; width: 200px; margin-bottom: 0.3rem;"></div>
+                                    <strong>Customer Signature</strong><br>
+                                    <span style="font-size: 0.75rem; color: #666;">Name: ______________________<br>Date: ____ / ____ / ______</span>
+                                </div>
+                                <div style="text-align: right;">
+                                    <strong>FOR SUNOVA SOLAR LLP</strong><br><br><br>
+                                    <div style="border-bottom: 1px solid #666; width: 200px; margin-bottom: 0.3rem; display: inline-block;"></div><br>
+                                    <strong>Authorized Signatory</strong>
+                                </div>
+                            </div>
+
+                            <div style="text-align: center; border-top: 2px solid #ffb703; padding-top: 1rem; margin-top: 1rem;">
+                                <div style="font-weight: 800; color: #0d1321; font-family: 'Outfit', sans-serif;">SUNOVA SOLAR LLP</div>
+                                <div style="font-size: 0.75rem; color: #555;">Website: <a href="http://www.sunovasolar.in" style="color: #ffb703;">www.sunovasolar.in</a> | Email: info@sunovasolar.in | Customer Care: +91 90725 22277</div>
+                                <h3 style="color: #ffb703; margin: 0.5rem 0 0 0; font-family: 'Outfit', sans-serif;">Thank You for Choosing SUNOVA SOLAR LLP</h3>
+                                <p style="margin: 0; font-size: 0.8rem; font-style: italic;">Powering Homes. Empowering Tomorrow.</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                let totalPrice = 0;
+                
+                // Check for dynamic pricing rules
+                let customPricing = null;
+                try {
+                    const saved = localStorage.getItem('sunova_custom_pricing');
+                    if (saved) customPricing = JSON.parse(saved);
+                } catch(e) {}
+
+                if (customPricing && customPricing.fixed_prices && customPricing.fixed_prices[capacityVal]) {
+                    totalPrice = customPricing.fixed_prices[capacityVal];
+                } else if (customPricing && customPricing.rate_per_kw) {
+                    totalPrice = capacityVal * customPricing.rate_per_kw;
+                } else {
+                    // Default fallback
+                    if (capacityVal === 3) {
+                        totalPrice = 220000;
+                    } else if (capacityVal === 5) {
+                        totalPrice = 320000;
+                    } else {
+                        totalPrice = capacityVal * 64000;
+                    }
+                }
+                
+                const grossLiaison = Math.round(totalPrice / 1.138);
+                const gstVal = totalPrice - grossLiaison;
+                const grossTotalKseb = totalPrice;
+                grossTotal = grossTotalKseb; // Fix for reference error
+                
+                quoteHTML = `
+                    <div style="font-family: 'Inter', sans-serif; color: #333; line-height: 1.6;">
+                        <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #28a745; padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                            <div>
+                                <img src="assets/logo.jpg" style="height: 55px; border-radius: 6px;" alt="SUNOVA SOLAR Logo">
+                                <h1 style="font-size: 1.5rem; color: #0d1321; font-family: 'Outfit', sans-serif; margin: 0.4rem 0 0 0; font-weight: 800;">SUNOVA SOLAR LLP</h1>
+                                <p style="margin: 0.15rem 0 0 0; font-size: 0.78rem; color: #555;">Empaneled Solar Installer (Kerala State) | Reg No: SNS-EMP/2025/AL5</p>
+                                <p style="margin: 0.15rem 0 0 0; font-size: 0.75rem; color: #555;">Vengalloor - Mangattukavala Bypass, Thodupuzha, Idukki District - 685608</p>
+                            </div>
+                            <div style="text-align: right;">
+                                <h2 style="margin: 0; color: #28a745; font-family: 'Outfit', sans-serif; font-size: 1.3rem;">PROFORMA INVOICE</h2>
+                                <p style="margin: 0.2rem 0; font-size: 0.78rem;"><strong>Ref Qtn:</strong> ${quoteNo}</p>
+                                <p style="margin: 0.2rem 0; font-size: 0.78rem;"><strong>Date:</strong> ${dateStr}</p>
+                            </div>
+                        </div>
+
+                        <div style="font-size: 0.82rem; line-height: 1.6; margin-bottom: 1.2rem;">
+                            <strong>To,</strong><br>
+                            The Assistant Executive Engineer,<br>
+                            Electrical Section Office, KSEB Limited,<br>
+                            ${document.getElementById('quote-kseb-section').value || dealer.area} Section, ${dealer.district} District, Kerala
+                        </div>
+
+                        <div style="font-size: 0.84rem; font-weight: 600; line-height: 1.5; margin-bottom: 1.5rem; background: #f8f9fa; padding: 0.75rem; border-left: 4px solid #28a745; border-radius: 4px;">
+                            Subject: Solar rooftop grid-tied feasibility proforma &amp; components compliance checklist for ${capacityVal} kWp net-metering application.
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; margin-bottom: 1.5rem; font-size: 0.8rem;">
+                            <div>
+                                <strong style="color: #0d1321; display: block; margin-bottom: 0.3rem;">Consumer Details (Site Address)</strong>
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <tr><td style="color: #666; width: 95px;">Consumer Name:</td><td><strong>${name}</strong></td></tr>
+                                    <tr><td style="color: #666;">Site Address:</td><td>${addr}</td></tr>
+                                    <tr><td style="color: #666;">Mobile No:</td><td>+91 ${phone}</td></tr>
+                                    <tr><td style="color: #666;">Consumer No:</td><td style="border-bottom: 1px dotted #999; font-weight: bold; color: #c5221f;">__________________</td></tr>
+                                </table>
+                            </div>
+                            <div>
+                                <strong style="color: #0d1321; display: block; margin-bottom: 0.3rem;">Empaneled Installer Details</strong>
+                                <strong>Partner:</strong> Sunova Solar LLP - ${dealer.name}<br>
+                                <strong>Area Office:</strong> ${dealer.area} Office ${distBadge}<br>
+                                <strong>Contact No:</strong> +91 ${dealer.phone}
+                            </div>
+                        </div>
+
+                        <h4 style="margin: 1.5rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; font-size: 0.9rem; border-bottom: 1px solid #eee; padding-bottom: 0.3rem;">📋 Components Technical Compliance details</h4>
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.78rem; text-align: left;">
+                            <thead>
+                                <tr style="background: #f1f3f5; color: #0d1321; font-weight: 600;">
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd; width: 140px;">Component</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Manufacturer / Brand Specs</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Standards & Certifications</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: center;">Compliance Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">PV Modules</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">${panelModel} (MNRE ALMM listed, 540Wp)</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">IEC 61215, IEC 61730, ALMM Approved</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center; color: #28a745; font-weight: bold;">✅ Compliant</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Grid Tie Inverter</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">${inverterModel} approved string inverter (Max Eff 98%)</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">IEC 62109, IEC 61000 (Anti-islanding protection)</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center; color: #28a745; font-weight: bold;">✅ Compliant</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">DC/AC Solar Cable</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">4 sq mm multi-strand copper solar cables</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">EN 50618 Compliant</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center; color: #28a745; font-weight: bold;">✅ Compliant</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Protection Systems</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">SPDs (Type II), MCB, ELCB in AJB &amp; ACDB boxes</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">IP65 rated, IEC 60947 certified</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center; color: #28a745; font-weight: bold;">✅ Compliant</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h4 style="margin: 1.5rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; font-size: 0.9rem; border-bottom: 1px solid #eee; padding-bottom: 0.3rem;">💰 Commercial Value Statement</h4>
+                        <div style="background: #fdfefe; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; margin-bottom: 1.5rem; font-size: 0.8rem;">
+                            <div style="display: flex; justify-content: space-between; padding: 0.6rem 1rem; border-bottom: 1px solid #eee;">
+                                <span>Supply &amp; Installation cost of ${capacityVal} kWp Grid Tied Rooftop Solar System</span>
+                                <strong>₹ ${grossLiaison.toLocaleString('en-IN')}</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 0.6rem 1rem; border-bottom: 1px solid #eee;">
+                                <span>Add: GST Tax @ 13.8%</span>
+                                <strong>₹ ${gstVal.toLocaleString('en-IN')}</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 0.8rem 1rem; background: #f8f9fa; font-weight: 700; color: #0d1321; font-size: 0.88rem;">
+                                <span>Total Gross Quotation contract value (inclusive of GST)</span>
+                                <span>₹ ${grossTotalKseb.toLocaleString('en-IN')}</span>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; margin-top: 3.5rem; font-size: 0.82rem;">
+                            <div style="text-align: center; width: 180px;">
+                                <div style="border-bottom: 1px solid #999; height: 35px; margin-bottom: 0.35rem;"></div>
+                                <span>Signature of Consumer</span>
+                            </div>
+                            <div style="text-align: center; width: 220px;">
+                                <div style="font-family: 'Outfit', sans-serif; font-weight: 700; color: #0d1321; font-size: 0.84rem; margin-bottom: 0.35rem;">For SUNOVA SOLAR LLP</div>
+                                <div style="border-bottom: 1px solid #999; height: 18px; margin-bottom: 0.35rem;"></div>
+                                <span>Empaneled Channel Partner Stamp</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('quote-render-area').innerHTML = quoteHTML;
+            
+            // Asynchronously calculate distance and update the badge if available
+            if (dealer.lat && dealer.lon) {
+                fetchCoordinates(addr).then(coords => {
+                    if (coords) {
+                        const dist = getDistanceFromLatLonInKm(dealer.lat, dealer.lon, coords.lat, coords.lon);
+                        const distElements = document.querySelectorAll('#dist-badge-1, #dist-badge-2');
+                        distElements.forEach(el => {
+                            if (el) {
+                                el.innerHTML = `<span style="background: #eef2ff; color: #4338ca; padding: 2px 6px; border-radius: 4px; font-weight: bold;">🚗 Approx ${dist.toFixed(1)} km</span>`;
+                            }
+                        });
+                    } else {
+                        const distElements = document.querySelectorAll('#dist-badge-1, #dist-badge-2');
+                        distElements.forEach(el => {
+                            if (el) el.innerHTML = '';
+                        });
+                    }
+                });
+            } else {
+                const distElements = document.querySelectorAll('#dist-badge-1, #dist-badge-2');
+                distElements.forEach(el => {
+                    if (el) el.innerHTML = '';
+                });
+            }
+            document.getElementById('quote-modal-overlay').classList.remove('hidden');
+            
+            // Store current quote data for saving/sharing
+            currentQuoteData = {
+                partnerCode: activePartnerCode,
+                partnerName: dealer.name,
+                quoteNo: quoteNo,
+                date: dateStr,
+                customerName: name,
+                customerPhone: phone,
+                customerAddr: addr,
+                ksebSection: document.getElementById('quote-kseb-section').value,
+                capacity: capacityVal,
+                grossTotal: grossTotal,
+                html: quoteHTML,
+                timestamp: new Date().toISOString()
+            };
+        }
+
+        function toggleAllocatedLeads() {
+            const panel = document.getElementById('allocated-leads-panel');
+            if (panel.classList.contains('hidden')) {
+                renderAllocatedLeads();
+                panel.classList.remove('hidden');
+            } else {
+                panel.classList.add('hidden');
+            }
+        }
+
+        function toggleFeasibilityPanel() {
+            const panel = document.getElementById('feasibility-check-panel');
+            if (panel.classList.contains('hidden')) {
+                panel.classList.remove('hidden');
+            } else {
+                panel.classList.add('hidden');
+            }
+        }
+
+        function renderAllocatedLeads() {
+            const activePartnerCode = localStorage.getItem('partner_code');
+            if (!activePartnerCode) return;
+            
+            const container = document.getElementById('allocated-leads-list');
+            container.innerHTML = `<div style="text-align: center; padding: 2rem 1rem; color: var(--color-text-muted); font-size: 0.84rem;">🔄 Loading allocated leads from database...</div>`;
+            
+            loadInquiries(function(inquiries) {
+                // Filter leads allocated to this specific partner
+                const allocatedLeads = inquiries.filter(lead => lead.partnerCode === activePartnerCode);
+                
+                // Re-update metrics dynamically
+                const activeLeadsCount = allocatedLeads.filter(lead => lead.status !== 'Completed').length;
+                const completedLeads = allocatedLeads.filter(lead => lead.status === 'Completed');
+                const totalCommission = completedLeads.reduce((sum, lead) => sum + (parseFloat(lead.commission) || 0), 0);
+                
+                document.getElementById('partner-active-leads').textContent = activeLeadsCount;
+                document.getElementById('partner-commission-earned').textContent = `₹${totalCommission.toLocaleString('en-IN')}`;
+                
+                // Sync dropdown options too
+                populateLeadsDropdown(activePartnerCode, inquiries);
+                
+                if (allocatedLeads.length === 0) {
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 2rem 1rem; color: var(--color-text-muted); font-size: 0.84rem;">
+                            📭 No allocated inquiries found for your partner area yet.
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = allocatedLeads.map(lead => `
+                    <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 10px; padding: 1.2rem; font-size: 0.82rem; line-height: 1.55; color: var(--color-text); margin-bottom: 0.8rem; box-shadow: 0 4px 15px var(--color-shadow);">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem;">
+                            <strong style="color: var(--color-text); font-size: 0.9rem;">👤 ${lead.name}</strong>
+                            <span style="font-size: 0.72rem; color: var(--color-text-muted);">${lead.timestamp}</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem 1rem; margin-bottom: 0.6rem; color: var(--color-text-muted);">
+                            <div>📞 <strong style="color: var(--color-text);">Phone:</strong> ${lead.phone}</div>
+                            <div>📧 <strong style="color: var(--color-text);">Email:</strong> ${lead.email}</div>
+                            <div>📍 <strong style="color: var(--color-text);">Location:</strong> ${lead.location}, ${lead.district}</div>
+                            <div>⚡ <strong style="color: var(--color-text);">System Specs:</strong> ${lead.capacity} kWp (${lead.category})</div>
+                        </div>
+                        <div style="background: var(--color-bg-alt); padding: 0.6rem 0.8rem; border-radius: 6px; font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 0.8rem; border-left: 3px solid var(--color-sun-yellow); line-height: 1.45;">
+                            <strong style="color: var(--color-text);">Site Message:</strong> "${lead.message}"
+                        </div>
+                        <div style="display: flex; gap: 0.6rem;">
+                            <a href="https://wa.me/91${lead.phone}?text=${encodeURIComponent(`Hi ${lead.name}, this is ${DEALERS.find(d => d.code === activePartnerCode).name} from Sunova Solar. We received your quote request for a ${lead.capacity} kWp system. (Bank Loan Required: ${lead.loan ? 'Yes' : 'No'}). We would love to discuss the details.`)}" target="_blank" rel="noopener" style="flex: 1; text-align: center; background: #25d366; color: white; border: none; border-radius: 6px; padding: 0.45rem; font-size: 0.75rem; font-weight: 600; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 0.3rem; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                                💬 WhatsApp Client
+                            </a>
+                            <button type="button" onclick="prefillFormForQuote('${lead.name.replace(/'/g, "\\'")}', '${lead.location.replace(/'/g, "\\'")}', ${lead.capacity})" style="flex: 1; background: var(--color-sun-yellow); color: #0d1321; border: none; border-radius: 6px; padding: 0.45rem; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                                ⚡ Load into Generator
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            });
+        }
+
+        function prefillFormForQuote(name, address, capacity) {
+            document.getElementById('quote-cust-name').value = name;
+            document.getElementById('quote-cust-addr').value = address;
+            document.getElementById('quote-capacity').value = capacity;
+            
+            // Scroll to the generator form smoothly
+            document.getElementById('quotation-form-section').scrollIntoView({ behavior: 'smooth' });
+            
+            // Highlight container briefly
+            const genSection = document.getElementById('quotation-form-section');
+            genSection.style.borderColor = 'var(--color-sun-yellow)';
+            setTimeout(() => {
+                genSection.style.borderColor = 'var(--color-border)';
+            }, 1000);
+        }
+
+        function showChecklistModal() {
+            const listItems = [
+                "Consumer registration submitted on KSEB Soura Portal.",
+                "Feasibility clearance certificate obtained from local Section Office.",
+                "System installation executed by empaneled installer (Sunova Solar LLP).",
+                "Submitting Solar Modules ALMM MNRE compliance datasheet.",
+                "Submitting Inverter Type-Test Certificate (IEC 62109 compliance).",
+                "Physical inspection and single line diagram (SLD) clearance by Section Engineer.",
+                "Net-meter testing and accuracy clearance report from KSEB TMR Division.",
+                "Procurement of dual-dial Net Meter & Generation Meter by Consumer.",
+                "Verification of separate chemical earthing pits (AC, DC, and Lightning Arrester).",
+                "Work Completion Report filing at KSEB local section office.",
+                "Signing of Net Metering Agreement between KSEB, Installer, and Consumer."
+            ];
+            
+            const listContainer = document.getElementById('checklist-items-list');
+            listContainer.innerHTML = listItems.map((item, idx) => `
+                <label style="display: flex; gap: 0.6rem; align-items: flex-start; cursor: pointer; padding: 0.35rem 0; border-bottom: 1px solid rgba(255,255,255,0.03);">
+                    <input type="checkbox" id="chk-item-${idx}" style="margin-top: 0.2rem; cursor: pointer;">
+                    <span>${item}</span>
+                </label>
+            `).join('');
+            
+            document.getElementById('checklist-modal-overlay').classList.remove('hidden');
+        }
+        
+        function closeChecklistModal() {
+            document.getElementById('checklist-modal-overlay').classList.add('hidden');
+        }
+
+        function downloadProformaTemplate() {
+            const csvContent = [
+                ["SUNOVA SOLAR LLP - PROFORMA INVOICE TEMPLATE"],
+                ["Empaneled Solar rooftop Installer | Vengalloor - Mangattukavala Bypass Road, Thodupuzha, Idukki District"],
+                [""],
+                ["Consumer Name:", "[Enter Customer Name]", "", "Proforma Qtn No:", "SNS/PRO/2026/XXXX"],
+                ["Consumer No:", "[Enter 13-digit Consumer No]", "", "Date:", new Date().toLocaleDateString('en-IN')],
+                [""],
+                ["Item No", "Component Description & Specification", "Quantity", "Unit Rate (₹)", "Total Value (₹)"],
+                [1, "MNRE ALMM Approved Mono PERC Solar PV Modules (540Wp+)", 6, 16000, 96000],
+                [2, "On-Grid Tied Solar Inverter with Anti-islanding & Wi-Fi logger", 1, 38000, 38000],
+                [3, "Hot-dip Galvanized Iron (GI) high-rise structure with anchoring", 1, 18000, 18000],
+                [4, "ACDB/DCDB protection boxes, SPDs, Copper Cables & earthings", 1, 14000, 14000],
+                [5, "Liaisoning, net-metering feasibility processing & commissioning", 1, 12000, 12000],
+                [""],
+                ["", "Subtotal Basic Cost", "", "", 178000],
+                ["", "GST Tax @ 13.8%", "", "", 24564],
+                ["", "Grand Total Contract Value", "", "", 202564]
+            ];
+            
+            let tsv = csvContent.map(row => row.join("\t")).join("\n");
+            
+            const blob = new Blob([tsv], { type: 'application/vnd.ms-excel;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", "proforma_invoice_template.xls");
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function logoutPartner() {
+            localStorage.removeItem('partner_code');
+            location.reload();
+        }
+    </script>
+
+    <!-- Net Metering Checklist Modal Overlay (Initially Hidden) -->
+    <div id="checklist-modal-overlay" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 20000; display: flex; justify-content: center; align-items: center; padding: 1rem;">
+        <div style="background: #121824; border: 1px solid var(--color-border); border-radius: 12px; padding: 2rem; width: 100%; max-width: 550px; text-align: left; color: white; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.8rem; margin-bottom: 1.2rem;">
+                <h3 style="margin: 0; color: var(--color-sun-yellow); font-family: var(--font-heading); font-size: 1.2rem;">📋 KSEB Net Metering Checklist</h3>
+                <button onclick="closeChecklistModal()" style="background: none; border: none; color: var(--color-text-muted); font-size: 1.5rem; cursor: pointer; line-height: 1;">&times;</button>
+            </div>
+            <div style="font-size: 0.82rem; line-height: 1.6; display: flex; flex-direction: column; gap: 0.6rem; max-height: 320px; overflow-y: auto; padding-right: 0.2rem;" id="checklist-items-list">
+                <!-- Injected checklist labels -->
+            </div>
+            <div style="text-align: right; border-top: 1px solid var(--color-border); padding-top: 1rem; margin-top: 1.2rem;">
+                <button onclick="closeChecklistModal()" class="cta-btn secondary-btn" style="padding: 0.45rem 1.2rem; font-size: 0.8rem; border-radius: 6px; cursor: pointer; width: auto;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Printable Quotation Modal Overlay (Hidden initially) -->
+    <div id="quote-modal-overlay" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 20000; overflow-y: auto; display: flex; justify-content: center; align-items: flex-start; padding: 2rem 1rem;">
+        <div style="background: white; color: #333; width: 100%; max-width: 800px; border-radius: 12px; padding: 2.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative; text-align: left;" id="printable-quote-content">
+            <!-- Modal Header Actions (Not Printed) -->
+            <div class="no-print" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                <h3 style="margin: 0; color: #333; font-family: 'Outfit', sans-serif;">Solar Quotation Preview</h3>
+                <div style="display: flex; gap: 0.6rem; flex-wrap: wrap; justify-content: flex-end;">
+                    <button onclick="saveQuotation()" style="background: #28a745; color: white; border: none; border-radius: 6px; padding: 0.5rem 1rem; font-weight: 600; font-size: 0.82rem; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                        💾 Save
+                    </button>
+                    <button onclick="emailQuotation()" style="background: #1a73e8; color: white; border: none; border-radius: 6px; padding: 0.5rem 1rem; font-weight: 600; font-size: 0.82rem; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                        📧 Email Info
+                    </button>
+                    <button onclick="whatsappQuotation()" style="background: #25d366; color: white; border: none; border-radius: 6px; padding: 0.5rem 1rem; font-weight: 600; font-size: 0.82rem; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                        💬 WhatsApp
+                    </button>
+                    <button onclick="window.print()" style="background: #6c757d; color: white; border: none; border-radius: 6px; padding: 0.5rem 1rem; font-weight: 600; font-size: 0.82rem; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                        🖨️ Print
+                    </button>
+                    <button onclick="closeQuoteModal()" style="background: #e0e0e0; color: #333; border: none; border-radius: 6px; padding: 0.5rem 1rem; font-weight: 600; font-size: 0.82rem; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                        Close
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Quotation Template Contents -->
+            <div id="quote-render-area">
+                <!-- Dynamically Injected Quote Layout -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>

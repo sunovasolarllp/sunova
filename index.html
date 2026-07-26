@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUNOVA SOLAR LLP | Premium Solar Solutions Across Kerala</title>
+    <meta name="description" content="Sunova Solar LLP is Thodupuzha's leading solar system installation and service provider. Specialized in premium residential and commercial rooftop solar. Estimate your savings with our interactive solar calculator.">
+    <meta name="keywords" content="solar installation Kerala, rooftop solar Thodupuzha, Sunova Solar, solar panels Idukki, solar subsidy PM Surya Ghar, solar company Kerala">
+    <meta name="author" content="Sunova Solar LLP">
+    <link rel="canonical" href="https://sunovasolar.in">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="SUNOVA SOLAR LLP | Premium Solar Solutions">
+    <meta property="og:description" content="Specialized construction & installation of domestic and commercial solar power systems in Thodupuzha, Kerala. Calculate your savings.">
+    <meta property="og:image" content="assets/hero.jpg">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KSEB Bill Parser Libraries (PDF.js & Tesseract OCR) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css?v=4.2">
+</head>
+<body class="dark-theme">
+    <!-- Header/Navigation -->
+    <header class="navbar" id="navbar">
+
+        <div class="nav-container">
+            <a href="#" class="logo" id="nav-logo">
+                <img src="assets/logo.jpg" alt="SUNOVA SOLAR LLP Logo" class="logo-img-file">
+            </a>
+            
+            <nav class="nav-menu" id="nav-menu">
+                <a href="#hero" class="nav-link active" id="link-hero">Home</a>
+                <a href="#services" class="nav-link" id="link-services">Services</a>
+                <a href="#calculator" class="nav-link" id="link-calculator">Calculator</a>
+                <a href="#about" class="nav-link" id="link-about">About Us</a>
+                <a href="#contact" class="nav-link" id="link-contact">Contact</a>
+            </nav>
+            
+            <div class="nav-actions">
+                <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
+                    <!-- Sun Icon -->
+                    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 3V4M12 20V21M4.22 4.22L4.93 4.93M19.07 19.07L19.78 19.78M2 12H3M20 12H21M4.22 19.78L4.93 19.07M19.07 4.93L19.78 4.22M12 7C9.24 7 7 9.24 7 12C7 14.76 9.24 17 12 17C14.76 17 17 14.76 17 12C17 9.24 14.76 7 12 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <!-- Moon Icon -->
+                    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" fill="currentColor"/>
+                    </svg>
+                </button>
+                <a href="tel:+919072522277" class="theme-btn" aria-label="Call Us" title="Call Us: +91 90725 22277">
+                    <!-- Phone Icon -->
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                </a>
+                <a href="https://wa.me/919072522277?text=Hi%20Sunova%20Solar,%20I'm%20interested%20in%20a%20solar%20system%20installation." target="_blank" rel="noopener" class="theme-btn whatsapp-nav-btn" aria-label="Chat on WhatsApp" title="WhatsApp Chat">
+                    <!-- WhatsApp Icon SVG -->
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.725 1.45 5.568 0 10.103-4.52 10.106-10.073.002-2.69-1.04-5.216-2.93-7.11C16.562 1.528 14.045.485 11.993.485c-5.57 0-10.107 4.519-10.11 10.073-.001 1.93.528 3.81 1.53 5.466l-1.002 3.662 3.75-.983c1.557.85 3.125 1.246 4.486 1.246zm11.758-7.85c-.3-.15-1.77-.872-2.046-.972-.275-.1-.475-.15-.675.15-.2.3-.775.972-.95 1.173-.175.2-.35.225-.65.075-.3-.15-1.265-.467-2.41-1.485-.89-.795-1.49-1.778-1.665-2.078-.175-.3-.018-.462.13-.61.135-.133.3-.35.45-.525.15-.175.2-.3.3-.5s.05-.375-.025-.525C9.07 6.4 8.4 4.755 8.125 4.09c-.267-.643-.54-.543-.738-.553-.19-.01-.41-.012-.628-.012-.22 0-.575.083-.875.408-.3.325-1.15 1.125-1.15 2.742s1.175 3.175 1.34 3.4c.165.225 2.3 3.513 5.58 4.937.78.337 1.387.538 1.86.688.784.249 1.497.214 2.062.13.629-.094 1.77-.722 2.02-1.417.25-.695.25-1.293.175-1.417-.075-.124-.275-.2-.575-.35z"/>
+                    </svg>
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=61592060310039" target="_blank" rel="noopener" class="theme-btn fb-btn" aria-label="Facebook" title="Facebook">
+                    <!-- Facebook Icon SVG -->
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                </a>
+                <a href="https://www.instagram.com/sunovasolarllp" target="_blank" rel="noopener" class="theme-btn insta-btn" aria-label="Instagram" title="Instagram">
+                    <!-- Instagram Icon SVG -->
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                    </svg>
+                </a>
+                <a href="login.html" class="theme-btn login-icon-btn" aria-label="Partner &amp; Staff Login" title="Partner &amp; Staff Login Portal">
+                    <!-- Key/Lock Icon -->
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="18" height="18">
+                        <path d="M12 15V17M17 11V7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7V11M5 11H19C20.1046 11 21 11.8954 21 13V20C21 21.1046 20.1046 22 19 22H5C3.89543 22 3 21.1046 3 20V13C3 11.8954 3.89543 11 5 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+                <a href="#contact" class="cta-btn primary-btn" id="btn-quick-calc" style="background: var(--color-sun-yellow); color: #0d1321; border-color: var(--color-sun-yellow); font-weight: 700;">Get Quotation</a>
+                <button class="hamburger" id="hamburger" aria-label="Open menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+        <div class="hero-bg">
+            <img src="assets/hero.jpg" alt="Beautiful residential home with solar panels in Kerala" class="hero-img">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="container hero-container">
+            <div class="hero-content scroll-reveal-left">
+                <span class="badge"><strong>Approved Solar Installer across Kerala</strong></span>
+                <h1 class="hero-title">Empowering Kerala's Future with <span class="gradient-text">Clean Solar Energy</span></h1>
+                <div class="hero-desc-panel">
+                    <p class="hero-desc-text">SUNOVA SOLAR LLP delivers high-efficiency rooftop solar installations for homes and businesses. Maximize your savings, secure government subsidies, and build a sustainable tomorrow.</p>
+                </div>
+                <div class="hero-buttons">
+                    <a href="#calculator" class="cta-btn primary-btn" id="btn-hero-calc">Calculate Savings</a>
+                    <a href="#contact" class="cta-btn green-btn" id="btn-hero-contact">Get Free Quotation</a>
+                </div>
+            </div>
+            <div class="hero-card scroll-reveal-right">
+                <div class="glass-card">
+                    <h3>Quick solar benefits</h3>
+                    <ul class="benefit-list">
+                        <li>
+                            <div class="benefit-icon">🌿</div>
+                            <div>
+                                <h4>Eco-Friendly Energy</h4>
+                                <p>Reduce carbon footprint and offset metric tons of CO2 yearly.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="benefit-icon">💰</div>
+                            <div>
+                                <h4>Up to 90% Bill Reduction</h4>
+                                <p>Drastically cut KSEB monthly power bills with net metering.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="benefit-icon">🏢</div>
+                            <div>
+                                <h4>Govt. Subsidy (Up to ₹78,000)</h4>
+                                <p>Direct bank transfer subsidy for residential installations.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="hero-wave">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V0C26.9,8.75,57.05,18.3,94.43,26.29,187.35,46.2,261.38,67.24,321.39,56.44Z" class="wave-path"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section" id="services">
+        <div class="container">
+            <div class="section-header scroll-reveal">
+                <span class="sub-title">WHAT WE DO</span>
+                <h2 class="section-title">Core Solar Services &amp; Operations</h2>
+                <div class="title-line"></div>
+                <p class="section-desc">We specialize in engineering, procurement, and construction (EPC) of high-grade solar photovoltaic power systems tailored for various applications.</p>
+            </div>
+            
+            <div class="services-grid">
+                <!-- Service 1 -->
+                <div class="service-card scroll-reveal-up">
+                    <div class="service-img-wrapper">
+                        <img src="assets/hero.jpg" alt="Domestic Solar Installation" class="service-img">
+                    </div>
+                    <div class="service-info">
+                        <div class="service-icon-bg">🏡</div>
+                        <h3>Residential Rooftop Solar</h3>
+                        <p>Complete on-grid solar solutions for homes under the PM Surya Ghar Yojana. Tailored to support heavy domestic appliances like air conditioners and water pumps while slashing KSEB tariffs.</p>
+                        <ul class="card-features">
+                            <li>Subsidy support &amp; paperless application</li>
+                            <li>Monocrystalline PERC half-cut panels</li>
+                            <li>Grid-tied inverter with mobile app monitoring</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="service-card scroll-reveal-up" style="animation-delay: 0.1s;">
+                    <div class="service-img-wrapper">
+                        <img src="assets/commercial.jpg" alt="Commercial Solar Installation" class="service-img">
+                    </div>
+                    <div class="service-info">
+                        <div class="service-icon-bg">🏢</div>
+                        <h3>Commercial &amp; Business Systems</h3>
+                        <p>Custom rooftop structures for commercial complexes, offices, retail spaces, and factories. Lower operating expenses, hedge against rising commercial power tariffs, and enjoy tax depreciation benefits.</p>
+                        <ul class="card-features">
+                            <li>Accelerated depreciation tax benefits</li>
+                            <li>High load capacity and structural engineering</li>
+                            <li>ROI starting in just 3 to 4 years</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Service 3: Hybrid Systems -->
+                <div class="service-card scroll-reveal-up" style="animation-delay: 0.2s;">
+                    <div class="service-img-wrapper">
+                        <img src="assets/hero.jpg" alt="Hybrid Solar Battery Systems" class="service-img" style="filter: hue-rotate(45deg);">
+                    </div>
+                    <div class="service-info">
+                        <div class="service-icon-bg">🔋</div>
+                        <h3>Hybrid Solar &amp; Battery Storage</h3>
+                        <p>Combine net-metered savings with battery autonomy. Our hybrid systems store excess day energy in Lithium-ion or Tubular banks, keeping power active during grid load shedding.</p>
+                        <ul class="card-features">
+                            <li>Automatic switchover during blackouts</li>
+                            <li>Premium Lithium/Tubular storage banks</li>
+                            <li>Grid export (Net Metering) fully supported</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Service 4: Operations & Maintenance -->
+                <div class="service-card scroll-reveal-up" style="animation-delay: 0.3s;">
+                    <div class="service-img-wrapper">
+                        <img src="assets/commercial.jpg" alt="Operations and Maintenance" class="service-img" style="filter: grayscale(30%);">
+                    </div>
+                    <div class="service-info">
+                        <div class="service-icon-bg">🔧</div>
+                        <h3>Operations &amp; Maintenance</h3>
+                        <p>Keep your solar plant operating at peak efficiency. We provide professional pressure washing, inverter diagnostics, grid performance audits, and KSEB licensing coordination.</p>
+                        <ul class="card-features">
+                            <li>Pressure washing panel cleaning services</li>
+                            <li>Inverter health checks &amp; string testing</li>
+                            <li>Liaison for Net-Meter testing &amp; billing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Panel Technology Section -->
+    <section class="tech-section" id="technology">
+        <div class="container">
+            <div class="section-header scroll-reveal">
+                <span class="sub-title">SOLAR TECH GUIDE</span>
+                <h2 class="section-title">Types of Solar Panels in the Market</h2>
+                <div class="title-line"></div>
+                <p class="section-desc">Understand the different solar photovoltaic panel technologies available to power your home or business.</p>
+            </div>
+            
+            <div class="tech-carousel-wrapper scroll-reveal-up">
+                <div class="tech-carousel">
+                    <!-- Card 1 -->
+                    <div class="tech-card">
+                        <div class="tech-icon-container">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+                                <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
+                                <path d="M9 3V21M15 3V21M3 9H21M3 15H21" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 2"/>
+                                <circle cx="12" cy="12" r="4" fill="currentColor" opacity="0.2"/>
+                            </svg>
+                        </div>
+                        <h3>Monocrystalline PERC</h3>
+                        <span class="tech-spec-badge">Efficiency: 20% - 22%</span>
+                        <p>Crafted from premium single-crystal silicon. Offers the highest power density, superior low-light performance, and a sleek black aesthetic. Ideal for residential rooftops.</p>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="tech-card">
+                        <div class="tech-icon-container">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+                                <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
+                                <path d="M3 3L21 21M21 3L3 21" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M9 3V21M15 3V21M3 9H21M3 15H21" stroke="currentColor" stroke-width="1.5" opacity="0.3"/>
+                            </svg>
+                        </div>
+                        <h3>Polycrystalline Cells</h3>
+                        <span class="tech-spec-badge">Efficiency: 15% - 17%</span>
+                        <p>Constructed by melting multiple raw silicon crystals. Features a traditional blue speckled look. Highly cost-effective and budget-friendly for large ground-mounted arrays.</p>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="tech-card">
+                        <div class="tech-icon-container">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+                                <rect x="5" y="3" width="14" height="18" rx="1.5" stroke="currentColor" stroke-width="2"/>
+                                <path d="M8 7H16M8 12H16M8 17H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M19 12H21M3 12H5" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                        </div>
+                        <h3>Bifacial Double-Sided</h3>
+                        <span class="tech-spec-badge">Efficiency: 22% - 25%</span>
+                        <p>Dual-sided glass structure that absorbs direct sunlight from the front and reflected light (albedo) from the back. Boosts total generation yield by up to 15-25%.</p>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="tech-card">
+                        <div class="tech-icon-container">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+                                <path d="M4 19V5C4 3.89543 4.89543 3 6 3H14L20 9V19C20 20.1046 19.1046 21 18 21H6C4.89543 21 4 20.1046 4 19Z" stroke="currentColor" stroke-width="2"/>
+                                <path d="M14 3V9H20" stroke="currentColor" stroke-width="2"/>
+                                <path d="M8 13H12M8 17H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h3>Thin-Film &amp; Flexible</h3>
+                        <span class="tech-spec-badge">Efficiency: 11% - 13%</span>
+                        <p>Ultra-thin, lightweight, and bendable sheets made from Cadmium Telluride or CIGS. Adapts smoothly to curved structures, temporary camping, or caravan roofs.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top 5 Panels Lineup -->
+            <div class="tech-lineup-header">
+                <span class="sub-title">PREMIUM PARTNERS</span>
+                <h3>Top Solar Panel Manufacturers We Deal With</h3>
+                <div class="title-line"></div>
+                <p>We select and install high-performance panels from Tier-1 manufacturers to guarantee structural reliability and maximum yields.</p>
+            </div>
+            
+            <div class="panels-lineup-grid">
+                <!-- Panel 1: Waaree -->
+                <div class="panel-lineup-card">
+                    <div class="panel-brand-header">
+                        <svg viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
+                            <polygon points="10,5 20,5 17,25 7,25" fill="#f58220"/>
+                            <polygon points="22,5 32,5 29,25 19,25" fill="#0054a6"/>
+                            <text x="36" y="21" font-family="'Outfit', sans-serif" font-weight="900" font-size="13.5" fill="currentColor">WAAREE</text>
+                        </svg>
+                    </div>
+                    <div class="panel-model-name">Elite Bifacial Series</div>
+                    <div class="panel-spec-row">
+                        <span>Max Power:</span>
+                        <span class="spec-val">550 Wp+</span>
+                    </div>
+                    <div class="panel-spec-row">
+                        <span>Efficiency:</span>
+                        <span class="spec-val">21.3%</span>
+                    </div>
+                    <div class="panel-spec-row">
+                        <span>Warranty:</span>
+                        <span class="spec-val">30 Years</span>
+                    </div>
+                    <div class="panel-desc-small">Dual-sided generation boosts power yield by up to 20% using light reflections from rooftops.</div>
+                </div>
+
+                <!-- Panel 2: Adani -->
+                <div class="panel-lineup-card">
+                    <div class="panel-brand-header">
+                        <svg viewBox="0 0 110 30" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="10" cy="15" r="5" fill="#0066b2"/>
+                            <circle cx="18" cy="15" r="4" fill="#a4c93a"/>
+                            <circle cx="25" cy="15" r="3" fill="#fbb040"/>
+                            <text x="32" y="21" font-family="'Outfit', sans-serif" font-weight="900" font-size="14.5" fill="currentColor">adani</text>
+                        </svg>
+                    </div>
+                    <div class="panel-model-name">TopCon Bifacial Series</div>
+                    <div class="panel-spec-row">
+                        <span>Max Power:</span>
+                        <span class="spec-val">610 Wp+</span>
+                    </div>
+                    <div class="panel-spec-row">
+                        <span>Efficiency:</span>
+                        <span class="spec-val">22.4%</span>
+                    </div>
+                    <div class="panel-spec-row">
+                        <span>Warranty:</span>
+                        <span class="spec-val">25 Years</span>
+                    </div>
+                    <div class="panel-desc-small">Next-gen Tunnel Oxide Passivated Contact (TopCon) technology delivering higher efficiency in Indian rooftop conditions.</div>
+                </div>
+
+                <!-- Panel 3: Emmvee -->
+                <div class="panel-lineup-card">
+                    <div class="panel-brand-header">
+                        <svg viewBox="0 0 110 30" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="5" y="6" width="18" height="18" rx="3" fill="#1a7a3a"/>
+                            <text x="9" y="20" font-family="'Outfit', sans-serif" font-weight="900" font-size="12" fill="#ffffff">E</text>
+                            <text x="28" y="21" font-family="'Outfit', sans-serif" font-weight="900" font-size="12" fill="currentColor">EMMVEE</text>
+                        </svg>
+                    </div>
+                    <div class="panel-model-name">TopCon Mono Series</div>
+                    <div class="panel-spec-row">
+                        <span>Max Power:</span>
+                        <span class="spec-val">560 Wp+</span>
+                    </div>
+                    <div class="panel-spec-row">
+                        <span>Efficiency:</span>
+                        <span class="spec-val">22.1%</span>
+                    </div>
+                    <div class="panel-spec-row">
+                        <span>Warranty:</span>
+                        <span class="spec-val">25 Years</span>
+                    </div>
+                    <div class="panel-desc-small">India-made TopCon cells with anti-PID coating and excellent low-light performance, ideal for Kerala's monsoon climate.</div>
+                </div>
+
+                <!-- Panel 4: Tata Power -->
+                <div class="panel-lineup-card">
+                    <div class="panel-brand-header">
+                        <svg viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12,5 C18,5 22,9 22,15 C22,21 18,25 12,25" fill="none" stroke="#0054a6" stroke-width="3"/>
+                            <line x1="8" y1="15" x2="16" y2="15" stroke="#0054a6" stroke-width="3"/>
+                            <text x="28" y="21" font-family="'Outfit', sans-serif" font-weight="900" font-size="13" fill="currentColor">TATA</text>
+                        </svg>
+                    </div>
+                    <div class="panel-model-name">Solaro Crystalline</div>
+                    <div class="panel-spec-row">
+                        <span>Max Power:</span>
+                        <span class="spec-val">450 Wp+</span>
+                    </div>
+                    <div class="panel-spec-row">
+                        <span>Efficiency:</span>
+                        <span class="spec-val">20.2%</span>
+                    </div>
+                    <div class="panel-spec-row">
+                        <span>Warranty:</span>
+                        <span class="spec-val">25 Years</span>
+                    </div>
+                    <div class="panel-desc-small">India's most trusted heritage solar modules with excellent grid compatibility records.</div>
+                </div>
+
+
+                <!-- Panel 5: Premier Energies -->
+                <div class="panel-lineup-card">
+                    <div class="panel-brand-header">
+                        <svg viewBox="0 0 110 30" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5,5 L15,5 L18,12 L8,12 Z" fill="#0054a6"/>
+                            <path d="M12,14 L22,14 L25,21 L15,21 Z" fill="#f58220"/>
+                            <text x="32" y="21" font-family="'Outfit', sans-serif" font-weight="900" font-size="12.5" fill="currentColor">PREMIER</text>
+                        </svg>
+                    </div>
+                    <div class="panel-model-name">Supreme Series</div>
+                    <div class="panel-spec-row">
+                        <span>Max Power:</span>
+                        <span class="spec-val">530 Wp+</span>
+                    </div>
+                    <div class="panel-spec-row">
+                        <span>Efficiency:</span>
+                        <span class="spec-val">21.0%</span>
+                    </div>
+                    <div class="panel-spec-row">
+                        <span>Warranty:</span>
+                        <span class="spec-val">25 Years</span>
+                    </div>
+                    <div class="panel-desc-small">Optimized performance parameters for heavy overcast skies and rainy winter seasons.</div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Brand Marquee Section -->
+    <section class="brands-section">
+        <div class="container">
+            <h3 class="brands-title">Authorized Equipment &amp; Inverter Brands</h3>
+            <div class="marquee-container">
+                <div class="marquee-track">
+                    <!-- Waaree -->
+                    <div class="brand-logo-card">
+                        <svg class="brand-logo-svg" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
+                            <polygon points="10,5 20,5 17,25 7,25" fill="#f58220"/>
+                            <polygon points="22,5 32,5 29,25 19,25" fill="#0054a6"/>
+                            <text x="36" y="21" font-family="'Outfit', sans-serif" font-weight="900" font-size="13.5" fill="currentColor">WAAREE</text>
+                        </svg>
+                    </div>
+                    <!-- Adani Solar -->
+                    <div class="brand-logo-card">
+                        <svg class="brand-logo-svg" viewBox="0 0 110 30" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="10" cy="15" r="5" fill="#0066b2"/>
+                            <circle cx="18" cy="15" r="4" fill="#a4c93a"/>
+                            <circle cx="25" cy="15" r="3" fill="#fbb040"/>
+                            <text x="32" y="21" font-family="'Outfit', sans-serif" font-weight="900" font-size="14.5" fill="currentColor">adani</text>
+                        </svg>
+                    </div>
+                    <!-- Emmvee -->
+                    <div class="brand-logo-card">
+                        <svg class="brand-logo-svg" viewBox="0 0 110 30" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="5" y="6" width="18" height="18" rx="3" fill="#1a7a3a"/>
+                            <text x="9" y="20" font-family="'Outfit', sans-serif" font-weight="900" font-size="12" fill="#ffffff">E</text>
+                            <text x="28" y="21" font-family="'Outfit', sans-serif" font-weight="900" font-size="12" fill="currentColor">EMMVEE</text>
+                        </svg>
+                    </div>
+                    <!-- Tata Power -->
+                    <div class="brand-logo-card">
+                        <svg class="brand-logo-svg" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12,5 C18,5 22,9 22,15 C22,21 18,25 12,25" fill="none" stroke="#0054a6" stroke-width="3"/>
+                            <line x1="8" y1="15" x2="16" y2="15" stroke="#0054a6" stroke-width="3"/>
+                            <text x="28" y="21" font-family="'Outfit', sans-serif" font-weight="900" font-size="13" fill="currentColor">TATA</text>
+                        </svg>
+                    </div>
+                    <!-- Growatt -->
+                    <div class="brand-logo-card">
+                        <svg class="brand-logo-svg" viewBox="0 0 105 30" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18,8 C12,8 8,12 8,16 C8,20 12,24 18,24 L18,17 L14,17" fill="none" stroke="#22c55e" stroke-width="3.5" stroke-linecap="round"/>
+                            <circle cx="22" cy="9" r="2.5" fill="#22c55e"/>
+                            <text x="28" y="21" font-family="'Outfit', sans-serif" font-weight="900" font-size="13" fill="currentColor">Growatt</text>
+                        </svg>
+                    </div>
+                    <!-- Sungrow -->
+                    <div class="brand-logo-card">
+                        <svg class="brand-logo-svg" viewBox="0 0 105 30" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22,8 C18,8 14,9 14,12 C14,15 22,14 22,17 C22,20 18,21 14,21" fill="none" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round"/>
+                            <line x1="8" y1="15" x2="11" y2="15" stroke="#ef4444" stroke-width="3"/>
+                            <text x="28" y="21" font-family="'Outfit', sans-serif" font-weight="900" font-size="13" fill="currentColor">SUNGROW</text>
+                        </svg>
+                    </div>
+                    <!-- Fronius -->
+                    <div class="brand-logo-card">
+                        <svg class="brand-logo-svg" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="5" y="6" width="16" height="18" fill="#e30613" rx="2"/>
+                            <text x="8" y="20" font-family="'Outfit', sans-serif" font-weight="900" font-size="14.5" fill="#ffffff">F</text>
+                            <text x="26" y="21" font-family="'Outfit', sans-serif" font-weight="900" font-size="13.5" fill="currentColor">Fronius</text>
+                        </svg>
+                    </div>
+                    <!-- Solis -->
+                    <div class="brand-logo-card">
+                        <svg class="brand-logo-svg" viewBox="0 0 95 30" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="15" cy="15" r="8" fill="none" stroke="#00a0e9" stroke-width="2.5"/>
+                            <line x1="15" y1="3" x2="15" y2="5" stroke="#00a0e9" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="15" y1="25" x2="15" y2="27" stroke="#00a0e9" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="3" y1="15" x2="5" y2="15" stroke="#00a0e9" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="25" y1="15" x2="27" y2="15" stroke="#00a0e9" stroke-width="2" stroke-linecap="round"/>
+                            <text x="28" y="21" font-family="'Outfit', sans-serif" font-weight="900" font-size="13.5" fill="currentColor">solis</text>
+                        </svg>
+                    </div>
+                    <!-- Eastman Invertor -->
+                    <div class="brand-logo-card">
+                        <svg class="brand-logo-svg" viewBox="0 0 110 30" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="14" cy="15" r="9" fill="none" stroke="#e84c3d" stroke-width="3"/>
+                            <path d="M10,12 L18,12 M10,15 L16,15 M10,18 L18,18" stroke="#e84c3d" stroke-width="2" stroke-linecap="round"/>
+                            <text x="28" y="21" font-family="'Outfit', sans-serif" font-weight="900" font-size="12" fill="currentColor">EASTMAN</text>
+                        </svg>
+                    </div>
+                    <!-- Deye -->
+                    <div class="brand-logo-card">
+                        <svg class="brand-logo-svg" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8,8 L18,8 C24,8 28,12 28,16 C28,20 24,24 18,24 L8,24 Z" fill="none" stroke="#0072ce" stroke-width="3"/>
+                            <circle cx="17" cy="16" r="3" fill="#0072ce"/>
+                            <text x="34" y="21" font-family="'Outfit', sans-serif" font-weight="900" font-size="13" fill="currentColor">Deye</text>
+                        </svg>
+                    </div>
+                    
+                    <!-- Duplicated Set for Seamless Loop -->
+                    <!-- Waaree -->
+                    <div class="brand-logo-card">
+                        <svg class="brand-logo-svg" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
+                            <polygon points="10,5 20,5 17,25 7,25" fill="#f58220"/>
+                            <polygon points="22,5 32,5 29,25 19,25" fill="#0054a6"/>
+                            <text x="36" y="21" font-family="'Outfit', sans-serif" font-weight="900" font-size="13.5" fill="currentColor">WAAREE</text>
+                        </svg>
+                    </div>
+                    <!-- Adani Solar -->
+                    <div class="brand-logo-card">
+                        <svg class="brand-logo-svg" viewBox="0 0 110 30" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="10" cy="15" r="5" fill="#0066b2"/>
+                            <circle cx="18" cy="15" r="4" fill="#a4c93a"/>
+                            <circle cx="25" cy="15" r="3" fill="#fbb040"/>
+                            <text x="32" y="21" font-family="'Outfit', sans-serif" font-weight="900" font-size="14.5" fill="currentColor">adani</text>
+                        </svg>
+                    </div>
+                    <!-- Tata Power -->
+                    <div class="brand-logo-card">
+                        <svg class="brand-logo-svg" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12,5 C18,5 22,9 22,15 C22,21 18,25 12,25" fill="none" stroke="#0054a6" stroke-width="3"/>
+                            <line x1="8" y1="15" x2="16" y2="15" stroke="#0054a6" stroke-width="3"/>
+                            <text x="28" y="21" font-family="'Outfit', sans-serif" font-weight="900" font-size="13" fill="currentColor">TATA</text>
+                        </svg>
+                    </div>
+                    <!-- Growatt -->
+                    <div class="brand-logo-card">
+                        <svg class="brand-logo-svg" viewBox="0 0 105 30" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18,8 C12,8 8,12 8,16 C8,20 12,24 18,24 L18,17 L14,17" fill="none" stroke="#22c55e" stroke-width="3.5" stroke-linecap="round"/>
+                            <circle cx="22" cy="9" r="2.5" fill="#22c55e"/>
+                            <text x="28" y="21" font-family="'Outfit', sans-serif" font-weight="900" font-size="13" fill="currentColor">Growatt</text>
+                        </svg>
+                    </div>
+                    <!-- Sungrow -->
+                    <div class="brand-logo-card">
+                        <svg class="brand-logo-svg" viewBox="0 0 105 30" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22,8 C18,8 14,9 14,12 C14,15 22,14 22,17 C22,20 18,21 14,21" fill="none" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round"/>
+                            <line x1="8" y1="15" x2="11" y2="15" stroke="#ef4444" stroke-width="3"/>
+                            <text x="28" y="21" font-family="'Outfit', sans-serif" font-weight="900" font-size="13" fill="currentColor">SUNGROW</text>
+                        </svg>
+                    </div>
+                    <!-- Fronius -->
+                    <div class="brand-logo-card">
+                        <svg class="brand-logo-svg" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="5" y="6" width="16" height="18" fill="#e30613" rx="2"/>
+                            <text x="8" y="20" font-family="'Outfit', sans-serif" font-weight="900" font-size="14.5" fill="#ffffff">F</text>
+                            <text x="26" y="21" font-family="'Outfit', sans-serif" font-weight="900" font-size="13.5" fill="currentColor">Fronius</text>
+                        </svg>
+                    </div>
+                    <!-- Solis -->
+                    <div class="brand-logo-card">
+                        <svg class="brand-logo-svg" viewBox="0 0 95 30" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="15" cy="15" r="8" fill="none" stroke="#00a0e9" stroke-width="2.5"/>
+                            <line x1="15" y1="3" x2="15" y2="5" stroke="#00a0e9" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="15" y1="25" x2="15" y2="27" stroke="#00a0e9" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="3" y1="15" x2="5" y2="15" stroke="#00a0e9" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="25" y1="15" x2="27" y2="15" stroke="#00a0e9" stroke-width="2" stroke-linecap="round"/>
+                            <text x="28" y="21" font-family="'Outfit', sans-serif" font-weight="900" font-size="13.5" fill="currentColor">solis</text>
+                        </svg>
+                    </div>
+                    <!-- Emmvee -->
+                    <div class="brand-logo-card">
+                        <svg class="brand-logo-svg" viewBox="0 0 110 30" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="5" y="6" width="18" height="18" rx="3" fill="#1a7a3a"/>
+                            <text x="9" y="20" font-family="'Outfit', sans-serif" font-weight="900" font-size="12" fill="#ffffff">E</text>
+                            <text x="28" y="21" font-family="'Outfit', sans-serif" font-weight="900" font-size="12" fill="currentColor">EMMVEE</text>
+                        </svg>
+                    </div>
+                    <!-- Eastman Invertor -->
+                    <div class="brand-logo-card">
+                        <svg class="brand-logo-svg" viewBox="0 0 110 30" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="14" cy="15" r="9" fill="none" stroke="#e84c3d" stroke-width="3"/>
+                            <path d="M10,12 L18,12 M10,15 L16,15 M10,18 L18,18" stroke="#e84c3d" stroke-width="2" stroke-linecap="round"/>
+                            <text x="28" y="21" font-family="'Outfit', sans-serif" font-weight="900" font-size="12" fill="currentColor">EASTMAN</text>
+                        </svg>
+                    </div>
+                    <!-- Deye -->
+                    <div class="brand-logo-card">
+                        <svg class="brand-logo-svg" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8,8 L18,8 C24,8 28,12 28,16 C28,20 24,24 18,24 L8,24 Z" fill="none" stroke="#0072ce" stroke-width="3"/>
+                            <circle cx="17" cy="16" r="3" fill="#0072ce"/>
+                            <text x="34" y="21" font-family="'Outfit', sans-serif" font-weight="900" font-size="13" fill="currentColor">Deye</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solar Savings Calculator Section -->
+    <section class="calculator-section" id="calculator">
+        <div class="container">
+            <div class="section-header scroll-reveal">
+                <span class="sub-title">SOLAR SIZING CALCULATOR</span>
+                <h2 class="section-title">Estimate Your System &amp; Savings</h2>
+                <div class="title-line"></div>
+                <p class="section-desc">Instantly compute your recommended solar plant size, initial investment, potential subsidies, monthly savings, and payback period under Kerala conditions.</p>
+            </div>
+            
+            <div class="calc-wrapper scroll-reveal-up">
+                <!-- Inputs Column -->
+                <div class="calc-inputs-panel">
+                    <div class="calc-banner">
+                        <img src="assets/logo-banner.jpg" alt="Sunova Solar Logo Banner">
+                    </div>
+
+                    <div class="calc-toggle-wrapper" style="margin-bottom: 1rem;">
+                        <button type="button" class="toggle-btn active" id="toggle-res" onclick="setCalculatorMode('residential')">Residential (Subsidy Eligible)</button>
+                        <button type="button" class="toggle-btn" id="toggle-com" onclick="setCalculatorMode('commercial')">Commercial / Business</button>
+                    </div>
+
+                    <div class="calc-toggle-wrapper">
+                        <button type="button" class="toggle-btn active" id="toggle-ongrid" onclick="setSystemType('ongrid')">On-Grid (Max Savings)</button>
+                        <button type="button" class="toggle-btn" id="toggle-hybrid" onclick="setSystemType('hybrid')">Hybrid (With Battery Backup)</button>
+                    </div>
+
+
+
+                    <div class="input-group">
+                        <div class="input-header">
+                            <label for="input-bill">Average Bill (INR)</label>
+                            <div class="manual-input-wrapper">
+                                <button type="button" class="spin-btn" onclick="adjustManualBill(-500)" title="Decrease Bill">▼</button>
+                                <span>₹</span>
+                                <input type="number" id="input-bill-manual" min="500" max="100000" value="2500" oninput="handleBillManualInput(this.value)">
+                                <button type="button" class="spin-btn" onclick="adjustManualBill(500)" title="Increase Bill">▲</button>
+                            </div>
+                        </div>
+                        <input type="range" id="input-bill" min="500" max="50000" step="500" value="2500" oninput="handleBillSliderInput(this.value)">
+                        <div class="range-markers">
+                            <span>₹500</span>
+                            <span>₹10,000</span>
+                            <span>₹25,000</span>
+                            <span>₹50,000</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-header">
+                            <label for="input-units">Alternative: Monthly Consumption (kWh / Units)</label>
+                            <span class="input-val-display hidden"><span id="units-val-display">500</span> Units</span>
+                            <div class="manual-input-wrapper">
+                                <button type="button" class="spin-btn" onclick="adjustManualUnits(-50)" title="Decrease Units">▼</button>
+                                <input type="number" id="input-units" min="50" max="6000" value="500" oninput="handleUnitInput(this.value)">
+                                <span class="unit">kWh</span>
+                                <button type="button" class="spin-btn" onclick="adjustManualUnits(50)" title="Increase Units">▲</button>
+                            </div>
+                        </div>
+                        <span class="input-helper">Adjust consumption directly to override bill calculation.</span>
+                    </div>
+
+                    <div class="calculator-infobox">
+                        <div class="info-icon">💡</div>
+                        <p id="calc-kseb-note">Calculated using typical KSEB telescopic domestic tariff rates. Higher consumption levels fall under higher rate slabs.</p>
+                    </div>
+                </div>
+
+                <!-- Outputs Column -->
+                <div class="calc-outputs-panel">
+                    <div class="outputs-title">Your Solar Proposal</div>
+                    
+                    <div class="metrics-grid">
+                        <div class="metric-box">
+                            <span class="metric-label">Recommended Capacity</span>
+                            <div class="metric-input-wrapper">
+                                <button type="button" class="spin-btn-metric" onclick="adjustCapacity(-0.5)" title="Decrease Capacity">▼</button>
+                                <input type="number" id="out-size" min="3.0" max="200" step="0.1" value="3.0" oninput="handleCapacityInput(this.value)">
+                                <span class="unit">kW</span>
+                                <button type="button" class="spin-btn-metric" onclick="adjustCapacity(0.5)" title="Increase Capacity">▲</button>
+                                <button type="button" id="btn-reset-capacity" class="metric-action-btn hidden" onclick="resetCapacityToCalculated()" title="Reset to calculated capacity based on bill">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+                                        <path d="M3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C9.9113 3 7.98906 3.70997 6.46484 4.89844L3 8M3 8H7.5M3 8V3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                                <button type="button" id="btn-scroll-to-form" class="metric-action-btn" onclick="scrollToContactForm()" title="Go to booking details form">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+                                        <path d="M19 9L12 16L5 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="metric-box" style="justify-content: space-between;">
+                            <span class="metric-label">Solar Panel Brand</span>
+                            <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-top: 0.25rem;">
+                                <select id="calc-panel-brand" onchange="handlePanelBrandChange()" style="background: rgba(255, 255, 255, 0.05); color: var(--color-text); border: 1px solid var(--color-border); border-radius: 8px; padding: 0.35rem 0.5rem; font-size: 0.8rem; font-family: var(--font-body); cursor: pointer; outline: none; flex-grow: 1; min-width: 0; max-width: 140px;">
+                                    <option value="550" selected>Waaree</option>
+                                    <option value="610">Adani</option>
+                                    <option value="560">Emmvee</option>
+                                </select>
+                                <span class="metric-value" style="white-space: nowrap; flex-shrink: 0;"><span id="out-panels">8</span> <span class="unit">Nos</span></span>
+                            </div>
+                        </div>
+                        <div class="metric-box">
+                            <span class="metric-label">Required Roof Area</span>
+                            <span class="metric-value"><span id="out-area">360</span> <span class="unit">sq.ft</span></span>
+                        </div>
+                        <div class="metric-box">
+                            <span class="metric-label">Estimated Solar Generation</span>
+                            <span class="metric-value"><span id="out-generation">480</span> <span class="unit">Units/Mo</span></span>
+                        </div>
+                        <div class="metric-box" id="battery-metric-container" style="display: none;">
+                            <span class="metric-label">Recommended Battery Storage</span>
+                            <span class="metric-value"><span id="out-battery">5.0</span> <span class="unit">kWh</span></span>
+                        </div>
+                    </div>
+
+                    <div class="financial-breakdown">
+                        <div class="financial-row">
+                            <span>Approx. Installation Cost *</span>
+                            <span class="val bold">₹<span id="out-cost">2,40,000</span></span>
+                        </div>
+                        <div class="financial-row subsidy-row" id="subsidy-container">
+                            <span class="subsidy-label">Govt. Subsidy (PM Surya Ghar)</span>
+                            <span class="val text-green">- ₹<span id="out-subsidy">78,000</span></span>
+                        </div>
+                        <div class="financial-row divider"></div>
+                        <div class="financial-row total-row">
+                            <span>Net Out-of-pocket Cost</span>
+                            <span class="val highlight-green">₹<span id="out-net-cost">1,62,000</span></span>
+                        </div>
+                    </div>
+
+                    <div class="savings-card">
+                        <div class="savings-header">Estimated Returns</div>
+                        <div class="savings-metrics">
+                            <div class="sav-box">
+                                <span class="sav-lbl">Annual Savings</span>
+                                <span class="sav-val">₹<span id="out-savings">38,400</span></span>
+                            </div>
+                            <div class="sav-box">
+                                <span class="sav-lbl">Payback Period</span>
+                                <span class="sav-val"><span id="out-payback">4.2</span> <span class="lbl-small">Years</span></span>
+                            </div>
+                            <div class="sav-box">
+                                <span class="sav-lbl">Annual ROI</span>
+                                <span class="sav-val"><span id="out-roi">23.7</span>%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="eco-benefit">
+                        <span class="eco-leaf">🌱</span>
+                        <span><strong>Green Impact:</strong> You will offset <strong id="out-co2">4.8</strong> tonnes of carbon dioxide emissions (CO₂) every year, equivalent to planting <strong id="out-trees">80</strong> trees!</span>
+                    </div>
+
+                    <div class="calc-disclaimer" style="font-size: 0.72rem; color: var(--color-text-subtle); line-height: 1.3; text-align: center; margin-top: -0.5rem; margin-bottom: 1.5rem;">
+                        * Approx. Installation Cost may change based on selected panel and structure.*
+                    </div>
+
+                    <div class="calc-action-btn">
+                        <a href="#contact" class="cta-btn primary-btn full-width text-center" onclick="transferCalculatorDetails()">Book Site Survey</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feasibility Form Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="section-header scroll-reveal">
+                <span class="sub-title">GET A QUOTE</span>
+                <h2 class="section-title">Feasibility &amp; Quote Request</h2>
+                <div class="title-line"></div>
+                <p class="section-desc">Fill out the form below to receive a customized design layout proposal for your rooftop. Our team will evaluate your site and send a detailed quote.</p>
+            </div>
+
+                <!-- Contact Form Panel -->
+                <div class="contact-form-wrapper scroll-reveal-right" style="max-width:800px; margin: 0 auto;">
+                        <div class="glass-card contact-card">
+                        <h3>Feasibility &amp; Quote Request</h3>
+                        <p>Fill out the form below to receive a customized design layout proposal for your rooftop.</p>
+                        
+                        <form id="contact-form" onsubmit="handleFormSubmit(event)">
+
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="form-name">Full Name</label>
+                                    <input type="text" id="form-name" placeholder="Enter your name" style="text-transform: uppercase;" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="form-phone">Mobile Number (Indian Only)</label>
+                                    <input type="tel" id="form-phone" placeholder="10-digit Indian mobile number" pattern="^[6-9]\d{9}$" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/^[^6-9]/, '')" title="10-digit Indian mobile number starting with 6, 7, 8, or 9" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="form-email">Email Address (Optional)</label>
+                                    <input type="email" id="form-email" placeholder="example@domain.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="form-district">District (Kerala)</label>
+                                    <select id="form-district" required onchange="handleDistrictChange(this.value)">
+                                        <option value="" disabled>Select your district</option>
+                                        <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                                        <option value="Kollam">Kollam</option>
+                                        <option value="Pathanamthitta">Pathanamthitta</option>
+                                        <option value="Alappuzha" selected>Alappuzha</option>
+                                        <option value="Kottayam">Kottayam</option>
+                                        <option value="Idukki">Idukki</option>
+                                        <option value="Ernakulam">Ernakulam</option>
+                                        <option value="Thrissur">Thrissur</option>
+                                        <option value="Palakkad">Palakkad</option>
+                                        <option value="Malappuram">Malappuram</option>
+                                        <option value="Kozhikode">Kozhikode</option>
+                                        <option value="Wayanad">Wayanad</option>
+                                        <option value="Kannur">Kannur</option>
+                                        <option value="Kasaragod">Kasaragod</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="form-location">Name of Section (KSEB)</label>
+                                    <select id="form-location" required onchange="handleKSEBSectionChange(this.value)">
+                                        <option value="" disabled selected>-- Select district first --</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="form-dealer">Partner Area</label>
+                                    <select id="form-dealer" required>
+                                        <!-- Populated dynamically based on selected District -->
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="form-connection">Connection Category</label>
+                                    <select id="form-connection" onchange="handleFormConnectionChange(this.value)">
+                                        <option value="residential">Residential (Home Solar)</option>
+                                        <option value="commercial">Commercial / Industrial</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="form-size">Requested Capacity</label>
+                                    <div class="capacity-selector" style="margin-bottom: 0.5rem;" id="form-size-select-wrapper">
+                                        <select id="form-size-select" onchange="handleFormSizeSelectChange(this.value)" style="width: 100%; border-radius: 8px; border: 1px solid var(--color-border); padding: 0.8rem; background-color: var(--color-bg-alt); color: var(--color-text);">
+                                            <option value="3.0">3.0 kW</option>
+                                            <option value="5.0">5.0 kW</option>
+                                            <option value="custom">Others (Type Manually)</option>
+                                        </select>
+                                    </div>
+                                    <div class="manual-input-wrapper form-size-wrapper" id="form-size-manual-wrapper" style="display: none;">
+                                        <button type="button" class="spin-btn" onclick="adjustFormCapacity(-0.5)" title="Decrease Capacity">▼</button>
+                                        <input type="number" id="form-size" min="3.0" max="200" step="0.1" value="3.0" required oninput="handleFormSizeChange()">
+                                        <span class="unit">kW</span>
+                                        <button type="button" class="spin-btn" onclick="adjustFormCapacity(0.5)" title="Increase Capacity">▲</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="form-system-model">System Technology Model</label>
+                                <select id="form-system-model" onchange="handleFormSystemModelChange(this.value)">
+                                    <option value="ongrid">On-Grid (Max Savings, Net Metering)</option>
+                                    <option value="hybrid">Hybrid (Grid Export + Battery Backup)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" style="margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                                <label class="checkbox-label" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.9rem;">
+                                    <input type="checkbox" id="form-loan" style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--color-sun-yellow);" onchange="toggleLoanDocsInfo(this.checked)">
+                                    <span>Do you require a Bank Loan / Financing assistance?</span>
+                                </label>
+                            </div>
+
+                            <!-- Collapsible Bank Loan Documents Info Box -->
+                            <div id="loan-docs-box" class="hidden" style="background-color: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; text-align: left; animation: slide-down 0.25s ease-out;">
+                                <h4 style="font-family: var(--font-heading); font-size: 0.92rem; margin-bottom: 0.75rem; color: var(--color-sun-yellow); display: flex; align-items: center; gap: 0.4rem;">
+                                    📋 Required Documents for Solar Bank Loans (Kerala)
+                                </h4>
+                                <p style="font-size: 0.8rem; color: var(--color-text-muted); margin-bottom: 0.75rem; line-height: 1.4;">
+                                    To apply for a solar installation loan (SBI, Federal Bank, Canara Bank, etc.), you will generally need to submit:
+                                </p>
+                                <ul style="list-style: none; padding-left: 0; font-size: 0.78rem; color: var(--color-text-muted); display: flex; flex-direction: column; gap: 0.5rem; line-height: 1.4;">
+                                    <li><strong>1. Identification:</strong> Aadhaar Card, PAN Card, and 2 passport-sized photos.</li>
+                                    <li><strong>2. Property Proofs:</strong> Latest Land Tax Receipt (Thandaper) and Building Tax Receipt (Panchayat/Municipality).</li>
+                                    <li><strong>3. KSEB Connection:</strong> Latest KSEB Electricity Bill (address must match property).</li>
+                                    <li><strong>4. Income Proof:</strong>
+                                        <div style="padding-left: 0.5rem; border-left: 2px solid var(--color-border); margin-top: 0.25rem; font-size: 0.75rem;">
+                                            • <em>Salaried:</em> Last 3 months' salary slips &amp; 6 months' bank statements.<br>
+                                            • <em>Self-employed:</em> Last 2 years' IT Returns &amp; 6 months' bank statements.
+                                        </div>
+                                    </li>
+                                    <li><strong>5. Technical Quote:</strong> Official quote/proforma invoice and MNRE compliance certificate (provided by Sunova Solar LLP).</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="form-message">Detailed Requirements / Site Details</label>
+                                <textarea id="form-message" rows="4" placeholder="Provide your location, roof type (flat concrete / pitched roof), and current monthly electricity consumption."></textarea>
+                            </div>
+                            
+                            <div id="form-feedback" class="form-feedback hidden"></div>
+                            
+                            <button type="submit" class="cta-btn primary-btn full-width" id="btn-submit">Submit Feasibility Form</button>
+                        </form>
+                    </div>
+                </div>
+        </div>
+    </section>
+
+    <!-- Contact & Address Section -->
+    <section class="projects-section" id="address">
+        <div class="container">
+            <div class="section-header scroll-reveal">
+                <span class="sub-title">CONTACT &amp; ADDRESS</span>
+                <h2 class="section-title">Head Office &amp; Service Locations</h2>
+                <div class="title-line"></div>
+                <p class="section-desc">Get in touch with us. Visit our registered office or reach us directly — we're happy to assist with any solar queries.</p>
+            </div>
+
+            <!-- Info Cards Row -->
+            <div class="contact-bottom-cards scroll-reveal" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem; margin-top:2rem;">
+
+                <!-- Office & Service Center Card -->
+                <div class="location-card">
+                    <div class="loc-header">
+                        <div class="loc-icon-bg">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM12 11.5C10.62 11.5 9.5 10.38 9.5 9C9.5 7.62 10.62 6.5 12 6.5C13.38 6.5 14.5 7.62 14.5 9C14.5 10.38 13.38 11.5 12 11.5Z" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="loc-badge">REGISTERED OFFICE &amp; BYPASS OUTLET</span>
+                            <h3>Thodupuzha Main Office</h3>
+                        </div>
+                    </div>
+                    <p class="loc-address">
+                        <a href="https://maps.app.goo.gl/TM2CL3Bm2DiKtuNY8" target="_blank" rel="noopener" class="maps-address-link" title="Open in Google Maps">
+                            Vengalloor - Mangattukavala Bypass Road, Thodupuzha, <strong>Idukki District</strong>, Kerala - 685608.
+                        </a>
+                    </p>
+                    <div class="loc-meta">
+                        <span class="meta-item">📍 Main Bypass Road</span>
+                        <span class="meta-item">🔧 Office, Installation Equipment &amp; Service Site Center</span>
+                        <span class="meta-item"><a href="https://maps.app.goo.gl/TM2CL3Bm2DiKtuNY8" target="_blank" rel="noopener" class="maps-nav-btn">🗺️ Open in Google Maps</a></span>
+                    </div>
+                </div>
+
+                <!-- Customer Helpline Card -->
+                <div class="location-card">
+                    <div class="loc-header">
+                        <div class="loc-icon-bg">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="loc-badge">CUSTOMER HELPLINE</span>
+                            <h3>Phone &amp; WhatsApp</h3>
+                        </div>
+                    </div>
+                    <div class="contact-links-list">
+                        <p class="contact-link-row">
+                            📞 <strong>Telephone:</strong> <a href="tel:+919072522277">+91 90725 22277</a>
+                        </p>
+                        <p class="contact-link-row">
+                            💬 <strong>WhatsApp:</strong> <a href="https://wa.me/919072522277?text=Hi%20Sunova%20Solar,%20I'm%20interested%20in%20a%20solar%20system%20installation." target="_blank" rel="noopener">Chat on WhatsApp</a>
+                        </p>
+                        <p class="contact-link-row">
+                            ✉️ <strong>Email Support:</strong> <a href="mailto:info@sunovasolar.in">info@sunovasolar.in</a>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Working Hours & LLP Info Card -->
+                <div class="business-info-card">
+                    <div class="business-row">
+                        <span class="info-label">📅 Working Hours:</span>
+                        <span class="info-val">Monday to Saturday: 9:00 AM – 5:00 PM<br><span class="text-red">Closed on Sundays</span></span>
+                    </div>
+                    <div class="business-row">
+                        <span class="info-label">✉️ Email Address:</span>
+                        <span class="info-val"><a href="mailto:info@sunovasolar.in">info@sunovasolar.in</a></span>
+                    </div>
+                    <div class="business-row">
+                        <span class="info-label">🌐 Web Address:</span>
+                        <span class="info-val"><a href="https://sunovasolar.in" target="_blank" rel="noopener">https://sunovasolar.in</a></span>
+                    </div>
+                    <div class="business-row">
+                        <span class="info-label">💼 Corporate Status:</span>
+                        <span class="info-val">Active Limited Liability Partnership (LLP)</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Customer Testimonials Section -->
+    <section class="testimonials-section" id="testimonials">
+        <div class="container">
+            <div class="section-header scroll-reveal">
+                <span class="sub-title">REAL CUSTOMER REVIEWS</span>
+                <h2 class="section-title">What Our Clients Say Across Kerala</h2>
+                <div class="title-line"></div>
+                <p class="section-desc">Read how Sunova Solar LLP helped homeowners and commercial businesses lower their KSEB electricity bills to near zero.</p>
+            </div>
+
+            <div class="testimonials-grid">
+                <!-- Review 1 -->
+                <div class="testimonial-card scroll-reveal-up">
+                    <div>
+                        <div class="stars-row">★★★★★</div>
+                        <p class="review-text">"Installed a 5 kWp Mono PERC system at my home in Thodupuzha. Our KSEB bi-monthly bill dropped from ₹6,400 to just ₹390! Sunova Solar handled the entire KSEB net-metering &amp; PM Surya Ghar subsidy application smoothly."</p>
+                    </div>
+                    <div class="reviewer-info">
+                        <div class="avatar-circle">KN</div>
+                        <div>
+                            <h4>Dr. K. Nair</h4>
+                            <span class="reviewer-loc">📍 Thodupuzha, Idukki • 5 kWp Rooftop</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="testimonial-card scroll-reveal-up" style="animation-delay: 0.1s;">
+                    <div>
+                        <div class="stars-row">★★★★★</div>
+                        <p class="review-text">"Sunova Solar installed a 15 kWp commercial on-grid solar plant for our business in Edappally. The installation structure is extremely heavy-duty and wind-resistant. Excellent post-sales support and real-time generation monitoring!"</p>
+                    </div>
+                    <div class="reviewer-info">
+                        <div class="avatar-circle">MV</div>
+                        <div>
+                            <h4>Mathew Varghese</h4>
+                            <span class="reviewer-loc">📍 Edappally, Ernakulam • 15 kWp Commercial</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="testimonial-card scroll-reveal-up" style="animation-delay: 0.2s;">
+                    <div>
+                        <div class="stars-row">★★★★★</div>
+                        <p class="review-text">"We opted for a 3 kWp Hybrid system with lithium battery storage in Cherthala. During heavy monsoons and coastal power cuts, our lights, fans, and refrigerator run uninterrupted. Truly reliable engineering!"</p>
+                    </div>
+                    <div class="reviewer-info">
+                        <div class="avatar-circle">PS</div>
+                        <div>
+                            <h4>Priya S.</h4>
+                            <span class="reviewer-loc">📍 Cherthala, Alappuzha • 3 kWp Hybrid System</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest News & Sector Updates Section -->
+    <section class="news-section" id="news">
+        <div class="container">
+            <div class="section-header scroll-reveal">
+                <span class="sub-title">SOLAR INDUSTRY INSIGHTS</span>
+                <h2 class="section-title">Latest Solar News &amp; Subsidy Updates</h2>
+                <div class="title-line"></div>
+                <p class="section-desc">Stay informed about PM Surya Ghar Muft Bijli Yojana subsidies, KSEB net metering policies, and solar technologies in Kerala.</p>
+            </div>
+
+            <div class="news-grid">
+                <!-- News Article 1 -->
+                <article class="news-card scroll-reveal-up">
+                    <div>
+                        <div class="news-badge">SUBSIDY UPDATE</div>
+                        <span class="news-date">📅 July 2026</span>
+                        <h3>PM Surya Ghar: Up to ₹78,000 Central Government Subsidy Direct to Bank</h3>
+                        <p>Under the national PM Surya Ghar scheme, residential households in Kerala installing up to 3 kWp rooftop solar systems receive direct financial assistance up to ₹78,000. Sunova Solar assists with full online portal filings.</p>
+                    </div>
+                    <a href="#contact" class="news-read-more">Learn How to Apply →</a>
+                </article>
+
+                <!-- News Article 2 -->
+                <article class="news-card scroll-reveal-up" style="animation-delay: 0.1s;">
+                    <div>
+                        <div class="news-badge">KSEB REGULATIONS</div>
+                        <span class="news-date">📅 June 2026</span>
+                        <h3>KSEB Streamlines Bi-Directional Net Metering Approvals across 14 Districts</h3>
+                        <p>Kerala State Electricity Board (KSEB) has expanded automated feasibility approvals for residential consumers, speeding up net-meter installation and transformer capacity allocations.</p>
+                    </div>
+                    <a href="#contact" class="news-read-more">Check KSEB Feasibility →</a>
+                </article>
+
+                <!-- News Article 3 -->
+                <article class="news-card scroll-reveal-up" style="animation-delay: 0.2s;">
+                    <div>
+                        <div class="news-badge">TECHNOLOGY</div>
+                        <span class="news-date">📅 May 2026</span>
+                        <h3>Waaree &amp; Adani Launch High-Efficiency N-Type TOPCon Panels in Kerala</h3>
+                        <p>Next-generation TOPCon solar panels offering 22.5%+ cell efficiency and lower temperature degradation coefficients are now available for residential and commercial projects with Sunova Solar LLP.</p>
+                    </div>
+                    <a href="#contact" class="news-read-more">Explore Technology →</a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Projects Section -->
+    <section class="projects-section" id="projects">
+        <div class="container">
+            <div class="section-header scroll-reveal">
+                <span class="sub-title">OUR PORTFOLIO</span>
+                <h2 class="section-title">Featured Solar Installations</h2>
+                <div class="title-line"></div>
+                <p class="section-desc">Explore some of our recently completed residential, commercial, and hybrid solar power projects across Kerala.</p>
+            </div>
+
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card scroll-reveal-up">
+                    <div class="project-img-wrapper">
+                        <img src="assets/hero.jpg" alt="5 kWp Residential Solar System" class="project-img">
+                        <span class="project-badge">Residential</span>
+                    </div>
+                    <div class="project-details">
+                        <h3>5 kWp Home Solar Plant</h3>
+                        <p class="project-location">📍 Thodupuzha, Idukki</p>
+                        <ul class="project-specs">
+                            <li><strong>System Type:</strong> On-Grid (Net Metering)</li>
+                            <li><strong>Solar Panels:</strong> Waaree Elite Mono PERC</li>
+                            <li><strong>Inverter:</strong> Growatt Grid-Tied Smart Inverter</li>
+                            <li><strong>Impact:</strong> Bills reduced from ₹6,200 to ₹400/month.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card scroll-reveal-up" style="animation-delay: 0.1s;">
+                    <div class="project-img-wrapper">
+                        <img src="assets/commercial.jpg" alt="15 kWp Commercial Solar System" class="project-img">
+                        <span class="project-badge">Commercial</span>
+                    </div>
+                    <div class="project-details">
+                        <h3>15 kWp Commercial Rooftop</h3>
+                        <p class="project-location">📍 Edappally, Ernakulam</p>
+                        <ul class="project-specs">
+                            <li><strong>System Type:</strong> On-Grid LT-VIIA Category</li>
+                            <li><strong>Solar Panels:</strong> Adani Elan Bifacial</li>
+                            <li><strong>Inverter:</strong> Sungrow Commercial Inverter</li>
+                            <li><strong>Impact:</strong> Offsets 18.5 tons of carbon emissions annually.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card scroll-reveal-up" style="animation-delay: 0.2s;">
+                    <div class="project-img-wrapper">
+                        <img src="assets/hero.jpg" alt="3 kWp Hybrid Solar Power System" class="project-img" style="filter: hue-rotate(45deg);">
+                        <span class="project-badge">Hybrid</span>
+                    </div>
+                    <div class="project-details">
+                        <h3>3 kWp Hybrid System + Storage</h3>
+                        <p class="project-location">📍 Cherthala, Alappuzha</p>
+                        <ul class="project-specs">
+                            <li><strong>System Type:</strong> Hybrid with Battery Backup</li>
+                            <li><strong>Battery Capacity:</strong> 5.0 kWh Lithium-Ion</li>
+                            <li><strong>Inverter:</strong> Solis Intelligent Hybrid Inverter</li>
+                            <li><strong>Impact:</strong> Full blackout autonomy during coastal storms.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KSEB Net Metering Process Guide -->
+    <section class="kseb-section" id="kseb-guide">
+        <div class="container">
+            <div class="section-header scroll-reveal">
+                <span class="sub-title">INTERCONNECTION PROCESS</span>
+                <h2 class="section-title">KSEB Net Metering &amp; Subsidy Flow</h2>
+                <div class="title-line"></div>
+                <p class="section-desc">How we manage your solar integration with the Kerala State Electricity Board (KSEB) from registration to commissioning.</p>
+            </div>
+
+            <div class="flow-steps-grid">
+                <!-- Step 1 -->
+                <div class="step-card scroll-reveal-left">
+                    <div class="step-num">01</div>
+                    <h4>Portal Registration</h4>
+                    <p>Sunova Solar LLP registers your system on the KSEB Soura online portal, uploading property ownership records and connection bills.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="step-card scroll-reveal-left" style="animation-delay: 0.1s;">
+                    <div class="step-num">02</div>
+                    <h4>KSEB Feasibility Review</h4>
+                    <p>The local KSEB section office inspects the local transformer capacity load and issues the official feasibility clearance approval.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="step-card scroll-reveal-left" style="animation-delay: 0.2s;">
+                    <div class="step-num">03</div>
+                    <h4>Installation &amp; Work Report</h4>
+                    <p>Our engineers complete structural solar mounting and electrical cabling. We file the KSEB physical completion report.</p>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="step-card scroll-reveal-left" style="animation-delay: 0.3s;">
+                    <div class="step-num">04</div>
+                    <h4>Net Metering &amp; Savings</h4>
+                    <p>KSEB tests the installation, commissions the bidirectional Net-Meter, and activates your KSEB billing discount. Subsidies are sent directly to your bank!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quality & Climate Engineering Section -->
+    <section class="safety-section" id="safety">
+        <div class="container">
+            <div class="section-header scroll-reveal">
+                <span class="sub-title">QUALITY GUARANTEES</span>
+                <h2 class="section-title">Engineered for Kerala's Climate</h2>
+                <div class="title-line"></div>
+                <p class="section-desc">Kerala's tropical climate requires specialized electrical and structural engineering. Here is how we build solar plants that endure.</p>
+            </div>
+
+            <div class="safety-grid">
+                <!-- Card 1 -->
+                <div class="safety-card scroll-reveal-up">
+                    <div class="safety-icon-wrapper">⚡</div>
+                    <h4>Double Lightning Protection</h4>
+                    <p>Class B &amp; C Surge Protection Devices (SPDs) paired with copper-bonded chemical gel earthing rods shield panels and inverters from Kerala's intense lightning strikes.</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="safety-card scroll-reveal-up" style="animation-delay: 0.1s;">
+                    <div class="safety-icon-wrapper">🌬️</div>
+                    <h4>150 km/h Wind Rated</h4>
+                    <p>Heavy-duty, structural hot-dip galvanized steel or anodized aluminum mounting systems securely anchored to concrete roofs, built to withstand monsoonal wind loads.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="safety-card scroll-reveal-up" style="animation-delay: 0.2s;">
+                    <div class="safety-icon-wrapper">☔</div>
+                    <h4>Zero-Leakage Waterproofing</h4>
+                    <p>Advanced polyurethane grouting and structural sealants are applied to concrete and truss anchor points, guaranteeing your roof remains 100% leak-proof during heavy rain.</p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="safety-card scroll-reveal-up" style="animation-delay: 0.3s;">
+                    <div class="safety-icon-wrapper">🤝</div>
+                    <h4>KSEB Liaison Assistance</h4>
+                    <p>We handle the complete liaison process for feasibility sanctions, safety inspections, net-meter installation, and direct bank transfer of central government subsidies.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <div class="grid-2-col">
+                <div class="about-content scroll-reveal-left">
+                    <span class="sub-title">ABOUT SUNOVA SOLAR LLP</span>
+                    <h2 class="section-title">Specialized Construction &amp; Installation of Solar Power</h2>
+                    <div class="title-line left"></div>
+                    <p class="about-text">SUNOVA SOLAR LLP is a registered Limited Liability Partnership (LLP) incorporated under the Ministry of Corporate Affairs, Government of India. Operating from Thodupuzha, Kerala, our goal is to deliver state-of-the-art rooftop solar systems that provide maximum performance, structural durability, and financial yield.</p>
+                    
+                    <p class="about-text">Managed by its designated partners, we operate with transparent ethics, compliance-first documentation, and premium-tier engineering to design and deliver high-performance solar systems.</p>
+                    
+
+                </div>
+                
+                <div class="about-visual scroll-reveal-right">
+                    <div class="glass-container">
+                        <div class="stat-highlight">
+                            <span class="stat-num">LLP</span>
+                            <span class="stat-lbl">Registered Corporate Entity</span>
+                        </div>
+                        <div class="stat-grid">
+                            <div class="stat-item">
+                                <div class="stat-icon">✅</div>
+                                <h4>KSEB Compliant</h4>
+                                <p>All components meet KSEB technical regulations for on-grid systems.</p>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon">🏗️</div>
+                                <h4>Premium Structures</h4>
+                                <p>Custom hot-dip galvanized mounting structures that withstand high-speed winds and monsoon weather in Idukki.</p>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon">🔧</div>
+                                <h4>Post-sales Support</h4>
+                                <p>Local maintenance teams situated in Thodupuzha bypass for rapid response.</p>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon">📈</div>
+                                <h4>Performance Audits</h4>
+                                <p>Advanced monitoring applications that trace daily power generation parameters.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-info">
+                <div class="logo">
+                    <img src="assets/logo.jpg" alt="SUNOVA SOLAR LLP Logo" class="logo-img-file">
+                </div>
+                <p class="footer-desc">SUNOVA SOLAR LLP is a registered Limited Liability Partnership based in Thodupuzha, Kerala (LLPIN: MCA Registered). Specialized rooftop engineering and installation services.</p>
+                <div class="footer-llp">
+                    <span>Ministry of Corporate Affairs Registered LLP</span>
+                </div>
+                
+                <div class="footer-social" style="margin-top: 1.5rem; display: flex; gap: 1rem; align-items: center;">
+                    <a href="https://www.facebook.com/profile.php?id=61592060310039" target="_blank" rel="noopener" class="fb-btn" style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; text-decoration: none;" aria-label="Facebook">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    </a>
+                    <a href="https://www.instagram.com/sunovasolarllp" target="_blank" rel="noopener" class="insta-btn" style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; text-decoration: none;" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Quick Navigation</h4>
+                <a href="#hero">Home Page</a>
+                <a href="#services">Our Services</a>
+                <a href="#calculator">Solar Calculator</a>
+                <a href="#about">About LLP</a>
+                <a href="#contact">Offices &amp; Inquiries</a>
+                <a href="login.html">🔒 Staff Portal</a>
+                <a href="partner-portal.html">🤝 Partner Portal</a>
+                <a href="https://mail.hostinger.com/" target="_blank">✉️ Sunova Mail</a>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Contact Details</h4>
+                <p>📍 <strong>Office &amp; Outlet:</strong> <a href="https://maps.app.goo.gl/TM2CL3Bm2DiKtuNY8" target="_blank" rel="noopener" class="footer-maps-link" title="Open in Google Maps">Vengalloor - Mangattukavala Bypass, Thodupuzha, <strong>Idukki District</strong> - 685608</a></p>
+                <p>📞 <strong>Phone:</strong> <a href="tel:+919072522277">+91 90725 22277</a></p>
+                <p>💬 <strong>WhatsApp:</strong> <a href="https://wa.me/919072522277?text=Hi%20Sunova%20Solar,%20I'm%20interested%20in%20a%20solar%20system%20installation." target="_blank" rel="noopener">Chat with Us (+91 90725 22277)</a></p>
+                <p>✉️ <strong>Email:</strong> <a href="mailto:info@sunovasolar.in">info@sunovasolar.in</a></p>
+                <p>⏰ <strong>Hours:</strong> Mon - Sat: 9:00 AM - 5:00 PM</p>
+            </div>
+        </div>
+        <div class="footer-bottom" style="display: none;">
+            <div class="container footer-bottom-container">
+                <p id="developer-trigger" style="cursor: pointer; user-select: none;">&copy; 2026 SUNOVA SOLAR LLP. All Rights Reserved. MCA Registered LLP.</p>
+                <p>Designed with Clean Solar Energy in Kerala.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Widget -->
+    <!-- Floating Social Widgets -->
+    <a href="https://www.instagram.com/sunovasolarllp" target="_blank" rel="noopener" class="insta-float" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+    </a>
+    <a href="https://www.facebook.com/profile.php?id=61592060310039" target="_blank" rel="noopener" class="fb-float" aria-label="Facebook" title="Facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+    </a>
+    <a href="https://wa.me/919072522277?text=Hi%20Sunova%20Solar,%20I'm%20interested%20in%20a%20solar%20system%20installation." target="_blank" rel="noopener" class="whatsapp-float" aria-label="Chat on WhatsApp" title="Chat on WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.725 1.45 5.568 0 10.103-4.52 10.106-10.073.002-2.69-1.04-5.216-2.93-7.11C16.562 1.528 14.045.485 11.993.485c-5.57 0-10.107 4.519-10.11 10.073-.001 1.93.528 3.81 1.53 5.466l-1.002 3.662 3.75-.983c1.557.85 3.125 1.246 4.486 1.246zm11.758-7.85c-.3-.15-1.77-.872-2.046-.972-.275-.1-.475-.15-.675.15-.2.3-.775.972-.95 1.173-.175.2-.35.225-.65.075-.3-.15-1.265-.467-2.41-1.485-.89-.795-1.49-1.778-1.665-2.078-.175-.3-.018-.462.13-.61.135-.133.3-.35.45-.525.15-.175.2-.3.3-.5s.05-.375-.025-.525C9.07 6.4 8.4 4.755 8.125 4.09c-.267-.643-.54-.543-.738-.553-.19-.01-.41-.012-.628-.012-.22 0-.575.083-.875.408-.3.325-1.15 1.125-1.15 2.742s1.175 3.175 1.34 3.4c.165.225 2.3 3.513 5.58 4.937.78.337 1.387.538 1.86.688.784.249 1.497.214 2.062.13.629-.094 1.77-.722 2.02-1.417.25-.695.25-1.293.175-1.417-.075-.124-.275-.2-.575-.35z"/></svg>
+    </a>
+
+    <!-- Scripts -->
+    <script src="app.js?v=4.2"></script>
+</body>
+</html>

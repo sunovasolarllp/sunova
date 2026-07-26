@@ -1,0 +1,1379 @@
+==================================================
+FILE: index.html
+==================================================
+Items in LIVE but NOT in LOCAL (Count=46):
+  LIVE: <!-- Top Utility Bar -->
+  LIVE: <div class="top-bar">
+  LIVE: <div class="container top-bar-container">
+  LIVE: <div class="top-bar-left">
+  LIVE: <span>LLPIN: Registered under MCA, Gov of India</span>
+  LIVE: </div>
+  LIVE: <div class="top-bar-right">
+  LIVE: <a href="partner-portal.html" class="top-bar-link">🤝 Partner Portal</a>
+  LIVE: <span class="top-bar-separator">|</span>
+  LIVE: <a href="login.html" class="top-bar-link">🔒 Staff Portal</a>
+  LIVE: <span class="top-bar-separator">|</span>
+  LIVE: <a href="https://mail.hostinger.com/" target="_blank" class="top-bar-link">✉️ Sunova Mail</a>
+  LIVE: <span class="top-bar-separator">|</span>
+  LIVE: <a href="tel:+919072522277" class="top-bar-link">📞 Helpline</a>
+  LIVE: </div>
+  LIVE: </div>
+  LIVE: </div>
+  LIVE: <input type="number" id="input-bill-manual" min="500" max="100000" value="2500" oninput="handleBillManualInput(this.value)">
+  LIVE: <input type="number" id="out-size" min="3.0" max="200" step="0.1" value="3.0" oninput="handleCapacityInput(this.value)">
+  LIVE: <button type="button" id="btn-reset-capacity" class="metric-action-btn hidden" onclick="resetCapacityToCalculated()" title="Reset to calculated capacity based on bill">
+  LIVE: <button type="button" id="btn-scroll-to-form" class="metric-action-btn" onclick="scrollToContactForm()" title="Go to booking details form">
+  LIVE: <span class="metric-label">Solar Panel Brand</span>
+  LIVE: <select id="calc-panel-brand" onchange="handlePanelBrandChange()" style="background: rgba(255, 255, 255, 0.05); color: var(--color-text); border: 1px solid var(--color-border); border-radius: 8px; padding: 0.35rem 0.5rem; font-size: 0.8rem; font-family: var(--font-body); cursor: pointer; outline: none; flex-grow: 1; min-width: 0; max-width: 140px;">
+  LIVE: <option value="550" selected>Waaree</option>
+  LIVE: <option value="610">Adani</option>
+  LIVE: <option value="560">Emmvee</option>
+  LIVE: <input type="text" id="form-name" placeholder="Enter your name" style="text-transform: uppercase;" required>
+  LIVE: <label for="form-phone">Mobile Number</label>
+  LIVE: <input type="tel" id="form-phone" placeholder="10-digit mobile number" pattern="^[6-9]\d{9}$" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" title="10-digit mobile number starting with 6-9" required>
+  LIVE: <div class="form-group">
+  LIVE: <label for="form-email">Email Address (Optional)</label>
+  LIVE: <input type="email" id="form-email" placeholder="example@domain.com">
+  LIVE: </div>
+  LIVE: </div>
+  LIVE: <div class="form-grid">
+  LIVE: <div class="form-group">
+  LIVE: <label for="form-dealer">Partner Area</label>
+  LIVE: <select id="form-dealer" required>
+  LIVE: <!-- Populated dynamically based on selected District -->
+  LIVE: </select>
+  LIVE: </div>
+  LIVE: <select id="form-size-select" onchange="handleFormSizeSelectChange(this.value)" style="width: 100%; border-radius: 8px; border: 1px solid var(--color-border); padding: 0.8rem; background-color: var(--color-bg-alt); color: var(--color-text);">
+  LIVE: <input type="number" id="form-size" min="3.0" max="200" step="0.1" value="3.0" required oninput="handleFormSizeChange()">
+  LIVE: <a href="#contact">Offices &amp; Inquiries</a>
+  LIVE: <a href="https://mail.hostinger.com/" target="_blank">✉️ Sunova Mail</a>
+
+Items in LOCAL but NOT in LIVE (Count=41):
+  LOCAL: <link rel="icon" href="assets/logo.jpg" type="image/jpeg">
+  LOCAL: <meta property="og:url" content="https://sunovasolar.in/">
+  LOCAL: <meta name="twitter:card" content="summary_large_image">
+  LOCAL: <meta name="twitter:title" content="Sunova Solar Kerala">
+  LOCAL: <meta name="twitter:description" content="Kerala's trusted solar energy partner">
+  LOCAL: <meta name="twitter:image" content="assets/hero.jpg">
+  LOCAL: <meta name="theme-color" content="#1a1a2e">
+  LOCAL: <input type="number" id="input-bill-manual" min="500" max="100000" value="2500" oninput="handleBillManualInput(this.value)" aria-label="Monthly electricity bill amount in Rupees">
+  LOCAL: <input type="number" id="out-size" min="3.0" max="200" step="0.1" value="3.0" oninput="handleCapacityInput(this.value)" aria-label="Recommended system capacity in kW">
+  LOCAL: <button type="button" id="btn-reset-capacity" class="metric-action-btn hidden" onclick="resetCapacityToCalculated()" title="Reset to calculated capacity based on bill" aria-label="Reset capacity">
+  LOCAL: <button type="button" id="btn-scroll-to-form" class="metric-action-btn" onclick="scrollToContactForm()" title="Go to booking details form" aria-label="Scroll to booking form">
+  LOCAL: <span class="metric-label">Solar Panel Brand / Watts</span>
+  LOCAL: <select id="calc-panel-brand" onchange="handlePanelBrandChange()" style="background: rgba(255, 255, 255, 0.05); color: var(--color-text); border: 1px solid var(--color-border); border-radius: 8px; padding: 0.35rem 0.5rem; font-size: 0.8rem; font-family: var(--font-body); cursor: pointer; outline: none; flex-grow: 1; min-width: 0; max-width: 140px;" aria-label="Solar panel brand and wattage">
+  LOCAL: <option value="550" selected>Waaree (550W)</option>
+  LOCAL: <option value="610">Adani (610W)</option>
+  LOCAL: <option value="560">Emmvee (560W)</option>
+  LOCAL: <input type="text" id="form-name" placeholder="Enter your name" required>
+  LOCAL: <label for="form-phone">Phone Number</label>
+  LOCAL: <input type="tel" id="form-phone" placeholder="10-digit mobile number" required>
+  LOCAL: <div class="form-group">
+  LOCAL: <label for="form-email">Email Address (Optional)</label>
+  LOCAL: <input type="email" id="form-email" placeholder="example@domain.com">
+  LOCAL: </div>
+  LOCAL: <small style="display:block; margin-top:0.4rem; font-size:0.75rem; color:var(--color-text-muted); line-height: 1.3;">
+  LOCAL: KSEB Section Office · <a href="https://wss.kseb.in/selfservices/reCap" target="_blank" rel="noopener" style="color:var(--color-sun-yellow); text-decoration:underline;">Verify at wss.kseb.in</a>
+  LOCAL: </small>
+  LOCAL: </div>
+  LOCAL: <div class="form-group">
+  LOCAL: <label for="form-dealer">Partner Area</label>
+  LOCAL: <select id="form-dealer" required>
+  LOCAL: <option value="" disabled selected>-- Select partner area --</option>
+  LOCAL: <!-- Populated dynamically based on selected District -->
+  LOCAL: </select>
+  LOCAL: <select id="form-size-select" onchange="handleFormSizeSelectChange(this.value)" style="width: 100%; border-radius: 8px; border: 1px solid var(--color-border); padding: 0.8rem; background-color: var(--color-bg-alt); color: var(--color-text);" aria-label="System capacity">
+  LOCAL: <input type="number" id="form-size" min="3.0" max="200" step="0.1" value="3.0" oninput="handleFormSizeChange()">
+  LOCAL: <a href="#address">Offices &amp; Inquiries</a>
+  LOCAL: <a href="https://mail.hostinger.com/" target="_blank" rel="noopener noreferrer">✉️ Sunova Mail</a>
+
+
+==================================================
+FILE: app.js
+==================================================
+Items in LIVE but NOT in LOCAL (Count=33):
+  LIVE: { code: "KNR-JOBI", name: "Jobi Sebastian", area: "Kannur", district: "Kannur", phone: "8590085865", lat: 11.8763836, lon: 75.3737973, kseb: "Kannur" },
+  LIVE: { code: "TVM-BENJ", name: "Benjose FG", area: "kanjiramkulam", district: "Thiruvananthapuram", phone: "9037273767", lat: 8.3601022, lon: 77.0525935, kseb: "kanjiramkulam" },
+  LIVE: { code: "KLA-RAJE", name: "Rajeev R", area: "karavaloor", district: "Kollam", phone: "9567970077", lat: 8.9807724, lon: 76.9250357, kseb: "karavaloor" },
+  LIVE: { code: "KLA-RATH", name: "Rathil Kumar", area: "Sasthamcotta", district: "Kollam", phone: "7907878797", lat: 9.0314647, lon: 76.6009828, kseb: "Sasthamcotta" },
+  LIVE: { code: "PTA-SREE", name: "Sreejith TR", area: "Vaipur", district: "Pathanamthitta", phone: "9947030669", lat: 9.4485800, lon: 76.7149053, kseb: "Vaipur" },
+  LIVE: { code: "PTA-PKPR", name: "PK Prasannakumar", area: "kumbazha", district: "Pathanamthitta", phone: "7034023301", lat: 9.2649844, lon: 76.8064366, kseb: "kumbazha" },
+  LIVE: { code: "PTA-BIJU", name: "Bijumon J", area: "Ranni North", district: "Pathanamthitta", phone: "9995990372", lat: 9.3852605, lon: 76.7848789, kseb: "Ranni North" },
+  LIVE: { code: "ALP-SHIN", name: "Shinas Shamsudeen", area: "Punnapra", district: "Alappuzha", phone: "9995550888", lat: 9.44681, lon: 76.32897, kseb: "Punnapra" },
+  LIVE: { code: "KTM-SALY", name: "Saly Sainudeen", area: "erattupetta", district: "Kottayam", phone: "9446200616", lat: 9.6879884, lon: 76.7797651, kseb: "erattupetta" },
+  LIVE: { code: "KTM-ANIS", name: "Anish Kumar", area: "Neendoor", district: "Kottayam", phone: "9387220162", lat: 9.6855081, lon: 76.5055272, kseb: "Neendoor" },
+  LIVE: { code: "KTM-SANI", name: "Sanil Kumar", area: "Manarcad", district: "Kottayam", phone: "9061189784", lat: 9.5999286, lon: 76.5849633, kseb: "Manarcad" },
+  LIVE: { code: "EKM-SHIY", name: "Shiyas Rasheed", area: "Thrikkakkara", district: "Ernakulam", phone: "9847859859", lat: 9.9882518, lon: 76.3144876, kseb: "Thrikkakkara" },
+  LIVE: { code: "EKM-BHAV", name: "Bhavya M", area: "kalamassery", district: "Ernakulam", phone: "8301026309", lat: 10.0521676, lon: 76.3199033, kseb: "kalamassery" },
+  LIVE: { code: "EKM-JIBI", name: "Jibin George", area: "Mulanthuruthy", district: "Ernakulam", phone: "9995996240", lat: 9.9008567, lon: 76.3888568, kseb: "Mulanthuruthy" },
+  LIVE: { code: "TCR-COAT", name: "Coats Thekkan", area: "chalakkudy", district: "Thrissur", phone: "8129119222", lat: 10.3315317, lon: 76.5488885, kseb: "chalakkudy" },
+  LIVE: { code: "TCR-JISO", name: "Jison George", area: "Chelakara", district: "Thrissur", phone: "9746666535", lat: 10.6942894, lon: 76.3395838, kseb: "Chelakara" },
+  LIVE: { code: "TCR-JITH", name: "Jithesh Tharayil", area: "ramavarmapuram", district: "Thrissur", phone: "7356347700", lat: 10.5635491, lon: 76.2320952, kseb: "ramavarmapuram" },
+  LIVE: { code: "PKD-SUHA", name: "Suhaib S", area: "kuzhalmannam", district: "Palakkad", phone: "9988553585", lat: 10.7194290, lon: 76.5948525, kseb: "kuzhalmannam" },
+  LIVE: { code: "PKD-BIJO", name: "Bijo Varghese", area: "Elapully", district: "Palakkad", phone: "9388883222", lat: 10.7599479, lon: 76.7376870, kseb: "Elapully" },
+  LIVE: { code: "MPM-FAIS", name: "Faisal K", area: "Anakkayam", district: "Malappuram", phone: "7994035923", lat: 11.0891491, lon: 76.1209271, kseb: "Anakkayam" },
+  LIVE: { code: "KKD-RAJA", name: "Rajan Madavoor", area: "Narikkuni", district: "Kozhikode", phone: "9497345868", lat: 11.3670609, lon: 75.8635766, kseb: "Narikkuni" },
+  LIVE: { code: "KKD-YOOS", name: "Yoosaf NV", area: "Chakkittapara", district: "Kozhikode", phone: "9539724724", lat: 11.5754712, lon: 75.8164922, kseb: "Chakkittapara" },
+  LIVE: { code: "KNR-ACFA", name: "AC Faisal", area: "Irikkur", district: "Kannur", phone: "9656069964", lat: 11.9872395, lon: 75.5494735, kseb: "Irikkur" },
+  LIVE: { code: "KNR-NOUS", name: "Noushad T", area: "mattannur", district: "Kannur", phone: "9847761018", lat: 11.9307557, lon: 75.5712639, kseb: "mattannur" },
+  LIVE: { code: "KNR-NISH", name: "Nishad NK", area: "Kathiroor", district: "Kannur", phone: "9562028244", lat: 11.7984679, lon: 75.5267285, kseb: "Kathiroor" },
+  LIVE: { code: "KNR-KASO", name: "KA Soju", area: "Thaliparamba", district: "Kannur", phone: "9447548430", lat: 12.0309939, lon: 75.3567793, kseb: "Thaliparamba" },
+  LIVE: { code: "KSD-SURE", name: "Suresh Kumar", area: "Balamthode", district: "Kasaragod", phone: "9946960604", lat: 12.4552137, lon: 75.3089981, kseb: "Balamthode" }
+  LIVE: const panelsCount = Math.ceil((capacity * 1000) / panelWatts);
+  LIVE: if (nameInput) {
+  LIVE: const panels = Math.ceil((size * 1000) / panelWatts);
+  LIVE: // Phone validation (10 digits NOT starting with 6-9)
+  LIVE: const phoneRegex = /^[0-5]\d{9}$/;
+  LIVE: showFormFeedback('Please enter a valid 10-digit mobile number that does NOT start with 6, 7, 8, or 9.', 'error');
+
+Items in LOCAL but NOT in LIVE (Count=292):
+  LOCAL: { code: "TVM-BENJ", name: "Benjose FG", area: "Balaramapuram", district: "Thiruvananthapuram", phone: "9037273767", lat: 8.3601022, lon: 77.0525935, kseb: "kanjiramkulam" },
+  LOCAL: { code: "KLA-RAJE", name: "Rajeev R", area: "Punalur", district: "Kollam", phone: "9567970077", lat: 8.9807724, lon: 76.9250357, kseb: "karavaloor" },
+  LOCAL: { code: "KLA-RATH", name: "Rathil Kumar", area: "Sasthamkotta", district: "Kollam", phone: "7907878797", lat: 9.0314647, lon: 76.6009828, kseb: "Sasthamcotta" },
+  LOCAL: { code: "PTA-SREE", name: "Sreejith TR", area: "Mallappally", district: "Pathanamthitta", phone: "9947030669", lat: 9.4485800, lon: 76.7149053, kseb: "Vaipur" },
+  LOCAL: { code: "PTA-PKPR", name: "PK Prasannakumar", area: "Pathanamthitta", district: "Pathanamthitta", phone: "7034023301", lat: 9.2649844, lon: 76.8064366, kseb: "kumbazha" },
+  LOCAL: { code: "PTA-BIJU", name: "Bijumon J", area: "Ranni", district: "Pathanamthitta", phone: "9995990372", lat: 9.3852605, lon: 76.7848789, kseb: "Ranni North" },
+  LOCAL: { code: "ALP-SHIN", name: "Shinas Shamsudeen", area: "Alappuzha", district: "Alappuzha", phone: "9995550888", lat: 9.44681, lon: 76.32897, kseb: "Punnapra" },
+  LOCAL: { code: "KTM-SALY", name: "Saly Sainudeen", area: "Erattupetta", district: "Kottayam", phone: "9446200616", lat: 9.6879884, lon: 76.7797651, kseb: "erattupetta" },
+  LOCAL: { code: "KTM-ANIS", name: "Anish Kumar", area: "Kallara", district: "Kottayam", phone: "9387220162", lat: 9.6855081, lon: 76.5055272, kseb: "Neendoor" },
+  LOCAL: { code: "KTM-SANI", name: "Sanil Kumar", area: "Kottayam", district: "Kottayam", phone: "9061189784", lat: 9.5999286, lon: 76.5849633, kseb: "Manarcad" },
+  LOCAL: { code: "EKM-SHIY", name: "Shiyas Rasheed", area: "Edappally", district: "Ernakulam", phone: "9847859859", lat: 9.9882518, lon: 76.3144876, kseb: "Thrikkakkara" },
+  LOCAL: { code: "EKM-BHAV", name: "Bhavya M", area: "Kalamassery", district: "Ernakulam", phone: "8301026309", lat: 10.0521676, lon: 76.3199033, kseb: "kalamassery" },
+  LOCAL: { code: "EKM-JIBI", name: "Jibin George", area: "Thripunithura", district: "Ernakulam", phone: "9995996240", lat: 9.9008567, lon: 76.3888568, kseb: "Mulanthuruthy" },
+  LOCAL: { code: "TCR-COAT", name: "Coats Thekkan", area: "Chalakudy", district: "Thrissur", phone: "8129119222", lat: 10.3315317, lon: 76.5488885, kseb: "chalakkudy" },
+  LOCAL: { code: "TCR-JISO", name: "Jison George", area: "Chelakkara", district: "Thrissur", phone: "9746666535", lat: 10.6942894, lon: 76.3395838, kseb: "Chelakara" },
+  LOCAL: { code: "TCR-JITH", name: "Jithesh Tharayil", area: "Ramavarmapuram", district: "Thrissur", phone: "7356347700", lat: 10.5635491, lon: 76.2320952, kseb: "ramavarmapuram" },
+  LOCAL: { code: "PKD-SUHA", name: "Suhaib S", area: "Alathur", district: "Palakkad", phone: "9988553585", lat: 10.7194290, lon: 76.5948525, kseb: "kuzhalmannam" },
+  LOCAL: { code: "PKD-BIJO", name: "Bijo Varghese", area: "Elappully", district: "Palakkad", phone: "9388883222", lat: 10.7599479, lon: 76.7376870, kseb: "Elapully" },
+  LOCAL: { code: "MPM-FAIS", name: "Faisal K", area: "Manjeri", district: "Malappuram", phone: "7994035923", lat: 11.0891491, lon: 76.1209271, kseb: "Anakkayam" },
+  LOCAL: { code: "KKD-RAJA", name: "Rajan Madavoor", area: "Koduvally", district: "Kozhikode", phone: "9497345868", lat: 11.3670609, lon: 75.8635766, kseb: "Narikkuni" },
+  LOCAL: { code: "KKD-YOOS", name: "Yoosaf NV", area: "Perambra", district: "Kozhikode", phone: "9539724724", lat: 11.5754712, lon: 75.8164922, kseb: "Chakkittapara" },
+  LOCAL: { code: "KNR-JOBI", name: "Jobi Sebastian", area: "Kannur", district: "Kannur", phone: "8590085865", lat: 11.8763836, lon: 75.3737973, kseb: "Kannur" },
+  LOCAL: { code: "KNR-ACFA", name: "AC Faisal", area: "Irikkoor", district: "Kannur", phone: "9656069964", lat: 11.9872395, lon: 75.5494735, kseb: "Irikkur" },
+  LOCAL: { code: "KNR-NOUS", name: "Noushad T", area: "Mattannur", district: "Kannur", phone: "9847761018", lat: 11.9307557, lon: 75.5712639, kseb: "mattannur" },
+  LOCAL: { code: "KNR-NISH", name: "Nishad NK", area: "Thalassery", district: "Kannur", phone: "9562028244", lat: 11.7984679, lon: 75.5267285, kseb: "Kathiroor" },
+  LOCAL: { code: "KNR-KASO", name: "KA Soju", area: "Taliparamba", district: "Kannur", phone: "9447548430", lat: 12.0309939, lon: 75.3567793, kseb: "Thaliparamba" },
+  LOCAL: { code: "KSD-SURE", name: "Suresh Kumar", area: "Panathur", district: "Kasaragod", phone: "9946960604", lat: 12.4552137, lon: 75.3089981, kseb: "Balamthode" }
+  LOCAL: const panelsCount = Math.round((capacity * 1000) / panelWatts);
+  LOCAL: if (nameInput && !nameInput._listenerAdded) {
+  LOCAL: nameInput._listenerAdded = true;
+  LOCAL: const panels = Math.round((size * 1000) / panelWatts);
+  LOCAL: // Phone validation (10 digits starting with 6-9)
+  LOCAL: const phoneRegex = /^[6-9]\d{9}$/;
+  LOCAL: showFormFeedback('Please enter a valid 10-digit mobile number.', 'error');
+  LOCAL: }
+  LOCAL: // Prompt 2: Hostinger Password
+  LOCAL: const currentPass = localStorage.getItem('hostinger_smtp_password') || '';
+  LOCAL: const pass = prompt("Enter Hostinger SMTP Password for Webmail Client (leave blank to clear / skip):", currentPass);
+  LOCAL: if (pass !== null) {
+  LOCAL: if (pass.trim() !== '') {
+  LOCAL: localStorage.setItem('hostinger_smtp_password', pass.trim());
+  LOCAL: } else {
+  LOCAL: localStorage.removeItem('hostinger_smtp_password');
+  LOCAL: }
+  LOCAL: }
+  LOCAL: alert("Configuration successfully saved! Reloading page to apply changes...");
+  LOCAL: location.reload();
+  LOCAL: }
+  LOCAL: });
+  LOCAL: }
+  LOCAL: });
+  LOCAL: // Capacity and Connection Category change handlers
+  LOCAL: window.handleFormSizeSelectChange = function(val) {
+  LOCAL: const manualWrapper = document.getElementById('form-size-manual-wrapper');
+  LOCAL: const sizeInput = document.getElementById('form-size');
+  LOCAL: if (val === 'custom') {
+  LOCAL: manualWrapper.style.display = 'flex';
+  LOCAL: } else {
+  LOCAL: manualWrapper.style.display = 'none';
+  LOCAL: sizeInput.value = val;
+  LOCAL: }
+  LOCAL: };
+  LOCAL: window.handleFormConnectionChange = function(val) {
+  LOCAL: const sizeSelect = document.getElementById('form-size-select');
+  LOCAL: if (!sizeSelect) return;
+  LOCAL: if (val === 'commercial') {
+  LOCAL: sizeSelect.value = 'custom';
+  LOCAL: window.handleFormSizeSelectChange('custom');
+  LOCAL: } else {
+  LOCAL: sizeSelect.value = '3.0';
+  LOCAL: window.handleFormSizeSelectChange('3.0');
+  LOCAL: document.getElementById('form-size').value = 3.0;
+  LOCAL: }
+  LOCAL: };
+  LOCAL: // KSEB Auto-Fill Functions
+  LOCAL: let ksebFetchTimer = null;
+  LOCAL: window.triggerKSEBAutoFetch = function() {
+  LOCAL: const consumerNo = (document.getElementById('form-consumer-no')?.value || '').trim();
+  LOCAL: const regMobile  = (document.getElementById('form-reg-mobile')?.value  || '').trim();
+  LOCAL: // Only fire when both fields are complete
+  LOCAL: if (consumerNo.length !== 13 || !/^[0-9]{13}$/.test(consumerNo)) return;
+  LOCAL: if (regMobile.length  !== 10 || !/^[6-9][0-9]{9}$/.test(regMobile))  return;
+  LOCAL: // Debounce — wait 600ms after last keystroke
+  LOCAL: clearTimeout(ksebFetchTimer);
+  LOCAL: ksebFetchTimer = setTimeout(() => fetchKSEBDetails(consumerNo, regMobile), 600);
+  LOCAL: };
+  LOCAL: function setKSEBStatus(msg, type) {
+  LOCAL: const el = document.getElementById('kseb-status');
+  LOCAL: if (!el) return;
+  LOCAL: el.style.display = 'block';
+  LOCAL: el.textContent = msg;
+  LOCAL: if (type === 'loading') {
+  LOCAL: el.style.background = 'rgba(255,183,3,0.1)';
+  LOCAL: el.style.color = 'var(--color-sun-yellow)';
+  LOCAL: el.style.border = '1px solid rgba(255,183,3,0.3)';
+  LOCAL: } else if (type === 'success') {
+  LOCAL: el.style.background = 'rgba(34,197,94,0.12)';
+  LOCAL: el.style.color = '#4ade80';
+  LOCAL: el.style.border = '1px solid rgba(34,197,94,0.3)';
+  LOCAL: } else {
+  LOCAL: el.style.background = 'rgba(239,68,68,0.1)';
+  LOCAL: el.style.color = '#f87171';
+  LOCAL: el.style.border = '1px solid rgba(239,68,68,0.3)';
+  LOCAL: }
+  LOCAL: }
+  LOCAL: async function fetchKSEBDetails(consumerNo, regMobile) {
+  LOCAL: setKSEBStatus('⏳ Fetching from KSEB…', 'loading');
+  LOCAL: try {
+  LOCAL: const resp = await fetch('/api/kseb_fetch', {
+  LOCAL: method: 'POST',
+  LOCAL: headers: { 'Content-Type': 'application/json' },
+  LOCAL: body: JSON.stringify({ consumerno: consumerNo, regmobno: regMobile })
+  LOCAL: });
+  LOCAL: const json = await resp.json();
+  LOCAL: if (!resp.ok || json.error) {
+  LOCAL: setKSEBStatus('❌ ' + (json.error || 'Could not fetch bill details'), 'error');
+  LOCAL: return;
+  LOCAL: }
+  LOCAL: const d = json.data;
+  LOCAL: // Fill in name if not already typed
+  LOCAL: const nameInput = document.getElementById('form-name');
+  LOCAL: if (nameInput && d.name) {
+  LOCAL: if (!nameInput.value || nameInput.value.trim() === '') {
+  LOCAL: nameInput.value = d.name;
+  LOCAL: }
+  LOCAL: }
+  LOCAL: // Auto-fill last bill amount to calculator inputs
+  LOCAL: if (d.amount) {
+  LOCAL: const amountVal = parseInt(d.amount);
+  LOCAL: if (!isNaN(amountVal) && amountVal > 0) {
+  LOCAL: if (typeof handleBillManualInput === 'function') {
+  LOCAL: handleBillManualInput(amountVal);
+  LOCAL: }
+  LOCAL: }
+  LOCAL: }
+  LOCAL: // Build success summary
+  LOCAL: let summary = '✅ Details fetched!';
+  LOCAL: if (d.name)     summary += ` Name: ${d.name}.`;
+  LOCAL: if (d.section)  summary += ` Section: ${d.section}.`;
+  LOCAL: if (d.amount)   summary += ` Amount Due: ₹${d.amount}.`;
+  LOCAL: if (d.units)    summary += ` Units: ${d.units}.`;
+  LOCAL: if (d.due_date) summary += ` Due: ${d.due_date}.`;
+  LOCAL: setKSEBStatus(summary, 'success');
+  LOCAL: } catch (err) {
+  LOCAL: // Hide the status indicator on network/CORS error when proxy is not active
+  LOCAL: const el = document.getElementById('kseb-status');
+  LOCAL: if (el) el.style.display = 'none';
+  LOCAL: console.warn('KSEB auto-fetch failed (proxy not running or CORS blocked):', err);
+  LOCAL: }
+  LOCAL: };
+  LOCAL: window.handleKSEBExternalFetch = function(d) {
+  LOCAL: // Fill consumer number & registered mobile
+  LOCAL: const consInput = document.getElementById('form-consumer-no');
+  LOCAL: if (consInput && d.consumerNo) consInput.value = d.consumerNo;
+  LOCAL: const mobInput = document.getElementById('form-reg-mobile');
+  LOCAL: if (mobInput && d.regMobile) {
+  LOCAL: mobInput.value = d.regMobile;
+  LOCAL: // Sync hidden phone field
+  LOCAL: const phoneInput = document.getElementById('form-phone');
+  LOCAL: if (phoneInput) phoneInput.value = d.regMobile;
+  LOCAL: }
+  LOCAL: // Fill name
+  LOCAL: const nameInput = document.getElementById('form-name');
+  LOCAL: if (nameInput && d.name) nameInput.value = d.name;
+  LOCAL: // Fill bill amount in calculator
+  LOCAL: if (d.amount) {
+  LOCAL: const amountVal = parseInt(d.amount);
+  LOCAL: if (!isNaN(amountVal) && amountVal > 0) {
+  LOCAL: if (typeof handleBillManualInput === 'function') {
+  LOCAL: handleBillManualInput(amountVal);
+  LOCAL: }
+  LOCAL: }
+  LOCAL: }
+  LOCAL: // Fill section and district
+  LOCAL: if (d.section && typeof KSEB_SECTIONS !== 'undefined') {
+  LOCAL: let matchedDistrict = null;
+  LOCAL: let matchedSectionKey = null;
+  LOCAL: for (const [dist, sections] of Object.entries(KSEB_SECTIONS)) {
+  LOCAL: for (const secKey of Object.keys(sections)) {
+  LOCAL: if (secKey.toLowerCase() === d.section.toLowerCase() ||
+  LOCAL: secKey.toLowerCase().includes(d.section.toLowerCase()) ||
+  LOCAL: d.section.toLowerCase().includes(secKey.toLowerCase())) {
+  LOCAL: matchedDistrict = dist;
+  LOCAL: matchedSectionKey = secKey;
+  LOCAL: break;
+  LOCAL: }
+  LOCAL: }
+  LOCAL: if (matchedDistrict) break;
+  LOCAL: }
+  LOCAL: if (matchedDistrict && matchedSectionKey) {
+  LOCAL: const distSelect = document.getElementById('form-district');
+  LOCAL: if (distSelect) {
+  LOCAL: distSelect.value = matchedDistrict;
+  LOCAL: handleDistrictChange(matchedDistrict);
+  LOCAL: populateKSEBSections(matchedDistrict);
+  LOCAL: }
+  LOCAL: const secSelect = document.getElementById('form-location');
+  LOCAL: if (secSelect) {
+  LOCAL: secSelect.value = matchedSectionKey;
+  LOCAL: }
+  LOCAL: }
+  LOCAL: // === SUNOVA REDESIGN: Animated Counters ===
+  LOCAL: function animateCounters() {
+  LOCAL: const counters = document.querySelectorAll('.stat-number');
+  LOCAL: counters.forEach(counter => {
+  LOCAL: const target = parseInt(counter.getAttribute('data-target'));
+  LOCAL: const duration = 2000; // 2 seconds
+  LOCAL: const startTime = performance.now();
+  LOCAL: function updateCounter(currentTime) {
+  LOCAL: const elapsed = currentTime - startTime;
+  LOCAL: const progress = Math.min(elapsed / duration, 1);
+  LOCAL: // Ease-out cubic
+  LOCAL: const easedProgress = 1 - Math.pow(1 - progress, 3);
+  LOCAL: counter.textContent = Math.floor(easedProgress * target);
+  LOCAL: if (progress < 1) {
+  LOCAL: requestAnimationFrame(updateCounter);
+  LOCAL: } else {
+  LOCAL: counter.textContent = target;
+  LOCAL: }
+  LOCAL: }
+  LOCAL: requestAnimationFrame(updateCounter);
+  LOCAL: });
+  LOCAL: }
+  LOCAL: // Trigger counters on scroll into view
+  LOCAL: const statsSection = document.getElementById('sunova-stats');
+  LOCAL: if (statsSection) {
+  LOCAL: let statsAnimated = false;
+  LOCAL: const statsObserver = new IntersectionObserver((entries) => {
+  LOCAL: entries.forEach(entry => {
+  LOCAL: if (entry.isIntersecting && !statsAnimated) {
+  LOCAL: statsAnimated = true;
+  LOCAL: animateCounters();
+  LOCAL: }
+  LOCAL: });
+  LOCAL: }, { threshold: 0.3 });
+  LOCAL: statsObserver.observe(statsSection);
+  LOCAL: }
+  LOCAL: // === SUNOVA REDESIGN: Project Tab Filtering ===
+  LOCAL: function filterProjects(category) {
+  LOCAL: const cards = document.querySelectorAll('.project-card');
+  LOCAL: const tabs = document.querySelectorAll('.tab-btn');
+  LOCAL: tabs.forEach(tab => tab.classList.remove('active'));
+  LOCAL: event.target.classList.add('active');
+  LOCAL: cards.forEach(card => {
+  LOCAL: if (category === 'all' || card.getAttribute('data-category') === category) {
+  LOCAL: card.style.display = '';
+  LOCAL: card.style.opacity = '0';
+  LOCAL: card.style.transform = 'translateY(20px)';
+  LOCAL: setTimeout(() => {
+  LOCAL: card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+  LOCAL: card.style.opacity = '1';
+  LOCAL: card.style.transform = 'translateY(0)';
+  LOCAL: }, 50);
+  LOCAL: } else {
+  LOCAL: card.style.display = 'none';
+  LOCAL: }
+  LOCAL: });
+  LOCAL: }
+
+
+==================================================
+FILE: partner-portal.html
+==================================================
+Items in LIVE but NOT in LOCAL (Count=188):
+  LIVE: <div class="text-center portal-footer-note" style="margin-top: 1.5rem;">
+  LIVE: <span class="lock-icon">🔒</span> Exclusive access for Sunova Solar LLP authorized district partners.
+  LIVE: </div>
+  LIVE: <div class="success-badge">
+  LIVE: <!-- Lead metrics quick stats -->
+  LIVE: <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+  LIVE: <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; text-align: center;">
+  LIVE: <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Active Leads</span>
+  LIVE: <div id="partner-active-leads" style="font-size: 1.8rem; font-weight: 700; color: var(--color-sun-yellow); margin-top: 0.25rem;">0</div>
+  LIVE: </div>
+  LIVE: <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; text-align: center;">
+  LIVE: <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Commission Earned</span>
+  LIVE: <div id="partner-commission-earned" style="font-size: 1.4rem; font-weight: 700; color: var(--color-text); margin-top: 0.45rem;">₹0</div>
+  LIVE: </div>
+  LIVE: </div>
+  LIVE: <!-- Launch Buttons -->
+  LIVE: <div class="portal-actions-grid" style="display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1.5rem;">
+  LIVE: <button type="button" onclick="toggleAllocatedLeads()" class="cta-btn primary-btn text-center full-width" style="cursor: pointer; width: 100%; border: none; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
+  LIVE: 📋 View Allocated Customer Inquiries
+  LIVE: </button>
+  LIVE: <button type="button" onclick="toggleSavedQuotes()" class="cta-btn primary-btn text-center full-width" style="cursor: pointer; width: 100%; border: none; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
+  LIVE: 💾 View Saved Quotations
+  LIVE: </button>
+  LIVE: <button type="button" onclick="toggleChangePinPanel()" class="cta-btn text-center full-width" style="background: rgba(255,255,255,0.05); border: 1px solid var(--color-border); color: var(--color-text); cursor: pointer; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
+  LIVE: 🔒 Change Security PIN
+  LIVE: </button>
+  LIVE: <button type="button" onclick="toggleFeasibilityPanel()" class="cta-btn primary-btn text-center full-width" style="cursor: pointer; width: 100%; border: none; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
+  LIVE: ✅ Feasibility Check & KSEB Verification
+  LIVE: </button>
+  LIVE: </div>
+  LIVE: <!-- Feasibility Check Panel (Collapsible) -->
+  LIVE: <div id="feasibility-check-panel" class="hidden" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+  LIVE: <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+  LIVE: ✅ Feasibility Check & KSEB Verification
+  LIVE: </h4>
+  LIVE: <p style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.45;">Verify KSEB section offices and perform feasibility checks for new customer installations.</p>
+  LIVE: <div style="background: var(--color-bg-alt); padding: 1rem; border-radius: 8px; text-align: center;">
+  LIVE: <span style="display:block; font-size: 0.85rem; font-weight:600; color:var(--color-text); margin-bottom: 0.5rem;">KSEB Section Office Verification</span>
+  LIVE: <a href="https://wss.kseb.in/selfservices/reCap" target="_blank" rel="noopener" class="cta-btn primary-btn" style="display:inline-block; font-size:0.8rem; padding: 0.5rem 1rem; text-decoration:none;">
+  LIVE: Verify at wss.kseb.in ↗
+  LIVE: </a>
+  LIVE: </div>
+  LIVE: </div>
+  LIVE: <!-- Allocated Leads Panel (Collapsible) -->
+  LIVE: <div id="allocated-leads-panel" class="hidden" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+  LIVE: <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+  LIVE: 📋 Allocated Customer Inquiries
+  LIVE: </h4>
+  LIVE: <p style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.45;">Below are inquiries submitted by customers selecting your dealership area on the feasibility form.</p>
+  LIVE: <div id="allocated-leads-list" style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 350px; overflow-y: auto; padding-right: 0.3rem;">
+  LIVE: <!-- Dynamically Injected leads list -->
+  LIVE: </div>
+  LIVE: </div>
+  LIVE: <!-- Saved Quotes Panel (Collapsible) -->
+  LIVE: <div id="saved-quotes-panel" class="hidden" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+  LIVE: <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+  LIVE: 💾 Saved Quotations
+  LIVE: </h4>
+  LIVE: <p style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.45;">Your generated quotes saved to this browser.</p>
+  LIVE: <div id="saved-quotes-list" style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 350px; overflow-y: auto; padding-right: 0.3rem;">
+  LIVE: </div>
+  LIVE: </div>
+  LIVE: <!-- Change PIN Panel (Collapsible) -->
+  LIVE: <div id="dashboard-change-pin-panel" class="hidden" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+  LIVE: <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+  LIVE: 🔒 Change Security PIN
+  LIVE: </h4>
+  LIVE: <form id="dash-change-pin-form" onsubmit="handleDashPinChange(event)">
+  LIVE: <div class="form-group" style="margin-bottom: 0.8rem;">
+  LIVE: <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block;">Old PIN</label>
+  LIVE: <input type="password" id="dash-old-pin" maxlength="4" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required pattern="[0-9]{4}">
+  LIVE: </div>
+  LIVE: <div class="form-group" style="margin-bottom: 0.8rem;">
+  LIVE: <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block;">New PIN</label>
+  LIVE: <input type="password" id="dash-new-pin" maxlength="4" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required pattern="[0-9]{4}">
+  LIVE: </div>
+  LIVE: <div class="form-group" style="margin-bottom: 0.8rem;">
+  LIVE: <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block;">Confirm New PIN</label>
+  LIVE: <input type="password" id="dash-confirm-pin" maxlength="4" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required pattern="[0-9]{4}">
+  LIVE: </div>
+  LIVE: <div id="dash-change-pin-feedback" class="form-feedback hidden"></div>
+  LIVE: <button type="submit" class="cta-btn primary-btn full-width" style="margin-top: 0.5rem; padding: 0.65rem; border-radius: 8px;">
+  LIVE: Update PIN
+  LIVE: </button>
+  LIVE: </form>
+  LIVE: </div>
+  LIVE: <!-- Solar Quotation Generator Card -->
+  LIVE: <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;" id="quotation-form-section">
+  LIVE: <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); display: flex; align-items: center; gap: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+  LIVE: ⚡ Solar Quotation Generator
+  LIVE: </h4>
+  LIVE: <p style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.45;">Generate custom, print-ready quotations for customer proposals and official KSEB net-metering applications.</p>
+  LIVE: <form id="quote-generator-form" onsubmit="event.preventDefault();">
+  LIVE: <div class="form-group" style="margin-bottom: 0.8rem;">
+  LIVE: <div class="quote-grid-2">
+  LIVE: <input type="text" id="quote-cust-name" placeholder="e.g. Radhakrishnan Nair" style="text-transform: uppercase; width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+  LIVE: <div class="form-group" style="margin-bottom: 0.8rem;">
+  LIVE: <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Installation Address</label>
+  LIVE: <input type="text" id="quote-cust-addr" placeholder="e.g. House No 15, Near Temple, Alappuzha" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+  LIVE: </div>
+  LIVE: <div class="form-group" style="margin-bottom: 0.8rem;">
+  LIVE: <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">KSEB Section</label>
+  LIVE: <select id="quote-kseb-section" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+  LIVE: <option value="">-- Auto-filled by Partner District --</option>
+  LIVE: </select>
+  LIVE: </div>
+  LIVE: <div class="quote-grid-3">
+  LIVE: <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Capacity (kWp)</label>
+  LIVE: <input type="number" id="quote-capacity" value="3" min="1" max="100" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+  LIVE: </div>
+  LIVE: <select id="quote-panel-brand" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+  LIVE: <div class="quote-grid-2">
+  LIVE: <select id="quote-roof-type" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+  LIVE: <select id="quote-phase" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+  LIVE: <div class="quote-grid-3">
+  LIVE: <div class="quote-grid-2" style="margin-top: 1.2rem;">
+  LIVE: <div class="tech-settings-box">
+  LIVE: <h4>📘 Partner Resources &amp; Downloads</h4>
+  LIVE: <p class="settings-intro">Authorized document downloads and technical rules for KSEB Soura integration.</p>
+  LIVE: <div class="settings-table">
+  LIVE: <div class="settings-row">
+  LIVE: <span class="sett-lbl">KSEB Feasibility Specs</span>
+  LIVE: <span class="sett-val"><a href="https://www.kseb.in/images/soura/Soura_Phase_II_Guidelines.pdf" target="_blank" rel="noopener" style="color: var(--color-sun-yellow);">Download PDF Guide</a></span>
+  LIVE: </div>
+  LIVE: <div class="settings-row">
+  LIVE: <span class="sett-lbl">Proforma Invoice Template</span>
+  LIVE: <span class="sett-val"><a href="javascript:void(0)" onclick="downloadProformaTemplate()" style="color: var(--color-sun-yellow);">Download Excel Sheet</a></span>
+  LIVE: </div>
+  LIVE: <div class="settings-row">
+  LIVE: <span class="sett-lbl">Net Metering Checklist</span>
+  LIVE: <span class="sett-val"><a href="javascript:void(0)" onclick="showChecklistModal()" style="color: var(--color-sun-yellow);">View Online List</a></span>
+  LIVE: // Reset to default PIN 2277
+  LIVE: localStorage.removeItem('partner_pin_' + matchedDealer.code);
+  LIVE: const defaultPin = '2277';
+  LIVE: alert(`Your PIN has been reset to the default PIN (${defaultPin}). An SMS notification has been sent to ${matchedDealer.phone} and a copy to info@sunovasolar.in.`);
+  LIVE: if (requiredPin === '2277') {
+  LIVE: // Complete session login
+  LIVE: localStorage.setItem('partner_code', tempLoginDealerCode);
+  LIVE: // Hide change pin view, show dashboard
+  LIVE: showDashboard(tempLoginDealerCode);
+  LIVE: const panel = document.getElementById('dashboard-change-pin-panel');
+  LIVE: document.getElementById('dash-old-pin').value = '';
+  LIVE: document.getElementById('dash-new-pin').value = '';
+  LIVE: document.getElementById('dash-confirm-pin').value = '';
+  LIVE: document.getElementById('dash-change-pin-feedback').classList.add('hidden');
+  LIVE: feedback.textContent = 'PIN updated successfully!';
+  LIVE: toggleChangePinPanel();
+  LIVE: // Dynamically inject dealer detailed profile rows
+  LIVE: let infoContainer = document.getElementById('dealer-profile-details');
+  LIVE: if (!infoContainer) {
+  LIVE: infoContainer = document.createElement('div');
+  LIVE: infoContainer.id = 'dealer-profile-details';
+  LIVE: infoContainer.style.background = 'rgba(255, 255, 255, 0.02)';
+  LIVE: infoContainer.style.border = '1px solid var(--color-border)';
+  LIVE: infoContainer.style.borderRadius = '15px';
+  LIVE: infoContainer.style.padding = '1.2rem';
+  LIVE: infoContainer.style.marginBottom = '1.5rem';
+  LIVE: infoContainer.style.fontSize = '0.84rem';
+  LIVE: infoContainer.style.lineHeight = '1.6';
+  LIVE: infoContainer.innerHTML = `
+  LIVE: <h4 style="margin-top: 0; margin-bottom: 0.8rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; color: var(--color-sun-yellow);">📋 Authorized Profile Details</h4>
+  LIVE: <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+  LIVE: <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+  LIVE: <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+  LIVE: <div style="display: flex; justify-content: space-between;">
+  LIVE: const dashView = document.getElementById('dashboard-view');
+  LIVE: const resourceBox = dashView.querySelector('.tech-settings-box');
+  LIVE: dashView.insertBefore(infoContainer, resourceBox);
+  LIVE: const capacityVal = parseFloat(document.getElementById('quote-capacity').value);
+  LIVE: if (!/^[0-5]\d{9}$/.test(phone)) {
+  LIVE: alert('Please enter a valid 10-digit mobile number that does NOT start with 6, 7, 8, or 9.');
+  LIVE: if (capacityVal === 3) {
+  LIVE: grossTotal = (customPricing && customPricing['3']) ? parseFloat(customPricing['3']) : 220000;
+  LIVE: } else if (capacityVal === 5) {
+  LIVE: grossTotal = (customPricing && customPricing['5']) ? parseFloat(customPricing['5']) : 320000;
+  LIVE: grossTotal = capacityVal * ((customPricing && customPricing['other']) ? parseFloat(customPricing['other']) : 64000);
+
+Items in LOCAL but NOT in LIVE (Count=438):
+  LOCAL: <div class="portal-selector" style="display: flex; gap: 10px; justify-content: center; margin-top: 15px; margin-bottom: 10px;" id="portal-tabs">
+  LOCAL: <button type="button" class="cta-btn outline-btn" onclick="window.location.href='login.html'" style="padding: 8px 16px; font-size: 14px; flex: 1; border-color: var(--color-sun-yellow); color: var(--color-sun-yellow);">Staff Login</button>
+  LOCAL: <button type="button" class="cta-btn primary-btn" style="padding: 8px 16px; font-size: 14px; flex: 1; cursor: default;">Partner Login</button>
+  LOCAL: </div>
+  LOCAL: <!-- Change PIN Corner Panel -->
+  LOCAL: <div style="position: absolute; top: 15px; right: 15px; width: 140px; background: rgba(0,0,0,0.6); border: 1px solid var(--color-border); border-radius: 12px; padding: 12px; text-align: left; z-index: 10; backdrop-filter: blur(10px);">
+  LOCAL: <h5 style="margin: 0; color: var(--color-sun-yellow); font-size: 0.75rem; font-weight: 600; cursor: pointer; user-select: none;" onclick="document.getElementById('dash-change-pin-form').classList.toggle('hidden')">🔒 Change PIN <span style="float:right; font-size: 0.6rem; margin-top: 2px;">▼</span></h5>
+  LOCAL: <form id="dash-change-pin-form" class="hidden" onsubmit="handleDashPinChange(event)" style="margin-top: 0.8rem;">
+  LOCAL: <div style="display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 0.5rem;">
+  LOCAL: <div>
+  LOCAL: <input type="password" id="dash-old-pin" maxlength="4" placeholder="Old PIN" style="width: 100%; padding: 0.4rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text); font-size: 0.75rem;" required pattern="[0-9]{4}">
+  LOCAL: </div>
+  LOCAL: <div>
+  LOCAL: <input type="password" id="dash-new-pin" maxlength="4" placeholder="New PIN" style="width: 100%; padding: 0.4rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text); font-size: 0.75rem;" required pattern="[0-9]{4}">
+  LOCAL: </div>
+  LOCAL: <div>
+  LOCAL: <input type="password" id="dash-confirm-pin" maxlength="4" placeholder="Confirm PIN" style="width: 100%; padding: 0.4rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text); font-size: 0.75rem;" required pattern="[0-9]{4}">
+  LOCAL: </div>
+  LOCAL: </div>
+  LOCAL: <div id="dash-change-pin-feedback" class="form-feedback hidden" style="font-size: 0.65rem; padding: 0.3rem; margin-bottom: 0.4rem;"></div>
+  LOCAL: <button type="submit" class="cta-btn primary-btn full-width" style="padding: 0.4rem; border-radius: 6px; font-size: 0.7rem;">
+  LOCAL: Update PIN
+  LOCAL: </button>
+  LOCAL: </form>
+  LOCAL: </div>
+  LOCAL: <div class="success-badge" style="margin-bottom: 1rem;">
+  LOCAL: <!-- Solar Quotation Generator Card -->
+  LOCAL: <div class="glass-card quote-generator-box" style="margin-top: 1.5rem; border: 1px solid var(--color-sun-yellow); background: rgba(255, 255, 255, 0.02); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+  LOCAL: <h4 style="color: var(--color-sun-yellow); margin-top: 0; font-family: var(--font-heading); font-size: 1rem; margin-bottom: 0.3rem;">⚡ Solar Quotation Generator</h4>
+  LOCAL: <p style="font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 1.2rem; line-height: 1.4;">Generate custom, print-ready quotations for customer proposals and official KSEB net-metering applications.</p>
+  LOCAL: <form id="quote-generator-form" onsubmit="return false;">
+  LOCAL: <div class="form-group" style="margin-bottom: 1rem;">
+  LOCAL: <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem;">
+  LOCAL: <input type="text" id="quote-cust-name" placeholder="e.g. Radhakrishnan Nair" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+  LOCAL: <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem;">
+  LOCAL: <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Installation Address</label>
+  LOCAL: <input type="text" id="quote-cust-addr" placeholder="e.g. House No 15, Near Temple, Alappuzha" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+  LOCAL: </div>
+  LOCAL: <div class="form-group">
+  LOCAL: <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">District</label>
+  LOCAL: <select id="quote-district" onchange="onPortalDistrictChange()" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+  LOCAL: <option value="">-- Select District --</option>
+  LOCAL: <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+  LOCAL: <option value="Kollam">Kollam</option>
+  LOCAL: <option value="Pathanamthitta">Pathanamthitta</option>
+  LOCAL: <option value="Alappuzha">Alappuzha</option>
+  LOCAL: <option value="Kottayam">Kottayam</option>
+  LOCAL: <option value="Idukki">Idukki</option>
+  LOCAL: <option value="Ernakulam">Ernakulam</option>
+  LOCAL: <option value="Thrissur">Thrissur</option>
+  LOCAL: <option value="Palakkad">Palakkad</option>
+  LOCAL: <option value="Malappuram">Malappuram</option>
+  LOCAL: <option value="Kozhikode">Kozhikode</option>
+  LOCAL: <option value="Wayanad">Wayanad</option>
+  LOCAL: <option value="Kannur">Kannur</option>
+  LOCAL: <option value="Kasaragod">Kasaragod</option>
+  LOCAL: </select>
+  LOCAL: </div>
+  LOCAL: </div>
+  LOCAL: <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem;">
+  LOCAL: <div class="form-group">
+  LOCAL: <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 0.3rem;">
+  LOCAL: <label style="font-size: 0.76rem; color: var(--color-text); display: block; font-weight: 600; margin: 0;">KSEB Section</label>
+  LOCAL: <a href="https://wss.kseb.in/selfservices/reCap" target="_blank" rel="noopener" style="font-size: 0.7rem; color: #28a745; text-decoration: underline;" title="Feasibility Check">Verify at wss.kseb.in ↗</a>
+  LOCAL: </div>
+  LOCAL: <select id="quote-kseb-section" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+  LOCAL: <option value="">-- Select KSEB Section --</option>
+  LOCAL: </select>
+  LOCAL: </div>
+  LOCAL: <div class="form-group">
+  LOCAL: <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">System Configuration</label>
+  LOCAL: <select id="quote-capacity" onchange="recalculateLivePrice()" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+  LOCAL: <option value="3">3 kW</option>
+  LOCAL: <option value="5">5 kW</option>
+  LOCAL: <option value="5_3">5 kW Inverter + 3 kW Panels</option>
+  LOCAL: </select>
+  LOCAL: </div>
+  LOCAL: </div>
+  LOCAL: <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem;">
+  LOCAL: <select id="quote-panel-brand" onchange="recalculateLivePrice()" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+  LOCAL: <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem;">
+  LOCAL: <select id="quote-roof-type" onchange="recalculateLivePrice()" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+  LOCAL: <select id="quote-phase" onchange="recalculateLivePrice()" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+  LOCAL: <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem;">
+  LOCAL: <div class="form-group">
+  LOCAL: <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Number of Floors</label>
+  LOCAL: <input type="number" id="quote-floors" onchange="recalculateLivePrice()" value="1" min="1" max="10" step="1" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+  LOCAL: </div>
+  LOCAL: <div class="form-group">
+  LOCAL: <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Truss Work</label>
+  LOCAL: <select id="quote-truss" onchange="recalculateLivePrice()" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+  LOCAL: <option value="No">No Truss Work</option>
+  LOCAL: <option value="Yes">With Truss Work</option>
+  LOCAL: </select>
+  LOCAL: </div>
+  LOCAL: <div class="form-group">
+  LOCAL: <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Structure Material</label>
+  LOCAL: <select id="quote-material" onchange="recalculateLivePrice()" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+  LOCAL: <option value="Sunova">By Sunova Solar</option>
+  LOCAL: <option value="Customer">By Customer</option>
+  LOCAL: </select>
+  LOCAL: </div>
+  LOCAL: </div>
+  LOCAL: <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem;">
+  LOCAL: <div id="live-price-display" style="text-align: center; margin-top: 1rem; font-size: 1.1rem; font-weight: 700; color: #28a745; background: rgba(40, 167, 69, 0.1); padding: 0.5rem; border-radius: 8px;">
+  LOCAL: Estimated Total: ₹ <span id="live-price-amount">0</span>
+  LOCAL: </div>
+  LOCAL: <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1.2rem;">
+  LOCAL: <!-- Profile Details Panel -->
+  LOCAL: <div id="profile-details-panel" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+  LOCAL: <h4 style="margin-top: 0; margin-bottom: 0.8rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; color: var(--color-sun-yellow); font-family: var(--font-heading); font-size: 1rem;">📋 Authorized Profile Details</h4>
+  LOCAL: <!-- Dynamically injected profile rows -->
+  LOCAL: <div id="profile-details-rows"></div>
+  LOCAL: </div>
+  LOCAL: <div class="tech-settings-box" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+  LOCAL: <h4 style="margin-top: 0; margin-bottom: 0.4rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; color: var(--color-sun-yellow); font-family: var(--font-heading); font-size: 1rem;">📘 Partner Resources &amp; Downloads</h4>
+  LOCAL: <p class="settings-intro" style="font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 1.2rem;">Authorized document downloads and technical rules for KSEB Soura integration.</p>
+  LOCAL: <div class="settings-table" style="display: flex; flex-direction: column; gap: 0.8rem;">
+  LOCAL: <div class="settings-row" style="display: flex; justify-content: space-between; font-size: 0.82rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem;">
+  LOCAL: <span class="sett-lbl" style="font-weight: 600;">KSEB Feasibility Specs</span>
+  LOCAL: <span class="sett-val"><a href="https://www.kseb.in/images/soura/Soura_Phase_II_Guidelines.pdf" target="_blank" rel="noopener" style="color: var(--color-sun-yellow); text-decoration: none;">Download PDF Guide</a></span>
+  LOCAL: </div>
+  LOCAL: <div class="settings-row" style="display: flex; justify-content: space-between; font-size: 0.82rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem;">
+  LOCAL: <span class="sett-lbl" style="font-weight: 600;">Proforma Invoice Template</span>
+  LOCAL: <span class="sett-val"><a href="javascript:void(0)" onclick="downloadProformaTemplate()" style="color: var(--color-sun-yellow); text-decoration: none;">Download Excel Sheet</a></span>
+  LOCAL: </div>
+  LOCAL: <div class="settings-row" style="display: flex; justify-content: space-between; font-size: 0.82rem;">
+  LOCAL: <span class="sett-lbl" style="font-weight: 600;">Net Metering Checklist</span>
+  LOCAL: <span class="sett-val"><a href="javascript:void(0)" onclick="showChecklistModal()" style="color: var(--color-sun-yellow); text-decoration: none;">View Online List</a></span>
+  LOCAL: <!-- Lead metrics quick stats -->
+  LOCAL: <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+  LOCAL: <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; text-align: center;">
+  LOCAL: <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Active Leads</span>
+  LOCAL: <div id="partner-active-leads" style="font-size: 1.8rem; font-weight: 700; color: var(--color-sun-yellow); margin-top: 0.25rem;">0</div>
+  LOCAL: </div>
+  LOCAL: <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; text-align: center;">
+  LOCAL: <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Commission Earned</span>
+  LOCAL: <div id="partner-commission-earned" style="font-size: 1.4rem; font-weight: 700; color: var(--color-text); margin-top: 0.45rem;">₹0</div>
+  LOCAL: </div>
+  LOCAL: </div>
+  LOCAL: <!-- Launch Buttons -->
+  LOCAL: <div class="portal-actions-grid" style="display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1.5rem;">
+  LOCAL: <button type="button" onclick="toggleLeadsAndQuotes()" class="cta-btn primary-btn text-center full-width" style="cursor: pointer; width: 100%; border: none; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
+  LOCAL: 📂 View Enquiries &amp; Saved Quotations
+  LOCAL: </button>
+  LOCAL: </div>
+  LOCAL: <!-- Combined Enquiries + Saved Quotations Panel -->
+  LOCAL: <div id="leads-quotes-panel" class="hidden" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+  LOCAL: <!-- Sub-tab buttons -->
+  LOCAL: <div style="display: flex; gap: 0; margin-bottom: 1rem; border-radius: 10px; overflow: hidden; border: 1px solid var(--color-border);">
+  LOCAL: <button id="tab-btn-leads" onclick="switchLeadsQuotesTab('leads')" style="flex: 1; padding: 0.6rem; font-size: 0.8rem; font-weight: 600; background: var(--color-sun-yellow); color: #0d1321; border: none; cursor: pointer; transition: all 0.2s;">
+  LOCAL: 📋 Allocated Enquiries
+  LOCAL: </button>
+  LOCAL: <button id="tab-btn-quotes" onclick="switchLeadsQuotesTab('quotes')" style="flex: 1; padding: 0.6rem; font-size: 0.8rem; font-weight: 600; background: rgba(255,255,255,0.04); color: var(--color-text-muted); border: none; cursor: pointer; transition: all 0.2s;">
+  LOCAL: 💾 Saved Quotations
+  LOCAL: </button>
+  LOCAL: </div>
+  LOCAL: <!-- Enquiries sub-tab -->
+  LOCAL: <div id="sub-tab-leads">
+  LOCAL: <p style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.45;">Below are inquiries submitted by customers selecting your dealership area on the feasibility form.</p>
+  LOCAL: <div id="allocated-leads-list" style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 380px; overflow-y: auto; padding-right: 0.3rem;"></div>
+  LOCAL: </div>
+  LOCAL: <!-- Saved Quotations sub-tab -->
+  LOCAL: <div id="sub-tab-quotes" style="display: none;">
+  LOCAL: <p style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.45;">Your generated quotes saved to this browser.</p>
+  LOCAL: <div id="saved-quotes-list" style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 380px; overflow-y: auto; padding-right: 0.3rem;"></div>
+  LOCAL: </div>
+  LOCAL: </div>
+  LOCAL: <!-- Legacy hidden panels kept for backward-compat -->
+  LOCAL: <div id="allocated-leads-panel" class="hidden" style="display:none;"></div>
+  LOCAL: <div id="saved-quotes-panel" class="hidden" style="display:none;"></div>
+  LOCAL: <div id="dashboard-change-pin-panel" class="hidden" style="display:none;"></div>
+  LOCAL: // Reset to random 4-digit PIN
+  LOCAL: const defaultPin = Math.floor(1000 + Math.random() * 9000).toString();
+  LOCAL: localStorage.setItem('partner_pin_' + matchedDealer.code, defaultPin);
+  LOCAL: localStorage.setItem('partner_must_change_pin_' + matchedDealer.code, 'true');
+  LOCAL: alert(`Your PIN has been reset to the default PIN (${defaultPin}). An SMS notification has been sent to ${matchedDealer.phone} by whatsapp and text message and a copy to info@sunovasolar.in. by mail`);
+  LOCAL: if (requiredPin === '2277' || localStorage.getItem('partner_must_change_pin_' + matchedDealer.code) === 'true') {
+  LOCAL: localStorage.removeItem('partner_must_change_pin_' + tempLoginDealerCode);
+  LOCAL: // Prompt user to log in again
+  LOCAL: alert('PIN successfully updated! Please log in with your new PIN.');
+  LOCAL: // Hide change pin view, show login view
+  LOCAL: document.getElementById('login-view').classList.remove('hidden');
+  LOCAL: // Reset forms
+  LOCAL: document.getElementById('change-pin-form').reset();
+  LOCAL: document.getElementById('portal-login-form').reset();
+  LOCAL: tempLoginDealerCode = '';
+  LOCAL: function toggleProfilePanel() {
+  LOCAL: const panel = document.getElementById('profile-details-panel');
+  LOCAL: panel.classList.toggle('hidden');
+  LOCAL: if (!panel.classList.contains('hidden')) {
+  LOCAL: // Clear pin fields when opening
+  LOCAL: ['dash-old-pin','dash-new-pin','dash-confirm-pin'].forEach(id => {
+  LOCAL: const el = document.getElementById(id);
+  LOCAL: if (el) el.value = '';
+  LOCAL: });
+  LOCAL: const fb = document.getElementById('dash-change-pin-feedback');
+  LOCAL: if (fb) fb.classList.add('hidden');
+  LOCAL: }
+  LOCAL: }
+  LOCAL: // Redirect to profile panel (backward compat)
+  LOCAL: toggleProfilePanel();
+  LOCAL: }
+  LOCAL: function toggleLeadsAndQuotes() {
+  LOCAL: const panel = document.getElementById('leads-quotes-panel');
+  LOCAL: switchLeadsQuotesTab('leads');
+  LOCAL: function switchLeadsQuotesTab(tab) {
+  LOCAL: const leadsDiv = document.getElementById('sub-tab-leads');
+  LOCAL: const quotesDiv = document.getElementById('sub-tab-quotes');
+  LOCAL: const leadsBtn = document.getElementById('tab-btn-leads');
+  LOCAL: const quotesBtn = document.getElementById('tab-btn-quotes');
+  LOCAL: if (tab === 'leads') {
+  LOCAL: leadsDiv.style.display = '';
+  LOCAL: quotesDiv.style.display = 'none';
+  LOCAL: leadsBtn.style.background = 'var(--color-sun-yellow)';
+  LOCAL: leadsBtn.style.color = '#0d1321';
+  LOCAL: quotesBtn.style.background = 'rgba(255,255,255,0.04)';
+  LOCAL: quotesBtn.style.color = 'var(--color-text-muted)';
+  LOCAL: renderAllocatedLeads();
+  LOCAL: } else {
+  LOCAL: leadsDiv.style.display = 'none';
+  LOCAL: quotesDiv.style.display = '';
+  LOCAL: quotesBtn.style.background = 'var(--color-sun-yellow)';
+  LOCAL: quotesBtn.style.color = '#0d1321';
+  LOCAL: leadsBtn.style.background = 'rgba(255,255,255,0.04)';
+  LOCAL: leadsBtn.style.color = 'var(--color-text-muted)';
+  LOCAL: renderSavedQuotes();
+  LOCAL: }
+  LOCAL: }
+  LOCAL: // Also keep backward compat toggles
+  LOCAL: function toggleAllocatedLeads() { toggleLeadsAndQuotes(); }
+  LOCAL: function toggleSavedQuotes() {
+  LOCAL: const panel = document.getElementById('leads-quotes-panel');
+  LOCAL: if (panel.classList.contains('hidden')) {
+  LOCAL: panel.classList.remove('hidden');
+  LOCAL: }
+  LOCAL: switchLeadsQuotesTab('quotes');
+  LOCAL: }
+  LOCAL: function toggleFeasibilityPanel() {
+  LOCAL: // Feasibility panel is now inline — no-op kept for backward compat
+  LOCAL: }
+  LOCAL: function onPortalDistrictChange() {
+  LOCAL: const dist = document.getElementById('quote-district').value;
+  LOCAL: populateKSEBSections(dist);
+  LOCAL: }
+  LOCAL: feedback.textContent = 'PIN updated successfully! Please log in again.';
+  LOCAL: alert('Your PIN was changed. For your security, please log in again.');
+  LOCAL: logoutPartner();
+  LOCAL: const portalTabs = document.getElementById('portal-tabs');
+  LOCAL: if (portalTabs) portalTabs.style.display = 'none';
+  LOCAL: // Inject dealer profile rows into the new profile-details-rows container
+  LOCAL: const profileRows = document.getElementById('profile-details-rows');
+  LOCAL: if (profileRows) {
+  LOCAL: profileRows.innerHTML = `
+  LOCAL: <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem; font-size: 0.84rem; line-height: 1.6;">
+  LOCAL: <span style="color: var(--color-text-muted);">Partner Name:</span>
+  LOCAL: <strong style="color: var(--color-sun-yellow);">${dealer.name}</strong>
+  LOCAL: </div>
+  LOCAL: <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem; font-size: 0.84rem; line-height: 1.6;">
+  LOCAL: <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem; font-size: 0.84rem; line-height: 1.6;">
+  LOCAL: <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem; font-size: 0.84rem; line-height: 1.6;">
+  LOCAL: <div style="display: flex; justify-content: space-between; font-size: 0.84rem; line-height: 1.6;">
+  LOCAL: }
+  LOCAL: // Auto-set District dropdown in Quotation Generator to partner's district
+  LOCAL: const quoteDistrict = document.getElementById('quote-district');
+  LOCAL: if (quoteDistrict && dealer.district) {
+  LOCAL: quoteDistrict.value = dealer.district;
+  LOCAL: populateKSEBSections(dealer.district);
+  LOCAL: function recalculateLivePrice() {
+  LOCAL: const capacityStr = document.getElementById('quote-capacity').value;
+  LOCAL: const capacityVal = parseFloat(capacityStr);
+  LOCAL: const floors = parseInt(document.getElementById('quote-floors').value) || 1;
+  LOCAL: const trussWork = document.getElementById('quote-truss').value;
+  LOCAL: const structMat = document.getElementById('quote-material').value;
+  LOCAL: const panelModel = document.getElementById('quote-panel-brand').value;
+  LOCAL: const phase = document.getElementById('quote-phase').value;
+  LOCAL: const roofType = document.getElementById('quote-roof-type').value;
+  LOCAL: const is5_3 = capacityStr === '5_3';
+  LOCAL: const panelKw = (capacityStr === '3' || is5_3) ? 3 : 5;
+  LOCAL: let grossTotal = 0;
+  LOCAL: // Base pricing
+  LOCAL: if (panelModel === 'Emmvee') {
+  LOCAL: if (capacityStr === '3') grossTotal = 200000;
+  LOCAL: else if (capacityStr === '5' && phase === 'Single Phase') grossTotal = 290000;
+  LOCAL: else if (capacityStr === '5' && phase === 'Three Phase') grossTotal = 310000;
+  LOCAL: else if (is5_3 && phase === 'Single Phase') grossTotal = 240000;
+  LOCAL: else if (is5_3 && phase === 'Three Phase') grossTotal = 260000;
+  LOCAL: } else if (panelModel === 'Adani') {
+  LOCAL: if (capacityStr === '3') grossTotal = 210000;
+  LOCAL: else if (capacityStr === '5' && phase === 'Single Phase') grossTotal = 300000;
+  LOCAL: else if (capacityStr === '5' && phase === 'Three Phase') grossTotal = 320000;
+  LOCAL: else if (is5_3 && phase === 'Single Phase') grossTotal = 250000;
+  LOCAL: else if (is5_3 && phase === 'Three Phase') grossTotal = 270000;
+  LOCAL: } else {
+  LOCAL: grossTotal = capacityVal * 64000; // Fallback
+  LOCAL: }
+  LOCAL: // Roof & Truss Add-ons
+  LOCAL: if (roofType === 'RCC') {
+  LOCAL: if (trussWork === 'Yes') grossTotal += (panelKw === 3 ? 3500 : 6500);
+  LOCAL: if (floors >= 3) grossTotal += (floors - 2) * 5000;
+  LOCAL: } else {
+  LOCAL: if (trussWork === 'Yes') grossTotal += (panelKw === 3 ? 6500 : 8500);
+  LOCAL: else grossTotal += (panelKw === 3 ? 5000 : 6000);
+  LOCAL: if (floors >= 2) grossTotal += (floors - 1) * 5000;
+  LOCAL: }
+  LOCAL: // Material Discount
+  LOCAL: if (structMat === 'Customer') {
+  LOCAL: grossTotal -= (panelKw === 3 ? 15000 : 25000);
+  LOCAL: }
+  LOCAL: document.getElementById('live-price-amount').innerText = grossTotal.toLocaleString('en-IN');
+  LOCAL: }
+  LOCAL: // Call once on load to set initial price
+  LOCAL: document.addEventListener('DOMContentLoaded', () => {
+  LOCAL: setTimeout(recalculateLivePrice, 500);
+  LOCAL: });
+  LOCAL: const capacityStr = document.getElementById('quote-capacity').value;
+  LOCAL: const capacityVal = parseFloat(capacityStr);
+  LOCAL: const floors = parseInt(document.getElementById('quote-floors').value) || 1;
+  LOCAL: const trussWork = document.getElementById('quote-truss').value;
+  LOCAL: const structMat = document.getElementById('quote-material').value;
+  LOCAL: if (!/^[6-9]\d{9}$/.test(phone)) {
+  LOCAL: alert('Please enter a valid 10-digit mobile number that starts with 6, 7, 8, or 9.');
+  LOCAL: const is5_3 = capacityStr === '5_3';
+  LOCAL: const panelKw = (capacityStr === '3' || is5_3) ? 3 : 5;
+  LOCAL: // Base pricing
+  LOCAL: if (panelModel === 'Emmvee') {
+  LOCAL: if (capacityStr === '3') grossTotal = 200000;
+  LOCAL: else if (capacityStr === '5' && phase === 'Single Phase') grossTotal = 290000;
+  LOCAL: else if (capacityStr === '5' && phase === 'Three Phase') grossTotal = 310000;
+  LOCAL: else if (is5_3 && phase === 'Single Phase') grossTotal = 240000;
+  LOCAL: else if (is5_3 && phase === 'Three Phase') grossTotal = 260000;
+  LOCAL: } else if (panelModel === 'Adani') {
+  LOCAL: if (capacityStr === '3') grossTotal = 210000;
+  LOCAL: else if (capacityStr === '5' && phase === 'Single Phase') grossTotal = 300000;
+  LOCAL: else if (capacityStr === '5' && phase === 'Three Phase') grossTotal = 320000;
+  LOCAL: else if (is5_3 && phase === 'Single Phase') grossTotal = 250000;
+  LOCAL: else if (is5_3 && phase === 'Three Phase') grossTotal = 270000;
+  LOCAL: grossTotal = capacityVal * 64000; // Fallback
+  LOCAL: // Roof & Truss Add-ons
+  LOCAL: if (roofType === 'RCC') {
+  LOCAL: if (trussWork === 'Yes') grossTotal += (panelKw === 3 ? 3500 : 6500);
+  LOCAL: if (floors >= 3) grossTotal += (floors - 2) * 5000;
+  LOCAL: } else {
+  LOCAL: if (trussWork === 'Yes') grossTotal += (panelKw === 3 ? 6500 : 8500);
+  LOCAL: else grossTotal += (panelKw === 3 ? 5000 : 6000);
+  LOCAL: if (floors >= 2) grossTotal += (floors - 1) * 5000;
+  LOCAL: }
+  LOCAL: // Material Discount
+  LOCAL: if (structMat === 'Customer') {
+  LOCAL: grossTotal -= (panelKw === 3 ? 15000 : 25000);
+  LOCAL: }
+  LOCAL: const subsidy = 78000;
+  LOCAL: <div style="page-break-inside: avoid; margin-top: 1.5rem;">
+  LOCAL: <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">DOCUMENTS NEEDED FOR MNRE REGISTRATION (Cash Purchase)</h4>
+  LOCAL: <ul style="list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1.5rem; font-size: 0.8rem; line-height: 1.6;">
+  LOCAL: <li>KSEB BILL</li>
+  LOCAL: <li>PASSBOOK FRONT PAGE COPY / BLANK CHEQUE PHOTO</li>
+  LOCAL: <li>AADHAR CARD COPY FRONT & BACK</li>
+  LOCAL: <li>EMAIL ID</li>
+  LOCAL: <li>MOBILE NO</li>
+  LOCAL: </ul>
+  LOCAL: <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">DOCUMENTS NEEDED FOR LOAN</h4>
+  LOCAL: <ul style="list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1.5rem; font-size: 0.8rem; line-height: 1.6;">
+  LOCAL: <li>KSEB BILL</li>
+  LOCAL: <li>EMAIL ID (MUST BE ACCOUNT LINKED EMAIL)</li>
+  LOCAL: <li>AADHAR CARD</li>
+  LOCAL: <li>PANCARD</li>
+  LOCAL: <li>BLANK CHEQUE PHOTO / PASS BOOK FRONT PAGE PHOTO</li>
+  LOCAL: <li>LAND TAX</li>
+  LOCAL: <li>BUILDING TAX</li>
+  LOCAL: <li>GEOTAG PHOTOS OF HOUSE</li>
+  LOCAL: </ul>
+  LOCAL: <div style="background: rgba(239, 68, 68, 0.05); padding: 0.75rem; border-left: 4px solid #c5221f; margin-bottom: 1.5rem; font-size: 0.75rem; color: #c5221f;">
+  LOCAL: <strong>NB:</strong> CO-APPLICANT (HUSBAND, WIFE, SON, DAUGHTER, SON IN-LAW, DAUGHTER IN-LAW) NEEDED IF CONSUMER AGE IS 65 OR ABOVE AND IF CONSUMER HAS JOINT OWNERSHIP.
+  LOCAL: </div>
+  LOCAL: <h5 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; font-weight: 700;">CO-APPLICANT DETAILS:</h5>
+  LOCAL: <ul style="list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1.5rem; font-size: 0.8rem; line-height: 1.6;">
+  LOCAL: <li>AADHAR CARD</li>
+  LOCAL: <li>PANCARD</li>
+  LOCAL: <li>ACCOUNT REGISTERED MOBILE NO (BOTH CONSUMER AND CO-APPLICANT MUST HAVE ACCOUNT IN SAME BANK NOT IN SAME BRANCH)</li>
+  LOCAL: </ul>
+  LOCAL: <div style="background: rgba(40, 167, 69, 0.1); padding: 0.75rem; border-radius: 6px; margin-bottom: 1.5rem; font-size: 0.75rem; font-weight: 600; color: #1e7e34; text-align: center;">
+  LOCAL: FOR 3KW CUSTOMERS LOAN AMOUNT WILL BE 90% OF QUOTATION AMOUNT<br>
+  LOCAL: FOR 5KW CUSTOMERS LOAN AMOUNT WILL BE 80% OF QUOTATION AMOUNT<br>
+  LOCAL: <span style="font-weight: 400; font-size: 0.7rem;">(LAST TWO YEAR ITR DOCUMENTS OR SALARY CERTIFICATE NEEDED WITH LAND TAX & BUILDING TAX)</span>
+  LOCAL: </div>
+  LOCAL: </div>
+
+
+==================================================
+FILE: login.html
+==================================================
+Items in LIVE but NOT in LOCAL (Count=0):
+
+Items in LOCAL but NOT in LIVE (Count=5):
+  LOCAL: <div class="portal-selector" style="display: flex; gap: 10px; justify-content: center; margin-top: 15px; margin-bottom: 10px;" id="portal-tabs">
+  LOCAL: <button type="button" class="cta-btn primary-btn" style="padding: 8px 16px; font-size: 14px; flex: 1; cursor: default;">Staff Login</button>
+  LOCAL: <button type="button" class="cta-btn outline-btn" onclick="window.location.href='partner-portal.html'" style="padding: 8px 16px; font-size: 14px; flex: 1; border-color: var(--color-sun-yellow); color: var(--color-sun-yellow);">Partner Login</button>
+  LOCAL: </div>
+
+
+==================================================
+FILE: style.css
+==================================================
+Items in LIVE but NOT in LOCAL (Count=85):
+  LIVE: /* Dark Theme (Default) */
+  LIVE: /* Light Theme */
+  LIVE: .light-theme {
+  LIVE: --color-bg: hsl(210, 20%, 98%);
+  LIVE: --color-bg-alt: hsl(210, 20%, 94%);
+  LIVE: --color-surface: rgba(255, 255, 255, 0.7);
+  LIVE: --color-surface-hover: rgba(255, 255, 255, 0.95);
+  LIVE: --color-surface-opaque: hsl(0, 0%, 100%);
+  LIVE: --color-text: hsl(222, 47%, 15%);
+  LIVE: --color-text-muted: hsl(215, 20%, 40%);
+  LIVE: --color-text-subtle: hsl(215, 15%, 60%);
+  LIVE: --color-border: rgba(0, 0, 0, 0.08);
+  LIVE: --color-border-focus: hsla(43, 100%, 50%, 0.6);
+  LIVE: --color-shadow: rgba(0, 0, 0, 0.08);
+  LIVE: --color-nav-bg: rgba(240, 243, 248, 0.8);
+  LIVE: --glass-opacity: 0.85;
+  LIVE: }
+  LIVE: @media(min-width: 768px) {
+  LIVE: -webkit-backdrop-filter: blur(12px);
+  LIVE: @media(min-width: 992px) {
+  LIVE: @media(max-width: 991px) {
+  LIVE: @media(min-width: 992px) {
+  LIVE: @media(min-width: 768px) {
+  LIVE: -webkit-backdrop-filter: blur(8px);
+  LIVE: -webkit-backdrop-filter: blur(16px);
+  LIVE: border: 1.5px solid rgba(255, 255, 255, 0.12) !important;
+  LIVE: -webkit-backdrop-filter: blur(20px) !important;
+  LIVE: border: 1.5px solid rgba(0, 0, 0, 0.08) !important;
+  LIVE: @media(min-width: 768px) {
+  LIVE: @media(min-width: 768px) {
+  LIVE: @media(min-width: 992px) {
+  LIVE: @media(min-width: 768px) {
+  LIVE: @media(min-width: 576px) {
+  LIVE: @media(min-width: 992px) {
+  LIVE: @media(min-width: 1200px) {
+  LIVE: -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+  LIVE: @media(min-width: 992px) {
+  LIVE: @media(max-width: 991px) {
+  LIVE: input[type=range] {
+  LIVE: input[type=range]:focus {
+  LIVE: input[type=range]::-webkit-slider-runnable-track {
+  LIVE: input[type=range]::-webkit-slider-thumb {
+  LIVE: input[type=range]::-webkit-slider-thumb:hover {
+  LIVE: input[type=number] {
+  LIVE: input[type=number]:focus {
+  LIVE: @media(min-width: 992px) {
+  LIVE: @media(min-width: 576px) {
+  LIVE: @media(min-width: 480px) {
+  LIVE: @media(min-width: 768px) {
+  LIVE: @media(min-width: 576px) {
+  LIVE: @media(min-width: 992px) {
+  LIVE: @media(min-width: 576px) {
+  LIVE: @media(min-width: 992px) {
+  LIVE: @media(min-width: 576px) {
+  LIVE: @media(min-width: 576px) {
+  LIVE: @media(min-width: 576px) {
+  LIVE: @media(min-width: 576px) {
+  LIVE: background-color: hsl(222, 47%, 4%);
+  LIVE: color: hsl(210, 20%, 98%);
+  LIVE: @media(min-width: 768px) {
+  LIVE: color: hsl(210, 20%, 98%);
+  LIVE: color: hsl(215, 12%, 65%);
+  LIVE: color: hsl(215, 12%, 65%);
+  LIVE: color: hsl(215, 12%, 65%);
+  LIVE: color: hsl(210, 20%, 98%);
+  LIVE: background-color: hsl(222, 47%, 2%);
+  LIVE: border-top: 1px solid rgba(255, 255, 255, 0.05);
+  LIVE: color: hsl(215, 12%, 50%);
+  LIVE: }
+  LIVE: @media(min-width: 576px) {
+  LIVE: transform: translate(0, 0);
+  LIVE: .manual-input-wrapper input[type=number] {
+  LIVE: .metric-input-wrapper input[type=number] {
+  LIVE: @media(min-width: 576px) {
+  LIVE: .form-size-wrapper input[type=number] {
+  LIVE: .form-size-wrapper input[type=number] {
+  LIVE: -moz-appearance: textfield;
+  LIVE: }
+  LIVE: body * {
+  LIVE: visibility: hidden !important;
+  LIVE: }
+  LIVE: #quote-modal-overlay, #quote-modal-overlay * {
+
+Items in LOCAL but NOT in LIVE (Count=331):
+  LOCAL: }
+  LOCAL: html {
+  LOCAL: /* Light Theme (Default) */
+  LOCAL: :root, .light-theme {
+  LOCAL: --color-bg: hsl(210, 20%, 98%);
+  LOCAL: --color-bg-alt: hsl(210, 20%, 94%);
+  LOCAL: --color-surface: rgba(255, 255, 255, 0.7);
+  LOCAL: --color-surface-hover: rgba(255, 255, 255, 0.95);
+  LOCAL: --color-surface-opaque: hsl(0, 0%, 100%);
+  LOCAL: --color-text: hsl(222, 47%, 15%);
+  LOCAL: --color-text-muted: hsl(215, 20%, 40%);
+  LOCAL: --color-text-subtle: hsl(215, 15%, 60%);
+  LOCAL: --color-border: rgba(0, 0, 0, 0.08);
+  LOCAL: --color-border-focus: hsla(43, 100%, 50%, 0.6);
+  LOCAL: --color-shadow: rgba(0, 0, 0, 0.08);
+  LOCAL: --color-nav-bg: rgba(240, 243, 248, 0.8);
+  LOCAL: --glass-opacity: 0.85;
+  LOCAL: }
+  LOCAL: /* Dark Theme */
+  LOCAL: @media (min-width: 768px) {
+  LOCAL: -webkit-backdrop-filter: blur(12px);
+  LOCAL: @media (min-width: 992px) {
+  LOCAL: @media (max-width: 991px) {
+  LOCAL: @media (min-width: 992px) {
+  LOCAL: @media (min-width: 768px) {
+  LOCAL: background-clip: text;
+  LOCAL: -webkit-backdrop-filter: blur(8px);
+  LOCAL: -webkit-backdrop-filter: blur(16px);
+  LOCAL: border: 2px solid rgba(255, 255, 255, 0.12) !important;
+  LOCAL: -webkit-backdrop-filter: blur(20px) !important;
+  LOCAL: border: 2px solid rgba(0, 0, 0, 0.08) !important;
+  LOCAL: @media (min-width: 768px) {
+  LOCAL: @media (min-width: 768px) {
+  LOCAL: @media (min-width: 992px) {
+  LOCAL: @media (min-width: 768px) {
+  LOCAL: @media (min-width: 576px) {
+  LOCAL: @media (min-width: 992px) {
+  LOCAL: @media (min-width: 1200px) {
+  LOCAL: -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+  LOCAL: @media (min-width: 992px) {
+  LOCAL: @media (max-width: 991px) {
+  LOCAL: input[type="range"] {
+  LOCAL: input[type="range"]:focus {
+  LOCAL: input[type="range"]::-webkit-slider-runnable-track {
+  LOCAL: input[type="range"]::-webkit-slider-thumb {
+  LOCAL: input[type="range"]::-webkit-slider-thumb:hover {
+  LOCAL: input[type="range"]::-moz-range-track {
+  LOCAL: width: 100%;
+  LOCAL: height: 8px;
+  LOCAL: cursor: pointer;
+  LOCAL: background: var(--color-bg-alt);
+  LOCAL: border-radius: 4px;
+  LOCAL: border: 1px solid var(--color-border);
+  LOCAL: }
+  LOCAL: input[type="range"]::-moz-range-thumb {
+  LOCAL: height: 22px;
+  LOCAL: width: 22px;
+  LOCAL: border-radius: 50%;
+  LOCAL: background: var(--color-sun-yellow);
+  LOCAL: cursor: pointer;
+  LOCAL: margin-top: -8px;
+  LOCAL: box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  LOCAL: transition: transform var(--transition-fast);
+  LOCAL: }
+  LOCAL: input[type="range"]::-moz-range-thumb:hover {
+  LOCAL: transform: scale(1.15);
+  LOCAL: background: var(--color-sun-yellow-hover);
+  LOCAL: }
+  LOCAL: input[type="number"] {
+  LOCAL: input[type="number"]:focus {
+  LOCAL: @media (min-width: 992px) {
+  LOCAL: @media (min-width: 576px) {
+  LOCAL: @media (min-width: 480px) {
+  LOCAL: @media (min-width: 768px) {
+  LOCAL: @media (min-width: 576px) {
+  LOCAL: @media (min-width: 992px) {
+  LOCAL: @media (min-width: 576px) {
+  LOCAL: @media (min-width: 992px) {
+  LOCAL: @media (min-width: 576px) {
+  LOCAL: @media (min-width: 576px) {
+  LOCAL: @media (min-width: 576px) {
+  LOCAL: @media (min-width: 576px) {
+  LOCAL: background-color: var(--color-bg-alt);
+  LOCAL: color: var(--color-text);
+  LOCAL: @media (min-width: 768px) {
+  LOCAL: color: var(--color-text);
+  LOCAL: color: var(--color-text-subtle);
+  LOCAL: color: var(--color-text-subtle);
+  LOCAL: color: var(--color-text-subtle);
+  LOCAL: color: var(--color-text);
+  LOCAL: background-color: var(--color-bg);
+  LOCAL: border-top: 1px solid var(--color-border);
+  LOCAL: color: var(--color-text-muted);
+  LOCAL: }
+  LOCAL: @media (min-width: 576px) {
+  LOCAL: transform: translate(0px, 0px);
+  LOCAL: .portal-header {
+  LOCAL: text-align: center;
+  LOCAL: }
+  LOCAL: display: block;
+  LOCAL: margin-left: auto;
+  LOCAL: margin-right: auto;
+  LOCAL: .manual-input-wrapper input[type="number"] {
+  LOCAL: appearance: textfield;
+  LOCAL: .metric-input-wrapper input[type="number"] {
+  LOCAL: appearance: textfield;
+  LOCAL: @media (min-width: 576px) {
+  LOCAL: .form-size-wrapper input[type="number"] {
+  LOCAL: -moz-appearance: textfield;
+  LOCAL: appearance: textfield;
+  LOCAL: body > *:not(#quote-modal-overlay) {
+  LOCAL: display: none !important;
+  LOCAL: }
+  LOCAL: #quote-modal-overlay {
+  LOCAL: position: static !important;
+  LOCAL: /* --- NEW SUNOVA STYLES --- */
+  LOCAL: /* Hero Section */
+  LOCAL: .sunova-hero {
+  LOCAL: position: relative;
+  LOCAL: width: 100%;
+  LOCAL: min-height: 75vh;
+  LOCAL: display: flex;
+  LOCAL: align-items: center;
+  LOCAL: background-size: cover;
+  LOCAL: background-position: center;
+  LOCAL: background-repeat: no-repeat;
+  LOCAL: background-color: #1a1a2e;
+  LOCAL: padding: 6rem 2rem;
+  LOCAL: }
+  LOCAL: .sunova-hero::before {
+  LOCAL: content: '';
+  LOCAL: position: absolute;
+  LOCAL: top: 0; left: 0; right: 0; bottom: 0;
+  LOCAL: background: linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%);
+  LOCAL: z-index: 1;
+  LOCAL: }
+  LOCAL: .sunova-hero > * {
+  LOCAL: position: relative;
+  LOCAL: z-index: 2;
+  LOCAL: }
+  LOCAL: .sunova-hero-content {
+  LOCAL: max-width: 800px;
+  LOCAL: margin: 0 auto;
+  LOCAL: text-align: center;
+  LOCAL: }
+  LOCAL: .sunova-hero-title {
+  LOCAL: font-size: 3.5rem;
+  LOCAL: color: #ffffff;
+  LOCAL: font-family: var(--font-heading);
+  LOCAL: font-weight: 800;
+  LOCAL: margin-bottom: 1.5rem;
+  LOCAL: line-height: 1.2;
+  LOCAL: }
+  LOCAL: .sunova-hero-subtitle {
+  LOCAL: font-size: 1.2rem;
+  LOCAL: color: rgba(255,255,255,0.9);
+  LOCAL: margin-bottom: 2rem;
+  LOCAL: }
+  LOCAL: /* Section Headers */
+  LOCAL: .sunova-section-header {
+  LOCAL: text-align: center;
+  LOCAL: margin-bottom: 3.5rem;
+  LOCAL: position: relative;
+  LOCAL: }
+  LOCAL: .sunova-section-header h2 {
+  LOCAL: font-size: 2.5rem;
+  LOCAL: color: var(--color-text);
+  LOCAL: font-family: var(--font-heading);
+  LOCAL: font-weight: 700;
+  LOCAL: margin-bottom: 1rem;
+  LOCAL: position: relative;
+  LOCAL: display: inline-block;
+  LOCAL: }
+  LOCAL: .sunova-section-header h2::after {
+  LOCAL: content: '';
+  LOCAL: position: absolute;
+  LOCAL: bottom: -10px;
+  LOCAL: left: 50%;
+  LOCAL: transform: translateX(-50%);
+  LOCAL: width: 60px;
+  LOCAL: height: 3px;
+  LOCAL: background-color: var(--color-sun-yellow);
+  LOCAL: }
+  LOCAL: .sunova-section-header p {
+  LOCAL: color: var(--color-text-muted);
+  LOCAL: font-size: 1.1rem;
+  LOCAL: max-width: 600px;
+  LOCAL: margin: 1.5rem auto 0;
+  LOCAL: }
+  LOCAL: /* News Section */
+  LOCAL: .sunova-news-section {
+  LOCAL: display: grid;
+  LOCAL: grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  LOCAL: gap: 2rem;
+  LOCAL: margin-top: 2rem;
+  LOCAL: }
+  LOCAL: .news-card {
+  LOCAL: background: var(--color-surface-opaque);
+  LOCAL: border-radius: 8px;
+  LOCAL: overflow: hidden;
+  LOCAL: box-shadow: 0 4px 15px var(--color-shadow);
+  LOCAL: transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  LOCAL: border-left: 4px solid var(--color-sun-yellow);
+  LOCAL: display: flex;
+  LOCAL: flex-direction: column;
+  LOCAL: }
+  LOCAL: .news-card:hover {
+  LOCAL: transform: translateY(-5px);
+  LOCAL: box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  LOCAL: }
+  LOCAL: .news-date {
+  LOCAL: background: var(--color-bg-alt);
+  LOCAL: padding: 0.5rem 1rem;
+  LOCAL: font-size: 0.85rem;
+  LOCAL: color: var(--color-text-muted);
+  LOCAL: font-weight: 600;
+  LOCAL: }
+  LOCAL: .news-content {
+  LOCAL: padding: 1.5rem;
+  LOCAL: flex-grow: 1;
+  LOCAL: }
+  LOCAL: .news-title {
+  LOCAL: font-size: 1.2rem;
+  LOCAL: font-family: var(--font-heading);
+  LOCAL: font-weight: 700;
+  LOCAL: margin-bottom: 1rem;
+  LOCAL: color: var(--color-text);
+  LOCAL: }
+  LOCAL: .news-desc {
+  LOCAL: color: var(--color-text-muted);
+  LOCAL: font-size: 0.95rem;
+  LOCAL: line-height: 1.5;
+  LOCAL: margin-bottom: 1.5rem;
+  LOCAL: }
+  LOCAL: .news-show-all {
+  LOCAL: display: inline-block;
+  LOCAL: margin-top: 2rem;
+  LOCAL: color: var(--color-sun-yellow);
+  LOCAL: font-weight: 600;
+  LOCAL: text-decoration: none;
+  LOCAL: border-bottom: 2px solid transparent;
+  LOCAL: transition: border-color var(--transition-fast);
+  LOCAL: }
+  LOCAL: .news-show-all:hover {
+  LOCAL: border-color: var(--color-sun-yellow);
+  LOCAL: }
+  LOCAL: /* Animated Stats */
+  LOCAL: .sunova-stats {
+  LOCAL: display: grid;
+  LOCAL: grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  LOCAL: gap: 2rem;
+  LOCAL: text-align: center;
+  LOCAL: padding: 4rem 0;
+  LOCAL: }
+  LOCAL: .stat-block {
+  LOCAL: padding: 2rem;
+  LOCAL: background: var(--color-surface-opaque);
+  LOCAL: border-radius: 12px;
+  LOCAL: box-shadow: 0 4px 20px var(--color-shadow);
+  LOCAL: transition: transform var(--transition-normal);
+  LOCAL: }
+  LOCAL: .stat-block:hover {
+  LOCAL: transform: translateY(-5px);
+  LOCAL: }
+  LOCAL: .stat-icon {
+  LOCAL: font-size: 2.5rem;
+  LOCAL: color: var(--color-sun-yellow);
+  LOCAL: margin-bottom: 1rem;
+  LOCAL: }
+  LOCAL: .stat-number-wrapper {
+  LOCAL: display: flex;
+  LOCAL: align-items: baseline;
+  LOCAL: justify-content: center;
+  LOCAL: gap: 0.2rem;
+  LOCAL: }
+  LOCAL: .stat-number {
+  LOCAL: font-size: 3rem;
+  LOCAL: font-weight: 800;
+  LOCAL: font-family: var(--font-heading);
+  LOCAL: color: var(--color-text);
+  LOCAL: }
+  LOCAL: .stat-unit {
+  LOCAL: font-size: 1.5rem;
+  LOCAL: font-weight: 700;
+  LOCAL: color: var(--color-sun-yellow);
+  LOCAL: }
+  LOCAL: .stat-desc {
+  LOCAL: color: var(--color-text-muted);
+  LOCAL: font-size: 1rem;
+  LOCAL: margin-top: 0.5rem;
+  LOCAL: font-weight: 500;
+  LOCAL: }
+  LOCAL: /* Project Tabs */
+  LOCAL: .project-tabs {
+  LOCAL: display: flex;
+  LOCAL: justify-content: center;
+  LOCAL: gap: 1rem;
+  LOCAL: flex-wrap: wrap;
+  LOCAL: margin-bottom: 2rem;
+  LOCAL: }
+  LOCAL: .tab-btn {
+  LOCAL: background: transparent;
+  LOCAL: border: none;
+  LOCAL: padding: 0.8rem 1.5rem;
+  LOCAL: font-size: 1rem;
+  LOCAL: font-weight: 600;
+  LOCAL: color: var(--color-text-muted);
+  LOCAL: cursor: pointer;
+  LOCAL: border-bottom: 3px solid transparent;
+  LOCAL: transition: all var(--transition-fast);
+  LOCAL: }
+  LOCAL: .tab-btn:hover {
+  LOCAL: color: var(--color-text);
+  LOCAL: }
+  LOCAL: .tab-btn.active {
+  LOCAL: color: var(--color-sun-yellow);
+  LOCAL: border-bottom-color: var(--color-sun-yellow);
+  LOCAL: }
+

@@ -1,0 +1,2251 @@
+==================== DIFF FOR index.html ====================
+Total diff lines: 180
+--- live_index.html
++++ local_index.html
+@@ -8,6 +8,13 @@
+     <meta name="keywords" content="solar installation Kerala, rooftop solar Thodupuzha, Sunova Solar, solar panels Idukki, solar subsidy PM Surya Ghar, solar company Kerala">
+     <meta name="author" content="Sunova Solar LLP">
+     <link rel="canonical" href="https://sunovasolar.in">
++    <link rel="icon" href="assets/logo.jpg" type="image/jpeg">
++    <meta property="og:url" content="https://sunovasolar.in/">
++    <meta name="twitter:card" content="summary_large_image">
++    <meta name="twitter:title" content="Sunova Solar Kerala">
++    <meta name="twitter:description" content="Kerala's trusted solar energy partner">
++    <meta name="twitter:image" content="assets/hero.jpg">
++    <meta name="theme-color" content="#1a1a2e">
+     
+     <!-- Open Graph / Facebook -->
+     <meta property="og:type" content="website">
+@@ -26,23 +33,7 @@
+ <body class="dark-theme">
+     <!-- Header/Navigation -->
+     <header class="navbar" id="navbar">
+-        <!-- Top Utility Bar -->
+-        <div class="top-bar">
+-            <div class="container top-bar-container">
+-                <div class="top-bar-left">
+-                    <span>LLPIN: Registered under MCA, Gov of India</span>
+-                </div>
+-                <div class="top-bar-right">
+-                    <a href="partner-portal.html" class="top-bar-link">🤝 Partner Portal</a>
+-                    <span class="top-bar-separator">|</span>
+-                    <a href="login.html" class="top-bar-link">🔒 Staff Portal</a>
+-                    <span class="top-bar-separator">|</span>
+-                    <a href="https://mail.hostinger.com/" target="_blank" class="top-bar-link">✉️ Sunova Mail</a>
+-                    <span class="top-bar-separator">|</span>
+-                    <a href="tel:+919072522277" class="top-bar-link">📞 Helpline</a>
+-                </div>
+-            </div>
+-        </div>
++
+         
+         <div class="nav-container">
+             <a href="#" class="logo" id="nav-logo">
+@@ -668,7 +659,7 @@
+                             <div class="manual-input-wrapper">
+                                 <button type="button" class="spin-btn" onclick="adjustManualBill(-500)" title="Decrease Bill">▼</button>
+                                 <span>₹</span>
+-                                <input type="number" id="input-bill-manual" min="500" max="100000" value="2500" oninput="handleBillManualInput(this.value)">
++                                <input type="number" id="input-bill-manual" min="500" max="100000" value="2500" oninput="handleBillManualInput(this.value)" aria-label="Monthly electricity bill amount in Rupees">
+                                 <button type="button" class="spin-btn" onclick="adjustManualBill(500)" title="Increase Bill">▲</button>
+                             </div>
+                         </div>
+@@ -710,15 +701,15 @@
+                             <span class="metric-label">Recommended Capacity</span>
+                             <div class="metric-input-wrapper">
+                                 <button type="button" class="spin-btn-metric" onclick="adjustCapacity(-0.5)" title="Decrease Capacity">▼</button>
+-                                <input type="number" id="out-size" min="3.0" max="200" step="0.1" value="3.0" oninput="handleCapacityInput(this.value)">
++                                <input type="number" id="out-size" min="3.0" max="200" step="0.1" value="3.0" oninput="handleCapacityInput(this.value)" aria-label="Recommended system capacity in kW">
+                                 <span class="unit">kW</span>
+                                 <button type="button" class="spin-btn-metric" onclick="adjustCapacity(0.5)" title="Increase Capacity">▲</button>
+-                                <button type="button" id="btn-reset-capacity" class="metric-action-btn hidden" onclick="resetCapacityToCalculated()" title="Reset to calculated capacity based on bill">
++                                <button type="button" id="btn-reset-capacity" class="metric-action-btn hidden" onclick="resetCapacityToCalculated()" title="Reset to calculated capacity based on bill" aria-label="Reset capacity">
+                                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+                                         <path d="M3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C9.9113 3 7.98906 3.70997 6.46484 4.89844L3 8M3 8H7.5M3 8V3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                     </svg>
+                                 </button>
+-                                <button type="button" id="btn-scroll-to-form" class="metric-action-btn" onclick="scrollToContactForm()" title="Go to booking details form">
++                                <button type="button" id="btn-scroll-to-form" class="metric-action-btn" onclick="scrollToContactForm()" title="Go to booking details form" aria-label="Scroll to booking form">
+                                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+                                         <path d="M19 9L12 16L5 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                     </svg>
+@@ -726,12 +717,12 @@
+                             </div>
+                         </div>
+                         <div class="metric-box" style="justify-content: space-between;">
+-                            <span class="metric-label">Solar Panel Brand</span>
++                            <span class="metric-label">Solar Panel Brand / Watts</span>
+                             <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-top: 0.25rem;">
+-                                <select id="calc-panel-brand" onchange="handlePanelBrandChange()" style="background: rgba(255, 255, 255, 0.05); color: var(--color-text); border: 1px solid var(--color-border); border-radius: 8px; padding: 0.35rem 0.5rem; font-size: 0.8rem; font-family: var(--font-body); cursor: pointer; outline: none; flex-grow: 1; min-width: 0; max-width: 140px;">
+-                                    <option value="550" selected>Waaree</option>
+-                                    <option value="610">Adani</option>
+-                                    <option value="560">Emmvee</option>
++                                <select id="calc-panel-brand" onchange="handlePanelBrandChange()" style="background: rgba(255, 255, 255, 0.05); color: var(--color-text); border: 1px solid var(--color-border); border-radius: 8px; padding: 0.35rem 0.5rem; font-size: 0.8rem; font-family: var(--font-body); cursor: pointer; outline: none; flex-grow: 1; min-width: 0; max-width: 140px;" aria-label="Solar panel brand and wattage">
++                                    <option value="550" selected>Waaree (550W)</option>
++                                    <option value="610">Adani (610W)</option>
++                                    <option value="560">Emmvee (560W)</option>
+                                 </select>
+                                 <span class="metric-value" style="white-space: nowrap; flex-shrink: 0;"><span id="out-panels">8</span> <span class="unit">Nos</span></span>
+                             </div>
+@@ -822,19 +813,21 @@
+                             <div class="form-grid">
+                                 <div class="form-group">
+                                     <label for="form-name">Full Name</label>
+-                                    <input type="text" id="form-name" placeholder="Enter your name" style="text-transform: uppercase;" required>
++                                    <input type="text" id="form-name" placeholder="Enter your name" required>
+                                 </div>
+                                 <div class="form-group">
+-                                    <label for="form-phone">Mobile Number</label>
+-                                    <input type="tel" id="form-phone" placeholder="10-digit mobile number" pattern="^[6-9]\d{9}$" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" title="10-digit mobile number starting with 6-9" required>
++                                    <label for="form-phone">Phone Number</label>
++                                    <input type="tel" id="form-phone" placeholder="10-digit mobile number" required>
+                                 </div>
+                             </div>
+                             
++                            <div class="form-group">
++                                <label for="form-email">Email Address (Optional)</label>
++                                <input type="email" id="form-email" placeholder="example@domain.com">
++                            </div>
++
++
+                             <div class="form-grid">
+-                                <div class="form-group">
+-                                    <label for="form-email">Email Address (Optional)</label>
+-                                    <input type="email" id="form-email" placeholder="example@domain.com">
+-                                </div>
+                                 <div class="form-group">
+                                     <label for="form-district">District (Kerala)</label>
+                                     <select id="form-district" required onchange="handleDistrictChange(this.value)">
+@@ -855,21 +848,23 @@
+                                         <option value="Kasaragod">Kasaragod</option>
+                                     </select>
+                                 </div>
+-                            </div>
+-
+-                            <div class="form-grid">
+                                 <div class="form-group">
+                                     <label for="form-location">Name of Section (KSEB)</label>
+                                     <select id="form-location" required onchange="handleKSEBSectionChange(this.value)">
+                                         <option value="" disabled selected>-- Select district first --</option>
+                                     </select>
++                                    <small style="display:block; margin-top:0.4rem; font-size:0.75rem; color:var(--color-text-muted); line-height: 1.3;">
++                                        KSEB Section Office · <a href="https://wss.kseb.in/selfservices/reCap" target="_blank" rel="noopener" style="color:var(--color-sun-yellow); text-decoration:underline;">Verify at wss.kseb.in</a>
++                                    </small>
+                                 </div>
+-                                <div class="form-group">
+-                                    <label for="form-dealer">Partner Area</label>
+-                                    <select id="form-dealer" required>
+-                                        <!-- Populated dynamically based on selected District -->
+-                                    </select>
+-                                </div>
++                            </div>
++                            
++                            <div class="form-group">
++                                <label for="form-dealer">Partner Area</label>
++                                <select id="form-dealer" required>
++                                    <option value="" disabled selected>-- Select partner area --</option>
++                                    <!-- Populated dynamically based on selected District -->
++                                </select>
+                             </div>
+                             
+                             <div class="form-grid">
+@@ -883,7 +878,7 @@
+                                 <div class="form-group">
+                                     <label for="form-size">Requested Capacity</label>
+                                     <div class="capacity-selector" style="margin-bottom: 0.5rem;" id="form-size-select-wrapper">
+-                                        <select id="form-size-select" onchange="handleFormSizeSelectChange(this.value)" style="width: 100%; border-radius: 8px; border: 1px solid var(--color-border); padding: 0.8rem; background-color: var(--color-bg-alt); color: var(--color-text);">
++                                        <select id="form-size-select" onchange="handleFormSizeSelectChange(this.value)" style="width: 100%; border-radius: 8px; border: 1px solid var(--color-border); padding: 0.8rem; background-color: var(--color-bg-alt); color: var(--color-text);" aria-label="System capacity">
+                                             <option value="3.0">3.0 kW</option>
+                                             <option value="5.0">5.0 kW</option>
+                                             <option value="custom">Others (Type Manually)</option>
+@@ -891,7 +886,7 @@
+                                     </div>
+                                     <div class="manual-input-wrapper form-size-wrapper" id="form-size-manual-wrapper" style="display: none;">
+                                         <button type="button" class="spin-btn" onclick="adjustFormCapacity(-0.5)" title="Decrease Capacity">▼</button>
+-                                        <input type="number" id="form-size" min="3.0" max="200" step="0.1" value="3.0" required oninput="handleFormSizeChange()">
++                                        <input type="number" id="form-size" min="3.0" max="200" step="0.1" value="3.0" oninput="handleFormSizeChange()">
+                                         <span class="unit">kW</span>
+                                         <button type="button" class="spin-btn" onclick="adjustFormCapacity(0.5)" title="Increase Capacity">▲</button>
+                                     </div>
+@@ -1267,10 +1262,10 @@
+                 <a href="#services">Our Services</a>
+                 <a href="#calculator">Solar Calculator</a>
+                 <a href="#about">About LLP</a>
+-                <a href="#contact">Offices &amp; Inquiries</a>
++                <a href="#address">Offices &amp; Inquiries</a>
+                 <a href="login.html">🔒 Staff Portal</a>
+                 <a href="partner-portal.html">🤝 Partner Portal</a>
+-                <a href="https://mail.hostinger.com/" target="_blank">✉️ Sunova Mail</a>
++                <a href="https://mail.hostinger.com/" target="_blank" rel="noopener noreferrer">✉️ Sunova Mail</a>
+             </div>
+ 
+             <div class="footer-contact">
+==================== DIFF FOR app.js ====================
+Total diff lines: 386
+--- live_app.js
++++ local_app.js
+@@ -4,56 +4,56 @@
+ 
+ // Authorized Sunova Solar Dealers List
+ const DEALERS = [
+-    { code: "KNR-JOBI", name: "Jobi Sebastian", area: "Kannur", district: "Kannur", phone: "8590085865", lat: 11.8763836, lon: 75.3737973, kseb: "Kannur" },
+-    { code: "TVM-BENJ", name: "Benjose FG", area: "kanjiramkulam", district: "Thiruvananthapuram", phone: "9037273767", lat: 8.3601022, lon: 77.0525935, kseb: "kanjiramkulam" },
++    { code: "TVM-BENJ", name: "Benjose FG", area: "Balaramapuram", district: "Thiruvananthapuram", phone: "9037273767", lat: 8.3601022, lon: 77.0525935, kseb: "kanjiramkulam" },
+     { code: "TVM-ANAN", name: "Anand Sreedhar", area: "Neyyattinkara", district: "Thiruvananthapuram", phone: "7994430742", lat: 8.3858430, lon: 77.0650429, kseb: "Neyyattinkara" },
+     { code: "KLA-VARG", name: "Varghese Nellimoottil", area: "Ayoor", district: "Kollam", phone: "9020202222", lat: 8.8978612, lon: 76.8601206, kseb: "Ayoor" },
+     { code: "KLA-NIYA", name: "Niyas K", area: "Karunagappally", district: "Kollam", phone: "9656366068", lat: 9.0341924, lon: 76.5367765, kseb: "Karunagappally (North/South)" },
+     { code: "KLA-UDAY", name: "Udayabhanu J", area: "Kadappakkada", district: "Kollam", phone: "9349136882", lat: 8.8919030, lon: 76.6020893, kseb: "Kadappakkada" },
+-    { code: "KLA-RAJE", name: "Rajeev R", area: "karavaloor", district: "Kollam", phone: "9567970077", lat: 8.9807724, lon: 76.9250357, kseb: "karavaloor" },
+-    { code: "KLA-RATH", name: "Rathil Kumar", area: "Sasthamcotta", district: "Kollam", phone: "7907878797", lat: 9.0314647, lon: 76.6009828, kseb: "Sasthamcotta" },
+-    { code: "PTA-SREE", name: "Sreejith TR", area: "Vaipur", district: "Pathanamthitta", phone: "9947030669", lat: 9.4485800, lon: 76.7149053, kseb: "Vaipur" },
++    { code: "KLA-RAJE", name: "Rajeev R", area: "Punalur", district: "Kollam", phone: "9567970077", lat: 8.9807724, lon: 76.9250357, kseb: "karavaloor" },
++    { code: "KLA-RATH", name: "Rathil Kumar", area: "Sasthamkotta", district: "Kollam", phone: "7907878797", lat: 9.0314647, lon: 76.6009828, kseb: "Sasthamcotta" },
++    { code: "PTA-SREE", name: "Sreejith TR", area: "Mallappally", district: "Pathanamthitta", phone: "9947030669", lat: 9.4485800, lon: 76.7149053, kseb: "Vaipur" },
+     { code: "PTA-JIJU", name: "Jijukumar MC", area: "Pandalam", district: "Pathanamthitta", phone: "9388133400", lat: 9.2251208, lon: 76.6781249, kseb: "Pandalam" },
+-    { code: "PTA-PKPR", name: "PK Prasannakumar", area: "kumbazha", district: "Pathanamthitta", phone: "7034023301", lat: 9.2649844, lon: 76.8064366, kseb: "kumbazha" },
+-    { code: "PTA-BIJU", name: "Bijumon J", area: "Ranni North", district: "Pathanamthitta", phone: "9995990372", lat: 9.3852605, lon: 76.7848789, kseb: "Ranni North" },
+-    { code: "ALP-SHIN", name: "Shinas Shamsudeen", area: "Punnapra", district: "Alappuzha", phone: "9995550888", lat: 9.44681, lon: 76.32897, kseb: "Punnapra" },
++    { code: "PTA-PKPR", name: "PK Prasannakumar", area: "Pathanamthitta", district: "Pathanamthitta", phone: "7034023301", lat: 9.2649844, lon: 76.8064366, kseb: "kumbazha" },
++    { code: "PTA-BIJU", name: "Bijumon J", area: "Ranni", district: "Pathanamthitta", phone: "9995990372", lat: 9.3852605, lon: 76.7848789, kseb: "Ranni North" },
++    { code: "ALP-SHIN", name: "Shinas Shamsudeen", area: "Alappuzha", district: "Alappuzha", phone: "9995550888", lat: 9.44681, lon: 76.32897, kseb: "Punnapra" },
+     { code: "ALP-NISS", name: "Nissar Hameed", area: "Kayamkulam", district: "Alappuzha", phone: "9895497090", lat: 9.1723603, lon: 76.5000610, kseb: "Kayamkulam" },
+     { code: "ALP-RENJ", name: "Renjith PS", area: "Mavelikkara", district: "Alappuzha", phone: "9447866958", lat: 9.2504893, lon: 76.5402433, kseb: "Mavelikkara" },
+     { code: "ALP-BAIJ", name: "Baiju Sasidharan", area: "Vallikunnam", district: "Alappuzha", phone: "9747186818", lat: 9.1391951, lon: 76.5532781, kseb: "Vallikunnam" },
+-    { code: "KTM-SALY", name: "Saly Sainudeen", area: "erattupetta", district: "Kottayam", phone: "9446200616", lat: 9.6879884, lon: 76.7797651, kseb: "erattupetta" },
+-    { code: "KTM-ANIS", name: "Anish Kumar", area: "Neendoor", district: "Kottayam", phone: "9387220162", lat: 9.6855081, lon: 76.5055272, kseb: "Neendoor" },
+-    { code: "KTM-SANI", name: "Sanil Kumar", area: "Manarcad", district: "Kottayam", phone: "9061189784", lat: 9.5999286, lon: 76.5849633, kseb: "Manarcad" },
++    { code: "KTM-SALY", name: "Saly Sainudeen", area: "Erattupetta", district: "Kottayam", phone: "9446200616", lat: 9.6879884, lon: 76.7797651, kseb: "erattupetta" },
++    { code: "KTM-ANIS", name: "Anish Kumar", area: "Kallara", district: "Kottayam", phone: "9387220162", lat: 9.6855081, lon: 76.5055272, kseb: "Neendoor" },
++    { code: "KTM-SANI", name: "Sanil Kumar", area: "Kottayam", district: "Kottayam", phone: "9061189784", lat: 9.5999286, lon: 76.5849633, kseb: "Manarcad" },
+     { code: "IDK-OUSE", name: "Ouseph KA", area: "Moolamattom", district: "Idukki", phone: "9495737628", lat: 9.7910035, lon: 76.8537047, kseb: "Moolamattom" },
+     { code: "IDK-MGAJ", name: "MG Ajay", area: "Thodupuzha", district: "Idukki", phone: "9447254142", lat: 9.8976798, lon: 76.7134225, kseb: "Thodupuzha" },
+-    { code: "EKM-SHIY", name: "Shiyas Rasheed", area: "Thrikkakkara", district: "Ernakulam", phone: "9847859859", lat: 9.9882518, lon: 76.3144876, kseb: "Thrikkakkara" },
+-    { code: "EKM-BHAV", name: "Bhavya M", area: "kalamassery", district: "Ernakulam", phone: "8301026309", lat: 10.0521676, lon: 76.3199033, kseb: "kalamassery" },
+-    { code: "EKM-JIBI", name: "Jibin George", area: "Mulanthuruthy", district: "Ernakulam", phone: "9995996240", lat: 9.9008567, lon: 76.3888568, kseb: "Mulanthuruthy" },
++    { code: "EKM-SHIY", name: "Shiyas Rasheed", area: "Edappally", district: "Ernakulam", phone: "9847859859", lat: 9.9882518, lon: 76.3144876, kseb: "Thrikkakkara" },
++    { code: "EKM-BHAV", name: "Bhavya M", area: "Kalamassery", district: "Ernakulam", phone: "8301026309", lat: 10.0521676, lon: 76.3199033, kseb: "kalamassery" },
++    { code: "EKM-JIBI", name: "Jibin George", area: "Thripunithura", district: "Ernakulam", phone: "9995996240", lat: 9.9008567, lon: 76.3888568, kseb: "Mulanthuruthy" },
+     { code: "TCR-JAIS", name: "Jaison Jose Meleth", area: "Ayyanthole", district: "Thrissur", phone: "9995601923", lat: 10.5330031, lon: 76.1885802, kseb: "Ayyanthole" },
+-    { code: "TCR-COAT", name: "Coats Thekkan", area: "chalakkudy", district: "Thrissur", phone: "8129119222", lat: 10.3315317, lon: 76.5488885, kseb: "chalakkudy" },
+-    { code: "TCR-JISO", name: "Jison George", area: "Chelakara", district: "Thrissur", phone: "9746666535", lat: 10.6942894, lon: 76.3395838, kseb: "Chelakara" },
++    { code: "TCR-COAT", name: "Coats Thekkan", area: "Chalakudy", district: "Thrissur", phone: "8129119222", lat: 10.3315317, lon: 76.5488885, kseb: "chalakkudy" },
++    { code: "TCR-JISO", name: "Jison George", area: "Chelakkara", district: "Thrissur", phone: "9746666535", lat: 10.6942894, lon: 76.3395838, kseb: "Chelakara" },
+     { code: "TCR-SINI", name: "Sinish KM", area: "Kodakara", district: "Thrissur", phone: "9946101892", lat: 10.3717111, lon: 76.3042007, kseb: "Kodakara" },
+     { code: "TCR-BINU", name: "Binu Yacob", area: "Pazhayannur", district: "Thrissur", phone: "9946033807", lat: 10.6512224, lon: 76.4053969, kseb: "Pazhayannur" },
+-    { code: "TCR-JITH", name: "Jithesh Tharayil", area: "ramavarmapuram", district: "Thrissur", phone: "7356347700", lat: 10.5635491, lon: 76.2320952, kseb: "ramavarmapuram" },
++    { code: "TCR-JITH", name: "Jithesh Tharayil", area: "Ramavarmapuram", district: "Thrissur", phone: "7356347700", lat: 10.5635491, lon: 76.2320952, kseb: "ramavarmapuram" },
+     { code: "TCR-AKAN", name: "AK Anil", area: "Valappad", district: "Thrissur", phone: "9746891854", lat: 10.3805225, lon: 76.1119313, kseb: "Valappad" },
+-    { code: "PKD-SUHA", name: "Suhaib S", area: "kuzhalmannam", district: "Palakkad", phone: "9988553585", lat: 10.7194290, lon: 76.5948525, kseb: "kuzhalmannam" },
++    { code: "PKD-SUHA", name: "Suhaib S", area: "Alathur", district: "Palakkad", phone: "9988553585", lat: 10.7194290, lon: 76.5948525, kseb: "kuzhalmannam" },
+     { code: "PKD-PRAM", name: "Pramod", area: "Chittur", district: "Palakkad", phone: "9746611002", lat: 10.5766989, lon: 76.6942525, kseb: "Chittur" },
+-    { code: "PKD-BIJO", name: "Bijo Varghese", area: "Elapully", district: "Palakkad", phone: "9388883222", lat: 10.7599479, lon: 76.7376870, kseb: "Elapully" },
++    { code: "PKD-BIJO", name: "Bijo Varghese", area: "Elappully", district: "Palakkad", phone: "9388883222", lat: 10.7599479, lon: 76.7376870, kseb: "Elapully" },
+     { code: "PKD-ANAN", name: "Anand P", area: "Koduvayur", district: "Palakkad", phone: "9349811101", lat: 10.6887585, lon: 76.6621933, kseb: "Koduvayur" },
+     { code: "MPM-NASS", name: "Nassarudheen E", area: "Edakkara", district: "Malappuram", phone: "9946139955", lat: 11.3564141, lon: 76.3047491, kseb: "Edakkara" },
+-    { code: "MPM-FAIS", name: "Faisal K", area: "Anakkayam", district: "Malappuram", phone: "7994035923", lat: 11.0891491, lon: 76.1209271, kseb: "Anakkayam" },
++    { code: "MPM-FAIS", name: "Faisal K", area: "Manjeri", district: "Malappuram", phone: "7994035923", lat: 11.0891491, lon: 76.1209271, kseb: "Anakkayam" },
+     { code: "MPM-RAVI", name: "Ravindran K", area: "Tirur", district: "Malappuram", phone: "9961476748", lat: 10.9166828, lon: 75.9239860, kseb: "Tirur" },
+-    { code: "KKD-RAJA", name: "Rajan Madavoor", area: "Narikkuni", district: "Kozhikode", phone: "9497345868", lat: 11.3670609, lon: 75.8635766, kseb: "Narikkuni" },
+-    { code: "KKD-YOOS", name: "Yoosaf NV", area: "Chakkittapara", district: "Kozhikode", phone: "9539724724", lat: 11.5754712, lon: 75.8164922, kseb: "Chakkittapara" },
++    { code: "KKD-RAJA", name: "Rajan Madavoor", area: "Koduvally", district: "Kozhikode", phone: "9497345868", lat: 11.3670609, lon: 75.8635766, kseb: "Narikkuni" },
++    { code: "KKD-YOOS", name: "Yoosaf NV", area: "Perambra", district: "Kozhikode", phone: "9539724724", lat: 11.5754712, lon: 75.8164922, kseb: "Chakkittapara" },
+     { code: "KKD-SAFE", name: "Safeer", area: "Vadakara", district: "Kozhikode", phone: "9995330555", lat: 11.5938180, lon: 75.5872715, kseb: "Vadakara" },
+     { code: "KKD-RAHU", name: "Rahul RN", area: "Vadakara", district: "Kozhikode", phone: "9645464733", lat: 11.5938180, lon: 75.5872715, kseb: "Vadakara" },
+     { code: "WYD-SINI", name: "Sinil Chacko K", area: "Mananthavady", district: "Wayanad", phone: "8921794334", lat: 11.8298756, lon: 75.9418934, kseb: "Mananthavady" },
+-    { code: "KNR-ACFA", name: "AC Faisal", area: "Irikkur", district: "Kannur", phone: "9656069964", lat: 11.9872395, lon: 75.5494735, kseb: "Irikkur" },
+-    { code: "KNR-NOUS", name: "Noushad T", area: "mattannur", district: "Kannur", phone: "9847761018", lat: 11.9307557, lon: 75.5712639, kseb: "mattannur" },
++    { code: "KNR-JOBI", name: "Jobi Sebastian", area: "Kannur", district: "Kannur", phone: "8590085865", lat: 11.8763836, lon: 75.3737973, kseb: "Kannur" },
++    { code: "KNR-ACFA", name: "AC Faisal", area: "Irikkoor", district: "Kannur", phone: "9656069964", lat: 11.9872395, lon: 75.5494735, kseb: "Irikkur" },
++    { code: "KNR-NOUS", name: "Noushad T", area: "Mattannur", district: "Kannur", phone: "9847761018", lat: 11.9307557, lon: 75.5712639, kseb: "mattannur" },
+     { code: "KNR-SURI", name: "Suriya Subash", area: "Panoor", district: "Kannur", phone: "9946809010", lat: 11.7248921, lon: 75.5885598, kseb: "Panoor" },
+-    { code: "KNR-NISH", name: "Nishad NK", area: "Kathiroor", district: "Kannur", phone: "9562028244", lat: 11.7984679, lon: 75.5267285, kseb: "Kathiroor" },
+-    { code: "KNR-KASO", name: "KA Soju", area: "Thaliparamba", district: "Kannur", phone: "9447548430", lat: 12.0309939, lon: 75.3567793, kseb: "Thaliparamba" },
++    { code: "KNR-NISH", name: "Nishad NK", area: "Thalassery", district: "Kannur", phone: "9562028244", lat: 11.7984679, lon: 75.5267285, kseb: "Kathiroor" },
++    { code: "KNR-KASO", name: "KA Soju", area: "Taliparamba", district: "Kannur", phone: "9447548430", lat: 12.0309939, lon: 75.3567793, kseb: "Thaliparamba" },
+     { code: "KSD-PRAD", name: "Pradeep K", area: "Badiadka", district: "Kasaragod", phone: "9744880900", lat: 12.5887582, lon: 75.0729575, kseb: "Badiadka" },
+-    { code: "KSD-SURE", name: "Suresh Kumar", area: "Balamthode", district: "Kasaragod", phone: "9946960604", lat: 12.4552137, lon: 75.3089981, kseb: "Balamthode" }
++    { code: "KSD-SURE", name: "Suresh Kumar", area: "Panathur", district: "Kasaragod", phone: "9946960604", lat: 12.4552137, lon: 75.3089981, kseb: "Balamthode" }
+ ];
+ 
+ // --- DOM elements ---
+@@ -534,7 +534,7 @@
+     // 2. Solar Panels needed (dynamically based on selected brand watts)
+     const brandSelect = document.getElementById('calc-panel-brand');
+     const panelWatts = brandSelect ? (parseInt(brandSelect.value) || 550) : 550;
+-    const panelsCount = Math.ceil((capacity * 1000) / panelWatts);
++    const panelsCount = Math.round((capacity * 1000) / panelWatts);
+     
+     // 3. Roof area required (~90 sq ft per kW)
+     const areaRequired = Math.round(capacity * 90);
+@@ -690,7 +690,7 @@
+     const size = parseFloat(formSizeEl.value) || 3.0;
+     const brandSelect = document.getElementById('calc-panel-brand');
+     const panelWatts = brandSelect ? (parseInt(brandSelect.value) || 550) : 550;
+-    const panels = Math.ceil((size * 1000) / panelWatts);
++    const panels = Math.round((size * 1000) / panelWatts);
+     const billVal = billManualInput.value || billInput.value || "4000";
+     
+     // Matched partner details
+@@ -5224,10 +5224,10 @@
+         return;
+     }
+     
+-    // Phone validation (10 digits NOT starting with 6-9)
+-    const phoneRegex = /^[0-5]\d{9}$/;
++    // Phone validation (10 digits starting with 6-9)
++    const phoneRegex = /^[6-9]\d{9}$/;
+     if (!phoneRegex.test(phone)) {
+-        showFormFeedback('Please enter a valid 10-digit mobile number that does NOT start with 6, 7, 8, or 9.', 'error');
++        showFormFeedback('Please enter a valid 10-digit mobile number.', 'error');
+         return;
+     }
+     
+@@ -5682,6 +5682,200 @@
+ };
+ 
+ // On page load check for KSEB external fetch redirect data
++alert("Configuration successfully saved! Reloading page to apply changes...");
++                location.reload();
++            }
++        });
++    }
++});
++
++// Capacity and Connection Category change handlers
++window.handleFormSizeSelectChange = function(val) {
++    const manualWrapper = document.getElementById('form-size-manual-wrapper');
++    const sizeInput = document.getElementById('form-size');
++    if (val === 'custom') {
++        manualWrapper.style.display = 'flex';
++    } else {
++        manualWrapper.style.display = 'none';
++        sizeInput.value = val;
++    }
++};
++
++window.handleFormConnectionChange = function(val) {
++    const sizeSelect = document.getElementById('form-size-select');
++    if (!sizeSelect) return;
++    
++    if (val === 'commercial') {
++        sizeSelect.value = 'custom';
++        window.handleFormSizeSelectChange('custom');
++    } else {
++        sizeSelect.value = '3.0';
++        window.handleFormSizeSelectChange('3.0');
++        document.getElementById('form-size').value = 3.0;
++    }
++};
++
++
++
++// KSEB Auto-Fill Functions
++let ksebFetchTimer = null;
++
++window.triggerKSEBAutoFetch = function() {
++    const consumerNo = (document.getElementById('form-consumer-no')?.value || '').trim();
++    const regMobile  = (document.getElementById('form-reg-mobile')?.value  || '').trim();
++    
++    // Only fire when both fields are complete
++    if (consumerNo.length !== 13 || !/^[0-9]{13}$/.test(consumerNo)) return;
++    if (regMobile.length  !== 10 || !/^[6-9][0-9]{9}$/.test(regMobile))  return;
++    
++    // Debounce — wait 600ms after last keystroke
++    clearTimeout(ksebFetchTimer);
++    ksebFetchTimer = setTimeout(() => fetchKSEBDetails(consumerNo, regMobile), 600);
++};
++
++function setKSEBStatus(msg, type) {
++    const el = document.getElementById('kseb-status');
++    if (!el) return;
++    el.style.display = 'block';
++    el.textContent = msg;
++    if (type === 'loading') {
++        el.style.background = 'rgba(255,183,3,0.1)';
++        el.style.color = 'var(--color-sun-yellow)';
++        el.style.border = '1px solid rgba(255,183,3,0.3)';
++    } else if (type === 'success') {
++        el.style.background = 'rgba(34,197,94,0.12)';
++        el.style.color = '#4ade80';
++        el.style.border = '1px solid rgba(34,197,94,0.3)';
++    } else {
++        el.style.background = 'rgba(239,68,68,0.1)';
++        el.style.color = '#f87171';
++        el.style.border = '1px solid rgba(239,68,68,0.3)';
++    }
++}
++
++async function fetchKSEBDetails(consumerNo, regMobile) {
++    setKSEBStatus('⏳ Fetching from KSEB…', 'loading');
++    
++    try {
++        const resp = await fetch('/api/kseb_fetch', {
++            method: 'POST',
++            headers: { 'Content-Type': 'application/json' },
++            body: JSON.stringify({ consumerno: consumerNo, regmobno: regMobile })
++        });
++        
++        const json = await resp.json();
++        
++        if (!resp.ok || json.error) {
++            setKSEBStatus('❌ ' + (json.error || 'Could not fetch bill details'), 'error');
++            return;
++        }
++        
++        const d = json.data;
++        
++        // Fill in name if not already typed
++        const nameInput = document.getElementById('form-name');
++        if (nameInput && d.name) {
++            if (!nameInput.value || nameInput.value.trim() === '') {
++                nameInput.value = d.name;
++            }
++        }
++        
++        // Auto-fill last bill amount to calculator inputs
++        if (d.amount) {
++            const amountVal = parseInt(d.amount);
++            if (!isNaN(amountVal) && amountVal > 0) {
++                if (typeof handleBillManualInput === 'function') {
++                    handleBillManualInput(amountVal);
++                }
++            }
++        }
++        
++        // Build success summary
++        let summary = '✅ Details fetched!';
++        if (d.name)     summary += ` Name: ${d.name}.`;
++        if (d.section)  summary += ` Section: ${d.section}.`;
++        if (d.amount)   summary += ` Amount Due: ₹${d.amount}.`;
++        if (d.units)    summary += ` Units: ${d.units}.`;
++        if (d.due_date) summary += ` Due: ${d.due_date}.`;
++        
++        setKSEBStatus(summary, 'success');
++        
++    } catch (err) {
++        // Hide the status indicator on network/CORS error when proxy is not active
++        const el = document.getElementById('kseb-status');
++        if (el) el.style.display = 'none';
++        console.warn('KSEB auto-fetch failed (proxy not running or CORS blocked):', err);
++    }
++};
++
++window.handleKSEBExternalFetch = function(d) {
++    // Fill consumer number & registered mobile
++    const consInput = document.getElementById('form-consumer-no');
++    if (consInput && d.consumerNo) consInput.value = d.consumerNo;
++    
++    const mobInput = document.getElementById('form-reg-mobile');
++    if (mobInput && d.regMobile) {
++        mobInput.value = d.regMobile;
++        // Sync hidden phone field
++        const phoneInput = document.getElementById('form-phone');
++        if (phoneInput) phoneInput.value = d.regMobile;
++    }
++    
++    // Fill name
++    const nameInput = document.getElementById('form-name');
++    if (nameInput && d.name) nameInput.value = d.name;
++    
++    // Fill bill amount in calculator
++    if (d.amount) {
++        const amountVal = parseInt(d.amount);
++        if (!isNaN(amountVal) && amountVal > 0) {
++            if (typeof handleBillManualInput === 'function') {
++                handleBillManualInput(amountVal);
++            }
++        }
++    }
++    
++    // Fill section and district
++    if (d.section && typeof KSEB_SECTIONS !== 'undefined') {
++        let matchedDistrict = null;
++        let matchedSectionKey = null;
++        for (const [dist, sections] of Object.entries(KSEB_SECTIONS)) {
++            for (const secKey of Object.keys(sections)) {
++                if (secKey.toLowerCase() === d.section.toLowerCase() || 
++                    secKey.toLowerCase().includes(d.section.toLowerCase()) ||
++                    d.section.toLowerCase().includes(secKey.toLowerCase())) {
++                    matchedDistrict = dist;
++                    matchedSectionKey = secKey;
++                    break;
++                }
++            }
++            if (matchedDistrict) break;
++        }
++        
++        if (matchedDistrict && matchedSectionKey) {
++            const distSelect = document.getElementById('form-district');
++            if (distSelect) {
++                distSelect.value = matchedDistrict;
++                handleDistrictChange(matchedDistrict);
++                populateKSEBSections(matchedDistrict);
++            }
++            const secSelect = document.getElementById('form-location');
++            if (secSelect) {
++                secSelect.value = matchedSectionKey;
++            }
++        }
++    }
++    
++    // Show success status
++    let summary = '✅ Details auto-filled from KSEB website!';
++    if (d.name)     summary += ` Name: ${d.name}.`;
++    if (d.section)  summary += ` Section: ${d.section}.`;
++    if (d.amount)   summary += ` Last Bill: ₹${d.amount}.`;
++    
++    setKSEBStatus(summary, 'success');
++};
++
++// On page load check for KSEB external fetch redirect data
+ window.addEventListener('DOMContentLoaded', () => {
+     const fetched = localStorage.getItem('kseb_fetched_details');
+     if (fetched) {
+@@ -5700,3 +5894,66 @@
+     }
+ });
+ 
++// === SUNOVA REDESIGN: Animated Counters ===
++function animateCounters() {
++    const counters = document.querySelectorAll('.stat-number');
++    counters.forEach(counter => {
++        const target = parseInt(counter.getAttribute('data-target'));
++        const duration = 2000; // 2 seconds
++        const startTime = performance.now();
++        
++        function updateCounter(currentTime) {
++            const elapsed = currentTime - startTime;
++            const progress = Math.min(elapsed / duration, 1);
++            // Ease-out cubic
++            const easedProgress = 1 - Math.pow(1 - progress, 3);
++            counter.textContent = Math.floor(easedProgress * target);
++            
++            if (progress < 1) {
++                requestAnimationFrame(updateCounter);
++            } else {
++                counter.textContent = target;
++            }
++        }
++        requestAnimationFrame(updateCounter);
++    });
++}
++
++// Trigger counters on scroll into view
++const statsSection = document.getElementById('sunova-stats');
++if (statsSection) {
++    let statsAnimated = false;
++    const statsObserver = new IntersectionObserver((entries) => {
++        entries.forEach(entry => {
++            if (entry.isIntersecting && !statsAnimated) {
++                statsAnimated = true;
++                animateCounters();
++            }
++        });
++    }, { threshold: 0.3 });
++    statsObserver.observe(statsSection);
++}
++
++// === SUNOVA REDESIGN: Project Tab Filtering ===
++function filterProjects(category) {
++    const cards = document.querySelectorAll('.project-card');
++    const tabs = document.querySelectorAll('.tab-btn');
++    
++    tabs.forEach(tab => tab.classList.remove('active'));
++    event.target.classList.add('active');
++    
++    cards.forEach(card => {
++        if (category === 'all' || card.getAttribute('data-category') === category) {
++            card.style.display = '';
++            card.style.opacity = '0';
++            card.style.transform = 'translateY(20px)';
++            setTimeout(() => {
++                card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
++                card.style.opacity = '1';
++                card.style.transform = 'translateY(0)';
++            }, 50);
++        } else {
++            card.style.display = 'none';
++        }
++    });
++}
+==================== DIFF FOR partner-portal.html ====================
+Total diff lines: 823
+--- live_partner-portal.html
++++ local_partner-portal.html
+@@ -30,6 +30,11 @@
+                 <img src="assets/logo.jpg" alt="SUNOVA SOLAR LLP Logo" class="portal-logo">
+                 <h2>Partner Portal</h2>
+                 <p>Log in to access your district customer leads, design templates, and subsidy commission tracking.</p>
++                
++                <div class="portal-selector" style="display: flex; gap: 10px; justify-content: center; margin-top: 15px; margin-bottom: 10px;" id="portal-tabs">
++                    <button type="button" class="cta-btn outline-btn" onclick="window.location.href='login.html'" style="padding: 8px 16px; font-size: 14px; flex: 1; border-color: var(--color-sun-yellow); color: var(--color-sun-yellow);">Staff Login</button>
++                    <button type="button" class="cta-btn primary-btn" style="padding: 8px 16px; font-size: 14px; flex: 1; cursor: default;">Partner Login</button>
++                </div>
+             </div>
+ 
+             <!-- Login View -->
+@@ -56,9 +61,6 @@
+                         Sign In to Partner Dashboard
+                     </button>
+                 </form>
+-                <div class="text-center portal-footer-note" style="margin-top: 1.5rem;">
+-                    <span class="lock-icon">🔒</span> Exclusive access for Sunova Solar LLP authorized district partners.
+-                </div>
+             </div>
+ 
+             <!-- Must Change PIN View (Initially Hidden) -->
+@@ -86,143 +88,110 @@
+ 
+             <!-- Dashboard View (Initially Hidden) -->
+             <div id="dashboard-view" class="hidden">
+-                <div class="success-badge">
++                <!-- Change PIN Corner Panel -->
++                <div style="position: absolute; top: 15px; right: 15px; width: 140px; background: rgba(0,0,0,0.6); border: 1px solid var(--color-border); border-radius: 12px; padding: 12px; text-align: left; z-index: 10; backdrop-filter: blur(10px);">
++                    <h5 style="margin: 0; color: var(--color-sun-yellow); font-size: 0.75rem; font-weight: 600; cursor: pointer; user-select: none;" onclick="document.getElementById('dash-change-pin-form').classList.toggle('hidden')">🔒 Change PIN <span style="float:right; font-size: 0.6rem; margin-top: 2px;">▼</span></h5>
++                    <form id="dash-change-pin-form" class="hidden" onsubmit="handleDashPinChange(event)" style="margin-top: 0.8rem;">
++                        <div style="display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 0.5rem;">
++                            <div>
++                                <input type="password" id="dash-old-pin" maxlength="4" placeholder="Old PIN" style="width: 100%; padding: 0.4rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text); font-size: 0.75rem;" required pattern="[0-9]{4}">
++                            </div>
++                            <div>
++                                <input type="password" id="dash-new-pin" maxlength="4" placeholder="New PIN" style="width: 100%; padding: 0.4rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text); font-size: 0.75rem;" required pattern="[0-9]{4}">
++                            </div>
++                            <div>
++                                <input type="password" id="dash-confirm-pin" maxlength="4" placeholder="Confirm PIN" style="width: 100%; padding: 0.4rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text); font-size: 0.75rem;" required pattern="[0-9]{4}">
++                            </div>
++                        </div>
++                        <div id="dash-change-pin-feedback" class="form-feedback hidden" style="font-size: 0.65rem; padding: 0.3rem; margin-bottom: 0.4rem;"></div>
++                        <button type="submit" class="cta-btn primary-btn full-width" style="padding: 0.4rem; border-radius: 6px; font-size: 0.7rem;">
++                            Update PIN
++                        </button>
++                    </form>
++                </div>
++
++                <div class="success-badge" style="margin-bottom: 1rem;">
+                     <span class="check-icon">✓</span> Session Authenticated
+                 </div>
+                 <h3>Welcome back, Partner</h3>
+                 <p class="dash-subtitle" style="margin-bottom: 1.5rem;">Sunova Solar Channel Partner Dashboard</p>
+ 
+-                <!-- Lead metrics quick stats -->
+-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+-                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; text-align: center;">
+-                        <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Active Leads</span>
+-                        <div id="partner-active-leads" style="font-size: 1.8rem; font-weight: 700; color: var(--color-sun-yellow); margin-top: 0.25rem;">0</div>
+-                    </div>
+-                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; text-align: center;">
+-                        <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Commission Earned</span>
+-                        <div id="partner-commission-earned" style="font-size: 1.4rem; font-weight: 700; color: var(--color-text); margin-top: 0.45rem;">₹0</div>
+-                    </div>
+-                </div>
+-
+-                <!-- Launch Buttons -->
+-                <div class="portal-actions-grid" style="display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1.5rem;">
+-                    <button type="button" onclick="toggleAllocatedLeads()" class="cta-btn primary-btn text-center full-width" style="cursor: pointer; width: 100%; border: none; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
+-                        📋 View Allocated Customer Inquiries
+-                    </button>
+-                    <button type="button" onclick="toggleSavedQuotes()" class="cta-btn primary-btn text-center full-width" style="cursor: pointer; width: 100%; border: none; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
+-                        💾 View Saved Quotations
+-                    </button>
+-                    <button type="button" onclick="toggleChangePinPanel()" class="cta-btn text-center full-width" style="background: rgba(255,255,255,0.05); border: 1px solid var(--color-border); color: var(--color-text); cursor: pointer; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
+-                        🔒 Change Security PIN
+-                    </button>
+-                    <button type="button" onclick="toggleFeasibilityPanel()" class="cta-btn primary-btn text-center full-width" style="cursor: pointer; width: 100%; border: none; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
+-                        ✅ Feasibility Check & KSEB Verification
+-                    </button>
+-                </div>
+-
+-                <!-- Feasibility Check Panel (Collapsible) -->
+-                <div id="feasibility-check-panel" class="hidden" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+-                    <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+-                        ✅ Feasibility Check & KSEB Verification
+-                    </h4>
+-                    <p style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.45;">Verify KSEB section offices and perform feasibility checks for new customer installations.</p>
+-                    <div style="background: var(--color-bg-alt); padding: 1rem; border-radius: 8px; text-align: center;">
+-                        <span style="display:block; font-size: 0.85rem; font-weight:600; color:var(--color-text); margin-bottom: 0.5rem;">KSEB Section Office Verification</span>
+-                        <a href="https://wss.kseb.in/selfservices/reCap" target="_blank" rel="noopener" class="cta-btn primary-btn" style="display:inline-block; font-size:0.8rem; padding: 0.5rem 1rem; text-decoration:none;">
+-                            Verify at wss.kseb.in ↗
+-                        </a>
+-                    </div>
+-                </div>
+-
+-                <!-- Allocated Leads Panel (Collapsible) -->
+-                <div id="allocated-leads-panel" class="hidden" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+-                    <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+-                        📋 Allocated Customer Inquiries
+-                    </h4>
+-                    <p style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.45;">Below are inquiries submitted by customers selecting your dealership area on the feasibility form.</p>
++                <!-- Solar Quotation Generator Card -->
++                <div class="glass-card quote-generator-box" style="margin-top: 1.5rem; border: 1px solid var(--color-sun-yellow); background: rgba(255, 255, 255, 0.02); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
++                    <h4 style="color: var(--color-sun-yellow); margin-top: 0; font-family: var(--font-heading); font-size: 1rem; margin-bottom: 0.3rem;">⚡ Solar Quotation Generator</h4>
++                    <p style="font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 1.2rem; line-height: 1.4;">Generate custom, print-ready quotations for customer proposals and official KSEB net-metering applications.</p>
+                     
+-                    <div id="allocated-leads-list" style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 350px; overflow-y: auto; padding-right: 0.3rem;">
+-                        <!-- Dynamically Injected leads list -->
+-                    </div>
+-                </div>
+-
+-                <!-- Saved Quotes Panel (Collapsible) -->
+-                <div id="saved-quotes-panel" class="hidden" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+-                    <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+-                        💾 Saved Quotations
+-                    </h4>
+-                    <p style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.45;">Your generated quotes saved to this browser.</p>
+-                    <div id="saved-quotes-list" style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 350px; overflow-y: auto; padding-right: 0.3rem;">
+-                    </div>
+-                </div>
+-
+-                <!-- Change PIN Panel (Collapsible) -->
+-                <div id="dashboard-change-pin-panel" class="hidden" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+-                    <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+-                        🔒 Change Security PIN
+-                    </h4>
+-                    <form id="dash-change-pin-form" onsubmit="handleDashPinChange(event)">
+-                        <div class="form-group" style="margin-bottom: 0.8rem;">
+-                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block;">Old PIN</label>
+-                            <input type="password" id="dash-old-pin" maxlength="4" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required pattern="[0-9]{4}">
+-                        </div>
+-                        <div class="form-group" style="margin-bottom: 0.8rem;">
+-                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block;">New PIN</label>
+-                            <input type="password" id="dash-new-pin" maxlength="4" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required pattern="[0-9]{4}">
+-                        </div>
+-                        <div class="form-group" style="margin-bottom: 0.8rem;">
+-                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block;">Confirm New PIN</label>
+-                            <input type="password" id="dash-confirm-pin" maxlength="4" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required pattern="[0-9]{4}">
+-                        </div>
+-                        <div id="dash-change-pin-feedback" class="form-feedback hidden"></div>
+-                        <button type="submit" class="cta-btn primary-btn full-width" style="margin-top: 0.5rem; padding: 0.65rem; border-radius: 8px;">
+-                            Update PIN
+-                        </button>
+-                    </form>
+-                </div>
+-
+-                <!-- Solar Quotation Generator Card -->
+-                <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;" id="quotation-form-section">
+-                    <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); display: flex; align-items: center; gap: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+-                        ⚡ Solar Quotation Generator
+-                    </h4>
+-                    <p style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.45;">Generate custom, print-ready quotations for customer proposals and official KSEB net-metering applications.</p>
+-                    
+-                    <form id="quote-generator-form" onsubmit="event.preventDefault();">
+-                        <div class="form-group" style="margin-bottom: 0.8rem;">
++                    <form id="quote-generator-form" onsubmit="return false;">
++                        <div class="form-group" style="margin-bottom: 1rem;">
+                             <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Select Allocated Lead (Auto-fill)</label>
+                             <select id="quote-select-lead" onchange="autoFillFromDropdown(this.value)" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                                 <option value="">-- Choose an Allocated Lead --</option>
+                             </select>
+                         </div>
+-                        <div class="quote-grid-2">
++                        
++                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem;">
+                             <div class="form-group">
+                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Customer Name</label>
+-                                <input type="text" id="quote-cust-name" placeholder="e.g. Radhakrishnan Nair" style="text-transform: uppercase; width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
++                                <input type="text" id="quote-cust-name" placeholder="e.g. Radhakrishnan Nair" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+                             </div>
+                             <div class="form-group">
+                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Mobile Number</label>
+                                 <input type="tel" id="quote-cust-phone" placeholder="e.g. 9876543210" pattern="^[6-9]\d{9}$" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" title="10-digit mobile number starting with 6-9" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+                             </div>
+                         </div>
+-                        <div class="form-group" style="margin-bottom: 0.8rem;">
+-                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Installation Address</label>
+-                            <input type="text" id="quote-cust-addr" placeholder="e.g. House No 15, Near Temple, Alappuzha" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+-                        </div>
+-                        <div class="form-group" style="margin-bottom: 0.8rem;">
+-                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">KSEB Section</label>
+-                            <select id="quote-kseb-section" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+-                                <option value="">-- Auto-filled by Partner District --</option>
+-                            </select>
+-                        </div>
+-                        <div class="quote-grid-3">
++
++                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem;">
+                             <div class="form-group">
+-                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Capacity (kWp)</label>
+-                                <input type="number" id="quote-capacity" value="3" min="1" max="100" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+-                            </div>
++                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Installation Address</label>
++                                <input type="text" id="quote-cust-addr" placeholder="e.g. House No 15, Near Temple, Alappuzha" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
++                            </div>
++                            
++                            <div class="form-group">
++                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">District</label>
++                                <select id="quote-district" onchange="onPortalDistrictChange()" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
++                                    <option value="">-- Select District --</option>
++                                    <option value="Thiruvananthapuram">Thiruvananthapuram</option>
++                                    <option value="Kollam">Kollam</option>
++                                    <option value="Pathanamthitta">Pathanamthitta</option>
++                                    <option value="Alappuzha">Alappuzha</option>
++                                    <option value="Kottayam">Kottayam</option>
++                                    <option value="Idukki">Idukki</option>
++                                    <option value="Ernakulam">Ernakulam</option>
++                                    <option value="Thrissur">Thrissur</option>
++                                    <option value="Palakkad">Palakkad</option>
++                                    <option value="Malappuram">Malappuram</option>
++                                    <option value="Kozhikode">Kozhikode</option>
++                                    <option value="Wayanad">Wayanad</option>
++                                    <option value="Kannur">Kannur</option>
++                                    <option value="Kasaragod">Kasaragod</option>
++                                </select>
++                            </div>
++                        </div>
++
++                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem;">
++                            <div class="form-group">
++                                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 0.3rem;">
++                                    <label style="font-size: 0.76rem; color: var(--color-text); display: block; font-weight: 600; margin: 0;">KSEB Section</label>
++                                    <a href="https://wss.kseb.in/selfservices/reCap" target="_blank" rel="noopener" style="font-size: 0.7rem; color: #28a745; text-decoration: underline;" title="Feasibility Check">Verify at wss.kseb.in ↗</a>
++                                </div>
++                                <select id="quote-kseb-section" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
++                                    <option value="">-- Select KSEB Section --</option>
++                                </select>
++                            </div>
++                            <div class="form-group">
++                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">System Configuration</label>
++                                <select id="quote-capacity" onchange="recalculateLivePrice()" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
++                                    <option value="3">3 kW</option>
++                                    <option value="5">5 kW</option>
++                                    <option value="5_3">5 kW Inverter + 3 kW Panels</option>
++                                </select>
++                            </div>
++                        </div>
++                        
++                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem;">
+                             <div class="form-group">
+                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Solar Panel Model</label>
+-                                <select id="quote-panel-brand" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
++                                <select id="quote-panel-brand" onchange="recalculateLivePrice()" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                                     <option value="Waaree" selected>Waaree</option>
+                                     <option value="Adani">Adani</option>
+                                     <option value="Emmvee">Emmvee</option>
+@@ -237,10 +206,10 @@
+                             </div>
+                         </div>
+                         
+-                        <div class="quote-grid-2">
++                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem;">
+                             <div class="form-group">
+                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Roof Type</label>
+-                                <select id="quote-roof-type" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
++                                <select id="quote-roof-type" onchange="recalculateLivePrice()" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                                     <option value="RCC">RCC</option>
+                                     <option value="Sheet">Sheet</option>
+                                     <option value="Tile">Tile</option>
+@@ -249,14 +218,35 @@
+                             </div>
+                             <div class="form-group">
+                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Electrical Phase</label>
+-                                <select id="quote-phase" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
++                                <select id="quote-phase" onchange="recalculateLivePrice()" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                                     <option value="Single Phase">Single Phase</option>
+                                     <option value="Three Phase">Three Phase</option>
+                                 </select>
+                             </div>
+                         </div>
+ 
+-                        <div class="quote-grid-3">
++                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem;">
++                            <div class="form-group">
++                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Number of Floors</label>
++                                <input type="number" id="quote-floors" onchange="recalculateLivePrice()" value="1" min="1" max="10" step="1" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
++                            </div>
++                            <div class="form-group">
++                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Truss Work</label>
++                                <select id="quote-truss" onchange="recalculateLivePrice()" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
++                                    <option value="No">No Truss Work</option>
++                                    <option value="Yes">With Truss Work</option>
++                                </select>
++                            </div>
++                            <div class="form-group">
++                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Structure Material</label>
++                                <select id="quote-material" onchange="recalculateLivePrice()" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
++                                    <option value="Sunova">By Sunova Solar</option>
++                                    <option value="Customer">By Customer</option>
++                                </select>
++                            </div>
++                        </div>
++
++                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem;">
+                             <div class="form-group">
+                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Advance %</label>
+                                 <input type="number" id="quote-pay-advance" value="60" min="0" max="100" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+@@ -271,7 +261,10 @@
+                             </div>
+                         </div>
+                         
+-                        <div class="quote-grid-2" style="margin-top: 1.2rem;">
++                        <div id="live-price-display" style="text-align: center; margin-top: 1rem; font-size: 1.1rem; font-weight: 700; color: #28a745; background: rgba(40, 167, 69, 0.1); padding: 0.5rem; border-radius: 8px;">
++                            Estimated Total: ₹ <span id="live-price-amount">0</span>
++                        </div>
++                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1.2rem;">
+                             <button type="button" onclick="generateQuotation('customer')" class="cta-btn primary-btn text-center" style="padding: 0.65rem 0.5rem; font-size: 0.8rem; font-weight: 700; border-radius: 8px; display: block; width: 100%; cursor: pointer;">
+                                 👤 Customer Proposal
+                             </button>
+@@ -282,26 +275,82 @@
+                     </form>
+                 </div>
+ 
++                <!-- Profile Details Panel -->
++                <div id="profile-details-panel" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
++                    <h4 style="margin-top: 0; margin-bottom: 0.8rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; color: var(--color-sun-yellow); font-family: var(--font-heading); font-size: 1rem;">📋 Authorized Profile Details</h4>
++                    <!-- Dynamically injected profile rows -->
++                    <div id="profile-details-rows"></div>
++                </div>
++
+                 <!-- Technical Configuration Accordion -->
+-                <div class="tech-settings-box">
+-                    <h4>📘 Partner Resources &amp; Downloads</h4>
+-                    <p class="settings-intro">Authorized document downloads and technical rules for KSEB Soura integration.</p>
++                <div class="tech-settings-box" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
++                    <h4 style="margin-top: 0; margin-bottom: 0.4rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; color: var(--color-sun-yellow); font-family: var(--font-heading); font-size: 1rem;">📘 Partner Resources &amp; Downloads</h4>
++                    <p class="settings-intro" style="font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 1.2rem;">Authorized document downloads and technical rules for KSEB Soura integration.</p>
+                     
+-                    <div class="settings-table">
+-                        <div class="settings-row">
+-                            <span class="sett-lbl">KSEB Feasibility Specs</span>
+-                            <span class="sett-val"><a href="https://www.kseb.in/images/soura/Soura_Phase_II_Guidelines.pdf" target="_blank" rel="noopener" style="color: var(--color-sun-yellow);">Download PDF Guide</a></span>
+-                        </div>
+-                        <div class="settings-row">
+-                            <span class="sett-lbl">Proforma Invoice Template</span>
+-                            <span class="sett-val"><a href="javascript:void(0)" onclick="downloadProformaTemplate()" style="color: var(--color-sun-yellow);">Download Excel Sheet</a></span>
+-                        </div>
+-                        <div class="settings-row">
+-                            <span class="sett-lbl">Net Metering Checklist</span>
+-                            <span class="sett-val"><a href="javascript:void(0)" onclick="showChecklistModal()" style="color: var(--color-sun-yellow);">View Online List</a></span>
++                    <div class="settings-table" style="display: flex; flex-direction: column; gap: 0.8rem;">
++                        <div class="settings-row" style="display: flex; justify-content: space-between; font-size: 0.82rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem;">
++                            <span class="sett-lbl" style="font-weight: 600;">KSEB Feasibility Specs</span>
++                            <span class="sett-val"><a href="https://www.kseb.in/images/soura/Soura_Phase_II_Guidelines.pdf" target="_blank" rel="noopener" style="color: var(--color-sun-yellow); text-decoration: none;">Download PDF Guide</a></span>
++                        </div>
++                        <div class="settings-row" style="display: flex; justify-content: space-between; font-size: 0.82rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem;">
++                            <span class="sett-lbl" style="font-weight: 600;">Proforma Invoice Template</span>
++                            <span class="sett-val"><a href="javascript:void(0)" onclick="downloadProformaTemplate()" style="color: var(--color-sun-yellow); text-decoration: none;">Download Excel Sheet</a></span>
++                        </div>
++                        <div class="settings-row" style="display: flex; justify-content: space-between; font-size: 0.82rem;">
++                            <span class="sett-lbl" style="font-weight: 600;">Net Metering Checklist</span>
++                            <span class="sett-val"><a href="javascript:void(0)" onclick="showChecklistModal()" style="color: var(--color-sun-yellow); text-decoration: none;">View Online List</a></span>
+                         </div>
+                     </div>
+                 </div>
++
++                <!-- Lead metrics quick stats -->
++                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
++                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; text-align: center;">
++                        <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Active Leads</span>
++                        <div id="partner-active-leads" style="font-size: 1.8rem; font-weight: 700; color: var(--color-sun-yellow); margin-top: 0.25rem;">0</div>
++                    </div>
++                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; text-align: center;">
++                        <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Commission Earned</span>
++                        <div id="partner-commission-earned" style="font-size: 1.4rem; font-weight: 700; color: var(--color-text); margin-top: 0.45rem;">₹0</div>
++                    </div>
++                </div>
++
++                <!-- Launch Buttons -->
++                <div class="portal-actions-grid" style="display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1.5rem;">
++                    <button type="button" onclick="toggleLeadsAndQuotes()" class="cta-btn primary-btn text-center full-width" style="cursor: pointer; width: 100%; border: none; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
++                        📂 View Enquiries &amp; Saved Quotations
++                    </button>
++                </div>
++
++                <!-- Combined Enquiries + Saved Quotations Panel -->
++                <div id="leads-quotes-panel" class="hidden" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
++                    <!-- Sub-tab buttons -->
++                    <div style="display: flex; gap: 0; margin-bottom: 1rem; border-radius: 10px; overflow: hidden; border: 1px solid var(--color-border);">
++                        <button id="tab-btn-leads" onclick="switchLeadsQuotesTab('leads')" style="flex: 1; padding: 0.6rem; font-size: 0.8rem; font-weight: 600; background: var(--color-sun-yellow); color: #0d1321; border: none; cursor: pointer; transition: all 0.2s;">
++                            📋 Allocated Enquiries
++                        </button>
++                        <button id="tab-btn-quotes" onclick="switchLeadsQuotesTab('quotes')" style="flex: 1; padding: 0.6rem; font-size: 0.8rem; font-weight: 600; background: rgba(255,255,255,0.04); color: var(--color-text-muted); border: none; cursor: pointer; transition: all 0.2s;">
++                            💾 Saved Quotations
++                        </button>
++                    </div>
++
++                    <!-- Enquiries sub-tab -->
++                    <div id="sub-tab-leads">
++                        <p style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.45;">Below are inquiries submitted by customers selecting your dealership area on the feasibility form.</p>
++                        <div id="allocated-leads-list" style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 380px; overflow-y: auto; padding-right: 0.3rem;"></div>
++                    </div>
++
++                    <!-- Saved Quotations sub-tab -->
++                    <div id="sub-tab-quotes" style="display: none;">
++                        <p style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.45;">Your generated quotes saved to this browser.</p>
++                        <div id="saved-quotes-list" style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 380px; overflow-y: auto; padding-right: 0.3rem;"></div>
++                    </div>
++                </div>
++
++                <!-- Legacy hidden panels kept for backward-compat -->
++                <div id="allocated-leads-panel" class="hidden" style="display:none;"></div>
++                <div id="saved-quotes-panel" class="hidden" style="display:none;"></div>
++                <div id="dashboard-change-pin-panel" class="hidden" style="display:none;"></div>
+ 
+                 <div class="dashboard-footer-actions" style="margin-top: 1.5rem;">
+                     <button onclick="logoutPartner()" class="logout-btn">Sign Out</button>
+@@ -415,9 +464,10 @@
+                 return;
+             }
+ 
+-            // Reset to default PIN 2277
+-            localStorage.removeItem('partner_pin_' + matchedDealer.code);
+-            const defaultPin = '2277';
++            // Reset to random 4-digit PIN
++            const defaultPin = Math.floor(1000 + Math.random() * 9000).toString();
++            localStorage.setItem('partner_pin_' + matchedDealer.code, defaultPin);
++            localStorage.setItem('partner_must_change_pin_' + matchedDealer.code, 'true');
+ 
+             alert("Processing PIN reset request...");
+ 
+@@ -431,7 +481,7 @@
+                 method: "POST",
+                 body: formData
+             }).then(() => {
+-                alert(`Your PIN has been reset to the default PIN (${defaultPin}). An SMS notification has been sent to ${matchedDealer.phone} and a copy to info@sunovasolar.in.`);
++                alert(`Your PIN has been reset to the default PIN (${defaultPin}). An SMS notification has been sent to ${matchedDealer.phone} by whatsapp and text message and a copy to info@sunovasolar.in. by mail`);
+             }).catch(() => {
+                 alert(`Your PIN has been reset to the default PIN (${defaultPin}). Note: Email dispatch failed.`);
+             });
+@@ -504,7 +554,7 @@
+ 
+             setTimeout(() => {
+                 loginBtn.disabled = false;
+-                if (requiredPin === '2277') {
++                if (requiredPin === '2277' || localStorage.getItem('partner_must_change_pin_' + matchedDealer.code) === 'true') {
+                     // Default PIN used, must force change PIN screen
+                     tempLoginDealerCode = matchedDealer.code;
+                     document.getElementById('login-view').classList.add('hidden');
+@@ -557,27 +607,96 @@
+             setTimeout(() => {
+                 // Save custom PIN in localStorage
+                 localStorage.setItem('partner_pin_' + tempLoginDealerCode, newPin);
+-                // Complete session login
+-                localStorage.setItem('partner_code', tempLoginDealerCode);
+-                
+-                // Hide change pin view, show dashboard
++                localStorage.removeItem('partner_must_change_pin_' + tempLoginDealerCode);
++                
++                // Prompt user to log in again
++                alert('PIN successfully updated! Please log in with your new PIN.');
++                
++                // Hide change pin view, show login view
+                 document.getElementById('change-pin-view').classList.add('hidden');
+-                showDashboard(tempLoginDealerCode);
++                document.getElementById('login-view').classList.remove('hidden');
++                
++                // Reset forms
++                document.getElementById('change-pin-form').reset();
++                document.getElementById('portal-login-form').reset();
++                
++                tempLoginDealerCode = '';
+             }, 1000);
+         }
+ 
++
++        function toggleProfilePanel() {
++            const panel = document.getElementById('profile-details-panel');
++            panel.classList.toggle('hidden');
++            if (!panel.classList.contains('hidden')) {
++                // Clear pin fields when opening
++                ['dash-old-pin','dash-new-pin','dash-confirm-pin'].forEach(id => {
++                    const el = document.getElementById(id);
++                    if (el) el.value = '';
++                });
++                const fb = document.getElementById('dash-change-pin-feedback');
++                if (fb) fb.classList.add('hidden');
++            }
++        }
++
+         function toggleChangePinPanel() {
+-            const panel = document.getElementById('dashboard-change-pin-panel');
++            // Redirect to profile panel (backward compat)
++            toggleProfilePanel();
++        }
++
++        function toggleLeadsAndQuotes() {
++            const panel = document.getElementById('leads-quotes-panel');
+             if (panel.classList.contains('hidden')) {
+                 panel.classList.remove('hidden');
+-                document.getElementById('dash-old-pin').value = '';
+-                document.getElementById('dash-new-pin').value = '';
+-                document.getElementById('dash-confirm-pin').value = '';
+-                document.getElementById('dash-change-pin-feedback').classList.add('hidden');
++                switchLeadsQuotesTab('leads');
+             } else {
+                 panel.classList.add('hidden');
+             }
+         }
++
++        function switchLeadsQuotesTab(tab) {
++            const leadsDiv = document.getElementById('sub-tab-leads');
++            const quotesDiv = document.getElementById('sub-tab-quotes');
++            const leadsBtn = document.getElementById('tab-btn-leads');
++            const quotesBtn = document.getElementById('tab-btn-quotes');
++            if (tab === 'leads') {
++                leadsDiv.style.display = '';
++                quotesDiv.style.display = 'none';
++                leadsBtn.style.background = 'var(--color-sun-yellow)';
++                leadsBtn.style.color = '#0d1321';
++                quotesBtn.style.background = 'rgba(255,255,255,0.04)';
++                quotesBtn.style.color = 'var(--color-text-muted)';
++                renderAllocatedLeads();
++            } else {
++                leadsDiv.style.display = 'none';
++                quotesDiv.style.display = '';
++                quotesBtn.style.background = 'var(--color-sun-yellow)';
++                quotesBtn.style.color = '#0d1321';
++                leadsBtn.style.background = 'rgba(255,255,255,0.04)';
++                leadsBtn.style.color = 'var(--color-text-muted)';
++                renderSavedQuotes();
++            }
++        }
++
++        // Also keep backward compat toggles
++        function toggleAllocatedLeads() { toggleLeadsAndQuotes(); }
++        function toggleSavedQuotes() {
++            const panel = document.getElementById('leads-quotes-panel');
++            if (panel.classList.contains('hidden')) {
++                panel.classList.remove('hidden');
++            }
++            switchLeadsQuotesTab('quotes');
++        }
++
++        function toggleFeasibilityPanel() {
++            // Feasibility panel is now inline — no-op kept for backward compat
++        }
++
++        function onPortalDistrictChange() {
++            const dist = document.getElementById('quote-district').value;
++            populateKSEBSections(dist);
++        }
++
+ 
+         function handleDashPinChange(e) {
+             e.preventDefault();
+@@ -621,7 +740,7 @@
+ 
+             localStorage.setItem('partner_pin_' + activePartnerCode, newPin);
+             
+-            feedback.textContent = 'PIN updated successfully!';
++            feedback.textContent = 'PIN updated successfully! Please log in again.';
+             feedback.className = 'form-feedback';
+             feedback.style.backgroundColor = 'rgba(40, 167, 69, 0.15)';
+             feedback.style.color = '#28a745';
+@@ -630,7 +749,8 @@
+             setTimeout(() => {
+                 feedback.classList.add('hidden');
+                 document.getElementById('dash-change-pin-form').reset();
+-                toggleChangePinPanel();
++                alert('Your PIN was changed. For your security, please log in again.');
++                logoutPartner();
+             }, 2000);
+         }
+ 
+@@ -879,47 +999,45 @@
+             const header = document.querySelector('.portal-header');
+             header.querySelector('h2').textContent = 'Partner Dashboard';
+             header.querySelector('p').textContent = 'Access local leads and download technical documentation assets.';
++            const portalTabs = document.getElementById('portal-tabs');
++            if (portalTabs) portalTabs.style.display = 'none';
+             
+             // Render dealer info card
+             const welcomeTitle = document.querySelector('#dashboard-view h3');
+             if (welcomeTitle) welcomeTitle.textContent = `Welcome back, ${dealer.name}`;
+-            
+-            // Dynamically inject dealer detailed profile rows
+-            let infoContainer = document.getElementById('dealer-profile-details');
+-            if (!infoContainer) {
+-                infoContainer = document.createElement('div');
+-                infoContainer.id = 'dealer-profile-details';
+-                infoContainer.style.background = 'rgba(255, 255, 255, 0.02)';
+-                infoContainer.style.border = '1px solid var(--color-border)';
+-                infoContainer.style.borderRadius = '15px';
+-                infoContainer.style.padding = '1.2rem';
+-                infoContainer.style.marginBottom = '1.5rem';
+-                infoContainer.style.fontSize = '0.84rem';
+-                infoContainer.style.lineHeight = '1.6';
+-                
+-                infoContainer.innerHTML = `
+-                    <h4 style="margin-top: 0; margin-bottom: 0.8rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; color: var(--color-sun-yellow);">📋 Authorized Profile Details</h4>
+-                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
++
++            // Inject dealer profile rows into the new profile-details-rows container
++            const profileRows = document.getElementById('profile-details-rows');
++            if (profileRows) {
++                profileRows.innerHTML = `
++                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem; font-size: 0.84rem; line-height: 1.6;">
++                        <span style="color: var(--color-text-muted);">Partner Name:</span>
++                        <strong style="color: var(--color-sun-yellow);">${dealer.name}</strong>
++                    </div>
++                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem; font-size: 0.84rem; line-height: 1.6;">
+                         <span style="color: var(--color-text-muted);">Partner ID Code:</span>
+                         <strong>${dealer.code}</strong>
+                     </div>
+-                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
++                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem; font-size: 0.84rem; line-height: 1.6;">
+                         <span style="color: var(--color-text-muted);">Service Area:</span>
+                         <strong>${dealer.area}</strong>
+                     </div>
+-                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
++                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem; font-size: 0.84rem; line-height: 1.6;">
+                         <span style="color: var(--color-text-muted);">District:</span>
+                         <strong>${dealer.district}</strong>
+                     </div>
+-                    <div style="display: flex; justify-content: space-between;">
++                    <div style="display: flex; justify-content: space-between; font-size: 0.84rem; line-height: 1.6;">
+                         <span style="color: var(--color-text-muted);">Registered Phone:</span>
+                         <strong>+91 ${dealer.phone}</strong>
+                     </div>
+                 `;
+-                
+-                const dashView = document.getElementById('dashboard-view');
+-                const resourceBox = dashView.querySelector('.tech-settings-box');
+-                dashView.insertBefore(infoContainer, resourceBox);
++            }
++
++            // Auto-set District dropdown in Quotation Generator to partner's district
++            const quoteDistrict = document.getElementById('quote-district');
++            if (quoteDistrict && dealer.district) {
++                quoteDistrict.value = dealer.district;
++                populateKSEBSections(dealer.district);
+             }
+ 
+             // Calculate actual statistics dynamically
+@@ -1050,11 +1168,72 @@
+             return null;
+         }
+ 
++        
++        function recalculateLivePrice() {
++            const capacityStr = document.getElementById('quote-capacity').value;
++            const capacityVal = parseFloat(capacityStr);
++            const floors = parseInt(document.getElementById('quote-floors').value) || 1;
++            const trussWork = document.getElementById('quote-truss').value;
++            const structMat = document.getElementById('quote-material').value;
++            const panelModel = document.getElementById('quote-panel-brand').value;
++            const phase = document.getElementById('quote-phase').value;
++            const roofType = document.getElementById('quote-roof-type').value;
++
++            const is5_3 = capacityStr === '5_3';
++            const panelKw = (capacityStr === '3' || is5_3) ? 3 : 5;
++
++            let grossTotal = 0;
++
++            // Base pricing
++            if (panelModel === 'Emmvee') {
++                if (capacityStr === '3') grossTotal = 200000;
++                else if (capacityStr === '5' && phase === 'Single Phase') grossTotal = 290000;
++                else if (capacityStr === '5' && phase === 'Three Phase') grossTotal = 310000;
++                else if (is5_3 && phase === 'Single Phase') grossTotal = 240000;
++                else if (is5_3 && phase === 'Three Phase') grossTotal = 260000;
++            } else if (panelModel === 'Adani') {
++                if (capacityStr === '3') grossTotal = 210000;
++                else if (capacityStr === '5' && phase === 'Single Phase') grossTotal = 300000;
++                else if (capacityStr === '5' && phase === 'Three Phase') grossTotal = 320000;
++                else if (is5_3 && phase === 'Single Phase') grossTotal = 250000;
++                else if (is5_3 && phase === 'Three Phase') grossTotal = 270000;
++            } else {
++                grossTotal = capacityVal * 64000; // Fallback
++            }
++
++            // Roof & Truss Add-ons
++            if (roofType === 'RCC') {
++                if (trussWork === 'Yes') grossTotal += (panelKw === 3 ? 3500 : 6500);
++                if (floors >= 3) grossTotal += (floors - 2) * 5000;
++            } else {
++                if (trussWork === 'Yes') grossTotal += (panelKw === 3 ? 6500 : 8500);
++                else grossTotal += (panelKw === 3 ? 5000 : 6000);
++                
++                if (floors >= 2) grossTotal += (floors - 1) * 5000;
++            }
++
++            // Material Discount
++            if (structMat === 'Customer') {
++                grossTotal -= (panelKw === 3 ? 15000 : 25000);
++            }
++            
++            document.getElementById('live-price-amount').innerText = grossTotal.toLocaleString('en-IN');
++        }
++
++        // Call once on load to set initial price
++        document.addEventListener('DOMContentLoaded', () => {
++            setTimeout(recalculateLivePrice, 500);
++        });
++
+         async function generateQuotation(type) {
+             const name = document.getElementById('quote-cust-name').value.trim().toUpperCase();
+             const phone = document.getElementById('quote-cust-phone').value.trim();
+             const addr = document.getElementById('quote-cust-addr').value.trim();
+-            const capacityVal = parseFloat(document.getElementById('quote-capacity').value);
++            const capacityStr = document.getElementById('quote-capacity').value;
++            const capacityVal = parseFloat(capacityStr);
++            const floors = parseInt(document.getElementById('quote-floors').value) || 1;
++            const trussWork = document.getElementById('quote-truss').value;
++            const structMat = document.getElementById('quote-material').value;
+             const panelModel = document.getElementById('quote-panel-brand').value;
+             const inverterModel = document.getElementById('quote-inverter-brand').value;
+             const roofType = document.getElementById('quote-roof-type').value;
+@@ -1066,8 +1245,8 @@
+                 alert('Please enter all customer details, including mobile number, and system capacity first.');
+                 return;
+             }
+-            if (!/^[0-5]\d{9}$/.test(phone)) {
+-                alert('Please enter a valid 10-digit mobile number that does NOT start with 6, 7, 8, or 9.');
++            if (!/^[6-9]\d{9}$/.test(phone)) {
++                alert('Please enter a valid 10-digit mobile number that starts with 6, 7, 8, or 9.');
+                 return;
+             }
+             
+@@ -1102,14 +1281,44 @@
+             }
+ 
+             if (type === 'customer') {
+-                if (capacityVal === 3) {
+-                    grossTotal = (customPricing && customPricing['3']) ? parseFloat(customPricing['3']) : 220000;
+-                } else if (capacityVal === 5) {
+-                    grossTotal = (customPricing && customPricing['5']) ? parseFloat(customPricing['5']) : 320000;
++                const is5_3 = capacityStr === '5_3';
++                const panelKw = (capacityStr === '3' || is5_3) ? 3 : 5;
++
++                // Base pricing
++                if (panelModel === 'Emmvee') {
++                    if (capacityStr === '3') grossTotal = 200000;
++                    else if (capacityStr === '5' && phase === 'Single Phase') grossTotal = 290000;
++                    else if (capacityStr === '5' && phase === 'Three Phase') grossTotal = 310000;
++                    else if (is5_3 && phase === 'Single Phase') grossTotal = 240000;
++                    else if (is5_3 && phase === 'Three Phase') grossTotal = 260000;
++                } else if (panelModel === 'Adani') {
++                    if (capacityStr === '3') grossTotal = 210000;
++                    else if (capacityStr === '5' && phase === 'Single Phase') grossTotal = 300000;
++                    else if (capacityStr === '5' && phase === 'Three Phase') grossTotal = 320000;
++                    else if (is5_3 && phase === 'Single Phase') grossTotal = 250000;
++                    else if (is5_3 && phase === 'Three Phase') grossTotal = 270000;
+                 } else {
+-                    grossTotal = capacityVal * ((customPricing && customPricing['other']) ? parseFloat(customPricing['other']) : 64000);
++                    grossTotal = capacityVal * 64000; // Fallback
+                 }
+-                
++
++                // Roof & Truss Add-ons
++                if (roofType === 'RCC') {
++                    if (trussWork === 'Yes') grossTotal += (panelKw === 3 ? 3500 : 6500);
++                    if (floors >= 3) grossTotal += (floors - 2) * 5000;
++                } else {
++                    if (trussWork === 'Yes') grossTotal += (panelKw === 3 ? 6500 : 8500);
++                    else grossTotal += (panelKw === 3 ? 5000 : 6000);
++                    
++                    if (floors >= 2) grossTotal += (floors - 1) * 5000;
++                }
++
++                // Material Discount
++                if (structMat === 'Customer') {
++                    grossTotal -= (panelKw === 3 ? 15000 : 25000);
++                }
++
++                
++                const subsidy = 78000;
+                 const gst = grossTotal * 0.138;
+                 const net = grossTotal - gst;
+                 
+@@ -1219,6 +1428,47 @@
+                             <li>Delivery and installation will be scheduled after receipt of the advance payment.</li>
+                             <li>This quotation is valid for <strong>15 days</strong> from the date of issue.</li>
+                         </ol>
++
++
++                        <div style="page-break-inside: avoid; margin-top: 1.5rem;">
++                            <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">DOCUMENTS NEEDED FOR MNRE REGISTRATION (Cash Purchase)</h4>
++                            <ul style="list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1.5rem; font-size: 0.8rem; line-height: 1.6;">
++                                <li>KSEB BILL</li>
++                                <li>PASSBOOK FRONT PAGE COPY / BLANK CHEQUE PHOTO</li>
++                                <li>AADHAR CARD COPY FRONT & BACK</li>
++                                <li>EMAIL ID</li>
++                                <li>MOBILE NO</li>
++                            </ul>
++
++                            <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">DOCUMENTS NEEDED FOR LOAN</h4>
++                            <ul style="list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1.5rem; font-size: 0.8rem; line-height: 1.6;">
++                                <li>KSEB BILL</li>
++                                <li>EMAIL ID (MUST BE ACCOUNT LINKED EMAIL)</li>
++                                <li>AADHAR CARD</li>
++                                <li>PANCARD</li>
++                                <li>BLANK CHEQUE PHOTO / PASS BOOK FRONT PAGE PHOTO</li>
++                                <li>LAND TAX</li>
++                                <li>BUILDING TAX</li>
++                                <li>GEOTAG PHOTOS OF HOUSE</li>
++                            </ul>
++
++                            <div style="background: rgba(239, 68, 68, 0.05); padding: 0.75rem; border-left: 4px solid #c5221f; margin-bottom: 1.5rem; font-size: 0.75rem; color: #c5221f;">
++                                <strong>NB:</strong> CO-APPLICANT (HUSBAND, WIFE, SON, DAUGHTER, SON IN-LAW, DAUGHTER IN-LAW) NEEDED IF CONSUMER AGE IS 65 OR ABOVE AND IF CONSUMER HAS JOINT OWNERSHIP.
++                            </div>
++
++                            <h5 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; font-weight: 700;">CO-APPLICANT DETAILS:</h5>
++                            <ul style="list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1.5rem; font-size: 0.8rem; line-height: 1.6;">
++                                <li>AADHAR CARD</li>
++                                <li>PANCARD</li>
++                                <li>ACCOUNT REGISTERED MOBILE NO (BOTH CONSUMER AND CO-APPLICANT MUST HAVE ACCOUNT IN SAME BANK NOT IN SAME BRANCH)</li>
++                            </ul>
++                            
++                            <div style="background: rgba(40, 167, 69, 0.1); padding: 0.75rem; border-radius: 6px; margin-bottom: 1.5rem; font-size: 0.75rem; font-weight: 600; color: #1e7e34; text-align: center;">
++                                FOR 3KW CUSTOMERS LOAN AMOUNT WILL BE 90% OF QUOTATION AMOUNT<br>
++                                FOR 5KW CUSTOMERS LOAN AMOUNT WILL BE 80% OF QUOTATION AMOUNT<br>
++                                <span style="font-weight: 400; font-size: 0.7rem;">(LAST TWO YEAR ITR DOCUMENTS OR SALARY CERTIFICATE NEEDED WITH LAND TAX & BUILDING TAX)</span>
++                            </div>
++                        </div>
+ 
+                         <div style="page-break-inside: avoid;">
+                             <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">CUSTOMER ACCEPTANCE</h4>
+==================== DIFF FOR login.html ====================
+Total diff lines: 14
+--- live_login.html
++++ local_login.html
+@@ -30,6 +30,11 @@
+                 <img src="assets/logo.jpg" alt="SUNOVA SOLAR LLP Logo" class="portal-logo">
+                 <h2>Staff Portal</h2>
+                 <p>Log in to access your staff dashboard and live customer inquiries log.</p>
++                
++                <div class="portal-selector" style="display: flex; gap: 10px; justify-content: center; margin-top: 15px; margin-bottom: 10px;" id="portal-tabs">
++                    <button type="button" class="cta-btn primary-btn" style="padding: 8px 16px; font-size: 14px; flex: 1; cursor: default;">Staff Login</button>
++                    <button type="button" class="cta-btn outline-btn" onclick="window.location.href='partner-portal.html'" style="padding: 8px 16px; font-size: 14px; flex: 1; border-color: var(--color-sun-yellow); color: var(--color-sun-yellow);">Partner Login</button>
++                </div>
+             </div>
+ 
+             <!-- Login View -->
+==================== DIFF FOR style.css ====================
+Total diff lines: 836
+--- live_style.css
++++ local_style.css
+@@ -3,6 +3,9 @@
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
++}
++
++html {
+     scroll-behavior: smooth;
+ }
+ 
+@@ -25,7 +28,24 @@
+     --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+ }
+ 
+-/* Dark Theme (Default) */
++/* Light Theme (Default) */
++:root, .light-theme {
++    --color-bg: hsl(210, 20%, 98%);
++    --color-bg-alt: hsl(210, 20%, 94%);
++    --color-surface: rgba(255, 255, 255, 0.7);
++    --color-surface-hover: rgba(255, 255, 255, 0.95);
++    --color-surface-opaque: hsl(0, 0%, 100%);
++    --color-text: hsl(222, 47%, 15%);
++    --color-text-muted: hsl(215, 20%, 40%);
++    --color-text-subtle: hsl(215, 15%, 60%);
++    --color-border: rgba(0, 0, 0, 0.08);
++    --color-border-focus: hsla(43, 100%, 50%, 0.6);
++    --color-shadow: rgba(0, 0, 0, 0.08);
++    --color-nav-bg: rgba(240, 243, 248, 0.8);
++    --glass-opacity: 0.85;
++}
++
++/* Dark Theme */
+ .dark-theme {
+     --color-bg: hsl(222, 47%, 9%);
+     --color-bg-alt: hsl(222, 47%, 5%);
+@@ -42,23 +62,6 @@
+     --glass-opacity: 0.05;
+ }
+ 
+-/* Light Theme */
+-.light-theme {
+-    --color-bg: hsl(210, 20%, 98%);
+-    --color-bg-alt: hsl(210, 20%, 94%);
+-    --color-surface: rgba(255, 255, 255, 0.7);
+-    --color-surface-hover: rgba(255, 255, 255, 0.95);
+-    --color-surface-opaque: hsl(0, 0%, 100%);
+-    --color-text: hsl(222, 47%, 15%);
+-    --color-text-muted: hsl(215, 20%, 40%);
+-    --color-text-subtle: hsl(215, 15%, 60%);
+-    --color-border: rgba(0, 0, 0, 0.08);
+-    --color-border-focus: hsla(43, 100%, 50%, 0.6);
+-    --color-shadow: rgba(0, 0, 0, 0.08);
+-    --color-nav-bg: rgba(240, 243, 248, 0.8);
+-    --glass-opacity: 0.85;
+-}
+-
+ body {
+     background-color: var(--color-bg);
+     color: var(--color-text);
+@@ -105,7 +108,7 @@
+     gap: 2.5rem;
+ }
+ 
+-@media(min-width: 768px) {
++@media (min-width: 768px) {
+     .grid-2-col {
+         grid-template-columns: 1.2fr 0.8fr;
+     }
+@@ -251,8 +254,8 @@
+     width: 100%;
+     z-index: 1000;
+     background-color: var(--color-nav-bg);
++    -webkit-backdrop-filter: blur(12px);
+     backdrop-filter: blur(12px);
+-    -webkit-backdrop-filter: blur(12px);
+     border-bottom: 1px solid var(--color-border);
+     transition: all var(--transition-normal);
+ }
+@@ -367,7 +370,7 @@
+ }
+ 
+ /* Responsive Nav Menu */
+-@media(min-width: 992px) {
++@media (min-width: 992px) {
+     .nav-menu {
+         display: flex;
+         align-items: center;
+@@ -379,7 +382,7 @@
+ }
+ 
+ /* Mobile Menu Opened styling */
+-@media(max-width: 991px) {
++@media (max-width: 991px) {
+     .nav-menu.active {
+         display: flex;
+         flex-direction: column;
+@@ -451,7 +454,7 @@
+     align-items: center;
+ }
+ 
+-@media(min-width: 992px) {
++@media (min-width: 992px) {
+     .hero-container {
+         grid-template-columns: 1.1fr 0.9fr;
+     }
+@@ -519,7 +522,7 @@
+     text-shadow: 0 2px 10px rgba(13, 19, 33, 0.65), 0 1px 3px rgba(13, 19, 33, 0.4);
+ }
+ 
+-@media(min-width: 768px) {
++@media (min-width: 768px) {
+     .hero-title {
+         font-size: 2.4rem;
+     }
+@@ -528,6 +531,7 @@
+ .gradient-text {
+     background: linear-gradient(45deg, var(--color-sun-yellow), #f5a623);
+     -webkit-background-clip: text;
++    background-clip: text;
+     -webkit-text-fill-color: transparent;
+ }
+ 
+@@ -538,8 +542,8 @@
+     padding: 1.15rem 1.4rem;
+     margin-bottom: 2rem;
+     max-width: 600px;
++    -webkit-backdrop-filter: blur(8px);
+     backdrop-filter: blur(8px);
+-    -webkit-backdrop-filter: blur(8px);
+     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+     
+     /* Solar cell grid pattern overlay */
+@@ -585,8 +589,8 @@
+ /* Glassmorphism Cards */
+ .glass-card {
+     background: var(--color-surface);
++    -webkit-backdrop-filter: blur(16px);
+     backdrop-filter: blur(16px);
+-    -webkit-backdrop-filter: blur(16px);
+     border: 1px solid var(--color-border);
+     border-radius: 20px;
+     padding: 2rem;
+@@ -600,15 +604,15 @@
+ 
+ .hero-card .glass-card {
+     background: rgba(255, 255, 255, 0.03) !important;
+-    border: 1.5px solid rgba(255, 255, 255, 0.12) !important;
++    border: 2px solid rgba(255, 255, 255, 0.12) !important;
+     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15) !important;
++    -webkit-backdrop-filter: blur(20px) !important;
+     backdrop-filter: blur(20px) !important;
+-    -webkit-backdrop-filter: blur(20px) !important;
+ }
+ 
+ .light-theme .hero-card .glass-card {
+     background: rgba(255, 255, 255, 0.3) !important;
+-    border: 1.5px solid rgba(0, 0, 0, 0.08) !important;
++    border: 2px solid rgba(0, 0, 0, 0.08) !important;
+     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04) !important;
+ }
+ 
+@@ -719,7 +723,7 @@
+     line-height: 1.2;
+ }
+ 
+-@media(min-width: 768px) {
++@media (min-width: 768px) {
+     .section-title {
+         font-size: 2.8rem;
+     }
+@@ -749,7 +753,7 @@
+     gap: 2rem;
+ }
+ 
+-@media(min-width: 768px) {
++@media (min-width: 768px) {
+     .services-grid {
+         grid-template-columns: 1fr 1fr;
+     }
+@@ -926,7 +930,7 @@
+     margin: 0;
+ }
+ 
+-@media(min-width: 992px) {
++@media (min-width: 992px) {
+     .tech-carousel {
+         display: grid;
+         grid-template-columns: repeat(4, 1fr);
+@@ -954,7 +958,7 @@
+     line-height: 1.2;
+ }
+ 
+-@media(min-width: 768px) {
++@media (min-width: 768px) {
+     .tech-lineup-header h3 {
+         font-size: 2.2rem;
+     }
+@@ -974,19 +978,19 @@
+     gap: 1.5rem;
+ }
+ 
+-@media(min-width: 576px) {
++@media (min-width: 576px) {
+     .panels-lineup-grid {
+         grid-template-columns: 1fr 1fr;
+     }
+ }
+ 
+-@media(min-width: 992px) {
++@media (min-width: 992px) {
+     .panels-lineup-grid {
+         grid-template-columns: repeat(3, 1fr);
+     }
+ }
+ 
+-@media(min-width: 1200px) {
++@media (min-width: 1200px) {
+     .panels-lineup-grid {
+         grid-template-columns: repeat(5, 1fr);
+     }
+@@ -1078,8 +1082,8 @@
+     overflow: hidden;
+     width: 100%;
+     position: relative;
++    -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+     mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+-    -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+ }
+ 
+ .marquee-track {
+@@ -1145,7 +1149,7 @@
+     box-shadow: 0 15px 40px var(--color-shadow);
+ }
+ 
+-@media(min-width: 992px) {
++@media (min-width: 992px) {
+     .calc-wrapper {
+         grid-template-columns: 1fr 1.1fr;
+     }
+@@ -1157,7 +1161,7 @@
+     flex-direction: column;
+ }
+ 
+-@media(max-width: 991px) {
++@media (max-width: 991px) {
+     .calc-inputs-panel {
+         background-color: var(--color-surface-opaque);
+         padding: 1.5rem;
+@@ -1234,17 +1238,17 @@
+ }
+ 
+ /* Range input styling styling */
+-input[type=range] {
++input[type="range"] {
+     -webkit-appearance: none;
+     width: 100%;
+     background: transparent;
+ }
+ 
+-input[type=range]:focus {
++input[type="range"]:focus {
+     outline: none;
+ }
+ 
+-input[type=range]::-webkit-slider-runnable-track {
++input[type="range"]::-webkit-slider-runnable-track {
+     width: 100%;
+     height: 8px;
+     cursor: pointer;
+@@ -1253,7 +1257,7 @@
+     border: 1px solid var(--color-border);
+ }
+ 
+-input[type=range]::-webkit-slider-thumb {
++input[type="range"]::-webkit-slider-thumb {
+     height: 22px;
+     width: 22px;
+     border-radius: 50%;
+@@ -1265,12 +1269,37 @@
+     transition: transform var(--transition-fast);
+ }
+ 
+-input[type=range]::-webkit-slider-thumb:hover {
++input[type="range"]::-webkit-slider-thumb:hover {
+     transform: scale(1.15);
+     background: var(--color-sun-yellow-hover);
+ }
+ 
+-input[type=number] {
++input[type="range"]::-moz-range-track {
++    width: 100%;
++    height: 8px;
++    cursor: pointer;
++    background: var(--color-bg-alt);
++    border-radius: 4px;
++    border: 1px solid var(--color-border);
++}
++
++input[type="range"]::-moz-range-thumb {
++    height: 22px;
++    width: 22px;
++    border-radius: 50%;
++    background: var(--color-sun-yellow);
++    cursor: pointer;
++    margin-top: -8px;
++    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
++    transition: transform var(--transition-fast);
++}
++
++input[type="range"]::-moz-range-thumb:hover {
++    transform: scale(1.15);
++    background: var(--color-sun-yellow-hover);
++}
++
++input[type="number"] {
+     width: 100%;
+     padding: 0.8rem 1.2rem;
+     border-radius: 12px;
+@@ -1283,7 +1312,7 @@
+     transition: border-color var(--transition-fast);
+ }
+ 
+-input[type=number]:focus {
++input[type="number"]:focus {
+     outline: none;
+     border-color: var(--color-sun-yellow);
+ }
+@@ -1330,7 +1359,7 @@
+     flex-direction: column;
+ }
+ 
+-@media(min-width: 992px) {
++@media (min-width: 992px) {
+     .calc-outputs-panel {
+         padding: 2.5rem;
+         border-top: none;
+@@ -1365,7 +1394,7 @@
+     margin-bottom: 1.5rem;
+ }
+ 
+-@media(min-width: 576px) {
++@media (min-width: 576px) {
+     .metrics-grid {
+         grid-template-columns: 1fr 1fr;
+     }
+@@ -1472,7 +1501,7 @@
+     gap: 0.8rem;
+ }
+ 
+-@media(min-width: 480px) {
++@media (min-width: 480px) {
+     .savings-metrics {
+         grid-template-columns: 1.2fr 0.9fr 0.9fr;
+     }
+@@ -1529,7 +1558,7 @@
+     gap: 2rem;
+ }
+ 
+-@media(min-width: 768px) {
++@media (min-width: 768px) {
+     .projects-grid {
+         grid-template-columns: repeat(3, 1fr);
+     }
+@@ -1635,13 +1664,13 @@
+     gap: 1.5rem;
+ }
+ 
+-@media(min-width: 576px) {
++@media (min-width: 576px) {
+     .flow-steps-grid {
+         grid-template-columns: 1fr 1fr;
+     }
+ }
+ 
+-@media(min-width: 992px) {
++@media (min-width: 992px) {
+     .flow-steps-grid {
+         grid-template-columns: repeat(4, 1fr);
+     }
+@@ -1697,13 +1726,13 @@
+     gap: 2rem;
+ }
+ 
+-@media(min-width: 576px) {
++@media (min-width: 576px) {
+     .safety-grid {
+         grid-template-columns: 1fr 1fr;
+     }
+ }
+ 
+-@media(min-width: 992px) {
++@media (min-width: 992px) {
+     .safety-grid {
+         grid-template-columns: repeat(4, 1fr);
+     }
+@@ -1778,7 +1807,7 @@
+     gap: 1rem;
+ }
+ 
+-@media(min-width: 576px) {
++@media (min-width: 576px) {
+     .leadership-cards {
+         flex-direction: row;
+     }
+@@ -1865,7 +1894,7 @@
+     gap: 1.5rem;
+ }
+ 
+-@media(min-width: 576px) {
++@media (min-width: 576px) {
+     .stat-grid {
+         grid-template-columns: 1fr 1fr;
+     }
+@@ -2012,7 +2041,7 @@
+     padding-bottom: 0;
+ }
+ 
+-@media(min-width: 576px) {
++@media (min-width: 576px) {
+     .business-row {
+         grid-template-columns: 0.8fr 1.2fr;
+         gap: 1rem;
+@@ -2069,7 +2098,7 @@
+     gap: 1.25rem;
+ }
+ 
+-@media(min-width: 576px) {
++@media (min-width: 576px) {
+     .form-grid {
+         grid-template-columns: 1fr 1fr;
+     }
+@@ -2135,10 +2164,10 @@
+ 
+ /* Footer Section */
+ .footer {
+-    background-color: hsl(222, 47%, 4%);
++    background-color: var(--color-bg-alt);
+     border-top: 1px solid var(--color-border);
+     padding: 5rem 0 0;
+-    color: hsl(210, 20%, 98%);
++    color: var(--color-text);
+ }
+ 
+ .footer-container {
+@@ -2148,7 +2177,7 @@
+     padding-bottom: 4rem;
+ }
+ 
+-@media(min-width: 768px) {
++@media (min-width: 768px) {
+     .footer-container {
+         grid-template-columns: 1.2fr 0.8fr 1fr;
+     }
+@@ -2161,12 +2190,12 @@
+ }
+ 
+ .footer-info .logo {
+-    color: hsl(210, 20%, 98%);
++    color: var(--color-text);
+ }
+ 
+ .footer-desc {
+     font-size: 0.88rem;
+-    color: hsl(215, 12%, 65%);
++    color: var(--color-text-subtle);
+ }
+ 
+ .footer-llp {
+@@ -2200,7 +2229,7 @@
+ }
+ 
+ .footer-links a {
+-    color: hsl(215, 12%, 65%);
++    color: var(--color-text-subtle);
+     text-decoration: none;
+     font-size: 0.88rem;
+     transition: color var(--transition-fast);
+@@ -2215,17 +2244,17 @@
+     flex-direction: column;
+     gap: 1rem;
+     font-size: 0.88rem;
+-    color: hsl(215, 12%, 65%);
++    color: var(--color-text-subtle);
+ }
+ 
+ .footer-contact p strong {
+-    color: hsl(210, 20%, 98%);
++    color: var(--color-text);
+ }
+ 
+ .footer-bottom {
+-    background-color: hsl(222, 47%, 2%);
++    background-color: var(--color-bg);
+     padding: 1.5rem 0;
+-    border-top: 1px solid rgba(255, 255, 255, 0.05);
++    border-top: 1px solid var(--color-border);
+ }
+ 
+ .footer-bottom-container {
+@@ -2234,10 +2263,10 @@
+     gap: 0.5rem;
+     text-align: center;
+     font-size: 0.78rem;
+-    color: hsl(215, 12%, 50%);
+-}
+-
+-@media(min-width: 576px) {
++    color: var(--color-text-muted);
++}
++
++@media (min-width: 576px) {
+     .footer-bottom-container {
+         flex-direction: row;
+         justify-content: space-between;
+@@ -2283,7 +2312,7 @@
+ 
+ .reveal-active {
+     opacity: 1;
+-    transform: translate(0, 0);
++    transform: translate(0px, 0px);
+ }
+ 
+ /* Contact Links styling */
+@@ -2344,12 +2373,19 @@
+     padding: 3rem 2.5rem;
+ }
+ 
++.portal-header {
++    text-align: center;
++}
++
+ .portal-logo {
+     height: 60px;
+     width: auto;
+     border-radius: 8px;
+     margin-bottom: 1.5rem;
+     border: 1px solid var(--color-border);
++    display: block;
++    margin-left: auto;
++    margin-right: auto;
+ }
+ 
+ .portal-header h2 {
+@@ -2579,8 +2615,9 @@
+ }
+ 
+ /* Remove spin arrow buttons for Firefox */
+-.manual-input-wrapper input[type=number] {
++.manual-input-wrapper input[type="number"] {
+     -moz-appearance: textfield;
++    appearance: textfield;
+ }
+ 
+ /* Metric Capacity Input Field Styling */
+@@ -2616,8 +2653,9 @@
+     margin: 0;
+ }
+ 
+-.metric-input-wrapper input[type=number] {
++.metric-input-wrapper input[type="number"] {
+     -moz-appearance: textfield;
++    appearance: textfield;
+ }
+ 
+ /* Google Maps Link Styling */
+@@ -2670,7 +2708,7 @@
+     margin-top: 1rem;
+ }
+ 
+-@media(min-width: 576px) {
++@media (min-width: 576px) {
+     .success-wa-buttons {
+         flex-direction: row;
+     }
+@@ -2794,7 +2832,7 @@
+     border: 1px solid var(--color-border);
+ }
+ 
+-.form-size-wrapper input[type=number] {
++.form-size-wrapper input[type="number"] {
+     background: none;
+     border: none;
+     color: var(--color-text);
+@@ -2805,6 +2843,8 @@
+     flex-grow: 1;
+     height: 100%;
+     outline: none;
++    -moz-appearance: textfield;
++    appearance: textfield;
+ }
+ 
+ .form-size-wrapper input::-webkit-outer-spin-button,
+@@ -2813,10 +2853,6 @@
+     margin: 0;
+ }
+ 
+-.form-size-wrapper input[type=number] {
+-    -moz-appearance: textfield;
+-}
+-
+ .form-size-wrapper .unit {
+     font-size: 0.88rem;
+     color: var(--color-text-muted);
+@@ -2826,11 +2862,12 @@
+ 
+ /* Print Media Styles for Solar Quotations */
+ @media print {
+-    body * {
+-        visibility: hidden !important;
+-    }
+-    #quote-modal-overlay, #quote-modal-overlay * {
++    body > *:not(#quote-modal-overlay) {
++        display: none !important;
++    }
++    #quote-modal-overlay {
+         visibility: visible !important;
++        position: static !important;
+     }
+     #quote-modal-overlay {
+         position: absolute !important;
+@@ -2877,3 +2914,212 @@
+ .fb-float:hover { transform: scale(1.1); box-shadow: 0 6px 15px rgba(24, 119, 242, 0.4); color: #fff; }
+ .insta-float { bottom: 170px; background-color: #E4405F; }
+ .insta-float:hover { transform: scale(1.1); box-shadow: 0 6px 15px rgba(228, 64, 95, 0.4); color: #fff; }
++
++/* --- NEW SUNOVA STYLES --- */
++/* Hero Section */
++.sunova-hero {
++    position: relative;
++    width: 100%;
++    min-height: 75vh;
++    display: flex;
++    align-items: center;
++    background-size: cover;
++    background-position: center;
++    background-repeat: no-repeat;
++    background-color: #1a1a2e;
++    padding: 6rem 2rem;
++}
++.sunova-hero::before {
++    content: '';
++    position: absolute;
++    top: 0; left: 0; right: 0; bottom: 0;
++    background: linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%);
++    z-index: 1;
++}
++.sunova-hero > * {
++    position: relative;
++    z-index: 2;
++}
++.sunova-hero-content {
++    max-width: 800px;
++    margin: 0 auto;
++    text-align: center;
++}
++.sunova-hero-title {
++    font-size: 3.5rem;
++    color: #ffffff;
++    font-family: var(--font-heading);
++    font-weight: 800;
++    margin-bottom: 1.5rem;
++    line-height: 1.2;
++}
++.sunova-hero-subtitle {
++    font-size: 1.2rem;
++    color: rgba(255,255,255,0.9);
++    margin-bottom: 2rem;
++}
++
++/* Section Headers */
++.sunova-section-header {
++    text-align: center;
++    margin-bottom: 3.5rem;
++    position: relative;
++}
++.sunova-section-header h2 {
++    font-size: 2.5rem;
++    color: var(--color-text);
++    font-family: var(--font-heading);
++    font-weight: 700;
++    margin-bottom: 1rem;
++    position: relative;
++    display: inline-block;
++}
++.sunova-section-header h2::after {
++    content: '';
++    position: absolute;
++    bottom: -10px;
++    left: 50%;
++    transform: translateX(-50%);
++    width: 60px;
++    height: 3px;
++    background-color: var(--color-sun-yellow);
++}
++.sunova-section-header p {
++    color: var(--color-text-muted);
++    font-size: 1.1rem;
++    max-width: 600px;
++    margin: 1.5rem auto 0;
++}
++
++/* News Section */
++.sunova-news-section {
++    display: grid;
++    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
++    gap: 2rem;
++    margin-top: 2rem;
++}
++.news-card {
++    background: var(--color-surface-opaque);
++    border-radius: 8px;
++    overflow: hidden;
++    box-shadow: 0 4px 15px var(--color-shadow);
++    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
++    border-left: 4px solid var(--color-sun-yellow);
++    display: flex;
++    flex-direction: column;
++}
++.news-card:hover {
++    transform: translateY(-5px);
++    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
++}
++.news-date {
++    background: var(--color-bg-alt);
++    padding: 0.5rem 1rem;
++    font-size: 0.85rem;
++    color: var(--color-text-muted);
++    font-weight: 600;
++}
++.news-content {
++    padding: 1.5rem;
++    flex-grow: 1;
++}
++.news-title {
++    font-size: 1.2rem;
++    font-family: var(--font-heading);
++    font-weight: 700;
++    margin-bottom: 1rem;
++    color: var(--color-text);
++}
++.news-desc {
++    color: var(--color-text-muted);
++    font-size: 0.95rem;
++    line-height: 1.5;
++    margin-bottom: 1.5rem;
++}
++.news-show-all {
++    display: inline-block;
++    margin-top: 2rem;
++    color: var(--color-sun-yellow);
++    font-weight: 600;
++    text-decoration: none;
++    border-bottom: 2px solid transparent;
++    transition: border-color var(--transition-fast);
++}
++.news-show-all:hover {
++    border-color: var(--color-sun-yellow);
++}
++
++/* Animated Stats */
++.sunova-stats {
++    display: grid;
++    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
++    gap: 2rem;
++    text-align: center;
++    padding: 4rem 0;
++}
++.stat-block {
++    padding: 2rem;
++    background: var(--color-surface-opaque);
++    border-radius: 12px;
++    box-shadow: 0 4px 20px var(--color-shadow);
++    transition: transform var(--transition-normal);
++}
++.stat-block:hover {
++    transform: translateY(-5px);
++}
++.stat-icon {
++    font-size: 2.5rem;
++    color: var(--color-sun-yellow);
++    margin-bottom: 1rem;
++}
++.stat-number-wrapper {
++    display: flex;
++    align-items: baseline;
++    justify-content: center;
++    gap: 0.2rem;
++}
++.stat-number {
++    font-size: 3rem;
++    font-weight: 800;
++    font-family: var(--font-heading);
++    color: var(--color-text);
++}
++.stat-unit {
++    font-size: 1.5rem;
++    font-weight: 700;
++    color: var(--color-sun-yellow);
++}
++.stat-desc {
++    color: var(--color-text-muted);
++    font-size: 1rem;
++    margin-top: 0.5rem;
++    font-weight: 500;
++}
++
++/* Project Tabs */
++.project-tabs {
++    display: flex;
++    justify-content: center;
++    gap: 1rem;
++    flex-wrap: wrap;
++    margin-bottom: 2rem;
++}
++.tab-btn {
++    background: transparent;
++    border: none;
++    padding: 0.8rem 1.5rem;
++    font-size: 1rem;
++    font-weight: 600;
++    color: var(--color-text-muted);
++    cursor: pointer;
++    border-bottom: 3px solid transparent;
++    transition: all var(--transition-fast);
++}
++.tab-btn:hover {
++    color: var(--color-text);
++}
++.tab-btn.active {
++    color: var(--color-sun-yellow);
++    border-bottom-color: var(--color-sun-yellow);
++}
++
+==================== DIFF FOR kseb.html ====================
+Total diff lines: 0

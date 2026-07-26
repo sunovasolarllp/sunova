@@ -1,0 +1,4 @@
+RuleType,CapacityKW,Price
+Fixed,3,220000
+Fixed,5,320000
+RatePerKW,ANY,64000
