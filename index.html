@@ -791,49 +791,7 @@
         </div>
     </section>
 
-    <!-- District Channel Partners Directory Section -->
-    <section id="district-partners" class="section-padding" style="background: var(--color-bg-alt); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
-        <div class="container">
-            <div class="section-header text-center">
-                <span class="sub-title">DISTRICT NETWORK DIRECTORY</span>
-                <h2 class="section-title">Authorized District Channel Partners Across Kerala</h2>
-                <div class="title-line"></div>
-                <p class="section-desc">Sunova Solar operates 50 authorized district channel partner offices across all 14 districts in Kerala. Select a district tab below to view area partners, contact details, and location offices.</p>
-            </div>
 
-            <!-- District Filter Tabs Bar -->
-            <div class="district-main-tabs-wrapper" style="display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.8rem; margin-bottom: 1.5rem; justify-content: flex-start; scrollbar-width: thin;">
-                <button type="button" class="district-main-tab active" onclick="switchMainDistrictTab('All', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 700; border-radius: 25px; border: 1px solid var(--color-sun-yellow); background: var(--color-sun-yellow); color: #0d1321; cursor: pointer; white-space: nowrap; transition: all 0.2s;">All 14 Districts (50 Partners)</button>
-                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Thiruvananthapuram', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Thiruvananthapuram</button>
-                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Kollam', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Kollam</button>
-                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Pathanamthitta', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Pathanamthitta</button>
-                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Alappuzha', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Alappuzha</button>
-                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Kottayam', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Kottayam</button>
-                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Idukki', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Idukki</button>
-                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Ernakulam', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Ernakulam</button>
-                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Thrissur', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Thrissur</button>
-                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Palakkad', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Palakkad</button>
-                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Malappuram', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Malappuram</button>
-                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Kozhikode', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Kozhikode</button>
-                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Wayanad', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Wayanad</button>
-                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Kannur', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Kannur</button>
-                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Kasaragod', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Kasaragod</button>
-            </div>
-
-            <!-- District Info Banner & Click to View Button -->
-            <div id="main-district-info-banner" style="background: rgba(255, 183, 3, 0.08); border: 1px solid rgba(255, 183, 3, 0.2); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; font-size: 0.88rem; color: var(--color-sun-yellow); text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.8rem;">
-                <div id="main-district-banner-text">📍 Showing <strong>50 authorized channel partners</strong> across all 14 Kerala districts.</div>
-                <button type="button" id="btn-toggle-main-dealers" onclick="toggleMainDealersView()" style="background: var(--color-sun-yellow); color: #0d1321; border: none; padding: 0.65rem 1.4rem; border-radius: 25px; font-weight: 700; font-size: 0.84rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: transform 0.2s, background-color 0.2s; box-shadow: 0 4px 15px rgba(255, 183, 3, 0.3);">
-                    <span id="btn-toggle-dealers-icon">👇</span> <span id="btn-toggle-dealers-text">Click to View Partner Details</span>
-                </button>
-            </div>
-
-            <!-- District Partners Grid -->
-            <div id="main-district-dealers-grid" style="display: none; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem;">
-                <!-- Injected dynamically -->
-            </div>
-        </div>
-    </section>
 
     <!-- Feasibility Form Section -->
     <section class="contact-section" id="contact">
@@ -1374,6 +1332,50 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- District Channel Partners Directory Section -->
+    <section id="district-partners" class="section-padding" style="background: var(--color-bg-alt); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="sub-title">DISTRICT NETWORK DIRECTORY</span>
+                <h2 class="section-title">Authorized District Channel Partners Across Kerala</h2>
+                <div class="title-line"></div>
+                <p class="section-desc">Sunova Solar operates 50 authorized district channel partner offices across all 14 districts in Kerala. Select a district tab below to view area partners, contact details, and location offices.</p>
+            </div>
+
+            <!-- District Filter Tabs Bar -->
+            <div class="district-main-tabs-wrapper" style="display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.8rem; margin-bottom: 1.5rem; justify-content: flex-start; scrollbar-width: thin;">
+                <button type="button" class="district-main-tab active" onclick="switchMainDistrictTab('All', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 700; border-radius: 25px; border: 1px solid var(--color-sun-yellow); background: var(--color-sun-yellow); color: #0d1321; cursor: pointer; white-space: nowrap; transition: all 0.2s;">All 14 Districts (50 Partners)</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Thiruvananthapuram', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Thiruvananthapuram</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Kollam', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Kollam</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Pathanamthitta', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Pathanamthitta</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Alappuzha', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Alappuzha</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Kottayam', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Kottayam</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Idukki', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Idukki</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Ernakulam', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Ernakulam</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Thrissur', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Thrissur</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Palakkad', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Palakkad</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Malappuram', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Malappuram</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Kozhikode', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Kozhikode</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Wayanad', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Wayanad</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Kannur', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Kannur</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Kasaragod', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Kasaragod</button>
+            </div>
+
+            <!-- District Info Banner & Click to View Button -->
+            <div id="main-district-info-banner" style="background: rgba(255, 183, 3, 0.08); border: 1px solid rgba(255, 183, 3, 0.2); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; font-size: 0.88rem; color: var(--color-sun-yellow); text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.8rem;">
+                <div id="main-district-banner-text">📍 Showing <strong>50 authorized channel partners</strong> across all 14 Kerala districts.</div>
+                <button type="button" id="btn-toggle-main-dealers" onclick="toggleMainDealersView()" style="background: var(--color-sun-yellow); color: #0d1321; border: none; padding: 0.65rem 1.4rem; border-radius: 25px; font-weight: 700; font-size: 0.84rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: transform 0.2s, background-color 0.2s; box-shadow: 0 4px 15px rgba(255, 183, 3, 0.3);">
+                    <span id="btn-toggle-dealers-icon">👇</span> <span id="btn-toggle-dealers-text">Click to View Partner Details</span>
+                </button>
+            </div>
+
+            <!-- District Partners Grid -->
+            <div id="main-district-dealers-grid" style="display: none; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem;">
+                <!-- Injected dynamically -->
             </div>
         </div>
     </section>
