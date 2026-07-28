@@ -793,6 +793,65 @@
 
 
 
+    <!-- Customer Testimonials Section -->
+    <section class="testimonials-section" id="testimonials">
+        <div class="container">
+            <div class="section-header scroll-reveal">
+                <span class="sub-title">REAL CUSTOMER REVIEWS</span>
+                <h2 class="section-title">What Our Clients Say Across Kerala</h2>
+                <div class="title-line"></div>
+                <p class="section-desc">Read how Sunova Solar LLP helped homeowners and commercial businesses lower their KSEB electricity bills to near zero.</p>
+            </div>
+
+            <div class="testimonials-grid">
+                <!-- Review 1 -->
+                <div class="testimonial-card scroll-reveal-up">
+                    <div>
+                        <div class="stars-row">★★★★★</div>
+                        <p class="review-text">"Installed a 5 kWp Mono PERC system at my home in Thodupuzha. Our KSEB bi-monthly bill dropped from ₹6,400 to just ₹390! Sunova Solar handled the entire KSEB net-metering &amp; PM Surya Ghar subsidy application smoothly."</p>
+                    </div>
+                    <div class="reviewer-info">
+                        <div class="avatar-circle">KN</div>
+                        <div>
+                            <h4>Dr. K. Nair</h4>
+                            <span class="reviewer-loc">📍 Thodupuzha, Idukki • 5 kWp Rooftop</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="testimonial-card scroll-reveal-up" style="animation-delay: 0.1s;">
+                    <div>
+                        <div class="stars-row">★★★★★</div>
+                        <p class="review-text">"Sunova Solar installed a 15 kWp commercial on-grid solar plant for our business in Edappally. The installation structure is extremely heavy-duty and wind-resistant. Excellent post-sales support and real-time generation monitoring!"</p>
+                    </div>
+                    <div class="reviewer-info">
+                        <div class="avatar-circle">MV</div>
+                        <div>
+                            <h4>Mathew Varghese</h4>
+                            <span class="reviewer-loc">📍 Edappally, Ernakulam • 15 kWp Commercial</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="testimonial-card scroll-reveal-up" style="animation-delay: 0.2s;">
+                    <div>
+                        <div class="stars-row">★★★★★</div>
+                        <p class="review-text">"We opted for a 3 kWp Hybrid system with lithium battery storage in Cherthala. During heavy monsoons and coastal power cuts, our lights, fans, and refrigerator run uninterrupted. Truly reliable engineering!"</p>
+                    </div>
+                    <div class="reviewer-info">
+                        <div class="avatar-circle">PS</div>
+                        <div>
+                            <h4>Priya S.</h4>
+                            <span class="reviewer-loc">📍 Cherthala, Alappuzha • 3 kWp Hybrid System</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Feasibility Form Section -->
     <section class="contact-section" id="contact">
         <div class="container">
@@ -1376,6 +1435,183 @@
             <!-- District Partners Grid -->
             <div id="main-district-dealers-grid" style="display: none; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem;">
                 <!-- Injected dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Feasibility Form, Office Address & Contact Section -->
+    <section class="contact-section" id="contact" style="border-top: 1px solid var(--color-border); padding-top: 5rem; padding-bottom: 5rem;">
+        <div class="container">
+            <div class="section-header scroll-reveal text-center">
+                <span class="sub-title">GET A QUOTE &amp; OFFICE ADDRESS</span>
+                <h2 class="section-title">Feasibility Request &amp; Contact Information</h2>
+                <div class="title-line"></div>
+                <p class="section-desc">Fill out the form below to receive a customized design layout proposal for your rooftop, or visit our primary office in Thodupuzha.</p>
+            </div>
+
+            <!-- Contact Form Panel -->
+            <div class="contact-form-wrapper scroll-reveal-right" style="max-width:800px; margin: 0 auto;">
+                <div class="glass-card contact-card">
+                    <h3>Feasibility &amp; Quote Request</h3>
+                    <p>Fill out the form below to receive a customized design layout proposal for your rooftop.</p>
+                    
+                    <form id="contact-form" onsubmit="handleFormSubmit(event)">
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="form-name">Full Name</label>
+                                <input type="text" id="form-name" placeholder="Enter your name" style="text-transform: uppercase;" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="form-phone">Mobile Number (Indian Only)</label>
+                                <input type="tel" id="form-phone" placeholder="10-digit Indian mobile number" pattern="^[6-9]\d{9}$" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/^[^6-9]/, '')" title="10-digit Indian mobile number starting with 6, 7, 8, or 9" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="form-email">Email Address (Optional)</label>
+                                <input type="email" id="form-email" placeholder="example@domain.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="form-district">District (Kerala)</label>
+                                <select id="form-district" required onchange="handleDistrictChange(this.value)">
+                                    <option value="" disabled>Select your district</option>
+                                    <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                                    <option value="Kollam">Kollam</option>
+                                    <option value="Pathanamthitta">Pathanamthitta</option>
+                                    <option value="Alappuzha" selected>Alappuzha</option>
+                                    <option value="Kottayam">Kottayam</option>
+                                    <option value="Idukki">Idukki</option>
+                                    <option value="Ernakulam">Ernakulam</option>
+                                    <option value="Thrissur">Thrissur</option>
+                                    <option value="Palakkad">Palakkad</option>
+                                    <option value="Malappuram">Malappuram</option>
+                                    <option value="Kozhikode">Kozhikode</option>
+                                    <option value="Wayanad">Wayanad</option>
+                                    <option value="Kannur">Kannur</option>
+                                    <option value="Kasaragod">Kasaragod</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="form-location">Name of Section (KSEB)</label>
+                                <select id="form-location" required onchange="handleKSEBSectionChange(this.value)">
+                                    <option value="" disabled selected>-- Select district first --</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="form-dealer">Partner Area</label>
+                                <select id="form-dealer" required>
+                                    <!-- Populated dynamically based on selected District -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="form-connection">Connection Category</label>
+                                <select id="form-connection" onchange="handleFormConnectionChange(this.value)">
+                                    <option value="residential">Residential (Home Solar)</option>
+                                    <option value="commercial">Commercial / Industrial</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="form-size">Requested Capacity</label>
+                                <div class="capacity-selector" style="margin-bottom: 0.5rem;" id="form-size-select-wrapper">
+                                    <select id="form-size-select" onchange="handleFormSizeSelectChange(this.value)" style="width: 100%; border-radius: 8px; border: 1px solid var(--color-border); padding: 0.8rem; background-color: var(--color-bg-alt); color: var(--color-text);">
+                                        <option value="3.0">3.0 kW</option>
+                                        <option value="5.0">5.0 kW</option>
+                                        <option value="custom">Others (Type Manually)</option>
+                                    </select>
+                                </div>
+                                <div id="form-size-custom-wrapper" class="hidden">
+                                    <input type="number" id="form-size" placeholder="Enter capacity in kW (e.g., 5.0)" min="1" max="1000" step="0.1" style="width: 100%; border-radius: 8px; border: 1px solid var(--color-border); padding: 0.8rem; background-color: var(--color-bg-alt); color: var(--color-text);">
+                                    <a href="javascript:void(0)" onclick="resetFormSizeSelector()" style="font-size: 0.72rem; color: var(--color-sun-yellow); text-decoration: underline; margin-top: 0.2rem; display: inline-block;">Back to Standard Presets (3.0 / 5.0 kW)</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="form-address">Installation Site Address</label>
+                            <textarea id="form-address" rows="3" placeholder="Enter full installation address..." required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="form-bill">Upload Latest KSEB Electricity Bill (Optional)</label>
+                            <div class="bill-upload-box" style="border: 2px dashed var(--color-border); border-radius: 8px; padding: 1.5rem; text-align: center; background: rgba(255,255,255,0.02); cursor: pointer;" onclick="document.getElementById('form-bill-file').click()">
+                                <span style="font-size: 2rem; display: block; margin-bottom: 0.5rem;">📄</span>
+                                <span style="font-size: 0.85rem; font-weight: 600; display: block; color: var(--color-text);">Click to upload KSEB Bill (PDF / JPG / PNG)</span>
+                                <span style="font-size: 0.75rem; color: var(--color-text-muted);">Max file size: 10 MB</span>
+                                <input type="file" id="form-bill-file" accept="image/*,.pdf" style="display: none;" onchange="handleBillUpload(this)">
+                            </div>
+                            <div id="bill-upload-status" style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--color-sun-yellow); display: none;"></div>
+                        </div>
+
+                        <!-- Form Feedback Message -->
+                        <div id="form-feedback" class="form-feedback hidden" style="margin-bottom: 1rem; padding: 0.8rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; text-align: center;"></div>
+
+                        <button type="submit" class="cta-btn primary-btn full-width" id="form-submit-btn">
+                            Submit Feasibility Request
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Detailed Office Address & Contact Information Cards -->
+            <div class="contact-cards-grid" style="margin-top: 3rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+                
+                <!-- Main Office & Outlet Address Card -->
+                <div class="office-location-card">
+                    <div class="office-badge">PRIMARY OFFICE & OUTLET</div>
+                    <h3>SUNOVA SOLAR LLP</h3>
+                    <p class="corporate-desc">Registered Corporate Entity under MCA, Govt. of India</p>
+                    
+                    <div class="address-box">
+                        <div class="address-icon">📍</div>
+                        <div class="address-details">
+                            <strong>Registered Office Address:</strong><br>
+                            Vengalloor - Mangattukavala Bypass,<br>
+                            Thodupuzha, <strong>Idukki District</strong>,<br>
+                            Kerala, India – 685608
+                        </div>
+                    </div>
+
+                    <div class="contact-direct-links">
+                        <p class="contact-link-row">
+                            📞 <strong>Phone Support:</strong> <a href="tel:+919072522277">+91 90725 22277</a>
+                        </p>
+                        <p class="contact-link-row">
+                            💬 <strong>WhatsApp:</strong> <a href="https://wa.me/919072522277?text=Hi%20Sunova%20Solar,%20I'm%20interested%20in%20a%20solar%20system%20installation." target="_blank" rel="noopener">Chat on WhatsApp</a>
+                        </p>
+                        <p class="contact-link-row">
+                            ✉️ <strong>Email Support:</strong> <a href="mailto:info@sunovasolar.in">info@sunovasolar.in</a>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Working Hours & LLP Info Card -->
+                <div class="business-info-card">
+                    <div class="business-row">
+                        <span class="info-label">📅 Working Hours:</span>
+                        <span class="info-val">Monday to Saturday: 9:00 AM – 5:00 PM<br><span class="text-red">Closed on Sundays</span></span>
+                    </div>
+                    <div class="business-row">
+                        <span class="info-label">✉️ Email Address:</span>
+                        <span class="info-val"><a href="mailto:info@sunovasolar.in">info@sunovasolar.in</a></span>
+                    </div>
+                    <div class="business-row">
+                        <span class="info-label">🌐 Web Address:</span>
+                        <span class="info-val"><a href="https://sunovasolar.in" target="_blank" rel="noopener">https://sunovasolar.in</a></span>
+                    </div>
+                    <div class="business-row">
+                        <span class="info-label">💼 Corporate Status:</span>
+                        <span class="info-val">Active Limited Liability Partnership (LLP)</span>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
