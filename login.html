@@ -39,10 +39,6 @@
                 </a>
             </div>
 
-            <div style="text-align: center; margin-top: -0.8rem; margin-bottom: 1.2rem;">
-                <a href="partner-portal.html" style="font-size: 0.78rem; color: var(--color-sun-yellow); text-decoration: underline; font-weight: 600;">Direct Partner Portal Page ↗</a>
-            </div>
-
             <div class="portal-header text-center" style="display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 1.5rem;">
                 <img src="assets/logo.jpg" alt="SUNOVA SOLAR LLP Logo" class="portal-logo" style="margin: 0 auto 1.25rem auto; display: block;">
                 <h2 id="portal-header-title" style="text-align: center; width: 100%;">Staff Portal</h2>
@@ -60,8 +56,7 @@
                     <div class="form-group">
                         <label for="portal-password" id="portal-password-label">Account Password</label>
                         <input type="password" id="portal-password" placeholder="Enter your email password" required>
-                        <div id="staff-pass-hint" style="font-size: 0.74rem; color: var(--color-text-muted); margin-top: 0.35rem;">💡 Default staff portal password: <strong>Sunova@26</strong></div>
-                        <div id="partner-pin-hint" class="hidden" style="font-size: 0.74rem; color: var(--color-text-muted); margin-top: 0.35rem;">💡 First-time logging in? Use default security PIN: <strong>2277</strong></div>
+                        <div id="partner-pin-hint" class="hidden" style="font-size: 0.74rem; color: var(--color-text-muted); margin-top: 0.35rem;">💡 First-time logging in? Use the default security PIN: <strong>2277</strong></div>
                     </div>
 
                     <div id="login-feedback" class="form-feedback hidden"></div>
@@ -318,7 +313,6 @@
             const passwordLabel = document.getElementById('portal-password-label');
             const passwordInput = document.getElementById('portal-password');
             const submitBtn = document.getElementById('btn-portal-login');
-            const staffHint = document.getElementById('staff-pass-hint');
             const pinHint = document.getElementById('partner-pin-hint');
             const resetLink = document.getElementById('partner-reset-pin-link');
             
@@ -343,7 +337,6 @@
                     passwordInput.placeholder = 'Enter your 4-digit security PIN';
                 }
                 if (submitBtn) submitBtn.textContent = 'Sign In to Partner Dashboard';
-                if (staffHint) staffHint.classList.add('hidden');
                 if (pinHint) pinHint.classList.remove('hidden');
                 if (resetLink) resetLink.classList.remove('hidden');
             } else {
@@ -367,7 +360,6 @@
                     passwordInput.placeholder = 'Enter your email password';
                 }
                 if (submitBtn) submitBtn.textContent = 'Sign In to Dashboard';
-                if (staffHint) staffHint.classList.remove('hidden');
                 if (pinHint) pinHint.classList.add('hidden');
                 if (resetLink) resetLink.classList.add('hidden');
             }
@@ -508,7 +500,6 @@
                 if (lastAct && (now - lastAct > IDLE_TIMEOUT_MS)) {
                     logoutPortal('inactivity');
                 } else {
-                    localStorage.setItem('portal_last_activity', now.toString());
                     showDashboard(activeUser);
                 }
             }
@@ -565,10 +556,10 @@
                 }
 
                 const customPin = localStorage.getItem('partner_pin_' + matchedDealer.code);
-                const isCorrectPin = (password === '2277') || (customPin && password === customPin);
+                const requiredPin = customPin || '2277';
 
-                if (!isCorrectPin) {
-                    feedback.textContent = 'Incorrect security PIN. Use default PIN 2277 or your custom 4-digit PIN.';
+                if (password !== requiredPin) {
+                    feedback.textContent = customPin ? 'Incorrect security PIN. Please enter your custom PIN.' : 'Invalid security PIN. For first-time login, use default PIN: 2277.';
                     feedback.className = 'form-feedback error';
                     feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
                     feedback.style.color = '#ef4444';
@@ -587,10 +578,8 @@
                     loginBtn.disabled = false;
                     localStorage.setItem('partner_code', matchedDealer.code);
                     localStorage.setItem('partner_last_activity', Date.now().toString());
-                    localStorage.removeItem('must_change_pin');
                     window.location.href = 'partner-portal.html';
-                }, 300);
-                return;
+                }, 1000);
                 return;
             }
 
