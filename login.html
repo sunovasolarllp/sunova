@@ -504,6 +504,7 @@
                 if (lastAct && (now - lastAct > IDLE_TIMEOUT_MS)) {
                     logoutPortal('inactivity');
                 } else {
+                    localStorage.setItem('portal_last_activity', now.toString());
                     showDashboard(activeUser);
                 }
             }
@@ -588,7 +589,8 @@
                         localStorage.removeItem('must_change_pin');
                     }
                     window.location.href = 'partner-portal.html';
-                }, 800);
+                }, 500);
+                return;
                 return;
             }
 

@@ -530,12 +530,15 @@
                 const now = Date.now();
                 if (lastAct && (now - lastAct > IDLE_TIMEOUT_MS)) {
                     logoutPartner('inactivity');
-                } else if (mustChangePin) {
-                    tempLoginDealerCode = activePartnerCode;
-                    document.getElementById('login-view').classList.add('hidden');
-                    document.getElementById('change-pin-view').classList.remove('hidden');
                 } else {
-                    showDashboard(activePartnerCode);
+                    localStorage.setItem('partner_last_activity', now.toString());
+                    if (mustChangePin) {
+                        tempLoginDealerCode = activePartnerCode;
+                        document.getElementById('login-view').classList.add('hidden');
+                        document.getElementById('change-pin-view').classList.remove('hidden');
+                    } else {
+                        showDashboard(activePartnerCode);
+                    }
                 }
             }
         });
@@ -667,7 +670,7 @@
                     localStorage.removeItem('must_change_pin');
                     showDashboard(matchedDealer.code);
                 }
-            }, 800);
+            }, 500);
         }
 
         let tempLoginDealerCode = '';
@@ -1023,14 +1026,22 @@
         function showDashboard(dealerCode) {
             const wrapper = document.querySelector('.login-wrapper');
             if (wrapper) wrapper.classList.add('dashboard-active');
+            
+            const header = document.querySelector('.portal-header');
+            if (header) {
+                header.querySelector('h2').textContent = 'Partner Dashboard';
+                header.querySelector('p').textContent = 'Access local leads and download technical documentation assets.';
+            }
+
             document.getElementById('login-view').classList.add('hidden');
+            document.getElementById('change-pin-view').classList.add('hidden');
             document.getElementById('dashboard-view').classList.remove('hidden');
             
             // Start idle timeout tracking for Partner Portal (15 mins)
             startIdleTimer('partner', () => logoutPartner('inactivity'));
             
-            // Find dealer details in database
-            const dealer = DEALERS.find(d => d.code === dealerCode);
+            // Find dealer details in database safely
+            const dealer = DEALERS.find(d => d.code.toUpperCase() === String(dealerCode).toUpperCase()) || DEALERS[0];
             if (!dealer) return;
             
             // Update portal headers
@@ -1880,25 +1891,35 @@
         }
 
         function logoutPartner(reason) {
+            stopIdleTimer();
             localStorage.removeItem('partner_code');
             localStorage.removeItem('partner_last_activity');
-            stopIdleTimer();
-            if (reason === 'inactivity') {
-                const feedback = document.getElementById('login-feedback');
-                if (feedback) {
-                    feedback.textContent = '🔒 Session timed out after 15 minutes of inactivity. Please log in again.';
-                    feedback.className = 'form-feedback error';
-                    feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
-                    feedback.style.color = '#ef4444';
-                    feedback.classList.remove('hidden');
-                }
-                const wrapper = document.querySelector('.login-wrapper');
-                if (wrapper) wrapper.classList.remove('dashboard-active');
+            localStorage.removeItem('must_change_pin');
+            
+            const wrapper = document.querySelector('.login-wrapper');
+            if (wrapper) wrapper.classList.remove('dashboard-active');
 
-                document.getElementById('dashboard-view').classList.add('hidden');
-                document.getElementById('login-view').classList.remove('hidden');
-            } else {
-                location.reload();
+            const header = document.querySelector('.portal-header');
+            if (header) {
+                header.querySelector('h2').textContent = 'Partner Portal';
+                header.querySelector('p').textContent = 'Log in with your Authorized Partner Code to access client leads and saved quotes.';
+            }
+
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('change-pin-view').classList.add('hidden');
+            document.getElementById('login-view').classList.remove('hidden');
+            
+            const feedback = document.getElementById('login-feedback');
+            if (feedback) {
+                if (reason === 'inactivity') {
+                    feedback.textContent = '🔒 Session timed out after 15 minutes of inactivity. Please log in again.';
+                    feedback.className = 'form-feedback warning';
+                    feedback.style.backgroundColor = 'rgba(255, 183, 3, 0.15)';
+                    feedback.style.color = 'var(--color-sun-yellow)';
+                    feedback.classList.remove('hidden');
+                } else {
+                    feedback.classList.add('hidden');
+                }
             }
         }
     </script>
