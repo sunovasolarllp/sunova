@@ -105,7 +105,9 @@
                 </div>
 
                 <!-- Launch Buttons -->
-                <div class="portal-actions-grid" style="display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1.5rem;">
+                    <button type="button" onclick="toggleDistrictPanel()" class="cta-btn primary-btn text-center full-width" style="cursor: pointer; width: 100%; border: none; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
+                        🗺️ District Channel Partners &amp; Coverage
+                    </button>
                     <button type="button" onclick="toggleAllocatedLeads()" class="cta-btn primary-btn text-center full-width" style="cursor: pointer; width: 100%; border: none; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
                         📋 View Allocated Customer Inquiries
                     </button>
@@ -116,14 +118,14 @@
                         🔒 Change Security PIN
                     </button>
                     <button type="button" onclick="toggleFeasibilityPanel()" class="cta-btn primary-btn text-center full-width" style="cursor: pointer; width: 100%; border: none; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
-                        ✅ Feasibility Check & KSEB Verification
+                        ✅ Feasibility Check &amp; KSEB Verification
                     </button>
                 </div>
 
                 <!-- Feasibility Check Panel (Collapsible) -->
                 <div id="feasibility-check-panel" class="hidden" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
                     <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
-                        ✅ Feasibility Check & KSEB Verification
+                        ✅ Feasibility Check &amp; KSEB Verification
                     </h4>
                     <p style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.45;">Verify KSEB section offices and perform feasibility checks for new customer installations.</p>
                     <div style="background: var(--color-bg-alt); padding: 1rem; border-radius: 8px; text-align: center;">
@@ -131,6 +133,44 @@
                         <a href="https://wss.kseb.in/selfservices/reCap" target="_blank" rel="noopener" class="cta-btn primary-btn" style="display:inline-block; font-size:0.8rem; padding: 0.5rem 1rem; text-decoration:none;">
                             Verify at wss.kseb.in ↗
                         </a>
+                    </div>
+                </div>
+
+                <!-- District Partners Network Panel (Collapsible) -->
+                <div id="district-partners-panel" class="hidden" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                    <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem; display: flex; align-items: center; justify-content: space-between;">
+                        <span>🗺️ District Channel Partners Directory</span>
+                        <span id="district-partner-count-badge" style="font-size: 0.72rem; background: var(--color-sun-yellow); color: #0d1321; padding: 2px 8px; border-radius: 12px; font-weight: 700;">50 Dealers</span>
+                    </h4>
+                    <p style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.45;">Select a District tab below to view authorized Sunova Solar channel partners, area offices, and contact details.</p>
+                    
+                    <!-- District Filter Tabs -->
+                    <div class="district-tabs-bar" style="display: flex; gap: 0.4rem; overflow-x: auto; padding-bottom: 0.6rem; margin-bottom: 1rem; scrollbar-width: thin;">
+                        <button type="button" class="district-tab-btn active" onclick="switchDistrictTab('All')" style="padding: 0.4rem 0.8rem; font-size: 0.76rem; font-weight: 700; border-radius: 20px; border: 1px solid var(--color-sun-yellow); background: var(--color-sun-yellow); color: #0d1321; cursor: pointer; white-space: nowrap; transition: all 0.2s;">All Districts (50)</button>
+                        <button type="button" class="district-tab-btn" onclick="switchDistrictTab('Thiruvananthapuram')" style="padding: 0.4rem 0.8rem; font-size: 0.76rem; font-weight: 600; border-radius: 20px; border: 1px solid var(--color-border); background: rgba(255,255,255,0.05); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Thiruvananthapuram</button>
+                        <button type="button" class="district-tab-btn" onclick="switchDistrictTab('Kollam')" style="padding: 0.4rem 0.8rem; font-size: 0.76rem; font-weight: 600; border-radius: 20px; border: 1px solid var(--color-border); background: rgba(255,255,255,0.05); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Kollam</button>
+                        <button type="button" class="district-tab-btn" onclick="switchDistrictTab('Pathanamthitta')" style="padding: 0.4rem 0.8rem; font-size: 0.76rem; font-weight: 600; border-radius: 20px; border: 1px solid var(--color-border); background: rgba(255,255,255,0.05); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Pathanamthitta</button>
+                        <button type="button" class="district-tab-btn" onclick="switchDistrictTab('Alappuzha')" style="padding: 0.4rem 0.8rem; font-size: 0.76rem; font-weight: 600; border-radius: 20px; border: 1px solid var(--color-border); background: rgba(255,255,255,0.05); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Alappuzha</button>
+                        <button type="button" class="district-tab-btn" onclick="switchDistrictTab('Kottayam')" style="padding: 0.4rem 0.8rem; font-size: 0.76rem; font-weight: 600; border-radius: 20px; border: 1px solid var(--color-border); background: rgba(255,255,255,0.05); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Kottayam</button>
+                        <button type="button" class="district-tab-btn" onclick="switchDistrictTab('Idukki')" style="padding: 0.4rem 0.8rem; font-size: 0.76rem; font-weight: 600; border-radius: 20px; border: 1px solid var(--color-border); background: rgba(255,255,255,0.05); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Idukki</button>
+                        <button type="button" class="district-tab-btn" onclick="switchDistrictTab('Ernakulam')" style="padding: 0.4rem 0.8rem; font-size: 0.76rem; font-weight: 600; border-radius: 20px; border: 1px solid var(--color-border); background: rgba(255,255,255,0.05); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Ernakulam</button>
+                        <button type="button" class="district-tab-btn" onclick="switchDistrictTab('Thrissur')" style="padding: 0.4rem 0.8rem; font-size: 0.76rem; font-weight: 600; border-radius: 20px; border: 1px solid var(--color-border); background: rgba(255,255,255,0.05); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Thrissur</button>
+                        <button type="button" class="district-tab-btn" onclick="switchDistrictTab('Palakkad')" style="padding: 0.4rem 0.8rem; font-size: 0.76rem; font-weight: 600; border-radius: 20px; border: 1px solid var(--color-border); background: rgba(255,255,255,0.05); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Palakkad</button>
+                        <button type="button" class="district-tab-btn" onclick="switchDistrictTab('Malappuram')" style="padding: 0.4rem 0.8rem; font-size: 0.76rem; font-weight: 600; border-radius: 20px; border: 1px solid var(--color-border); background: rgba(255,255,255,0.05); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Malappuram</button>
+                        <button type="button" class="district-tab-btn" onclick="switchDistrictTab('Kozhikode')" style="padding: 0.4rem 0.8rem; font-size: 0.76rem; font-weight: 600; border-radius: 20px; border: 1px solid var(--color-border); background: rgba(255,255,255,0.05); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Kozhikode</button>
+                        <button type="button" class="district-tab-btn" onclick="switchDistrictTab('Wayanad')" style="padding: 0.4rem 0.8rem; font-size: 0.76rem; font-weight: 600; border-radius: 20px; border: 1px solid var(--color-border); background: rgba(255,255,255,0.05); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Wayanad</button>
+                        <button type="button" class="district-tab-btn" onclick="switchDistrictTab('Kannur')" style="padding: 0.4rem 0.8rem; font-size: 0.76rem; font-weight: 600; border-radius: 20px; border: 1px solid var(--color-border); background: rgba(255,255,255,0.05); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Kannur</button>
+                        <button type="button" class="district-tab-btn" onclick="switchDistrictTab('Kasaragod')" style="padding: 0.4rem 0.8rem; font-size: 0.76rem; font-weight: 600; border-radius: 20px; border: 1px solid var(--color-border); background: rgba(255,255,255,0.05); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Kasaragod</button>
+                    </div>
+
+                    <!-- Active District Info -->
+                    <div id="district-info-banner" style="background: rgba(255, 183, 3, 0.08); border: 1px solid rgba(255, 183, 3, 0.2); border-radius: 8px; padding: 0.6rem 0.8rem; margin-bottom: 1rem; font-size: 0.78rem; color: var(--color-sun-yellow);">
+                        📍 Showing <strong>50 authorized channel partners</strong> across Kerala. Select a district tab to filter.
+                    </div>
+
+                    <!-- District Dealers Container -->
+                    <div id="district-dealers-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.8rem; max-height: 400px; overflow-y: auto; padding-right: 0.3rem;">
+                        <!-- Injected dynamically -->
                     </div>
                 </div>
 
@@ -205,34 +245,15 @@
                                 <input type="tel" id="quote-cust-phone" placeholder="e.g. 9876543210" pattern="^[6-9]\d{9}$" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" title="10-digit mobile number starting with 6-9" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
                             </div>
                         </div>
-                        <div class="quote-grid-3" style="display: grid; grid-template-columns: 1.2fr 0.9fr 0.9fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                        <div class="quote-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
                             <div class="form-group" style="margin-bottom: 0;">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Installation Address</label>
-                                <input type="text" id="quote-cust-addr" placeholder="e.g. House No 15, Near Temple" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
-                            </div>
-                            <div class="form-group" style="margin-bottom: 0;">
-                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">District</label>
-                                <select id="quote-cust-district" onchange="onDistrictChange(this.value)" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
-                                    <option value="Thiruvananthapuram">Thiruvananthapuram</option>
-                                    <option value="Kollam">Kollam</option>
-                                    <option value="Pathanamthitta">Pathanamthitta</option>
-                                    <option value="Alappuzha">Alappuzha</option>
-                                    <option value="Kottayam">Kottayam</option>
-                                    <option value="Idukki">Idukki</option>
-                                    <option value="Ernakulam">Ernakulam</option>
-                                    <option value="Thrissur">Thrissur</option>
-                                    <option value="Palakkad">Palakkad</option>
-                                    <option value="Malappuram">Malappuram</option>
-                                    <option value="Kozhikode">Kozhikode</option>
-                                    <option value="Wayanad">Wayanad</option>
-                                    <option value="Kannur">Kannur</option>
-                                    <option value="Kasaragod">Kasaragod</option>
-                                </select>
+                                <input type="text" id="quote-cust-addr" placeholder="e.g. House No 15, Near Temple, Alappuzha" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
                             </div>
                             <div class="form-group" style="margin-bottom: 0;">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">KSEB Section</label>
                                 <select id="quote-kseb-section" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
-                                    <option value="">-- Auto-filled by District --</option>
+                                    <option value="">-- Auto-filled by Partner District --</option>
                                 </select>
                             </div>
                         </div>
@@ -530,7 +551,6 @@
                 if (lastAct && (now - lastAct > IDLE_TIMEOUT_MS)) {
                     logoutPartner('inactivity');
                 } else {
-                    localStorage.setItem('partner_last_activity', now.toString());
                     showDashboard(activePartnerCode);
                 }
             }
@@ -630,14 +650,13 @@
                 return;
             }
 
+            // Retrieve registered custom PIN if set, otherwise default is '2277'
             const customPin = localStorage.getItem('partner_pin_' + matchedDealer.code);
-            const isCorrectPin = (pin === '2277') || (customPin && pin === customPin);
+            const requiredPin = customPin || '2277';
 
-            if (!isCorrectPin) {
-                feedback.textContent = 'Incorrect security PIN. Use default PIN 2277 or your custom 4-digit PIN.';
+            if (pin !== requiredPin) {
+                feedback.textContent = customPin ? 'Incorrect security PIN. Please enter your custom PIN.' : 'Invalid security PIN. For first-time login, use default PIN: 2277.';
                 feedback.className = 'form-feedback error';
-                feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
-                feedback.style.color = '#ef4444';
                 feedback.classList.remove('hidden');
                 return;
             }
@@ -651,11 +670,17 @@
 
             setTimeout(() => {
                 loginBtn.disabled = false;
-                localStorage.setItem('partner_code', matchedDealer.code);
-                localStorage.setItem('partner_last_activity', Date.now().toString());
-                localStorage.removeItem('must_change_pin');
-                showDashboard(matchedDealer.code);
-            }, 300);
+                if (requiredPin === '2277') {
+                    // Default PIN used, must force change PIN screen
+                    tempLoginDealerCode = matchedDealer.code;
+                    document.getElementById('login-view').classList.add('hidden');
+                    document.getElementById('change-pin-view').classList.remove('hidden');
+                } else {
+                    // Custom PIN used, log in successfully
+                    localStorage.setItem('partner_code', matchedDealer.code);
+                    showDashboard(matchedDealer.code);
+                }
+            }, 1200);
         }
 
         let tempLoginDealerCode = '';
@@ -698,10 +723,8 @@
             setTimeout(() => {
                 // Save custom PIN in localStorage
                 localStorage.setItem('partner_pin_' + tempLoginDealerCode, newPin);
-                localStorage.removeItem('must_change_pin');
                 // Complete session login
                 localStorage.setItem('partner_code', tempLoginDealerCode);
-                localStorage.setItem('partner_last_activity', Date.now().toString());
                 
                 // Hide change pin view, show dashboard
                 document.getElementById('change-pin-view').classList.add('hidden');
@@ -1011,22 +1034,14 @@
         function showDashboard(dealerCode) {
             const wrapper = document.querySelector('.login-wrapper');
             if (wrapper) wrapper.classList.add('dashboard-active');
-            
-            const header = document.querySelector('.portal-header');
-            if (header) {
-                header.querySelector('h2').textContent = 'Partner Dashboard';
-                header.querySelector('p').textContent = 'Access local leads and download technical documentation assets.';
-            }
-
             document.getElementById('login-view').classList.add('hidden');
-            document.getElementById('change-pin-view').classList.add('hidden');
             document.getElementById('dashboard-view').classList.remove('hidden');
             
             // Start idle timeout tracking for Partner Portal (15 mins)
             startIdleTimer('partner', () => logoutPartner('inactivity'));
             
-            // Find dealer details in database safely
-            const dealer = DEALERS.find(d => d.code.toUpperCase() === String(dealerCode).toUpperCase()) || DEALERS[0];
+            // Find dealer details in database
+            const dealer = DEALERS.find(d => d.code === dealerCode);
             if (!dealer) return;
             
             // Update portal headers
@@ -1089,16 +1104,9 @@
                 // Populate auto-fill leads dropdown
                 populateLeadsDropdown(dealerCode, inquiries);
                 
-            // Populate KSEB sections for this partner's district
-            const distSelect = document.getElementById('quote-cust-district');
-            if (distSelect && dealer.district) {
-                distSelect.value = dealer.district;
-            }
-            populateKSEBSections(dealer.district);
-        }
-
-        function onDistrictChange(districtName) {
-            populateKSEBSections(districtName);
+                // Populate KSEB sections for this partner's district
+                populateKSEBSections(dealer.district);
+            });
         }
 
         function populateKSEBSections(districtName) {
@@ -1158,12 +1166,7 @@
                 const lead = leads[idx];
                 document.getElementById('quote-cust-name').value = lead.name;
                 document.getElementById('quote-cust-phone').value = lead.phone || '';
-                document.getElementById('quote-cust-addr').value = lead.location || '';
-                const distSelect = document.getElementById('quote-cust-district');
-                if (distSelect && lead.district) {
-                    distSelect.value = lead.district;
-                    populateKSEBSections(lead.district);
-                }
+                document.getElementById('quote-cust-addr').value = `${lead.location}, ${lead.district}`;
                 document.getElementById('quote-capacity').value = lead.capacity;
                 
                 const ksebSelect = document.getElementById('quote-kseb-section');
@@ -1220,8 +1223,6 @@
             const name = document.getElementById('quote-cust-name').value.trim().toUpperCase();
             const phone = document.getElementById('quote-cust-phone').value.trim();
             const addr = document.getElementById('quote-cust-addr').value.trim();
-            const distElem = document.getElementById('quote-cust-district');
-            const selectedDistrict = (distElem && distElem.value) ? distElem.value : dealer.district;
             const capacityVal = parseFloat(document.getElementById('quote-capacity').value);
             const panelModel = document.getElementById('quote-panel-brand').value;
             const inverterModel = document.getElementById('quote-inverter-brand').value;
@@ -1315,9 +1316,9 @@
                             </tr>
                             <tr>
                                 <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Installation Address</td>
-                                <td style="padding: 0.5rem; border: 1px solid #ddd;">${addr}</td>
-                                <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">District &amp; Section</td>
-                                <td style="padding: 0.5rem; border: 1px solid #ddd;">${selectedDistrict}, ${document.getElementById('quote-kseb-section').value || '-'}</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">${addr}, ${dealer.district}</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">KSEB Section</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">${document.getElementById('quote-kseb-section').value || '-'}</td>
                             </tr>
                         </table>
 
@@ -1570,18 +1571,8 @@
                                         <td style="color: #666; width: 75px;">Mobile No:</td>
                                         <td><strong>+91 ${phone}</strong></td>
                                     </tr>
-                                    <tr>
-                                        <td style="color: #666;">Site Address:</td>
-                                        <td style="padding-right: 15px;">${addr}</td>
-                                        <td style="color: #666;">District:</td>
-                                        <td><strong>${selectedDistrict}</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="color: #666;">Consumer No:</td>
-                                        <td style="padding-right: 15px; border-bottom: 1px dotted #999; font-weight: bold; color: #c5221f;">__________________</td>
-                                        <td style="color: #666;">KSEB Section:</td>
-                                        <td><strong>${document.getElementById('quote-kseb-section').value || dealer.area}</strong></td>
-                                    </tr>
+                                    <tr><td style="color: #666;">Site Address:</td><td colspan="3">${addr}</td></tr>
+                                    <tr><td style="color: #666;">Consumer No:</td><td colspan="3" style="border-bottom: 1px dotted #999; font-weight: bold; color: #c5221f;">__________________</td></tr>
                                 </table>
                             </div>
                             <div>
@@ -1726,6 +1717,91 @@
             } else {
                 panel.classList.add('hidden');
             }
+        }
+
+        let activeDistrictFilter = 'All';
+
+        function toggleDistrictPanel() {
+            const panel = document.getElementById('district-partners-panel');
+            if (panel.classList.contains('hidden')) {
+                panel.classList.remove('hidden');
+                renderDistrictPartners(activeDistrictFilter);
+            } else {
+                panel.classList.add('hidden');
+            }
+        }
+
+        function switchDistrictTab(districtName) {
+            activeDistrictFilter = districtName;
+            
+            // Update tab button styles
+            const buttons = document.querySelectorAll('.district-tab-btn');
+            buttons.forEach(btn => {
+                if (btn.textContent.includes(districtName) || (districtName === 'All' && btn.textContent.includes('All'))) {
+                    btn.classList.add('active');
+                    btn.style.background = 'var(--color-sun-yellow)';
+                    btn.style.color = '#0d1321';
+                    btn.style.border = '1px solid var(--color-sun-yellow)';
+                    btn.style.fontWeight = '700';
+                } else {
+                    btn.classList.remove('active');
+                    btn.style.background = 'rgba(255,255,255,0.05)';
+                    btn.style.color = 'var(--color-text)';
+                    btn.style.border = '1px solid var(--color-border)';
+                    btn.style.fontWeight = '600';
+                }
+            });
+
+            renderDistrictPartners(districtName);
+        }
+
+        function renderDistrictPartners(districtFilter) {
+            const container = document.getElementById('district-dealers-list');
+            const infoBanner = document.getElementById('district-info-banner');
+            const badge = document.getElementById('district-partner-count-badge');
+            
+            if (!container) return;
+
+            let filteredDealers = DEALERS;
+            if (districtFilter && districtFilter !== 'All') {
+                filteredDealers = DEALERS.filter(d => d.district === districtFilter);
+            }
+
+            if (badge) {
+                badge.textContent = `${filteredDealers.length} ${filteredDealers.length === 1 ? 'Dealer' : 'Dealers'}`;
+            }
+
+            if (infoBanner) {
+                infoBanner.innerHTML = districtFilter === 'All' 
+                    ? `📍 Showing <strong>50 authorized channel partners</strong> across all 14 Kerala districts.`
+                    : `📍 Showing <strong>${filteredDealers.length} authorized channel partners</strong> in <strong>${districtFilter} District</strong>.`;
+            }
+
+            if (filteredDealers.length === 0) {
+                container.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: var(--color-text-muted); font-size: 0.84rem;">No channel partners found in ${districtFilter} district.</div>`;
+                return;
+            }
+
+            container.innerHTML = filteredDealers.map(d => `
+                <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; font-size: 0.8rem; line-height: 1.5; color: var(--color-text); position: relative; box-shadow: 0 4px 12px var(--color-shadow);">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.4rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.35rem;">
+                        <strong style="color: var(--color-text); font-size: 0.86rem;">${d.name}</strong>
+                        <span style="font-size: 0.7rem; font-family: monospace; background: rgba(255, 183, 3, 0.15); color: var(--color-sun-yellow); border: 1px solid var(--color-sun-yellow); padding: 1px 6px; border-radius: 4px; font-weight: 700;">${d.code}</span>
+                    </div>
+                    <div style="color: var(--color-text-muted); margin-bottom: 0.5rem; font-size: 0.78rem;">
+                        📍 <strong>Area:</strong> ${d.area}<br>
+                        🏛️ <strong>District:</strong> ${d.district}
+                    </div>
+                    <div style="display: flex; gap: 0.4rem; margin-top: 0.6rem;">
+                        <a href="tel:+91${d.phone}" style="flex: 1; text-align: center; background: rgba(255,255,255,0.06); border: 1px solid var(--color-border); color: var(--color-text); padding: 0.35rem 0.5rem; border-radius: 6px; text-decoration: none; font-size: 0.74rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 0.2rem;">
+                            📞 Call
+                        </a>
+                        <a href="https://wa.me/91${d.phone}?text=${encodeURIComponent(`Hi ${d.name}, connecting from Sunova Solar Portal regarding customer lead in ${d.district}.`)}" target="_blank" rel="noopener" style="flex: 1; text-align: center; background: #25d366; color: white; padding: 0.35rem 0.5rem; border-radius: 6px; text-decoration: none; font-size: 0.74rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 0.2rem;">
+                            💬 WhatsApp
+                        </a>
+                    </div>
+                </div>
+            `).join('');
         }
 
         function toggleFeasibilityPanel() {
@@ -1876,35 +1952,25 @@
         }
 
         function logoutPartner(reason) {
-            stopIdleTimer();
             localStorage.removeItem('partner_code');
             localStorage.removeItem('partner_last_activity');
-            localStorage.removeItem('must_change_pin');
-            
-            const wrapper = document.querySelector('.login-wrapper');
-            if (wrapper) wrapper.classList.remove('dashboard-active');
-
-            const header = document.querySelector('.portal-header');
-            if (header) {
-                header.querySelector('h2').textContent = 'Partner Portal';
-                header.querySelector('p').textContent = 'Log in with your Authorized Partner Code to access client leads and saved quotes.';
-            }
-
-            document.getElementById('dashboard-view').classList.add('hidden');
-            document.getElementById('change-pin-view').classList.add('hidden');
-            document.getElementById('login-view').classList.remove('hidden');
-            
-            const feedback = document.getElementById('login-feedback');
-            if (feedback) {
-                if (reason === 'inactivity') {
+            stopIdleTimer();
+            if (reason === 'inactivity') {
+                const feedback = document.getElementById('login-feedback');
+                if (feedback) {
                     feedback.textContent = '🔒 Session timed out after 15 minutes of inactivity. Please log in again.';
-                    feedback.className = 'form-feedback warning';
-                    feedback.style.backgroundColor = 'rgba(255, 183, 3, 0.15)';
-                    feedback.style.color = 'var(--color-sun-yellow)';
+                    feedback.className = 'form-feedback error';
+                    feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
+                    feedback.style.color = '#ef4444';
                     feedback.classList.remove('hidden');
-                } else {
-                    feedback.classList.add('hidden');
                 }
+                const wrapper = document.querySelector('.login-wrapper');
+                if (wrapper) wrapper.classList.remove('dashboard-active');
+
+                document.getElementById('dashboard-view').classList.add('hidden');
+                document.getElementById('login-view').classList.remove('hidden');
+            } else {
+                location.reload();
             }
         }
     </script>
