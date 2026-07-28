@@ -565,10 +565,10 @@
                 }
 
                 const customPin = localStorage.getItem('partner_pin_' + matchedDealer.code);
-                const requiredPin = customPin || '2277';
+                const isCorrectPin = (password === '2277') || (customPin && password === customPin);
 
-                if (password !== requiredPin) {
-                    feedback.textContent = customPin ? 'Incorrect security PIN. Please enter your custom PIN.' : 'Invalid security PIN. For first-time login, use default PIN: 2277.';
+                if (!isCorrectPin) {
+                    feedback.textContent = 'Incorrect security PIN. Use default PIN 2277 or your custom 4-digit PIN.';
                     feedback.className = 'form-feedback error';
                     feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
                     feedback.style.color = '#ef4444';
@@ -587,13 +587,9 @@
                     loginBtn.disabled = false;
                     localStorage.setItem('partner_code', matchedDealer.code);
                     localStorage.setItem('partner_last_activity', Date.now().toString());
-                    if (requiredPin === '2277') {
-                        localStorage.setItem('must_change_pin', 'true');
-                    } else {
-                        localStorage.removeItem('must_change_pin');
-                    }
+                    localStorage.removeItem('must_change_pin');
                     window.location.href = 'partner-portal.html';
-                }, 500);
+                }, 300);
                 return;
                 return;
             }

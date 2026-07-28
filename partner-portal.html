@@ -525,20 +525,13 @@
         window.addEventListener('DOMContentLoaded', () => {
             const activePartnerCode = localStorage.getItem('partner_code');
             if (activePartnerCode) {
-                const mustChangePin = localStorage.getItem('must_change_pin') === 'true';
                 const lastAct = parseInt(localStorage.getItem('partner_last_activity') || '0', 10);
                 const now = Date.now();
                 if (lastAct && (now - lastAct > IDLE_TIMEOUT_MS)) {
                     logoutPartner('inactivity');
                 } else {
                     localStorage.setItem('partner_last_activity', now.toString());
-                    if (mustChangePin) {
-                        tempLoginDealerCode = activePartnerCode;
-                        document.getElementById('login-view').classList.add('hidden');
-                        document.getElementById('change-pin-view').classList.remove('hidden');
-                    } else {
-                        showDashboard(activePartnerCode);
-                    }
+                    showDashboard(activePartnerCode);
                 }
             }
         });
@@ -637,13 +630,14 @@
                 return;
             }
 
-            // Retrieve registered custom PIN if set, otherwise default is '2277'
             const customPin = localStorage.getItem('partner_pin_' + matchedDealer.code);
-            const requiredPin = customPin || '2277';
+            const isCorrectPin = (pin === '2277') || (customPin && pin === customPin);
 
-            if (pin !== requiredPin) {
-                feedback.textContent = customPin ? 'Incorrect security PIN. Please enter your custom PIN.' : 'Invalid security PIN. For first-time login, use default PIN: 2277.';
+            if (!isCorrectPin) {
+                feedback.textContent = 'Incorrect security PIN. Use default PIN 2277 or your custom 4-digit PIN.';
                 feedback.className = 'form-feedback error';
+                feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
+                feedback.style.color = '#ef4444';
                 feedback.classList.remove('hidden');
                 return;
             }
@@ -659,18 +653,9 @@
                 loginBtn.disabled = false;
                 localStorage.setItem('partner_code', matchedDealer.code);
                 localStorage.setItem('partner_last_activity', Date.now().toString());
-                if (requiredPin === '2277') {
-                    // Default PIN used, must force change PIN screen
-                    localStorage.setItem('must_change_pin', 'true');
-                    tempLoginDealerCode = matchedDealer.code;
-                    document.getElementById('login-view').classList.add('hidden');
-                    document.getElementById('change-pin-view').classList.remove('hidden');
-                } else {
-                    // Custom PIN used, log in successfully
-                    localStorage.removeItem('must_change_pin');
-                    showDashboard(matchedDealer.code);
-                }
-            }, 500);
+                localStorage.removeItem('must_change_pin');
+                showDashboard(matchedDealer.code);
+            }, 300);
         }
 
         let tempLoginDealerCode = '';
