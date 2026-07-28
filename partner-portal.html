@@ -1278,20 +1278,78 @@
                             <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Electrical Phase</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${phase}</td></tr>
                         </table>
 
-                        <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">COMMERCIAL OFFER</h4>
-                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 0.5rem; text-align: left;">
-                            <tr style="background: #f8f9fa;"><th style="padding: 0.5rem; border: 1px solid #ddd;">Description</th><th style="padding: 0.5rem; border: 1px solid #ddd; text-align: right;">Amount (₹)</th></tr>
-                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">Supply of Solar PV Modules</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
-                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">Solar Inverter</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
-                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">Hot Dip Galvanized Mounting Structure</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
-                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">DC & AC Cables</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
-                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">ACDB & DCDB</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
-                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">Earthing Kit</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
-                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">Lightning Protection (If Applicable)</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
-                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">Installation & Commissioning</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
-                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">Testing & System Verification</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
-                            <tr><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">Net Metering Documentation Support*</td><td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">Included</td></tr>
-                            <tr style="background: rgba(255, 183, 3, 0.1);"><td style="padding: 0.6rem 0.5rem; border: 1px solid #ddd; font-weight: 800; color: #0d1321;">Total Project Cost</td><td style="padding: 0.6rem 0.5rem; border: 1px solid #ddd; text-align: right; font-weight: 800; color: #0d1321; font-size: 1.1rem;">₹ ${grossTotal.toLocaleString('en-IN')}</td></tr>
+                        <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">COMMERCIAL OFFER (SCOPE & COST BREAKDOWN)</h4>
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 0.5rem; text-align: left; font-size: 0.8rem;">
+                            <tr style="background: #f8f9fa;">
+                                <th style="padding: 0.5rem; border: 1px solid #ddd; width: 35px; text-align: center;">Sl.</th>
+                                <th style="padding: 0.5rem; border: 1px solid #ddd;">Category &amp; Item Specification</th>
+                                <th style="padding: 0.5rem; border: 1px solid #ddd; width: 90px; text-align: center;">Qty / Unit</th>
+                                <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: right; width: 110px;">Scope &amp; Cost</th>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center; font-weight: 600;">1</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">
+                                    <strong style="color: #0d1321;">Core Solar Equipment (PV Modules &amp; Grid-Tied Inverter)</strong>
+                                    <div style="font-size: 0.76rem; color: #555; margin-top: 0.25rem;">
+                                        • ${panelModel} Mono PERC / TopCon High-Efficiency Solar PV Modules (${panelWattage}Wp+)<br>
+                                        • ${inverterModel} On-Grid String Inverter with Anti-Islanding Protection &amp; Wi-Fi Logger
+                                    </div>
+                                </td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center;">${panelCount} Panels<br>1 Inverter</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: right; font-weight: 600; color: #28a745;">Included</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center; font-weight: 600;">2</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">
+                                    <strong style="color: #0d1321;">Module Mounting Structure (Rooftop Hardware)</strong>
+                                    <div style="font-size: 0.76rem; color: #555; margin-top: 0.25rem;">
+                                        • High-Rise Hot-Dip Galvanized Iron (GI) Structure designed for ${roofType} roof anchoring
+                                    </div>
+                                </td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center;">1 Lot</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: right; font-weight: 600; color: #28a745;">Included</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center; font-weight: 600;">3</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">
+                                    <strong style="color: #0d1321;">Electrical Balance of System (BOS) &amp; Safety Protection</strong>
+                                    <div style="font-size: 0.76rem; color: #555; margin-top: 0.25rem;">
+                                        • UV-Protected Solar DC Cables (4 sq mm copper) &amp; Heavy-Duty AC Armored Cables<br>
+                                        • IP65 Weatherproof Array Junction Box (AJB), DCDB &amp; ACDB Distribution Boards<br>
+                                        • Type-II Surge Protection Devices (SPD), MCBs, ELCBs &amp; Chemical Earthing Pits<br>
+                                        • Lightning Arrestor Protection System (where applicable)
+                                    </div>
+                                </td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center;">1 Set</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: right; font-weight: 600; color: #28a745;">Included</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center; font-weight: 600;">4</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">
+                                    <strong style="color: #0d1321;">Turnkey Engineering, Installation &amp; Commissioning Services</strong>
+                                    <div style="font-size: 0.76rem; color: #555; margin-top: 0.25rem;">
+                                        • Complete Mechanical Mounting Assembly &amp; Electrical Interconnection<br>
+                                        • Pre-Commissioning String Testing, Insulation &amp; System Verification
+                                    </div>
+                                </td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center;">1 Job</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: right; font-weight: 600; color: #28a745;">Included</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center; font-weight: 600;">5</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">
+                                    <strong style="color: #0d1321;">KSEB Soura Net-Metering Liaisoning &amp; Statutory Clearances</strong>
+                                    <div style="font-size: 0.76rem; color: #555; margin-top: 0.25rem;">
+                                        • KSEB Feasibility Processing, SLD Submission, Inspection &amp; Net-Meter Testing Assistance
+                                    </div>
+                                </td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center;">Support</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: right; font-weight: 600; color: #28a745;">Included</td>
+                            </tr>
+                            <tr style="background: rgba(255, 183, 3, 0.1);">
+                                <td colspan="3" style="padding: 0.6rem 0.5rem; border: 1px solid #ddd; font-weight: 800; color: #0d1321; font-size: 0.95rem;">Total Turnkey Project Cost (Inclusive of GST)</td>
+                                <td style="padding: 0.6rem 0.5rem; border: 1px solid #ddd; text-align: right; font-weight: 800; color: #0d1321; font-size: 1.1rem;">₹ ${grossTotal.toLocaleString('en-IN')}</td>
+                            </tr>
                         </table>
                         <blockquote style="margin: 0 0 1.5rem 0; padding: 0.5rem 1rem; background: #f8f9fa; border-left: 4px solid #ffb703; font-style: italic;">
                             <strong>Amount in Words:</strong> ${numberToWords(grossTotal)}
@@ -1303,21 +1361,21 @@
 
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
                             <div>
-                                <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">PROJECT INCLUSIONS</h4>
-                                <ul style="list-style-type: none; padding-left: 0; margin-bottom: 1.5rem; font-size: 0.8rem; line-height: 1.6;">
-                                    <li>✔ Premium Solar PV Modules</li>
-                                    <li>✔ High Efficiency Solar Inverter</li>
-                                    <li>✔ Hot Dip Galvanized Mounting Structure</li>
-                                    <li>✔ UV Protected DC Cable</li>
-                                    <li>✔ AC Cable</li>
-                                    <li>✔ ACDB & DCDB</li>
-                                    <li>✔ Earthing Kit</li>
-                                    <li>✔ Lightning Arrestor (Where Applicable)</li>
-                                    <li>✔ Complete Installation</li>
-                                    <li>✔ Testing & Commissioning</li>
-                                    <li>✔ System Demonstration</li>
-                                    <li>✔ Net Metering Assistance (Subject to Electricity Board Approval)</li>
-                                </ul>
+                                <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">PROJECT INCLUSIONS BY CATEGORY</h4>
+                                <div style="font-size: 0.8rem; line-height: 1.6; margin-bottom: 1.5rem;">
+                                    <div style="margin-bottom: 0.5rem;">
+                                        <strong style="color: #0d1321;">📦 Solar Equipment &amp; Structure:</strong>
+                                        <div style="color: #555; margin-left: 0.5rem;">✔ Premium ALMM Listed Solar PV Modules | ✔ High Efficiency Solar Inverter | ✔ Hot-Dip Galvanized GI Structure</div>
+                                    </div>
+                                    <div style="margin-bottom: 0.5rem;">
+                                        <strong style="color: #0d1321;">⚡ Electrical &amp; Safety Protection:</strong>
+                                        <div style="color: #555; margin-left: 0.5rem;">✔ UV Protected DC &amp; AC Solar Cables | ✔ ACDB &amp; DCDB Protection Boxes | ✔ Chemical Earthing &amp; Lightning Arrestor</div>
+                                    </div>
+                                    <div>
+                                        <strong style="color: #0d1321;">🛠️ Installation &amp; Utility Support:</strong>
+                                        <div style="color: #555; margin-left: 0.5rem;">✔ Turnkey Mechanical &amp; Electrical Installation | ✔ String Testing &amp; System Demonstration | ✔ KSEB Net-Metering Documentation &amp; Liaisoning</div>
+                                    </div>
+                                </div>
                             </div>
                             <div>
                                 <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">PAYMENT TERMS</h4>
@@ -1448,39 +1506,51 @@
                             </div>
                         </div>
 
-                        <h4 style="margin: 1.5rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; font-size: 0.9rem; border-bottom: 1px solid #eee; padding-bottom: 0.3rem;">📋 Components Technical Compliance details</h4>
+                        <h4 style="margin: 1.5rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; font-size: 0.9rem; border-bottom: 1px solid #eee; padding-bottom: 0.3rem;">📋 Components Technical Compliance details (Grouped by System Domain)</h4>
                         <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.78rem; text-align: left;">
                             <thead>
                                 <tr style="background: #f1f3f5; color: #0d1321; font-weight: 600;">
-                                    <th style="padding: 0.5rem; border: 1px solid #ddd; width: 140px;">Component</th>
-                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Manufacturer / Brand Specs</th>
-                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Standards & Certifications</th>
-                                    <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: center;">Compliance Status</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd; width: 160px;">Category Domain</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Manufacturer / Technical Specifications</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Standards &amp; Certifications</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: center; width: 110px;">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">PV Modules</td>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">${panelModel} (MNRE ALMM listed, 540Wp)</td>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">IEC 61215, IEC 61730, ALMM Approved</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">1. Core Generation Equipment</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">
+                                        • <strong>PV Modules:</strong> ${panelModel} Mono PERC / TopCon (${panelCount} Nos - 540Wp+)<br>
+                                        • <strong>Grid-Tie Inverter:</strong> ${inverterModel} Approved String Inverter (Max Eff 98%)
+                                    </td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">IEC 61215, IEC 61730, ALMM Listed, IEC 62109, IEC 61000 (Anti-islanding)</td>
                                     <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center; color: #28a745; font-weight: bold;">✅ Compliant</td>
                                 </tr>
                                 <tr>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Grid Tie Inverter</td>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">${inverterModel} approved string inverter (Max Eff 98%)</td>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">IEC 62109, IEC 61000 (Anti-islanding protection)</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">2. Electrical Cables &amp; Distribution</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">
+                                        • <strong>Cables:</strong> 4 sq mm multi-strand copper solar DC &amp; AC cables<br>
+                                        • <strong>Enclosures:</strong> IP65 Weatherproof Array Junction Box, ACDB &amp; DCDB
+                                    </td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">EN 50618, IEC 60947, IS 1554 / IS 7098 Standards</td>
                                     <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center; color: #28a745; font-weight: bold;">✅ Compliant</td>
                                 </tr>
                                 <tr>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">DC/AC Solar Cable</td>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">4 sq mm multi-strand copper solar cables</td>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">EN 50618 Compliant</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">3. Earthing &amp; Surge Protection</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">
+                                        • <strong>Protection:</strong> Type-II Surge Protection Devices (SPD), MCB, ELCB<br>
+                                        • <strong>Earthing:</strong> Separate Chemical Maintenance-Free Earthing Pits (AC, DC, LA)
+                                    </td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">IS 3043 (Code of Practice for Earthing), IEC 61643</td>
                                     <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center; color: #28a745; font-weight: bold;">✅ Compliant</td>
                                 </tr>
                                 <tr>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Protection Systems</td>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">SPDs (Type II), MCB, ELCB in AJB &amp; ACDB boxes</td>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">IP65 rated, IEC 60947 certified</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">4. Structure &amp; Grid Metering</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">
+                                        • <strong>Structure:</strong> High-Rise Hot-Dip Galvanized Iron Structure (${roofType} roof)<br>
+                                        • <strong>Net Metering:</strong> Bi-directional Net Metering &amp; Generation Meter Provisions
+                                    </td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">IS 800 Code for Structural Steel, KSEB Soura Guidelines</td>
                                     <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center; color: #28a745; font-weight: bold;">✅ Compliant</td>
                                 </tr>
                             </tbody>
