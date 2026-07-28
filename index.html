@@ -820,13 +820,16 @@
                 <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Kasaragod', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Kasaragod</button>
             </div>
 
-            <!-- District Info Banner -->
-            <div id="main-district-info-banner" style="background: rgba(255, 183, 3, 0.08); border: 1px solid rgba(255, 183, 3, 0.2); border-radius: 10px; padding: 0.75rem 1.25rem; margin-bottom: 1.5rem; font-size: 0.88rem; color: var(--color-sun-yellow); text-align: center;">
-                📍 Showing <strong>50 authorized channel partners</strong> across all 14 Kerala districts.
+            <!-- District Info Banner & Click to View Button -->
+            <div id="main-district-info-banner" style="background: rgba(255, 183, 3, 0.08); border: 1px solid rgba(255, 183, 3, 0.2); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; font-size: 0.88rem; color: var(--color-sun-yellow); text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.8rem;">
+                <div id="main-district-banner-text">📍 Showing <strong>50 authorized channel partners</strong> across all 14 Kerala districts.</div>
+                <button type="button" id="btn-toggle-main-dealers" onclick="toggleMainDealersView()" style="background: var(--color-sun-yellow); color: #0d1321; border: none; padding: 0.65rem 1.4rem; border-radius: 25px; font-weight: 700; font-size: 0.84rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: transform 0.2s, background-color 0.2s; box-shadow: 0 4px 15px rgba(255, 183, 3, 0.3);">
+                    <span id="btn-toggle-dealers-icon">👇</span> <span id="btn-toggle-dealers-text">Click to View Partner Details</span>
+                </button>
             </div>
 
             <!-- District Partners Grid -->
-            <div id="main-district-dealers-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem;">
+            <div id="main-district-dealers-grid" style="display: none; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem;">
                 <!-- Injected dynamically -->
             </div>
         </div>
@@ -1494,7 +1497,33 @@
             { code: "KSD-SURE", name: "Suresh Kumar", area: "Panathur", district: "Kasaragod", phone: "9946960604" }
         ];
 
+        let isMainDealersVisible = false;
+        let activeMainDistrictFilter = 'All';
+
+        function toggleMainDealersView() {
+            const container = document.getElementById('main-district-dealers-grid');
+            const icon = document.getElementById('btn-toggle-dealers-icon');
+            const text = document.getElementById('btn-toggle-dealers-text');
+            
+            if (!container) return;
+
+            if (isMainDealersVisible) {
+                container.style.display = 'none';
+                isMainDealersVisible = false;
+                if (icon) icon.textContent = '👇';
+                if (text) text.textContent = 'Click to View Partner Details';
+            } else {
+                container.style.display = 'grid';
+                isMainDealersVisible = true;
+                if (icon) icon.textContent = '👆';
+                if (text) text.textContent = 'Hide Partner Details';
+                renderMainDistrictDealers(activeMainDistrictFilter);
+            }
+        }
+
         function switchMainDistrictTab(districtName, btnElem) {
+            activeMainDistrictFilter = districtName;
+            
             const tabs = document.querySelectorAll('.district-main-tab');
             tabs.forEach(t => {
                 t.style.background = 'var(--color-surface)';
@@ -1510,12 +1539,22 @@
                 btnElem.style.fontWeight = '700';
             }
 
+            const container = document.getElementById('main-district-dealers-grid');
+            const icon = document.getElementById('btn-toggle-dealers-icon');
+            const text = document.getElementById('btn-toggle-dealers-text');
+            if (container) {
+                container.style.display = 'grid';
+                isMainDealersVisible = true;
+                if (icon) icon.textContent = '👆';
+                if (text) text.textContent = 'Hide Partner Details';
+            }
+
             renderMainDistrictDealers(districtName);
         }
 
         function renderMainDistrictDealers(districtFilter) {
             const container = document.getElementById('main-district-dealers-grid');
-            const infoBanner = document.getElementById('main-district-info-banner');
+            const bannerText = document.getElementById('main-district-banner-text');
             if (!container) return;
 
             let filtered = MAIN_DEALERS;
@@ -1523,8 +1562,8 @@
                 filtered = MAIN_DEALERS.filter(d => d.district === districtFilter);
             }
 
-            if (infoBanner) {
-                infoBanner.innerHTML = districtFilter === 'All'
+            if (bannerText) {
+                bannerText.innerHTML = districtFilter === 'All'
                     ? `📍 Showing <strong>50 authorized channel partners</strong> across all 14 Kerala districts.`
                     : `📍 Showing <strong>${filtered.length} authorized channel partners</strong> in <strong>${districtFilter} District</strong>.`;
             }
