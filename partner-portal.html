@@ -205,22 +205,24 @@
                                 <input type="tel" id="quote-cust-phone" placeholder="e.g. 9876543210" pattern="^[6-9]\d{9}$" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" title="10-digit mobile number starting with 6-9" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
                             </div>
                         </div>
-                        <div class="form-group" style="margin-bottom: 0.8rem;">
-                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Installation Address</label>
-                            <input type="text" id="quote-cust-addr" placeholder="e.g. House No 15, Near Temple, Alappuzha" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+                        <div class="quote-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Installation Address</label>
+                                <input type="text" id="quote-cust-addr" placeholder="e.g. House No 15, Near Temple, Alappuzha" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">KSEB Section</label>
+                                <select id="quote-kseb-section" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                                    <option value="">-- Auto-filled by Partner District --</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-group" style="margin-bottom: 0.8rem;">
-                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">KSEB Section</label>
-                            <select id="quote-kseb-section" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
-                                <option value="">-- Auto-filled by Partner District --</option>
-                            </select>
-                        </div>
-                        <div class="quote-grid-3">
-                            <div class="form-group">
+                        <div class="quote-grid-3" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                            <div class="form-group" style="margin-bottom: 0;">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Capacity (kWp)</label>
                                 <input type="number" id="quote-capacity" value="3" min="1" max="100" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" style="margin-bottom: 0;">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Solar Panel Model</label>
                                 <select id="quote-panel-brand" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
                                     <option value="Waaree" selected>Waaree</option>
@@ -228,7 +230,7 @@
                                     <option value="Emmvee">Emmvee</option>
                                 </select>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" style="margin-bottom: 0;">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Inverter Make</label>
                                 <select id="quote-inverter-brand" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
                                     <option value="Eastman" selected>Eastman</option>
@@ -237,8 +239,8 @@
                             </div>
                         </div>
                         
-                        <div class="quote-grid-2">
-                            <div class="form-group">
+                        <div class="quote-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                            <div class="form-group" style="margin-bottom: 0;">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Roof Type</label>
                                 <select id="quote-roof-type" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
                                     <option value="RCC">RCC</option>
@@ -247,7 +249,7 @@
                                     <option value="Other">Other</option>
                                 </select>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" style="margin-bottom: 0;">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Electrical Phase</label>
                                 <select id="quote-phase" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
                                     <option value="Single Phase">Single Phase</option>
@@ -256,16 +258,16 @@
                             </div>
                         </div>
 
-                        <div class="quote-grid-3">
-                            <div class="form-group">
+                        <div class="quote-grid-3" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                            <div class="form-group" style="margin-bottom: 0;">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Advance %</label>
                                 <input type="number" id="quote-pay-advance" value="60" min="0" max="100" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" style="margin-bottom: 0;">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Delivery %</label>
                                 <input type="number" id="quote-pay-delivery" value="30" min="0" max="100" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" style="margin-bottom: 0;">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Completion %</label>
                                 <input type="number" id="quote-pay-completion" value="10" min="0" max="100" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
                             </div>
@@ -1281,12 +1283,25 @@
                         </table>
 
                         <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">SYSTEM SPECIFICATION</h4>
-                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; text-align: left;">
-                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600; width: 40%;">System Capacity</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${capacityVal} kWp</td></tr>
-                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Solar Panel Brand</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${panelModel} (${panelCount} Nos)</td></tr>
-                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Solar Inverter</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${inverterModel} String Inverter (1 Unit)</td></tr>
-                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Roof Type</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${roofType}</td></tr>
-                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Electrical Phase</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${phase}</td></tr>
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; text-align: left; font-size: 0.8rem;">
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600; width: 22%;">System Capacity</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; width: 28%;">${capacityVal} kWp</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600; width: 22%;">Solar Panel Brand</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; width: 28%;">${panelModel} (${panelCount} Nos)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Solar Inverter Make</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">${inverterModel} String Inverter (1 Unit)</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Roof Structure Type</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">${roofType} Roof</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Electrical Phase</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">${phase}</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Grid Connection</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">On-Grid Net Metered</td>
+                            </tr>
                         </table>
 
                         <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">COMMERCIAL OFFER (SCOPE & COST BREAKDOWN)</h4>
@@ -1390,11 +1405,18 @@
                             </div>
                             <div>
                                 <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">PAYMENT TERMS</h4>
-                                <ul style="list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1.5rem; font-size: 0.8rem; line-height: 1.6;">
-                                    <li>Advance Payment : <strong>${payAdvance} %</strong></li>
-                                    <li>Before Installation (Material Delivery) : <strong>${payDelivery} %</strong></li>
-                                    <li>On Project Completion (Commissioning) : <strong>${payCompletion} %</strong></li>
-                                </ul>
+                                <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.78rem; text-align: center;">
+                                    <tr style="background: #f8f9fa; font-weight: 600;">
+                                        <td style="padding: 0.4rem; border: 1px solid #ddd; width: 33%;">Advance Payment</td>
+                                        <td style="padding: 0.4rem; border: 1px solid #ddd; width: 33%;">On Delivery</td>
+                                        <td style="padding: 0.4rem; border: 1px solid #ddd; width: 34%;">On Completion</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.45rem; border: 1px solid #ddd; font-weight: 800; color: #0d1321; font-size: 0.88rem;">${payAdvance}%</td>
+                                        <td style="padding: 0.45rem; border: 1px solid #ddd; font-weight: 800; color: #0d1321; font-size: 0.88rem;">${payDelivery}%</td>
+                                        <td style="padding: 0.45rem; border: 1px solid #ddd; font-weight: 800; color: #0d1321; font-size: 0.88rem;">${payCompletion}%</td>
+                                    </tr>
+                                </table>
 
                                 <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">WARRANTY</h4>
                                 <table style="width: 100%; border-collapse: collapse; font-size: 0.75rem; text-align: left;">
