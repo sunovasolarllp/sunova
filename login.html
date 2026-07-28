@@ -223,6 +223,124 @@
             }
         }
 
+        // --- IDLE TIMEOUT SYSTEM (15 MINUTES) ---
+        const IDLE_TIMEOUT_MS = 15 * 60 * 1000;
+        const WARNING_BEFORE_MS = 60 * 1000;
+        let idleTimer = null;
+        let warningTimer = null;
+        let countdownInterval = null;
+        let currentIdleStorageKey = '';
+        let currentLogoutCallback = null;
+        let lastActivitySaveTime = 0;
+
+        function startIdleTimer(storageKey, onLogout) {
+            currentIdleStorageKey = storageKey;
+            currentLogoutCallback = onLogout;
+            localStorage.setItem(storageKey + '_last_activity', Date.now().toString());
+
+            const activityEvents = ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart', 'click'];
+            activityEvents.forEach(evt => {
+                window.addEventListener(evt, handleUserActivity, { passive: true });
+            });
+
+            window.addEventListener('focus', checkSessionOnFocus);
+            resetIdleTimer();
+        }
+
+        function handleUserActivity() {
+            const now = Date.now();
+            if (now - lastActivitySaveTime > 2000) {
+                lastActivitySaveTime = now;
+                if (currentIdleStorageKey) {
+                    localStorage.setItem(currentIdleStorageKey + '_last_activity', now.toString());
+                }
+            }
+            resetIdleTimer();
+        }
+
+        function checkSessionOnFocus() {
+            if (!currentIdleStorageKey) return;
+            const lastAct = parseInt(localStorage.getItem(currentIdleStorageKey + '_last_activity') || '0', 10);
+            const now = Date.now();
+            if (lastAct && (now - lastAct > IDLE_TIMEOUT_MS)) {
+                triggerIdleLogout();
+            } else {
+                resetIdleTimer();
+            }
+        }
+
+        function resetIdleTimer() {
+            clearTimeout(idleTimer);
+            clearTimeout(warningTimer);
+            clearInterval(countdownInterval);
+            hideIdleWarning();
+
+            warningTimer = setTimeout(() => {
+                showIdleWarning();
+            }, IDLE_TIMEOUT_MS - WARNING_BEFORE_MS);
+
+            idleTimer = setTimeout(() => {
+                triggerIdleLogout();
+            }, IDLE_TIMEOUT_MS);
+        }
+
+        function showIdleWarning() {
+            let secondsLeft = Math.floor(WARNING_BEFORE_MS / 1000);
+            let banner = document.getElementById('idle-warning-banner');
+            if (!banner) {
+                banner = document.createElement('div');
+                banner.id = 'idle-warning-banner';
+                banner.style.cssText = 'position: fixed; bottom: 24px; right: 24px; background: rgba(13, 19, 33, 0.95); border: 1px solid var(--color-sun-yellow); border-radius: 12px; padding: 1rem 1.25rem; color: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 99999; display: flex; align-items: center; gap: 0.8rem; backdrop-filter: blur(10px); font-family: var(--font-body), sans-serif; font-size: 0.85rem;';
+                document.body.appendChild(banner);
+            }
+            
+            banner.innerHTML = `
+                <div style="font-size: 1.3rem;">⏱️</div>
+                <div>
+                    <div style="font-weight: 700; color: var(--color-sun-yellow); margin-bottom: 0.2rem;">Session Timeout Warning</div>
+                    <div style="color: #cbd5e1; font-size: 0.78rem;">You will be logged out in <strong id="idle-countdown-secs" style="color: #fff;">${secondsLeft}</strong> seconds due to inactivity.</div>
+                </div>
+                <button onclick="handleUserActivity()" style="background: var(--color-sun-yellow); color: #0d1321; border: none; padding: 0.45rem 0.85rem; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; margin-left: 0.4rem; white-space: nowrap;">Stay Logged In</button>
+            `;
+            banner.style.display = 'flex';
+
+            countdownInterval = setInterval(() => {
+                secondsLeft--;
+                const secsElem = document.getElementById('idle-countdown-secs');
+                if (secsElem) secsElem.textContent = secondsLeft;
+                if (secondsLeft <= 0) {
+                    clearInterval(countdownInterval);
+                }
+            }, 1000);
+        }
+
+        function hideIdleWarning() {
+            const banner = document.getElementById('idle-warning-banner');
+            if (banner) {
+                banner.style.display = 'none';
+            }
+        }
+
+        function triggerIdleLogout() {
+            stopIdleTimer();
+            if (typeof currentLogoutCallback === 'function') {
+                currentLogoutCallback();
+            }
+        }
+
+        function stopIdleTimer() {
+            clearTimeout(idleTimer);
+            clearTimeout(warningTimer);
+            clearInterval(countdownInterval);
+            hideIdleWarning();
+
+            const activityEvents = ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart', 'click'];
+            activityEvents.forEach(evt => {
+                window.removeEventListener(evt, handleUserActivity);
+            });
+            window.removeEventListener('focus', checkSessionOnFocus);
+        }
+
         // Check local storage for existing session & role URL parameter
         window.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
@@ -235,7 +353,13 @@
 
             const activeUser = localStorage.getItem('portal_user');
             if (activeUser) {
-                showDashboard(activeUser);
+                const lastAct = parseInt(localStorage.getItem('portal_last_activity') || '0', 10);
+                const now = Date.now();
+                if (lastAct && (now - lastAct > IDLE_TIMEOUT_MS)) {
+                    logoutPortal('inactivity');
+                } else {
+                    showDashboard(activeUser);
+                }
             }
         });
 
@@ -386,6 +510,9 @@
             // Load and render dynamic inquiries list
             renderInquiries();
             renderStaffSavedQuotes();
+
+            // Start idle timeout tracking for Staff Portal (15 mins)
+            startIdleTimer('portal', () => logoutPortal('inactivity'));
         }
 
         let activeInquiries = [];
@@ -784,9 +911,32 @@
             reader.readAsText(file);
         }
 
-        function logoutPortal() {
+        function logoutPortal(reason) {
             localStorage.removeItem('portal_user');
-            location.reload();
+            localStorage.removeItem('portal_last_activity');
+            stopIdleTimer();
+            if (reason === 'inactivity') {
+                const feedback = document.getElementById('login-feedback');
+                if (feedback) {
+                    feedback.textContent = '🔒 Session timed out after 15 minutes of inactivity. Please log in again.';
+                    feedback.className = 'form-feedback error';
+                    feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
+                    feedback.style.color = '#ef4444';
+                    feedback.classList.remove('hidden');
+                }
+                const wrapper = document.querySelector('.login-wrapper');
+                if (wrapper) wrapper.classList.remove('dashboard-active');
+                
+                const roleSwitch = document.querySelector('.portal-role-switch');
+                if (roleSwitch) roleSwitch.style.display = 'flex';
+                const header = document.querySelector('.portal-header');
+                if (header) header.style.display = 'flex';
+
+                document.getElementById('dashboard-view').classList.add('hidden');
+                document.getElementById('login-view').classList.remove('hidden');
+            } else {
+                location.reload();
+            }
         }
     </script>
 </body>
