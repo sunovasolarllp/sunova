@@ -56,7 +56,8 @@
                     <div class="form-group">
                         <label for="portal-password" id="portal-password-label">Account Password</label>
                         <input type="password" id="portal-password" placeholder="Enter your email password" required>
-                        <div id="partner-pin-hint" class="hidden" style="font-size: 0.74rem; color: var(--color-text-muted); margin-top: 0.35rem;">💡 First-time logging in? Use the default security PIN: <strong>2277</strong></div>
+                        <div id="staff-pass-hint" style="font-size: 0.74rem; color: var(--color-text-muted); margin-top: 0.35rem;">💡 Default staff portal password: <strong>Sunova@26</strong></div>
+                        <div id="partner-pin-hint" class="hidden" style="font-size: 0.74rem; color: var(--color-text-muted); margin-top: 0.35rem;">💡 First-time logging in? Use default security PIN: <strong>2277</strong></div>
                     </div>
 
                     <div id="login-feedback" class="form-feedback hidden"></div>
@@ -313,6 +314,7 @@
             const passwordLabel = document.getElementById('portal-password-label');
             const passwordInput = document.getElementById('portal-password');
             const submitBtn = document.getElementById('btn-portal-login');
+            const staffHint = document.getElementById('staff-pass-hint');
             const pinHint = document.getElementById('partner-pin-hint');
             const resetLink = document.getElementById('partner-reset-pin-link');
             
@@ -337,6 +339,7 @@
                     passwordInput.placeholder = 'Enter your 4-digit security PIN';
                 }
                 if (submitBtn) submitBtn.textContent = 'Sign In to Partner Dashboard';
+                if (staffHint) staffHint.classList.add('hidden');
                 if (pinHint) pinHint.classList.remove('hidden');
                 if (resetLink) resetLink.classList.remove('hidden');
             } else {
@@ -360,6 +363,7 @@
                     passwordInput.placeholder = 'Enter your email password';
                 }
                 if (submitBtn) submitBtn.textContent = 'Sign In to Dashboard';
+                if (staffHint) staffHint.classList.remove('hidden');
                 if (pinHint) pinHint.classList.add('hidden');
                 if (resetLink) resetLink.classList.add('hidden');
             }
@@ -578,8 +582,13 @@
                     loginBtn.disabled = false;
                     localStorage.setItem('partner_code', matchedDealer.code);
                     localStorage.setItem('partner_last_activity', Date.now().toString());
+                    if (requiredPin === '2277') {
+                        localStorage.setItem('must_change_pin', 'true');
+                    } else {
+                        localStorage.removeItem('must_change_pin');
+                    }
                     window.location.href = 'partner-portal.html';
-                }, 1000);
+                }, 800);
                 return;
             }
 

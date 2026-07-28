@@ -525,10 +525,15 @@
         window.addEventListener('DOMContentLoaded', () => {
             const activePartnerCode = localStorage.getItem('partner_code');
             if (activePartnerCode) {
+                const mustChangePin = localStorage.getItem('must_change_pin') === 'true';
                 const lastAct = parseInt(localStorage.getItem('partner_last_activity') || '0', 10);
                 const now = Date.now();
                 if (lastAct && (now - lastAct > IDLE_TIMEOUT_MS)) {
                     logoutPartner('inactivity');
+                } else if (mustChangePin) {
+                    tempLoginDealerCode = activePartnerCode;
+                    document.getElementById('login-view').classList.add('hidden');
+                    document.getElementById('change-pin-view').classList.remove('hidden');
                 } else {
                     showDashboard(activePartnerCode);
                 }
@@ -649,17 +654,20 @@
 
             setTimeout(() => {
                 loginBtn.disabled = false;
+                localStorage.setItem('partner_code', matchedDealer.code);
+                localStorage.setItem('partner_last_activity', Date.now().toString());
                 if (requiredPin === '2277') {
                     // Default PIN used, must force change PIN screen
+                    localStorage.setItem('must_change_pin', 'true');
                     tempLoginDealerCode = matchedDealer.code;
                     document.getElementById('login-view').classList.add('hidden');
                     document.getElementById('change-pin-view').classList.remove('hidden');
                 } else {
                     // Custom PIN used, log in successfully
-                    localStorage.setItem('partner_code', matchedDealer.code);
+                    localStorage.removeItem('must_change_pin');
                     showDashboard(matchedDealer.code);
                 }
-            }, 1200);
+            }, 800);
         }
 
         let tempLoginDealerCode = '';
@@ -702,8 +710,10 @@
             setTimeout(() => {
                 // Save custom PIN in localStorage
                 localStorage.setItem('partner_pin_' + tempLoginDealerCode, newPin);
+                localStorage.removeItem('must_change_pin');
                 // Complete session login
                 localStorage.setItem('partner_code', tempLoginDealerCode);
+                localStorage.setItem('partner_last_activity', Date.now().toString());
                 
                 // Hide change pin view, show dashboard
                 document.getElementById('change-pin-view').classList.add('hidden');
