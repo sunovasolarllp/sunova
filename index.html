@@ -40,6 +40,7 @@
                 <a href="#hero" class="nav-link active" id="link-hero">Home</a>
                 <a href="#services" class="nav-link" id="link-services">Services</a>
                 <a href="#calculator" class="nav-link" id="link-calculator">Calculator</a>
+                <a href="#district-partners" class="nav-link" id="link-districts">District Partners</a>
                 <a href="#about" class="nav-link" id="link-about">About Us</a>
                 <a href="#contact" class="nav-link" id="link-contact">Contact</a>
             </nav>
@@ -79,7 +80,7 @@
                         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
                     </svg>
                 </a>
-                <a href="partner-portal.html" class="theme-btn login-icon-btn" aria-label="Partner &amp; Staff Login" title="Partner &amp; Staff Login Portal">
+                <a href="login.html" class="theme-btn login-icon-btn" aria-label="Partner &amp; Staff Login" title="Partner &amp; Staff Login Portal">
                     <!-- Key/Lock Icon -->
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="18" height="18">
                         <path d="M12 15V17M17 11V7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7V11M5 11H19C20.1046 11 21 11.8954 21 13V20C21 21.1046 20.1046 22 19 22H5C3.89543 22 3 21.1046 3 20V13C3 11.8954 3.89543 11 5 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -790,6 +791,47 @@
         </div>
     </section>
 
+    <!-- District Channel Partners Directory Section -->
+    <section id="district-partners" class="section-padding" style="background: var(--color-bg-alt); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="sub-title">DISTRICT NETWORK DIRECTORY</span>
+                <h2 class="section-title">Authorized District Channel Partners Across Kerala</h2>
+                <div class="title-line"></div>
+                <p class="section-desc">Sunova Solar operates 50 authorized district channel partner offices across all 14 districts in Kerala. Select a district tab below to view area partners, contact details, and location offices.</p>
+            </div>
+
+            <!-- District Filter Tabs Bar -->
+            <div class="district-main-tabs-wrapper" style="display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.8rem; margin-bottom: 1.5rem; justify-content: flex-start; scrollbar-width: thin;">
+                <button type="button" class="district-main-tab active" onclick="switchMainDistrictTab('All', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 700; border-radius: 25px; border: 1px solid var(--color-sun-yellow); background: var(--color-sun-yellow); color: #0d1321; cursor: pointer; white-space: nowrap; transition: all 0.2s;">All 14 Districts (50 Partners)</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Thiruvananthapuram', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Thiruvananthapuram</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Kollam', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Kollam</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Pathanamthitta', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Pathanamthitta</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Alappuzha', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Alappuzha</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Kottayam', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Kottayam</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Idukki', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Idukki</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Ernakulam', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Ernakulam</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Thrissur', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Thrissur</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Palakkad', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Palakkad</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Malappuram', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Malappuram</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Kozhikode', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Kozhikode</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Wayanad', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Wayanad</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Kannur', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Kannur</button>
+                <button type="button" class="district-main-tab" onclick="switchMainDistrictTab('Kasaragod', this)" style="padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; border-radius: 25px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Kasaragod</button>
+            </div>
+
+            <!-- District Info Banner -->
+            <div id="main-district-info-banner" style="background: rgba(255, 183, 3, 0.08); border: 1px solid rgba(255, 183, 3, 0.2); border-radius: 10px; padding: 0.75rem 1.25rem; margin-bottom: 1.5rem; font-size: 0.88rem; color: var(--color-sun-yellow); text-align: center;">
+                📍 Showing <strong>50 authorized channel partners</strong> across all 14 Kerala districts.
+            </div>
+
+            <!-- District Partners Grid -->
+            <div id="main-district-dealers-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem;">
+                <!-- Injected dynamically -->
+            </div>
+        </div>
+    </section>
+
     <!-- Feasibility Form Section -->
     <section class="contact-section" id="contact">
         <div class="container">
@@ -1398,6 +1440,121 @@
     </a>
 
     <!-- Scripts -->
+    <script>
+        const MAIN_DEALERS = [
+            { code: "TVM-BENJ", name: "Benjose FG", area: "Balaramapuram", district: "Thiruvananthapuram", phone: "9037273767" },
+            { code: "TVM-ANAN", name: "Anand Sreedhar", area: "Neyyattinkara", district: "Thiruvananthapuram", phone: "7994430742" },
+            { code: "KLA-VARG", name: "Varghese Nellimoottil", area: "Ayoor", district: "Kollam", phone: "9020202222" },
+            { code: "KLA-NIYA", name: "Niyas K", area: "Karunagappally", district: "Kollam", phone: "9656366068" },
+            { code: "KLA-UDAY", name: "Udayabhanu J", area: "Kadappakkada", district: "Kollam", phone: "9349136882" },
+            { code: "KLA-RAJE", name: "Rajeev R", area: "Punalur", district: "Kollam", phone: "9567970077" },
+            { code: "KLA-RATH", name: "Rathil Kumar", area: "Sasthamkotta", district: "Kollam", phone: "7907878797" },
+            { code: "PTA-SREE", name: "Sreejith TR", area: "Mallappally", district: "Pathanamthitta", phone: "9947030669" },
+            { code: "PTA-JIJU", name: "Jijukumar MC", area: "Pandalam", district: "Pathanamthitta", phone: "9388133400" },
+            { code: "PTA-PKPR", name: "PK Prasannakumar", area: "Pathanamthitta", district: "Pathanamthitta", phone: "7034023301" },
+            { code: "PTA-BIJU", name: "Bijumon J", area: "Ranni", district: "Pathanamthitta", phone: "9995990372" },
+            { code: "ALP-SHIN", name: "Shinas Shamsudeen", area: "Alappuzha", district: "Alappuzha", phone: "9995550888" },
+            { code: "ALP-NISS", name: "Nissar Hameed", area: "Kayamkulam", district: "Alappuzha", phone: "9895497090" },
+            { code: "ALP-RENJ", name: "Renjith PS", area: "Mavelikkara", district: "Alappuzha", phone: "9447866958" },
+            { code: "ALP-BAIJ", name: "Baiju Sasidharan", area: "Vallikunnam", district: "Alappuzha", phone: "9747186818" },
+            { code: "KTM-SALY", name: "Saly Sainudeen", area: "Erattupetta", district: "Kottayam", phone: "9446200616" },
+            { code: "KTM-ANIS", name: "Anish Kumar", area: "Kallara", district: "Kottayam", phone: "9387220162" },
+            { code: "KTM-SANI", name: "Sanil Kumar", area: "Kottayam", district: "Kottayam", phone: "9061189784" },
+            { code: "IDK-OUSE", name: "Ouseph KA", area: "Moolamattom", district: "Idukki", phone: "9495737628" },
+            { code: "IDK-MGAJ", name: "MG Ajay", area: "Thodupuzha", district: "Idukki", phone: "9447254142" },
+            { code: "EKM-SHIY", name: "Shiyas Rasheed", area: "Edappally", district: "Ernakulam", phone: "9847859859" },
+            { code: "EKM-BHAV", name: "Bhavya M", area: "Kalamassery", district: "Ernakulam", phone: "8301026309" },
+            { code: "EKM-JIBI", name: "Jibin George", area: "Thripunithura", district: "Ernakulam", phone: "9995996240" },
+            { code: "TCR-JAIS", name: "Jaison Jose Meleth", area: "Ayyanthole", district: "Thrissur", phone: "9995601923" },
+            { code: "TCR-COAT", name: "Coats Thekkan", area: "Chalakudy", district: "Thrissur", phone: "8129119222" },
+            { code: "TCR-JISO", name: "Jison George", area: "Chelakkara", district: "Thrissur", phone: "9746666535" },
+            { code: "TCR-SINI", name: "Sinish KM", area: "Kodakara", district: "Thrissur", phone: "9946101892" },
+            { code: "TCR-BINU", name: "Binu Yacob", area: "Pazhayannur", district: "Thrissur", phone: "9946033807" },
+            { code: "TCR-JITH", name: "Jithesh Tharayil", area: "Ramavarmapuram", district: "Thrissur", phone: "7356347700" },
+            { code: "TCR-AKAN", name: "AK Anil", area: "Valappad", district: "Thrissur", phone: "9746891854" },
+            { code: "PKD-SUHA", name: "Suhaib S", area: "Alathur", district: "Palakkad", phone: "9988553585" },
+            { code: "PKD-PRAM", name: "Pramod", area: "Chittur", district: "Palakkad", phone: "9746611002" },
+            { code: "PKD-BIJO", name: "Bijo Varghese", area: "Elappully", district: "Palakkad", phone: "9388883222" },
+            { code: "PKD-ANAN", name: "Anand P", area: "Koduvayur", district: "Palakkad", phone: "9349811101" },
+            { code: "MPM-NASS", name: "Nassarudheen E", area: "Edakkara", district: "Malappuram", phone: "9946139955" },
+            { code: "MPM-FAIS", name: "Faisal K", area: "Manjeri", district: "Malappuram", phone: "7994035923" },
+            { code: "MPM-RAVI", name: "Ravindran K", area: "Tirur", district: "Malappuram", phone: "9961476748" },
+            { code: "KKD-RAJA", name: "Rajan Madavoor", area: "Koduvally", district: "Kozhikode", phone: "9497345868" },
+            { code: "KKD-YOOS", name: "Yoosaf NV", area: "Perambra", district: "Kozhikode", phone: "9539724724" },
+            { code: "KKD-SAFE", name: "Safeer", area: "Vadakara", district: "Kozhikode", phone: "9995330555" },
+            { code: "KKD-RAHU", name: "Rahul RN", area: "Vadakara", district: "Kozhikode", phone: "9645464733" },
+            { code: "WYD-SINI", name: "Sinil Chacko K", area: "Mananthavady", district: "Wayanad", phone: "8921794334" },
+            { code: "KNR-JOBI", name: "Jobi Sebastian", area: "Kannur", district: "Kannur", phone: "8590085865" },
+            { code: "KNR-ACFA", name: "AC Faisal", area: "Irikkoor", district: "Kannur", phone: "9656069964" },
+            { code: "KNR-NOUS", name: "Noushad T", area: "Mattannur", district: "Kannur", phone: "9847761018" },
+            { code: "KNR-SURI", name: "Suriya Subash", area: "Panoor", district: "Kannur", phone: "9946809010" },
+            { code: "KNR-NISH", name: "Nishad NK", area: "Thalassery", district: "Kannur", phone: "9562028244" },
+            { code: "KNR-KASO", name: "KA Soju", area: "Taliparamba", district: "Kannur", phone: "9447548430" },
+            { code: "KSD-PRAD", name: "Pradeep K", area: "Badiadka", district: "Kasaragod", phone: "9744880900" },
+            { code: "KSD-SURE", name: "Suresh Kumar", area: "Panathur", district: "Kasaragod", phone: "9946960604" }
+        ];
+
+        function switchMainDistrictTab(districtName, btnElem) {
+            const tabs = document.querySelectorAll('.district-main-tab');
+            tabs.forEach(t => {
+                t.style.background = 'var(--color-surface)';
+                t.style.color = 'var(--color-text)';
+                t.style.border = '1px solid var(--color-border)';
+                t.style.fontWeight = '600';
+            });
+
+            if (btnElem) {
+                btnElem.style.background = 'var(--color-sun-yellow)';
+                btnElem.style.color = '#0d1321';
+                btnElem.style.border = '1px solid var(--color-sun-yellow)';
+                btnElem.style.fontWeight = '700';
+            }
+
+            renderMainDistrictDealers(districtName);
+        }
+
+        function renderMainDistrictDealers(districtFilter) {
+            const container = document.getElementById('main-district-dealers-grid');
+            const infoBanner = document.getElementById('main-district-info-banner');
+            if (!container) return;
+
+            let filtered = MAIN_DEALERS;
+            if (districtFilter && districtFilter !== 'All') {
+                filtered = MAIN_DEALERS.filter(d => d.district === districtFilter);
+            }
+
+            if (infoBanner) {
+                infoBanner.innerHTML = districtFilter === 'All'
+                    ? `📍 Showing <strong>50 authorized channel partners</strong> across all 14 Kerala districts.`
+                    : `📍 Showing <strong>${filtered.length} authorized channel partners</strong> in <strong>${districtFilter} District</strong>.`;
+            }
+
+            container.innerHTML = filtered.map(d => `
+                <div class="glass-card" style="padding: 1.2rem; border-radius: 12px; font-size: 0.85rem; line-height: 1.5; color: var(--color-text); text-align: left; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem;">
+                        <strong style="color: var(--color-text); font-size: 0.95rem;">${d.name}</strong>
+                        <span style="font-size: 0.72rem; font-family: monospace; background: rgba(255, 183, 3, 0.15); color: var(--color-sun-yellow); border: 1px solid var(--color-sun-yellow); padding: 2px 7px; border-radius: 4px; font-weight: 700;">${d.code}</span>
+                    </div>
+                    <div style="color: var(--color-text-muted); margin-bottom: 0.8rem; font-size: 0.8rem;">
+                        📍 <strong>Area Office:</strong> ${d.area}<br>
+                        🏛️ <strong>District:</strong> ${d.district}
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <a href="tel:+91${d.phone}" class="cta-btn text-center" style="flex: 1; background: rgba(255,255,255,0.06); border: 1px solid var(--color-border); color: var(--color-text); padding: 0.45rem 0.5rem; border-radius: 6px; text-decoration: none; font-size: 0.78rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 0.3rem;">
+                            📞 Call Partner
+                        </a>
+                        <a href="https://wa.me/91${d.phone}?text=${encodeURIComponent(`Hi ${d.name}, I am contacting from Sunova Solar Website regarding rooftop solar installation in ${d.area}, ${d.district}.`)}" target="_blank" rel="noopener" class="cta-btn text-center" style="flex: 1; background: #25d366; color: white; border: none; padding: 0.45rem 0.5rem; border-radius: 6px; text-decoration: none; font-size: 0.78rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 0.3rem;">
+                            💬 WhatsApp
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMainDistrictDealers('All');
+        });
+    </script>
     <script src="app.js?v=4.2"></script>
 </body>
 </html>
