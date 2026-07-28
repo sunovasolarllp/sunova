@@ -205,15 +205,34 @@
                                 <input type="tel" id="quote-cust-phone" placeholder="e.g. 9876543210" pattern="^[6-9]\d{9}$" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" title="10-digit mobile number starting with 6-9" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
                             </div>
                         </div>
-                        <div class="quote-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                        <div class="quote-grid-3" style="display: grid; grid-template-columns: 1.2fr 0.9fr 0.9fr; gap: 0.8rem; margin-bottom: 0.8rem;">
                             <div class="form-group" style="margin-bottom: 0;">
-                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Installation Address &amp; District</label>
-                                <input type="text" id="quote-cust-addr" placeholder="e.g. House No 15, Near Temple, Alappuzha, Alappuzha District" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Installation Address</label>
+                                <input type="text" id="quote-cust-addr" placeholder="e.g. House No 15, Near Temple, Alappuzha" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">District</label>
+                                <select id="quote-cust-district" onchange="populateKSEBSections(this.value)" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                                    <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                                    <option value="Kollam">Kollam</option>
+                                    <option value="Pathanamthitta">Pathanamthitta</option>
+                                    <option value="Alappuzha">Alappuzha</option>
+                                    <option value="Kottayam">Kottayam</option>
+                                    <option value="Idukki">Idukki</option>
+                                    <option value="Ernakulam">Ernakulam</option>
+                                    <option value="Thrissur">Thrissur</option>
+                                    <option value="Palakkad">Palakkad</option>
+                                    <option value="Malappuram">Malappuram</option>
+                                    <option value="Kozhikode">Kozhikode</option>
+                                    <option value="Wayanad">Wayanad</option>
+                                    <option value="Kannur">Kannur</option>
+                                    <option value="Kasaragod">Kasaragod</option>
+                                </select>
                             </div>
                             <div class="form-group" style="margin-bottom: 0;">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">KSEB Section</label>
                                 <select id="quote-kseb-section" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
-                                    <option value="">-- Auto-filled by Partner District --</option>
+                                    <option value="">-- Select KSEB Section --</option>
                                 </select>
                             </div>
                         </div>
@@ -1126,16 +1145,23 @@
                 const lead = leads[idx];
                 document.getElementById('quote-cust-name').value = lead.name;
                 document.getElementById('quote-cust-phone').value = lead.phone || '';
-                document.getElementById('quote-cust-addr').value = `${lead.location}, ${lead.district}`;
-                document.getElementById('quote-capacity').value = lead.capacity;
+                document.getElementById('quote-cust-addr').value = lead.location || '';
+                
+                const distSelect = document.getElementById('quote-cust-district');
+                if (distSelect && lead.district) {
+                    distSelect.value = lead.district;
+                    populateKSEBSections(lead.district);
+                }
+
+                document.getElementById('quote-capacity').value = lead.capacity || 3;
                 
                 const ksebSelect = document.getElementById('quote-kseb-section');
                 if (ksebSelect) {
                     const options = Array.from(ksebSelect.options);
-                    const matchingOpt = options.find(opt => opt.value === lead.location);
+                    const matchingOpt = options.find(opt => opt.value.toLowerCase().includes((lead.location || '').toLowerCase()));
                     if (matchingOpt) matchingOpt.selected = true;
-                    else ksebSelect.value = '';
                 }
+            }
                 
                 // Show visual highlight feedback
                 const formCard = document.getElementById('quotation-form-section');
@@ -1183,6 +1209,7 @@
             const name = document.getElementById('quote-cust-name').value.trim().toUpperCase();
             const phone = document.getElementById('quote-cust-phone').value.trim();
             const addr = document.getElementById('quote-cust-addr').value.trim();
+            const districtVal = (document.getElementById('quote-cust-district') ? document.getElementById('quote-cust-district').value : '') || 'Alappuzha';
             const capacityVal = parseFloat(document.getElementById('quote-capacity').value);
             const panelModel = document.getElementById('quote-panel-brand').value;
             const inverterModel = document.getElementById('quote-inverter-brand').value;
@@ -1266,7 +1293,7 @@
                         <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; text-align: left;">
                             <tr>
                                 <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600; width: 22%;">Partner Name</td>
-                                <td colspan="3" style="padding: 0.5rem; border: 1px solid #ddd;">${dealer.name} ${distBadge}</td>
+                                <td colspan="3" style="padding: 0.5rem; border: 1px solid #ddd;">${dealer.name} (${dealer.area}, ${dealer.district}) ${distBadge}</td>
                             </tr>
                             <tr>
                                 <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600; width: 22%;">Customer Name</td>
@@ -1276,9 +1303,13 @@
                             </tr>
                             <tr>
                                 <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Installation Address</td>
-                                <td style="padding: 0.5rem; border: 1px solid #ddd;">${addr}${addr.toLowerCase().includes(dealer.district.toLowerCase()) ? '' : ', ' + dealer.district + ' District'}</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">${addr}</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">District</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>${districtVal} District</strong></td>
+                            </tr>
+                            <tr>
                                 <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">KSEB Section</td>
-                                <td style="padding: 0.5rem; border: 1px solid #ddd;">${document.getElementById('quote-kseb-section').value || '-'}</td>
+                                <td colspan="3" style="padding: 0.5rem; border: 1px solid #ddd;">${document.getElementById('quote-kseb-section').value || '-'} Section (${districtVal})</td>
                             </tr>
                         </table>
 
@@ -1533,9 +1564,14 @@
                                     </tr>
                                     <tr>
                                         <td style="color: #666;">Site Address:</td>
-                                        <td colspan="3">${addr}${addr.toLowerCase().includes(dealer.district.toLowerCase()) ? '' : ', ' + dealer.district + ' District'}</td>
+                                        <td style="padding-right: 15px;">${addr}</td>
+                                        <td style="color: #666;">District:</td>
+                                        <td><strong>${districtVal} District</strong></td>
                                     </tr>
-                                    <tr><td style="color: #666;">Consumer No:</td><td colspan="3" style="border-bottom: 1px dotted #999; font-weight: bold; color: #c5221f;">__________________</td></tr>
+                                    <tr>
+                                        <td style="color: #666;">Consumer No:</td>
+                                        <td colspan="3" style="border-bottom: 1px dotted #999; font-weight: bold; color: #c5221f;">__________________</td>
+                                    </tr>
                                 </table>
                             </div>
                             <div>
