@@ -3277,3 +3277,75 @@ form {
     color: var(--color-text);
     text-decoration: underline;
 }
+
+/* ==========================================================================
+   MOBILE & DESKTOP COMPATIBILITY ENHANCEMENTS
+   ========================================================================== */
+
+/* District Tabs Bar Touch Scrolling */
+.district-main-tabs-wrapper,
+.district-tabs-bar {
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+}
+
+.district-main-tab,
+.district-tab-btn {
+    scroll-snap-align: start;
+    touch-action: manipulation;
+}
+
+/* Mobile Screens Adjustments (< 768px) */
+@media (max-width: 768px) {
+    /* Responsive Form Grids: Stack side-by-side inputs cleanly on small mobile screens */
+    .form-grid-2col,
+    .form-grid-3col,
+    .quotation-side-grid {
+        grid-template-columns: 1fr !important;
+        gap: 0.8rem !important;
+    }
+
+    /* District Dealers Grid */
+    #main-district-dealers-grid,
+    #district-dealers-list {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Container padding */
+    .container {
+        padding: 0 1rem;
+    }
+
+    /* Login Card & Role Switcher */
+    .login-card {
+        padding: 1.5rem 1rem !important;
+        margin: 1rem 0.5rem !important;
+    }
+
+    .portal-role-switch button,
+    .portal-role-switch a {
+        font-size: 0.72rem !important;
+        padding: 0.5rem 0.2rem !important;
+    }
+
+    /* Table horizontal overflow wrapper for mobile viewing */
+    .table-responsive-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin-bottom: 1rem;
+    }
+
+    /* Proposal Output Document responsiveness */
+    .proposal-paper {
+        padding: 1rem !important;
+        font-size: 0.78rem !important;
+    }
+}
+
+/* Large Desktop Screens (>= 992px) */
+@media (min-width: 992px) {
+    #main-district-dealers-grid {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    }
+}
