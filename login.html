@@ -54,7 +54,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="portal-password">Account Password</label>
+                        <label for="portal-password" id="portal-password-label">Account Password</label>
                         <input type="password" id="portal-password" placeholder="Enter your email password" required>
                     </div>
 
@@ -187,6 +187,8 @@
             const portalHeaderDesc = document.getElementById('portal-header-desc');
             const emailLabel = document.getElementById('portal-email-label');
             const emailInput = document.getElementById('portal-email');
+            const passwordLabel = document.getElementById('portal-password-label');
+            const passwordInput = document.getElementById('portal-password');
             
             if (role === 'partner') {
                 if (staffBtn) {
@@ -199,10 +201,14 @@
                 }
                 if (portalHeaderTitle) portalHeaderTitle.textContent = 'Partner Portal';
                 if (portalHeaderDesc) portalHeaderDesc.textContent = 'Log in with your Authorized Partner Code to access client leads and saved quotes.';
-                if (emailLabel) emailLabel.textContent = 'Partner Email or Partner Code';
+                if (emailLabel) emailLabel.textContent = 'Partner Code or Mob No';
                 if (emailInput) {
-                    emailInput.placeholder = 'e.g. SUN-ALP-01 or partner@sunovasolar.in';
+                    emailInput.placeholder = 'eg:- ALP-SHIN or Mobile number';
                     emailInput.value = '';
+                }
+                if (passwordLabel) passwordLabel.textContent = 'PIN';
+                if (passwordInput) {
+                    passwordInput.placeholder = 'Enter your 4-digit security PIN';
                 }
             } else {
                 if (partnerBtn) {
@@ -219,6 +225,10 @@
                 if (emailInput) {
                     emailInput.placeholder = 'e.g. info@sunovasolar.in';
                     emailInput.value = 'info@sunovasolar.in';
+                }
+                if (passwordLabel) passwordLabel.textContent = 'Account Password';
+                if (passwordInput) {
+                    passwordInput.placeholder = 'Enter your email password';
                 }
             }
         }
@@ -365,6 +375,10 @@
 
         function handlePortalLogin(e) {
             e.preventDefault();
+            if (currentRole === 'partner') {
+                window.location.href = 'partner-portal.html';
+                return;
+            }
             const email = document.getElementById('portal-email').value.trim();
             const password = document.getElementById('portal-password').value;
             const feedback = document.getElementById('login-feedback');

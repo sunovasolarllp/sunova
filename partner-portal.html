@@ -36,12 +36,12 @@
             <div id="login-view">
                 <form id="portal-login-form" onsubmit="handlePartnerLogin(event)">
                     <div class="form-group">
-                        <label for="partner-code">Authorized Partner Code / Phone</label>
+                        <label for="partner-code">Partner Code or Mob No</label>
                         <input type="text" id="partner-code" placeholder="eg:- ALP-SHIN or Mobile number" oninput="let val = this.value; val = val.replace(/[^A-Za-z0-9\-]/g, ''); if (val.length > 0 && /^[0-9]/.test(val)) { val = val.replace(/[^0-9]/g, ''); if (val.length === 12 && val.startsWith('91')) { val = val.substring(2); } if (val.length > 0 && !/^[6-9]/.test(val)) { val = ''; } if (val.length > 10) { val = val.substring(0, 10); } } this.value = val;" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="partner-password">Partner Access PIN</label>
+                        <label for="partner-password">PIN</label>
                         <input type="password" id="partner-password" placeholder="Enter your 4-digit security PIN" required>
                         <div style="font-size: 0.74rem; color: var(--color-text-muted); margin-top: 0.35rem;">💡 First-time logging in? Use the default security PIN: <strong>2277</strong></div>
                     </div>
