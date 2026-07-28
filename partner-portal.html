@@ -195,12 +195,12 @@
                                 <option value="">-- Choose an Allocated Lead --</option>
                             </select>
                         </div>
-                        <div class="quote-grid-2">
-                            <div class="form-group">
+                        <div class="quote-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                            <div class="form-group" style="margin-bottom: 0;">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Customer Name</label>
                                 <input type="text" id="quote-cust-name" placeholder="e.g. Radhakrishnan Nair" style="text-transform: uppercase; width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" style="margin-bottom: 0;">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Mobile Number</label>
                                 <input type="tel" id="quote-cust-phone" placeholder="e.g. 9876543210" pattern="^[6-9]\d{9}$" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" title="10-digit mobile number starting with 6-9" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
                             </div>
@@ -1262,11 +1262,22 @@
                         
                         <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">CUSTOMER INFORMATION</h4>
                         <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; text-align: left;">
-                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600; width: 35%;">Partner Name</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${dealer.name} ${distBadge}</td></tr>
-                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Customer Name</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${name}</td></tr>
-                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Installation Address</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${addr}, ${dealer.district}</td></tr>
-                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">KSEB Section</td><td style="padding: 0.5rem; border: 1px solid #ddd;">${document.getElementById('quote-kseb-section').value || '-'}</td></tr>
-                            <tr><td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Mobile Number</td><td style="padding: 0.5rem; border: 1px solid #ddd;">+91 ${phone}</td></tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600; width: 22%;">Partner Name</td>
+                                <td colspan="3" style="padding: 0.5rem; border: 1px solid #ddd;">${dealer.name} ${distBadge}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600; width: 22%;">Customer Name</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; width: 38%;"><strong>${name}</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600; width: 18%;">Mobile Number</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; width: 22%;">+91 ${phone}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Installation Address</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">${addr}, ${dealer.district}</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">KSEB Section</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">${document.getElementById('quote-kseb-section').value || '-'}</td>
+                            </tr>
                         </table>
 
                         <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">SYSTEM SPECIFICATION</h4>
@@ -1492,10 +1503,14 @@
                             <div>
                                 <strong style="color: #0d1321; display: block; margin-bottom: 0.3rem;">Consumer Details (Site Address)</strong>
                                 <table style="width: 100%; border-collapse: collapse;">
-                                    <tr><td style="color: #666; width: 95px;">Consumer Name:</td><td><strong>${name}</strong></td></tr>
-                                    <tr><td style="color: #666;">Site Address:</td><td>${addr}</td></tr>
-                                    <tr><td style="color: #666;">Mobile No:</td><td>+91 ${phone}</td></tr>
-                                    <tr><td style="color: #666;">Consumer No:</td><td style="border-bottom: 1px dotted #999; font-weight: bold; color: #c5221f;">__________________</td></tr>
+                                    <tr>
+                                        <td style="color: #666; width: 110px;">Consumer Name:</td>
+                                        <td style="padding-right: 15px;"><strong>${name}</strong></td>
+                                        <td style="color: #666; width: 75px;">Mobile No:</td>
+                                        <td><strong>+91 ${phone}</strong></td>
+                                    </tr>
+                                    <tr><td style="color: #666;">Site Address:</td><td colspan="3">${addr}</td></tr>
+                                    <tr><td style="color: #666;">Consumer No:</td><td colspan="3" style="border-bottom: 1px dotted #999; font-weight: bold; color: #c5221f;">__________________</td></tr>
                                 </table>
                             </div>
                             <div>
