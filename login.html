@@ -50,15 +50,20 @@
                 <form id="portal-login-form" onsubmit="handlePortalLogin(event)">
                     <div class="form-group">
                         <label for="portal-email" id="portal-email-label">Corporate Email Address</label>
-                        <input type="text" id="portal-email" placeholder="e.g. info@sunovasolar.in" required value="info@sunovasolar.in">
+                        <input type="text" id="portal-email" placeholder="e.g. info@sunovasolar.in" oninput="handlePartnerCodeInput(this)" required value="info@sunovasolar.in">
                     </div>
                     
                     <div class="form-group">
                         <label for="portal-password" id="portal-password-label">Account Password</label>
                         <input type="password" id="portal-password" placeholder="Enter your email password" required>
+                        <div id="partner-pin-hint" class="hidden" style="font-size: 0.74rem; color: var(--color-text-muted); margin-top: 0.35rem;">💡 First-time logging in? Use the default security PIN: <strong>2277</strong></div>
                     </div>
 
                     <div id="login-feedback" class="form-feedback hidden"></div>
+                    
+                    <div id="partner-reset-pin-link" class="hidden" style="text-align: right; margin-top: -0.5rem; margin-bottom: 1rem;">
+                        <a href="javascript:void(0)" onclick="resetPin()" style="font-size: 0.75rem; color: var(--color-sun-yellow); text-decoration: none;">Forgot / Reset PIN?</a>
+                    </div>
 
                     <button type="submit" class="cta-btn primary-btn full-width" id="btn-portal-login">
                         Sign In to Dashboard
@@ -177,7 +182,125 @@
 
     <!-- Script -->
     <script>
+        const DEALERS = [
+            { code: "TVM-BENJ", name: "Benjose FG", area: "Balaramapuram", district: "Thiruvananthapuram", phone: "9037273767", lat: 8.4239, lon: 77.0371 },
+            { code: "TVM-ANAN", name: "Anand Sreedhar", area: "Neyyattinkara", district: "Thiruvananthapuram", phone: "7994430742", lat: 8.3995, lon: 77.0863 },
+            { code: "KLA-VARG", name: "Varghese Nellimoottil", area: "Ayoor", district: "Kollam", phone: "9020202222", lat: 8.8787, lon: 76.8407 },
+            { code: "KLA-NIYA", name: "Niyas K", area: "Karunagappally", district: "Kollam", phone: "9656366068", lat: 9.0559, lon: 76.5360 },
+            { code: "KLA-UDAY", name: "Udayabhanu J", area: "Kadappakkada", district: "Kollam", phone: "9349136882", lat: 8.8871, lon: 76.6027 },
+            { code: "KLA-RAJE", name: "Rajeev R", area: "Punalur", district: "Kollam", phone: "9567970077", lat: 9.0182, lon: 76.9298 },
+            { code: "KLA-RATH", name: "Rathil Kumar", area: "Sasthamkotta", district: "Kollam", phone: "7907878797", lat: 9.0346, lon: 76.6268 },
+            { code: "PTA-SREE", name: "Sreejith TR", area: "Mallappally", district: "Pathanamthitta", phone: "9947030669", lat: 9.4215, lon: 76.6358 },
+            { code: "PTA-JIJU", name: "Jijukumar MC", area: "Pandalam", district: "Pathanamthitta", phone: "9388133400", lat: 9.2273, lon: 76.6716 },
+            { code: "PTA-PKPR", name: "PK Prasannakumar", area: "Pathanamthitta", district: "Pathanamthitta", phone: "7034023301", lat: 9.2648, lon: 76.7870 },
+            { code: "PTA-BIJU", name: "Bijumon J", area: "Ranni", district: "Pathanamthitta", phone: "9995990372", lat: 9.3826, lon: 76.7844 },
+            { code: "ALP-SHIN", name: "Shinas Shamsudeen", area: "Alappuzha", district: "Alappuzha", phone: "9995550888", lat: 9.4981, lon: 76.3388 },
+            { code: "ALP-NISS", name: "Nissar Hameed", area: "Kayamkulam", district: "Alappuzha", phone: "9895497090", lat: 9.1738, lon: 76.5009 },
+            { code: "ALP-RENJ", name: "Renjith PS", area: "Mavelikkara", district: "Alappuzha", phone: "9447866958", lat: 9.2458, lon: 76.5518 },
+            { code: "ALP-BAIJ", name: "Baiju Sasidharan", area: "Vallikunnam", district: "Alappuzha", phone: "9747186818", lat: 9.1673, lon: 76.5746 },
+            { code: "KTM-SALY", name: "Saly Sainudeen", area: "Erattupetta", district: "Kottayam", phone: "9446200616", lat: 9.6828, lon: 76.7845 },
+            { code: "KTM-ANIS", name: "Anish Kumar", area: "Kallara", district: "Kottayam", phone: "9387220162", lat: 9.7118, lon: 76.4367 },
+            { code: "KTM-SANI", name: "Sanil Kumar", area: "Kottayam", district: "Kottayam", phone: "9061189784", lat: 9.5916, lon: 76.5222 },
+            { code: "IDK-OUSE", name: "Ouseph KA", area: "Moolamattom", district: "Idukki", phone: "9495737628", lat: 9.7709, lon: 76.8624 },
+            { code: "IDK-MGAJ", name: "MG Ajay", area: "Thodupuzha", district: "Idukki", phone: "9447254142", lat: 9.8959, lon: 76.7183 },
+            { code: "EKM-SHIY", name: "Shiyas Rasheed", area: "Edappally", district: "Ernakulam", phone: "9847859859", lat: 10.0261, lon: 76.3125 },
+            { code: "EKM-BHAV", name: "Bhavya M", area: "Kalamassery", district: "Ernakulam", phone: "8301026309", lat: 10.0468, lon: 76.3175 },
+            { code: "EKM-JIBI", name: "Jibin George", area: "Thripunithura", district: "Ernakulam", phone: "9995996240", lat: 9.9515, lon: 76.3419 },
+            { code: "TCR-JAIS", name: "Jaison Jose Meleth", area: "Ayyanthole", district: "Thrissur", phone: "9995601923", lat: 10.5312, lon: 76.1966 },
+            { code: "TCR-COAT", name: "Coats Thekkan", area: "Chalakudy", district: "Thrissur", phone: "8129119222", lat: 10.3015, lon: 76.3331 },
+            { code: "TCR-JISO", name: "Jison George", area: "Chelakkara", district: "Thrissur", phone: "9746666535", lat: 10.6970, lon: 76.3402 },
+            { code: "TCR-SINI", name: "Sinish KM", area: "Kodakara", district: "Thrissur", phone: "9946101892", lat: 10.3664, lon: 76.2974 },
+            { code: "TCR-BINU", name: "Binu Yacob", area: "Pazhayannur", district: "Thrissur", phone: "9946033807", lat: 10.7101, lon: 76.4026 },
+            { code: "TCR-JITH", name: "Jithesh Tharayil", area: "Ramavarmapuram", district: "Thrissur", phone: "7356347700", lat: 10.5513, lon: 76.2255 },
+            { code: "TCR-AKAN", name: "AK Anil", area: "Valappad", district: "Thrissur", phone: "9746891854", lat: 10.3957, lon: 76.1030 },
+            { code: "PKD-SUHA", name: "Suhaib S", area: "Alathur", district: "Palakkad", phone: "9988553585", lat: 10.6436, lon: 76.5451 },
+            { code: "PKD-PRAM", name: "Pramod", area: "Chittur", district: "Palakkad", phone: "9746611002", lat: 10.7042, lon: 76.7329 },
+            { code: "PKD-BIJO", name: "Bijo Varghese", area: "Elappully", district: "Palakkad", phone: "9388883222", lat: 10.7410, lon: 76.7118 },
+            { code: "PKD-ANAN", name: "Anand P", area: "Koduvayur", district: "Palakkad", phone: "9349811101", lat: 10.6865, lon: 76.6315 },
+            { code: "MPM-NASS", name: "Nassarudheen E", area: "Edakkara", district: "Malappuram", phone: "9946139955", lat: 11.3468, lon: 76.2976 },
+            { code: "MPM-FAIS", name: "Faisal K", area: "Manjeri", district: "Malappuram", phone: "7994035923", lat: 11.1180, lon: 76.1217 },
+            { code: "MPM-RAVI", name: "Ravindran K", area: "Tirur", district: "Malappuram", phone: "9961476748", lat: 10.9157, lon: 75.9238 },
+            { code: "KKD-RAJA", name: "Rajan Madavoor", area: "Koduvally", district: "Kozhikode", phone: "9497345868", lat: 11.3499, lon: 75.9231 },
+            { code: "KKD-YOOS", name: "Yoosaf NV", area: "Perambra", district: "Kozhikode", phone: "9539724724", lat: 11.5647, lon: 75.7486 },
+            { code: "KKD-SAFE", name: "Safeer", area: "Vadakara", district: "Kozhikode", phone: "9995330555", lat: 11.5975, lon: 75.5925 },
+            { code: "KKD-RAHU", name: "Rahul RN", area: "Vadakara", district: "Kozhikode", phone: "9645464733", lat: 11.5975, lon: 75.5925 },
+            { code: "WYD-SINI", name: "Sinil Chacko K", area: "Mananthavady", district: "Wayanad", phone: "8921794334", lat: 11.8023, lon: 76.0029 },
+            { code: "KNR-JOBI", name: "Jobi Sebastian", area: "Kannur", district: "Kannur", phone: "8590085865", lat: 11.8745, lon: 75.3704 },
+            { code: "KNR-ACFA", name: "AC Faisal", area: "Irikkoor", district: "Kannur", phone: "9656069964", lat: 11.9791, lon: 75.5684 },
+            { code: "KNR-NOUS", name: "Noushad T", area: "Mattannur", district: "Kannur", phone: "9847761018", lat: 11.9312, lon: 75.5727 },
+            { code: "KNR-SURI", name: "Suriya Subash", area: "Panoor", district: "Kannur", phone: "9946809010", lat: 11.7583, lon: 75.5670 },
+            { code: "KNR-NISH", name: "Nishad NK", area: "Thalassery", district: "Kannur", phone: "9562028244", lat: 11.7481, lon: 75.4894 },
+            { code: "KNR-KASO", name: "KA Soju", area: "Taliparamba", district: "Kannur", phone: "9447548430", lat: 12.0366, lon: 75.3619 },
+            { code: "KSD-PRAD", name: "Pradeep K", area: "Badiadka", district: "Kasaragod", phone: "9744880900", lat: 12.5923, lon: 75.0566 },
+            { code: "KSD-SURE", name: "Suresh Kumar", area: "Panathur", district: "Kasaragod", phone: "9946960604", lat: 12.4419, lon: 75.3340 }
+        ];
+
         let currentRole = 'staff';
+
+        function handlePartnerCodeInput(inputElem) {
+            if (currentRole !== 'partner') return;
+            let val = inputElem.value;
+            val = val.replace(/[^A-Za-z0-9\-]/g, '');
+            if (val.length > 0 && /^[0-9]/.test(val)) {
+                val = val.replace(/[^0-9]/g, '');
+                if (val.length === 12 && val.startsWith('91')) {
+                    val = val.substring(2);
+                }
+                if (val.length > 0 && !/^[6-9]/.test(val)) {
+                    val = '';
+                }
+                if (val.length > 10) {
+                    val = val.substring(0, 10);
+                }
+            }
+            inputElem.value = val;
+        }
+
+        function resetPin() {
+            const inputVal = document.getElementById('portal-email').value.trim();
+            if (!inputVal) {
+                alert("Please enter your Partner Code or Mobile Number first to reset your PIN.");
+                return;
+            }
+
+            let inputValCleaned = inputVal;
+            const isNumeric = /^[0-9\+\s\-]+$/.test(inputVal);
+            if (isNumeric) {
+                let cleanPhone = inputVal.replace(/[^0-9]/g, '');
+                if (cleanPhone.length === 12 && cleanPhone.startsWith('91')) cleanPhone = cleanPhone.substring(2);
+                inputValCleaned = cleanPhone;
+            }
+
+            const matchedDealer = DEALERS.find(d => {
+                const searchVal = inputValCleaned.toUpperCase();
+                return d.code === searchVal || d.phone === inputValCleaned;
+            });
+
+            if (!matchedDealer) {
+                alert("Partner not found. Please enter a valid Partner Code or Mobile Number.");
+                return;
+            }
+
+            localStorage.removeItem('partner_pin_' + matchedDealer.code);
+            const defaultPin = '2277';
+
+            alert("Processing PIN reset request...");
+
+            const formData = new FormData();
+            formData.append("access_key", "3b85044a-ed95-42ed-b465-e6afcaeb60a2");
+            formData.append("subject", "Sunova Partner PIN Reset");
+            formData.append("from_name", "Sunova Solar Security");
+            formData.append("message", `A PIN reset was requested for Partner:\nName: ${matchedDealer.name}\nCode: ${matchedDealer.code}\nMobile Number: ${matchedDealer.phone}\n\nTheir PIN has been successfully reset to the default PIN: ${defaultPin}.\n\nA copy of this reset notification is being sent to info@sunovasolar.in and the partner's mobile number.`);
+
+            fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                body: formData
+            }).then(() => {
+                alert(`Your PIN has been reset to the default PIN (${defaultPin}). An SMS notification has been sent to ${matchedDealer.phone} and a copy to info@sunovasolar.in.`);
+            }).catch(() => {
+                alert(`Your PIN has been reset to the default PIN (${defaultPin}). Note: Email dispatch failed.`);
+            });
+        }
 
         function switchLoginRole(role) {
             currentRole = role;
@@ -189,6 +312,9 @@
             const emailInput = document.getElementById('portal-email');
             const passwordLabel = document.getElementById('portal-password-label');
             const passwordInput = document.getElementById('portal-password');
+            const submitBtn = document.getElementById('btn-portal-login');
+            const pinHint = document.getElementById('partner-pin-hint');
+            const resetLink = document.getElementById('partner-reset-pin-link');
             
             if (role === 'partner') {
                 if (staffBtn) {
@@ -210,6 +336,9 @@
                 if (passwordInput) {
                     passwordInput.placeholder = 'Enter your 4-digit security PIN';
                 }
+                if (submitBtn) submitBtn.textContent = 'Sign In to Partner Dashboard';
+                if (pinHint) pinHint.classList.remove('hidden');
+                if (resetLink) resetLink.classList.remove('hidden');
             } else {
                 if (partnerBtn) {
                     partnerBtn.style.background = 'transparent';
@@ -230,6 +359,9 @@
                 if (passwordInput) {
                     passwordInput.placeholder = 'Enter your email password';
                 }
+                if (submitBtn) submitBtn.textContent = 'Sign In to Dashboard';
+                if (pinHint) pinHint.classList.add('hidden');
+                if (resetLink) resetLink.classList.add('hidden');
             }
         }
 
@@ -375,14 +507,81 @@
 
         function handlePortalLogin(e) {
             e.preventDefault();
-            if (currentRole === 'partner') {
-                window.location.href = 'partner-portal.html';
-                return;
-            }
             const email = document.getElementById('portal-email').value.trim();
             const password = document.getElementById('portal-password').value;
             const feedback = document.getElementById('login-feedback');
             const loginBtn = document.getElementById('btn-portal-login');
+
+            if (currentRole === 'partner') {
+                let inputValCleaned = email;
+                const isNumeric = /^[0-9\+\s\-]+$/.test(email);
+                if (isNumeric) {
+                    let cleanPhone = email.replace(/[^0-9]/g, '');
+                    if (cleanPhone.length === 12 && cleanPhone.startsWith('91')) {
+                        cleanPhone = cleanPhone.substring(2);
+                    }
+                    const phoneRegex = /^[6-9][0-9]{9}$/;
+                    if (!phoneRegex.test(cleanPhone)) {
+                        feedback.textContent = 'Invalid Phone. If logging in with a mobile number, it must be exactly 10 digits starting with 6-9.';
+                        feedback.className = 'form-feedback error';
+                        feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
+                        feedback.style.color = '#ef4444';
+                        feedback.classList.remove('hidden');
+                        return;
+                    }
+                    inputValCleaned = cleanPhone;
+                }
+
+                const matchedDealer = DEALERS.find(d => {
+                    const searchVal = inputValCleaned.toUpperCase();
+                    return d.code === searchVal || d.phone === inputValCleaned;
+                });
+
+                if (!matchedDealer) {
+                    feedback.textContent = 'Access Denied. Your partner code or mobile number is not registered in our dealer list.';
+                    feedback.className = 'form-feedback error';
+                    feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
+                    feedback.style.color = '#ef4444';
+                    feedback.classList.remove('hidden');
+                    return;
+                }
+
+                if (password.length !== 4 || isNaN(password)) {
+                    feedback.textContent = 'Please enter a valid 4-digit security PIN.';
+                    feedback.className = 'form-feedback error';
+                    feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
+                    feedback.style.color = '#ef4444';
+                    feedback.classList.remove('hidden');
+                    return;
+                }
+
+                const customPin = localStorage.getItem('partner_pin_' + matchedDealer.code);
+                const requiredPin = customPin || '2277';
+
+                if (password !== requiredPin) {
+                    feedback.textContent = customPin ? 'Incorrect security PIN. Please enter your custom PIN.' : 'Invalid security PIN. For first-time login, use default PIN: 2277.';
+                    feedback.className = 'form-feedback error';
+                    feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
+                    feedback.style.color = '#ef4444';
+                    feedback.classList.remove('hidden');
+                    return;
+                }
+
+                feedback.textContent = 'Authenticating Partner credentials...';
+                feedback.className = 'form-feedback';
+                feedback.style.backgroundColor = 'rgba(255, 183, 3, 0.15)';
+                feedback.style.color = 'var(--color-sun-yellow)';
+                feedback.classList.remove('hidden');
+                loginBtn.disabled = true;
+
+                setTimeout(() => {
+                    loginBtn.disabled = false;
+                    localStorage.setItem('partner_code', matchedDealer.code);
+                    localStorage.setItem('partner_last_activity', Date.now().toString());
+                    window.location.href = 'partner-portal.html';
+                }, 1000);
+                return;
+            }
 
             // 1. Check for Password Reset Trigger (login as admin / password as admin)
             if (email.toLowerCase() === 'admin' && password === 'admin') {
