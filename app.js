@@ -5047,7 +5047,7 @@ function populateKSEBSections(districtValue) {
         const secCode = (typeof secData === 'object' && secData !== null) ? secData.code : secData;
         const opt = document.createElement('option');
         opt.value = name;
-        opt.textContent = secCode ? `${name} (Code: ${secCode})` : name;
+        opt.textContent = secCode ? `${name} (${secCode})` : name;
         sectionSelect.appendChild(opt);
     });
 }
