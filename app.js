@@ -5043,9 +5043,11 @@ function populateKSEBSections(districtValue) {
     // Sort sections alphabetically and populate
     const sortedSections = Object.keys(sections).sort();
     sortedSections.forEach(name => {
+        const secData = sections[name];
+        const secCode = (typeof secData === 'object' && secData !== null) ? secData.code : secData;
         const opt = document.createElement('option');
         opt.value = name;
-        opt.textContent = name;
+        opt.textContent = secCode ? `${name} (Code: ${secCode})` : name;
         sectionSelect.appendChild(opt);
     });
 }
