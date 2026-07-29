@@ -3152,6 +3152,36 @@ form {
     background: var(--color-bg);
 }
 
+/* Testimonial Auto-Scroll Marquee Track */
+.testimonial-marquee-container {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    padding: 0.5rem 0 1rem 0;
+    mask-image: linear-gradient(to right, transparent, #000 3%, #000 97%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 3%, #000 97%, transparent);
+}
+
+.testimonial-marquee-track {
+    display: flex;
+    gap: 1.25rem;
+    width: max-content;
+    animation: scroll-testimonial-marquee 45s linear infinite;
+}
+
+.testimonial-marquee-track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes scroll-testimonial-marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
 .testimonials-grid, .news-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

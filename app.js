@@ -6267,9 +6267,18 @@ function parseKSEBBillText(text) {
 
 // Function to smoothly scroll testimonials track on main page
 function scrollTestimonials(offset) {
+    const wrapper = document.getElementById('testimonials-marquee-wrapper');
     const track = document.getElementById('testimonials-scroll-track');
     if (track) {
-        track.scrollBy({ left: offset, behavior: 'smooth' });
+        track.style.animationPlayState = 'paused';
+        if (wrapper && wrapper.scrollBy) {
+            wrapper.scrollBy({ left: offset, behavior: 'smooth' });
+        } else if (track.scrollBy) {
+            track.scrollBy({ left: offset, behavior: 'smooth' });
+        }
+        setTimeout(() => {
+            track.style.animationPlayState = 'running';
+        }, 5000);
     }
 }
 
