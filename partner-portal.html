@@ -859,7 +859,7 @@
             const requiredPin = customPin || '2277';
 
             if (pin !== requiredPin) {
-                feedback.textContent = customPin ? 'Incorrect security PIN. Please enter your custom PIN.' : 'Invalid security PIN. For first-time login, use default PIN: 2277.';
+                feedback.textContent = customPin ? 'Incorrect security PIN. Please enter the new 4-digit PIN sent to your registered WhatsApp/SMS.' : 'Invalid security PIN. For first-time login, use default PIN: 2277 or click "Forgot / Reset PIN?".';
                 feedback.className = 'form-feedback error';
                 feedback.classList.remove('hidden');
                 return;
@@ -874,17 +874,9 @@
 
             setTimeout(() => {
                 loginBtn.disabled = false;
-                if (requiredPin === '2277') {
-                    // Default PIN used, must force change PIN screen
-                    tempLoginDealerCode = matchedDealer.code;
-                    document.getElementById('login-view').classList.add('hidden');
-                    document.getElementById('change-pin-view').classList.remove('hidden');
-                } else {
-                    // Custom PIN used, log in successfully
-                    localStorage.setItem('partner_code', matchedDealer.code);
-                    showDashboard(matchedDealer.code);
-                }
-            }, 1200);
+                localStorage.setItem('partner_code', matchedDealer.code);
+                showDashboard(matchedDealer.code);
+            }, 800);
         }
 
         let tempLoginDealerCode = '';
