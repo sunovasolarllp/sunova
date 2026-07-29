@@ -165,7 +165,7 @@ if ($action === 'connect') {
     exit;
 }
 
-// 7. Log Inquiry (Publicly accessible from homepage form)
+// 7. Log Inquiry & Send Server Email Notification
 if ($action === 'log_inquiry') {
     $data = json_decode(file_get_contents('php://input'), true);
     if (!$data) {
@@ -193,6 +193,38 @@ if ($action === 'log_inquiry') {
     // Save with security header
     $saveContent = '<?php http_response_code(403); exit; ?>' . json_encode($inquiries, JSON_PRETTY_PRINT);
     write_db($file, $saveContent);
+
+    // Send automatic Email notification to office staff via PHP mail()
+    $to = "info@sunovasolar.in, sunovasolarllp@gmail.com";
+    $custName = !empty($data['name']) ? $data['name'] : 'Customer';
+    $custPhone = !empty($data['phone']) ? $data['phone'] : 'Not Provided';
+    $custEmail = (!empty($data['email']) && filter_var($data['email'], FILTER_VALIDATE_EMAIL)) ? $data['email'] : '';
+    
+    $subject = "New Solar Feasibility Inquiry from " . strtoupper($custName) . " (" . ($data['location'] ?? 'Kerala') . ")";
+    $mailBody = "New Solar Feasibility & Quote Request Received:\n\n" .
+                "• Name: " . strtoupper($custName) . "\n" .
+                "• Phone: " . $custPhone . "\n" .
+                "• Email: " . ($custEmail ? $custEmail : 'Not Provided') . "\n" .
+                "• District: " . ($data['district'] ?? 'Not Provided') . "\n" .
+                "• KSEB Section: " . ($data['location'] ?? 'Not Provided') . "\n" .
+                "• System Category: " . ($data['connection'] ?? 'Residential') . "\n" .
+                "• System Model: " . ($data['systemModel'] ?? 'On-Grid') . "\n" .
+                "• Capacity: " . ($data['capacity'] ?? '3') . " kWp\n" .
+                "• Roof Structure: " . ($data['roofType'] ?? 'Flat Rooftop') . "\n" .
+                "• KSEB Consumer No: " . ($data['consumerNo'] ?? 'Not Provided') . "\n" .
+                "• Bi-Monthly Bill: " . ($data['ksebBill'] ?? 'Not Provided') . "\n" .
+                "• Assigned Partner: " . ($data['dealer'] ?? 'Not Provided') . "\n" .
+                "• PM Surya Ghar Subsidy: " . ($data['subsidy'] ?? 'No') . "\n" .
+                "• Bank Loan Required: " . ($data['loan'] ?? 'No') . "\n" .
+                "• Site Details / Notes: " . ($data['message'] ?? 'None') . "\n\n" .
+                "Submitted via Sunova Solar LLP Website at " . date('Y-m-d H:i:s');
+
+    $replyHeader = $custEmail ? "Reply-To: " . $custEmail . "\r\n" : "";
+    $headers = "From: Sunova Solar Portal <no-reply@sunovasolar.in>\r\n" .
+               $replyHeader .
+               "X-Mailer: PHP/" . phpversion();
+    
+    @mail($to, $subject, $mailBody, $headers);
     
     echo json_encode(['success' => true]);
     exit;

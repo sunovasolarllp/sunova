@@ -5414,13 +5414,16 @@ function handleFormSubmit(event) {
     const officePhone = "919072522277";
     const waOfficeUrl = `https://wa.me/${officePhone}?text=${encodeURIComponent(waMessage)}`;
 
-    const WEB3FORMS_ACCESS_KEY = "3b85044a-ed95-42ed-b465-e6afcaeb60a2";
+    const WEB3FORMS_ACCESS_KEY = localStorage.getItem('web3forms_access_key') || "3b85044a-ed95-42ed-b465-e6afcaeb60a2";
+    const validEmail = (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) ? email : 'info@sunovasolar.in';
 
     const emailPayload = {
         access_key: WEB3FORMS_ACCESS_KEY,
+        from_name: name || 'Sunova Solar Website',
         name: name,
         phone: phone,
-        email: email || 'Not Provided',
+        email: validEmail,
+        replyto: validEmail,
         district: district,
         location: location,
         "System Type": connection,
@@ -5437,10 +5440,10 @@ function handleFormSubmit(event) {
         "Timeline": timeline,
         "Message / Site Details": message || 'None',
         "Matched Dealer": `${dealer.name} (${dealer.code})`,
-        subject: `New Solar Inquiry from ${name} (${location})`
+        subject: `New Solar Inquiry from ${name} (${location}, ${district})`
     };
 
-    // Primary Dispatch: Web3Forms (using your verified Access Key)
+    // Primary Dispatch: Web3Forms (using verified Access Key)
     fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
@@ -5449,64 +5452,69 @@ function handleFormSubmit(event) {
         },
         body: JSON.stringify(emailPayload)
     })
-    .then(response => {
-        if (response.ok) {
-            console.log('[Web3Forms] Email successfully dispatched.');
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('[Web3Forms] Email successfully dispatched:', data);
         } else {
-            throw new Error('Web3Forms returned status: ' + response.status);
+            console.warn('[Web3Forms] Web3Forms response message:', data.message);
         }
     })
     .catch(err => {
-        console.warn('[Web3Forms] Primary dispatch failed. Attempting FormSubmit fallback...', err);
-        
-        // Redundancy Dispatch: FormSubmit AJAX API
-        const fsPayload = {
-            Name: name,
-            Phone: phone,
-            Email: email || 'Not Provided',
-            District: district,
-            Location: location,
-            "System Type": connection,
-            "System Technology Model": systemModelLabel,
-            "Requested Capacity": capacity + ' kWp',
-            "Bank Loan Required": loanRequired,
-            "Message / Site Details": message || 'None',
-            "Matched Dealer": `${dealer.name} (${dealer.code})`,
-            _subject: `New Solar Inquiry from ${name} (${location}, ${district}) - Dealer: ${dealer.name}`
-        };
-
-        fetch('https://formsubmit.co/ajax/b1ebd95b70dc040e3935087370fc44ab', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(fsPayload)
-        })
-        .then(response => {
-            if (response.ok) {
-                console.log('[FormSubmit] Fallback email successfully dispatched.');
-            } else {
-                console.warn('[FormSubmit] Fallback returned status: ' + response.status);
-            }
-        })
-        .catch(fsErr => {
-            console.error('[Submit] All mail automation systems blocked by local network:', fsErr);
-        });
+        console.warn('[Web3Forms] Primary dispatch network warning:', err);
     });
 
-    // 3.5. Also Log Inquiry to Local Server database securely (so staff can view it in Sunova Mail inbox)
+    // Dual Dispatch: FormSubmit Direct AJAX API
+    const fsPayload = {
+        Name: name,
+        Phone: phone,
+        Email: validEmail,
+        District: district,
+        Location: location,
+        "System Type": connection,
+        "System Technology Model": systemModelLabel,
+        "Requested Capacity": capacity + ' kWp',
+        "Roof Structure": roofType,
+        "KSEB Consumer No": consumerNo || 'Not Provided',
+        "PM Surya Ghar Subsidy": subsidyRequired,
+        "Bank Loan Required": loanRequired,
+        "Message / Site Details": message || 'None',
+        "Matched Dealer": `${dealer.name} (${dealer.code})`,
+        _subject: `New Solar Inquiry from ${name} (${location}, ${district}) - Dealer: ${dealer.name}`
+    };
+
+    fetch('https://formsubmit.co/ajax/info@sunovasolar.in', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(fsPayload)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('[FormSubmit] Secondary dispatch status:', data);
+    })
+    .catch(fsErr => {
+        console.warn('[FormSubmit] Secondary dispatch warning:', fsErr);
+    });
+
+    // Triple Dispatch: Direct Host Server Database Logging & PHP mail() to info@sunovasolar.in
     const logPayload = {
         name: name,
         phone: phone,
-        email: email || 'Not Provided',
+        email: email || '',
         district: district,
         location: location,
         connection: connection,
         systemModel: systemModelLabel,
         capacity: capacity,
+        roofType: roofType,
+        consumerNo: consumerNo || '',
+        ksebBill: ksebBill,
+        subsidy: subsidyRequired,
         loan: loanRequired,
-        message: message || 'None',
+        message: message || '',
         dealer: `${dealer.name} (${dealer.code})`
     };
 
@@ -5517,10 +5525,10 @@ function handleFormSubmit(event) {
     })
     .then(res => res.json())
     .then(data => {
-        console.log('[Database] Lead logged to server successfully:', data);
+        console.log('[Server Mailer] Lead logged & email dispatched via PHP mail():', data);
     })
     .catch(err => {
-        console.warn('[Database] Local fallback logging only (offline):', err);
+        console.warn('[Server Mailer] Offline fallback:', err);
     });
 
     // 4. Build success feedback detailing the assigned partner
