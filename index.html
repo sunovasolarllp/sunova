@@ -1661,67 +1661,268 @@
     </section>
 
     <!-- Featured Projects Section -->
-    <section class="projects-section" id="projects">
+    <section class="projects-section" id="projects" style="padding: 5rem 0; overflow: hidden;">
         <div class="container">
-            <div class="section-header scroll-reveal">
+            <div class="section-header text-center scroll-reveal">
                 <span class="sub-title">OUR PORTFOLIO</span>
                 <h2 class="section-title">Featured Solar Installations</h2>
                 <div class="title-line"></div>
-                <p class="section-desc">Explore some of our recently completed residential, commercial, and hybrid solar power projects across Kerala.</p>
+                <p class="section-desc">Explore our recently commissioned residential, commercial, industrial, and hybrid solar power projects across Kerala with verified KSEB interconnection data.</p>
             </div>
 
-            <div class="projects-grid">
-                <!-- Project 1 -->
-                <div class="project-card scroll-reveal-up">
-                    <div class="project-img-wrapper">
-                        <img src="assets/hero.jpg" alt="5 kWp Residential Solar System" class="project-img">
-                        <span class="project-badge">Residential</span>
-                    </div>
-                    <div class="project-details">
-                        <h3>5 kWp Home Solar Plant</h3>
-                        <p class="project-location">📍 Thodupuzha, Idukki</p>
-                        <ul class="project-specs">
-                            <li><strong>System Type:</strong> On-Grid (Net Metering)</li>
-                            <li><strong>Solar Panels:</strong> Waaree Elite Mono PERC</li>
-                            <li><strong>Inverter:</strong> Growatt Grid-Tied Smart Inverter</li>
-                            <li><strong>Impact:</strong> Bills reduced from ₹6,200 to ₹400/month.</li>
-                        </ul>
-                    </div>
+            <!-- Controls Header -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; margin-bottom: 1.2rem;">
+                <div style="font-size: 0.85rem; color: var(--color-text-muted); display: flex; align-items: center; gap: 0.4rem;">
+                    <span>⚡ Continuous Auto-Scrolling • Hover to pause &amp; inspect</span>
                 </div>
-
-                <!-- Project 2 -->
-                <div class="project-card scroll-reveal-up" style="animation-delay: 0.1s;">
-                    <div class="project-img-wrapper">
-                        <img src="assets/commercial.jpg" alt="15 kWp Commercial Solar System" class="project-img">
-                        <span class="project-badge">Commercial</span>
-                    </div>
-                    <div class="project-details">
-                        <h3>15 kWp Commercial Rooftop</h3>
-                        <p class="project-location">📍 Edappally, Ernakulam</p>
-                        <ul class="project-specs">
-                            <li><strong>System Type:</strong> On-Grid LT-VIIA Category</li>
-                            <li><strong>Solar Panels:</strong> Adani Elan Bifacial</li>
-                            <li><strong>Inverter:</strong> Sungrow Commercial Inverter</li>
-                            <li><strong>Impact:</strong> Offsets 18.5 tons of carbon emissions annually.</li>
-                        </ul>
-                    </div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button type="button" onclick="scrollSectionMarquee('projects-marquee-track', -380)" style="background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text); width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.1rem; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--color-sun-yellow)'; this.style.color='var(--color-sun-yellow)'" onmouseout="this.style.borderColor='var(--color-border)'; this.style.color='var(--color-text)'" aria-label="Previous Installation">‹</button>
+                    <button type="button" onclick="scrollSectionMarquee('projects-marquee-track', 380)" style="background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text); width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.1rem; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--color-sun-yellow)'; this.style.color='var(--color-sun-yellow)'" onmouseout="this.style.borderColor='var(--color-border)'; this.style.color='var(--color-text)'" aria-label="Next Installation">›</button>
                 </div>
+            </div>
 
-                <!-- Project 3 -->
-                <div class="project-card scroll-reveal-up" style="animation-delay: 0.2s;">
-                    <div class="project-img-wrapper">
-                        <img src="assets/hero.jpg" alt="3 kWp Hybrid Solar Power System" class="project-img" style="filter: hue-rotate(45deg);">
-                        <span class="project-badge">Hybrid</span>
+            <!-- Infinite Auto-Scroll Marquee Container -->
+            <div class="section-marquee-container">
+                <div class="section-marquee-track" id="projects-marquee-track" style="animation-duration: 50s;">
+                    <!-- Project 1: Thodupuzha -->
+                    <div class="project-card" style="flex: 0 0 360px; width: 360px;">
+                        <div class="project-img-wrapper">
+                            <img src="assets/hero.jpg" alt="5 kWp Residential Solar System" class="project-img">
+                            <span class="project-badge">Residential</span>
+                        </div>
+                        <div class="project-details" style="padding: 1.5rem;">
+                            <div style="font-size: 0.75rem; font-weight: 700; color: #10b981; margin-bottom: 0.3rem;">✔ KSEB Commissioned &amp; Subsidized</div>
+                            <h3 style="font-size: 1.2rem; margin-bottom: 0.3rem;">5 kWp Home Solar Plant</h3>
+                            <p class="project-location" style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1rem;">📍 Thodupuzha, Idukki (Section Code: 4201)</p>
+                            <ul class="project-specs" style="font-size: 0.88rem; line-height: 1.6; list-style: none; padding: 0;">
+                                <li><strong>⚡ System Type:</strong> On-Grid PM Surya Ghar</li>
+                                <li><strong>☀️ Solar Panels:</strong> Waaree Elite 540W Mono PERC</li>
+                                <li><strong>🔌 Inverter:</strong> Growatt 5kW Grid-Tied Smart MPPT</li>
+                                <li><strong>📊 Generation:</strong> ~620 Units/Mo (~7,440 Units/Yr)</li>
+                                <li><strong>💰 Tariff Impact:</strong> KSEB Bill: ₹6,200 ➔ ₹390 / bi-monthly</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="project-details">
-                        <h3>3 kWp Hybrid System + Storage</h3>
-                        <p class="project-location">📍 Cherthala, Alappuzha</p>
-                        <ul class="project-specs">
-                            <li><strong>System Type:</strong> Hybrid with Battery Backup</li>
-                            <li><strong>Battery Capacity:</strong> 5.0 kWh Lithium-Ion</li>
-                            <li><strong>Inverter:</strong> Solis Intelligent Hybrid Inverter</li>
-                            <li><strong>Impact:</strong> Full blackout autonomy during coastal storms.</li>
-                        </ul>
+
+                    <!-- Project 2: Edappally -->
+                    <div class="project-card" style="flex: 0 0 360px; width: 360px;">
+                        <div class="project-img-wrapper">
+                            <img src="assets/commercial.jpg" alt="15 kWp Commercial Solar System" class="project-img">
+                            <span class="project-badge">Commercial</span>
+                        </div>
+                        <div class="project-details" style="padding: 1.5rem;">
+                            <div style="font-size: 0.75rem; font-weight: 700; color: #10b981; margin-bottom: 0.3rem;">✔ Commercial LT-VIIA Approved</div>
+                            <h3 style="font-size: 1.2rem; margin-bottom: 0.3rem;">15 kWp Commercial Rooftop</h3>
+                            <p class="project-location" style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1rem;">📍 Edappally, Ernakulam (Section Code: 2104)</p>
+                            <ul class="project-specs" style="font-size: 0.88rem; line-height: 1.6; list-style: none; padding: 0;">
+                                <li><strong>⚡ System Type:</strong> Commercial On-Grid 3-Phase</li>
+                                <li><strong>☀️ Solar Panels:</strong> Adani Elan 550W Bifacial TOPCon</li>
+                                <li><strong>🔌 Inverter:</strong> Sungrow 15kW Commercial Tri-Phase</li>
+                                <li><strong>📊 Generation:</strong> ~1,850 Units/Mo (~22,200 Units/Yr)</li>
+                                <li><strong>💰 Savings:</strong> ₹1.95 Lakhs/Yr + 40% Tax Dep.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Project 3: Cherthala -->
+                    <div class="project-card" style="flex: 0 0 360px; width: 360px;">
+                        <div class="project-img-wrapper">
+                            <img src="assets/hero.jpg" alt="3 kWp Hybrid Solar Power System" class="project-img" style="filter: hue-rotate(45deg);">
+                            <span class="project-badge">Hybrid</span>
+                        </div>
+                        <div class="project-details" style="padding: 1.5rem;">
+                            <div style="font-size: 0.75rem; font-weight: 700; color: #10b981; margin-bottom: 0.3rem;">✔ Storm Battery Autonomy</div>
+                            <h3 style="font-size: 1.2rem; margin-bottom: 0.3rem;">3 kWp Hybrid System + Storage</h3>
+                            <p class="project-location" style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1rem;">📍 Cherthala, Alappuzha (Section Code: 5503)</p>
+                            <ul class="project-specs" style="font-size: 0.88rem; line-height: 1.6; list-style: none; padding: 0;">
+                                <li><strong>⚡ System Type:</strong> Net-Metered Hybrid + Battery</li>
+                                <li><strong>☀️ Solar Panels:</strong> Emmvee 540W Half-Cut PERC</li>
+                                <li><strong>🔋 Storage:</strong> 5.12 kWh LiFePO4 Lithium Bank</li>
+                                <li><strong>🔌 Inverter:</strong> Solis 3.6kW Smart Hybrid</li>
+                                <li><strong>🛡 Impact:</strong> 24x7 Power Backup during Monsoon</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Project 4: Kowdiar -->
+                    <div class="project-card" style="flex: 0 0 360px; width: 360px;">
+                        <div class="project-img-wrapper">
+                            <img src="assets/commercial.jpg" alt="10 kWp Villa Solar System" class="project-img" style="filter: hue-rotate(90deg);">
+                            <span class="project-badge">Luxury Villa</span>
+                        </div>
+                        <div class="project-details" style="padding: 1.5rem;">
+                            <div style="font-size: 0.75rem; font-weight: 700; color: #10b981; margin-bottom: 0.3rem;">✔ Zero Electricity Bill Record</div>
+                            <h3 style="font-size: 1.2rem; margin-bottom: 0.3rem;">10 kWp Villa Power Plant</h3>
+                            <p class="project-location" style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1rem;">📍 Kowdiar, Thiruvananthapuram (Section: 1102)</p>
+                            <ul class="project-specs" style="font-size: 0.88rem; line-height: 1.6; list-style: none; padding: 0;">
+                                <li><strong>⚡ System Type:</strong> Dual-Orientation East-West Array</li>
+                                <li><strong>☀️ Solar Panels:</strong> Tata Power Solaro 545W Crystalline</li>
+                                <li><strong>🔌 Inverter:</strong> Havells Envitos 10kW Dual MPPT</li>
+                                <li><strong>📊 Generation:</strong> ~1,250 Units/Mo (~15,000 Units/Yr)</li>
+                                <li><strong>💰 Tariff Impact:</strong> Zero Bill + KSEB Surplus Credit</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Project 5: Kanjikode -->
+                    <div class="project-card" style="flex: 0 0 360px; width: 360px;">
+                        <div class="project-img-wrapper">
+                            <img src="assets/hero.jpg" alt="25 kWp Industrial Solar System" class="project-img" style="filter: grayscale(30%);">
+                            <span class="project-badge">Industrial</span>
+                        </div>
+                        <div class="project-details" style="padding: 1.5rem;">
+                            <div style="font-size: 0.75rem; font-weight: 700; color: #10b981; margin-bottom: 0.3rem;">✔ High-Voltage Net Metering</div>
+                            <h3 style="font-size: 1.2rem; margin-bottom: 0.3rem;">25 kWp Factory Solar Plant</h3>
+                            <p class="project-location" style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1rem;">📍 Kanjikode, Palakkad (Section Code: 7302)</p>
+                            <ul class="project-specs" style="font-size: 0.88rem; line-height: 1.6; list-style: none; padding: 0;">
+                                <li><strong>⚡ System Type:</strong> High-Voltage HT Net Metered</li>
+                                <li><strong>☀️ Solar Panels:</strong> Premier Energies 550W Glass-Glass</li>
+                                <li><strong>🔌 Inverter:</strong> SMA Sunny Tripower 25kW Industrial</li>
+                                <li><strong>📊 Generation:</strong> ~3,100 Units/Mo (~37,200 Units/Yr)</li>
+                                <li><strong>🏭 Impact:</strong> Slashes Peak Industrial Tariff by 78%</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Project 6: Kottayam -->
+                    <div class="project-card" style="flex: 0 0 360px; width: 360px;">
+                        <div class="project-img-wrapper">
+                            <img src="assets/commercial.jpg" alt="8 kWp Healthcare Solar System" class="project-img" style="filter: saturate(1.5);">
+                            <span class="project-badge">Healthcare</span>
+                        </div>
+                        <div class="project-details" style="padding: 1.5rem;">
+                            <div style="font-size: 0.75rem; font-weight: 700; color: #10b981; margin-bottom: 0.3rem;">✔ Hospital Grade Backup Sync</div>
+                            <h3 style="font-size: 1.2rem; margin-bottom: 0.3rem;">8 kWp Clinic Emergency System</h3>
+                            <p class="project-location" style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1rem;">📍 Kottayam Town, Kottayam (Section Code: 6101)</p>
+                            <ul class="project-specs" style="font-size: 0.88rem; line-height: 1.6; list-style: none; padding: 0;">
+                                <li><strong>⚡ System Type:</strong> Critical Medical Emergency Hybrid</li>
+                                <li><strong>☀️ Solar Panels:</strong> Waaree Elite 550W TOPCon</li>
+                                <li><strong>🔋 Storage:</strong> 10 kWh High-Rate Lithium Bank</li>
+                                <li><strong>🔌 Inverter:</strong> Deye 8kW Hybrid + Auto Gen Start</li>
+                                <li><strong>🏥 Impact:</strong> Zero Downtime for Diagnostic Scans</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- CLONED SET FOR INFINITE AUTO-SCROLL -->
+                    <!-- Project 1 Clone -->
+                    <div class="project-card" style="flex: 0 0 360px; width: 360px;" aria-hidden="true">
+                        <div class="project-img-wrapper">
+                            <img src="assets/hero.jpg" alt="5 kWp Residential Solar System" class="project-img">
+                            <span class="project-badge">Residential</span>
+                        </div>
+                        <div class="project-details" style="padding: 1.5rem;">
+                            <div style="font-size: 0.75rem; font-weight: 700; color: #10b981; margin-bottom: 0.3rem;">✔ KSEB Commissioned &amp; Subsidized</div>
+                            <h3 style="font-size: 1.2rem; margin-bottom: 0.3rem;">5 kWp Home Solar Plant</h3>
+                            <p class="project-location" style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1rem;">📍 Thodupuzha, Idukki (Section Code: 4201)</p>
+                            <ul class="project-specs" style="font-size: 0.88rem; line-height: 1.6; list-style: none; padding: 0;">
+                                <li><strong>⚡ System Type:</strong> On-Grid PM Surya Ghar</li>
+                                <li><strong>☀️ Solar Panels:</strong> Waaree Elite 540W Mono PERC</li>
+                                <li><strong>🔌 Inverter:</strong> Growatt 5kW Grid-Tied Smart MPPT</li>
+                                <li><strong>📊 Generation:</strong> ~620 Units/Mo (~7,440 Units/Yr)</li>
+                                <li><strong>💰 Tariff Impact:</strong> KSEB Bill: ₹6,200 ➔ ₹390 / bi-monthly</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 Clone -->
+                    <div class="project-card" style="flex: 0 0 360px; width: 360px;" aria-hidden="true">
+                        <div class="project-img-wrapper">
+                            <img src="assets/commercial.jpg" alt="15 kWp Commercial Solar System" class="project-img">
+                            <span class="project-badge">Commercial</span>
+                        </div>
+                        <div class="project-details" style="padding: 1.5rem;">
+                            <div style="font-size: 0.75rem; font-weight: 700; color: #10b981; margin-bottom: 0.3rem;">✔ Commercial LT-VIIA Approved</div>
+                            <h3 style="font-size: 1.2rem; margin-bottom: 0.3rem;">15 kWp Commercial Rooftop</h3>
+                            <p class="project-location" style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1rem;">📍 Edappally, Ernakulam (Section Code: 2104)</p>
+                            <ul class="project-specs" style="font-size: 0.88rem; line-height: 1.6; list-style: none; padding: 0;">
+                                <li><strong>⚡ System Type:</strong> Commercial On-Grid 3-Phase</li>
+                                <li><strong>☀️ Solar Panels:</strong> Adani Elan 550W Bifacial TOPCon</li>
+                                <li><strong>🔌 Inverter:</strong> Sungrow 15kW Commercial Tri-Phase</li>
+                                <li><strong>📊 Generation:</strong> ~1,850 Units/Mo (~22,200 Units/Yr)</li>
+                                <li><strong>💰 Savings:</strong> ₹1.95 Lakhs/Yr + 40% Tax Dep.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Project 3 Clone -->
+                    <div class="project-card" style="flex: 0 0 360px; width: 360px;" aria-hidden="true">
+                        <div class="project-img-wrapper">
+                            <img src="assets/hero.jpg" alt="3 kWp Hybrid Solar Power System" class="project-img" style="filter: hue-rotate(45deg);">
+                            <span class="project-badge">Hybrid</span>
+                        </div>
+                        <div class="project-details" style="padding: 1.5rem;">
+                            <div style="font-size: 0.75rem; font-weight: 700; color: #10b981; margin-bottom: 0.3rem;">✔ Storm Battery Autonomy</div>
+                            <h3 style="font-size: 1.2rem; margin-bottom: 0.3rem;">3 kWp Hybrid System + Storage</h3>
+                            <p class="project-location" style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1rem;">📍 Cherthala, Alappuzha (Section Code: 5503)</p>
+                            <ul class="project-specs" style="font-size: 0.88rem; line-height: 1.6; list-style: none; padding: 0;">
+                                <li><strong>⚡ System Type:</strong> Net-Metered Hybrid + Battery</li>
+                                <li><strong>☀️ Solar Panels:</strong> Emmvee 540W Half-Cut PERC</li>
+                                <li><strong>🔋 Storage:</strong> 5.12 kWh LiFePO4 Lithium Bank</li>
+                                <li><strong>🔌 Inverter:</strong> Solis 3.6kW Smart Hybrid</li>
+                                <li><strong>🛡 Impact:</strong> 24x7 Power Backup during Monsoon</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Project 4 Clone -->
+                    <div class="project-card" style="flex: 0 0 360px; width: 360px;" aria-hidden="true">
+                        <div class="project-img-wrapper">
+                            <img src="assets/commercial.jpg" alt="10 kWp Villa Solar System" class="project-img" style="filter: hue-rotate(90deg);">
+                            <span class="project-badge">Luxury Villa</span>
+                        </div>
+                        <div class="project-details" style="padding: 1.5rem;">
+                            <div style="font-size: 0.75rem; font-weight: 700; color: #10b981; margin-bottom: 0.3rem;">✔ Zero Electricity Bill Record</div>
+                            <h3 style="font-size: 1.2rem; margin-bottom: 0.3rem;">10 kWp Villa Power Plant</h3>
+                            <p class="project-location" style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1rem;">📍 Kowdiar, Thiruvananthapuram (Section: 1102)</p>
+                            <ul class="project-specs" style="font-size: 0.88rem; line-height: 1.6; list-style: none; padding: 0;">
+                                <li><strong>⚡ System Type:</strong> Dual-Orientation East-West Array</li>
+                                <li><strong>☀️ Solar Panels:</strong> Tata Power Solaro 545W Crystalline</li>
+                                <li><strong>🔌 Inverter:</strong> Havells Envitos 10kW Dual MPPT</li>
+                                <li><strong>📊 Generation:</strong> ~1,250 Units/Mo (~15,000 Units/Yr)</li>
+                                <li><strong>💰 Tariff Impact:</strong> Zero Bill + KSEB Surplus Credit</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Project 5 Clone -->
+                    <div class="project-card" style="flex: 0 0 360px; width: 360px;" aria-hidden="true">
+                        <div class="project-img-wrapper">
+                            <img src="assets/hero.jpg" alt="25 kWp Industrial Solar System" class="project-img" style="filter: grayscale(30%);">
+                            <span class="project-badge">Industrial</span>
+                        </div>
+                        <div class="project-details" style="padding: 1.5rem;">
+                            <div style="font-size: 0.75rem; font-weight: 700; color: #10b981; margin-bottom: 0.3rem;">✔ High-Voltage Net Metering</div>
+                            <h3 style="font-size: 1.2rem; margin-bottom: 0.3rem;">25 kWp Factory Solar Plant</h3>
+                            <p class="project-location" style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1rem;">📍 Kanjikode, Palakkad (Section Code: 7302)</p>
+                            <ul class="project-specs" style="font-size: 0.88rem; line-height: 1.6; list-style: none; padding: 0;">
+                                <li><strong>⚡ System Type:</strong> High-Voltage HT Net Metered</li>
+                                <li><strong>☀️ Solar Panels:</strong> Premier Energies 550W Glass-Glass</li>
+                                <li><strong>🔌 Inverter:</strong> SMA Sunny Tripower 25kW Industrial</li>
+                                <li><strong>📊 Generation:</strong> ~3,100 Units/Mo (~37,200 Units/Yr)</li>
+                                <li><strong>🏭 Impact:</strong> Slashes Peak Industrial Tariff by 78%</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Project 6 Clone -->
+                    <div class="project-card" style="flex: 0 0 360px; width: 360px;" aria-hidden="true">
+                        <div class="project-img-wrapper">
+                            <img src="assets/commercial.jpg" alt="8 kWp Healthcare Solar System" class="project-img" style="filter: saturate(1.5);">
+                            <span class="project-badge">Healthcare</span>
+                        </div>
+                        <div class="project-details" style="padding: 1.5rem;">
+                            <div style="font-size: 0.75rem; font-weight: 700; color: #10b981; margin-bottom: 0.3rem;">✔ Hospital Grade Backup Sync</div>
+                            <h3 style="font-size: 1.2rem; margin-bottom: 0.3rem;">8 kWp Clinic Emergency System</h3>
+                            <p class="project-location" style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1rem;">📍 Kottayam Town, Kottayam (Section Code: 6101)</p>
+                            <ul class="project-specs" style="font-size: 0.88rem; line-height: 1.6; list-style: none; padding: 0;">
+                                <li><strong>⚡ System Type:</strong> Critical Medical Emergency Hybrid</li>
+                                <li><strong>☀️ Solar Panels:</strong> Waaree Elite 550W TOPCon</li>
+                                <li><strong>🔋 Storage:</strong> 10 kWh High-Rate Lithium Bank</li>
+                                <li><strong>🔌 Inverter:</strong> Deye 8kW Hybrid + Auto Gen Start</li>
+                                <li><strong>🏥 Impact:</strong> Zero Downtime for Diagnostic Scans</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
