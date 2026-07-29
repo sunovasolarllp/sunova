@@ -6282,3 +6282,20 @@ function scrollTestimonials(offset) {
     }
 }
 
+// Function to smoothly scroll any section marquee track on main page
+function scrollSectionMarquee(trackId, offset) {
+    const track = document.getElementById(trackId);
+    if (track) {
+        track.style.animationPlayState = 'paused';
+        const wrapper = track.parentElement;
+        if (wrapper && wrapper.scrollBy) {
+            wrapper.scrollBy({ left: offset, behavior: 'smooth' });
+        } else if (track.scrollBy) {
+            track.scrollBy({ left: offset, behavior: 'smooth' });
+        }
+        setTimeout(() => {
+            track.style.animationPlayState = 'running';
+        }, 5000);
+    }
+}
+

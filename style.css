@@ -3152,6 +3152,36 @@ form {
     background: var(--color-bg);
 }
 
+/* Reusable Infinite Marquee Styles for Services, Panel Types & Manufacturers */
+.section-marquee-container {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    padding: 0.5rem 0 1.25rem 0;
+    mask-image: linear-gradient(to right, transparent, #000 3%, #000 97%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 3%, #000 97%, transparent);
+}
+
+.section-marquee-track {
+    display: flex;
+    gap: 1.5rem;
+    width: max-content;
+    animation: scroll-section-marquee 38s linear infinite;
+}
+
+.section-marquee-track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes scroll-section-marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
 /* Testimonial Auto-Scroll Marquee Track */
 .testimonial-marquee-container {
     overflow: hidden;
