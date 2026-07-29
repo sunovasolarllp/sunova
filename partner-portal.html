@@ -705,12 +705,10 @@
             // Store the new random PIN in localStorage
             localStorage.setItem('partner_pin_' + matchedDealer.code, randomPin);
 
-            alert(`🔑 Processing PIN Reset...\n\nGenerating new random 4-digit Security PIN for Partner: ${matchedDealer.name} (${matchedDealer.code})`);
-
             // Send notification copy to company email info@sunovasolar.in
             const formData = new FormData();
             formData.append("access_key", "3b85044a-ed95-42ed-b465-e6afcaeb60a2");
-            formData.append("subject", `Partner PIN Reset: ${matchedDealer.name} (${matchedDealer.code})`);
+            formData.append("subject", `Partner Security PIN Reset: ${matchedDealer.name} (${matchedDealer.code})`);
             formData.append("from_name", "Sunova Solar Security Systems");
             formData.append("message", `A PIN reset was requested for Partner:\nName: ${matchedDealer.name}\nPartner Code: ${matchedDealer.code}\nRegistered Mobile: ${matchedDealer.phone}\nDistrict: ${matchedDealer.district}\n\nNew Random Security PIN Generated: ${randomPin}\n\nThis new 4-digit PIN has been assigned to the partner and dispatched to their registered mobile number via WhatsApp & SMS. A copy of this security log is archived at info@sunovasolar.in.`);
 
@@ -726,7 +724,8 @@
             // Open WhatsApp window to dispatch text to registered partner phone
             window.open(waUrl, '_blank');
 
-            alert(`✅ PIN Reset Complete!\n\nNew 4-Digit Security PIN: ${randomPin}\n\n1. WhatsApp notification window opened for registered mobile: +91 ${matchedDealer.phone}\n2. Confirmation email copy sent to company email (info@sunovasolar.in).\n3. You may now enter PIN ${randomPin} to sign in.`);
+            // Secure alert (PIN is NOT displayed on screen to prevent unauthorized viewing)
+            alert(`🔒 Security PIN Reset Initiated!\n\nFor security reasons, your new PIN is NOT displayed on screen.\n\nIt has been automatically dispatched to your registered mobile number (+91 ${matchedDealer.phone}) via WhatsApp & SMS, and a copy archived to company mail (info@sunovasolar.in).\n\nPlease check your WhatsApp/SMS for your 4-digit PIN.`);
         }
 
         function handlePartnerLogin(e) {
