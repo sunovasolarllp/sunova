@@ -242,41 +242,54 @@
                             </div>
                         <div class="quote-grid-3" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
                             <div class="form-group" style="margin-bottom: 0;">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">System Configuration</label>
+                                <select id="quote-sys-config" onchange="handleSysConfigChange(this.value)" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                                    <option value="3" selected>3 kWp On-Grid Plant</option>
+                                    <option value="5">5 kWp On-Grid Plant</option>
+                                    <option value="5inv_3panel">5 kW Inverter + 3 kW Panels</option>
+                                    <option value="custom">Custom kWp Capacity</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Capacity (kWp)</label>
                                 <input type="number" id="quote-capacity" value="3" min="1" max="100" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
                             </div>
                             <div class="form-group" style="margin-bottom: 0;">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Solar Panel Model</label>
                                 <select id="quote-panel-brand" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
-                                    <option value="Waaree" selected>Waaree</option>
-                                    <option value="Adani">Adani</option>
-                                    <option value="Emmvee">Emmvee</option>
-                                </select>
-                            </div>
-                            <div class="form-group" style="margin-bottom: 0;">
-                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Inverter Make</label>
-                                <select id="quote-inverter-brand" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
-                                    <option value="Eastman" selected>Eastman</option>
-                                    <option value="Deye">Deye</option>
+                                    <option value="Emmvee" selected>Emmvee TOPCon 560W</option>
+                                    <option value="Adani">Adani TOPCon 610W</option>
+                                    <option value="Waaree">Waaree TOPCon / Mono</option>
                                 </select>
                             </div>
                         </div>
                         
-                        <div class="quote-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
-                            <div class="form-group" style="margin-bottom: 0;">
-                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Roof Type</label>
-                                <select id="quote-roof-type" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
-                                    <option value="RCC">RCC</option>
-                                    <option value="Sheet">Sheet</option>
-                                    <option value="Tile">Tile</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                            </div>
+                        <div class="quote-grid-3" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
                             <div class="form-group" style="margin-bottom: 0;">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Electrical Phase</label>
                                 <select id="quote-phase" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
-                                    <option value="Single Phase">Single Phase</option>
+                                    <option value="Single Phase" selected>Single Phase</option>
                                     <option value="Three Phase">Three Phase</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Roof Structure &amp; Type</label>
+                                <select id="quote-roof-type" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                                    <option value="Flat Standard" selected>Flat Roof (Base Rate Included)</option>
+                                    <option value="Flat Self Structure">Flat Roof (Customer Self-Structure - Discount)</option>
+                                    <option value="Flat Truss">Flat Roof (With Truss Work)</option>
+                                    <option value="Slanted No Truss">Slanted Roof (Without Truss)</option>
+                                    <option value="Slanted With Truss">Slanted Roof (With Truss Work)</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Building Storeys / Floor</label>
+                                <select id="quote-storey" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                                    <option value="1" selected>1-Storey (Ground Floor)</option>
+                                    <option value="2">2-Storey (1st Floor)</option>
+                                    <option value="3">3-Storey (2nd Floor)</option>
+                                    <option value="4">4-Storey (3rd Floor)</option>
+                                    <option value="5">5-Storey &amp; Above</option>
                                 </select>
                             </div>
                         </div>
@@ -307,7 +320,7 @@
                     </form>
                 </div>
 
-                <!-- Technical Configuration Accordion -->
+                <!-- Technical Configuration & Partner Resources -->
                 <div class="tech-settings-box">
                     <h4>📘 Partner Resources &amp; Downloads</h4>
                     <p class="settings-intro">Authorized document downloads and technical rules for KSEB Soura integration.</p>
@@ -324,6 +337,54 @@
                         <div class="settings-row">
                             <span class="sett-lbl">Net Metering Checklist</span>
                             <span class="sett-val"><a href="javascript:void(0)" onclick="showChecklistModal()" style="color: var(--color-sun-yellow);">View Online List</a></span>
+                        </div>
+                    </div>
+
+                    <!-- Official Rate Matrix & Technical Configuration -->
+                    <div style="margin-top: 1.25rem;">
+                        <h4 style="font-family: var(--font-heading); font-size: 0.9rem; margin-bottom: 0.6rem; color: var(--color-sun-yellow);">🏷️ Official Plant Pricing Rates &amp; Structure Add-On Rules</h4>
+                        
+                        <div style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 10px; padding: 0.9rem; margin-bottom: 0.8rem; font-size: 0.78rem;">
+                            <h5 style="color: var(--color-sun-yellow); margin-top: 0; margin-bottom: 0.5rem; font-size: 0.82rem;">Official Base Rates (Grid-Tied)</h5>
+                            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.76rem;">
+                                <tr style="border-bottom: 1px solid var(--color-border);">
+                                    <td style="padding: 0.35rem; font-weight: 600;">System Configuration</td>
+                                    <td style="padding: 0.35rem; font-weight: 600;">Emmvee</td>
+                                    <td style="padding: 0.35rem; font-weight: 600;">Adani</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--color-border);">
+                                    <td style="padding: 0.35rem;">3 kWp On-Grid</td>
+                                    <td style="padding: 0.35rem; color: var(--color-sun-yellow); font-weight: 700;">₹2,00,000</td>
+                                    <td style="padding: 0.35rem; color: var(--color-sun-yellow); font-weight: 700;">₹2,10,000</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--color-border);">
+                                    <td style="padding: 0.35rem;">5 kWp Single Phase</td>
+                                    <td style="padding: 0.35rem; color: var(--color-sun-yellow); font-weight: 700;">₹2,90,000</td>
+                                    <td style="padding: 0.35rem; color: var(--color-sun-yellow); font-weight: 700;">₹3,00,000</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--color-border);">
+                                    <td style="padding: 0.35rem;">5 kWp 3-Phase</td>
+                                    <td style="padding: 0.35rem; color: var(--color-sun-yellow); font-weight: 700;">₹3,10,000</td>
+                                    <td style="padding: 0.35rem; color: var(--color-sun-yellow); font-weight: 700;">₹3,20,000</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.35rem;">5kW Inv. + 3kW Panel (1-Ph / 3-Ph)</td>
+                                    <td style="padding: 0.35rem;">₹2.40L / ₹2.60L</td>
+                                    <td style="padding: 0.35rem;">₹2.50L / ₹2.70L</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 10px; padding: 0.9rem; font-size: 0.76rem; line-height: 1.45;">
+                            <h5 style="color: var(--color-sun-yellow); margin-top: 0; margin-bottom: 0.4rem; font-size: 0.82rem;">Roof Structure &amp; Floor Rules</h5>
+                            <ul style="padding-left: 1rem; margin: 0; display: flex; flex-direction: column; gap: 0.3rem; color: var(--color-text-muted);">
+                                <li>• <strong>Flat Roof:</strong> 1 &amp; 2 Storey included. Extra ₹5,000/floor for 3rd floor &amp; above.</li>
+                                <li>• <strong>Self Structure Discount:</strong> Less ₹15,000 (3kW) / Less ₹25,000 (5kW).</li>
+                                <li>• <strong>Flat Roof with Truss:</strong> Extra ₹3,500 (3kW) / Extra ₹6,500 (5kW).</li>
+                                <li>• <strong>Slanted Roof (No Truss):</strong> Extra ₹5,000 (3kW) / Extra ₹6,000 (5kW).</li>
+                                <li>• <strong>Slanted Roof (With Truss):</strong> Extra ₹6,500 (3kW) / Extra ₹8,500 (5kW).</li>
+                                <li>• <strong>Slanted Multi-Storey Surcharge:</strong> Extra ₹5,000/floor for 2-Storey or higher slanted roofs.</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -1205,6 +1266,18 @@
             return deg * (Math.PI/180);
         }
 
+        function handleSysConfigChange(val) {
+            const capInput = document.getElementById('quote-capacity');
+            if (!capInput) return;
+            if (val === '3') {
+                capInput.value = 3;
+            } else if (val === '5') {
+                capInput.value = 5;
+            } else if (val === '5inv_3panel') {
+                capInput.value = 3;
+            }
+        }
+
         async function fetchCoordinates(address) {
             try {
                 const response = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(address + ', Kerala, India'));
@@ -1271,13 +1344,75 @@
             }
 
             if (type === 'customer') {
-                if (capacityVal === 3) {
-                    grossTotal = (customPricing && customPricing['3']) ? parseFloat(customPricing['3']) : 220000;
+                const sysConfig = document.getElementById('quote-sys-config')?.value || '3';
+                const roofTypeVal = document.getElementById('quote-roof-type')?.value || 'Flat Standard';
+                const storeyNum = parseInt(document.getElementById('quote-storey')?.value || '1', 10);
+                
+                let basePrice = 0;
+                
+                if (sysConfig === '5inv_3panel') {
+                    // 5 kW Inverter + 3 kW Panel System
+                    if (panelModel === 'Adani') {
+                        basePrice = (phase === 'Three Phase') ? 270000 : 250000;
+                    } else {
+                        // Emmvee / Waaree / Default
+                        basePrice = (phase === 'Three Phase') ? 260000 : 240000;
+                    }
+                } else if (capacityVal === 3) {
+                    // 3 kWp On-Grid Plant
+                    if (panelModel === 'Adani') {
+                        basePrice = 210000;
+                    } else {
+                        basePrice = 200000; // Emmvee / Waaree
+                    }
                 } else if (capacityVal === 5) {
-                    grossTotal = (customPricing && customPricing['5']) ? parseFloat(customPricing['5']) : 320000;
+                    // 5 kWp On-Grid Plant
+                    if (panelModel === 'Adani') {
+                        basePrice = (phase === 'Three Phase') ? 320000 : 300000;
+                    } else {
+                        // Emmvee / Waaree
+                        basePrice = (phase === 'Three Phase') ? 310000 : 290000;
+                    }
                 } else {
-                    grossTotal = capacityVal * ((customPricing && customPricing['other']) ? parseFloat(customPricing['other']) : 64000);
+                    // Custom / Other capacities (Linear rate per kWp)
+                    let ratePerKw = (panelModel === 'Adani') ? 66000 : 64000;
+                    if (phase === 'Three Phase') ratePerKw += 3000;
+                    basePrice = capacityVal * ratePerKw;
                 }
+                
+                // Roof Structure Add-ons & Discounts
+                let roofAddon = 0;
+                const is3kW = (capacityVal <= 3);
+                
+                if (roofTypeVal === 'Flat Self Structure') {
+                    // Self Structure Discount: Less 15,000 (3kW) / 25,000 (5kW)
+                    roofAddon = is3kW ? -15000 : -25000;
+                } else if (roofTypeVal === 'Flat Truss') {
+                    // Flat Roof with Truss Work: Extra 3,500 (3kW) / 6,500 (5kW)
+                    roofAddon = is3kW ? 3500 : 6500;
+                } else if (roofTypeVal === 'Slanted No Truss') {
+                    // Slanted Roof without Truss: Extra 5,000 (3kW) / 6,000 (5kW)
+                    roofAddon = is3kW ? 5000 : 6000;
+                } else if (roofTypeVal === 'Slanted With Truss') {
+                    // Slanted Roof with Truss Work: Extra 6,500 (3kW) / 8,500 (5kW)
+                    roofAddon = is3kW ? 6500 : 8500;
+                }
+                
+                // Storey / Floor Surcharges
+                let storeyAddon = 0;
+                if (roofTypeVal.startsWith('Slanted')) {
+                    // Slanted Roof Multi-Storey Surcharge: Extra 5,000 / floor for 2-Storey or higher
+                    if (storeyNum >= 2) {
+                        storeyAddon = (storeyNum - 1) * 5000;
+                    }
+                } else {
+                    // Flat Roof: 1-Storey & 2-Storey included in base rate. 5,000 / floor extra for 3rd floor & above.
+                    if (storeyNum >= 3) {
+                        storeyAddon = (storeyNum - 2) * 5000;
+                    }
+                }
+                
+                grossTotal = basePrice + roofAddon + storeyAddon;
                 
                 const gst = grossTotal * 0.138;
                 const net = grossTotal - gst;

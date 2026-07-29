@@ -542,39 +542,15 @@ function performCalculationsDirect(capacity, units, skipSyncForm = false, syncBi
     // 4. Generation capacity (120 units per kW monthly)
     const generationPerMonth = Math.round(capacity * 120);
     
-    // 5. Total Installation Cost (Official Company Base Rates)
+    // 5. Total Installation Cost (estimated Indian averages with discount rates)
+// 5. Total Installation Cost (estimated Indian averages with discount rates)
     let rawCost = 0;
-    
-    // Check panel brand selected ('Emmvee', 'Adani', or 'Waaree')
-    const brandSelect = document.getElementById('calc-panel-brand');
-    const brandText = brandSelect ? brandSelect.options[brandSelect.selectedIndex].text.toLowerCase() : 'emmvee';
-    const isAdani = brandText.includes('adani');
-
-    // Check phase selection if present
-    const phaseSelect = document.getElementById('calc-phase');
-    const isThreePhase = phaseSelect ? phaseSelect.value === '3phase' : false;
-
     if (currentMode === 'residential') {
-        if (capacity <= 3.5) {
-            // 3 kW On-Grid Plant Rate (Emmvee: ₹2,00,000 | Adani: ₹2,10,000)
-            rawCost = isAdani ? 210000 : 200000;
-        } else if (capacity > 3.5 && capacity <= 5.5) {
-            // 5 kW On-Grid Plant Rate
-            // Emmvee: Single Phase ₹2,90,000 | 3-Phase ₹3,10,000
-            // Adani:  Single Phase ₹3,00,000 | 3-Phase ₹3,20,000
-            if (isAdani) {
-                rawCost = isThreePhase ? 320000 : 300000;
-            } else {
-                rawCost = isThreePhase ? 310000 : 290000;
-            }
-        } else {
-            // Scaled pricing for systems > 5 kWp
-            const base5k = isAdani ? (isThreePhase ? 320000 : 300000) : (isThreePhase ? 310000 : 290000);
-            rawCost = base5k + Math.round((capacity - 5.0) * 52000);
-        }
+        // Linear price: 50,000 per kW + 70,000 base
+        rawCost = Math.round(capacity * 50000 + 70000);
     } else {
-        // Commercial bulk pricing
-        rawCost = Math.round(capacity * 52000);
+        // Commercial bulk pricing (unchanged)
+        rawCost = capacity * 52000;
     }
     
     // 6. PM Surya Ghar Subsidy
