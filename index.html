@@ -1110,14 +1110,6 @@
                                     <input type="email" id="form-email" placeholder="example@domain.com">
                                 </div>
                                 <div class="form-group">
-                                    <label for="form-consumer-no">KSEB Consumer No. (Optional)</label>
-                                    <input type="text" id="form-consumer-no" placeholder="13-digit Consumer / CA No." maxlength="13" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(typeof handleKSEBConsumerNoInput === 'function') handleKSEBConsumerNoInput(this.value);">
-                                    <div id="consumer-no-status" style="display: none; font-size: 0.78rem; margin-top: 0.35rem; padding: 0.4rem 0.6rem; border-radius: 8px; animation: slide-down 0.2s ease-out; line-height: 1.45;"></div>
-                                </div>
-                            </div>
-
-                            <div class="form-grid">
-                                <div class="form-group">
                                     <label for="form-district">District (Kerala)</label>
                                     <select id="form-district" required onchange="handleDistrictChange(this.value)">
                                         <option value="" disabled>Select your district</option>
@@ -1136,6 +1128,14 @@
                                         <option value="Kannur">Kannur</option>
                                         <option value="Kasaragod">Kasaragod</option>
                                     </select>
+                                </div>
+                            </div>
+
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="form-consumer-no">KSEB Consumer No. (Optional)</label>
+                                    <input type="text" id="form-consumer-no" placeholder="13-digit Consumer / CA No." maxlength="13" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(typeof handleKSEBConsumerNoInput === 'function') handleKSEBConsumerNoInput(this.value);">
+                                    <div id="consumer-no-status" style="display: none; font-size: 0.78rem; margin-top: 0.35rem; padding: 0.4rem 0.6rem; border-radius: 8px; animation: slide-down 0.2s ease-out; line-height: 1.45;"></div>
                                 </div>
                                 <div class="form-group">
                                     <label for="form-location">Name of Section (KSEB)</label>
