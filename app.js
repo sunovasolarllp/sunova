@@ -5560,6 +5560,7 @@ window.handleFormConnectionChange = function(val) {
 
 
 // KSEB Consumer Number Auto-Detection (Resolves Section Code, District & Partner)
+// Note: In KSEB 13-digit Consumer IDs, the 4-digit Section Code starts at the 3rd digit (character positions 3-6).
 window.handleKSEBConsumerNoInput = function(val) {
     const statusEl = document.getElementById('consumer-no-status');
     const cleanVal = (val || '').replace(/[^0-9]/g, '');
@@ -5572,20 +5573,32 @@ window.handleKSEBConsumerNoInput = function(val) {
         return;
     }
     
-    const prefixCode = parseInt(cleanVal.substring(0, 4), 10);
+    // Extract candidate section codes:
+    // Primary: 4 digits starting from 3rd digit (indices 2 to 6) if at least 6 digits typed
+    // Fallback: First 4 digits (indices 0 to 4) if 4-5 digits typed
+    let candidateCodes = [];
+    if (cleanVal.length >= 6) {
+        candidateCodes.push(parseInt(cleanVal.substring(2, 6), 10)); // 3rd to 6th digit (e.g. XX5501XXXXXXX)
+    }
+    candidateCodes.push(parseInt(cleanVal.substring(0, 4), 10)); // First 4 digits fallback
+    
     let matchedDistrict = null;
     let matchedSectionName = null;
     let matchedSectionCode = null;
     
     if (typeof KSEB_SECTIONS !== 'undefined') {
-        for (const [dist, sections] of Object.entries(KSEB_SECTIONS)) {
-            for (const [secName, secData] of Object.entries(sections)) {
-                if (secData && (secData.code === prefixCode || parseInt(secData.code, 10) === prefixCode)) {
-                    matchedDistrict = dist;
-                    matchedSectionName = secName;
-                    matchedSectionCode = secData.code;
-                    break;
+        for (const targetCode of candidateCodes) {
+            if (isNaN(targetCode)) continue;
+            for (const [dist, sections] of Object.entries(KSEB_SECTIONS)) {
+                for (const [secName, secData] of Object.entries(sections)) {
+                    if (secData && (secData.code === targetCode || parseInt(secData.code, 10) === targetCode)) {
+                        matchedDistrict = dist;
+                        matchedSectionName = secName;
+                        matchedSectionCode = secData.code;
+                        break;
+                    }
                 }
+                if (matchedDistrict) break;
             }
             if (matchedDistrict) break;
         }
@@ -5623,11 +5636,12 @@ window.handleKSEBConsumerNoInput = function(val) {
         statusEl.style.border = '1px solid rgba(34,197,94,0.3)';
         statusEl.innerHTML = `✓ <strong>Auto-Detected Section:</strong> ${matchedSectionName} (${matchedSectionCode})<br>• <strong>District:</strong> ${matchedDistrict}${partnerText ? `<br>• <strong>Assigned Partner:</strong> ${partnerText}` : ''}`;
     } else if (cleanVal.length >= 4) {
+        const testCode = cleanVal.length >= 6 ? cleanVal.substring(2, 6) : cleanVal.substring(0, 4);
         statusEl.style.display = 'block';
         statusEl.style.background = 'rgba(255,183,3,0.08)';
         statusEl.style.color = 'var(--color-text-muted)';
         statusEl.style.border = '1px solid var(--color-border)';
-        statusEl.innerHTML = `ℹ KSEB Section Code: <strong>${prefixCode}</strong> — Select District manually if not auto-matched.`;
+        statusEl.innerHTML = `ℹ Extracted Section Code: <strong>${testCode}</strong> — Select District manually if not auto-matched.`;
     }
 };
 
