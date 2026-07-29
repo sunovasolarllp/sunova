@@ -244,7 +244,7 @@
                             </div>
                         </div>
 
-                        <div class="quote-grid-4" style="display: grid; grid-template-columns: 1.2fr 0.8fr 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                        <div class="quote-grid-4" style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
                             <div class="form-group" style="margin-bottom: 0;">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">System Configuration</label>
                                 <select id="quote-sys-config" onchange="handleSysConfigChange(this.value)" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
@@ -259,13 +259,26 @@
                                 <input type="number" id="quote-capacity" value="3" min="1" max="100" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
                             </div>
                             <div class="form-group" style="margin-bottom: 0;">
-                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Solar Panel Model</label>
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Solar Panel Brand</label>
                                 <select id="quote-panel-brand" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
                                     <option value="Emmvee" selected>Emmvee TOPCon 560W</option>
                                     <option value="Adani">Adani TOPCon 610W</option>
                                     <option value="Waaree">Waaree TOPCon / Mono</option>
                                 </select>
                             </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">System Technology Model</label>
+                                <select id="quote-tech-model" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                                    <option value="N-Type TOPCon Bifacial" selected>N-Type TOPCon Bifacial (560Wp+)</option>
+                                    <option value="Mono PERC Half-Cut">Mono PERC Half-Cut (540Wp+)</option>
+                                    <option value="N-Type HJT Heterojunction">N-Type HJT Heterojunction (580Wp+)</option>
+                                    <option value="Polycrystalline High-Efficiency">Polycrystalline High-Efficiency (335Wp+)</option>
+                                    <option value="Bifacial Dual-Glass TOPCon">Bifacial Dual-Glass TOPCon (570Wp+)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="quote-grid-4" style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
                             <div class="form-group" style="margin-bottom: 0;">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Inverter Make</label>
                                 <select id="quote-inverter-brand" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
@@ -274,9 +287,6 @@
                                     <option value="Growatt">Growatt String Inverter</option>
                                 </select>
                             </div>
-                        </div>
-                        
-                        <div class="quote-grid-3" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
                             <div class="form-group" style="margin-bottom: 0;">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Electrical Phase</label>
                                 <select id="quote-phase" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
@@ -1313,6 +1323,7 @@
                 const addr = (document.getElementById('quote-cust-addr')?.value || '').trim();
                 const capacityVal = parseFloat(document.getElementById('quote-capacity')?.value || '3');
                 const panelModel = document.getElementById('quote-panel-brand')?.value || 'Emmvee';
+                const techModel = document.getElementById('quote-tech-model')?.value || 'N-Type TOPCon Bifacial';
                 const inverterModel = document.getElementById('quote-inverter-brand')?.value || 'Eastman String Inverter';
                 const sysConfig = document.getElementById('quote-sys-config')?.value || '3';
                 const roofTypeVal = document.getElementById('quote-roof-type')?.value || 'Flat Standard';
@@ -1563,7 +1574,7 @@
                                 </tr>
                                 <tr>
                                     <td style="padding: 0.45rem; border: 1px solid #ddd; font-weight: 600;">SOLAR MODULE</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd;">N TYPE (TOPCON) BIFACIAL TRANSPARENT MODULE, 144 CELLS/GEN II (${panelWattage}Wp+)</td>
+                                    <td style="padding: 0.45rem; border: 1px solid #ddd;">${techModel.toUpperCase()} TRANSPARENT MODULE, 144 CELLS/GEN II (${panelWattage}Wp+)</td>
                                     <td style="padding: 0.45rem; border: 1px solid #ddd;">${panelModel} / ADANI / WAAREE (12 YR PRODUCT / 25 YR PERF GUARANTEE)</td>
                                     <td style="padding: 0.45rem; border: 1px solid #ddd; text-align: center;">FOR ${capacityVal}KW (${panelCount} NOS)</td>
                                 </tr>
@@ -1875,7 +1886,7 @@
                                     <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">1. Core Generation Equipment</td>
                                     <td style="padding: 0.5rem; border: 1px solid #ddd;">
                                         • <strong>System Config:</strong> ${sysConfigLabel}<br>
-                                        • <strong>PV Modules:</strong> ${panelModel} Mono PERC / TopCon (${panelCount} Nos - 540Wp+)<br>
+                                        • <strong>PV Modules &amp; Tech:</strong> ${panelModel} (${techModel} - ${panelCount} Nos - ${panelWattage}Wp+)<br>
                                         • <strong>Grid-Tie Inverter:</strong> ${inverterModel} String Inverter (${phase})
                                     </td>
                                     <td style="padding: 0.5rem; border: 1px solid #ddd;">IEC 61215, IEC 61730, ALMM Listed, IEC 62109, IEC 61000 (Anti-islanding)</td>
