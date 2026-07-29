@@ -730,6 +730,9 @@ function updateFormMessageDetails() {
             nameInput.value = nameInput.value.toUpperCase();
         });
     }
+    const customerName = nameInput ? nameInput.value.trim() : '';
+    const phoneInput = document.getElementById('form-phone');
+    const mobileNo = phoneInput ? phoneInput.value.trim() : '';
 
     // Only update if message area is empty or contains previous auto-generated summary
     const currentVal = msgArea.value.trim();
@@ -763,6 +766,8 @@ function updateFormMessageDetails() {
     const isLoan = document.getElementById('form-loan')?.checked;
 
     let detailsList = [];
+    if (customerName) detailsList.push(`• Customer Name: ${customerName}`);
+    if (mobileNo) detailsList.push(`• Mobile Number: ${mobileNo}`);
     detailsList.push(`• Connection Category: ${connCategory}`);
     detailsList.push(`• Requested Capacity: ${sizeVal} kWp`);
     detailsList.push(`• System Model: ${sysModel}`);
@@ -786,7 +791,7 @@ function updateFormMessageDetails() {
 // Bind automatic message update to all feasibility form elements
 document.addEventListener('DOMContentLoaded', () => {
     const fieldsToWatch = [
-        'form-district', 'form-location', 'form-dealer', 'form-consumer-no',
+        'form-name', 'form-phone', 'form-district', 'form-location', 'form-dealer', 'form-consumer-no',
         'form-connection', 'form-size-select', 'form-size', 'form-system-model',
         'form-roof-type', 'form-kseb-bill', 'form-contact-pref', 'form-timeline',
         'form-subsidy', 'form-loan'
