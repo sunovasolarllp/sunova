@@ -1316,6 +1316,7 @@
                 const inverterModel = document.getElementById('quote-inverter-brand')?.value || 'Eastman String Inverter';
                 const sysConfig = document.getElementById('quote-sys-config')?.value || '3';
                 const roofTypeVal = document.getElementById('quote-roof-type')?.value || 'Flat Standard';
+                const roofType = roofTypeVal;
                 const storeyNum = parseInt(document.getElementById('quote-storey')?.value || '1', 10);
                 const phase = document.getElementById('quote-phase')?.value || 'Single Phase';
                 const payAdvance = document.getElementById('quote-pay-advance')?.value || '60';
@@ -1533,7 +1534,7 @@
                                 <td style="padding: 0.5rem; border: 1px solid #ddd;">
                                     <strong style="color: #0d1321;">Module Mounting Structure (Rooftop Hardware)</strong>
                                     <div style="font-size: 0.76rem; color: #555; margin-top: 0.25rem;">
-                                        • High-Rise Hot-Dip Galvanized Iron (GI) Structure designed for ${roofType} roof anchoring
+                                        • High-Rise Hot-Dip Galvanized Iron (GI) Structure designed for ${roofTypeLabel} anchoring
                                     </div>
                                 </td>
                                 <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center;">1 Lot</td>
