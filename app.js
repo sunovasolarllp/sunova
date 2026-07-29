@@ -6265,3 +6265,11 @@ function parseKSEBBillText(text) {
     return { billAmount, totalUnits, consumerNo, consumerName, sectionName, districtName, isBiMonthly };
 }
 
+// Function to smoothly scroll testimonials track on main page
+function scrollTestimonials(offset) {
+    const track = document.getElementById('testimonials-scroll-track');
+    if (track) {
+        track.scrollBy({ left: offset, behavior: 'smooth' });
+    }
+}
+

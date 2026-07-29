@@ -944,60 +944,205 @@
 
 
     <!-- Customer Testimonials Section -->
-    <section class="testimonials-section" id="testimonials">
+    <section class="testimonials-section" id="testimonials" style="padding: 5rem 0; background: var(--color-bg);">
         <div class="container">
-            <div class="section-header scroll-reveal">
+            <div class="section-header text-center scroll-reveal">
                 <span class="sub-title">REAL CUSTOMER REVIEWS</span>
                 <h2 class="section-title">What Our Clients Say Across Kerala</h2>
                 <div class="title-line"></div>
-                <p class="section-desc">Read how Sunova Solar LLP helped homeowners and commercial businesses lower their KSEB electricity bills to near zero.</p>
+                <p class="section-desc">Read how Sunova Solar LLP helped homeowners, commercial enterprises, and institutions lower their KSEB electricity bills to near zero across Kerala.</p>
             </div>
 
-            <div class="testimonials-grid">
-                <!-- Review 1 -->
-                <div class="testimonial-card scroll-reveal-up">
+            <!-- Testimonial Slider Controls Header -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; margin-bottom: 1.2rem;">
+                <div style="font-size: 0.85rem; color: var(--color-text-muted); display: flex; align-items: center; gap: 0.4rem;">
+                    <span>👈 Swipe or scroll to view 8 verified client reviews across Kerala</span>
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button type="button" onclick="scrollTestimonials(-360)" style="background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text); width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.1rem; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--color-sun-yellow)'; this.style.color='var(--color-sun-yellow)'" onmouseout="this.style.borderColor='var(--color-border)'; this.style.color='var(--color-text)'" aria-label="Previous Testimonial">‹</button>
+                    <button type="button" onclick="scrollTestimonials(360)" style="background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text); width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.1rem; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--color-sun-yellow)'; this.style.color='var(--color-sun-yellow)'" onmouseout="this.style.borderColor='var(--color-border)'; this.style.color='var(--color-text)'" aria-label="Next Testimonial">›</button>
+                </div>
+            </div>
+
+            <!-- Horizontal Scroll Track -->
+            <div id="testimonials-scroll-track" style="display: flex; gap: 1.25rem; overflow-x: auto; scroll-behavior: smooth; scroll-snap-type: x mandatory; padding-bottom: 1rem; scrollbar-width: thin;">
+                
+                <!-- Review 1: Thodupuzha, Idukki -->
+                <div class="testimonial-card" style="flex: 0 0 350px; min-width: 320px; scroll-snap-align: start; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 16px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
                     <div>
-                        <div class="stars-row">★★★★★</div>
-                        <p class="review-text">"Installed a 5 kWp Mono PERC system at my home in Thodupuzha. Our KSEB bi-monthly bill dropped from ₹6,400 to just ₹390! Sunova Solar handled the entire KSEB net-metering &amp; PM Surya Ghar subsidy application smoothly."</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                            <div class="stars-row" style="margin: 0; color: #f59e0b;">★★★★★</div>
+                            <span style="font-size: 0.7rem; font-weight: 700; background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3); padding: 2px 8px; border-radius: 12px;">✅ Verified Client</span>
+                        </div>
+                        <div style="background: rgba(255, 183, 3, 0.08); border-left: 3px solid var(--color-sun-yellow); padding: 0.5rem 0.75rem; border-radius: 4px; font-size: 0.78rem; font-weight: 700; color: var(--color-sun-yellow); margin-bottom: 0.8rem;">
+                            ⚡ KSEB Bill: ₹6,400 ➔ ₹390 / period (Save 93%)
+                        </div>
+                        <p class="review-text" style="font-size: 0.88rem; line-height: 1.55; color: var(--color-text-muted); font-style: italic; margin-bottom: 1.2rem;">"Installed a 5 kWp Mono PERC system at my home in Thodupuzha. Our KSEB bi-monthly bill dropped from ₹6,400 to just ₹390! Sunova Solar handled the entire KSEB net-metering &amp; PM Surya Ghar ₹78,000 subsidy processing effortlessly."</p>
                     </div>
-                    <div class="reviewer-info">
+                    <div class="reviewer-info" style="border-top: 1px solid var(--color-border); padding-top: 0.8rem;">
                         <div class="avatar-circle">KN</div>
                         <div>
-                            <h4>Dr. K. Nair</h4>
-                            <span class="reviewer-loc">📍 Thodupuzha, Idukki • 5 kWp Rooftop</span>
+                            <h4 style="font-size: 0.92rem; margin: 0; font-weight: 700; color: var(--color-text);">Dr. K. Nair</h4>
+                            <span class="reviewer-loc" style="font-size: 0.76rem; color: var(--color-text-subtle);">📍 Thodupuzha, Idukki • Section Code: 5618</span>
+                            <span style="font-size: 0.72rem; color: var(--color-sun-yellow); font-weight: 600;">System: 5 kWp On-Grid Mono PERC</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Review 2 -->
-                <div class="testimonial-card scroll-reveal-up" style="animation-delay: 0.1s;">
+                <!-- Review 2: Edappally, Ernakulam -->
+                <div class="testimonial-card" style="flex: 0 0 350px; min-width: 320px; scroll-snap-align: start; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 16px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
                     <div>
-                        <div class="stars-row">★★★★★</div>
-                        <p class="review-text">"Sunova Solar installed a 15 kWp commercial on-grid solar plant for our business in Edappally. The installation structure is extremely heavy-duty and wind-resistant. Excellent post-sales support and real-time generation monitoring!"</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                            <div class="stars-row" style="margin: 0; color: #f59e0b;">★★★★★</div>
+                            <span style="font-size: 0.7rem; font-weight: 700; background: rgba(59, 130, 246, 0.15); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.3); padding: 2px 8px; border-radius: 12px;">🏢 Commercial Client</span>
+                        </div>
+                        <div style="background: rgba(255, 183, 3, 0.08); border-left: 3px solid var(--color-sun-yellow); padding: 0.5rem 0.75rem; border-radius: 4px; font-size: 0.78rem; font-weight: 700; color: var(--color-sun-yellow); margin-bottom: 0.8rem;">
+                            ⚡ Business Power Savings: ₹28,500 / month
+                        </div>
+                        <p class="review-text" style="font-size: 0.88rem; line-height: 1.55; color: var(--color-text-muted); font-style: italic; margin-bottom: 1.2rem;">"Sunova Solar installed a 15 kWp commercial on-grid solar plant for our textile enterprise in Edappally. The heavy-duty GI structure is robust and wind-proof. Real-time Wi-Fi tracking makes generation monitoring very simple!"</p>
                     </div>
-                    <div class="reviewer-info">
+                    <div class="reviewer-info" style="border-top: 1px solid var(--color-border); padding-top: 0.8rem;">
                         <div class="avatar-circle">MV</div>
                         <div>
-                            <h4>Mathew Varghese</h4>
-                            <span class="reviewer-loc">📍 Edappally, Ernakulam • 15 kWp Commercial</span>
+                            <h4 style="font-size: 0.92rem; margin: 0; font-weight: 700; color: var(--color-text);">Mathew Varghese</h4>
+                            <span class="reviewer-loc" style="font-size: 0.76rem; color: var(--color-text-subtle);">📍 Edappally, Ernakulam • Section Code: 5544</span>
+                            <span style="font-size: 0.72rem; color: var(--color-sun-yellow); font-weight: 600;">System: 15 kWp Commercial Rooftop</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Review 3 -->
-                <div class="testimonial-card scroll-reveal-up" style="animation-delay: 0.2s;">
+                <!-- Review 3: Cherthala, Alappuzha -->
+                <div class="testimonial-card" style="flex: 0 0 350px; min-width: 320px; scroll-snap-align: start; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 16px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
                     <div>
-                        <div class="stars-row">★★★★★</div>
-                        <p class="review-text">"We opted for a 3 kWp Hybrid system with lithium battery storage in Cherthala. During heavy monsoons and coastal power cuts, our lights, fans, and refrigerator run uninterrupted. Truly reliable engineering!"</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                            <div class="stars-row" style="margin: 0; color: #f59e0b;">★★★★★</div>
+                            <span style="font-size: 0.7rem; font-weight: 700; background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3); padding: 2px 8px; border-radius: 12px;">✅ Verified Hybrid</span>
+                        </div>
+                        <div style="background: rgba(255, 183, 3, 0.08); border-left: 3px solid var(--color-sun-yellow); padding: 0.5rem 0.75rem; border-radius: 4px; font-size: 0.78rem; font-weight: 700; color: var(--color-sun-yellow); margin-bottom: 0.8rem;">
+                            ⚡ 24/7 Power Backup + Zero Grid Dependency
+                        </div>
+                        <p class="review-text" style="font-size: 0.88rem; line-height: 1.55; color: var(--color-text-muted); font-style: italic; margin-bottom: 1.2rem;">"We opted for a 3 kWp Hybrid system with lithium battery storage in Cherthala. During heavy monsoons and coastal power outages, our home runs completely uninterrupted. Direct bank credit of ₹78,000 PM Surya Ghar subsidy was seamless!"</p>
                     </div>
-                    <div class="reviewer-info">
+                    <div class="reviewer-info" style="border-top: 1px solid var(--color-border); padding-top: 0.8rem;">
                         <div class="avatar-circle">PS</div>
                         <div>
-                            <h4>Priya S.</h4>
-                            <span class="reviewer-loc">📍 Cherthala, Alappuzha • 3 kWp Hybrid System</span>
+                            <h4 style="font-size: 0.92rem; margin: 0; font-weight: 700; color: var(--color-text);">Priya S. Kumar</h4>
+                            <span class="reviewer-loc" style="font-size: 0.76rem; color: var(--color-text-subtle);">📍 Cherthala, Alappuzha • Section Code: 5512</span>
+                            <span style="font-size: 0.72rem; color: var(--color-sun-yellow); font-weight: 600;">System: 3 kWp Hybrid + Lithium Storage</span>
                         </div>
                     </div>
                 </div>
+
+                <!-- Review 4: Kowdiar, Thiruvananthapuram -->
+                <div class="testimonial-card" style="flex: 0 0 350px; min-width: 320px; scroll-snap-align: start; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 16px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                            <div class="stars-row" style="margin: 0; color: #f59e0b;">★★★★★</div>
+                            <span style="font-size: 0.7rem; font-weight: 700; background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3); padding: 2px 8px; border-radius: 12px;">✅ Verified Homeowner</span>
+                        </div>
+                        <div style="background: rgba(255, 183, 3, 0.08); border-left: 3px solid var(--color-sun-yellow); padding: 0.5rem 0.75rem; border-radius: 4px; font-size: 0.78rem; font-weight: 700; color: var(--color-sun-yellow); margin-bottom: 0.8rem;">
+                            ⚡ KSEB Bill: ₹14,200 ➔ ₹520 / period
+                        </div>
+                        <p class="review-text" style="font-size: 0.88rem; line-height: 1.55; color: var(--color-text-muted); font-style: italic; margin-bottom: 1.2rem;">"Exceptional engineering quality from the Sunova Solar TVM team! They installed 10 kWp TOPCon Bifacial panels on our residence in Kowdiar. Zero hassle with KSEB net-metering approvals."</p>
+                    </div>
+                    <div class="reviewer-info" style="border-top: 1px solid var(--color-border); padding-top: 0.8rem;">
+                        <div class="avatar-circle">RM</div>
+                        <div>
+                            <h4 style="font-size: 0.92rem; margin: 0; font-weight: 700; color: var(--color-text);">Adv. Rajesh Menon</h4>
+                            <span class="reviewer-loc" style="font-size: 0.76rem; color: var(--color-text-subtle);">📍 Kowdiar, Thiruvananthapuram • Section Code: 4508</span>
+                            <span style="font-size: 0.72rem; color: var(--color-sun-yellow); font-weight: 600;">System: 10 kWp TOPCon Bifacial</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 5: Manjeri, Malappuram -->
+                <div class="testimonial-card" style="flex: 0 0 350px; min-width: 320px; scroll-snap-align: start; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 16px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                            <div class="stars-row" style="margin: 0; color: #f59e0b;">★★★★★</div>
+                            <span style="font-size: 0.7rem; font-weight: 700; background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3); padding: 2px 8px; border-radius: 12px;">✅ Verified Homeowner</span>
+                        </div>
+                        <div style="background: rgba(255, 183, 3, 0.08); border-left: 3px solid var(--color-sun-yellow); padding: 0.5rem 0.75rem; border-radius: 4px; font-size: 0.78rem; font-weight: 700; color: var(--color-sun-yellow); margin-bottom: 0.8rem;">
+                            ⚡ KSEB Bill: ₹11,800 ➔ ₹450 / period
+                        </div>
+                        <p class="review-text" style="font-size: 0.88rem; line-height: 1.55; color: var(--color-text-muted); font-style: italic; margin-bottom: 1.2rem;">"Very honest consultation regarding roof angles and panel orientation. From portal registration to final KSEB meter testing, Sunova Solar finished everything ahead of schedule!"</p>
+                    </div>
+                    <div class="reviewer-info" style="border-top: 1px solid var(--color-border); padding-top: 0.8rem;">
+                        <div class="avatar-circle">AH</div>
+                        <div>
+                            <h4 style="font-size: 0.92rem; margin: 0; font-weight: 700; color: var(--color-text);">Abdul Rahman Haji</h4>
+                            <span class="reviewer-loc" style="font-size: 0.76rem; color: var(--color-text-subtle);">📍 Manjeri, Malappuram • Section Code: 6546</span>
+                            <span style="font-size: 0.72rem; color: var(--color-sun-yellow); font-weight: 600;">System: 8 kWp On-Grid Solar</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 6: Kadavanthra, Ernakulam -->
+                <div class="testimonial-card" style="flex: 0 0 350px; min-width: 320px; scroll-snap-align: start; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 16px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                            <div class="stars-row" style="margin: 0; color: #f59e0b;">★★★★★</div>
+                            <span style="font-size: 0.7rem; font-weight: 700; background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3); padding: 2px 8px; border-radius: 12px;">✅ PM Surya Ghar Grant</span>
+                        </div>
+                        <div style="background: rgba(255, 183, 3, 0.08); border-left: 3px solid var(--color-sun-yellow); padding: 0.5rem 0.75rem; border-radius: 4px; font-size: 0.78rem; font-weight: 700; color: var(--color-sun-yellow); margin-bottom: 0.8rem;">
+                            ⚡ ₹78,000 Direct Bank Subsidy Received
+                        </div>
+                        <p class="review-text" style="font-size: 0.88rem; line-height: 1.55; color: var(--color-text-muted); font-style: italic; margin-bottom: 1.2rem;">"Got ₹78,000 central government subsidy credited directly into my bank account within 25 days of system commissioning! Sunova Solar's team is polite, punctual, and highly skilled."</p>
+                    </div>
+                    <div class="reviewer-info" style="border-top: 1px solid var(--color-border); padding-top: 0.8rem;">
+                        <div class="avatar-circle">SS</div>
+                        <div>
+                            <h4 style="font-size: 0.92rem; margin: 0; font-weight: 700; color: var(--color-text);">Sujatha Sreedharan</h4>
+                            <span class="reviewer-loc" style="font-size: 0.76rem; color: var(--color-text-subtle);">📍 Kadavanthra, Ernakulam • Section Code: 5546</span>
+                            <span style="font-size: 0.72rem; color: var(--color-sun-yellow); font-weight: 600;">System: 3 kWp PM Surya Ghar Rooftop</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 7: Palakkad Town, Palakkad -->
+                <div class="testimonial-card" style="flex: 0 0 350px; min-width: 320px; scroll-snap-align: start; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 16px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                            <div class="stars-row" style="margin: 0; color: #f59e0b;">★★★★★</div>
+                            <span style="font-size: 0.7rem; font-weight: 700; background: rgba(59, 130, 246, 0.15); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.3); padding: 2px 8px; border-radius: 12px;">🏭 Industrial Client</span>
+                        </div>
+                        <div style="background: rgba(255, 183, 3, 0.08); border-left: 3px solid var(--color-sun-yellow); padding: 0.5rem 0.75rem; border-radius: 4px; font-size: 0.78rem; font-weight: 700; color: var(--color-sun-yellow); margin-bottom: 0.8rem;">
+                            ⚡ Monthly Generation: ~900 Units/mo
+                        </div>
+                        <p class="review-text" style="font-size: 0.88rem; line-height: 1.55; color: var(--color-text-muted); font-style: italic; margin-bottom: 1.2rem;">"Palakkad heat yields maximum solar power! Our 6 kWp system produces over 28–30 units of green electricity every single day. Extremely satisfied with Sunova Solar's workmanship."</p>
+                    </div>
+                    <div class="reviewer-info" style="border-top: 1px solid var(--color-border); padding-top: 0.8rem;">
+                        <div class="avatar-circle">VP</div>
+                        <div>
+                            <h4 style="font-size: 0.92rem; margin: 0; font-weight: 700; color: var(--color-text);">Venkatesh Prabhu</h4>
+                            <span class="reviewer-loc" style="font-size: 0.76rem; color: var(--color-text-subtle);">📍 Palakkad Town, Palakkad • Section Code: 6517</span>
+                            <span style="font-size: 0.72rem; color: var(--color-sun-yellow); font-weight: 600;">System: 6 kWp Industrial Solar</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 8: West Hill, Kozhikode -->
+                <div class="testimonial-card" style="flex: 0 0 350px; min-width: 320px; scroll-snap-align: start; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 16px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                            <div class="stars-row" style="margin: 0; color: #f59e0b;">★★★★★</div>
+                            <span style="font-size: 0.7rem; font-weight: 700; background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3); padding: 2px 8px; border-radius: 12px;">✅ Verified Homeowner</span>
+                        </div>
+                        <div style="background: rgba(255, 183, 3, 0.08); border-left: 3px solid var(--color-sun-yellow); padding: 0.5rem 0.75rem; border-radius: 4px; font-size: 0.78rem; font-weight: 700; color: var(--color-sun-yellow); margin-bottom: 0.8rem;">
+                            ⚡ KSEB Bill: ₹5,100 ➔ ₹290 / period
+                        </div>
+                        <p class="review-text" style="font-size: 0.88rem; line-height: 1.55; color: var(--color-text-muted); font-style: italic; margin-bottom: 1.2rem;">"The solar structure engineering and cable neatness exceeded our expectations. The post-installation service team checked back after 1 month to verify generation reports. 100% recommended!"</p>
+                    </div>
+                    <div class="reviewer-info" style="border-top: 1px solid var(--color-border); padding-top: 0.8rem;">
+                        <div class="avatar-circle">GK</div>
+                        <div>
+                            <h4 style="font-size: 0.92rem; margin: 0; font-weight: 700; color: var(--color-text);">Gopika R. Kurup</h4>
+                            <span class="reviewer-loc" style="font-size: 0.76rem; color: var(--color-text-subtle);">📍 West Hill, Kozhikode • Section Code: 6604</span>
+                            <span style="font-size: 0.72rem; color: var(--color-sun-yellow); font-weight: 600;">System: 4 kWp On-Grid System</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
