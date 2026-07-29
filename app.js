@@ -718,16 +718,92 @@ function transferCalculatorDetails() {
     updateFormMessageDetails();
 }
 
-// Automatically upper-case customer name and sync details
+// Automatically sync the message textarea details based on all form selections
 function updateFormMessageDetails() {
+    const msgArea = document.getElementById('form-message');
+    if (!msgArea) return;
+    
     const nameInput = document.getElementById('form-name');
-    if (nameInput && !nameInput.dataset.upperBound) {
-        nameInput.dataset.upperBound = "true";
+    if (nameInput && !nameInput._upperBound) {
+        nameInput._upperBound = true;
         nameInput.addEventListener('input', () => {
             nameInput.value = nameInput.value.toUpperCase();
         });
     }
+
+    // Only update if message area is empty or contains previous auto-generated summary
+    const currentVal = msgArea.value.trim();
+    const isAutoMsg = !currentVal || 
+                      currentVal.startsWith("Hi ") || 
+                      currentVal.startsWith("Feasibility Request Details") || 
+                      currentVal.startsWith("Solar Proposal Request");
+                      
+    if (!isAutoMsg) return;
+
+    const district = document.getElementById('form-district')?.value || '';
+    const section = document.getElementById('form-location')?.value || '';
+    const dealerCode = document.getElementById('form-dealer')?.value || '';
+    const dealer = DEALERS.find(d => d.code === dealerCode);
+    const partnerInfo = dealer ? `${dealer.name} (${dealer.area})` : '';
+
+    const consumerNo = document.getElementById('form-consumer-no')?.value.trim() || '';
+    const connCategory = document.getElementById('form-connection')?.value || 'Residential (Home Solar)';
+    
+    const formSizeEl = document.getElementById('form-size') || document.getElementById('form-size-select');
+    const sizeVal = formSizeEl ? (parseFloat(formSizeEl.value) || 3.0).toFixed(1) : '3.0';
+
+    const sysModel = document.getElementById('form-system-model')?.value || 'On-Grid Grid-Tied System';
+    const roofType = document.getElementById('form-roof-type')?.value || 'Flat Concrete Open Rooftop';
+    const billRange = document.getElementById('form-kseb-bill')?.value || '₹2,000 – ₹5,000';
+    
+    const contactMode = document.getElementById('form-contact-pref')?.value || 'WhatsApp & Call';
+    const timeline = document.getElementById('form-timeline')?.value || 'Immediate (Within 1-2 Weeks)';
+    
+    const isSubsidy = document.getElementById('form-subsidy')?.checked;
+    const isLoan = document.getElementById('form-loan')?.checked;
+
+    let detailsList = [];
+    detailsList.push(`• Connection Category: ${connCategory}`);
+    detailsList.push(`• Requested Capacity: ${sizeVal} kWp`);
+    detailsList.push(`• System Model: ${sysModel}`);
+    detailsList.push(`• Roof Structure: ${roofType}`);
+    if (district || section) detailsList.push(`• KSEB Section: ${section || 'Not selected'}${district ? ' (' + district + ')' : ''}`);
+    if (consumerNo) detailsList.push(`• Consumer No: ${consumerNo}`);
+    detailsList.push(`• Bi-Monthly KSEB Bill: ${billRange}`);
+    if (partnerInfo) detailsList.push(`• Assigned Partner: ${partnerInfo}`);
+
+    let extras = [];
+    if (isSubsidy) extras.push("PM Surya Ghar Subsidy Assistance");
+    if (isLoan) extras.push("Solar Bank Loan Assistance");
+    if (extras.length > 0) detailsList.push(`• Benefits & Financing: ${extras.join(' & ')}`);
+
+    detailsList.push(`• Installation Schedule: ${timeline}`);
+    detailsList.push(`• Preferred Contact: ${contactMode}`);
+
+    msgArea.value = `Feasibility Request Details:\n${detailsList.join('\n')}`;
 }
+
+// Bind automatic message update to all feasibility form elements
+document.addEventListener('DOMContentLoaded', () => {
+    const fieldsToWatch = [
+        'form-district', 'form-location', 'form-dealer', 'form-consumer-no',
+        'form-connection', 'form-size-select', 'form-size', 'form-system-model',
+        'form-roof-type', 'form-kseb-bill', 'form-contact-pref', 'form-timeline',
+        'form-subsidy', 'form-loan'
+    ];
+    
+    fieldsToWatch.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('change', updateFormMessageDetails);
+            if (el.tagName === 'INPUT') {
+                el.addEventListener('input', updateFormMessageDetails);
+            }
+        }
+    });
+
+    updateFormMessageDetails();
+});
 
 // Adjust form size value via custom spin buttons
 function adjustFormCapacity(amount) {
@@ -5660,6 +5736,10 @@ window.handleKSEBConsumerNoInput = function(val) {
         statusEl.style.color = 'var(--color-text-muted)';
         statusEl.style.border = '1px solid var(--color-border)';
         statusEl.innerHTML = `ℹ Extracted Section Code: <strong>${testCode}</strong> — Select District manually if not auto-matched.`;
+    }
+
+    if (typeof updateFormMessageDetails === 'function') {
+        updateFormMessageDetails();
     }
 };
 
