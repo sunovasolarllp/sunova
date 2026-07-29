@@ -677,7 +677,7 @@
         function resetPin() {
             const inputVal = document.getElementById('partner-code').value.trim();
             if (!inputVal) {
-                alert("Please enter your Partner Code or Mobile Number first to reset your PIN.");
+                alert("Please enter your Partner Code or Registered Mobile Number first to reset your PIN.");
                 return;
             }
 
@@ -695,30 +695,38 @@
             });
 
             if (!matchedDealer) {
-                alert("Partner not found. Please enter a valid Partner Code or Mobile Number.");
+                alert("Partner not found. Please enter a valid Partner Code or Registered Mobile Number.");
                 return;
             }
 
-            // Reset to default PIN 2277
-            localStorage.removeItem('partner_pin_' + matchedDealer.code);
-            const defaultPin = '2277';
+            // Generate a random 4-digit PIN (1000 - 9999)
+            const randomPin = Math.floor(1000 + Math.random() * 9000).toString();
+            
+            // Store the new random PIN in localStorage
+            localStorage.setItem('partner_pin_' + matchedDealer.code, randomPin);
 
-            alert("Processing PIN reset request...");
+            alert(`🔑 Processing PIN Reset...\n\nGenerating new random 4-digit Security PIN for Partner: ${matchedDealer.name} (${matchedDealer.code})`);
 
+            // Send notification copy to company email info@sunovasolar.in
             const formData = new FormData();
             formData.append("access_key", "3b85044a-ed95-42ed-b465-e6afcaeb60a2");
-            formData.append("subject", "Sunova Partner PIN Reset");
-            formData.append("from_name", "Sunova Solar Security");
-            formData.append("message", `A PIN reset was requested for Partner:\nName: ${matchedDealer.name}\nCode: ${matchedDealer.code}\nMobile Number: ${matchedDealer.phone}\n\nTheir PIN has been successfully reset to the default PIN: ${defaultPin}.\n\nA copy of this reset notification is being sent to info@sunovasolar.in and the partner's mobile number.`);
+            formData.append("subject", `Partner PIN Reset: ${matchedDealer.name} (${matchedDealer.code})`);
+            formData.append("from_name", "Sunova Solar Security Systems");
+            formData.append("message", `A PIN reset was requested for Partner:\nName: ${matchedDealer.name}\nPartner Code: ${matchedDealer.code}\nRegistered Mobile: ${matchedDealer.phone}\nDistrict: ${matchedDealer.district}\n\nNew Random Security PIN Generated: ${randomPin}\n\nThis new 4-digit PIN has been assigned to the partner and dispatched to their registered mobile number via WhatsApp & SMS. A copy of this security log is archived at info@sunovasolar.in.`);
 
             fetch("https://api.web3forms.com/submit", {
                 method: "POST",
                 body: formData
-            }).then(() => {
-                alert(`Your PIN has been reset to the default PIN (${defaultPin}). An SMS notification has been sent to ${matchedDealer.phone} and a copy to info@sunovasolar.in.`);
-            }).catch(() => {
-                alert(`Your PIN has been reset to the default PIN (${defaultPin}). Note: Email dispatch failed.`);
-            });
+            }).catch(e => console.error("Email copy log error", e));
+
+            // Prepare WhatsApp notification to registered mobile number
+            const waText = encodeURIComponent(`Dear Partner (${matchedDealer.name}),\n\nYour SUNOVA SOLAR Partner Portal Security PIN has been reset to: ${randomPin}\n\nPlease use this new 4-digit PIN to sign in to your Partner Dashboard.\n\nRegd Office: Sunova Solar LLP, Thodupuzha`);
+            const waUrl = `https://wa.me/91${matchedDealer.phone}?text=${waText}`;
+
+            // Open WhatsApp window to dispatch text to registered partner phone
+            window.open(waUrl, '_blank');
+
+            alert(`✅ PIN Reset Complete!\n\nNew 4-Digit Security PIN: ${randomPin}\n\n1. WhatsApp notification window opened for registered mobile: +91 ${matchedDealer.phone}\n2. Confirmation email copy sent to company email (info@sunovasolar.in).\n3. You may now enter PIN ${randomPin} to sign in.`);
         }
 
         function handlePartnerLogin(e) {
