@@ -777,11 +777,11 @@
             }
 
             // Retrieve registered custom PIN if set, otherwise default is '2277'
-            const customPin = localStorage.getItem('partner_pin_' + matchedDealer.code);
+            const customPin = localStorage.getItem('partner_pin_' + matchedDealer.code) || localStorage.getItem('partner_pin_' + matchedDealer.phone);
             const requiredPin = customPin || '2277';
 
             if (pin !== requiredPin) {
-                feedback.textContent = customPin ? 'Incorrect security PIN. Please enter your custom PIN.' : 'Invalid security PIN. For first-time login, use default PIN: 2277.';
+                feedback.textContent = customPin ? 'Incorrect security PIN. Please re-enter your 4-digit PIN or click "Forgot / Reset PIN?".' : 'Invalid security PIN. For first-time login, use default PIN: 2277.';
                 feedback.className = 'form-feedback error';
                 feedback.classList.remove('hidden');
                 return;
@@ -847,8 +847,12 @@
             saveBtn.disabled = true;
 
             setTimeout(() => {
-                // Save custom PIN in localStorage
+                // Save custom PIN in localStorage for both dealer code and phone
                 localStorage.setItem('partner_pin_' + tempLoginDealerCode, newPin);
+                const mDealer = DEALERS.find(d => d.code === tempLoginDealerCode);
+                if (mDealer) {
+                    localStorage.setItem('partner_pin_' + mDealer.phone, newPin);
+                }
                 // Complete session login
                 localStorage.setItem('partner_code', tempLoginDealerCode);
                 
@@ -912,6 +916,10 @@
             }
 
             localStorage.setItem('partner_pin_' + activePartnerCode, newPin);
+            const mDealer = DEALERS.find(d => d.code === activePartnerCode);
+            if (mDealer) {
+                localStorage.setItem('partner_pin_' + mDealer.phone, newPin);
+            }
             
             feedback.textContent = 'PIN updated successfully!';
             feedback.className = 'form-feedback';
