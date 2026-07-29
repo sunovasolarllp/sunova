@@ -269,11 +269,9 @@
                             <div class="form-group" style="margin-bottom: 0;">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">System Technology Model</label>
                                 <select id="quote-tech-model" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
-                                    <option value="N-Type TOPCon Bifacial" selected>N-Type TOPCon Bifacial (560Wp+)</option>
-                                    <option value="Mono PERC Half-Cut">Mono PERC Half-Cut (540Wp+)</option>
-                                    <option value="N-Type HJT Heterojunction">N-Type HJT Heterojunction (580Wp+)</option>
-                                    <option value="Polycrystalline High-Efficiency">Polycrystalline High-Efficiency (335Wp+)</option>
-                                    <option value="Bifacial Dual-Glass TOPCon">Bifacial Dual-Glass TOPCon (570Wp+)</option>
+                                    <option value="On-Grid Solar System" selected>On-Grid Solar System</option>
+                                    <option value="Hybrid Solar System">Hybrid Solar System (With Battery Backup)</option>
+                                    <option value="Off-Grid Solar System">Off-Grid Solar System (Standalone Battery)</option>
                                 </select>
                             </div>
                         </div>
@@ -1323,7 +1321,7 @@
                 const addr = (document.getElementById('quote-cust-addr')?.value || '').trim();
                 const capacityVal = parseFloat(document.getElementById('quote-capacity')?.value || '3');
                 const panelModel = document.getElementById('quote-panel-brand')?.value || 'Emmvee';
-                const techModel = document.getElementById('quote-tech-model')?.value || 'N-Type TOPCon Bifacial';
+                const techModel = document.getElementById('quote-tech-model')?.value || 'On-Grid Solar System';
                 const inverterModel = document.getElementById('quote-inverter-brand')?.value || 'Eastman String Inverter';
                 const sysConfig = document.getElementById('quote-sys-config')?.value || '3';
                 const roofTypeVal = document.getElementById('quote-roof-type')?.value || 'Flat Standard';
@@ -1491,13 +1489,13 @@
                                 <span style="font-size: 0.78rem; color: #555;">Ref Qtn: <strong>${quoteNo}</strong> | Date: <strong>${dateStr}</strong></span>
                             </div>
                             <div style="text-align: right;">
-                                <span style="background: #0056b3; color: #fff; padding: 0.3rem 0.8rem; border-radius: 4px; font-weight: bold; font-size: 0.8rem;">${capacityVal} KW ON-GRID SYSTEM</span>
+                                <span style="background: #0056b3; color: #fff; padding: 0.3rem 0.8rem; border-radius: 4px; font-weight: bold; font-size: 0.8rem; text-transform: uppercase;">${capacityVal} KW ${techModel}</span>
                             </div>
                         </div>
 
                         <!-- SECTION 1: COVER LETTER -->
                         <div style="background: #fafafa; border: 1px solid #e5e7eb; border-radius: 6px; padding: 1.2rem; margin-bottom: 2rem;">
-                            <p style="margin-top: 0;"><strong>Sub:-</strong> Proposal for Design, Supply, Installation &amp; Commissioning of ${capacityVal}KW On-Grid Solar Power Plant.</p>
+                            <p style="margin-top: 0;"><strong>Sub:-</strong> Proposal for Design, Supply, Installation &amp; Commissioning of ${capacityVal}KW ${techModel} Power Plant.</p>
                             
                             <p style="margin-bottom: 0.3rem;"><strong>To,</strong></p>
                             <div style="margin-left: 1rem; color: #111; font-weight: 600; line-height: 1.5;">
@@ -1509,7 +1507,7 @@
                             </div>
 
                             <p style="margin-top: 1rem;">Dear Sir/Madam,</p>
-                            <p>Thank you for your interest in partnering with us to support your growth aspirations. We are pleased to present our offer for the ${capacityVal}KWP solar rooftop on-grid systems for your review.</p>
+                            <p>Thank you for your interest in partnering with us to support your growth aspirations. We are pleased to present our offer for the ${capacityVal}KWP rooftop ${techModel} for your review.</p>
                             <p style="margin-bottom: 0;">We believe you will find this proposal appealing, and we look forward to your positive response so that we can move forward with it.</p>
                             
                             <div style="margin-top: 1.2rem;">
@@ -1558,7 +1556,7 @@
 
                         <!-- SECTION 4: ESTIMATE DETAILS & BILL OF MATERIALS -->
                         <div style="margin-bottom: 2rem;">
-                            <h3 style="color: #0056b3; font-family: 'Outfit', sans-serif; font-size: 1.1rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; margin-top: 0;">3. ESTIMATE DETAILS &amp; BILL OF MATERIALS (${capacityVal}KW ON-GRID SYSTEM)</h3>
+                            <h3 style="color: #0056b3; font-family: 'Outfit', sans-serif; font-size: 1.1rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; margin-top: 0;">3. ESTIMATE DETAILS &amp; BILL OF MATERIALS (${capacityVal}KW ${techModel.toUpperCase()})</h3>
                             <table style="width: 100%; border-collapse: collapse; margin-bottom: 1rem; font-size: 0.78rem; text-align: left;">
                                 <tr style="background: #0056b3; color: #fff;">
                                     <th style="padding: 0.5rem; border: 1px solid #0056b3;">COMPONENT / ITEM</th>
@@ -1567,14 +1565,14 @@
                                     <th style="padding: 0.5rem; border: 1px solid #0056b3; text-align: center;">QTY</th>
                                 </tr>
                                 <tr>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd; font-weight: 600;">GRID TIE INVERTER</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd;">${capacityVal}KW ON GRID INVERTER, ${phase} WITH LCD DISPLAY, BIS APPROVED, IP65 PROTECTION WITH ONLINE MONITORING FACILITY</td>
+                                    <td style="padding: 0.45rem; border: 1px solid #ddd; font-weight: 600;">SOLAR INVERTER</td>
+                                    <td style="padding: 0.45rem; border: 1px solid #ddd;">${capacityVal}KW ${techModel.toUpperCase()} INVERTER, ${phase} WITH LCD DISPLAY, BIS APPROVED, IP65 PROTECTION WITH ONLINE MONITORING FACILITY</td>
                                     <td style="padding: 0.45rem; border: 1px solid #ddd;">${inverterModel} / DEYE (WITH 10 YEAR WARRANTY)</td>
                                     <td style="padding: 0.45rem; border: 1px solid #ddd; text-align: center;">1 NO.</td>
                                 </tr>
                                 <tr>
                                     <td style="padding: 0.45rem; border: 1px solid #ddd; font-weight: 600;">SOLAR MODULE</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd;">${techModel.toUpperCase()} TRANSPARENT MODULE, 144 CELLS/GEN II (${panelWattage}Wp+)</td>
+                                    <td style="padding: 0.45rem; border: 1px solid #ddd;">ALMM LISTED TOPCON / MONO PERC BIFACIAL TRANSPARENT MODULE, 144 CELLS/GEN II (${panelWattage}Wp+)</td>
                                     <td style="padding: 0.45rem; border: 1px solid #ddd;">${panelModel} / ADANI / WAAREE (12 YR PRODUCT / 25 YR PERF GUARANTEE)</td>
                                     <td style="padding: 0.45rem; border: 1px solid #ddd; text-align: center;">FOR ${capacityVal}KW (${panelCount} NOS)</td>
                                 </tr>
@@ -1625,7 +1623,7 @@
 
                         <!-- SECTION 5: OFFER PRICE & ITEMIZED COMMERCIAL BREAKDOWN -->
                         <div style="margin-bottom: 2rem;">
-                            <h3 style="color: #0056b3; font-family: 'Outfit', sans-serif; font-size: 1.1rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; margin-top: 0;">4. OFFER PRICE &amp; ITEMIZATION FOR ${capacityVal} KW ONGRID SYSTEM</h3>
+                            <h3 style="color: #0056b3; font-family: 'Outfit', sans-serif; font-size: 1.1rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; margin-top: 0;">4. OFFER PRICE &amp; ITEMIZATION FOR ${capacityVal} KW ${techModel.toUpperCase()}</h3>
                             
                             <table style="width: 100%; border-collapse: collapse; margin-bottom: 1rem; font-size: 0.82rem;">
                                 <tr style="background: #f8f9fa;">
