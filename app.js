@@ -718,41 +718,14 @@ function transferCalculatorDetails() {
     updateFormMessageDetails();
 }
 
-// Automatically sync the message textarea details based on form requested size
+// Automatically upper-case customer name and sync details
 function updateFormMessageDetails() {
-    const formSizeEl = document.getElementById('form-size');
-    const msgArea = document.getElementById('form-message');
     const nameInput = document.getElementById('form-name');
-    // Upper‑case name as user types
-    if (nameInput) {
-      nameInput.addEventListener('input', () => {
-        nameInput.value = nameInput.value.toUpperCase();
-      });
-    }
-    const locationSelect = document.getElementById('form-location');
-    if (!formSizeEl || !msgArea) return;
-    
-    const size = parseFloat(formSizeEl.value) || 3.0;
-    const brandSelect = document.getElementById('calc-panel-brand');
-    const panelWatts = brandSelect ? (parseInt(brandSelect.value) || 550) : 550;
-    const panels = Math.ceil((size * 1000) / panelWatts);
-    const billVal = billManualInput.value || billInput.value || "4000";
-    
-    // Matched partner details
-    const dealerCode = document.getElementById('form-dealer').value;
-    const dealer = DEALERS.find(d => d.code === dealerCode);
-    const partnerName = dealer ? dealer.name : "Partner";
-    
-    const systemTypeLabel = currentSystemType === 'hybrid' ? 'Hybrid (Grid + Battery Backup)' : 'On-Grid';
-    const batteryDetail = currentSystemType === 'hybrid' ? ` with a recommended battery bank of ${(size * 1.5 < 2.4 ? 2.4 : Math.round(size * 1.5 * 10) / 10).toFixed(1)} kWh` : '';
-    
-    // Get customer name and selected KSEB section
-    const customerName = nameInput ? nameInput.value.trim() : '';
-    const selectedSection = locationSelect ? locationSelect.value : '';
-    
-    // Update message text only if it has not been customized or is empty
-    if (!msgArea.value || msgArea.value.startsWith("Hi ")) {
-        msgArea.value = `Hi ${partnerName}, my name is ${customerName} from ${selectedSection} KSEB section. I am interested in a ${size.toFixed(1)} kW ${systemTypeLabel} solar system containing ${panels} panels${batteryDetail}. My current monthly bill is approximately ₹${billVal}. Please perform a feasibility study for my site.`;
+    if (nameInput && !nameInput.dataset.upperBound) {
+        nameInput.dataset.upperBound = "true";
+        nameInput.addEventListener('input', () => {
+            nameInput.value = nameInput.value.toUpperCase();
+        });
     }
 }
 
