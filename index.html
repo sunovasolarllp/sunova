@@ -1110,6 +1110,13 @@
                                     <input type="email" id="form-email" placeholder="example@domain.com">
                                 </div>
                                 <div class="form-group">
+                                    <label for="form-consumer-no">KSEB Consumer No. (Optional)</label>
+                                    <input type="text" id="form-consumer-no" placeholder="13-digit Consumer / CA No." maxlength="13" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                </div>
+                            </div>
+
+                            <div class="form-grid">
+                                <div class="form-group">
                                     <label for="form-district">District (Kerala)</label>
                                     <select id="form-district" required onchange="handleDistrictChange(this.value)">
                                         <option value="" disabled>Select your district</option>
@@ -1129,24 +1136,21 @@
                                         <option value="Kasaragod">Kasaragod</option>
                                     </select>
                                 </div>
-                            </div>
-
-                            <div class="form-grid">
                                 <div class="form-group">
                                     <label for="form-location">Name of Section (KSEB)</label>
                                     <select id="form-location" required onchange="handleKSEBSectionChange(this.value)">
                                         <option value="" disabled selected>-- Select district first --</option>
                                     </select>
                                 </div>
+                            </div>
+
+                            <div class="form-grid">
                                 <div class="form-group">
                                     <label for="form-dealer">Partner Area</label>
                                     <select id="form-dealer" required>
                                         <!-- Populated dynamically based on selected District -->
                                     </select>
                                 </div>
-                            </div>
-                            
-                            <div class="form-grid">
                                 <div class="form-group">
                                     <label for="form-connection">Connection Category</label>
                                     <select id="form-connection" onchange="handleFormConnectionChange(this.value)">
@@ -1156,6 +1160,9 @@
                                         <option value="agricultural">Agricultural / Solar Pump</option>
                                     </select>
                                 </div>
+                            </div>
+                            
+                            <div class="form-grid">
                                 <div class="form-group">
                                     <label for="form-size">Requested Capacity</label>
                                     <div class="capacity-selector" style="margin-bottom: 0.5rem;" id="form-size-select-wrapper">
@@ -1175,6 +1182,13 @@
                                         <button type="button" class="spin-btn" onclick="adjustFormCapacity(0.5)" title="Increase Capacity">▲</button>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label for="form-system-model">System Technology Model</label>
+                                    <select id="form-system-model" onchange="handleFormSystemModelChange(this.value)">
+                                        <option value="ongrid">On-Grid (Max Savings, Net Metering)</option>
+                                        <option value="hybrid">Hybrid (Grid Export + Battery Backup)</option>
+                                    </select>
+                                </div>
                             </div>
 
                             <div class="form-grid">
@@ -1189,17 +1203,6 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="form-system-model">System Technology Model</label>
-                                    <select id="form-system-model" onchange="handleFormSystemModelChange(this.value)">
-                                        <option value="ongrid">On-Grid (Max Savings, Net Metering)</option>
-                                        <option value="hybrid">Hybrid (Grid Export + Battery Backup)</option>
-                                    </select>
-                                </div>
-                            </div>
-
-
-                            <div class="form-grid">
-                                <div class="form-group">
                                     <label for="form-kseb-bill">Avg. Bi-Monthly KSEB Bill (₹)</label>
                                     <select id="form-kseb-bill">
                                         <option value="Under ₹2,000">Under ₹2,000 / period</option>
@@ -1208,10 +1211,6 @@
                                         <option value="₹10,000 – ₹25,000">₹10,000 – ₹25,000 / period</option>
                                         <option value="Above ₹25,000">Above ₹25,000 / period</option>
                                     </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="form-consumer-no">KSEB Consumer No. (Optional)</label>
-                                    <input type="text" id="form-consumer-no" placeholder="13-digit Consumer / CA No." maxlength="13" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                                 </div>
                             </div>
 
