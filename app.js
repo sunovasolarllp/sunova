@@ -5559,6 +5559,78 @@ window.handleFormConnectionChange = function(val) {
 
 
 
+// KSEB Consumer Number Auto-Detection (Resolves Section Code, District & Partner)
+window.handleKSEBConsumerNoInput = function(val) {
+    const statusEl = document.getElementById('consumer-no-status');
+    const cleanVal = (val || '').replace(/[^0-9]/g, '');
+    
+    if (!statusEl) return;
+    
+    if (cleanVal.length < 4) {
+        statusEl.style.display = 'none';
+        statusEl.innerHTML = '';
+        return;
+    }
+    
+    const prefixCode = parseInt(cleanVal.substring(0, 4), 10);
+    let matchedDistrict = null;
+    let matchedSectionName = null;
+    let matchedSectionCode = null;
+    
+    if (typeof KSEB_SECTIONS !== 'undefined') {
+        for (const [dist, sections] of Object.entries(KSEB_SECTIONS)) {
+            for (const [secName, secData] of Object.entries(sections)) {
+                if (secData && (secData.code === prefixCode || parseInt(secData.code, 10) === prefixCode)) {
+                    matchedDistrict = dist;
+                    matchedSectionName = secName;
+                    matchedSectionCode = secData.code;
+                    break;
+                }
+            }
+            if (matchedDistrict) break;
+        }
+    }
+    
+    if (matchedDistrict && matchedSectionName) {
+        // 1. Auto-select District
+        const distSelect = document.getElementById('form-district');
+        if (distSelect && distSelect.value !== matchedDistrict) {
+            distSelect.value = matchedDistrict;
+            if (typeof handleDistrictChange === 'function') {
+                handleDistrictChange(matchedDistrict);
+            }
+        }
+        
+        // 2. Auto-select KSEB Section
+        const secSelect = document.getElementById('form-location');
+        if (secSelect) {
+            secSelect.value = matchedSectionName;
+            if (typeof handleKSEBSectionChange === 'function') {
+                handleKSEBSectionChange(matchedSectionName);
+            }
+        }
+        
+        // 3. Get assigned partner details
+        const dealerSelect = document.getElementById('form-dealer');
+        let partnerText = '';
+        if (dealerSelect && dealerSelect.options[dealerSelect.selectedIndex]) {
+            partnerText = dealerSelect.options[dealerSelect.selectedIndex].text;
+        }
+        
+        statusEl.style.display = 'block';
+        statusEl.style.background = 'rgba(34,197,94,0.12)';
+        statusEl.style.color = '#4ade80';
+        statusEl.style.border = '1px solid rgba(34,197,94,0.3)';
+        statusEl.innerHTML = `✓ <strong>Auto-Detected Section:</strong> ${matchedSectionName} (${matchedSectionCode})<br>• <strong>District:</strong> ${matchedDistrict}${partnerText ? `<br>• <strong>Assigned Partner:</strong> ${partnerText}` : ''}`;
+    } else if (cleanVal.length >= 4) {
+        statusEl.style.display = 'block';
+        statusEl.style.background = 'rgba(255,183,3,0.08)';
+        statusEl.style.color = 'var(--color-text-muted)';
+        statusEl.style.border = '1px solid var(--color-border)';
+        statusEl.innerHTML = `ℹ KSEB Section Code: <strong>${prefixCode}</strong> — Select District manually if not auto-matched.`;
+    }
+};
+
 // KSEB Auto-Fill Functions
 let ksebFetchTimer = null;
 
