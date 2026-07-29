@@ -197,7 +197,7 @@
                                 <option value="">-- Choose an Allocated Lead --</option>
                             </select>
                         </div>
-                        <div class="quote-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                        <div class="quote-grid-3" style="display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
                             <div class="form-group" style="margin-bottom: 0;">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Customer Name</label>
                                 <input type="text" id="quote-cust-name" placeholder="e.g. Radhakrishnan Nair" style="text-transform: uppercase; width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
@@ -205,6 +205,10 @@
                             <div class="form-group" style="margin-bottom: 0;">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Mobile Number</label>
                                 <input type="tel" id="quote-cust-phone" placeholder="e.g. 9876543210" pattern="^[6-9]\d{9}$" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" title="10-digit mobile number starting with 6-9" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">KSEB Consumer No. (Optional)</label>
+                                <input type="text" id="quote-consumer-no" placeholder="13-digit Consumer No." maxlength="20" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
                             </div>
                         </div>
                         <div class="quote-grid-3" style="display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
@@ -1218,6 +1222,7 @@
             if (idx === "") {
                 document.getElementById('quote-cust-name').value = '';
                 document.getElementById('quote-cust-phone').value = '';
+                if (document.getElementById('quote-consumer-no')) document.getElementById('quote-consumer-no').value = '';
                 document.getElementById('quote-cust-addr').value = '';
                 document.getElementById('quote-capacity').value = 3;
                 return;
@@ -1228,6 +1233,7 @@
                 const lead = leads[idx];
                 document.getElementById('quote-cust-name').value = lead.name;
                 document.getElementById('quote-cust-phone').value = lead.phone || '';
+                if (document.getElementById('quote-consumer-no')) document.getElementById('quote-consumer-no').value = lead.consumerNo || lead.consumer_no || '';
                 document.getElementById('quote-cust-addr').value = lead.location;
                 document.getElementById('quote-capacity').value = lead.capacity;
                 
@@ -1303,11 +1309,14 @@
             try {
                 const name = (document.getElementById('quote-cust-name')?.value || '').trim().toUpperCase();
                 const phone = (document.getElementById('quote-cust-phone')?.value || '').trim();
+                const consumerNoVal = (document.getElementById('quote-consumer-no')?.value || '').trim();
                 const addr = (document.getElementById('quote-cust-addr')?.value || '').trim();
                 const capacityVal = parseFloat(document.getElementById('quote-capacity')?.value || '3');
                 const panelModel = document.getElementById('quote-panel-brand')?.value || 'Emmvee';
                 const inverterModel = document.getElementById('quote-inverter-brand')?.value || 'Eastman String Inverter';
-                const roofType = document.getElementById('quote-roof-type')?.value || 'Flat Standard';
+                const sysConfig = document.getElementById('quote-sys-config')?.value || '3';
+                const roofTypeVal = document.getElementById('quote-roof-type')?.value || 'Flat Standard';
+                const storeyNum = parseInt(document.getElementById('quote-storey')?.value || '1', 10);
                 const phase = document.getElementById('quote-phase')?.value || 'Single Phase';
                 const payAdvance = document.getElementById('quote-pay-advance')?.value || '60';
                 const payDelivery = document.getElementById('quote-pay-delivery')?.value || '30';
@@ -1324,7 +1333,8 @@
             
             const activePartnerCode = localStorage.getItem('partner_code') || 'TVM-JOBI';
             const dealer = DEALERS.find(d => d.code === activePartnerCode) || DEALERS[0];
-            const selectedDistrict = document.getElementById('quote-district').value || dealer.district;
+            const selectedDistrict = document.getElementById('quote-district')?.value || dealer.district;
+            const ksebSecVal = document.getElementById('quote-kseb-section')?.value || dealer.area;
             
             let seq = parseInt(localStorage.getItem(`quote_seq_${activePartnerCode}`) || '0') + 1;
             const quoteNo = `${activePartnerCode}/QTN/${String(seq).padStart(3, '0')}`;
@@ -1333,16 +1343,93 @@
             // Panel parameters calculation
             const panelWattage = 540;
             const panelCount = Math.ceil((capacityVal * 1000) / panelWattage);
+
+            const storeyLabelMap = {
+                1: '1-Storey (Ground Floor)',
+                2: '2-Storey (1st Floor)',
+                3: '3-Storey (2nd Floor)',
+                4: '4-Storey (3rd Floor)',
+                5: '5-Storey & Above'
+            };
+            const storeyLabel = storeyLabelMap[storeyNum] || `${storeyNum}-Storey`;
+
+            const sysConfigLabelMap = {
+                '3': '3 kWp On-Grid Plant',
+                '5': '5 kWp On-Grid Plant',
+                '5inv_3panel': '5 kW Inverter + 3 kW Panel System',
+                'custom': `${capacityVal} kWp On-Grid Plant`
+            };
+            const sysConfigLabel = sysConfigLabelMap[sysConfig] || `${capacityVal} kWp On-Grid Plant`;
+
+            const roofTypeLabelMap = {
+                'Flat Standard': 'Flat Roof (Base Rate Included)',
+                'Flat Self Structure': 'Flat Roof (Customer Self-Structure - Discount)',
+                'Flat Truss': 'Flat Roof (With Truss Work)',
+                'Slanted No Truss': 'Slanted Roof (Without Truss)',
+                'Slanted With Truss': 'Slanted Roof (With Truss Work)'
+            };
+            const roofTypeLabel = roofTypeLabelMap[roofTypeVal] || roofTypeVal;
             
             let quoteHTML = '';
             let grossTotal = 0;
             
-            // Check for dynamic pricing rules
-            let customPricing = null;
-            try {
-                const saved = localStorage.getItem('sunova_custom_pricing');
-                if (saved) customPricing = JSON.parse(saved);
-            } catch(e) {}
+            // Pricing calculation matrix
+            let basePrice = 0;
+            if (sysConfig === '5inv_3panel') {
+                if (panelModel === 'Adani') {
+                    basePrice = (phase === 'Three Phase') ? 270000 : 250000;
+                } else {
+                    basePrice = (phase === 'Three Phase') ? 260000 : 240000;
+                }
+            } else if (capacityVal === 3) {
+                if (panelModel === 'Adani') {
+                    basePrice = 210000;
+                } else {
+                    basePrice = 200000;
+                }
+            } else if (capacityVal === 5) {
+                if (panelModel === 'Adani') {
+                    basePrice = (phase === 'Three Phase') ? 320000 : 300000;
+                } else {
+                    basePrice = (phase === 'Three Phase') ? 310000 : 290000;
+                }
+            } else {
+                let ratePerKw = (panelModel === 'Adani') ? 66000 : 64000;
+                if (phase === 'Three Phase') ratePerKw += 3000;
+                basePrice = capacityVal * ratePerKw;
+            }
+
+            // Roof structure add-on / discount
+            let roofAddon = 0;
+            const is3kW = (capacityVal <= 3);
+            if (roofTypeVal === 'Flat Self Structure') {
+                roofAddon = is3kW ? -15000 : -25000;
+            } else if (roofTypeVal === 'Flat Truss') {
+                roofAddon = is3kW ? 3500 : 6500;
+            } else if (roofTypeVal === 'Slanted No Truss') {
+                roofAddon = is3kW ? 5000 : 6000;
+            } else if (roofTypeVal === 'Slanted With Truss') {
+                roofAddon = is3kW ? 6500 : 8500;
+            }
+
+            // Storey / Floor surcharges
+            let storeyAddon = 0;
+            if (roofTypeVal.startsWith('Slanted')) {
+                if (storeyNum >= 2) {
+                    storeyAddon = (storeyNum - 1) * 5000;
+                }
+            } else {
+                if (storeyNum >= 3) {
+                    storeyAddon = (storeyNum - 2) * 5000;
+                }
+            }
+
+            grossTotal = basePrice + roofAddon + storeyAddon;
+
+            let subsidy = 0;
+            if (capacityVal === 1) subsidy = 30000;
+            else if (capacityVal === 2) subsidy = 60000;
+            else if (capacityVal >= 3) subsidy = 78000;
 
             let distBadge = '';
             if (dealer.lat && dealer.lon) {
@@ -1354,85 +1441,6 @@
             }
 
             if (type === 'customer') {
-                const sysConfig = document.getElementById('quote-sys-config')?.value || '3';
-                const roofTypeVal = document.getElementById('quote-roof-type')?.value || 'Flat Standard';
-                const storeyNum = parseInt(document.getElementById('quote-storey')?.value || '1', 10);
-                
-                let basePrice = 0;
-                
-                if (sysConfig === '5inv_3panel') {
-                    // 5 kW Inverter + 3 kW Panel System
-                    if (panelModel === 'Adani') {
-                        basePrice = (phase === 'Three Phase') ? 270000 : 250000;
-                    } else {
-                        // Emmvee / Waaree / Default
-                        basePrice = (phase === 'Three Phase') ? 260000 : 240000;
-                    }
-                } else if (capacityVal === 3) {
-                    // 3 kWp On-Grid Plant
-                    if (panelModel === 'Adani') {
-                        basePrice = 210000;
-                    } else {
-                        basePrice = 200000; // Emmvee / Waaree
-                    }
-                } else if (capacityVal === 5) {
-                    // 5 kWp On-Grid Plant
-                    if (panelModel === 'Adani') {
-                        basePrice = (phase === 'Three Phase') ? 320000 : 300000;
-                    } else {
-                        // Emmvee / Waaree
-                        basePrice = (phase === 'Three Phase') ? 310000 : 290000;
-                    }
-                } else {
-                    // Custom / Other capacities (Linear rate per kWp)
-                    let ratePerKw = (panelModel === 'Adani') ? 66000 : 64000;
-                    if (phase === 'Three Phase') ratePerKw += 3000;
-                    basePrice = capacityVal * ratePerKw;
-                }
-                
-                // Roof Structure Add-ons & Discounts
-                let roofAddon = 0;
-                const is3kW = (capacityVal <= 3);
-                
-                if (roofTypeVal === 'Flat Self Structure') {
-                    // Self Structure Discount: Less 15,000 (3kW) / 25,000 (5kW)
-                    roofAddon = is3kW ? -15000 : -25000;
-                } else if (roofTypeVal === 'Flat Truss') {
-                    // Flat Roof with Truss Work: Extra 3,500 (3kW) / 6,500 (5kW)
-                    roofAddon = is3kW ? 3500 : 6500;
-                } else if (roofTypeVal === 'Slanted No Truss') {
-                    // Slanted Roof without Truss: Extra 5,000 (3kW) / 6,000 (5kW)
-                    roofAddon = is3kW ? 5000 : 6000;
-                } else if (roofTypeVal === 'Slanted With Truss') {
-                    // Slanted Roof with Truss Work: Extra 6,500 (3kW) / 8,500 (5kW)
-                    roofAddon = is3kW ? 6500 : 8500;
-                }
-                
-                // Storey / Floor Surcharges
-                let storeyAddon = 0;
-                if (roofTypeVal.startsWith('Slanted')) {
-                    // Slanted Roof Multi-Storey Surcharge: Extra 5,000 / floor for 2-Storey or higher
-                    if (storeyNum >= 2) {
-                        storeyAddon = (storeyNum - 1) * 5000;
-                    }
-                } else {
-                    // Flat Roof: 1-Storey & 2-Storey included in base rate. 5,000 / floor extra for 3rd floor & above.
-                    if (storeyNum >= 3) {
-                        storeyAddon = (storeyNum - 2) * 5000;
-                    }
-                }
-                
-                grossTotal = basePrice + roofAddon + storeyAddon;
-                
-                let subsidy = 0;
-                if (capacityVal === 1) {
-                    subsidy = 30000;
-                } else if (capacityVal === 2) {
-                    subsidy = 60000;
-                } else if (capacityVal >= 3) {
-                    subsidy = 78000;
-                }
-                
                 const gst = grossTotal * 0.138;
                 const net = grossTotal - gst;
                 
@@ -1457,30 +1465,32 @@
                         <h3 style="text-align: center; font-family: 'Outfit', sans-serif; color: #0d1321; font-size: 1.3rem; margin-top: 0;">PROFORMA INVOICE & PROPOSAL</h3>
                         
                         <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">CUSTOMER INFORMATION</h4>
-                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; text-align: left;">
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; text-align: left; font-size: 0.82rem;">
                             <tr>
                                 <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600; width: 22%;">Partner Name</td>
-                                <td colspan="3" style="padding: 0.5rem; border: 1px solid #ddd;">${dealer.name} ${distBadge}</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; width: 28%;">${dealer.name} ${distBadge}</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600; width: 22%;">KSEB Consumer No</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; width: 28%; font-weight: 700; color: #0d1321;">${consumerNoVal || 'Pending / Application under process'}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600; width: 22%;">Customer Name</td>
-                                <td style="padding: 0.5rem; border: 1px solid #ddd; width: 38%;"><strong>${name}</strong></td>
-                                <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600; width: 18%;">Mobile Number</td>
-                                <td style="padding: 0.5rem; border: 1px solid #ddd; width: 22%;">+91 ${phone}</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Customer Name</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>${name}</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Mobile Number</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">+91 ${phone}</td>
                             </tr>
                             <tr>
                                 <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Installation Address</td>
                                 <td style="padding: 0.5rem; border: 1px solid #ddd;">${addr}, ${selectedDistrict}</td>
                                 <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">KSEB Section</td>
-                                <td style="padding: 0.5rem; border: 1px solid #ddd;">${document.getElementById('quote-kseb-section').value || '-'}</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">${ksebSecVal}</td>
                             </tr>
                         </table>
 
                         <h4 style="margin: 1.2rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem;">SYSTEM SPECIFICATION</h4>
                         <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; text-align: left; font-size: 0.8rem;">
                             <tr>
-                                <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600; width: 22%;">System Capacity</td>
-                                <td style="padding: 0.5rem; border: 1px solid #ddd; width: 28%;">${capacityVal} kWp</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600; width: 22%;">System Capacity &amp; Config</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; width: 28%; font-weight: 700; color: #0d1321;">${sysConfigLabel}</td>
                                 <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600; width: 22%;">Solar Panel Brand</td>
                                 <td style="padding: 0.5rem; border: 1px solid #ddd; width: 28%;">${panelModel} (${panelCount} Nos)</td>
                             </tr>
@@ -1488,13 +1498,13 @@
                                 <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Solar Inverter Make</td>
                                 <td style="padding: 0.5rem; border: 1px solid #ddd;">${inverterModel} String Inverter (1 Unit)</td>
                                 <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Roof Structure Type</td>
-                                <td style="padding: 0.5rem; border: 1px solid #ddd;">${roofType} Roof</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">${roofTypeLabel}</td>
                             </tr>
                             <tr>
                                 <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Electrical Phase</td>
                                 <td style="padding: 0.5rem; border: 1px solid #ddd;">${phase}</td>
-                                <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Grid Connection</td>
-                                <td style="padding: 0.5rem; border: 1px solid #ddd;">On-Grid Net Metered</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">Building Height / Floor</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">${storeyLabel}</td>
                             </tr>
                         </table>
 
@@ -1659,34 +1669,8 @@
                     </div>
                 `;
             } else {
-                let totalPrice = 0;
-                
-                // Check for dynamic pricing rules
-                let customPricing = null;
-                try {
-                    const saved = localStorage.getItem('sunova_custom_pricing');
-                    if (saved) customPricing = JSON.parse(saved);
-                } catch(e) {}
-
-                if (customPricing && customPricing.fixed_prices && customPricing.fixed_prices[capacityVal]) {
-                    totalPrice = customPricing.fixed_prices[capacityVal];
-                } else if (customPricing && customPricing.rate_per_kw) {
-                    totalPrice = capacityVal * customPricing.rate_per_kw;
-                } else {
-                    // Default fallback
-                    if (capacityVal === 3) {
-                        totalPrice = 220000;
-                    } else if (capacityVal === 5) {
-                        totalPrice = 320000;
-                    } else {
-                        totalPrice = capacityVal * 64000;
-                    }
-                }
-                
-                const grossLiaison = Math.round(totalPrice / 1.138);
-                const gstVal = totalPrice - grossLiaison;
-                const grossTotalKseb = totalPrice;
-                grossTotal = grossTotalKseb; // Fix for reference error
+                const grossLiaison = Math.round(grossTotal / 1.138);
+                const gstVal = grossTotal - grossLiaison;
                 
                 quoteHTML = `
                     <div style="font-family: 'Inter', sans-serif; color: #333; line-height: 1.6;">
@@ -1698,7 +1682,7 @@
                                 <p style="margin: 0.15rem 0 0 0; font-size: 0.75rem; color: #555;">Vengalloor - Mangattukavala Bypass, Thodupuzha, Idukki District - 685608</p>
                             </div>
                             <div style="text-align: right;">
-                                <h2 style="margin: 0; color: #28a745; font-family: 'Outfit', sans-serif; font-size: 1.3rem;">PROFORMA INVOICE</h2>
+                                <h2 style="margin: 0; color: #28a745; font-family: 'Outfit', sans-serif; font-size: 1.3rem;">PROFORMA INVOICE & KSEB FEASIBILITY</h2>
                                 <p style="margin: 0.2rem 0; font-size: 0.78rem;"><strong>Ref Qtn:</strong> ${quoteNo}</p>
                                 <p style="margin: 0.2rem 0; font-size: 0.78rem;"><strong>Date:</strong> ${dateStr}</p>
                             </div>
@@ -1708,11 +1692,11 @@
                             <strong>To,</strong><br>
                             The Assistant Executive Engineer,<br>
                             Electrical Section Office, KSEB Limited,<br>
-                            ${document.getElementById('quote-kseb-section').value || dealer.area} Section, ${dealer.district} District, Kerala
+                            ${ksebSecVal} Section, ${selectedDistrict} District, Kerala
                         </div>
 
                         <div style="font-size: 0.84rem; font-weight: 600; line-height: 1.5; margin-bottom: 1.5rem; background: #f8f9fa; padding: 0.75rem; border-left: 4px solid #28a745; border-radius: 4px;">
-                            Subject: Solar rooftop grid-tied feasibility proforma &amp; components compliance checklist for ${capacityVal} kWp net-metering application.
+                            Subject: Solar rooftop grid-tied feasibility proforma &amp; components compliance checklist for ${sysConfigLabel} (${phase}) net-metering application.
                         </div>
 
                         <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; margin-bottom: 1.5rem; font-size: 0.8rem;">
@@ -1725,8 +1709,9 @@
                                         <td style="color: #666; width: 75px;">Mobile No:</td>
                                         <td><strong>+91 ${phone}</strong></td>
                                     </tr>
-                                    <tr><td style="color: #666;">Site Address:</td><td colspan="3">${addr}</td></tr>
-                                    <tr><td style="color: #666;">Consumer No:</td><td colspan="3" style="border-bottom: 1px dotted #999; font-weight: bold; color: #c5221f;">__________________</td></tr>
+                                    <tr><td style="color: #666;">Site Address:</td><td colspan="3">${addr}, ${selectedDistrict}</td></tr>
+                                    <tr><td style="color: #666;">Consumer No:</td><td colspan="3" style="font-weight: bold; color: #0d1321;">${consumerNoVal || 'Pending / Application under process'}</td></tr>
+                                    <tr><td style="color: #666;">KSEB Section:</td><td colspan="3"><strong>${ksebSecVal}</strong></td></tr>
                                 </table>
                             </div>
                             <div>
@@ -1751,8 +1736,9 @@
                                 <tr>
                                     <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">1. Core Generation Equipment</td>
                                     <td style="padding: 0.5rem; border: 1px solid #ddd;">
+                                        • <strong>System Config:</strong> ${sysConfigLabel}<br>
                                         • <strong>PV Modules:</strong> ${panelModel} Mono PERC / TopCon (${panelCount} Nos - 540Wp+)<br>
-                                        • <strong>Grid-Tie Inverter:</strong> ${inverterModel} Approved String Inverter (Max Eff 98%)
+                                        • <strong>Grid-Tie Inverter:</strong> ${inverterModel} String Inverter (${phase})
                                     </td>
                                     <td style="padding: 0.5rem; border: 1px solid #ddd;">IEC 61215, IEC 61730, ALMM Listed, IEC 62109, IEC 61000 (Anti-islanding)</td>
                                     <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center; color: #28a745; font-weight: bold;">✅ Compliant</td>
@@ -1778,7 +1764,7 @@
                                 <tr>
                                     <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">4. Structure &amp; Grid Metering</td>
                                     <td style="padding: 0.5rem; border: 1px solid #ddd;">
-                                        • <strong>Structure:</strong> High-Rise Hot-Dip Galvanized Iron Structure (${roofType} roof)<br>
+                                        • <strong>Structure:</strong> ${roofTypeLabel} (${storeyLabel})<br>
                                         • <strong>Net Metering:</strong> Bi-directional Net Metering &amp; Generation Meter Provisions
                                     </td>
                                     <td style="padding: 0.5rem; border: 1px solid #ddd;">IS 800 Code for Structural Steel, KSEB Soura Guidelines</td>
@@ -1790,7 +1776,7 @@
                         <h4 style="margin: 1.5rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; font-size: 0.9rem; border-bottom: 1px solid #eee; padding-bottom: 0.3rem;">💰 Commercial Value Statement</h4>
                         <div style="background: #fdfefe; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; margin-bottom: 1.5rem; font-size: 0.8rem;">
                             <div style="display: flex; justify-content: space-between; padding: 0.6rem 1rem; border-bottom: 1px solid #eee;">
-                                <span>Supply &amp; Installation cost of ${capacityVal} kWp Grid Tied Rooftop Solar System</span>
+                                <span>Supply &amp; Installation cost of ${sysConfigLabel}</span>
                                 <strong>₹ ${grossLiaison.toLocaleString('en-IN')}</strong>
                             </div>
                             <div style="display: flex; justify-content: space-between; padding: 0.6rem 1rem; border-bottom: 1px solid #eee;">
@@ -1799,8 +1785,12 @@
                             </div>
                             <div style="display: flex; justify-content: space-between; padding: 0.8rem 1rem; background: #f8f9fa; font-weight: 700; color: #0d1321; font-size: 0.88rem;">
                                 <span>Total Gross Quotation contract value (inclusive of GST)</span>
-                                <span>₹ ${grossTotalKseb.toLocaleString('en-IN')}</span>
+                                <span>₹ ${grossTotal.toLocaleString('en-IN')}</span>
                             </div>
+                        </div>
+
+                        <div style="color: #c5221f; font-weight: 600; margin-bottom: 1.5rem; padding: 0.5rem; background: rgba(239, 68, 68, 0.05); border: 1px dashed #c5221f; font-size: 0.8rem;">
+                            Note: The above cost is Gross Project Cost. PM Surya Ghar Subsidy of ₹ ${subsidy.toLocaleString('en-IN')} will be directly credited to customer bank account via DBT. Net customer investment is ₹ ${(grossTotal - subsidy).toLocaleString('en-IN')}.
                         </div>
 
                         <div style="display: flex; justify-content: space-between; margin-top: 3.5rem; font-size: 0.82rem;">
