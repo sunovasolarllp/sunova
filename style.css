@@ -3361,6 +3361,8 @@ form {
     /* Responsive Form Grids: Stack side-by-side inputs cleanly on small mobile screens */
     .form-grid-2col,
     .form-grid-3col,
+    .quote-grid-4,
+    .quote-grid-3,
     .quotation-side-grid {
         grid-template-columns: 1fr !important;
         gap: 0.8rem !important;

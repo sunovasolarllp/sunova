@@ -66,6 +66,80 @@
                 break-inside: auto !important;
             }
         }
+
+        /* Mobile Screen Responsiveness (< 768px) */
+        @media (max-width: 768px) {
+            .quote-grid-4,
+            .quote-grid-3 {
+                grid-template-columns: 1fr !important;
+                gap: 0.8rem !important;
+            }
+
+            #quote-modal-overlay {
+                padding: 0.5rem 0.25rem !important;
+                align-items: flex-start !important;
+            }
+
+            #printable-quote-content {
+                padding: 1.2rem 0.8rem !important;
+                border-radius: 8px !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            #printable-quote-content .no-print {
+                flex-direction: column !important;
+                align-items: stretch !important;
+                gap: 0.6rem !important;
+            }
+
+            #printable-quote-content .no-print > div {
+                justify-content: center !important;
+                width: 100% !important;
+            }
+
+            #printable-quote-content .no-print button {
+                flex: 1 1 auto !important;
+                padding: 0.6rem 0.8rem !important;
+                font-size: 0.8rem !important;
+            }
+
+            /* Responsive proposal internal containers on mobile */
+            #quote-render-area > div {
+                padding: 1rem 0.6rem !important;
+            }
+
+            #quote-render-area div[style*="display: grid"],
+            #quote-render-area div[style*="grid-template-columns"] {
+                grid-template-columns: 1fr !important;
+                gap: 0.8rem !important;
+            }
+
+            #quote-render-area table {
+                display: block !important;
+                overflow-x: auto !important;
+                width: 100% !important;
+                -webkit-overflow-scrolling: touch !important;
+            }
+
+            #quote-render-area th, 
+            #quote-render-area td {
+                font-size: 0.72rem !important;
+                padding: 0.35rem 0.4rem !important;
+            }
+
+            #quote-render-area h1 {
+                font-size: 1.3rem !important;
+            }
+
+            #quote-render-area h2 {
+                font-size: 1.1rem !important;
+            }
+
+            #quote-render-area h3 {
+                font-size: 0.95rem !important;
+            }
+        }
     </style>
 </head>
 <body class="light-theme login-page-body">
@@ -777,11 +851,11 @@
             }
 
             // Retrieve registered custom PIN if set, otherwise default is '2277'
-            const customPin = localStorage.getItem('partner_pin_' + matchedDealer.code) || localStorage.getItem('partner_pin_' + matchedDealer.phone);
+            const customPin = localStorage.getItem('partner_pin_' + matchedDealer.code);
             const requiredPin = customPin || '2277';
 
             if (pin !== requiredPin) {
-                feedback.textContent = customPin ? 'Incorrect security PIN. Please re-enter your 4-digit PIN or click "Forgot / Reset PIN?".' : 'Invalid security PIN. For first-time login, use default PIN: 2277.';
+                feedback.textContent = customPin ? 'Incorrect security PIN. Please enter your custom PIN.' : 'Invalid security PIN. For first-time login, use default PIN: 2277.';
                 feedback.className = 'form-feedback error';
                 feedback.classList.remove('hidden');
                 return;
@@ -847,12 +921,8 @@
             saveBtn.disabled = true;
 
             setTimeout(() => {
-                // Save custom PIN in localStorage for both dealer code and phone
+                // Save custom PIN in localStorage
                 localStorage.setItem('partner_pin_' + tempLoginDealerCode, newPin);
-                const mDealer = DEALERS.find(d => d.code === tempLoginDealerCode);
-                if (mDealer) {
-                    localStorage.setItem('partner_pin_' + mDealer.phone, newPin);
-                }
                 // Complete session login
                 localStorage.setItem('partner_code', tempLoginDealerCode);
                 
@@ -916,10 +986,6 @@
             }
 
             localStorage.setItem('partner_pin_' + activePartnerCode, newPin);
-            const mDealer = DEALERS.find(d => d.code === activePartnerCode);
-            if (mDealer) {
-                localStorage.setItem('partner_pin_' + mDealer.phone, newPin);
-            }
             
             feedback.textContent = 'PIN updated successfully!';
             feedback.className = 'form-feedback';
