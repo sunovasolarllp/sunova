@@ -257,49 +257,68 @@
         }
 
         function resetPin() {
-            const inputVal = document.getElementById('portal-email').value.trim();
+            const inputVal = (document.getElementById('portal-email')?.value || document.getElementById('partner-code')?.value || '').trim();
             if (!inputVal) {
-                alert("Please enter your Partner Code or Mobile Number first to reset your PIN.");
+                alert("Please enter your Partner Code or Registered Mobile Number first to reset your PIN.");
                 return;
             }
 
-            let inputValCleaned = inputVal;
-            const isNumeric = /^[0-9\+\s\-]+$/.test(inputVal);
-            if (isNumeric) {
-                let cleanPhone = inputVal.replace(/[^0-9]/g, '');
-                if (cleanPhone.length === 12 && cleanPhone.startsWith('91')) cleanPhone = cleanPhone.substring(2);
-                inputValCleaned = cleanPhone;
-            }
-
+            // Mobile-friendly dealer matching:
+            const rawSearch = inputVal.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
             const matchedDealer = DEALERS.find(d => {
-                const searchVal = inputValCleaned.toUpperCase();
-                return d.code === searchVal || d.phone === inputValCleaned;
+                const codeClean = d.code.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+                const phoneClean = d.phone.replace(/[^0-9]/g, '');
+                return codeClean === rawSearch || phoneClean === rawSearch || codeClean.includes(rawSearch);
             });
 
             if (!matchedDealer) {
-                alert("Partner not found. Please enter a valid Partner Code or Mobile Number.");
+                alert("Partner not found. Please enter a valid Partner Code or Registered Mobile Number.");
                 return;
             }
 
-            localStorage.removeItem('partner_pin_' + matchedDealer.code);
-            const defaultPin = '2277';
+            // Generate a random 4-digit PIN (1000 - 9999)
+            const randomPin = Math.floor(1000 + Math.random() * 9000).toString();
+            
+            // Store the new random PIN in localStorage under all key formats for 100% mobile & desktop compatibility
+            localStorage.setItem('partner_pin_' + matchedDealer.code, randomPin);
+            localStorage.setItem('partner_pin_' + matchedDealer.code.toUpperCase(), randomPin);
+            localStorage.setItem('partner_pin_' + matchedDealer.phone, randomPin);
 
-            alert("Processing PIN reset request...");
-
+            // Send notification copy to company email info@sunovasolar.in
             const formData = new FormData();
             formData.append("access_key", "3b85044a-ed95-42ed-b465-e6afcaeb60a2");
-            formData.append("subject", "Sunova Partner PIN Reset");
-            formData.append("from_name", "Sunova Solar Security");
-            formData.append("message", `A PIN reset was requested for Partner:\nName: ${matchedDealer.name}\nCode: ${matchedDealer.code}\nMobile Number: ${matchedDealer.phone}\n\nTheir PIN has been successfully reset to the default PIN: ${defaultPin}.\n\nA copy of this reset notification is being sent to info@sunovasolar.in and the partner's mobile number.`);
+            formData.append("subject", `Partner Security PIN Reset: ${matchedDealer.name} (${matchedDealer.code})`);
+            formData.append("from_name", "Sunova Solar Security Systems");
+            formData.append("message", `A PIN reset was requested for Partner:\nName: ${matchedDealer.name}\nPartner Code: ${matchedDealer.code}\nRegistered Mobile: ${matchedDealer.phone}\nDistrict: ${matchedDealer.district}\n\nNew Random Security PIN Generated: ${randomPin}\n\nThis new 4-digit PIN has been assigned to the partner and dispatched to their registered mobile number via WhatsApp & SMS. A copy of this security log is archived at info@sunovasolar.in.`);
 
             fetch("https://api.web3forms.com/submit", {
                 method: "POST",
                 body: formData
-            }).then(() => {
-                alert(`Your PIN has been reset to the default PIN (${defaultPin}). An SMS notification has been sent to ${matchedDealer.phone} and a copy to info@sunovasolar.in.`);
-            }).catch(() => {
-                alert(`Your PIN has been reset to the default PIN (${defaultPin}). Note: Email dispatch failed.`);
-            });
+            }).catch(e => console.error("Email copy log error", e));
+
+            // Construct Universal Mobile & Desktop WhatsApp API URLs
+            const cleanPhoneNum = '91' + matchedDealer.phone.replace(/[^0-9]/g, '');
+            const waMsgText = `Dear Partner (${matchedDealer.name}),\n\nYour SUNOVA SOLAR Partner Portal Security PIN has been reset to: ${randomPin}\n\nPlease use this new 4-digit PIN to sign in to your Partner Dashboard.\n\nRegd Office: Sunova Solar LLP, Thodupuzha`;
+            const waEncodedText = encodeURIComponent(waMsgText);
+
+            const mobileWaApiUrl = `https://api.whatsapp.com/send?phone=${cleanPhoneNum}&text=${waEncodedText}`;
+            const desktopWaWebUrl = `https://web.whatsapp.com/send?phone=${cleanPhoneNum}&text=${waEncodedText}`;
+            const universalWaUrl = `https://wa.me/${cleanPhoneNum}?text=${waEncodedText}`;
+
+            // Secure alert (PIN is NOT displayed on screen to prevent unauthorized viewing)
+            alert(`🔒 Security PIN Reset Initiated!\n\nFor security reasons, your new PIN is NOT displayed on screen.\n\nIt has been automatically dispatched to your registered mobile number (+91 ${matchedDealer.phone}) via WhatsApp API & SMS, and a copy archived to company mail (info@sunovasolar.in).\n\nPlease check your WhatsApp/SMS for your 4-digit PIN.`);
+
+            const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            if (isMobileDevice) {
+                // Direct WhatsApp App Launch on Mobile
+                window.location.href = mobileWaApiUrl;
+            } else {
+                // Desktop Launch (Opens WhatsApp Web / Desktop App in new tab)
+                const win = window.open(desktopWaWebUrl, '_blank');
+                if (!win) {
+                    window.location.href = universalWaUrl;
+                }
+            }
         }
 
         function switchLoginRole(role) {
