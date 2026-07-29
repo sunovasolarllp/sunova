@@ -755,7 +755,7 @@
                 return;
             }
 
-            // Robust mobile-friendly dealer matching:
+            // Mobile-friendly dealer matching:
             const rawSearch = inputVal.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
             const matchedDealer = DEALERS.find(d => {
                 const codeClean = d.code.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
@@ -771,7 +771,7 @@
             // Generate a random 4-digit PIN (1000 - 9999)
             const randomPin = Math.floor(1000 + Math.random() * 9000).toString();
             
-            // Store the new random PIN in localStorage under all key formats for 100% mobile compatibility
+            // Store the new random PIN in localStorage under all key formats for 100% mobile & desktop compatibility
             localStorage.setItem('partner_pin_' + matchedDealer.code, randomPin);
             localStorage.setItem('partner_pin_' + matchedDealer.code.toUpperCase(), randomPin);
             localStorage.setItem('partner_pin_' + matchedDealer.phone, randomPin);
@@ -788,18 +788,28 @@
                 body: formData
             }).catch(e => console.error("Email copy log error", e));
 
-            // Prepare mobile-compatible WhatsApp deep link
-            const waText = encodeURIComponent(`Dear Partner (${matchedDealer.name}),\n\nYour SUNOVA SOLAR Partner Portal Security PIN has been reset to: ${randomPin}\n\nPlease use this new 4-digit PIN to sign in to your Partner Dashboard.\n\nRegd Office: Sunova Solar LLP, Thodupuzha`);
-            const waUrl = `https://api.whatsapp.com/send?phone=91${matchedDealer.phone}&text=${waText}`;
+            // Construct Universal Mobile & Desktop WhatsApp API URLs
+            const cleanPhoneNum = '91' + matchedDealer.phone.replace(/[^0-9]/g, '');
+            const waMsgText = `Dear Partner (${matchedDealer.name}),\n\nYour SUNOVA SOLAR Partner Portal Security PIN has been reset to: ${randomPin}\n\nPlease use this new 4-digit PIN to sign in to your Partner Dashboard.\n\nRegd Office: Sunova Solar LLP, Thodupuzha`;
+            const waEncodedText = encodeURIComponent(waMsgText);
+
+            const mobileWaApiUrl = `https://api.whatsapp.com/send?phone=${cleanPhoneNum}&text=${waEncodedText}`;
+            const desktopWaWebUrl = `https://web.whatsapp.com/send?phone=${cleanPhoneNum}&text=${waEncodedText}`;
+            const universalWaUrl = `https://wa.me/${cleanPhoneNum}?text=${waEncodedText}`;
 
             // Secure alert (PIN is NOT displayed on screen to prevent unauthorized viewing)
-            alert(`🔒 Security PIN Reset Initiated!\n\nFor security reasons, your new PIN is NOT displayed on screen.\n\nIt has been automatically dispatched to your registered mobile number (+91 ${matchedDealer.phone}) via WhatsApp & SMS, and a copy archived to company mail (info@sunovasolar.in).\n\nPlease check your WhatsApp/SMS for your 4-digit PIN.`);
+            alert(`🔒 Security PIN Reset Initiated!\n\nFor security reasons, your new PIN is NOT displayed on screen.\n\nIt has been automatically dispatched to your registered mobile number (+91 ${matchedDealer.phone}) via WhatsApp API & SMS, and a copy archived to company mail (info@sunovasolar.in).\n\nPlease check your WhatsApp/SMS for your 4-digit PIN.`);
 
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            if (isMobile) {
-                window.location.href = waUrl;
+            const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            if (isMobileDevice) {
+                // Direct WhatsApp App Launch on Mobile
+                window.location.href = mobileWaApiUrl;
             } else {
-                window.open(waUrl, '_blank');
+                // Desktop Launch (Opens WhatsApp Web / Desktop App in new tab)
+                const win = window.open(desktopWaWebUrl, '_blank');
+                if (!win) {
+                    window.location.href = universalWaUrl;
+                }
             }
         }
 
