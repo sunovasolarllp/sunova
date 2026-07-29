@@ -1585,19 +1585,21 @@
                                 <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: right; font-weight: 600; color: #28a745;">Included</td>
                             </tr>
                             <tr style="background: rgba(255, 183, 3, 0.05); font-size: 0.78rem; color: #555;">
-                                <td colspan="3" style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">• Supply &amp; Installation Taxable Value (Excl. GST)</td>
-                                <td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">₹ ${taxableVal.toLocaleString('en-IN')}</td>
+                                <td colspan="3" style="padding: 0.45rem 0.5rem; border: 1px solid #ddd;">
+                                    <strong>• Solar PV Equipment &amp; Goods Portion (70% Value @ 12% GST)</strong>
+                                    <div style="font-size: 0.73rem; color: #666; margin-top: 0.15rem;">Taxable: ₹ ${goodsTaxable.toLocaleString('en-IN')} | 12% GST Tax: ₹ ${goodsGstVal.toLocaleString('en-IN')}</div>
+                                </td>
+                                <td style="padding: 0.45rem 0.5rem; border: 1px solid #ddd; text-align: right; font-weight: 600;">₹ ${(goodsTaxable + goodsGstVal).toLocaleString('en-IN')}</td>
                             </tr>
                             <tr style="background: rgba(255, 183, 3, 0.05); font-size: 0.78rem; color: #555;">
-                                <td colspan="3" style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">• Add: GST on PV Equipment &amp; Hardware (70% Value @ 12% GST)</td>
-                                <td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">₹ ${goodsGstVal.toLocaleString('en-IN')}</td>
-                            </tr>
-                            <tr style="background: rgba(255, 183, 3, 0.05); font-size: 0.78rem; color: #555;">
-                                <td colspan="3" style="padding: 0.4rem 0.5rem; border: 1px solid #ddd;">• Add: GST on Erection, Fabrication &amp; Services (30% Value @ 18% GST)</td>
-                                <td style="padding: 0.4rem 0.5rem; border: 1px solid #ddd; text-align: right;">₹ ${servicesGstVal.toLocaleString('en-IN')}</td>
+                                <td colspan="3" style="padding: 0.45rem 0.5rem; border: 1px solid #ddd;">
+                                    <strong>• Erection, Fabrication &amp; Services Portion (30% Value @ 18% GST)</strong>
+                                    <div style="font-size: 0.73rem; color: #666; margin-top: 0.15rem;">Taxable: ₹ ${servicesTaxable.toLocaleString('en-IN')} | 18% GST Tax: ₹ ${servicesGstVal.toLocaleString('en-IN')}</div>
+                                </td>
+                                <td style="padding: 0.45rem 0.5rem; border: 1px solid #ddd; text-align: right; font-weight: 600;">₹ ${(servicesTaxable + servicesGstVal).toLocaleString('en-IN')}</td>
                             </tr>
                             <tr style="background: rgba(255, 183, 3, 0.15);">
-                                <td colspan="3" style="padding: 0.6rem 0.5rem; border: 1px solid #ddd; font-weight: 800; color: #0d1321; font-size: 0.95rem;">Total Turnkey Project Cost (Inclusive of 13.8% GST)</td>
+                                <td colspan="3" style="padding: 0.6rem 0.5rem; border: 1px solid #ddd; font-weight: 800; color: #0d1321; font-size: 0.95rem;">Total Turnkey Project Cost (Inclusive of 13.8% Total GST)</td>
                                 <td style="padding: 0.6rem 0.5rem; border: 1px solid #ddd; text-align: right; font-weight: 800; color: #0d1321; font-size: 1.1rem;">₹ ${grossTotal.toLocaleString('en-IN')}</td>
                             </tr>
                         </table>
@@ -1793,25 +1795,25 @@
                             </tbody>
                         </table>
 
-                        <h4 style="margin: 1.5rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; font-size: 0.9rem; border-bottom: 1px solid #eee; padding-bottom: 0.3rem;">💰 Commercial Value Statement</h4>
+                        <h4 style="margin: 1.5rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; font-size: 0.9rem; border-bottom: 1px solid #eee; padding-bottom: 0.3rem;">💰 Commercial Value &amp; Statutory GST Split Statement</h4>
                         <div style="background: #fdfefe; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; margin-bottom: 1.5rem; font-size: 0.8rem;">
-                            <div style="display: flex; justify-content: space-between; padding: 0.6rem 1rem; border-bottom: 1px solid #eee;">
-                                <span>Supply &amp; Installation Taxable Value (Excl. GST)</span>
-                                <strong>₹ ${taxableVal.toLocaleString('en-IN')}</strong>
+                            <div style="display: flex; justify-content: space-between; padding: 0.6rem 1rem; border-bottom: 1px solid #eee; background: #f8f9fa; font-weight: 700;">
+                                <span>Supply &amp; Installation Taxable Base Value (Excl. GST)</span>
+                                <span>₹ ${taxableVal.toLocaleString('en-IN')}</span>
                             </div>
-                            <div style="display: flex; justify-content: space-between; padding: 0.5rem 1rem; border-bottom: 1px solid #eee; background: #fafafa; color: #555;">
-                                <span>• Add: GST on PV Equipment &amp; Hardware (70% Value @ 12% GST)</span>
-                                <strong>₹ ${goodsGstVal.toLocaleString('en-IN')}</strong>
+                            <div style="display: flex; justify-content: space-between; padding: 0.55rem 1rem; border-bottom: 1px solid #eee; background: #ffffff;">
+                                <span>• Goods Portion Taxable (70% Value @ 12% GST)</span>
+                                <span>Taxable: ₹ ${goodsTaxable.toLocaleString('en-IN')} | GST: <strong>₹ ${goodsGstVal.toLocaleString('en-IN')}</strong></span>
                             </div>
-                            <div style="display: flex; justify-content: space-between; padding: 0.5rem 1rem; border-bottom: 1px solid #eee; background: #fafafa; color: #555;">
-                                <span>• Add: GST on Erection, Fabrication &amp; Services (30% Value @ 18% GST)</span>
-                                <strong>₹ ${servicesGstVal.toLocaleString('en-IN')}</strong>
+                            <div style="display: flex; justify-content: space-between; padding: 0.55rem 1rem; border-bottom: 1px solid #eee; background: #ffffff;">
+                                <span>• Services Portion Taxable (30% Value @ 18% GST)</span>
+                                <span>Taxable: ₹ ${servicesTaxable.toLocaleString('en-IN')} | GST: <strong>₹ ${servicesGstVal.toLocaleString('en-IN')}</strong></span>
                             </div>
-                            <div style="display: flex; justify-content: space-between; padding: 0.6rem 1rem; border-bottom: 1px solid #eee; font-weight: 600;">
-                                <span>Total GST Tax Amount (Effective 13.8% GST)</span>
-                                <strong>₹ ${totalGstVal.toLocaleString('en-IN')}</strong>
+                            <div style="display: flex; justify-content: space-between; padding: 0.6rem 1rem; border-bottom: 1px solid #eee; background: #eef2ff; color: #3730a3; font-weight: 700;">
+                                <span>Total Combined GST Tax Amount (Effective 13.8% GST)</span>
+                                <span>₹ ${totalGstVal.toLocaleString('en-IN')}</span>
                             </div>
-                            <div style="display: flex; justify-content: space-between; padding: 0.8rem 1rem; background: #f8f9fa; font-weight: 700; color: #0d1321; font-size: 0.88rem;">
+                            <div style="display: flex; justify-content: space-between; padding: 0.8rem 1rem; background: #f8f9fa; font-weight: 800; color: #0d1321; font-size: 0.88rem;">
                                 <span>Total Gross Quotation Contract Value (Inclusive of GST)</span>
                                 <span>₹ ${grossTotal.toLocaleString('en-IN')}</span>
                             </div>
