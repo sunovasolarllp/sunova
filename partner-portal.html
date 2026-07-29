@@ -702,8 +702,9 @@
             // Generate a random 4-digit PIN (1000 - 9999)
             const randomPin = Math.floor(1000 + Math.random() * 9000).toString();
             
-            // Store the new random PIN in localStorage
+            // Store the new random PIN in localStorage under both code and phone so all previous configurations remain intact
             localStorage.setItem('partner_pin_' + matchedDealer.code, randomPin);
+            localStorage.setItem('partner_pin_' + matchedDealer.phone, randomPin);
 
             // Send notification copy to company email info@sunovasolar.in
             const formData = new FormData();
