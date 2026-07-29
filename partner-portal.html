@@ -240,7 +240,7 @@
                                     <option value="">-- Select District to load KSEB sections --</option>
                                 </select>
                             </div>
-                        <div class="quote-grid-3" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                        <div class="quote-grid-4" style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
                             <div class="form-group" style="margin-bottom: 0;">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">System Configuration</label>
                                 <select id="quote-sys-config" onchange="handleSysConfigChange(this.value)" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
@@ -260,6 +260,14 @@
                                     <option value="Emmvee" selected>Emmvee TOPCon 560W</option>
                                     <option value="Adani">Adani TOPCon 610W</option>
                                     <option value="Waaree">Waaree TOPCon / Mono</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Inverter Make</label>
+                                <select id="quote-inverter-brand" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                                    <option value="Eastman" selected>Eastman String Inverter</option>
+                                    <option value="Deye">Deye High Efficiency Inverter</option>
+                                    <option value="Growatt">Growatt String Inverter</option>
                                 </select>
                             </div>
                         </div>
@@ -1292,25 +1300,27 @@
         }
 
         async function generateQuotation(type) {
-            const name = document.getElementById('quote-cust-name').value.trim().toUpperCase();
-            const phone = document.getElementById('quote-cust-phone').value.trim();
-            const addr = document.getElementById('quote-cust-addr').value.trim();
-            const capacityVal = parseFloat(document.getElementById('quote-capacity').value);
-            const panelModel = document.getElementById('quote-panel-brand').value;
-            const inverterModel = document.getElementById('quote-inverter-brand').value;
-            const roofType = document.getElementById('quote-roof-type').value;
-            const phase = document.getElementById('quote-phase').value;
-            const payAdvance = document.getElementById('quote-pay-advance').value || '60';
-            const payDelivery = document.getElementById('quote-pay-delivery').value || '30';
-            const payCompletion = document.getElementById('quote-pay-completion').value || '10';
-            if (!name || !phone || !addr || isNaN(capacityVal) || capacityVal <= 0) {
-                alert('Please enter all customer details, including mobile number, and system capacity first.');
-                return;
-            }
-            if (!/^[6-9]\d{9}$/.test(phone)) {
-                alert('Please enter a valid 10-digit mobile number starting with 6, 7, 8, or 9.');
-                return;
-            }
+            try {
+                const name = (document.getElementById('quote-cust-name')?.value || '').trim().toUpperCase();
+                const phone = (document.getElementById('quote-cust-phone')?.value || '').trim();
+                const addr = (document.getElementById('quote-cust-addr')?.value || '').trim();
+                const capacityVal = parseFloat(document.getElementById('quote-capacity')?.value || '3');
+                const panelModel = document.getElementById('quote-panel-brand')?.value || 'Emmvee';
+                const inverterModel = document.getElementById('quote-inverter-brand')?.value || 'Eastman String Inverter';
+                const roofType = document.getElementById('quote-roof-type')?.value || 'Flat Standard';
+                const phase = document.getElementById('quote-phase')?.value || 'Single Phase';
+                const payAdvance = document.getElementById('quote-pay-advance')?.value || '60';
+                const payDelivery = document.getElementById('quote-pay-delivery')?.value || '30';
+                const payCompletion = document.getElementById('quote-pay-completion')?.value || '10';
+                
+                if (!name || !phone || !addr || isNaN(capacityVal) || capacityVal <= 0) {
+                    alert('Please enter all customer details (Name, Mobile Number, and Address) first.');
+                    return;
+                }
+                if (!/^[6-9]\d{9}$/.test(phone)) {
+                    alert('Please enter a valid 10-digit mobile number starting with 6, 7, 8, or 9.');
+                    return;
+                }
             
             const activePartnerCode = localStorage.getItem('partner_code') || 'TVM-JOBI';
             const dealer = DEALERS.find(d => d.code === activePartnerCode) || DEALERS[0];
@@ -1827,21 +1837,25 @@
             }
             document.getElementById('quote-modal-overlay').classList.remove('hidden');
             
-            // Store current quote data for saving/sharing
-            currentQuoteData = {
-                partnerCode: activePartnerCode,
-                partnerName: dealer.name,
-                quoteNo: quoteNo,
-                date: dateStr,
-                customerName: name,
-                customerPhone: phone,
-                customerAddr: addr,
-                ksebSection: document.getElementById('quote-kseb-section').value,
-                capacity: capacityVal,
-                grossTotal: grossTotal,
-                html: quoteHTML,
-                timestamp: new Date().toISOString()
-            };
+                // Store current quote data for saving/sharing
+                currentQuoteData = {
+                    partnerCode: activePartnerCode,
+                    partnerName: dealer.name,
+                    quoteNo: quoteNo,
+                    date: dateStr,
+                    customerName: name,
+                    customerPhone: phone,
+                    customerAddr: addr,
+                    ksebSection: document.getElementById('quote-kseb-section')?.value || '-',
+                    capacity: capacityVal,
+                    grossTotal: grossTotal,
+                    html: quoteHTML,
+                    timestamp: new Date().toISOString()
+                };
+            } catch(err) {
+                console.error('[Quotation Error]', err);
+                alert('Could not generate quotation: ' + err.message);
+            }
         }
 
         function toggleAllocatedLeads() {
