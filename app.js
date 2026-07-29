@@ -5217,6 +5217,16 @@ function handleFormSubmit(event) {
     const capacity = document.getElementById('form-size').value;
     const systemModelVal = document.getElementById('form-system-model').value;
     const systemModelLabel = systemModelVal === 'hybrid' ? 'Hybrid (With Battery Backup)' : 'On-Grid';
+    
+    // New Extended Form Fields
+    const roofType = document.getElementById('form-roof-type') ? document.getElementById('form-roof-type').value : 'Flat Concrete Rooftop';
+    const panelBrand = document.getElementById('form-panel-brand') ? document.getElementById('form-panel-brand').value : 'Sunova Recommended';
+    const inverterBrand = document.getElementById('form-inverter-brand') ? document.getElementById('form-inverter-brand').value : 'Sunova Recommended';
+    const ksebBill = document.getElementById('form-kseb-bill') ? document.getElementById('form-kseb-bill').value : '₹2,000 – ₹5,000';
+    const consumerNo = document.getElementById('form-consumer-no') ? document.getElementById('form-consumer-no').value.trim() : '';
+    const contactPref = document.getElementById('form-contact-pref') ? document.getElementById('form-contact-pref').value : 'WhatsApp & Call';
+    const timeline = document.getElementById('form-timeline') ? document.getElementById('form-timeline').value : 'Immediate';
+    const subsidyRequired = document.getElementById('form-subsidy') && document.getElementById('form-subsidy').checked ? 'Yes (PM Surya Ghar)' : 'No';
     const loanRequired = document.getElementById('form-loan').checked ? 'Yes' : 'No';
     const message = document.getElementById('form-message').value.trim();
     
@@ -5244,7 +5254,7 @@ function handleFormSubmit(event) {
     showFormFeedback('Processing your site survey request...', 'info');
 
     // 1. Immediately Save Inquiry locally (shared with partner logins & staff portal)
-    const systemDesc = connection === 'residential' ? 'Residential (Home Solar)' : 'Commercial / Business';
+    const systemDesc = connection === 'residential' ? 'Residential (Home Solar)' : (connection === 'commercial' ? 'Commercial / Business' : connection.toUpperCase());
     try {
         const inquiries = JSON.parse(localStorage.getItem('sunova_inquiries')) || [];
         const newInquiry = {
@@ -5257,7 +5267,15 @@ function handleFormSubmit(event) {
             category: systemDesc,
             model: systemModelLabel,
             capacity: capacity,
+            roofType: roofType,
+            panelBrand: panelBrand,
+            inverterBrand: inverterBrand,
+            ksebBill: ksebBill,
+            consumerNo: consumerNo || 'Not Provided',
+            subsidy: subsidyRequired,
             loan: loanRequired,
+            contactPref: contactPref,
+            timeline: timeline,
             message: message || 'None',
             partner: dealer.name,
             partnerCode: dealer.code,
@@ -5279,7 +5297,15 @@ function handleFormSubmit(event) {
 - System Category: ${systemDesc}
 - System Model: ${systemModelLabel}
 - Capacity: ${capacity} kW
+- Roof Structure: ${roofType}
+- Panel Pref: ${panelBrand}
+- Inverter Pref: ${inverterBrand}
+- Bi-Monthly Bill: ${ksebBill}
+- Consumer No: ${consumerNo || 'Not Provided'}
+- PM Surya Ghar Subsidy: ${subsidyRequired}
 - Bank Loan Required: ${loanRequired}
+- Contact Pref: ${contactPref}
+- Timeline: ${timeline}
 - Site Details: ${message || 'None'}
 - Assigned Partner: ${dealer.name}`;
 
@@ -5301,7 +5327,15 @@ function handleFormSubmit(event) {
         "System Type": connection,
         "System Technology Model": systemModelLabel,
         "Requested Capacity": capacity + ' kWp',
+        "Roof Structure": roofType,
+        "Preferred Panel": panelBrand,
+        "Preferred Inverter": inverterBrand,
+        "KSEB Bill": ksebBill,
+        "KSEB Consumer No": consumerNo || 'Not Provided',
+        "PM Surya Ghar Subsidy": subsidyRequired,
         "Bank Loan Required": loanRequired,
+        "Preferred Contact": contactPref,
+        "Timeline": timeline,
         "Message / Site Details": message || 'None',
         "Matched Dealer": `${dealer.name} (${dealer.code})`,
         subject: `New Solar Inquiry from ${name} (${location})`
