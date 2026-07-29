@@ -1424,6 +1424,15 @@
                 
                 grossTotal = basePrice + roofAddon + storeyAddon;
                 
+                let subsidy = 0;
+                if (capacityVal === 1) {
+                    subsidy = 30000;
+                } else if (capacityVal === 2) {
+                    subsidy = 60000;
+                } else if (capacityVal >= 3) {
+                    subsidy = 78000;
+                }
+                
                 const gst = grossTotal * 0.138;
                 const net = grossTotal - gst;
                 
