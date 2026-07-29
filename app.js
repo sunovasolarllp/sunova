@@ -542,16 +542,61 @@ function performCalculationsDirect(capacity, units, skipSyncForm = false, syncBi
     // 4. Generation capacity (120 units per kW monthly)
     const generationPerMonth = Math.round(capacity * 120);
     
-    // 5. Total Installation Cost (estimated Indian averages with discount rates)
-// 5. Total Installation Cost (estimated Indian averages with discount rates)
+    // 5. Official Plant Pricing Rates & Structure Add-On Calculations
     let rawCost = 0;
+    const isAdani = (brandSelect && brandSelect.value === '610');
+    const phaseSelect = document.getElementById('calc-phase');
+    const phaseVal = phaseSelect ? phaseSelect.value : 'Single Phase';
+    const is3Phase = (phaseVal === 'Three Phase');
+    
     if (currentMode === 'residential') {
-        // Linear price: 50,000 per kW + 70,000 base
-        rawCost = Math.round(capacity * 50000 + 70000);
+        if (capacity === 3.0) {
+            rawCost = isAdani ? 210000 : 200000;
+        } else if (capacity === 5.0) {
+            if (isAdani) {
+                rawCost = is3Phase ? 320000 : 300000;
+            } else {
+                rawCost = is3Phase ? 310000 : 290000;
+            }
+        } else {
+            // Linear rate per kWp for custom capacity values
+            let ratePerKw = isAdani ? 66000 : 64000;
+            if (is3Phase) ratePerKw += 3000;
+            rawCost = Math.round(capacity * ratePerKw);
+        }
     } else {
-        // Commercial bulk pricing (unchanged)
-        rawCost = capacity * 52000;
+        // Commercial bulk pricing
+        rawCost = Math.round(capacity * 52000);
     }
+    
+    // Roof Structure Add-ons & Discounts
+    let roofAddon = 0;
+    const roofSelect = document.getElementById('calc-roof-type');
+    const roofVal = roofSelect ? roofSelect.value : 'Flat Standard';
+    const is3kW = (capacity <= 3.0);
+    
+    if (roofVal === 'Flat Self Structure') {
+        roofAddon = is3kW ? -15000 : -25000;
+    } else if (roofVal === 'Flat Truss') {
+        roofAddon = is3kW ? 3500 : 6500;
+    } else if (roofVal === 'Slanted No Truss') {
+        roofAddon = is3kW ? 5000 : 6000;
+    } else if (roofVal === 'Slanted With Truss') {
+        roofAddon = is3kW ? 6500 : 8500;
+    }
+    
+    // Storey Surcharges
+    let storeyAddon = 0;
+    const storeySelect = document.getElementById('calc-storey');
+    const storeyNum = storeySelect ? parseInt(storeySelect.value, 10) : 1;
+    
+    if (roofVal.startsWith('Slanted')) {
+        if (storeyNum >= 2) storeyAddon = (storeyNum - 1) * 5000;
+    } else {
+        if (storeyNum >= 3) storeyAddon = (storeyNum - 2) * 5000;
+    }
+    
+    rawCost = rawCost + roofAddon + storeyAddon;
     
     // 6. PM Surya Ghar Subsidy
     let subsidy = 0;

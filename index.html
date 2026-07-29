@@ -1001,12 +1001,39 @@
                             <span class="metric-label">Solar Panel Brand</span>
                             <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-top: 0.25rem;">
                                 <select id="calc-panel-brand" onchange="handlePanelBrandChange()" style="background: rgba(255, 255, 255, 0.05); color: var(--color-text); border: 1px solid var(--color-border); border-radius: 8px; padding: 0.35rem 0.5rem; font-size: 0.8rem; font-family: var(--font-body); cursor: pointer; outline: none; flex-grow: 1; min-width: 0; max-width: 140px;">
-                                    <option value="550" selected>Waaree</option>
+                                    <option value="560" selected>Emmvee</option>
                                     <option value="610">Adani</option>
-                                    <option value="560">Emmvee</option>
+                                    <option value="550">Waaree</option>
                                 </select>
-                                <span class="metric-value" style="white-space: nowrap; flex-shrink: 0;"><span id="out-panels">8</span> <span class="unit">Nos</span></span>
+                                <span class="metric-value" style="white-space: nowrap; flex-shrink: 0;"><span id="out-panels">6</span> <span class="unit">Nos</span></span>
                             </div>
+                        </div>
+
+                        <div class="metric-box" style="justify-content: space-between;">
+                            <span class="metric-label">Electrical Phase &amp; Structure</span>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; margin-top: 0.25rem; width: 100%;">
+                                <select id="calc-phase" onchange="handlePanelBrandChange()" style="background: rgba(255, 255, 255, 0.05); color: var(--color-text); border: 1px solid var(--color-border); border-radius: 8px; padding: 0.3rem 0.4rem; font-size: 0.75rem; cursor: pointer; outline: none; width: 100%;">
+                                    <option value="Single Phase" selected>Single Phase</option>
+                                    <option value="Three Phase">Three Phase</option>
+                                </select>
+                                <select id="calc-roof-type" onchange="handlePanelBrandChange()" style="background: rgba(255, 255, 255, 0.05); color: var(--color-text); border: 1px solid var(--color-border); border-radius: 8px; padding: 0.3rem 0.4rem; font-size: 0.75rem; cursor: pointer; outline: none; width: 100%;">
+                                    <option value="Flat Standard" selected>Flat Roof (Standard)</option>
+                                    <option value="Flat Self Structure">Flat (Self Structure Discount)</option>
+                                    <option value="Flat Truss">Flat (With Truss Work)</option>
+                                    <option value="Slanted No Truss">Slanted (No Truss)</option>
+                                    <option value="Slanted With Truss">Slanted (With Truss)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="metric-box" style="justify-content: space-between;">
+                            <span class="metric-label">Building Storeys / Floor</span>
+                            <select id="calc-storey" onchange="handlePanelBrandChange()" style="background: rgba(255, 255, 255, 0.05); color: var(--color-text); border: 1px solid var(--color-border); border-radius: 8px; padding: 0.35rem 0.5rem; font-size: 0.8rem; font-family: var(--font-body); cursor: pointer; outline: none; width: 100%; margin-top: 0.25rem;">
+                                <option value="1" selected>1-Storey (Ground Floor)</option>
+                                <option value="2">2-Storey (1st Floor)</option>
+                                <option value="3">3-Storey (2nd Floor)</option>
+                                <option value="4">4-Storey &amp; Above</option>
+                            </select>
                         </div>
                         <div class="metric-box">
                             <span class="metric-label">Required Roof Area</span>
