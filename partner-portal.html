@@ -13,6 +13,60 @@
     
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css?v=4.2">
+    
+    <style>
+        /* Printable & PDF Page Paragraph Arrangement Rules */
+        @media print {
+            body {
+                background: white !important;
+                color: #222 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .no-print, header, footer, nav, .back-home-link, .login-wrapper {
+                display: none !important;
+            }
+            #quote-modal-overlay {
+                position: absolute !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 100% !important;
+                height: auto !important;
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                overflow: visible !important;
+                box-shadow: none !important;
+            }
+            #printable-quote-content {
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                max-width: 100% !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+            }
+            
+            /* Arrange pages paragraph by paragraph and prevent awkward splits */
+            p, ul, ol, tr, blockquote, .pdf-block, .quote-section {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            h1, h2, h3, h4, h5, h6 {
+                page-break-after: avoid !important;
+                break-after: avoid !important;
+            }
+            p {
+                orphans: 3 !important;
+                widows: 3 !important;
+                margin-bottom: 0.6rem !important;
+            }
+            table {
+                page-break-inside: auto !important;
+                break-inside: auto !important;
+            }
+        }
+    </style>
 </head>
 <body class="light-theme login-page-body">
     <div class="login-wrapper">
@@ -1007,7 +1061,7 @@
             const printHtml = (quote) => {
                 const w = window.open('', '_blank');
                 w.document.write('<html><head><title>Print Quote</title>');
-                w.document.write('<style>body { font-family: sans-serif; padding: 2rem; } @media print { .no-print { display: none !important; } }</style>');
+                w.document.write('<style>body { font-family: sans-serif; padding: 2rem; color: #222; } @media print { .no-print { display: none !important; } p, ul, ol, tr, blockquote, .pdf-block { page-break-inside: avoid !important; break-inside: avoid !important; } h1, h2, h3, h4, h5, h6 { page-break-after: avoid !important; break-after: avoid !important; } p { widows: 3; orphans: 3; margin-bottom: 0.6rem; } table { page-break-inside: auto !important; break-inside: auto !important; } }</style>');
                 w.document.write('</head><body>');
                 w.document.write('<div class="no-print" style="text-align: right; margin-bottom: 20px;"><button onclick="window.print()" style="padding: 10px 20px; font-size: 16px; cursor: pointer; background: #0d1321; color: white; border: none; border-radius: 5px;">Print Quotation</button></div>');
                 w.document.write(quote.html);
@@ -1504,7 +1558,7 @@
                         </div>
 
                         <!-- SECTION 1: COVER LETTER -->
-                        <div style="background: #fafafa; border: 1px solid #e5e7eb; border-radius: 6px; padding: 1.2rem; margin-bottom: 2rem;">
+                        <div class="pdf-block" style="background: #fafafa; border: 1px solid #e5e7eb; border-radius: 6px; padding: 1.2rem; margin-bottom: 2rem; page-break-inside: avoid; break-inside: avoid;">
                             <p style="margin-top: 0;"><strong>Sub:-</strong> Proposal for Design, Supply, Installation &amp; Commissioning of ${sysConfigLabel}.</p>
                             
                             <p style="margin-bottom: 0.3rem;"><strong>To,</strong></p>
@@ -1528,7 +1582,7 @@
                         </div>
 
                         <!-- SECTION 2: INTRODUCTION & COMPANY VISION -->
-                        <div style="margin-bottom: 2rem;">
+                        <div class="pdf-block" style="margin-bottom: 2rem; page-break-inside: avoid; break-inside: avoid;">
                             <h3 style="color: #0056b3; font-family: 'Outfit', sans-serif; font-size: 1.1rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; margin-top: 0;">1. INTRODUCTION &amp; COMPANY PROFILE</h3>
                             <p><strong>SUNOVA SOLAR LLP</strong> is a trustworthy Firm that is dedicated to popularizing the use of the never failing Solar Energy replacing the traditional forms energy.</p>
                             <p>The Head Office of the Firm being at Thodupuzha, Idukki, SUNOVA SOLAR LLP has very efficient and dedicated partners in all the 14 Districts of Kerala providing easy access to our Customers and aspirants whereof. Partner: <strong>${dealer.name}</strong>.</p>
@@ -1546,7 +1600,7 @@
                         </div>
 
                         <!-- SECTION 3: TECHNICAL KNOWLEDGE & WORKING PRINCIPLE -->
-                        <div style="margin-bottom: 2rem; background: #fff8f0; border: 1px solid #ffe8cc; border-radius: 6px; padding: 1.2rem;">
+                        <div class="pdf-block" style="margin-bottom: 2rem; background: #fff8f0; border: 1px solid #ffe8cc; border-radius: 6px; padding: 1.2rem; page-break-inside: avoid; break-inside: avoid;">
                             <h3 style="color: #d97706; font-family: 'Outfit', sans-serif; font-size: 1.1rem; margin-top: 0; border-bottom: 1px solid #fbd38d; padding-bottom: 0.4rem;">2. HARNESSING SOLAR ENERGY &amp; SYSTEM TYPES</h3>
                             <p><strong>Solar Panels:</strong> Installed on rooftops of buildings/houses with their face slanting to south direction where from most sunlight falls down. When solar light falls on the Silicon Panels, there occurs a photovoltaic reaction leading to a flow of electrons, that is electric current! Since the electrons flow in one direction, this current is called Direct Current or DC. We have to convert this DC to Alternating Current or AC because, in India, all electrical equipments are designed to function in AC only. This conversion of DC to AC is made possible by an Inverter installed at some convenient place in the building/house. The AC coming from the Inverter is fed into the house wiring. The net result is that all your electrical equipments work on the energy derived from the Sun.</p>
                             
@@ -1565,7 +1619,7 @@
                         </div>
 
                         <!-- SECTION 4: ESTIMATE DETAILS & BILL OF MATERIALS -->
-                        <div style="margin-bottom: 2rem;">
+                        <div class="pdf-block" style="margin-bottom: 2rem; page-break-inside: avoid; break-inside: avoid;">
                             <h3 style="color: #0056b3; font-family: 'Outfit', sans-serif; font-size: 1.1rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; margin-top: 0;">3. ESTIMATE DETAILS &amp; BILL OF MATERIALS (${capacityVal}KW ON-GRID SYSTEM)</h3>
                             <table style="width: 100%; border-collapse: collapse; margin-bottom: 1rem; font-size: 0.78rem; text-align: left;">
                                 <tr style="background: #0056b3; color: #fff;">
@@ -1632,7 +1686,7 @@
                         </div>
 
                         <!-- SECTION 5: OFFER PRICE & ITEMIZED COMMERCIAL BREAKDOWN -->
-                        <div style="margin-bottom: 2rem;">
+                        <div class="pdf-block" style="margin-bottom: 2rem; page-break-inside: avoid; break-inside: avoid;">
                             <h3 style="color: #0056b3; font-family: 'Outfit', sans-serif; font-size: 1.1rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; margin-top: 0;">4. OFFER PRICE &amp; ITEMIZATION FOR ${capacityVal} KW ONGRID SYSTEM</h3>
                             
                             <table style="width: 100%; border-collapse: collapse; margin-bottom: 1rem; font-size: 0.82rem;">
@@ -1685,7 +1739,7 @@
                         </div>
 
                         <!-- SECTION 6: KSEB FEASIBILITY, ROI & POWER GENERATION DATA -->
-                        <div style="margin-bottom: 2rem;">
+                        <div class="pdf-block" style="margin-bottom: 2rem; page-break-inside: avoid; break-inside: avoid;">
                             <h3 style="color: #0056b3; font-family: 'Outfit', sans-serif; font-size: 1.1rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; margin-top: 0;">5. KSEB FEES, ROI &amp; POWER GENERATION DATA</h3>
                             
                             <h4 style="margin: 0.8rem 0 0.4rem 0; font-size: 0.88rem; color: #333;">ESTIMATE DETAILS FOR KSEB FEASIBILITY AND REGISTRATION FEES:</h4>
@@ -1742,7 +1796,7 @@
                         </div>
 
                         <!-- SECTION 7: NOTES, EXCLUSIONS, PAYMENT & WARRANTY -->
-                        <div style="margin-bottom: 2rem;">
+                        <div class="pdf-block" style="margin-bottom: 2rem; page-break-inside: avoid; break-inside: avoid;">
                             <h3 style="color: #0056b3; font-family: 'Outfit', sans-serif; font-size: 1.1rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; margin-top: 0;">6. TERMS, EXCLUSIONS &amp; WARRANTY DETAILS</h3>
                             
                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; font-size: 0.78rem;">
@@ -1792,7 +1846,7 @@
                         </div>
 
                         <!-- SECTION 8: FAMOUS QUOTE & SIGNATURE -->
-                        <div style="background: #fafafa; border: 1px solid #e5e7eb; border-radius: 6px; padding: 1rem; text-align: center; margin-bottom: 2rem;">
+                        <div class="pdf-block" style="background: #fafafa; border: 1px solid #e5e7eb; border-radius: 6px; padding: 1rem; text-align: center; margin-bottom: 2rem; page-break-inside: avoid; break-inside: avoid;">
                             <blockquote style="margin: 0; font-style: italic; color: #d97706; font-size: 0.88rem; font-weight: bold;">
                                 “I’D PUT MY MONEY ON THE SUN AND SOLAR ENERGY WHAT A SOURCE OF POWER...! I HOPE WE DON’T HAVE TO WAIT UNTIL OIL AND COAL RUN OUT BEFORE WE TACKLE THAT.”
                             </blockquote>
@@ -1800,7 +1854,7 @@
                         </div>
 
                         <!-- Signatures & Acceptance Footer -->
-                        <div style="page-break-inside: avoid; border-top: 2px solid #0056b3; padding-top: 1.2rem; margin-top: 1.5rem;">
+                        <div class="pdf-block" style="page-break-inside: avoid; break-inside: avoid; border-top: 2px solid #0056b3; padding-top: 1.2rem; margin-top: 1.5rem;">
                             <h4 style="margin: 0 0 0.8rem 0; font-family: 'Outfit', sans-serif; color: #0d1321;">CUSTOMER ACCEPTANCE &amp; SIGNATURE</h4>
                             <p style="font-size: 0.78rem; margin-bottom: 1.5rem;">I hereby confirm that I have reviewed the complete proposal specifications, estimate breakdown, payment terms, and conditions above, and agree to proceed with installation.</p>
                             
@@ -1859,7 +1913,7 @@
                             Subject: Solar rooftop grid-tied feasibility proforma &amp; components compliance checklist for ${sysConfigLabel} (${phase}) net-metering application.
                         </div>
 
-                        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; margin-bottom: 1.5rem; font-size: 0.8rem;">
+                        <div class="pdf-block" style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; margin-bottom: 1.5rem; font-size: 0.8rem; page-break-inside: avoid; break-inside: avoid;">
                             <div>
                                 <strong style="color: #0d1321; display: block; margin-bottom: 0.3rem;">Consumer Details (Site Address)</strong>
                                 <table style="width: 100%; border-collapse: collapse;">
@@ -1882,8 +1936,9 @@
                             </div>
                         </div>
 
-                        <h4 style="margin: 1.5rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; font-size: 0.9rem; border-bottom: 1px solid #eee; padding-bottom: 0.3rem;">📋 Components Technical Compliance details (Grouped by System Domain)</h4>
-                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.78rem; text-align: left;">
+                        <div class="pdf-block" style="page-break-inside: avoid; break-inside: avoid;">
+                            <h4 style="margin: 1.5rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; font-size: 0.9rem; border-bottom: 1px solid #eee; padding-bottom: 0.3rem;">📋 Components Technical Compliance details (Grouped by System Domain)</h4>
+                            <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.78rem; text-align: left;">
                             <thead>
                                 <tr style="background: #f1f3f5; color: #0d1321; font-weight: 600;">
                                     <th style="padding: 0.5rem; border: 1px solid #ddd; width: 160px;">Category Domain</th>
@@ -1932,48 +1987,53 @@
                                 </tr>
                             </tbody>
                         </table>
+                        </div>
 
-                        <h4 style="margin: 1.5rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; font-size: 0.9rem; border-bottom: 1px solid #eee; padding-bottom: 0.3rem;">💰 Commercial Value &amp; Statutory GST Split Statement</h4>
-                        <div style="background: #fdfefe; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; margin-bottom: 1.5rem; font-size: 0.8rem;">
-                            <div style="display: flex; justify-content: space-between; padding: 0.6rem 1rem; border-bottom: 1px solid #eee; background: #f8f9fa; font-weight: 700;">
-                                <span>Supply &amp; Installation Taxable Base Value (Excl. GST)</span>
-                                <span>₹ ${taxableVal.toLocaleString('en-IN')}</span>
+                        <div class="pdf-block" style="page-break-inside: avoid; break-inside: avoid; margin-bottom: 1.5rem;">
+                            <h4 style="margin: 1.5rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; font-size: 0.9rem; border-bottom: 1px solid #eee; padding-bottom: 0.3rem;">💰 Commercial Value &amp; Statutory GST Split Statement</h4>
+                            <div style="background: #fdfefe; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; margin-bottom: 1.5rem; font-size: 0.8rem;">
+                                <div style="display: flex; justify-content: space-between; padding: 0.6rem 1rem; border-bottom: 1px solid #eee; background: #f8f9fa; font-weight: 700;">
+                                    <span>Supply &amp; Installation Taxable Base Value (Excl. GST)</span>
+                                    <span>₹ ${taxableVal.toLocaleString('en-IN')}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 0.55rem 1rem; border-bottom: 1px solid #eee; background: #ffffff;">
+                                    <span>• Goods Portion Taxable (70% Value @ 12% GST)</span>
+                                    <span>Taxable: ₹ ${goodsTaxable.toLocaleString('en-IN')} | GST: <strong>₹ ${goodsGstVal.toLocaleString('en-IN')}</strong></span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 0.55rem 1rem; border-bottom: 1px solid #eee; background: #ffffff;">
+                                    <span>• Services Portion Taxable (30% Value @ 18% GST)</span>
+                                    <span>Taxable: ₹ ${servicesTaxable.toLocaleString('en-IN')} | GST: <strong>₹ ${servicesGstVal.toLocaleString('en-IN')}</strong></span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 0.6rem 1rem; border-bottom: 1px solid #eee; background: #eef2ff; color: #3730a3; font-weight: 700;">
+                                    <span>Total Combined GST Tax Amount (Effective 13.8% GST)</span>
+                                    <span>₹ ${totalGstVal.toLocaleString('en-IN')}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 0.8rem 1rem; background: #f8f9fa; font-weight: 800; color: #0d1321; font-size: 0.88rem;">
+                                    <span>Total Gross Quotation Contract Value (Inclusive of GST)</span>
+                                    <span>₹ ${grossTotal.toLocaleString('en-IN')}</span>
+                                </div>
                             </div>
-                            <div style="display: flex; justify-content: space-between; padding: 0.55rem 1rem; border-bottom: 1px solid #eee; background: #ffffff;">
-                                <span>• Goods Portion Taxable (70% Value @ 12% GST)</span>
-                                <span>Taxable: ₹ ${goodsTaxable.toLocaleString('en-IN')} | GST: <strong>₹ ${goodsGstVal.toLocaleString('en-IN')}</strong></span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; padding: 0.55rem 1rem; border-bottom: 1px solid #eee; background: #ffffff;">
-                                <span>• Services Portion Taxable (30% Value @ 18% GST)</span>
-                                <span>Taxable: ₹ ${servicesTaxable.toLocaleString('en-IN')} | GST: <strong>₹ ${servicesGstVal.toLocaleString('en-IN')}</strong></span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; padding: 0.6rem 1rem; border-bottom: 1px solid #eee; background: #eef2ff; color: #3730a3; font-weight: 700;">
-                                <span>Total Combined GST Tax Amount (Effective 13.8% GST)</span>
-                                <span>₹ ${totalGstVal.toLocaleString('en-IN')}</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; padding: 0.8rem 1rem; background: #f8f9fa; font-weight: 800; color: #0d1321; font-size: 0.88rem;">
-                                <span>Total Gross Quotation Contract Value (Inclusive of GST)</span>
-                                <span>₹ ${grossTotal.toLocaleString('en-IN')}</span>
+
+                            <div style="color: #c5221f; font-weight: 600; margin-bottom: 1.5rem; padding: 0.5rem; background: rgba(239, 68, 68, 0.05); border: 1px dashed #c5221f; font-size: 0.8rem;">
+                                Note: The above cost is Gross Project Cost. PM Surya Ghar Subsidy of ₹ ${subsidy.toLocaleString('en-IN')} will be directly credited to customer bank account via DBT. Net customer investment is ₹ ${(grossTotal - subsidy).toLocaleString('en-IN')}.
                             </div>
                         </div>
 
-                        <div style="color: #c5221f; font-weight: 600; margin-bottom: 1.5rem; padding: 0.5rem; background: rgba(239, 68, 68, 0.05); border: 1px dashed #c5221f; font-size: 0.8rem;">
-                            Note: The above cost is Gross Project Cost. PM Surya Ghar Subsidy of ₹ ${subsidy.toLocaleString('en-IN')} will be directly credited to customer bank account via DBT. Net customer investment is ₹ ${(grossTotal - subsidy).toLocaleString('en-IN')}.
-                        </div>
-
-                        <div style="display: flex; justify-content: space-between; margin-top: 3.5rem; font-size: 0.82rem;">
-                            <div style="text-align: center; width: 180px;">
-                                <div style="border-bottom: 1px solid #999; height: 35px; margin-bottom: 0.35rem;"></div>
-                                <span>Signature of Consumer</span>
+                        <div class="pdf-block" style="page-break-inside: avoid; break-inside: avoid;">
+                            <div style="display: flex; justify-content: space-between; margin-top: 3.5rem; font-size: 0.82rem;">
+                                <div style="text-align: center; width: 180px;">
+                                    <div style="border-bottom: 1px solid #999; height: 35px; margin-bottom: 0.35rem;"></div>
+                                    <span>Signature of Consumer</span>
+                                </div>
+                                <div style="text-align: center; width: 220px;">
+                                    <div style="font-family: 'Outfit', sans-serif; font-weight: 700; color: #0d1321; font-size: 0.84rem; margin-bottom: 0.35rem;">For SUNOVA SOLAR LLP</div>
+                                    <div style="border-bottom: 1px solid #999; height: 18px; margin-bottom: 0.35rem;"></div>
+                                    <span>Empaneled Channel Partner Stamp</span>
+                                </div>
                             </div>
-                            <div style="text-align: center; width: 220px;">
-                                <div style="font-family: 'Outfit', sans-serif; font-weight: 700; color: #0d1321; font-size: 0.84rem; margin-bottom: 0.35rem;">For SUNOVA SOLAR LLP</div>
-                                <div style="border-bottom: 1px solid #999; height: 18px; margin-bottom: 0.35rem;"></div>
-                                <span>Empaneled Channel Partner Stamp</span>
+                            <div style="text-align: center; margin-top: 2rem; border-top: 1px dashed #ccc; padding-top: 0.6rem; font-size: 0.72rem; color: #777; font-style: italic;">
+                                This is a computer-generated document and is valid without a physical signature or company seal.
                             </div>
-                        </div>
-                        <div style="text-align: center; margin-top: 2rem; border-top: 1px dashed #ccc; padding-top: 0.6rem; font-size: 0.72rem; color: #777; font-style: italic;">
-                            This is a computer-generated document and is valid without a physical signature or company seal.
                         </div>
                     </div>
                 `;
