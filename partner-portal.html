@@ -1652,20 +1652,25 @@
                 quoteHTML = `
                     <div style="font-family: 'Inter', Arial, sans-serif; color: #222; max-width: 850px; margin: 0 auto; background: #fff; padding: 2.5rem; box-sizing: border-box; font-size: 0.85rem; line-height: 1.6;">
                         
-                        <!-- Header Banner -->
-                        <div style="border-bottom: 2px solid #0056b3; padding-bottom: 1rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <img src="assets/logo.jpg" style="height: 60px; border-radius: 4px;" alt="SUNOVA SOLAR Logo" onerror="this.style.display='none'">
-                                <h1 style="margin: 0.3rem 0 0 0; color: #0d1321; font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 800; text-transform: uppercase;">SUNOVA SOLAR LLP</h1>
-                                <div style="font-size: 0.78rem; color: #555; font-weight: 600; margin-top: 0.2rem;">Approved by : MNRE &amp; ISO 9001 : 2015 CERTIFIED COMPANY</div>
-                            </div>
-                            <div style="text-align: right; font-size: 0.8rem; color: #444; line-height: 1.4;">
-                                <strong>Door No. 8/93A, 8/90A</strong><br>
-                                Athickal Arcade, Vengalloor - Mangattukavala Bypass<br>
-                                <strong>THODUPUZHA – 685605, IDUKKI</strong><br>
-                                📞 Mob : 9072522277<br>
-                                ✉️ Email : info@sunovasolar.in<br>
-                                🌐 www.sunovasolar.in
+                        <!-- Official SUNOVA SOLAR Letterhead Banner -->
+                        <div class="pdf-block" style="border-bottom: 3px double #0056b3; padding-bottom: 1.2rem; margin-bottom: 1.8rem; page-break-inside: avoid; break-inside: avoid;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                    <img src="assets/logo.jpg" style="height: 65px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" alt="SUNOVA SOLAR Logo" onerror="this.style.display='none'">
+                                    <div>
+                                        <h1 style="margin: 0; color: #0d1321; font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 800; letter-spacing: -0.5px; text-transform: uppercase;">SUNOVA SOLAR LLP</h1>
+                                        <div style="font-size: 0.76rem; color: #0056b3; font-weight: 700; margin-top: 0.15rem; letter-spacing: 0.2px;">AN ISO 9001 : 2015 CERTIFIED COMPANY | MNRE APPROVED EMPANELED CHANNEL PARTNER</div>
+                                        <div style="font-size: 0.72rem; color: #64748b; font-weight: 500; margin-top: 0.1rem;">Empaneled Installer Reg No: SNS-EMP/2025/AL5 | GSTIN: 32AFXFS8160F1ZJ</div>
+                                    </div>
+                                </div>
+                                <div style="text-align: right; font-size: 0.78rem; color: #334155; line-height: 1.45; font-weight: 500;">
+                                    <strong style="color: #0d1321; font-size: 0.82rem;">Regd. Head Office:</strong><br>
+                                    Door No. 8/93A, 8/90A, Athickal Arcade,<br>
+                                    Vengalloor - Mangattukavala Bypass,<br>
+                                    <strong>THODUPUZHA – 685605, IDUKKI, KERALA</strong><br>
+                                    📞 Mob: +91 90725 22277 | ✉️ info@sunovasolar.in<br>
+                                    🌐 <a href="https://www.sunovasolar.in" target="_blank" style="color: #0056b3; text-decoration: none;">www.sunovasolar.in</a>
+                                </div>
                             </div>
                         </div>
 
@@ -2010,18 +2015,38 @@
                 const gstVal = grossTotal - grossLiaison;
                 
                 quoteHTML = `
-                    <div style="font-family: 'Inter', sans-serif; color: #333; line-height: 1.6;">
-                        <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #28a745; padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                    <div style="font-family: 'Inter', sans-serif; color: #333; line-height: 1.6; max-width: 850px; margin: 0 auto; background: #fff; padding: 2.5rem; box-sizing: border-box;">
+                        
+                        <!-- Official SUNOVA SOLAR Letterhead Banner -->
+                        <div class="pdf-block" style="border-bottom: 3px double #0056b3; padding-bottom: 1.2rem; margin-bottom: 1.8rem; page-break-inside: avoid; break-inside: avoid;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                    <img src="assets/logo.jpg" style="height: 65px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" alt="SUNOVA SOLAR Logo" onerror="this.style.display='none'">
+                                    <div>
+                                        <h1 style="margin: 0; color: #0d1321; font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 800; letter-spacing: -0.5px; text-transform: uppercase;">SUNOVA SOLAR LLP</h1>
+                                        <div style="font-size: 0.76rem; color: #0056b3; font-weight: 700; margin-top: 0.15rem; letter-spacing: 0.2px;">AN ISO 9001 : 2015 CERTIFIED COMPANY | MNRE APPROVED EMPANELED CHANNEL PARTNER</div>
+                                        <div style="font-size: 0.72rem; color: #64748b; font-weight: 500; margin-top: 0.1rem;">Empaneled Installer Reg No: SNS-EMP/2025/AL5 | GSTIN: 32AFXFS8160F1ZJ</div>
+                                    </div>
+                                </div>
+                                <div style="text-align: right; font-size: 0.78rem; color: #334155; line-height: 1.45; font-weight: 500;">
+                                    <strong style="color: #0d1321; font-size: 0.82rem;">Regd. Head Office:</strong><br>
+                                    Door No. 8/93A, 8/90A, Athickal Arcade,<br>
+                                    Vengalloor - Mangattukavala Bypass,<br>
+                                    <strong>THODUPUZHA – 685605, IDUKKI, KERALA</strong><br>
+                                    📞 Mob: +91 90725 22277 | ✉️ info@sunovasolar.in<br>
+                                    🌐 <a href="https://www.sunovasolar.in" target="_blank" style="color: #0056b3; text-decoration: none;">www.sunovasolar.in</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Document Title Box -->
+                        <div style="background: #f0fdf4; border-left: 5px solid #28a745; padding: 0.8rem 1.2rem; margin-bottom: 1.8rem; display: flex; justify-content: space-between; align-items: center;">
                             <div>
-                                <img src="assets/logo.jpg" style="height: 55px; border-radius: 6px;" alt="SUNOVA SOLAR Logo">
-                                <h1 style="font-size: 1.5rem; color: #0d1321; font-family: 'Outfit', sans-serif; margin: 0.4rem 0 0 0; font-weight: 800;">SUNOVA SOLAR LLP</h1>
-                                <p style="margin: 0.15rem 0 0 0; font-size: 0.78rem; color: #555;">Empaneled Solar Installer (Kerala State) | Reg No: SNS-EMP/2025/AL5</p>
-                                <p style="margin: 0.15rem 0 0 0; font-size: 0.75rem; color: #555;">Regd Office :- 8/93 Aathickal Arcade, Vengalloor - Mangattukavala Bypass, Thodupuzha, Idukki District - 685608</p>
+                                <h2 style="margin: 0; color: #15803d; font-family: 'Outfit', sans-serif; font-size: 1.3rem;">PROFORMA INVOICE &amp; KSEB FEASIBILITY</h2>
+                                <span style="font-size: 0.78rem; color: #555;">Ref Qtn: <strong>${quoteNo}</strong> | Date: <strong>${dateStr}</strong></span>
                             </div>
                             <div style="text-align: right;">
-                                <h2 style="margin: 0; color: #28a745; font-family: 'Outfit', sans-serif; font-size: 1.3rem;">PROFORMA INVOICE & KSEB FEASIBILITY</h2>
-                                <p style="margin: 0.2rem 0; font-size: 0.78rem;"><strong>Ref Qtn:</strong> ${quoteNo}</p>
-                                <p style="margin: 0.2rem 0; font-size: 0.78rem;"><strong>Date:</strong> ${dateStr}</p>
+                                <span style="background: #15803d; color: #fff; padding: 0.3rem 0.8rem; border-radius: 4px; font-weight: bold; font-size: 0.8rem;">${sysConfigLabel.toUpperCase()}</span>
                             </div>
                         </div>
 
