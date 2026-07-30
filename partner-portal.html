@@ -781,6 +781,10 @@
             // Generate a random 4-digit PIN (1000 - 9999)
             const randomPin = Math.floor(1000 + Math.random() * 9000).toString();
             
+            // Mark temporary reset flag in localStorage
+            localStorage.setItem('partner_pin_is_temp_' + matchedDealer.code, 'true');
+            localStorage.setItem('partner_pin_is_temp_' + matchedDealer.phone, 'true');
+            
             // Store the new random PIN in localStorage under all key formats for 100% mobile & desktop compatibility
             localStorage.setItem('partner_pin_' + matchedDealer.code, randomPin);
             localStorage.setItem('partner_pin_' + matchedDealer.code.toUpperCase(), randomPin);
@@ -802,7 +806,7 @@
 
             // Construct Universal Mobile & Desktop WhatsApp API URLs
             const cleanPhoneNum = '91' + matchedDealer.phone.replace(/[^0-9]/g, '');
-            const waMsgText = `Dear Partner (${matchedDealer.name}),\n\nYour SUNOVA SOLAR Partner Portal Security PIN has been reset to: ${randomPin}\n\nPlease use this new 4-digit PIN to sign in to your Partner Dashboard.\n\nRegd Office: Sunova Solar LLP, Thodupuzha`;
+            const waMsgText = `Dear Partner (${matchedDealer.name}),\n\nYour SUNOVA SOLAR Partner Portal Security PIN has been reset to: ${randomPin}\n\nPlease use this temporary 4-digit PIN to sign in. On the next screen, you will be prompted to set your new permanent PIN.\n\nRegd Office: Sunova Solar LLP, Thodupuzha`;
             const waEncodedText = encodeURIComponent(waMsgText);
 
             const mobileWaApiUrl = `https://api.whatsapp.com/send?phone=${cleanPhoneNum}&text=${waEncodedText}`;
@@ -810,7 +814,7 @@
             const universalWaUrl = `https://wa.me/${cleanPhoneNum}?text=${waEncodedText}`;
 
             // Secure alert (PIN is NOT displayed on screen to prevent unauthorized viewing)
-            alert(`🔒 Security PIN Reset Request Submitted!\n\nPartner: ${matchedDealer.name} (${matchedDealer.code})\n\nFor security reasons, your new PIN is NOT displayed on screen.\nIt has been automatically dispatched to your registered mobile number (+91 ${matchedDealer.phone}) via WhatsApp API & SMS, and a copy archived to company mail (info@sunovasolar.in).\n\nPlease check your WhatsApp/SMS for your 4-digit PIN.`);
+            alert(`🔒 Security PIN Reset Request Submitted!\n\nPartner: ${matchedDealer.name} (${matchedDealer.code})\n\nFor security reasons, your temporary PIN is NOT displayed on screen.\nIt has been automatically dispatched to your registered mobile number (+91 ${matchedDealer.phone}) via WhatsApp API & SMS.\n\nPlease check your WhatsApp/SMS for your temporary 4-digit PIN to sign in and set your new permanent PIN.`);
 
             const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             if (isMobileDevice) {
@@ -881,11 +885,15 @@
             const requiredPin = customPin || '2277';
 
             if (pin !== requiredPin) {
-                feedback.textContent = customPin ? 'Incorrect security PIN. Please enter the new 4-digit PIN sent to your registered WhatsApp/SMS.' : 'Invalid security PIN. For first-time login, use default PIN: 2277 or click "Forgot / Reset PIN?".';
+                feedback.textContent = customPin ? 'Incorrect security PIN. Please enter the PIN sent to your registered WhatsApp/SMS.' : 'Invalid security PIN. For first-time login, use default PIN: 2277 or click "Forgot / Reset PIN?".';
                 feedback.className = 'form-feedback error';
                 feedback.classList.remove('hidden');
                 return;
             }
+
+            const isTempPin = (requiredPin === '2277') ||
+                              (localStorage.getItem('partner_pin_is_temp_' + matchedDealer.code) === 'true') ||
+                              (localStorage.getItem('partner_pin_is_temp_' + matchedDealer.phone) === 'true');
 
             feedback.textContent = 'Authenticating Partner credentials...';
             feedback.className = 'form-feedback';
@@ -896,12 +904,18 @@
 
             setTimeout(() => {
                 loginBtn.disabled = false;
-                localStorage.setItem('partner_code', matchedDealer.code);
-                showDashboard(matchedDealer.code);
+                if (isTempPin) {
+                    // Force change PIN screen on next window
+                    tempLoginDealerCode = matchedDealer.code;
+                    document.getElementById('login-view').classList.add('hidden');
+                    document.getElementById('change-pin-view').classList.remove('hidden');
+                } else {
+                    // Permanent PIN set by user, open dashboard directly
+                    localStorage.setItem('partner_code', matchedDealer.code);
+                    showDashboard(matchedDealer.code);
+                }
             }, 800);
         }
-
-        let tempLoginDealerCode = '';
 
         function handlePinChangeSubmit(e) {
             e.preventDefault();
@@ -911,27 +925,27 @@
             const saveBtn = document.getElementById('btn-change-pin');
 
             if (newPin.length !== 4 || isNaN(newPin)) {
-                feedback.textContent = 'PIN must be exactly 4 digits.';
+                feedback.textContent = 'New PIN must be exactly 4 numeric digits.';
                 feedback.className = 'form-feedback error';
                 feedback.classList.remove('hidden');
                 return;
             }
 
             if (newPin === '2277') {
-                feedback.textContent = 'You cannot use the default PIN. Please choose a new PIN.';
+                feedback.textContent = 'You cannot use default PIN 2277. Please choose your own private 4-digit PIN.';
                 feedback.className = 'form-feedback error';
                 feedback.classList.remove('hidden');
                 return;
             }
 
             if (newPin !== confirmPin) {
-                feedback.textContent = 'PINs do not match. Please re-enter.';
+                feedback.textContent = 'New PIN and Confirm PIN do not match. Please re-enter.';
                 feedback.className = 'form-feedback error';
                 feedback.classList.remove('hidden');
                 return;
             }
 
-            feedback.textContent = 'Updating security PIN...';
+            feedback.textContent = 'Saving new permanent PIN...';
             feedback.className = 'form-feedback';
             feedback.style.backgroundColor = 'rgba(255, 183, 3, 0.15)';
             feedback.style.color = 'var(--color-sun-yellow)';
@@ -939,15 +953,24 @@
             saveBtn.disabled = true;
 
             setTimeout(() => {
-                // Save custom PIN in localStorage
-                localStorage.setItem('partner_pin_' + tempLoginDealerCode, newPin);
-                // Complete session login
-                localStorage.setItem('partner_code', tempLoginDealerCode);
+                saveBtn.disabled = false;
+                // Clear temporary reset flag
+                localStorage.removeItem('partner_pin_is_temp_' + tempLoginDealerCode);
                 
-                // Hide change pin view, show dashboard
+                // Save custom permanent PIN in localStorage
+                localStorage.setItem('partner_pin_' + tempLoginDealerCode, newPin);
+                localStorage.setItem('partner_pin_' + tempLoginDealerCode.toUpperCase(), newPin);
+                const matchedD = DEALERS.find(d => d.code === tempLoginDealerCode);
+                if (matchedD) {
+                    localStorage.setItem('partner_pin_' + matchedD.phone, newPin);
+                    localStorage.removeItem('partner_pin_is_temp_' + matchedD.phone);
+                }
+                
+                // Complete session login & show dashboard
+                localStorage.setItem('partner_code', tempLoginDealerCode);
                 document.getElementById('change-pin-view').classList.add('hidden');
                 showDashboard(tempLoginDealerCode);
-            }, 1000);
+            }, 800);
         }
 
         function toggleChangePinPanel() {

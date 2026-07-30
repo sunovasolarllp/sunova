@@ -289,6 +289,10 @@
             // Generate a random 4-digit PIN (1000 - 9999)
             const randomPin = Math.floor(1000 + Math.random() * 9000).toString();
             
+            // Mark temporary reset flag in localStorage
+            localStorage.setItem('partner_pin_is_temp_' + matchedDealer.code, 'true');
+            localStorage.setItem('partner_pin_is_temp_' + matchedDealer.phone, 'true');
+
             // Store the new random PIN in localStorage under all key formats for 100% mobile & desktop compatibility
             localStorage.setItem('partner_pin_' + matchedDealer.code, randomPin);
             localStorage.setItem('partner_pin_' + matchedDealer.code.toUpperCase(), randomPin);
