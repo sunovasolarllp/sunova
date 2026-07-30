@@ -240,12 +240,120 @@
                     <button type="button" onclick="toggleSavedQuotes()" class="cta-btn primary-btn text-center full-width" style="cursor: pointer; width: 100%; border: none; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
                         💾 View Saved Quotations
                     </button>
+                    <button type="button" onclick="toggleLetterheadStudioPanel()" class="cta-btn text-center full-width" style="background: linear-gradient(135deg, #047857, #10b981); color: #ffffff; cursor: pointer; width: 100%; border: none; font-size: 0.9rem; font-weight: 700; padding: 0.85rem 1rem; border-radius: 8px; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);">
+                        📜 Custom Letterhead Studio &amp; Designer Form
+                    </button>
                     <button type="button" onclick="toggleChangePinPanel()" class="cta-btn text-center full-width" style="background: rgba(255,255,255,0.05); border: 1px solid var(--color-border); color: var(--color-text); cursor: pointer; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
                         🔒 Change Security PIN
                     </button>
                     <button type="button" onclick="toggleFeasibilityPanel()" class="cta-btn primary-btn text-center full-width" style="cursor: pointer; width: 100%; border: none; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
                         ✅ Feasibility Check &amp; KSEB Verification
                     </button>
+                </div>
+
+                <!-- Custom Letterhead Studio & Designer Panel (Collapsible) -->
+                <div id="letterhead-studio-panel" class="hidden" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.6rem; margin-bottom: 1rem;">
+                        <h4 style="margin: 0; color: var(--color-sun-yellow); font-family: var(--font-heading); font-size: 1.05rem;">
+                            📜 Custom Letterhead Studio &amp; Designer Form
+                        </h4>
+                        <a href="index.html" target="_blank" rel="noopener" class="cta-btn primary-btn" style="font-size: 0.76rem; padding: 0.35rem 0.75rem; text-decoration: none;">
+                            Launch Studio App ↗
+                        </a>
+                    </div>
+                    <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 1.2rem; line-height: 1.45;">
+                        Customize layouts, presets, color palettes, document reference metadata, and letter templates for custom letterhead generation.
+                    </p>
+
+                    <!-- Studio Control Tabs -->
+                    <div style="display: flex; gap: 0.5rem; border-bottom: 1px solid var(--color-border); margin-bottom: 1rem;">
+                        <button type="button" id="lh-tab-btn-layouts" onclick="switchLhTab('layouts')" style="padding: 0.5rem 1rem; background: rgba(16, 185, 129, 0.15); border: none; border-bottom: 2px solid #10b981; color: #10b981; font-weight: 700; font-size: 0.8rem; cursor: pointer; border-radius: 4px 4px 0 0;">🎨 Layouts &amp; Colors</button>
+                        <button type="button" id="lh-tab-btn-info" onclick="switchLhTab('info')" style="padding: 0.5rem 1rem; background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--color-text-muted); font-weight: 600; font-size: 0.8rem; cursor: pointer; border-radius: 4px 4px 0 0;">📄 Document Info</button>
+                        <button type="button" id="lh-tab-btn-templates" onclick="switchLhTab('templates')" style="padding: 0.5rem 1rem; background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--color-text-muted); font-weight: 600; font-size: 0.8rem; cursor: pointer; border-radius: 4px 4px 0 0;">📋 Quick Templates</button>
+                    </div>
+
+                    <!-- TAB 1: LAYOUTS & COLORS -->
+                    <div id="lh-tab-layouts" style="display: block;">
+                        <label style="font-size: 0.78rem; color: var(--color-sun-yellow); font-weight: 700; display: block; margin-bottom: 0.5rem;">Select Preset Layout Style</label>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.6rem; margin-bottom: 1.2rem;">
+                            <button type="button" onclick="selectLhPreset('preset-modern-exec')" class="lh-preset-btn active" style="padding: 0.6rem; background: rgba(255,255,255,0.04); border: 1px solid #10b981; border-radius: 6px; color: var(--color-text); font-size: 0.76rem; font-weight: 600; text-align: center; cursor: pointer;">Modern Executive</button>
+                            <button type="button" onclick="selectLhPreset('preset-minimal')" class="lh-preset-btn" style="padding: 0.6rem; background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text); font-size: 0.76rem; font-weight: 600; text-align: center; cursor: pointer;">Corporate Minimal</button>
+                            <button type="button" onclick="selectLhPreset('preset-classic')" class="lh-preset-btn" style="padding: 0.6rem; background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text); font-size: 0.76rem; font-weight: 600; text-align: center; cursor: pointer;">Classic Dual-Border</button>
+                            <button type="button" onclick="selectLhPreset('preset-bold-solar')" class="lh-preset-btn" style="padding: 0.6rem; background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text); font-size: 0.76rem; font-weight: 600; text-align: center; cursor: pointer;">Bold Solar Accent</button>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem;">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Primary Brand Color</label>
+                                <input type="color" id="lh-picker-primary" value="#047857" style="width: 100%; height: 38px; border: none; border-radius: 6px; background: transparent; cursor: pointer;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Secondary Accent Color</label>
+                                <input type="color" id="lh-picker-secondary" value="#f59e0b" style="width: 100%; height: 38px; border: none; border-radius: 6px; background: transparent; cursor: pointer;">
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Typography Font Family</label>
+                            <select id="lh-font-select" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                                <option value="'Montserrat', sans-serif" selected>Montserrat (Modern Clean)</option>
+                                <option value="'Inter', sans-serif">Inter (Corporate Standard)</option>
+                                <option value="'Cinzel', serif">Cinzel (Formal Executive Serif)</option>
+                                <option value="'Playfair Display', serif">Playfair Display (Premium Classic)</option>
+                                <option value="'Roboto Mono', monospace">Roboto Mono (Technical Blueprint)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- TAB 2: DOCUMENT INFO -->
+                    <div id="lh-tab-info" style="display: none;">
+                        <div class="quote-grid-3" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Ref No. / File ID</label>
+                                <input type="text" id="lh-input-ref" value="SSL/2026-27/QT-1092" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Date</label>
+                                <input type="text" id="lh-input-date" value="30th July 2026" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 0.8rem;">
+                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Recipient Address Block</label>
+                            <textarea id="lh-input-recipient" rows="3" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">To,
+Mr. K. R. Nambiar,
+Green Valley Villa, Temple Road,
+Thodupuzha, Idukki District, Kerala - 685584.</textarea>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 0.8rem;">
+                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Subject Line</label>
+                            <input type="text" id="lh-input-subject" value="QUOTATION FOR 5.0 kWp ON-GRID ROOFTOP SOLAR POWER SYSTEM WITH KSEB NET-METERING & PM SURYA GHAR SUBSIDY" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                        </div>
+                    </div>
+
+                    <!-- TAB 3: QUICK TEMPLATES -->
+                    <div id="lh-tab-templates" style="display: none;">
+                        <label style="font-size: 0.78rem; color: var(--color-sun-yellow); font-weight: 700; display: block; margin-bottom: 0.5rem;">Select Pre-Designed Template</label>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem;">
+                            <button type="button" onclick="loadLhTemplate('quotation')" style="padding: 0.65rem 0.85rem; background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text); font-size: 0.8rem; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                                <span><strong>Solar Quotation Proposal</strong><br><span style="font-size: 0.72rem; opacity: 0.7;">5 kWp system breakdown &amp; PM Surya Ghar subsidy</span></span>
+                                <span>➔</span>
+                            </button>
+                            <button type="button" onclick="loadLhTemplate('kseb_app')" style="padding: 0.65rem 0.85rem; background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text); font-size: 0.8rem; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                                <span><strong>KSEB Net-Metering Application</strong><br><span style="font-size: 0.72rem; opacity: 0.7;">Official request to KSEB Electrical Division</span></span>
+                                <span>➔</span>
+                            </button>
+                            <button type="button" onclick="loadLhTemplate('warranty')" style="padding: 0.65rem 0.85rem; background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text); font-size: 0.8rem; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                                <span><strong>25-Year Warranty Certificate</strong><br><span style="font-size: 0.72rem; opacity: 0.7;">Commissioning handover &amp; performance guarantee</span></span>
+                                <span>➔</span>
+                            </button>
+                            <button type="button" onclick="loadLhTemplate('blank')" style="padding: 0.65rem 0.85rem; background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text); font-size: 0.8rem; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                                <span><strong>Blank Formal Letterhead</strong><br><span style="font-size: 0.72rem; opacity: 0.7;">Clean template with header &amp; footer</span></span>
+                                <span>➔</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Feasibility Check Panel (Collapsible) -->
@@ -1447,6 +1555,60 @@
 
         function closeQuoteModal() {
             document.getElementById('quote-modal-overlay').classList.add('hidden');
+        }
+
+        function toggleLetterheadStudioPanel() {
+            const panel = document.getElementById('letterhead-studio-panel');
+            if (panel) panel.classList.toggle('hidden');
+        }
+
+        function switchLhTab(tabName) {
+            ['layouts', 'info', 'templates'].forEach(t => {
+                const tabEl = document.getElementById(`lh-tab-${t}`);
+                const btnEl = document.getElementById(`lh-tab-btn-${t}`);
+                if (tabEl) tabEl.style.display = (t === tabName) ? 'block' : 'none';
+                if (btnEl) {
+                    if (t === tabName) {
+                        btnEl.style.background = 'rgba(16, 185, 129, 0.15)';
+                        btnEl.style.borderColor = '#10b981';
+                        btnEl.style.color = '#10b981';
+                        btnEl.style.fontWeight = '700';
+                    } else {
+                        btnEl.style.background = 'transparent';
+                        btnEl.style.borderColor = 'transparent';
+                        btnEl.style.color = 'var(--color-text-muted)';
+                        btnEl.style.fontWeight = '600';
+                    }
+                }
+            });
+        }
+
+        function selectLhPreset(presetName) {
+            const btns = document.querySelectorAll('.lh-preset-btn');
+            btns.forEach(b => {
+                b.style.borderColor = 'var(--color-border)';
+                b.classList.remove('active');
+            });
+            if (event && event.target) {
+                event.target.style.borderColor = '#10b981';
+                event.target.classList.add('active');
+            }
+        }
+
+        function loadLhTemplate(templateKey) {
+            const subj = document.getElementById('lh-input-subject');
+            if (subj) {
+                if (templateKey === 'quotation') {
+                    subj.value = "QUOTATION FOR 5.0 kWp ON-GRID ROOFTOP SOLAR POWER SYSTEM WITH KSEB NET-METERING & PM SURYA GHAR SUBSIDY";
+                } else if (templateKey === 'kseb_app') {
+                    subj.value = "APPLICATION FOR KSEB NET-METERING & FEASIBILITY CLEARANCE";
+                } else if (templateKey === 'warranty') {
+                    subj.value = "25-YEAR PERFORMANCE WARRANTY & COMMISSIONING CERTIFICATE";
+                } else if (templateKey === 'blank') {
+                    subj.value = "OFFICIAL CORRESPONDENCE";
+                }
+            }
+            alert(`Template "${templateKey.toUpperCase()}" populated in Letterhead Form!`);
         }
 
         function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
