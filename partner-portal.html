@@ -1633,8 +1633,36 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
             }
         }
 
+        let currentQuoteData = null;
+
         function closeQuoteModal() {
             document.getElementById('quote-modal-overlay').classList.add('hidden');
+        }
+
+        function saveQuotation() {
+            window.print();
+        }
+
+        function whatsappQuotation() {
+            if (!currentQuoteData || !currentQuoteData.customerPhone) {
+                alert("Customer mobile number not available.");
+                return;
+            }
+            
+            // Trigger PDF print/save dialog first so partner can save proposal as PDF
+            window.print();
+            
+            // Open WhatsApp Web/App pre-filled with customer phone and proposal summary
+            const cleanPhone = currentQuoteData.customerPhone.replace(/\D/g, '');
+            const formattedPhone = cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone;
+            
+            const message = `Hello ${currentQuoteData.customerName},\n\nPlease find attached your official Sunova Solar Rooftop Proposal (${currentQuoteData.quoteNo}).\n\n⚡ System Capacity: ${currentQuoteData.capacity} kWp\n💰 Gross Contract Value: ₹${currentQuoteData.grossTotal.toLocaleString('en-IN')}\n\nSUNOVA SOLAR LLP | Govt of India Registered\nPh: +91 90725 22277 | www.sunovasolar.in`;
+            
+            const waUrl = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(message)}`;
+            
+            setTimeout(() => {
+                window.open(waUrl, '_blank');
+            }, 1200);
         }
 
         function toggleLetterheadStudioPanel() {
@@ -2833,13 +2861,10 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
                 <h3 style="margin: 0; color: #333; font-family: 'Outfit', sans-serif;">Solar Quotation Preview</h3>
                 <div style="display: flex; gap: 0.6rem; flex-wrap: wrap; justify-content: flex-end;">
                     <button onclick="saveQuotation()" style="background: #28a745; color: white; border: none; border-radius: 6px; padding: 0.5rem 1rem; font-weight: 600; font-size: 0.82rem; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
-                        💾 Save
-                    </button>
-                    <button onclick="emailQuotation()" style="background: #1a73e8; color: white; border: none; border-radius: 6px; padding: 0.5rem 1rem; font-weight: 600; font-size: 0.82rem; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
-                        📧 Email Info
+                        💾 Save PDF
                     </button>
                     <button onclick="whatsappQuotation()" style="background: #25d366; color: white; border: none; border-radius: 6px; padding: 0.5rem 1rem; font-weight: 600; font-size: 0.82rem; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
-                        💬 WhatsApp
+                        💬 Save PDF &amp; Send WhatsApp
                     </button>
                     <button onclick="window.print()" style="background: #6c757d; color: white; border: none; border-radius: 6px; padding: 0.5rem 1rem; font-weight: 600; font-size: 0.82rem; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
                         🖨️ Print
