@@ -813,6 +813,7 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
         let currentIdleStorageKey = '';
         let currentLogoutCallback = null;
         let lastActivitySaveTime = 0;
+        let tempLoginDealerCode = '';
 
         function startIdleTimer(storageKey, onLogout) {
             currentIdleStorageKey = storageKey;
@@ -1019,47 +1020,56 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
 
         function handlePartnerLogin(e) {
             e.preventDefault();
-            const inputVal = document.getElementById('partner-code').value.trim();
-            const pin = document.getElementById('partner-password').value;
+            const rawInput = (document.getElementById('partner-code')?.value || '').trim();
+            const rawPin = (document.getElementById('partner-password')?.value || '').trim();
             const feedback = document.getElementById('login-feedback');
             const loginBtn = document.getElementById('btn-partner-login');
             
-            let inputValCleaned = inputVal;
-            
-            // Validate if logging in with a phone number
-            const isNumeric = /^[0-9\+\s\-]+$/.test(inputVal);
-            if (isNumeric) {
-                let cleanPhone = inputVal.replace(/[^0-9]/g, '');
-                if (cleanPhone.length === 12 && cleanPhone.startsWith('91')) {
-                    cleanPhone = cleanPhone.substring(2);
-                }
-                
-                const phoneRegex = /^[6-9][0-9]{9}$/;
-                if (!phoneRegex.test(cleanPhone)) {
-                    feedback.textContent = 'Invalid Phone. If logging in with a mobile number, it must be exactly 10 digits starting with 6-9.';
-                    feedback.className = 'form-feedback error';
-                    feedback.classList.remove('hidden');
-                    return;
-                }
-                inputValCleaned = cleanPhone;
-            }
-
-            // Mobile-friendly dealer matching:
-            const rawSearch = inputVal.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
-            const matchedDealer = DEALERS.find(d => {
-                const codeClean = d.code.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
-                const phoneClean = d.phone.replace(/[^0-9]/g, '');
-                return codeClean === rawSearch || phoneClean === rawSearch || codeClean.includes(rawSearch);
-            });
-
-            if (!matchedDealer) {
-                feedback.textContent = 'Access Denied. Your partner code or mobile number is not registered in our dealer list.';
+            if (!rawInput) {
+                feedback.textContent = 'Please enter your Partner Code or Registered Mobile Number.';
                 feedback.className = 'form-feedback error';
                 feedback.classList.remove('hidden');
                 return;
             }
 
-            if (pin.length !== 4 || isNaN(pin)) {
+            if (!rawPin) {
+                feedback.textContent = 'Please enter your 4-digit security PIN.';
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            // Clean input digits for phone number matching
+            let phoneDigits = rawInput.replace(/[^0-9]/g, '');
+            if (phoneDigits.length === 12 && phoneDigits.startsWith('91')) {
+                phoneDigits = phoneDigits.substring(2);
+            }
+            
+            // Clean input alphanumeric for code / name matching
+            const searchClean = rawInput.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+
+            // Mobile & Desktop friendly dealer matching:
+            const matchedDealer = DEALERS.find(d => {
+                const codeClean = d.code.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+                const phoneClean = d.phone.replace(/[^0-9]/g, '');
+                const nameClean = d.name.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+                return (
+                    codeClean === searchClean ||
+                    phoneClean === phoneDigits ||
+                    phoneClean === searchClean ||
+                    codeClean.includes(searchClean) ||
+                    nameClean.includes(searchClean)
+                );
+            });
+
+            if (!matchedDealer) {
+                feedback.textContent = `Access Denied. '${rawInput}' is not registered in our dealer directory. Please check your Partner Code or Registered Mobile Number.`;
+                feedback.className = 'form-feedback error';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            if (rawPin.length !== 4 || isNaN(rawPin)) {
                 feedback.textContent = 'Please enter a valid 4-digit security PIN.';
                 feedback.className = 'form-feedback error';
                 feedback.classList.remove('hidden');
@@ -1072,8 +1082,8 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
                               localStorage.getItem('partner_pin_' + matchedDealer.phone);
             const requiredPin = customPin || '2277';
 
-            if (pin !== requiredPin) {
-                feedback.textContent = customPin ? 'Incorrect security PIN. Please enter the PIN sent to your registered WhatsApp/SMS.' : 'Invalid security PIN. For first-time login, use default PIN: 2277 or click "Forgot / Reset PIN?".';
+            if (rawPin !== requiredPin) {
+                feedback.textContent = customPin ? 'Incorrect security PIN. Please enter your PIN or click "Forgot / Reset PIN?".' : 'Invalid security PIN. For first-time login, use default PIN: 2277 or click "Forgot / Reset PIN?".';
                 feedback.className = 'form-feedback error';
                 feedback.classList.remove('hidden');
                 return;
@@ -1102,13 +1112,13 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
                     localStorage.setItem('partner_code', matchedDealer.code);
                     showDashboard(matchedDealer.code);
                 }
-            }, 800);
+            }, 600);
         }
 
         function handlePinChangeSubmit(e) {
             e.preventDefault();
-            const newPin = document.getElementById('new-pin').value;
-            const confirmPin = document.getElementById('confirm-new-pin').value;
+            const newPin = (document.getElementById('new-pin').value || '').trim();
+            const confirmPin = (document.getElementById('confirm-new-pin').value || '').trim();
             const feedback = document.getElementById('change-pin-feedback');
             const saveBtn = document.getElementById('btn-change-pin');
 
@@ -1158,7 +1168,7 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
                 localStorage.setItem('partner_code', tempLoginDealerCode);
                 document.getElementById('change-pin-view').classList.add('hidden');
                 showDashboard(tempLoginDealerCode);
-            }, 800);
+            }, 600);
         }
 
         function toggleChangePinPanel() {
