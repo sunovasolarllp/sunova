@@ -1048,19 +1048,21 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
             // Clean input alphanumeric for code / name matching
             const searchClean = rawInput.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
 
-            // Mobile & Desktop friendly dealer matching:
-            const matchedDealer = DEALERS.find(d => {
+            // 1. Stage 1: Exact Match (Code, Phone, or Clean Code)
+            let matchedDealer = DEALERS.find(d => {
                 const codeClean = d.code.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
                 const phoneClean = d.phone.replace(/[^0-9]/g, '');
-                const nameClean = d.name.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
-                return (
-                    codeClean === searchClean ||
-                    phoneClean === phoneDigits ||
-                    phoneClean === searchClean ||
-                    codeClean.includes(searchClean) ||
-                    nameClean.includes(searchClean)
-                );
+                return codeClean === searchClean || phoneClean === phoneDigits || phoneClean === searchClean;
             });
+
+            // 2. Stage 2: Fallback prefix / name substring match
+            if (!matchedDealer && searchClean.length >= 3) {
+                matchedDealer = DEALERS.find(d => {
+                    const codeClean = d.code.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+                    const nameClean = d.name.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+                    return codeClean.includes(searchClean) || nameClean.includes(searchClean);
+                });
+            }
 
             if (!matchedDealer) {
                 feedback.textContent = `Access Denied. '${rawInput}' is not registered in our dealer directory. Please check your Partner Code or Registered Mobile Number.`;
@@ -1076,20 +1078,23 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
                 return;
             }
 
-            // Retrieve registered custom PIN across code and phone keys for 100% mobile compatibility
+            // Retrieve registered custom PIN across code and phone keys
             const customPin = localStorage.getItem('partner_pin_' + matchedDealer.code) ||
                               localStorage.getItem('partner_pin_' + matchedDealer.code.toUpperCase()) ||
                               localStorage.getItem('partner_pin_' + matchedDealer.phone);
-            const requiredPin = customPin || '2277';
+            
+            // Allow custom PIN OR default PIN 2277
+            const isCustomValid = customPin && (rawPin === customPin);
+            const isDefaultValid = (rawPin === '2277');
 
-            if (rawPin !== requiredPin) {
-                feedback.textContent = customPin ? 'Incorrect security PIN. Please enter your PIN or click "Forgot / Reset PIN?".' : 'Invalid security PIN. For first-time login, use default PIN: 2277 or click "Forgot / Reset PIN?".';
+            if (!isCustomValid && !isDefaultValid) {
+                feedback.textContent = customPin ? 'Incorrect security PIN. Please enter your PIN or use default 2277 or click "Forgot / Reset PIN?".' : 'Invalid security PIN. For first-time login, use default PIN: 2277 or click "Forgot / Reset PIN?".';
                 feedback.className = 'form-feedback error';
                 feedback.classList.remove('hidden');
                 return;
             }
 
-            const isTempPin = (requiredPin === '2277') ||
+            const isTempPin = isDefaultValid ||
                               (localStorage.getItem('partner_pin_is_temp_' + matchedDealer.code) === 'true') ||
                               (localStorage.getItem('partner_pin_is_temp_' + matchedDealer.phone) === 'true');
 
@@ -1112,7 +1117,7 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
                     localStorage.setItem('partner_code', matchedDealer.code);
                     showDashboard(matchedDealer.code);
                 }
-            }, 600);
+            }, 500);
         }
 
         function handlePinChangeSubmit(e) {
@@ -1472,16 +1477,23 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
 
         function showDashboard(dealerCode) {
             const wrapper = document.querySelector('.login-wrapper');
+            const dealer = DEALERS.find(d => d.code === dealerCode);
+            if (!dealer) {
+                localStorage.removeItem('partner_code');
+                if (wrapper) wrapper.classList.remove('dashboard-active');
+                document.getElementById('login-view').classList.remove('hidden');
+                document.getElementById('change-pin-view').classList.add('hidden');
+                document.getElementById('dashboard-view').classList.add('hidden');
+                return;
+            }
+
             if (wrapper) wrapper.classList.add('dashboard-active');
             document.getElementById('login-view').classList.add('hidden');
+            document.getElementById('change-pin-view').classList.add('hidden');
             document.getElementById('dashboard-view').classList.remove('hidden');
             
             // Start idle timeout tracking for Partner Portal (15 mins)
             startIdleTimer('partner', () => logoutPartner('inactivity'));
-            
-            // Find dealer details in database
-            const dealer = DEALERS.find(d => d.code === dealerCode);
-            if (!dealer) return;
             
             // Update portal headers
             const header = document.querySelector('.portal-header');
