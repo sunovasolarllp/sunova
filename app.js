@@ -6530,3 +6530,442 @@ function scrollSectionMarquee(trackId, offset) {
     }
 }
 
+// --- Live Social Proof Ticker (Interleaves 50 Authorized Channel Partners + Happy Customer Stories) ---
+const HAPPY_CUSTOMER_EVENTS = [
+    { title: "🏡 Dr. K. N. Nair from Ernakulam", desc: "Commissioned 8 kWp solar & cut monthly bill from ₹9,400 to ₹0 • 4 mins ago" },
+    { title: "💚 Anjali & Family from Thrissur", desc: "Received ₹78,000 PM Surya Ghar subsidy directly in bank account • 11 mins ago" },
+    { title: "☀️ Mr. George Mathew from Kottayam", desc: "Saved ₹1,42,000 in KSEB electricity bills over 2 years • 16 mins ago" },
+    { title: "✨ Adv. Ramesh Kumar from Kozhikode", desc: "Upgraded home with 5 kWp hybrid battery backup system • 22 mins ago" },
+    { title: "🏡 Priya & Unni from Alappuzha", desc: "Completed paperless KSEB net-metering setup for 3 kWp • 29 mins ago" },
+    { title: "💚 Prof. Sreedharan from Thiruvananthapuram", desc: "Recorded 100% zero electricity bill for 6 consecutive months • 37 mins ago" },
+    { title: "⚡ Mrs. Mini Varghese from Pathanamthitta", desc: "Installed 5 kWp rooftop solar for home & EV charging • 44 mins ago" },
+    { title: "☀️ Mr. Abdul Rahman from Malappuram", desc: "Enjoying 25 years clean solar power warranty for family home • 52 mins ago" },
+    { title: "✨ Rajesh & Sunitha from Kannur", desc: "Switched to solar with 0% down payment bank financing • 1 hr ago" },
+    { title: "🏡 Devika Menon from Palakkad", desc: "Reduced summer AC electricity bills to zero with 5 kWp setup • 1 hr ago" }
+];
+
+let mixedSocialEventsCache = [];
+let socialToastIndex = 0;
+let socialToastTimer = null;
+
+function getSocialProofEvents() {
+    if (mixedSocialEventsCache.length > 0) return mixedSocialEventsCache;
+
+    if (typeof DEALERS === 'undefined' || !DEALERS || !DEALERS.length) {
+        return HAPPY_CUSTOMER_EVENTS;
+    }
+
+    const actionTemplates = [
+        "Commissioned a 5 kWp On-Grid Solar System",
+        "Approved ₹78,000 PM Surya Ghar Subsidy for local customer",
+        "Completed KSEB Net-Metering installation & inspection",
+        "Delivered zero electricity bill savings for residential site",
+        "Scheduled free on-site rooftop feasibility survey",
+        "Dispatched customized 8 kWp Hybrid Solar Quotation"
+    ];
+
+    const timeList = [
+        "3 mins ago", "7 mins ago", "12 mins ago", "18 mins ago", 
+        "25 mins ago", "34 mins ago", "46 mins ago", "1 hr ago"
+    ];
+
+    const partnerEvents = DEALERS.map((dealer, idx) => {
+        const action = actionTemplates[idx % actionTemplates.length];
+        const time = timeList[idx % timeList.length];
+        return {
+            title: `⚡ ${dealer.name} (+91 ${dealer.phone})`,
+            desc: `📍 Partner in ${dealer.area}, ${dealer.district} • ${action} • ${time}`,
+            phone: dealer.phone,
+            name: dealer.name,
+            area: dealer.area,
+            district: dealer.district,
+            isPartner: true
+        };
+    });
+
+    // Interleave Happy Customer Stories between Partner Events
+    let mixed = [];
+    let custIdx = 0;
+
+    partnerEvents.forEach((partnerEvt, idx) => {
+        mixed.push(partnerEvt);
+        // Interleave a Happy Customer story after every 2 partner events
+        if ((idx + 1) % 2 === 0) {
+            mixed.push(HAPPY_CUSTOMER_EVENTS[custIdx % HAPPY_CUSTOMER_EVENTS.length]);
+            custIdx++;
+        }
+    });
+
+    mixedSocialEventsCache = mixed;
+    return mixedSocialEventsCache;
+}
+
+let toastLocationToggle = false;
+
+function showNextSocialToast() {
+    const toast = document.getElementById('social-proof-toast');
+    const titleEl = document.getElementById('toast-title');
+    const descEl = document.getElementById('toast-desc');
+    const iconEl = document.querySelector('.toast-icon-badge');
+    const inquiryBtn = document.querySelector('.toast-inquiry-btn');
+    if (!toast || !titleEl || !descEl) return;
+
+    const events = getSocialProofEvents();
+    if (!events.length) return;
+
+    // Trigger Reverse Slide Exit Animation
+    toast.classList.remove('toast-slide-enter');
+    toast.classList.add('toast-slide-exit');
+
+    setTimeout(() => {
+        const item = events[socialToastIndex];
+        titleEl.textContent = item.title;
+        descEl.textContent = item.desc;
+
+        // Dynamically update WhatsApp CTA link to target specific partner phone number or helpline
+        if (inquiryBtn) {
+            if (item.isPartner && item.phone) {
+                const partnerMsg = `Hi ${item.name}! I saw your activity update on Sunova Solar website. I would like a rooftop solar consultation and quote for my site in ${item.area}, ${item.district}.`;
+                inquiryBtn.href = `https://wa.me/91${item.phone}?text=${encodeURIComponent(partnerMsg)}`;
+                inquiryBtn.title = `Chat directly with Authorized Partner ${item.name} (${item.district}) on WhatsApp`;
+            } else {
+                const defaultMsg = `Hello Sunova Solar! I would like a free rooftop solar consultation and ₹78,000 subsidy inquiry.`;
+                inquiryBtn.href = `https://wa.me/919072522277?text=${encodeURIComponent(defaultMsg)}`;
+                inquiryBtn.title = `Chat on WhatsApp with Sunova Solar Expert`;
+            }
+        }
+
+        // Vary toast screen location: alternate between bottom-left and bottom-right
+        toastLocationToggle = !toastLocationToggle;
+        if (toastLocationToggle) {
+            toast.style.left = '25px';
+            toast.style.right = 'auto';
+        } else {
+            toast.style.right = '25px';
+            toast.style.left = 'auto';
+        }
+
+        // Vary circular badge avatar icon based on activity event type
+        if (iconEl) {
+            if (item.isPartner) {
+                iconEl.textContent = '📍';
+            } else {
+                iconEl.textContent = '🌟';
+            }
+        }
+
+        socialToastIndex = (socialToastIndex + 1) % events.length;
+
+        // Trigger Forward Slide Entrance Animation & Reset Countdown Progress Bar
+        toast.classList.remove('toast-slide-exit');
+        toast.classList.add('toast-slide-enter');
+
+        const barEl = document.getElementById('toast-progress-bar');
+        if (barEl) {
+            barEl.classList.remove('toast-progress-animate');
+            void barEl.offsetWidth; // Force reflow to restart CSS animation
+            barEl.classList.add('toast-progress-animate');
+        }
+    }, 550);
+}
+
+function dismissSocialToast() {
+    const toast = document.getElementById('social-proof-toast');
+    if (toast) toast.style.display = 'none';
+    if (socialToastTimer) clearInterval(socialToastTimer);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        showNextSocialToast();
+        socialToastTimer = setInterval(showNextSocialToast, 6500);
+    }, 2500);
+});
+
+// --- Interactive Hero Typing Headline Effect ---
+const TYPING_PHRASES = [
+    "✨ Save up to ₹1,50,000/year on electricity bills",
+    "☀️ Enjoy 100% zero-bill happiness for 25 years",
+    "🎁 Get instant ₹78,000 PM Surya Ghar Govt. Subsidy",
+    "🔋 Protect your family with 24/7 battery backup",
+    "🌱 Offset 45,000+ tons of carbon emissions in Kerala"
+];
+
+let typingPhraseIdx = 0;
+let typingCharIdx = 0;
+let isDeletingPhrase = false;
+
+function handleHeadlineTyping() {
+    const el = document.getElementById('hero-typing-text');
+    if (!el) return;
+
+    const currentPhrase = TYPING_PHRASES[typingPhraseIdx];
+
+    if (isDeletingPhrase) {
+        el.textContent = currentPhrase.substring(0, typingCharIdx - 1);
+        typingCharIdx--;
+    } else {
+        el.textContent = currentPhrase.substring(0, typingCharIdx + 1);
+        typingCharIdx++;
+    }
+
+    let delay = isDeletingPhrase ? 35 : 75;
+
+    if (!isDeletingPhrase && typingCharIdx === currentPhrase.length) {
+        delay = 2400; // Pause at full phrase
+        isDeletingPhrase = true;
+    } else if (isDeletingPhrase && typingCharIdx === 0) {
+        isDeletingPhrase = false;
+        typingPhraseIdx = (typingPhraseIdx + 1) % TYPING_PHRASES.length;
+        delay = 450;
+    }
+
+    setTimeout(handleHeadlineTyping, delay);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(handleHeadlineTyping, 1000);
+});
+
+// --- Interactive Sun-Tracking & Energy Flow Simulator ---
+function updateSunTrackingVisualizer(val) {
+    const timeNum = parseFloat(val);
+    const timeDisplay = document.getElementById('sun-time-display');
+    const outputDisplay = document.getElementById('sun-output-display');
+    if (!timeDisplay || !outputDisplay) return;
+
+    let hour = Math.floor(timeNum);
+    let mins = (timeNum % 1 === 0.5) ? "30" : "00";
+    let ampm = hour >= 12 ? "PM" : "AM";
+    let displayHour = hour > 12 ? hour - 12 : hour;
+
+    let statusText = "";
+    let outputPct = 0;
+
+    if (timeNum < 7) {
+        statusText = "Dawn / Minimal Sun Generation";
+        outputPct = 15;
+    } else if (timeNum < 10) {
+        statusText = "Morning Sun / Ramping Up";
+        outputPct = 55;
+    } else if (timeNum <= 14) {
+        statusText = "Peak Sun / 100% Maximum Generation";
+        outputPct = 100;
+    } else if (timeNum < 17) {
+        statusText = "Afternoon Sun / Battery Charging";
+        outputPct = 65;
+    } else {
+        statusText = "Dusk / Battery & Grid Backup Active";
+        outputPct = 10;
+    }
+
+    timeDisplay.textContent = `${displayHour}:${mins} ${ampm} (${statusText})`;
+    outputDisplay.textContent = `☀️ ${outputPct}% Solar Power Output`;
+
+    // Animate energy particle flow speed based on output
+    const particle = document.querySelector('.energy-flow-particle');
+    if (particle) {
+        if (outputPct > 50) {
+            particle.style.animationDuration = '1.2s';
+        } else {
+            particle.style.animationDuration = '3s';
+        }
+    }
+}
+
+// --- Smart EV Charging Solar Matcher Handler ---
+function updateEVChargingMatcher(val) {
+    const resEl = document.getElementById('ev-matcher-result');
+    if (!resEl) return;
+
+    if (val === 'none') {
+        resEl.innerHTML = `⚡ Selected: Standard Residential Solar System (No EV Add-on).`;
+    } else if (val === 'nexon') {
+        resEl.innerHTML = `<strong style="color: #10b981;">⚡ Tata Nexon / Punch EV Match:</strong> +1.5 kWp Solar Add-on (3 Extra Monocrystalline Panels) for ~1,200 km/mo 100% Free Sunshine Driving!`;
+    } else if (val === 'mg') {
+        resEl.innerHTML = `<strong style="color: #10b981;">⚡ MG ZS / Hyundai Ioniq 5 Match:</strong> +2.5 kWp Solar Add-on (5 Extra Monocrystalline Panels) for ~2,000 km/mo 100% Free Sunshine Driving!`;
+    } else if (val === 'scooter') {
+        resEl.innerHTML = `<strong style="color: #10b981;">⚡ EV Scooter Match:</strong> +0.5 kWp Solar Add-on (1 Extra Panel) for ~800 km/mo 100% Free Sunshine Commute!`;
+    }
+}
+
+// --- Instant Referral Program Cash Earnings Calculator Handler ---
+function updateReferralCalculator(val) {
+    const countNum = parseInt(val, 10);
+    const countEl = document.getElementById('referral-count-display');
+    const cashEl = document.getElementById('referral-cash-display');
+    if (!countEl || !cashEl) return;
+
+    const totalCash = countNum * 5000;
+    countEl.textContent = `${countNum} ${countNum === 1 ? 'Friend / Relative' : 'Friends / Relatives'}`;
+    cashEl.textContent = `₹${totalCash.toLocaleString('en-IN')} Cash Reward 🎁`;
+}
+
+// --- Real-Time Kerala Solar Generation Live Matrix Counter ---
+let liveSolarKwh = 14820;
+let liveCo2Kg = 12450;
+
+setInterval(() => {
+    const kwhEl = document.getElementById('live-solar-kwh-display');
+    const co2El = document.getElementById('live-co2-display');
+    if (!kwhEl || !co2El) return;
+
+    // Increment live generation by 1-3 kWh every 3.5 seconds
+    liveSolarKwh += Math.floor(Math.random() * 3) + 1;
+    liveCo2Kg += Math.floor(Math.random() * 2) + 1;
+
+    kwhEl.textContent = `${liveSolarKwh.toLocaleString('en-IN')} kWh`;
+    co2El.textContent = `${liveCo2Kg.toLocaleString('en-IN')} kg`;
+}, 3500);
+
+// --- Dynamic Kerala Festival Promotion Registry & Auto-Expiry Engine ---
+const KERALA_FESTIVALS = [
+    {
+        id: "onam-2026",
+        name: "Thiruvonam Solar Bumper 2026",
+        startDate: "2026-08-01",
+        endDate: "2026-09-15",
+        badge: "🌼 ONAM FESTIVAL SOLAR BUMPER 🌼",
+        title: "Celebrate Onam with 0 Electricity Bills & Extra ₹10,000 Onam Cash Cashback!",
+        desc: "Avail Central PM Surya Ghar Subsidy (up to ₹78,000) + Onam Festive Gift & Free 3D Rooftop CAD Design for your home in Kerala.",
+        promoCode: "ONAM2026",
+        emoji: "🌾🌼👑"
+    },
+    {
+        id: "ind-day-2026",
+        name: "Independence Energy Freedom Fest",
+        startDate: "2026-08-10",
+        endDate: "2026-08-17",
+        badge: "🇮🇳 ENERGY FREEDOM FEST 🇮🇳",
+        title: "79th Independence Day Energy Freedom Offer!",
+        desc: "Enjoy Zero Electricity Anxiety with 0% Interest Solar Bank Financing across SBI, Canara Bank & Federal Bank.",
+        promoCode: "FREEDOM79",
+        emoji: "🇮🇳⚡"
+    },
+    {
+        id: "eid-milad-2026",
+        name: "Milad-e-Sherif Solar Mubarak 2026",
+        startDate: "2026-08-20",
+        endDate: "2026-08-30",
+        badge: "🌙 MILAD-E-SHERIF SOLAR MUBARAK 🌙",
+        title: "Milad-e-Sherif Mubarak! Celebrate with Zero Electricity Bills!",
+        desc: "Special Milad Mubarak Solar Cashback + Central PM Surya Ghar Subsidy (up to ₹78,000) & 25 Years Performance Warranty.",
+        promoCode: "MILAD2026",
+        emoji: "🌙✨🕌"
+    },
+    {
+        id: "diwali-2026",
+        name: "Diwali Light Up Kerala Offer",
+        startDate: "2026-10-25",
+        endDate: "2026-11-15",
+        badge: "🪔 DIWALI FESTIVAL OF LIGHTS 🪔",
+        title: "Light Up Your Home with Free Lifetime Sunshine Energy!",
+        desc: "Illuminate your roof this Diwali with free solar power generation & 25 years warranty.",
+        promoCode: "DIWALI2026",
+        emoji: "🪔✨"
+    },
+    {
+        id: "xmas-2026",
+        name: "Christmas & New Year Bumper 2026",
+        startDate: "2026-12-15",
+        endDate: "2027-01-10",
+        badge: "🎄 XMAS & NEW YEAR SOLAR BUMPER 🎄",
+        title: "Gift Your Family 25 Years of Zero Power Bills!",
+        desc: "Special Year-End Rebate & Priority KSEB Net-Meter Installation within 7 business days.",
+        promoCode: "XMAS2027",
+        emoji: "🎄🎅🎁"
+    },
+    {
+        id: "ramzan-eid-2027",
+        name: "Holy Ramzan & Eid Mubarak Solar Bumper 2027",
+        startDate: "2027-02-15",
+        endDate: "2027-03-25",
+        badge: "🌙 HOLY RAMZAN & EID MUBARAK BUMPER 🌙",
+        title: "Ramzan & Eid Mubarak! Gift Your Family Blessed Energy Independence!",
+        desc: "Special Ramzan Fasting Month Solar Bonus + Zero Processing Fee Solar Bank Financing & Priority KSEB Interconnection.",
+        promoCode: "EIDMUBARAK2027",
+        emoji: "🌙✨🕌"
+    },
+    {
+        id: "vishu-2027",
+        name: "Vishu Kani Solar Prosperity",
+        startDate: "2027-04-01",
+        endDate: "2027-04-20",
+        badge: "🌼 VISHU KANI SOLAR PROSPERITY 🌼",
+        title: "Vishu Kani for Your Rooftop: Pure Golden Sunshine Power!",
+        desc: "Start the new astrological year with permanent energy savings & zero electricity bill anxiety.",
+        promoCode: "VISHU2027",
+        emoji: "🌼🌾"
+    },
+    {
+        id: "bakrid-eid-2027",
+        name: "Eid-ul-Adha (Bakrid) Solar Mubarak 2027",
+        startDate: "2027-05-15",
+        endDate: "2027-05-28",
+        badge: "🌙 EID-UL-ADHA (BAKRID) SOLAR MUBARAK 🌙",
+        title: "Eid Mubarak! Celebrate Eid-ul-Adha with Lifetime Green Solar Power!",
+        desc: "Special Eid Blessing Cashback + Free On-Grid / Hybrid Battery Storage Upgrade Option for Kerala Homes.",
+        promoCode: "BAKRIDEID2027",
+        emoji: "🌙✨🕌"
+    }
+];
+
+function initFestivalOfferEngine() {
+    const bannerEl = document.getElementById('festival-offer-banner');
+    if (!bannerEl) return;
+
+    const now = new Date();
+    // Get YYYY-MM-DD format in local timezone
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const currentDateStr = `${year}-${month}-${day}`; // e.g. "2026-08-06"
+
+    // Find active festival based on current date
+    const activeFest = KERALA_FESTIVALS.find(f => currentDateStr >= f.startDate && currentDateStr <= f.endDate);
+
+    if (!activeFest) {
+        bannerEl.innerHTML = '';
+        bannerEl.style.display = 'none';
+        return;
+    }
+
+    // Calculate days remaining until festival period ends
+    const endDateObj = new Date(activeFest.endDate + 'T23:59:59');
+    const diffTime = Math.max(0, endDateObj - now);
+    const daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    bannerEl.style.display = 'block';
+    bannerEl.innerHTML = `
+        <div class="festival-glass-banner" style="background: linear-gradient(135deg, rgba(255, 183, 3, 0.18) 0%, rgba(245, 158, 11, 0.12) 100%); border: 1.5px solid var(--color-sun-yellow); border-radius: 16px; padding: 1.1rem 1.4rem; margin-bottom: 1.5rem; backdrop-filter: blur(16px); box-shadow: 0 8px 30px rgba(255, 183, 3, 0.25); position: relative; animation: festival-banner-glow 3s infinite ease-in-out;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.4rem;">
+                <span class="festival-badge" style="background: var(--color-sun-yellow); color: #0d1321; font-weight: 800; font-size: 0.76rem; padding: 0.3rem 0.75rem; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase;">
+                    ${activeFest.badge}
+                </span>
+                <span class="festival-timer" style="font-size: 0.76rem; font-weight: 700; color: #10b981; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.25rem 0.65rem; border-radius: 12px; display: inline-flex; align-items: center; gap: 0.3rem;">
+                    ⏳ Offer Auto-Expires in ${daysLeft} ${daysLeft === 1 ? 'Day' : 'Days'}
+                </span>
+            </div>
+            <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--color-text); margin-top: 0.4rem; margin-bottom: 0.35rem; line-height: 1.3;">
+                ${activeFest.emoji} ${activeFest.title}
+            </h3>
+            <p style="font-size: 0.86rem; color: var(--color-text-muted); line-height: 1.45; margin-bottom: 0.85rem;">
+                ${activeFest.desc}
+            </p>
+            <div style="display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap;">
+                <a href="https://wa.me/919072522277?text=${encodeURIComponent(`Hello Sunova Solar! I would like to claim the ${activeFest.name} (${activeFest.promoCode}) offer for my rooftop solar installation.`)}" target="_blank" rel="noopener" class="cta-btn text-center" style="background: #25d366; color: #ffffff; padding: 0.55rem 1.1rem; border-radius: 25px; font-weight: 700; font-size: 0.82rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 14px rgba(37, 211, 102, 0.4);">
+                    💬 Claim Festival Offer on WhatsApp
+                </a>
+                <span style="font-size: 0.76rem; color: var(--color-text-subtle); font-family: monospace; background: rgba(255, 183, 3, 0.12); padding: 0.3rem 0.6rem; border-radius: 6px; border: 1px dashed var(--color-sun-yellow);">
+                    Promo Code: <strong>${activeFest.promoCode}</strong>
+                </span>
+            </div>
+        </div>
+    `;
+}
+
+// Automatically trigger on page load
+document.addEventListener('DOMContentLoaded', () => {
+    initFestivalOfferEngine();
+});
+

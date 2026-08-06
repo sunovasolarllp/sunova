@@ -25,47 +25,575 @@
     --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Dark Theme (Default) */
+/* Dark Theme (Default) - Ultra-Rich Tech Solar Midnight Glass */
 .dark-theme {
-    --color-bg: hsl(222, 47%, 9%);
-    --color-bg-alt: hsl(222, 47%, 5%);
-    --color-surface: hsla(223, 30%, 15%, 0.65);
-    --color-surface-hover: hsla(223, 30%, 20%, 0.8);
-    --color-surface-opaque: hsl(223, 30%, 12%);
-    --color-text: hsl(210, 20%, 98%);
-    --color-text-muted: hsl(215, 15%, 75%);
-    --color-text-subtle: hsl(215, 12%, 55%);
-    --color-border: hsla(217, 30%, 25%, 0.5);
-    --color-border-focus: hsla(43, 100%, 50%, 0.4);
-    --color-shadow: rgba(0, 0, 0, 0.5);
-    --color-nav-bg: rgba(13, 19, 33, 0.75);
+    color-scheme: dark;
+    --color-bg: transparent;
+    --color-bg-alt: rgba(6, 10, 20, 0.45);
+    --color-bg-gradient: radial-gradient(circle at 12% 18%, rgba(255, 183, 3, 0.1) 0%, transparent 42%),
+                         radial-gradient(circle at 88% 35%, rgba(37, 99, 235, 0.14) 0%, transparent 48%),
+                         radial-gradient(circle at 45% 85%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
+    --color-surface: rgba(15, 23, 42, 0.72);
+    --color-surface-hover: rgba(26, 38, 68, 0.88);
+    --color-surface-opaque: rgba(15, 23, 42, 0.88);
+    --color-text: #f8fafc;
+    --color-text-muted: #94a3b8;
+    --color-text-subtle: #64748b;
+    --color-border: rgba(255, 255, 255, 0.1);
+    --color-border-focus: rgba(255, 183, 3, 0.5);
+    --color-shadow: rgba(0, 0, 0, 0.55);
+    --color-nav-bg: rgba(6, 10, 20, 0.88);
     --glass-opacity: 0.05;
 }
 
-/* Light Theme */
+/* Light Theme - Clean Daylight Aura with Warm Solar Glass */
 .light-theme {
-    --color-bg: hsl(210, 20%, 98%);
-    --color-bg-alt: hsl(210, 20%, 94%);
-    --color-surface: rgba(255, 255, 255, 0.7);
-    --color-surface-hover: rgba(255, 255, 255, 0.95);
-    --color-surface-opaque: hsl(0, 0%, 100%);
-    --color-text: hsl(222, 47%, 15%);
-    --color-text-muted: hsl(215, 20%, 40%);
-    --color-text-subtle: hsl(215, 15%, 60%);
-    --color-border: rgba(0, 0, 0, 0.08);
-    --color-border-focus: hsla(43, 100%, 50%, 0.6);
-    --color-shadow: rgba(0, 0, 0, 0.08);
-    --color-nav-bg: rgba(240, 243, 248, 0.8);
+    color-scheme: light;
+    --color-bg: transparent;
+    --color-bg-alt: rgba(248, 250, 252, 0.55);
+    --color-bg-gradient: radial-gradient(circle at 10% 15%, rgba(255, 183, 3, 0.16) 0%, transparent 45%),
+                         radial-gradient(circle at 90% 50%, rgba(59, 130, 246, 0.11) 0%, transparent 50%),
+                         radial-gradient(circle at 45% 88%, rgba(245, 158, 11, 0.08) 0%, transparent 45%);
+    --color-surface: rgba(255, 255, 255, 0.85);
+    --color-surface-hover: rgba(255, 255, 255, 0.98);
+    --color-surface-opaque: rgba(255, 255, 255, 0.94);
+    --color-text: #0f172a;
+    --color-text-muted: #334155;
+    --color-text-subtle: #64748b;
+    --color-border: rgba(15, 23, 42, 0.09);
+    --color-border-focus: rgba(245, 158, 11, 0.6);
+    --color-shadow: rgba(15, 23, 42, 0.08);
+    --color-nav-bg: rgba(255, 255, 255, 0.92);
     --glass-opacity: 0.85;
 }
 
-body {
-    background-color: var(--color-bg);
+/* --- Dark & Light Mode Text & Control Visibility Fixes --- */
+
+/* Ensure dropdown options have high-contrast readable text across all browsers */
+select option {
+    background-color: var(--color-surface-opaque, #151d30);
+    color: var(--color-text, #f8fafc);
+    padding: 0.5rem;
+}
+
+.dark-theme select option {
+    background-color: #121826 !important;
+    color: #f8fafc !important;
+}
+
+.light-theme select option {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+}
+
+/* Browser autofill text visibility fix in dark mode */
+.dark-theme input:-webkit-autofill,
+.dark-theme input:-webkit-autofill:hover, 
+.dark-theme input:-webkit-autofill:focus,
+.dark-theme textarea:-webkit-autofill,
+.dark-theme textarea:-webkit-autofill:hover,
+.dark-theme textarea:-webkit-autofill:focus,
+.dark-theme select:-webkit-autofill,
+.dark-theme select:-webkit-autofill:hover,
+.dark-theme select:-webkit-autofill:focus {
+    -webkit-text-fill-color: #f8fafc !important;
+    -webkit-box-shadow: 0 0 0px 1000px #0b1120 inset !important;
+    box-shadow: 0 0 0px 1000px #0b1120 inset !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* High-contrast placeholder text in dark mode */
+.dark-theme ::placeholder,
+.dark-theme input::placeholder,
+.dark-theme textarea::placeholder,
+.dark-theme select::placeholder {
+    color: #94a3b8 !important;
+    opacity: 1 !important;
+}
+
+/* Ensure all form inputs, textareas, selects in dark mode have visible text */
+.dark-theme input,
+.dark-theme select,
+.dark-theme textarea {
+    color: var(--color-text) !important;
+}
+
+/* --- Comprehensive Light & Dark Theme Component Rules --- */
+
+/* 1. Dark Theme Component Styling */
+.dark-theme .glass-card,
+.dark-theme .service-card,
+.dark-theme .testimonial-card,
+.dark-theme .news-card,
+.dark-theme .contact-card,
+.dark-theme .calculator-card,
+.dark-theme .login-card,
+.dark-theme .portal-card,
+.dark-theme .info-card,
+.dark-theme .tech-settings-box,
+.dark-theme .district-card,
+.dark-theme .dealer-card,
+.dark-theme .feasibility-card,
+.dark-theme .modal-content,
+.dark-theme .kseb-upload-box,
+.dark-theme #letterhead-studio-panel,
+.dark-theme #dealer-profile-details,
+.dark-theme #allocated-leads-panel,
+.dark-theme #saved-quotes-panel,
+.dark-theme #feasibility-check-panel,
+.dark-theme #dash-change-pin-panel {
+    background: rgba(15, 23, 42, 0.72) !important;
+    color: #f8fafc !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+}
+
+.dark-theme h1, .dark-theme h2, .dark-theme h3, .dark-theme h4, .dark-theme h5, .dark-theme h6 {
+    color: #f8fafc !important;
+}
+
+.dark-theme p, .dark-theme .section-desc, .dark-theme .sub-title, .dark-theme .dash-subtitle {
+    color: #94a3b8;
+}
+
+.dark-theme label, .dark-theme .form-label {
+    color: #f8fafc !important;
+}
+
+.dark-theme input:not([type="submit"]):not([type="button"]),
+.dark-theme select,
+.dark-theme textarea {
+    background-color: rgba(6, 10, 20, 0.85) !important;
+    color: #f8fafc !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.dark-theme .district-main-tab:not(.active) {
+    background: rgba(17, 25, 45, 0.72) !important;
+    color: #f8fafc !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark-theme #social-proof-toast {
+    background: rgba(10, 15, 29, 0.95) !important;
+    color: #f8fafc !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* 2. Light Theme Component Styling */
+.light-theme .glass-card,
+.light-theme .service-card,
+.light-theme .testimonial-card,
+.light-theme .news-card,
+.light-theme .contact-card,
+.light-theme .calculator-card,
+.light-theme .login-card,
+.light-theme .portal-card,
+.light-theme .info-card,
+.light-theme .tech-settings-box,
+.light-theme .district-card,
+.light-theme .dealer-card,
+.light-theme .feasibility-card,
+/* --- Master High-Contrast Theme Enforcement Engine --- */
+
+/* 1. LIGHT THEME CONTRAST ENFORCEMENT */
+.light-theme {
+    color: #0f172a !important;
+}
+
+.light-theme .glass-card,
+.light-theme .service-card,
+.light-theme .testimonial-card,
+.light-theme .news-card,
+.light-theme .contact-card,
+.light-theme .calculator-card,
+.light-theme .login-card,
+.light-theme .portal-card,
+.light-theme .info-card,
+.light-theme .tech-settings-box,
+.light-theme .district-card,
+.light-theme .dealer-card,
+.light-theme .feasibility-card,
+.light-theme .modal-content,
+.light-theme .kseb-upload-box,
+.light-theme #letterhead-studio-panel,
+.light-theme #dealer-profile-details,
+.light-theme #allocated-leads-panel,
+.light-theme #saved-quotes-panel,
+.light-theme #feasibility-check-panel,
+.light-theme #dash-change-pin-panel {
+    background: rgba(255, 255, 255, 0.94) !important;
+    color: #0f172a !important;
+    border-color: rgba(15, 23, 42, 0.12) !important;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08) !important;
+}
+
+.light-theme h1, 
+.light-theme h2, 
+.light-theme h3, 
+.light-theme h4, 
+.light-theme h5, 
+.light-theme h6,
+.light-theme strong,
+.light-theme b,
+.light-theme .hero-title,
+.light-theme .section-title,
+.light-theme .sav-val,
+.light-theme .stat-num,
+.light-theme .pizza-step-title,
+.light-theme .loc-address,
+.light-theme .contact-link-row,
+.light-theme .form-group label,
+.light-theme label,
+.light-theme th,
+.light-theme td,
+.light-theme a:not(.primary-btn):not(.green-btn):not(.cta-btn):not(.toast-inquiry-btn) {
+    color: #0f172a !important;
+    font-weight: 700;
+}
+
+.light-theme p,
+.light-theme span:not(.primary-btn):not(.green-btn):not(.cta-btn):not(.toast-inquiry-btn):not(.radar-pulse-pin):not(.sub-title):not(.stat-num):not(.input-val-display):not(.sav-val):not(.metric-label):not(.badge):not(.service-badge):not(.project-badge):not(.loc-badge):not(.news-badge):not(.upload-badge):not(.toast-icon-badge):not(.check-icon):not(.info-icon):not(.eco-leaf):not(.highlight-green):not(.unit),
+.light-theme li,
+.light-theme .section-desc,
+.light-theme .hero-desc-text,
+.light-theme .about-text,
+.light-theme .sav-lbl,
+.light-theme .stat-lbl,
+.light-theme .pizza-step-desc,
+.light-theme .calc-disclaimer,
+.light-theme .dash-subtitle,
+.light-theme .project-location,
+.light-theme .project-specs li,
+.light-theme .card-features li {
+    color: #1e293b;
+    font-weight: 500;
+}
+
+.light-theme input:not([type="submit"]):not([type="button"]),
+.light-theme select,
+.light-theme textarea {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border-color: rgba(15, 23, 42, 0.2) !important;
+}
+
+.light-theme input::placeholder,
+.light-theme textarea::placeholder,
+.light-theme select::placeholder {
+    color: #64748b !important;
+    opacity: 1 !important;
+}
+
+.light-theme .district-main-tab:not(.active) {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border-color: rgba(15, 23, 42, 0.15) !important;
+}
+
+.light-theme #social-proof-toast {
+    background: rgba(255, 255, 255, 0.96) !important;
+    color: #0f172a !important;
+    border-color: rgba(15, 23, 42, 0.14) !important;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12) !important;
+}
+
+.light-theme #toast-title {
+    color: #0f172a !important;
+}
+
+.light-theme #toast-desc {
+    color: #334155 !important;
+}
+
+/* 2. DARK THEME CONTRAST ENFORCEMENT */
+.dark-theme {
+    color: #f8fafc !important;
+}
+
+.dark-theme .glass-card,
+.dark-theme .service-card,
+.dark-theme .testimonial-card,
+.dark-theme .news-card,
+.dark-theme .contact-card,
+.dark-theme .calculator-card,
+.dark-theme .login-card,
+.dark-theme .portal-card,
+.dark-theme .info-card,
+.dark-theme .tech-settings-box,
+.dark-theme .district-card,
+.dark-theme .dealer-card,
+.dark-theme .feasibility-card,
+.dark-theme .modal-content,
+.dark-theme .kseb-upload-box,
+.dark-theme #letterhead-studio-panel,
+.dark-theme #dealer-profile-details,
+.dark-theme #allocated-leads-panel,
+.dark-theme #saved-quotes-panel,
+.dark-theme #feasibility-check-panel,
+.dark-theme #dash-change-pin-panel {
+    background: rgba(15, 23, 42, 0.76) !important;
+    color: #f8fafc !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+}
+
+.dark-theme h1, 
+.dark-theme h2, 
+.dark-theme h3, 
+.dark-theme h4, 
+.dark-theme h5, 
+.dark-theme h6,
+.dark-theme strong,
+.dark-theme b,
+.dark-theme .hero-title,
+.dark-theme .section-title,
+.dark-theme .sav-val,
+.dark-theme .stat-num,
+.dark-theme .pizza-step-title,
+.dark-theme .loc-address,
+.dark-theme .contact-link-row,
+.dark-theme .form-group label,
+.dark-theme label,
+.dark-theme th,
+.dark-theme td {
+    color: #f8fafc !important;
+}
+
+.dark-theme p,
+.dark-theme span:not(.badge):not(.primary-btn):not(.green-btn):not(.cta-btn):not(#sun-output-display):not(#referral-cash-display):not(#toast-title):not(.sav-val):not(.radar-pulse-pin),
+.dark-theme li,
+.dark-theme .section-desc,
+.dark-theme .hero-desc-text,
+.dark-theme .about-text,
+.dark-theme .sav-lbl,
+.dark-theme .stat-lbl,
+.dark-theme .pizza-step-desc,
+.dark-theme .calc-disclaimer,
+.dark-theme .dash-subtitle {
+    color: #94a3b8 !important;
+}
+
+.dark-theme input:not([type="submit"]):not([type="button"]),
+.dark-theme select,
+.dark-theme textarea {
+    background-color: rgba(6, 10, 20, 0.88) !important;
+    color: #f8fafc !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.dark-theme input::placeholder,
+.dark-theme textarea::placeholder,
+.dark-theme select::placeholder {
+    color: #94a3b8 !important;
+    opacity: 1 !important;
+}
+
+.dark-theme .district-main-tab:not(.active) {
+    background: rgba(17, 25, 45, 0.72) !important;
+    color: #f8fafc !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark-theme #social-proof-toast {
+    background: rgba(10, 15, 29, 0.95) !important;
+    color: #f8fafc !important;
+    border-color: rgba(255, 183, 3, 0.6) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6) !important;
+}
+
+.dark-theme #toast-title {
+    color: #f8fafc !important;
+}
+
+.dark-theme #toast-desc {
+    color: #94a3b8 !important;
+}
+
+/* Retain high-contrast dark text specifically on primary yellow buttons and active tabs */
+.primary-btn, 
+.cta-btn.primary-btn,
+.district-main-tab.active,
+.upload-badge,
+.dark-theme .primary-btn,
+.dark-theme .district-main-tab.active,
+.light-theme .primary-btn,
+.light-theme .district-main-tab.active {
+    color: #0d1321 !important;
+}
+
+/* --- Master High-Contrast Theme Engine & All-Text Readability Guarantee --- */
+html, body {
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    text-rendering: optimizeLegibility !important;
+}
+
+/* 1. DARK THEME ALL-ELEMENT TEXT CONTRAST & LUMINOUS GLASS GUARANTEE */
+.dark-theme h1, .dark-theme h2, .dark-theme h3, .dark-theme h4, .dark-theme h5, .dark-theme h6,
+.dark-theme .section-title, .dark-theme .hero-title, .dark-theme .sub-title,
+.dark-theme strong, .dark-theme b, .dark-theme th, .dark-theme td,
+.dark-theme .card-title, .dark-theme .modal-title, .dark-theme .project-details h3,
+.dark-theme .service-info h3, .dark-theme .tech-info h3, .dark-theme .news-card h3 {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+}
+
+.dark-theme p, .dark-theme li, .dark-theme label, .dark-theme span:not(.badge):not(.primary-btn):not(.green-btn):not(.cta-btn):not(#sun-output-display):not(#referral-cash-display):not(#toast-title):not(.sav-val):not(.radar-pulse-pin),
+.dark-theme .section-desc, .dark-theme .hero-desc-text, .dark-theme .about-text,
+.dark-theme .sav-lbl, .dark-theme .stat-lbl, .dark-theme .pizza-step-desc,
+.dark-theme .calc-disclaimer, .dark-theme .dash-subtitle, .dark-theme .project-specs li,
+.dark-theme .card-features li, .dark-theme .benefit-list p {
+    color: #f1f5f9 !important;
+    font-weight: 500;
+}
+
+.dark-theme .glass-card,
+.dark-theme .service-card,
+.dark-theme .project-card,
+.dark-theme .testimonial-card,
+.dark-theme .news-card,
+.dark-theme .calculator-card,
+.dark-theme .contact-card,
+.dark-theme .business-info-card,
+.dark-theme .login-card,
+.dark-theme .portal-card,
+.dark-theme .info-card,
+.dark-theme .district-card {
+    background: rgba(15, 23, 42, 0.55) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1.5px solid rgba(255, 183, 3, 0.35) !important;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 183, 3, 0.15) !important;
+}
+
+/* 2. LIGHT THEME ALL-ELEMENT TEXT CONTRAST GUARANTEE */
+.light-theme h1, .light-theme h2, .light-theme h3, .light-theme h4, .light-theme h5, .light-theme h6,
+.light-theme .section-title, .light-theme .hero-title, .light-theme .sub-title,
+.light-theme strong, .light-theme b, .light-theme th, .light-theme td,
+.light-theme .card-title, .light-theme .modal-title, .light-theme .project-details h3,
+.light-theme .service-info h3, .light-theme .tech-info h3, .light-theme .news-card h3 {
+    color: #0f172a !important;
+    font-weight: 700 !important;
+}
+
+.light-theme p, .light-theme li, .light-theme label, .light-theme span:not(.primary-btn):not(.green-btn):not(.cta-btn):not(.toast-inquiry-btn):not(.radar-pulse-pin),
+.light-theme .section-desc, .light-theme .hero-desc-text, .light-theme .about-text,
+.light-theme .sav-lbl, .light-theme .stat-lbl, .light-theme .pizza-step-desc,
+.light-theme .calc-disclaimer, .light-theme .dash-subtitle, .light-theme .project-specs li,
+.light-theme .card-features li, .light-theme .benefit-list p {
+    color: #1e293b !important;
+    font-weight: 500;
+}
+
+/* 3. LIGHT THEME CARD & INPUT SURFACE CONTRAST */
+.light-theme .glass-card,
+.light-theme .service-card,
+.light-theme .project-card,
+.light-theme .testimonial-card,
+.light-theme .news-card,
+.light-theme .calculator-card,
+.light-theme .contact-card,
+.light-theme .business-info-card {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    border-color: rgba(15, 23, 42, 0.12) !important;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08) !important;
+}
+
+.light-theme input:not([type="submit"]):not([type="button"]),
+.light-theme select,
+.light-theme textarea {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border-color: #cbd5e1 !important;
+}
+
+.light-theme input::placeholder,
+.light-theme textarea::placeholder,
+.light-theme select::placeholder {
+    color: #64748b !important;
+    opacity: 1 !important;
+}
+
+/* Increase readability of small micro-copy text across the site */
+.calc-disclaimer,
+.pizza-step-desc,
+.eco-benefit,
+#toast-desc,
+#ev-matcher-result,
+.project-specs,
+.card-features,
+.section-desc,
+.hero-desc-text {
+    font-size: 0.86rem !important;
+    line-height: 1.6 !important;
+    font-weight: 500 !important;
+}
+
+/* Ensure all form labels & input text are ultra-legible */
+label, .form-label, input, select, textarea {
+    font-size: 0.9rem !important;
+    font-weight: 600 !important;
+}
+
+/* Universal Focused Solar Panel Background for ALL Pages */
+html, body, .login-page-body, .portal-page-body {
+    background-image: url('assets/hero.jpg') !important;
+    background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    background-position: center center !important;
     color: var(--color-text);
     font-family: var(--font-body);
     line-height: 1.6;
     overflow-x: hidden;
+    position: relative;
     transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+.login-wrapper,
+.portal-wrapper,
+.dashboard-wrapper,
+header,
+main,
+section,
+footer,
+.hero,
+.about,
+.services,
+.projects,
+.calculator,
+.contact,
+.features,
+.testimonials,
+.faq,
+.news,
+.kerala-grid-section,
+.district-dealers-section,
+.legal-page,
+.privacy-policy,
+.terms-conditions {
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* Solar Panel Focused Background Tint Overlay Engine for All Pages */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    transition: background 0.4s ease;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.18) 0%, rgba(15, 23, 42, 0.25) 100%) !important;
+}
+
+.light-theme::before {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.42) 0%, rgba(248, 250, 252, 0.48) 100%) !important;
 }
 
 /* Custom Scrollbar */
@@ -250,11 +778,18 @@ body {
     left: 0;
     width: 100%;
     z-index: 1000;
-    background-color: var(--color-nav-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--color-border);
+    background-color: rgba(13, 19, 33, 0.92) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
     transition: all var(--transition-normal);
+}
+
+.light-theme .navbar {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.12) !important;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08) !important;
 }
 
 .nav-container {
@@ -408,8 +943,8 @@ body {
 /* Hero Section */
 .hero-section {
     position: relative;
-    padding: 8rem 0 7rem;
-    min-height: 100vh;
+    padding: 7.8rem 0 4rem;
+    min-height: 88vh;
     display: flex;
     align-items: center;
     overflow: hidden;
@@ -436,12 +971,12 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(13, 19, 33, 0.95) 40%, rgba(13, 19, 33, 0.75) 100%);
+    background: linear-gradient(90deg, rgba(13, 19, 33, 0.65) 0%, rgba(13, 19, 33, 0.25) 50%, rgba(13, 19, 33, 0.1) 100%);
     z-index: -1;
 }
 
 .light-theme .hero-overlay {
-    background: linear-gradient(135deg, rgba(240, 243, 248, 0.95) 45%, rgba(240, 243, 248, 0.8) 100%);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0.1) 100%);
 }
 
 .hero-container {
@@ -457,27 +992,42 @@ body {
     }
 }
 
-.badge {
-    display: inline-block;
-    padding: 0.45rem 1.2rem;
-    font-size: 0.82rem;
-    font-weight: 800;
-    border-radius: 20px;
-    background-color: #ef4444;
-    color: #ffffff !important;
-    border: 2px solid #dc2626;
-    margin-bottom: 1.5rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    box-shadow: 0 0 15px rgba(239, 68, 68, 0.35);
+.hero-content {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
 }
 
+.light-theme .hero-content {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.hero-pill-badge,
+.badge {
+    display: inline-block;
+    padding: 0.4rem 1.1rem;
+    font-size: 0.84rem;
+    font-weight: 800;
+    border-radius: 25px;
+    background: transparent !important;
+    color: var(--color-sun-yellow) !important;
+    border: 1.5px solid var(--color-sun-yellow) !important;
+    margin-bottom: 1.25rem;
+    letter-spacing: 0.5px;
+    box-shadow: none !important;
+    animation: slide-text-down 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+.light-theme .hero-pill-badge,
 .light-theme .badge {
-    background-color: #ef4444;
-    color: #ffffff !important;
-    border-color: #dc2626;
-    border-width: 2px;
-    box-shadow: 0 0 15px rgba(239, 68, 68, 0.25);
+    background: transparent !important;
+    color: #d97706 !important;
+    border: 1.5px solid #d97706 !important;
+    box-shadow: none !important;
 }
 
 .hero-title {
@@ -489,7 +1039,90 @@ body {
     letter-spacing: -0.5px;
     position: relative;
     z-index: 2;
-    color: #ffffff;
+    color: #ffffff !important;
+    text-shadow: 0 4px 18px rgba(0, 0, 0, 0.95), 0 2px 6px rgba(0, 0, 0, 0.95);
+    animation: slide-text-right 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s both;
+}
+
+.hero-desc-text {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+}
+
+.dark-theme .hero-title {
+    color: #ffffff !important;
+    text-shadow: 0 4px 18px rgba(0, 0, 0, 0.95);
+}
+
+.light-theme .hero-title {
+    color: #0f172a !important;
+    text-shadow: none !important;
+}
+
+.light-theme .hero-desc-text {
+    color: #1e293b !important;
+    text-shadow: none !important;
+}
+
+.hero-title .gradient-text {
+    display: inline-block;
+    animation: slide-text-left 1.1s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.35s both;
+}
+
+.hero-desc-panel {
+    animation: slide-text-up 1s ease-out 0.5s both;
+}
+
+.hero-buttons {
+    animation: slide-text-up 1s ease-out 0.65s both;
+}
+
+/* Sliding Letter Keyframe Animations */
+@keyframes slide-text-right {
+    0% {
+        opacity: 0;
+        transform: translateX(-60px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slide-text-left {
+    0% {
+        opacity: 0;
+        transform: translateX(60px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slide-text-down {
+    0% {
+        opacity: 0;
+        transform: translateY(-35px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slide-text-up {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .hero-title::before {
@@ -515,8 +1148,8 @@ body {
 }
 
 .light-theme .hero-title {
-    color: #ffffff !important;
-    text-shadow: 0 2px 10px rgba(13, 19, 33, 0.65), 0 1px 3px rgba(13, 19, 33, 0.4);
+    color: #0f172a !important;
+    text-shadow: none;
 }
 
 @media(min-width: 768px) {
@@ -531,24 +1164,17 @@ body {
     -webkit-text-fill-color: transparent;
 }
 
-.hero-desc-panel {
-    background-color: rgba(30, 41, 59, 0.45);
-    border: 2px solid rgba(255, 255, 255, 0.15);
-    border-radius: 12px;
-    padding: 1.15rem 1.4rem;
-    margin-bottom: 2rem;
+.hero-desc-panel,
+.light-theme .hero-desc-panel {
+    background: transparent !important;
+    background-image: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin-bottom: 1.5rem;
     max-width: 600px;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-    
-    /* Solar cell grid pattern overlay */
-    background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-    background-size: 40px 40px;
-    position: relative;
-    overflow: hidden;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
 }
 
 .hero-desc-text {
@@ -598,18 +1224,14 @@ body {
     border-color: rgba(255, 183, 3, 0.2);
 }
 
-.hero-card .glass-card {
-    background: rgba(255, 255, 255, 0.03) !important;
-    border: 1.5px solid rgba(255, 255, 255, 0.12) !important;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15) !important;
-    backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
-}
-
+.hero-card .glass-card,
 .light-theme .hero-card .glass-card {
-    background: rgba(255, 255, 255, 0.3) !important;
-    border: 1.5px solid rgba(0, 0, 0, 0.08) !important;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04) !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    padding: 0 !important;
 }
 
 .hero-card .glass-card h3 {
@@ -646,7 +1268,7 @@ body {
 
 .benefit-icon {
     font-size: 1.5rem;
-    background: rgba(255, 183, 3, 0.1);
+    background: rgba(255, 183, 3, 0.15);
     width: 3rem;
     height: 3rem;
     display: flex;
@@ -654,6 +1276,40 @@ body {
     justify-content: center;
     border-radius: 12px;
     flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.benefit-list h4 {
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+    margin-bottom: 0.2rem;
+}
+
+.dark-theme .benefit-list h4 {
+    color: #ffffff !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+}
+
+.light-theme .benefit-list h4 {
+    color: #0f172a !important;
+    text-shadow: none !important;
+}
+
+.benefit-list p {
+    font-weight: 500 !important;
+    color: #ffffff !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
+}
+
+.dark-theme .benefit-list p {
+    color: #ffffff !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
+}
+
+.light-theme .benefit-list p {
+    color: #1e293b !important;
+    text-shadow: none !important;
 }
 
 .benefit-list h4 {
@@ -689,16 +1345,16 @@ body {
     transition: fill var(--transition-normal);
 }
 
-/* Sections General */
+/* Sections General - Compact & Cohesive Layout Spacing */
 section {
-    padding: 6rem 0;
+    padding: 3.25rem 0;
     position: relative;
 }
 
 .section-header {
     text-align: center;
     max-width: 700px;
-    margin: 0 auto 4rem;
+    margin: 0 auto 2rem;
 }
 
 .sub-title {
@@ -2133,13 +2789,25 @@ form {
     display: none !important;
 }
 
-/* Footer Section */
+/* Footer Section with Solid High-Contrast Background Fill */
 .footer {
-    background-color: var(--color-bg-alt);
-    border-top: 1px solid var(--color-border);
-    padding: 5rem 0 0;
-    color: var(--color-text);
-    transition: background-color var(--transition-normal), color var(--transition-normal), border-color var(--transition-normal);
+    background: rgba(6, 10, 20, 0.96) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 2px solid var(--color-sun-yellow) !important;
+    padding: 4.5rem 0 0 !important;
+    color: #f8fafc !important;
+    position: relative;
+    z-index: 10;
+    transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+.light-theme .footer {
+    background: rgba(255, 255, 255, 0.98) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 2px solid var(--color-sun-yellow) !important;
+    color: #0f172a !important;
 }
 
 .footer-container {
@@ -2166,14 +2834,20 @@ form {
 }
 
 .footer-desc {
-    font-size: 0.88rem;
-    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #cbd5e1 !important;
+}
+
+.light-theme .footer-desc {
+    color: #1e293b !important;
+    font-weight: 500;
 }
 
 .footer-llp {
-    font-size: 0.82rem;
-    color: var(--color-sun-yellow);
-    font-weight: 500;
+    font-size: 0.85rem;
+    color: var(--color-sun-yellow) !important;
+    font-weight: 700;
 }
 
 .footer-links {
@@ -2184,11 +2858,17 @@ form {
 
 .footer-links h4, .footer-contact h4 {
     font-family: var(--font-heading);
-    font-size: 1.1rem;
-    color: var(--color-text);
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #ffffff !important;
     margin-bottom: 0.5rem;
     position: relative;
     padding-bottom: 0.5rem;
+}
+
+.light-theme .footer-links h4, 
+.light-theme .footer-contact h4 {
+    color: #0f172a !important;
 }
 
 .footer-links h4::after, .footer-contact h4::after {
@@ -2197,38 +2877,58 @@ form {
     bottom: 0;
     left: 0;
     width: 35px;
-    height: 2px;
+    height: 3px;
     background-color: var(--color-sun-yellow);
+    border-radius: 2px;
 }
 
 .footer-links a {
-    color: var(--color-text-muted);
+    color: #cbd5e1 !important;
     text-decoration: none;
-    font-size: 0.88rem;
-    transition: color var(--transition-fast);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.light-theme .footer-links a {
+    color: #1e293b !important;
 }
 
 .footer-links a:hover {
-    color: var(--color-sun-yellow);
+    color: var(--color-sun-yellow) !important;
+    transform: translateX(4px);
 }
 
 .footer-contact {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    font-size: 0.88rem;
-    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    color: #cbd5e1 !important;
+}
+
+.light-theme .footer-contact {
+    color: #1e293b !important;
 }
 
 .footer-contact p strong {
-    color: var(--color-text);
+    color: #ffffff !important;
+}
+
+.light-theme .footer-contact p strong {
+    color: #0f172a !important;
 }
 
 .footer-bottom {
-    background-color: var(--color-bg);
+    background-color: rgba(4, 7, 15, 0.98) !important;
     padding: 1.5rem 0;
-    border-top: 1px solid var(--color-border);
-    transition: background-color var(--transition-normal), border-color var(--transition-normal);
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+    transition: background-color var(--transition-normal);
+}
+
+.light-theme .footer-bottom {
+    background-color: #f1f5f9 !important;
+    border-top: 1px solid rgba(15, 23, 42, 0.12) !important;
 }
 
 .footer-bottom-container {
@@ -2236,8 +2936,13 @@ form {
     flex-direction: column;
     gap: 0.5rem;
     text-align: center;
-    font-size: 0.78rem;
-    color: var(--color-text-subtle);
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: #94a3b8 !important;
+}
+
+.light-theme .footer-bottom-container {
+    color: #475569 !important;
 }
 
 @media(min-width: 576px) {
@@ -2248,7 +2953,7 @@ form {
     }
 }
 
-/* Animations */
+/* Animations & Dynamic Micro-Interactions */
 @keyframes pulse-slow {
     0% { transform: scale(1); }
     100% { transform: scale(1.08); }
@@ -2259,34 +2964,123 @@ form {
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* Ambient Floating Animation for Hero & Feature Cards */
+@keyframes float-subtle {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+}
+
+.hero-card .glass-card {
+    animation: float-subtle 6s ease-in-out infinite;
+}
+
+/* Animated Gradient Flow for Headlines */
+.gradient-text {
+    background: linear-gradient(135deg, #ffb703 0%, #f59e0b 35%, #eab308 70%, #fb8500 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-flow 6s ease infinite;
+}
+
+@keyframes gradient-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Pulsing Badge & Accent Highlight */
+.badge {
+    animation: pulse-glow-red 3.5s ease-in-out infinite;
+}
+
+@keyframes pulse-glow-red {
+    0%, 100% {
+        box-shadow: 0 0 12px rgba(239, 68, 68, 0.35);
+    }
+    50% {
+        box-shadow: 0 0 24px rgba(239, 68, 68, 0.7);
+    }
+}
+
+/* Button Shimmer Reflection Sweep Effect */
+.primary-btn, .green-btn, .cta-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.primary-btn::after, .green-btn::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 40%;
+    height: 200%;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.45) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(25deg);
+    pointer-events: none;
+}
+
+.primary-btn:hover::after, .green-btn:hover::after {
+    animation: shimmer-sweep 1.2s ease-out;
+}
+
+@keyframes shimmer-sweep {
+    0% { left: -60%; }
+    100% { left: 160%; }
+}
+
+/* Dynamic Interactive Card Hover & Lift */
+.glass-card, .service-card, .testimonial-card, .news-card, .calculator-card, .contact-card {
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                box-shadow 0.35s ease, 
+                border-color 0.35s ease,
+                background 0.35s ease;
+}
+
+.glass-card:hover, .service-card:hover, .testimonial-card:hover, .news-card:hover {
+    transform: translateY(-8px) scale(1.015);
+    border-color: rgba(255, 183, 3, 0.45) !important;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28), 0 0 22px rgba(255, 183, 3, 0.18) !important;
+}
+
+/* Icon Pop & Rotation Micro-Interactions */
+.benefit-icon, .service-icon, .avatar-circle {
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
+}
+
+.glass-card:hover .benefit-icon, 
+.glass-card:hover .service-icon,
+.testimonial-card:hover .avatar-circle {
+    transform: scale(1.18) rotate(6deg);
+    background: rgba(255, 183, 3, 0.25) !important;
+}
+
+/* Tactile Active Press Feedback */
+.cta-btn:active, .primary-btn:active, .secondary-btn:active, button:active {
+    transform: scale(0.96) !important;
+}
+
 /* Scroll Reveal Classes (Driven by JS Interaction Observer) */
-.scroll-reveal {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity var(--transition-slow), transform var(--transition-slow);
-}
-
-.scroll-reveal-up {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity var(--transition-slow), transform var(--transition-slow);
-}
-
-.scroll-reveal-left {
-    opacity: 0;
-    transform: translateX(-40px);
-    transition: opacity var(--transition-slow), transform var(--transition-slow);
-}
-
+.scroll-reveal,
+.scroll-reveal-up,
+.scroll-reveal-left,
 .scroll-reveal-right {
-    opacity: 0;
-    transform: translateX(40px);
+    opacity: 1 !important;
+    transform: translate(0, 0) !important;
+    visibility: visible !important;
     transition: opacity var(--transition-slow), transform var(--transition-slow);
 }
 
 .reveal-active {
-    opacity: 1;
-    transform: translate(0, 0);
+    opacity: 1 !important;
+    transform: translate(0, 0) !important;
+    visibility: visible !important;
 }
 
 /* Contact Links styling */
@@ -3154,8 +3948,8 @@ form {
 
 /* Reusable Infinite Marquee Styles for Services, Panel Types & Manufacturers */
 .section-marquee-container {
-    overflow: hidden;
-    width: 100%;
+    overflow: hidden !important;
+    width: 100% !important;
     position: relative;
     padding: 0.5rem 0 1.25rem 0;
     mask-image: linear-gradient(to right, transparent, #000 3%, #000 97%, transparent);
@@ -3167,6 +3961,7 @@ form {
     gap: 1.5rem;
     width: max-content;
     animation: scroll-section-marquee 38s linear infinite;
+    will-change: transform;
 }
 
 .section-marquee-track:hover {
@@ -3178,14 +3973,14 @@ form {
         transform: translateX(0);
     }
     100% {
-        transform: translateX(-50%);
+        transform: translateX(calc(-50% - 0.75rem));
     }
 }
 
 /* Testimonial Auto-Scroll Marquee Track */
 .testimonial-marquee-container {
-    overflow: hidden;
-    width: 100%;
+    overflow: hidden !important;
+    width: 100% !important;
     position: relative;
     padding: 0.5rem 0 1rem 0;
     mask-image: linear-gradient(to right, transparent, #000 3%, #000 97%, transparent);
@@ -3197,6 +3992,7 @@ form {
     gap: 1.25rem;
     width: max-content;
     animation: scroll-testimonial-marquee 45s linear infinite;
+    will-change: transform;
 }
 
 .testimonial-marquee-track:hover {
@@ -3208,7 +4004,7 @@ form {
         transform: translateX(0);
     }
     100% {
-        transform: translateX(-50%);
+        transform: translateX(calc(-50% - 0.625rem));
     }
 }
 
@@ -3405,9 +4201,342 @@ form {
     }
 }
 
+}
+
 /* Large Desktop Screens (>= 992px) */
 @media (min-width: 992px) {
     #main-district-dealers-grid {
         grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    }
+}
+
+/* --- Interactive Solar Animations & Micro-Interactions --- */
+
+/* 1. Typing Headline Blinking Cursor */
+.typing-cursor {
+    display: inline-block;
+    color: var(--color-sun-yellow);
+    font-weight: 700;
+    margin-left: 2px;
+    animation: blink-cursor 0.8s infinite;
+}
+
+@keyframes blink-cursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* 2. Energy Micro-Particle Flow Conduit */
+.energy-flow-conduit {
+    position: relative;
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 0.8rem 0;
+}
+
+.energy-flow-particle {
+    position: absolute;
+    top: 0;
+    left: -30%;
+    width: 30%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, #ffb703, #10b981, transparent);
+    box-shadow: 0 0 10px #ffb703, 0 0 20px #10b981;
+    animation: energy-conduit-flow 2.2s infinite linear;
+}
+
+@keyframes energy-conduit-flow {
+    0% { left: -35%; }
+    100% { left: 100%; }
+}
+
+/* 3. Radar Pulse Rings for Map Location Markers & Live Pins */
+.radar-pulse-pin {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.radar-pulse-pin::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(255, 183, 3, 0.4);
+    animation: radar-pulse-ring 2s infinite ease-out;
+}
+
+@keyframes radar-pulse-ring {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* 4. Live Battery Glow Fill Animation */
+.battery-glow-bar {
+    background: linear-gradient(90deg, #ffb703, #10b981);
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
+    transition: width 0.8s ease-in-out;
+}
+
+/* --- Social Proof Ticker Animations & Glass Glow Effects --- */
+.social-proof-toast {
+    animation: toast-ambient-pulse 4s infinite ease-in-out !important;
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease !important;
+}
+
+.social-proof-toast:hover {
+    transform: translateY(-6px) scale(1.025) !important;
+    box-shadow: 0 16px 40px rgba(255, 183, 3, 0.45) !important;
+}
+
+/* Pulsing Golden Glass Aura */
+@keyframes toast-ambient-pulse {
+    0%, 100% {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), 0 0 15px rgba(255, 183, 3, 0.25);
+        border-color: rgba(255, 183, 3, 0.6);
+    }
+    50% {
+        box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45), 0 0 28px rgba(255, 183, 3, 0.55);
+        border-color: rgba(255, 183, 3, 0.95);
+    }
+}
+
+/* Bouncing Ball Avatar Sphere for Social Proof Ticker */
+.toast-icon-badge {
+    width: 46px !important;
+    height: 46px !important;
+    border-radius: 50% !important;
+    background: radial-gradient(circle at 30% 30%, #ffc837, #ff8008) !important;
+    border: 2.5px solid #ffffff !important;
+    box-shadow: 0 6px 18px rgba(255, 128, 8, 0.6), inset 0 -3px 6px rgba(0, 0, 0, 0.25) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.25rem !important;
+    flex-shrink: 0 !important;
+    animation: ball-bounce-float 2.2s infinite ease-in-out !important;
+}
+
+@keyframes ball-bounce-float {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+        box-shadow: 0 6px 18px rgba(255, 128, 8, 0.5);
+    }
+    50% {
+        transform: translateY(-12px) scale(1.08);
+        box-shadow: 0 16px 28px rgba(255, 128, 8, 0.75);
+    }
+}
+
+/* Instant Inquiry Button Shimmer Light Sweep */
+.toast-inquiry-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Forward & Reverse Sliding Animations for Social Proof Ticker */
+.toast-slide-enter {
+    animation: toast-slide-forward 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
+}
+
+.toast-slide-exit {
+    animation: toast-slide-reverse 0.5s ease-in forwards !important;
+}
+
+@keyframes toast-slide-forward {
+    0% {
+        opacity: 0;
+        transform: translateX(-60px) scale(0.92);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+@keyframes toast-slide-reverse {
+    0% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(60px) scale(0.92);
+    }
+}
+
+/* Toast Countdown Timer Progress Bar */
+.toast-progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+    right: 20px;
+    height: 3px;
+    background: linear-gradient(90deg, #ffb703, #10b981);
+    border-radius: 3px;
+    box-shadow: 0 0 8px rgba(255, 183, 3, 0.6);
+    transform-origin: left center;
+}
+
+.toast-progress-animate {
+    animation: toast-timer-shrink 6s linear forwards !important;
+}
+
+@keyframes toast-timer-shrink {
+    0% { transform: scaleX(1); opacity: 1; }
+    95% { opacity: 1; }
+    100% { transform: scaleX(0); opacity: 0; }
+}
+
+.toast-inquiry-btn::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 50%;
+    height: 200%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+    transform: rotate(25deg);
+    animation: toast-shimmer-sweep 3.2s infinite ease-in-out;
+}
+
+@keyframes toast-shimmer-sweep {
+    0% { left: -60%; }
+    20%, 100% { left: 140%; }
+}
+
+/* --- Interactive Installation Pizza Tracker & EV Matcher Styles --- */
+.pizza-tracker-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+    margin: 2rem 0 1rem;
+    gap: 1rem;
+}
+
+.pizza-tracker-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 24px;
+    left: 40px;
+    right: 40px;
+    height: 4px;
+    background: var(--color-border);
+    z-index: 1;
+}
+
+.pizza-tracker-step {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    flex: 1;
+}
+
+.pizza-step-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--color-surface-opaque);
+    border: 2px solid var(--color-sun-yellow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    margin: 0 auto 0.6rem;
+    box-shadow: 0 0 15px rgba(255, 183, 3, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.pizza-tracker-step:hover .pizza-step-icon {
+    transform: scale(1.18);
+}
+
+.pizza-step-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 0.2rem;
+}
+
+.pizza-step-desc {
+    font-size: 0.72rem;
+    color: var(--color-text-muted);
+}
+
+@media (max-width: 768px) {
+    .pizza-tracker-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+    .pizza-tracker-wrapper::before {
+        top: 20px;
+        bottom: 20px;
+        left: 24px;
+        width: 4px;
+        height: auto;
+        right: auto;
+    }
+    .pizza-tracker-step {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        text-align: left;
+    }
+    .pizza-step-icon {
+        margin: 0;
+        flex-shrink: 0;
+    }
+}
+
+/* --- Clean High-Definition Image Presentation --- */
+.hero-img,
+.service-img,
+.project-img,
+.project-card img,
+.service-card img {
+    object-fit: cover !important;
+    display: block !important;
+    transition: transform 0.4s ease, filter 0.4s ease !important;
+}
+
+.service-card:hover .service-img,
+.project-card:hover .project-img {
+    transform: scale(1.04) !important;
+    filter: brightness(1.05) !important;
+}
+
+/* Logo Image Continuous Glowing Pulse */
+.logo-img-file,
+.portal-logo {
+    animation: logo-glow-bounce 4s infinite ease-in-out !important;
+}
+
+@keyframes logo-glow-bounce {
+    0%, 100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 4px rgba(255, 183, 3, 0.4));
+    }
+    50% {
+        transform: scale(1.05);
+        filter: drop-shadow(0 0 14px rgba(255, 183, 3, 0.8));
+    }
+}
+
+/* Festival Offer Glass Banner Glow Animation */
+@keyframes festival-banner-glow {
+    0%, 100% {
+        border-color: rgba(255, 183, 3, 0.7);
+        box-shadow: 0 8px 30px rgba(255, 183, 3, 0.25);
+    }
+    50% {
+        border-color: rgba(255, 183, 3, 1);
+        box-shadow: 0 12px 40px rgba(255, 183, 3, 0.5);
     }
 }
