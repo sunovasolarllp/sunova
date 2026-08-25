@@ -1,10 +1,16 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Partner Portal | SUNOVA SOLAR LLP</title>
-    <meta name="description" content="Authorized partner portal login for SUNOVA SOLAR LLP district channel partners.">
+    <!-- PWA & Mobile Web App Meta Tags -->
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="assets/logo.jpg">
+    <link rel="apple-touch-icon" href="assets/logo.jpg">
+    <link rel="manifest" href="manifest.json">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,54 +18,159 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="style.css?v=5.0">
+    <link rel="stylesheet" href="style.css?v=9.7">
     
     <style>
         /* Printable & PDF Page Paragraph Arrangement & Letterhead Preservation Rules */
         @media print {
             @page {
                 size: A4 portrait;
-                margin: 10mm 12mm 10mm 12mm;
+                margin: 8mm 10mm 8mm 10mm;
             }
             
+            /* Remove all background pictures, wallpapers, gradients, and logo watermarks */
             * {
                 -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
                 print-color-adjust: exact !important;
                 box-sizing: border-box !important;
+                background-image: none !important;
+                text-shadow: none !important;
+                box-shadow: none !important;
+            }
+
+            /* Hide all real background photos, hero images, and decorative graphics from print */
+            .hero-img,
+            .service-img,
+            .project-img,
+            .brand-logo-img,
+            [class*="hero-img"],
+            [class*="service-img"],
+            [class*="project-img"],
+            img[src*="real_"],
+            img[src*="hero"] {
+                display: none !important;
+                visibility: hidden !important;
+                width: 0 !important;
+                height: 0 !important;
+                opacity: 0 !important;
+            }
+
+            img[src*="logo.jpg"],
+            .lh-header img,
+            img.enterprise-logo {
+                display: inline-block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                height: 52px !important;
+                width: auto !important;
+            }
+
+            *::before,
+            *::after {
+                background-image: none !important;
+                box-shadow: none !important;
+                text-shadow: none !important;
+            }
+
+            /* Completely disable logo watermarks and pseudo-element background pictures in print/PDF */
+            .hero-title::before,
+            .hero-title::after,
+            .watermark,
+            .bg-watermark,
+            [class*="watermark"],
+            #quote-render-area::before,
+            #quote-render-area::after,
+            #printable-quote-content::before,
+            #printable-quote-content::after,
+            .glass-card::before,
+            .glass-card::after,
+            .login-wrapper::before,
+            .login-wrapper::after {
+                display: none !important;
+                content: none !important;
+                background: none !important;
+                background-image: none !important;
+                opacity: 0 !important;
+                visibility: hidden !important;
             }
             
-            body {
-                background: white !important;
-                color: #222 !important;
+            html, body {
+                background: #ffffff !important;
+                background-color: #ffffff !important;
+                background-image: none !important;
+                color: #000000 !important;
                 margin: 0 !important;
                 padding: 0 !important;
+                width: 100% !important;
+                height: auto !important;
+                overflow: visible !important;
             }
             
-            .no-print, nav, .back-home-link, .login-wrapper, header:not(.lh-header), footer:not(.lh-footer) {
+            .no-print, nav, .back-home-link, .portal-header, .portal-actions-grid, .portal-role-switch, .tech-settings-box, #allocated-and-saved-container, #admin-edit-modal, header:not(.lh-header), footer:not(.lh-footer) {
                 display: none !important;
             }
 
+            .login-wrapper {
+                display: block !important;
+                background: #ffffff !important;
+                background-color: #ffffff !important;
+                background-image: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                max-width: 100% !important;
+                width: 100% !important;
+                min-height: auto !important;
+                box-shadow: none !important;
+                border: none !important;
+            }
+
+            .glass-card, .login-card {
+                background: #ffffff !important;
+                background-color: #ffffff !important;
+                background-image: none !important;
+                border: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                display: block !important;
+            }
+
             #quote-modal-overlay {
-                position: absolute !important;
+                display: block !important;
+                position: relative !important;
+                inset: auto !important;
                 top: 0 !important;
                 left: 0 !important;
                 width: 100% !important;
                 height: auto !important;
-                background: white !important;
+                background: #ffffff !important;
+                color: #000000 !important;
                 padding: 0 !important;
                 margin: 0 !important;
                 overflow: visible !important;
                 box-shadow: none !important;
+                z-index: 99999 !important;
             }
             
             #printable-quote-content {
                 box-shadow: none !important;
+                border: none !important;
                 border-radius: 0 !important;
                 max-width: 100% !important;
                 padding: 0 !important;
                 margin: 0 !important;
                 width: 100% !important;
-                background: white !important;
+                background: #ffffff !important;
+                color: #000000 !important;
+            }
+
+            #quote-render-area {
+                width: 100% !important;
+                background: #ffffff !important;
+                color: #000000 !important;
             }
 
             #quote-render-area > div {
@@ -69,6 +180,8 @@
                 box-shadow: none !important;
                 max-width: 100% !important;
                 width: 100% !important;
+                background: #ffffff !important;
+                color: #000000 !important;
             }
 
             /* Table structure ensuring Header & Footer repeat on ALL printed pages with perfect alignment */
@@ -102,29 +215,6 @@
                 display: block !important;
                 width: 100% !important;
                 margin-top: 1rem !important;
-            }
-            
-            #quote-modal-overlay {
-                position: absolute !important;
-                top: 0 !important;
-                left: 0 !important;
-                width: 100% !important;
-                height: auto !important;
-                background: white !important;
-                padding: 0 !important;
-                margin: 0 !important;
-                overflow: visible !important;
-                box-shadow: none !important;
-            }
-            
-            #printable-quote-content {
-                box-shadow: none !important;
-                border-radius: 0 !important;
-                max-width: 100% !important;
-                padding: 0 !important;
-                margin: 0 !important;
-                width: 100% !important;
-                background: white !important;
             }
             
             /* Arrange pages paragraph by paragraph and prevent awkward splits */
@@ -239,9 +329,12 @@
     </script>
     <div class="login-wrapper">
         <!-- Floating Header Controls -->
-        <div style="position: absolute; top: 1.2rem; right: 1.2rem; display: flex; gap: 0.8rem; align-items: center; z-index: 100;">
+        <div style="position: absolute; top: 1.2rem; right: 1.2rem; display: flex; gap: 0.6rem; align-items: center; z-index: 100;">
             <button type="button" onclick="togglePortalTheme()" style="background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text); padding: 0.4rem 0.85rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 8px var(--color-shadow);">
                 <span>🌙 / ☀️ Switch Theme</span>
+            </button>
+            <button type="button" onclick="toggleChangePinPanel()" style="background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text); padding: 0.4rem 0.85rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 8px var(--color-shadow);">
+                <span>🔒 Change PIN</span>
             </button>
         </div>
 
@@ -314,192 +407,439 @@
             </div>
 
             <!-- Dashboard View (Initially Hidden) -->
-            <div id="dashboard-view" class="hidden">
-                <div class="success-badge">
-                    <span class="check-icon">✓</span> Session Authenticated
-                </div>
-                <h3>Welcome back, Partner</h3>
-                <p class="dash-subtitle" style="margin-bottom: 1.5rem;">Sunova Solar Channel Partner Dashboard</p>
-
-                <!-- Lead metrics quick stats -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
-                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; text-align: center;">
-                        <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Active Leads</span>
-                        <div id="partner-active-leads" style="font-size: 1.8rem; font-weight: 700; color: var(--color-sun-yellow); margin-top: 0.25rem;">0</div>
+            <div id="dashboard-view" class="hidden" style="width: 100%; margin: 0; padding: 0;">
+                
+                <!-- Top Navbar Bar (Airtel i360 Rework) -->
+                <div class="enterprise-navbar">
+                    <div class="enterprise-brand">
+                        <img src="assets/logo.jpg" alt="SUNOVA Logo" class="enterprise-logo">
+                        <h1 class="enterprise-title">SUNOVA SOLAR</h1>
                     </div>
-                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; text-align: center;">
-                        <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Commission Earned</span>
-                        <div id="partner-commission-earned" style="font-size: 1.4rem; font-weight: 700; color: var(--color-text); margin-top: 0.45rem;">₹0</div>
-                    </div>
-                </div>
 
-                <!-- Launch Buttons -->
-                <div class="portal-actions-grid" style="display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1.5rem;">
-                    <button type="button" onclick="toggleAllocatedLeads()" class="cta-btn primary-btn text-center full-width" style="cursor: pointer; width: 100%; border: none; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
-                        📋 View Allocated Customer Inquiries
-                    </button>
-                    <button type="button" onclick="toggleSavedQuotes()" class="cta-btn primary-btn text-center full-width" style="cursor: pointer; width: 100%; border: none; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
-                        💾 View Saved Quotations
-                    </button>
-                    <button type="button" onclick="toggleLetterheadStudioPanel()" class="cta-btn text-center full-width" style="background: linear-gradient(135deg, #047857, #10b981); color: #ffffff; cursor: pointer; width: 100%; border: none; font-size: 0.9rem; font-weight: 700; padding: 0.85rem 1rem; border-radius: 8px; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);">
-                        📜 Custom Letterhead Studio &amp; Designer Form
-                    </button>
-                    <button type="button" onclick="toggleChangePinPanel()" class="cta-btn text-center full-width" style="background: rgba(255,255,255,0.05); border: 1px solid var(--color-border); color: var(--color-text); cursor: pointer; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
-                        🔒 Change Security PIN
-                    </button>
-                    <button type="button" onclick="toggleFeasibilityPanel()" class="cta-btn primary-btn text-center full-width" style="cursor: pointer; width: 100%; border: none; font-size: 0.9rem; font-weight: 600; padding: 0.8rem 1rem;">
-                        ✅ Feasibility Check &amp; KSEB Verification
-                    </button>
+                    <div class="enterprise-user-area">
+                        <button type="button" onclick="printQuotationDocument()" class="enterprise-nav-btn" title="Print Current Proposal" style="background: rgba(34, 197, 94, 0.15); border-color: rgba(34, 197, 94, 0.4); color: #22c55e; font-size: 0.82rem; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px; display: flex; align-items: center; gap: 0.35rem;">
+                            🖨️ Print Quote
+                        </button>
+                        <button type="button" onclick="togglePortalTheme()" class="enterprise-nav-btn" title="Switch Theme">
+                            🌙
+                        </button>
+                        <button type="button" onclick="toggleChangePinPanel()" class="enterprise-nav-btn" title="Change Security PIN">
+                            🔒
+                        </button>
+                        <button type="button" onclick="logoutPortal()" class="enterprise-nav-btn" style="background: rgba(220,38,38,0.2); border-color: rgba(220,38,38,0.4); color: #f87171;" title="Sign Out">
+                            🚪
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Custom Letterhead Studio & Designer Panel (Collapsible) -->
-                <div id="letterhead-studio-panel" class="hidden" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.6rem; margin-bottom: 1rem;">
-                        <h4 style="margin: 0; color: var(--color-sun-yellow); font-family: var(--font-heading); font-size: 1.05rem;">
-                            📜 Custom Letterhead Studio &amp; Designer Form
-                        </h4>
-                        <a href="index.html" target="_blank" rel="noopener" class="cta-btn primary-btn" style="font-size: 0.76rem; padding: 0.35rem 0.75rem; text-decoration: none;">
-                            Launch Studio App ↗
-                        </a>
-                    </div>
-                    <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 1.2rem; line-height: 1.45;">
-                        Customize layouts, presets, color palettes, document reference metadata, and letter templates for custom letterhead generation.
-                    </p>
+                <!-- Main Layout Container (Main Canvas) -->
+                <div class="enterprise-container">
+                    <!-- Main Canvas Area -->
+                    <div class="enterprise-main-canvas">
+                        <h2 class="dashboard-overview-title">Partner Workspace</h2>
+                        <div class="dashboard-date-subtitle" id="live-dashboard-date">Today is Friday, 14 August 2026</div>
 
-                    <!-- Studio Control Tabs -->
-                    <div style="display: flex; gap: 0.5rem; border-bottom: 1px solid var(--color-border); margin-bottom: 1rem;">
-                        <button type="button" id="lh-tab-btn-layouts" onclick="switchLhTab('layouts')" style="padding: 0.5rem 1rem; background: rgba(16, 185, 129, 0.15); border: none; border-bottom: 2px solid #10b981; color: #10b981; font-weight: 700; font-size: 0.8rem; cursor: pointer; border-radius: 4px 4px 0 0;">🎨 Layouts &amp; Colors</button>
-                        <button type="button" id="lh-tab-btn-info" onclick="switchLhTab('info')" style="padding: 0.5rem 1rem; background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--color-text-muted); font-weight: 600; font-size: 0.8rem; cursor: pointer; border-radius: 4px 4px 0 0;">📄 Document Info</button>
-                        <button type="button" id="lh-tab-btn-templates" onclick="switchLhTab('templates')" style="padding: 0.5rem 1rem; background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--color-text-muted); font-weight: 600; font-size: 0.8rem; cursor: pointer; border-radius: 4px 4px 0 0;">📋 Quick Templates</button>
-                    </div>
-
-                    <!-- TAB 1: LAYOUTS & COLORS -->
-                    <div id="lh-tab-layouts" style="display: block;">
-                        <label style="font-size: 0.78rem; color: var(--color-sun-yellow); font-weight: 700; display: block; margin-bottom: 0.5rem;">Select Preset Layout Style</label>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.6rem; margin-bottom: 1.2rem;">
-                            <button type="button" onclick="selectLhPreset('preset-modern-exec')" class="lh-preset-btn active" style="padding: 0.6rem; background: rgba(255,255,255,0.04); border: 1px solid #10b981; border-radius: 6px; color: var(--color-text); font-size: 0.76rem; font-weight: 600; text-align: center; cursor: pointer;">Modern Executive</button>
-                            <button type="button" onclick="selectLhPreset('preset-minimal')" class="lh-preset-btn" style="padding: 0.6rem; background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text); font-size: 0.76rem; font-weight: 600; text-align: center; cursor: pointer;">Corporate Minimal</button>
-                            <button type="button" onclick="selectLhPreset('preset-classic')" class="lh-preset-btn" style="padding: 0.6rem; background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text); font-size: 0.76rem; font-weight: 600; text-align: center; cursor: pointer;">Classic Dual-Border</button>
-                            <button type="button" onclick="selectLhPreset('preset-bold-solar')" class="lh-preset-btn" style="padding: 0.6rem; background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text); font-size: 0.76rem; font-weight: 600; text-align: center; cursor: pointer;">Bold Solar Accent</button>
-                        </div>
-
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem;">
-                            <div class="form-group" style="margin-bottom: 0;">
-                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Primary Brand Color</label>
-                                <input type="color" id="lh-picker-primary" value="#047857" style="width: 100%; height: 38px; border: none; border-radius: 6px; background: transparent; cursor: pointer;">
+                        <!-- 1. Partner Profile & Monthly Goal Achievement Card -->
+                        <div id="partner-overview-banner" style="background: linear-gradient(135deg, rgba(255, 183, 3, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border: 1.5px solid var(--color-sun-yellow); border-radius: 16px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
+                                <div>
+                                    <div style="font-size: 0.76rem; color: var(--color-text-muted); text-transform: uppercase; font-weight: 700;">Authorized Partner Workspace</div>
+                                    <h3 style="margin: 0.15rem 0 0 0; font-size: 1.25rem; color: var(--color-sun-yellow); font-family: var(--font-heading); display: flex; align-items: center; gap: 0.5rem;" id="partner-welcome-header">
+                                        Welcome, Partner
+                                    </h3>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                                    <span id="partner-territory-pill" style="background: #10b981; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700;">🌟 Authorized Channel Partner</span>
+                                    <span id="partner-district-badge" style="background: rgba(255, 183, 3, 0.15); border: 1px solid var(--color-sun-yellow); color: var(--color-sun-yellow); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700;">Kerala</span>
+                                </div>
                             </div>
-                            <div class="form-group" style="margin-bottom: 0;">
-                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Secondary Accent Color</label>
-                                <input type="color" id="lh-picker-secondary" value="#f59e0b" style="width: 100%; height: 38px; border: none; border-radius: 6px; background: transparent; cursor: pointer;">
+
+                            <!-- Monthly Sales Milestone & Target Tracker -->
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; align-items: center;">
+                                <div style="background: rgba(0, 0, 0, 0.25); border: 1px solid var(--color-border); border-radius: 12px; padding: 0.9rem;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; font-size: 0.8rem;">
+                                        <strong style="color: var(--color-text);">🎯 Monthly Target (25 kWp)</strong>
+                                        <span style="color: var(--color-sun-yellow); font-weight: 700;" id="partner-goal-percentage">0% Achieved</span>
+                                    </div>
+                                    <div style="width: 100%; background: rgba(255,255,255,0.1); height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 0.35rem;">
+                                        <div id="partner-goal-bar" style="width: 0%; background: linear-gradient(90deg, #ffb703, #10b981); height: 100%; transition: width 0.8s ease;"></div>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--color-text-muted);">
+                                        <span>Installed / Quoted: <strong id="partner-quoted-kw" style="color: var(--color-text);">0 kWp</strong></span>
+                                        <span>Incentive Level: <strong style="color: #10b981;">₹2,000 / kWp</strong></span>
+                                    </div>
+                                </div>
+
+                                <div style="display: flex; gap: 0.75rem;">
+                                    <div style="flex: 1; background: rgba(0,0,0,0.25); border: 1px solid var(--color-border); border-radius: 12px; padding: 0.9rem; text-align: center;">
+                                        <span style="font-size: 0.7rem; color: var(--color-text-muted); text-transform: uppercase; font-weight: 700;">Active District Leads</span>
+                                        <div id="partner-active-leads" style="font-size: 1.5rem; font-weight: 800; color: var(--color-sun-yellow); margin-top: 0.2rem;">0</div>
+                                    </div>
+                                    <div style="flex: 1; background: rgba(0,0,0,0.25); border: 1px solid var(--color-border); border-radius: 12px; padding: 0.9rem; text-align: center;">
+                                        <span style="font-size: 0.7rem; color: var(--color-text-muted); text-transform: uppercase; font-weight: 700;">Commission Balance</span>
+                                        <div id="partner-commission-earned" style="font-size: 1.5rem; font-weight: 800; color: #10b981; margin-top: 0.2rem;">₹0</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="form-group" style="margin-bottom: 1rem;">
-                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Typography Font Family</label>
-                            <select id="lh-font-select" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
-                                <option value="'Montserrat', sans-serif" selected>Montserrat (Modern Clean)</option>
-                                <option value="'Inter', sans-serif">Inter (Corporate Standard)</option>
-                                <option value="'Cinzel', serif">Cinzel (Formal Executive Serif)</option>
-                                <option value="'Playfair Display', serif">Playfair Display (Premium Classic)</option>
-                                <option value="'Roboto Mono', monospace">Roboto Mono (Technical Blueprint)</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- TAB 2: DOCUMENT INFO -->
-                    <div id="lh-tab-info" style="display: none;">
-                        <div class="quote-grid-3" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
-                            <div class="form-group" style="margin-bottom: 0;">
-                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Ref No. / File ID</label>
-                                <input type="text" id="lh-input-ref" value="SSL/2026-27/QT-1092" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                        <!-- 2. Clean 4-Card Core Action Hub -->
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                            <!-- Card 1: Allocated Leads -->
+                            <div class="glass-card" onclick="toggleAllocatedLeads()" style="cursor: pointer; padding: 1.25rem; border: 1px solid var(--color-border); border-radius: 14px; background: rgba(15, 23, 42, 0.6); transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)'">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
+                                    <span style="font-size: 1.6rem;">📥</span>
+                                    <span id="badge-allocated-count" style="background: var(--color-sun-yellow); color: #0d1321; font-weight: 800; font-size: 0.75rem; padding: 2px 8px; border-radius: 12px;">0 Leads</span>
+                                </div>
+                                <h4 style="margin: 0 0 0.3rem 0; font-size: 0.95rem; color: var(--color-text);">District Customer Inquiries</h4>
+                                <p style="margin: 0; font-size: 0.75rem; color: var(--color-text-muted); line-height: 1.4;">View and contact customer inquiries assigned to your district.</p>
                             </div>
-                            <div class="form-group" style="margin-bottom: 0;">
-                                <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Date</label>
-                                <input type="text" id="lh-input-date" value="30th July 2026" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+
+                            <!-- Card 2: New Proposal Generator & Print -->
+                            <div class="glass-card" onclick="scrollToQuoteCalc()" style="cursor: pointer; padding: 1.25rem; border: 1px solid var(--color-border); border-radius: 14px; background: rgba(15, 23, 42, 0.6); transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)'">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
+                                    <span style="font-size: 1.6rem;">🖨️</span>
+                                    <span style="background: #10b981; color: white; font-weight: 700; font-size: 0.72rem; padding: 2px 8px; border-radius: 12px;">Print &amp; PDF</span>
+                                </div>
+                                <h4 style="margin: 0 0 0.3rem 0; font-size: 0.95rem; color: var(--color-text);">Generate &amp; Print Proposal</h4>
+                                <p style="margin: 0; font-size: 0.75rem; color: var(--color-text-muted); line-height: 1.4;">Instant 1-click print &amp; PDF generation with official letterhead.</p>
+                            </div>
+
+                            <!-- Card 3: Saved Quotes & Deal Tracker -->
+                            <div class="glass-card" onclick="toggleSavedQuotes()" style="cursor: pointer; padding: 1.25rem; border: 1px solid var(--color-border); border-radius: 14px; background: rgba(15, 23, 42, 0.6); transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)'">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
+                                    <span style="font-size: 1.6rem;">💾</span>
+                                    <span id="badge-saved-count" style="background: rgba(255,255,255,0.1); color: var(--color-text); font-weight: 700; font-size: 0.72rem; padding: 2px 8px; border-radius: 12px;">0 Saved</span>
+                                </div>
+                                <h4 style="margin: 0 0 0.3rem 0; font-size: 0.95rem; color: var(--color-text);">Saved Quotations &amp; Deals</h4>
+                                <p style="margin: 0; font-size: 0.75rem; color: var(--color-text-muted); line-height: 1.4;">Review quote history, re-print proposals, or share on WhatsApp.</p>
+                            </div>
+
+                            <!-- Card 4: KSEB Section Verification -->
+                            <div class="glass-card" onclick="toggleFeasibilityPanel()" style="cursor: pointer; padding: 1.25rem; border: 1px solid var(--color-border); border-radius: 14px; background: rgba(15, 23, 42, 0.6); transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)'">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
+                                    <span style="font-size: 1.6rem;">⚡</span>
+                                    <span style="background: #10b981; color: white; font-weight: 700; font-size: 0.72rem; padding: 2px 8px; border-radius: 12px;">400+ Sections</span>
+                                </div>
+                                <h4 style="margin: 0 0 0.3rem 0; font-size: 0.95rem; color: var(--color-text);">KSEB Feasibility Check</h4>
+                                <p style="margin: 0; font-size: 0.75rem; color: var(--color-text-muted); line-height: 1.4;">Look up section codes, transformer status &amp; net-meter rules.</p>
                             </div>
                         </div>
 
-                        <div class="form-group" style="margin-bottom: 0.8rem;">
-                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Recipient Address Block</label>
-                            <textarea id="lh-input-recipient" rows="3" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">To,
-Mr. K. R. Nambiar,
-Green Valley Villa, Temple Road,
-Thodupuzha, Idukki District, Kerala - 685584.</textarea>
+                        <!-- 3. WhatsApp 1-Click Follow-up Toolkit -->
+                        <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid var(--color-border); border-radius: 14px; padding: 1.25rem; margin-bottom: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.6rem; margin-bottom: 0.9rem;">
+                                <h4 style="margin: 0; font-size: 0.95rem; color: var(--color-sun-yellow); display: flex; align-items: center; gap: 0.4rem;">
+                                    💬 1-Click WhatsApp Follow-up Toolkit
+                                </h4>
+                                <span style="font-size: 0.72rem; color: #25d366; font-weight: 700;">● Direct Client Closing</span>
+                            </div>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem;">
+                                <button type="button" onclick="sendPartnerToolkitMsg('survey')" style="background: rgba(37, 211, 102, 0.1); border: 1px solid rgba(37, 211, 102, 0.3); color: #25d366; padding: 0.65rem 0.9rem; border-radius: 10px; font-size: 0.78rem; font-weight: 700; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 0.45rem;">
+                                    📅 Schedule Free Site Survey
+                                </button>
+                                <button type="button" onclick="sendPartnerToolkitMsg('subsidy')" style="background: rgba(255, 183, 3, 0.1); border: 1px solid rgba(255, 183, 3, 0.3); color: var(--color-sun-yellow); padding: 0.65rem 0.9rem; border-radius: 10px; font-size: 0.78rem; font-weight: 700; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 0.45rem;">
+                                    💰 ₹78,000 Subsidy Guide
+                                </button>
+                                <button type="button" onclick="sendPartnerToolkitMsg('docs')" style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); color: #60a5fa; padding: 0.65rem 0.9rem; border-radius: 10px; font-size: 0.78rem; font-weight: 700; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 0.45rem;">
+                                    📑 KSEB Document Checklist
+                                </button>
+                                <button type="button" onclick="sendPartnerToolkitMsg('loan')" style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); color: #c084fc; padding: 0.65rem 0.9rem; border-radius: 10px; font-size: 0.78rem; font-weight: 700; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 0.45rem;">
+                                    🏦 7% Solar Bank Loan Info
+                                </button>
+                            </div>
                         </div>
 
-                        <div class="form-group" style="margin-bottom: 0.8rem;">
-                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Subject Line</label>
-                            <input type="text" id="lh-input-subject" value="QUOTATION FOR 5.0 kWp ON-GRID ROOFTOP SOLAR POWER SYSTEM WITH KSEB NET-METERING & PM SURYA GHAR SUBSIDY" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                        <!-- 4. Official Technical Resource & Download Locker -->
+                        <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid var(--color-border); border-radius: 14px; padding: 1.25rem; margin-bottom: 1.5rem;">
+                            <h4 style="margin: 0 0 0.6rem 0; font-size: 0.95rem; color: var(--color-sun-yellow); display: flex; align-items: center; gap: 0.4rem;">
+                                📂 Partner Technical Downloads &amp; Resource Locker
+                            </h4>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem;">
+                                <a href="https://pmsuryaghar.gov.in" target="_blank" rel="noopener" style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); padding: 0.65rem 0.9rem; border-radius: 10px; color: var(--color-text); text-decoration: none; font-size: 0.78rem; display: flex; align-items: center; justify-content: space-between;">
+                                    <span>🏛️ PM Surya Ghar Portal</span>
+                                    <span style="color: var(--color-sun-yellow);">↗</span>
+                                </a>
+                                <a href="https://www.kseb.in/images/soura/Soura_Phase_II_Guidelines.pdf" target="_blank" rel="noopener" style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); padding: 0.65rem 0.9rem; border-radius: 10px; color: var(--color-text); text-decoration: none; font-size: 0.78rem; display: flex; align-items: center; justify-content: space-between;">
+                                    <span>⚡ KSEB Soura Guidelines (PDF)</span>
+                                    <span style="color: var(--color-sun-yellow);">↓</span>
+                                </a>
+                                <a href="javascript:void(0)" onclick="downloadProformaTemplate()" style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); padding: 0.65rem 0.9rem; border-radius: 10px; color: var(--color-text); text-decoration: none; font-size: 0.78rem; display: flex; align-items: center; justify-content: space-between;">
+                                    <span>📊 Proforma Invoice Excel (XLSX)</span>
+                                    <span style="color: var(--color-sun-yellow);">↓</span>
+                                </a>
+                                <a href="javascript:void(0)" onclick="showChecklistModal()" style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); padding: 0.65rem 0.9rem; border-radius: 10px; color: var(--color-text); text-decoration: none; font-size: 0.78rem; display: flex; align-items: center; justify-content: space-between;">
+                                    <span>🛡️ Net Metering Checklist</span>
+                                    <span style="color: var(--color-sun-yellow);">↗</span>
+                                </a>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- TAB 3: QUICK TEMPLATES -->
-                    <div id="lh-tab-templates" style="display: none;">
-                        <label style="font-size: 0.78rem; color: var(--color-sun-yellow); font-weight: 700; display: block; margin-bottom: 0.5rem;">Select Pre-Designed Template</label>
-                        <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem;">
-                            <button type="button" onclick="loadLhTemplate('quotation')" style="padding: 0.65rem 0.85rem; background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text); font-size: 0.8rem; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
-                                <span><strong>Solar Quotation Proposal</strong><br><span style="font-size: 0.72rem; opacity: 0.7;">5 kWp system breakdown &amp; PM Surya Ghar subsidy</span></span>
-                                <span>➔</span>
-                            </button>
-                            <button type="button" onclick="loadLhTemplate('kseb_app')" style="padding: 0.65rem 0.85rem; background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text); font-size: 0.8rem; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
-                                <span><strong>KSEB Net-Metering Application</strong><br><span style="font-size: 0.72rem; opacity: 0.7;">Official request to KSEB Electrical Division</span></span>
-                                <span>➔</span>
-                            </button>
-                            <button type="button" onclick="loadLhTemplate('warranty')" style="padding: 0.65rem 0.85rem; background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text); font-size: 0.8rem; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
-                                <span><strong>25-Year Warranty Certificate</strong><br><span style="font-size: 0.72rem; opacity: 0.7;">Commissioning handover &amp; performance guarantee</span></span>
-                                <span>➔</span>
-                            </button>
-                            <button type="button" onclick="loadLhTemplate('blank')" style="padding: 0.65rem 0.85rem; background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text); font-size: 0.8rem; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
-                                <span><strong>Blank Formal Letterhead</strong><br><span style="font-size: 0.72rem; opacity: 0.7;">Clean template with header &amp; footer</span></span>
-                                <span>➔</span>
-                            </button>
+                        <!-- Container for Allocated Inquiries, Saved Quotations & Feasibility Check -->
+                        <div id="allocated-and-saved-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                            <!-- Allocated Leads Panel (Collapsible) -->
+                            <div id="allocated-leads-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; text-align: left; margin: 0;">
+                                <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 0.95rem;">
+                                    📋 Allocated Customer Inquiries
+                                </h4>
+                                <p style="font-size: 0.74rem; color: var(--color-text-muted); margin-bottom: 0.8rem; line-height: 1.45;">Inquiries submitted by customers selecting your dealership area.</p>
+                                
+                                <div id="allocated-leads-list" style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 350px; overflow-y: auto; padding-right: 0.3rem;">
+                                    <!-- Dynamically Injected leads list -->
+                                </div>
+                            </div>
+
+                            <!-- Saved Quotes Panel (Collapsible) -->
+                            <div id="saved-quotes-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; text-align: left; margin: 0;">
+                                <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 0.95rem;">
+                                    💾 Saved Quotations
+                                </h4>
+                                <p style="font-size: 0.74rem; color: var(--color-text-muted); margin-bottom: 0.8rem; line-height: 1.45;">Your generated quotes saved to this browser.</p>
+                                
+                                <div id="saved-quotes-list" style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 350px; overflow-y: auto; padding-right: 0.3rem;">
+                                </div>
+                            </div>
+
+                            <!-- Feasibility Check Panel (Collapsible) -->
+                            <div id="feasibility-check-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; text-align: left; margin: 0;">
+                                <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 0.95rem;">
+                                    ✅ Feasibility &amp; KSEB Verification
+                                </h4>
+                                <p style="font-size: 0.74rem; color: var(--color-text-muted); margin-bottom: 0.8rem; line-height: 1.45;">Verify KSEB section offices &amp; perform feasibility checks for new solar installations.</p>
+                                <div style="background: var(--color-bg-alt); padding: 0.9rem; border-radius: 8px; text-align: center;">
+                                    <span style="display:block; font-size: 0.82rem; font-weight:600; color:var(--color-text); margin-bottom: 0.5rem;">KSEB Section Verification</span>
+                                    <a href="https://wss.kseb.in/selfservices/reCap" target="_blank" rel="noopener" class="cta-btn primary-btn" style="display:inline-block; font-size:0.78rem; padding: 0.45rem 0.85rem; text-decoration:none;">
+                                        Verify at wss.kseb.in ↗
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
 
-                <!-- Feasibility Check Panel (Collapsible) -->
-                <div id="feasibility-check-panel" class="hidden" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
-                    <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
-                        ✅ Feasibility Check &amp; KSEB Verification
-                    </h4>
-                    <p style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.45;">Verify KSEB section offices and perform feasibility checks for new customer installations.</p>
-                    <div style="background: var(--color-bg-alt); padding: 1rem; border-radius: 8px; text-align: center;">
-                        <span style="display:block; font-size: 0.85rem; font-weight:600; color:var(--color-text); margin-bottom: 0.5rem;">KSEB Section Office Verification</span>
-                        <a href="https://wss.kseb.in/selfservices/reCap" target="_blank" rel="noopener" class="cta-btn primary-btn" style="display:inline-block; font-size:0.8rem; padding: 0.5rem 1rem; text-decoration:none;">
-                            Verify at wss.kseb.in ↗
-                        </a>
-                    </div>
-                </div>
+                        <!-- Reports & Analytics Panel (Collapsible) -->
+                        <div id="reports-analytics-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                            <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                                📊 Reports &amp; Lead Conversion Analytics
+                            </h4>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; text-align: center;">
+                                    <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Lead Conversion Rate</span>
+                                    <div style="font-size: 1.6rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">78.5%</div>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; text-align: center;">
+                                    <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Total kWp Quoted</span>
+                                    <div style="font-size: 1.6rem; font-weight: 800; color: var(--color-sun-yellow); margin-top: 0.3rem;">145 kWp</div>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; text-align: center;">
+                                    <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Subsidy Claims Settled</span>
+                                    <div style="font-size: 1.6rem; font-weight: 800; color: #3b82f6; margin-top: 0.3rem;">₹48.2 L</div>
+                                </div>
+                            </div>
+                        </div>
 
+                        <!-- Live Inquiries Log Panel (Collapsible) -->
+                        <div id="live-inquiries-log-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
+                                <h4 style="margin: 0; color: var(--color-sun-yellow); font-size: 1rem;">
+                                    📥 Live District Inquiries Log
+                                </h4>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <button onclick="exportInquiriesToCSV()" style="background: rgba(255, 183, 3, 0.15); border: 1px solid var(--color-sun-yellow); color: var(--color-sun-yellow); font-size: 0.74rem; cursor: pointer; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px;">📊 Export CSV</button>
+                                    <button onclick="syncMailboxLeads(event)" style="background: rgba(37, 211, 102, 0.12); border: 1px solid rgba(37, 211, 102, 0.3); color: #25d366; font-size: 0.74rem; cursor: pointer; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px;">📥 Sync Email</button>
+                                </div>
+                            </div>
+                            <div id="partner-live-inquiries-container" style="max-height: 350px; overflow-y: auto;">
+                                <p style="font-size: 0.8rem; color: var(--color-text-muted); text-align: center; padding: 1rem 0;">Click Sync Email to load district customer leads.</p>
+                            </div>
+                        </div>
 
+                        <!-- KSEB Tracker Panel (Collapsible) -->
+                        <div id="kseb-tracker-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                            <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                                ⚡ KSEB Transformer &amp; Net-Metering Tracker
+                            </h4>
+                            <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 1rem;">Verify transformer capacity allocations and KSEB section approval requirements across Kerala.</p>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem;">
+                                    <strong style="color: var(--color-text); font-size: 0.85rem; display: block; margin-bottom: 0.3rem;">LT Feasibility (Up to 10 kWp)</strong>
+                                    <span style="font-size: 0.75rem; color: var(--color-text-muted);">Self-declaration under PM Surya Ghar. No transformer capacity blocking required.</span>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem;">
+                                    <strong style="color: var(--color-text); font-size: 0.85rem; display: block; margin-bottom: 0.3rem;">HT Commercial (Above 10 kWp)</strong>
+                                    <span style="font-size: 0.75rem; color: var(--color-text-muted);">Requires Assistant Executive Engineer (AEE) Section Office Feasibility Certificate.</span>
+                                </div>
+                            </div>
+                        </div>
 
-                <!-- Allocated Leads Panel (Collapsible) -->
-                <div id="allocated-leads-panel" class="hidden" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
-                    <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
-                        📋 Allocated Customer Inquiries
-                    </h4>
-                    <p style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.45;">Below are inquiries submitted by customers selecting your dealership area on the feasibility form.</p>
-                    
-                    <div id="allocated-leads-list" style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 350px; overflow-y: auto; padding-right: 0.3rem;">
-                        <!-- Dynamically Injected leads list -->
-                    </div>
-                </div>
+                        <!-- PM Surya Ghar Subsidy Panel (Collapsible) -->
+                        <div id="pm-surya-ghar-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
+                                <h4 style="margin: 0; color: var(--color-sun-yellow); font-size: 1rem;">
+                                    🏛️ PM Surya Ghar Muft Bijli Yojana (Central Bank Subsidy Calculator)
+                                </h4>
+                                <a href="https://pmsuryaghar.gov.in" target="_blank" rel="noopener" class="cta-btn primary-btn" style="font-size:0.75rem; padding: 0.35rem 0.75rem;">Apply at pmsuryaghar.gov.in ↗</a>
+                            </div>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                                <div style="background: rgba(22, 163, 74, 0.1); border: 1px solid rgba(22, 163, 74, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
+                                    <span style="font-size: 0.72rem; color: #86efac; text-transform: uppercase;">1 kWp Rooftop System</span>
+                                    <div style="font-size: 1.5rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">₹30,000 Subsidy</div>
+                                </div>
+                                <div style="background: rgba(22, 163, 74, 0.1); border: 1px solid rgba(22, 163, 74, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
+                                    <span style="font-size: 0.72rem; color: #86efac; text-transform: uppercase;">2 kWp Rooftop System</span>
+                                    <div style="font-size: 1.5rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">₹60,000 Subsidy</div>
+                                </div>
+                                <div style="background: rgba(22, 163, 74, 0.15); border: 1px solid rgba(22, 163, 74, 0.5); border-radius: 10px; padding: 1rem; text-align: center;">
+                                    <span style="font-size: 0.72rem; color: #86efac; text-transform: uppercase;">3 kWp+ Maximum Cap</span>
+                                    <div style="font-size: 1.5rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">₹78,000 Subsidy</div>
+                                </div>
+                            </div>
+                            <div style="font-size: 0.78rem; color: var(--color-text-muted); line-height: 1.5;">
+                                📋 <strong>Required Claim Documents:</strong> Aadhaar Card, KSEB Electricity Bill (Consumer No.), Bank Passbook / Cancelled Cheque, Roof Photo with Lat/Long.
+                            </div>
+                        </div>
 
-                <!-- Saved Quotes Panel (Collapsible) -->
-                <div id="saved-quotes-panel" class="hidden" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
-                    <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
-                        💾 Saved Quotations
-                    </h4>
-                    <p style="font-size: 0.76rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.45;">Your generated quotes saved to this browser.</p>
-                    <div id="saved-quotes-list" style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 350px; overflow-y: auto; padding-right: 0.3rem;">
-                    </div>
-                </div>
+                        <!-- Solar Loan EMI Calculator Panel (Collapsible) -->
+                        <div id="solar-emi-calculator-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                            <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                                💳 Solar Bank Loan &amp; Zero-Downpayment EMI Calculator
+                            </h4>
+                            <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 1rem;">Specialized solar loans from SBI &amp; Canara Bank @ 7% Interest Rate p.a.</p>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; align-items: center;">
+                                <div>
+                                    <label style="font-size:0.75rem; color:var(--color-text-muted); display:block; margin-bottom:0.3rem;">System Price: <strong id="emi-price-val" style="color:var(--color-sun-yellow);">₹1,85,000</strong></label>
+                                    <input type="range" id="emi-price-range" min="100000" max="1000000" step="10000" value="185000" oninput="calculateSolarEmi()" style="width:100%;">
+                                    
+                                    <label style="font-size:0.75rem; color:var(--color-text-muted); display:block; margin-top:0.8rem; margin-bottom:0.3rem;">Tenure (Years): <strong id="emi-tenure-val" style="color:var(--color-sun-yellow);">5 Years</strong></label>
+                                    <input type="range" id="emi-tenure-range" min="1" max="7" step="1" value="5" oninput="calculateSolarEmi()" style="width:100%;">
+                                </div>
+                                <div style="background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; text-align: center;">
+                                    <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Estimated Monthly Loan EMI</span>
+                                    <div id="calculated-monthly-emi" style="font-size: 1.8rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">₹3,663 / mo</div>
+                                    <span style="font-size: 0.7rem; color: var(--color-sun-yellow); display: block; margin-top: 0.4rem;">💡 Offsets monthly KSEB bill instantly!</span>
+                                </div>
+                            </div>
+                        </div>
 
-                <!-- Change PIN Panel (Collapsible) -->
-                <div id="dashboard-change-pin-panel" class="hidden" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
-                    <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
-                        🔒 Change Security PIN
-                    </h4>
+                        <!-- 3D Roof Calculator Panel (Collapsible) -->
+                        <div id="rooftop-estimator-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                            <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                                📐 3D Rooftop Solar Capacity &amp; Panel Estimator
+                            </h4>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; align-items: center; margin-top: 1rem;">
+                                <div>
+                                    <label style="font-size:0.75rem; color:var(--color-text-muted); display:block; margin-bottom:0.3rem;">Shade-Free Roof Area (sq. ft.):</label>
+                                    <input type="number" id="roof-area-input" value="300" placeholder="e.g. 300" oninput="calculateRoofCapacity()" style="width:100%; padding:0.4rem 0.6rem; border-radius:6px; background:var(--color-bg); border:1px solid var(--color-border); color:var(--color-text);">
+                                </div>
+                                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; text-align: center;">
+                                    <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Max Solar Capacity</span>
+                                    <div id="roof-kwp-res" style="font-size: 1.5rem; font-weight: 800; color: var(--color-sun-yellow); margin-top: 0.2rem;">3.0 kWp</div>
+                                    <span id="roof-panels-count" style="font-size: 0.72rem; color: #3b82f6; display: block; margin-top: 0.2rem;">6 Panels (550W TOPCon Mono-PERC)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- KSEB Inspection Checklist Panel (Collapsible) -->
+                        <div id="kseb-checklist-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                            <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                                ⚙️ KSEB Field Engineer Technical Inspection Checklist
+                            </h4>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; margin-top: 1rem;">
+                                <label style="font-size:0.78rem; color:var(--color-text); display:flex; align-items:center; gap:0.5rem;">
+                                    <input type="checkbox" checked> ⚡ Transformer Capacity Available (< 80%)
+                                </label>
+                                <label style="font-size:0.78rem; color:var(--color-text); display:flex; align-items:center; gap:0.5rem;">
+                                    <input type="checkbox" checked> 🎯 Dual Earth Pit Resistance &lt; 5 Ω
+                                </label>
+                                <label style="font-size:0.78rem; color:var(--color-text); display:flex; align-items:center; gap:0.5rem;">
+                                    <input type="checkbox" checked> 🛡️ ACDB / DCDB Surge Protection (SPD)
+                                </label>
+                                <label style="font-size:0.78rem; color:var(--color-text); display:flex; align-items:center; gap:0.5rem;">
+                                    <input type="checkbox" checked> 🔄 Bi-Directional Net-Meter Test
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- AMC Service Panel (Collapsible) -->
+                        <div id="amc-service-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                            <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                                🛠️ Customer AMC &amp; Solar Panel Maintenance Tracker
+                            </h4>
+                            <div style="font-size:0.78rem; color:var(--color-text-muted); margin-top:0.8rem; line-height:1.6;">
+                                📅 <strong>Next Scheduled Panel Washing:</strong> 28 August 2026<br>
+                                ⚡ <strong>Inverter String Voltage Audit:</strong> Passed (380V DC)<br>
+                                📲 <strong>Automated Client WhatsApp Alert:</strong> Active
+                            </div>
+                        </div>
+
+                        <!-- Brand Comparison Matrix Panel (Collapsible) -->
+                        <div id="equipment-matrix-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                            <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                                🏷️ Tier-1 Equipment Brand Matrix
+                            </h4>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                                <div style="background: rgba(255,255,255,0.03); border:1px solid var(--color-border); border-radius:10px; padding:0.8rem;">
+                                    <strong style="color:var(--color-sun-yellow); font-size:0.85rem;">Solar Panels (25-Yr Warranty)</strong>
+                                    <p style="font-size:0.75rem; color:var(--color-text-muted); margin-top:0.4rem;">Waaree, Adani, Tata Power Solar (550W N-Type TOPCon Mono-PERC)</p>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.03); border:1px solid var(--color-border); border-radius:10px; padding:0.8rem;">
+                                    <strong style="color:var(--color-sun-yellow); font-size:0.85rem;">On-Grid Inverters (10-Yr Warranty)</strong>
+                                    <p style="font-size:0.75rem; color:var(--color-text-muted); margin-top:0.4rem;">Growatt, Solis, Deye, Enphase Microinverters</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Warranty Card Panel (Collapsible) -->
+                        <div id="warranty-generator-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
+                                <h4 style="margin: 0; color: var(--color-sun-yellow); font-size: 1rem;">
+                                    📜 25-Year Warranty &amp; Commissioning Certificate Generator
+                                </h4>
+                                <button onclick="generateWarrantyPdf()" class="cta-btn primary-btn" style="font-size:0.75rem; padding:0.35rem 0.75rem;">📄 Generate PDF Certificate</button>
+                            </div>
+                            <p style="font-size:0.78rem; color:var(--color-text-muted);">Generates official SUNOVA SOLAR LLP 25-Year Performance Guarantee certificate for handover to clients.</p>
+                        </div>
+
+                        <!-- Carbon Offset Panel (Collapsible) -->
+                        <div id="carbon-offset-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                            <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                                🌿 Kerala Green Energy &amp; Carbon Offset Impact Counter
+                            </h4>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                                <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
+                                    <span style="font-size: 0.72rem; color: #86efac; text-transform: uppercase;">Green Power Generated</span>
+                                    <div style="font-size: 1.6rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">1.85 GWh</div>
+                                </div>
+                                <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
+                                    <span style="font-size: 0.72rem; color: #86efac; text-transform: uppercase;">CO₂ Avoided</span>
+                                    <div style="font-size: 1.6rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">1,450 MT</div>
+                                </div>
+                                <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
+                                    <span style="font-size: 0.72rem; color: #86efac; text-transform: uppercase;">Trees Equivalent</span>
+                                    <div style="font-size: 1.6rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">68,000 🌲</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- District Directory Panel (Collapsible) -->
+                        <div id="district-partners-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
+                                <h4 style="margin: 0; color: var(--color-sun-yellow); font-size: 1rem;">
+                                    📍 Kerala 14 Districts Partner Contact Directory
+                                </h4>
+                                <span id="district-partner-count-badge" style="background: var(--color-sun-yellow); color: #0d1321; font-weight: 800; font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 10px;">50 Dealers</span>
+                            </div>
+                            <div id="district-info-banner" style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 1rem;">
+                                📍 Showing authorized channel partners across all 14 Kerala districts.
+                            </div>
+                            <div id="district-dealers-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; max-height: 400px; overflow-y: auto;">
+                                <!-- Dynamic Dealers List -->
+                            </div>
+                        </div>
+
+                        <!-- Change PIN Panel (Collapsible) -->
+                        <div id="dashboard-change-pin-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                            <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                                🔒 Change Security PIN
+                            </h4>
                     <form id="dash-change-pin-form" onsubmit="handleDashPinChange(event)">
                         <div class="form-group" style="margin-bottom: 0.8rem;">
                             <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block;">Old PIN</label>
@@ -666,11 +1006,14 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
                             </div>
                         </div>
                         
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1.2rem;">
-                            <button type="button" onclick="generateQuotation('customer')" class="cta-btn primary-btn text-center" style="padding: 0.7rem 0.5rem; font-size: 0.82rem; font-weight: 700; border-radius: 8px; cursor: pointer; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                👤 Customer Proposal
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.8rem; margin-top: 1.2rem;">
+                            <button type="button" onclick="generateQuotation('customer')" class="cta-btn secondary-btn text-center" style="padding: 0.7rem 0.5rem; font-size: 0.82rem; font-weight: 700; border-radius: 8px; cursor: pointer; text-align: center;">
+                                📄 Preview Proposal
                             </button>
-                            <button type="button" onclick="generateQuotation('kseb')" class="cta-btn text-center" style="background: #28a745; color: white; border: none; padding: 0.7rem 0.5rem; font-size: 0.82rem; font-weight: 700; border-radius: 8px; cursor: pointer; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                            <button type="button" onclick="generateAndPrintQuotation('customer')" class="cta-btn primary-btn text-center" style="padding: 0.7rem 0.5rem; font-size: 0.84rem; font-weight: 800; border-radius: 8px; cursor: pointer; text-align: center; background: linear-gradient(135deg, #ffb703 0%, #10b981 100%); color: #0d1321; border: none; box-shadow: 0 4px 14px rgba(255, 183, 3, 0.35);">
+                                🖨️ Instant Print / PDF
+                            </button>
+                            <button type="button" onclick="generateQuotation('kseb')" class="cta-btn text-center" style="background: #28a745; color: white; border: none; padding: 0.7rem 0.5rem; font-size: 0.82rem; font-weight: 700; border-radius: 8px; cursor: pointer; text-align: center; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
                                 ⚡ KSEB Submission
                             </button>
                         </div>
@@ -808,6 +1151,20 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
             { code: "KSD-SURE", name: "Suresh Kumar", area: "Panathur", district: "Kasaragod", phone: "9946960604", lat: 12.4419, lon: 75.3340 }
         ];
 
+        // Merge custom created partners from Admin Management Portal
+        try {
+            const customDealersPortal = JSON.parse(localStorage.getItem('custom_dealers_list') || '[]');
+            const existingCodesPortal = new Set(DEALERS.map(d => d.code));
+            customDealersPortal.forEach(cd => {
+                if (!existingCodesPortal.has(cd.code)) {
+                    DEALERS.push(cd);
+                } else {
+                    const idx = DEALERS.findIndex(d => d.code === cd.code);
+                    if (idx !== -1) DEALERS[idx] = cd;
+                }
+            });
+        } catch (e) {}
+
         const KSEB_SECTIONS = {
             "Thiruvananthapuram": {"Amboori":4656,"Aryanad":4652,"Attingal":4531,"Avanavancherry":4532,"Balaramapuram":4542,"Beach Trivandrum":4513,"Cantonment TVM":4506,"Chirayinkeezhu":4529,"Chullimanoor":4653,"Edava":4526,"Fort Trivandrum":4503,"Kachani":4691,"Kadakkavoor":4528,"Kallambalam":4533,"Kallara":4557,"Kalliyoor":4675,"Kamukinkode":4868,"Kaniyapuram":4522,"Kanjiramkulam":4544,"Kanyakulangara":4556,"Karamana":4510,"Kattakada":4552,"Kazhakuttam":4521,"Kedakulam":4527,"Kesavadasapuram":4516,"Kilimannoor":4535,"Kottukal":4657,"Kudappanakkunnu":4676,"Kulathoor":4520,"Kunnathukal":4667,"Madavoor":4536,"Malayinkeezh":4666,"Manacaud":4501,"Mangalapuram":4523,"Maranalloor":4553,"Marayamuttom":4539,"Nagaroor":4654,"Nalanchira":4518,"Nedumangad":4547,"Nemom":4543,"Neyyattinkara":4537,"Ottasekharamangalam":4554,"Palachira":4534,"Pallickal [Attingal Dvn.]":4680,"Palode":4548,"Parassala":4540,"Paravoor":4576,"Peringamala":4674,"Peroorkada":4508,"Pettah":4514,"Peyad":4550,"Poojappura":4512,"Poonthura":4679,"Poothakulam":4671,"Poovachal":4864,"Poovar":4545,"Poozhikunnu":4688,"Pothencode":4524,"Puthenchantha":4504,"Sreekariyam":4519,"Sreevaraham":4515,"Thirumala":4511,"Thiruvallam":4502,"Tholicode":4681,"Thycaud":4505,"Uchakkada":4655,"Udiyankulangara":4538,"Ulloor":4517,"Uzhamalakkal":4673,"Vakkom":4530,"Vamanapuram":4821,"Varkala":4525,"Vattappara":4678,"Vattiyoorkavu":4509,"Vellanad":4551,"Vellarada":4541,"Vellayambalam":4507,"Venjaramood":4555,"Vithura":4549,"Vizhinjam":4546},
             "Kollam": {"Anchal West":4669,"Anchal":4597,"Ayathil":4565,"Ayoor":4591,"Cantonment Kollam":4558,"Chadayamangalam":4672,"Chathannoor":4575,"Chavara":4571,"Chengamanad KTRA":4590,"Chithara":4662,"East kallada":4583,"Ezhukone":4582,"Kadakkal":4599,"Kadambanad":4613,"Kadappakkada":4559,"Kallambalam":4533,"Kanjiramkuzhy":4670,"Kannanalloor":4579,"Karavaloor":4677,"Karukone":4661,"Karunagappally North":4569,"Karunagappally South":4570,"Kilikolloor":4564,"Kottarakkara East":4683,"Kottarakkara":4587,"Kottiyam":4578,"Kulakkada":4588,"Kulathupuzha":4598,"Kundara":4581,"Madavoor":4536,"Manappally":4658,"Manipuzha":4620,"Mayyanad":4580,"Mynagappally":4659,"Nallila":4586,"Oachira":4567,"Olai":4560,"Oyoor":4660,"Pallimukku":4566,"Panmana":4682,"Paravoor":4576,"Parippally":4577,"Pathanapuram":4595,"Pattazhy":4685,"Perinad":4563,"Perumpuzha":4585,"Piravanthoor":4668,"Poothakulam":4671,"Punalur":4593,"Puthur Kottarakkara":4589,"Sakthikulangara":4561,"Sasthamcotta":4573,"Sooranad":4574,"Thankasserry":4562,"Thengamom-Pallickal":4663,"Thenmala":4594,"Thevalakkara":4572,"Valakom":4592,"Vallikunnam":5754,"Veliyam":4584,"Vilakkudi":4596},
@@ -944,8 +1301,18 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
             window.removeEventListener('focus', checkSessionOnFocus);
         }
 
+        // Update live dashboard date dynamically
+        function updateLiveDashboardDate() {
+            const dateElem = document.getElementById('live-dashboard-date');
+            if (dateElem) {
+                const dOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+                dateElem.textContent = 'Today is ' + new Date().toLocaleDateString('en-IN', dOptions);
+            }
+        }
+
         // Check local storage for existing session
         window.addEventListener('DOMContentLoaded', () => {
+            updateLiveDashboardDate();
             const activePartnerCode = localStorage.getItem('partner_code');
             if (activePartnerCode) {
                 const lastAct = parseInt(localStorage.getItem('partner_last_activity') || '0', 10);
@@ -1309,6 +1676,17 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
             window.open(`https://wa.me/91${dealer.phone}?text=${text}`, '_blank');
         }
 
+        function toggleAllocatedLeads() {
+            const panel = document.getElementById('allocated-leads-panel');
+            if (!panel) return;
+            if (panel.classList.contains('hidden')) {
+                renderAllocatedLeads();
+                panel.classList.remove('hidden');
+            } else {
+                panel.classList.add('hidden');
+            }
+        }
+
         function toggleSavedQuotes() {
             const panel = document.getElementById('saved-quotes-panel');
             if (panel.classList.contains('hidden')) {
@@ -1405,34 +1783,46 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
         }
         
         function viewPartnerQuote(quoteNo) {
-            const printHtml = (quote) => {
-                const w = window.open('', '_blank');
-                w.document.write('<html><head><title>Print Quote</title>');
-                w.document.write('<style>body { font-family: sans-serif; padding: 2rem; color: #222; } @media print { .no-print { display: none !important; } p, ul, ol, tr, blockquote, .pdf-block { page-break-inside: avoid !important; break-inside: avoid !important; } h1, h2, h3, h4, h5, h6 { page-break-after: avoid !important; break-after: avoid !important; } p { widows: 3; orphans: 3; margin-bottom: 0.6rem; } table { page-break-inside: auto !important; break-inside: auto !important; } }</style>');
-                w.document.write('</head><body>');
-                w.document.write('<div class="no-print" style="text-align: right; margin-bottom: 20px;"><button onclick="window.print()" style="padding: 10px 20px; font-size: 16px; cursor: pointer; background: #0d1321; color: white; border: none; border-radius: 5px;">Print Quotation</button></div>');
-                w.document.write(quote.html);
-                w.document.write('<script>window.onload = function() { window.print(); };<\\/script>');
-                w.document.write('</body></html>');
-                w.document.close();
-            };
+            function openInModal(quote) {
+                currentQuoteData = quote;
+                const renderArea = document.getElementById('quote-render-area');
+                if (renderArea) {
+                    renderArea.innerHTML = quote.html;
+                }
+                const modal = document.getElementById('quote-modal-overlay');
+                if (modal) {
+                    modal.classList.remove('hidden');
+                    modal.scrollTop = 0;
+                }
+            }
+
+            let localQuotes = JSON.parse(localStorage.getItem('sunova_saved_quotes') || '[]');
+            let quote = localQuotes.find(q => q.quoteNo === quoteNo);
+            
+            if (!quote) {
+                const dealerCode = localStorage.getItem('partner_code') || '';
+                const savedQuotesKey = 'saved_quotes_' + dealerCode;
+                const dealerQuotes = JSON.parse(localStorage.getItem(savedQuotesKey) || '[]');
+                quote = dealerQuotes.find(q => q.quoteNo === quoteNo);
+            }
+
+            if (quote) {
+                openInModal(quote);
+                return;
+            }
 
             fetch('saved_quotes_db.json?t=' + Date.now())
             .then(res => res.json())
             .then(data => {
                 if (!Array.isArray(data)) data = [];
-                let quote = data.find(q => q.quoteNo === quoteNo);
-                if (!quote) {
-                    let localQuotes = JSON.parse(localStorage.getItem('sunova_saved_quotes') || '[]');
-                    quote = localQuotes.find(q => q.quoteNo === quoteNo);
+                let q = data.find(item => item.quoteNo === quoteNo);
+                if (q) {
+                    openInModal(q);
+                } else {
+                    alert('Quotation document could not be found.');
                 }
-                if (!quote) return alert('Quote not found.');
-                printHtml(quote);
             }).catch(() => {
-                let localQuotes = JSON.parse(localStorage.getItem('sunova_saved_quotes') || '[]');
-                let quote = localQuotes.find(q => q.quoteNo === quoteNo);
-                if (!quote) return alert('Quote not found.');
-                printHtml(quote);
+                alert('Quotation document could not be found.');
             });
         }
         
@@ -1587,6 +1977,11 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
                 dashView.insertBefore(infoContainer, resourceBox);
             }
 
+            const welcomeHeader = document.getElementById('partner-welcome-header');
+            if (welcomeHeader) welcomeHeader.textContent = `Welcome, ${dealer.name}`;
+            const distBadge = document.getElementById('partner-district-badge');
+            if (distBadge) distBadge.textContent = `${dealer.district} (${dealer.area})`;
+
             // Calculate actual statistics dynamically
             loadInquiries(function(inquiries) {
                 const dealerLeads = inquiries.filter(lead => lead.partnerCode === dealerCode);
@@ -1594,8 +1989,19 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
                 const completedLeads = dealerLeads.filter(lead => lead.status === 'Completed');
                 const totalCommission = completedLeads.reduce((sum, lead) => sum + (parseFloat(lead.commission) || 0), 0);
                 
-                document.getElementById('partner-active-leads').textContent = activeLeadsCount;
-                document.getElementById('partner-commission-earned').textContent = `₹${totalCommission.toLocaleString('en-IN')}`;
+                const activeLeadsEl = document.getElementById('partner-active-leads');
+                if (activeLeadsEl) activeLeadsEl.textContent = activeLeadsCount;
+                const commEarnedEl = document.getElementById('partner-commission-earned');
+                if (commEarnedEl) commEarnedEl.textContent = `₹${totalCommission.toLocaleString('en-IN')}`;
+                
+                const allocBadge = document.getElementById('badge-allocated-count');
+                if (allocBadge) allocBadge.textContent = `${activeLeadsCount} Leads`;
+
+                // Update saved quotes count badge
+                const savedQuotesKey = 'saved_quotes_' + dealerCode;
+                const savedQuotes = JSON.parse(localStorage.getItem(savedQuotesKey) || '[]');
+                const savedBadge = document.getElementById('badge-saved-count');
+                if (savedBadge) savedBadge.textContent = `${savedQuotes.length} Saved`;
                 
                 // Dynamic Goal Target Calculation (Based on capacity sum of leads)
                 const totalKwQuoted = dealerLeads.reduce((sum, lead) => sum + (parseFloat(lead.capacity) || 3.0), 0);
@@ -1621,6 +2027,32 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
                 // Populate KSEB sections for this partner's district
                 populateKSEBSections(dealer.district);
             });
+        }
+
+        // 1-Click WhatsApp Quick-Reply Follow-up Toolkit
+        function sendPartnerToolkitMsg(type) {
+            const activePartnerCode = localStorage.getItem('partner_code') || 'SUNOVA';
+            const dealer = DEALERS.find(d => d.code === activePartnerCode) || { name: "Sunova Solar Partner", phone: "9072522277", area: "Kerala", district: "Kerala" };
+            
+            let text = "";
+            if (type === 'survey') {
+                text = `*Sunova Solar LLP - Rooftop Site Survey*\n\nHello! I am ${dealer.name}, Authorized Channel Partner for Sunova Solar (${dealer.area}, ${dealer.district}).\n\nWe are scheduling free technical rooftop site surveys this week to inspect your roof structure and assess solar power potential.\n\nCould you please let us know a convenient time for the site visit?\n\n📞 +91 ${dealer.phone}\n🌐 https://sunovasolar.in`;
+            } else if (type === 'subsidy') {
+                text = `*PM Surya Ghar: Muft Bijli Yojana (Kerala Subsidy)*\n\nDirect bank transfer subsidy breakdown:\n• 1 kW: ₹33,000 Subsidy\n• 2 kW: ₹66,000 Subsidy\n• 3 kW to 10 kW: Flat ₹78,000 Subsidy!\n\nZero-electricity bill benefits with Tier-1 DCR ALMM solar panels.\n\nContact: ${dealer.name} (+91 ${dealer.phone})\nSunova Solar LLP | https://sunovasolar.in`;
+            } else if (type === 'docs') {
+                text = `*KSEB Solar Net-Metering Required Documents*\n\nTo initiate your KSEB Soura net-metering application, please provide:\n1. Latest KSEB Electricity Bill copy\n2. Aadhaar Card copy of Consumer\n3. Cancelled Cheque / Bank Passbook front page (for subsidy DBT transfer)\n4. Passport size photo\n\nSend docs via WhatsApp to +91 ${dealer.phone}\nSunova Solar LLP`;
+            } else if (type === 'loan') {
+                text = `*Low-Interest Solar Financing (7% per annum)*\n\nInstall your Rooftop Solar system with convenient bank EMI loans from SBI, Canara Bank, and Federal Bank.\n\n• Loan tenure up to 7 years\n• Zero collateral required for residential installations up to 3 kW\n• Subsidy credited directly into loan account\n\nContact ${dealer.name} (+91 ${dealer.phone}) for full details.\nhttps://sunovasolar.in`;
+            }
+
+            const phone = prompt("Enter customer's 10-digit WhatsApp number (or leave blank to open WhatsApp with pre-filled message):", "");
+            if (phone && phone.trim()) {
+                const cleanPhone = phone.trim().replace(/[^0-9]/g, '');
+                const targetPhone = cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone;
+                window.open(`https://wa.me/${targetPhone}?text=${encodeURIComponent(text)}`, '_blank');
+            } else {
+                window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+            }
         }
 
         function handleQuoteDistrictChange(districtName) {
@@ -1713,11 +2145,132 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
         }
 
         function closeQuoteModal() {
-            document.getElementById('quote-modal-overlay').classList.add('hidden');
+            const modal = document.getElementById('quote-modal-overlay');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        // Generate and immediately print in 1 click
+        async function generateAndPrintQuotation(type = 'customer') {
+            await generateQuotation(type);
+            setTimeout(() => {
+                printQuotationDocument();
+            }, 300);
+        }
+
+        // Isolated Reliable Print & PDF Generator
+        function printQuotationDocument() {
+            let htmlContent = "";
+            if (currentQuoteData && currentQuoteData.html) {
+                htmlContent = currentQuoteData.html;
+            } else {
+                const renderArea = document.getElementById('quote-render-area');
+                if (renderArea && renderArea.innerHTML.trim()) {
+                    htmlContent = renderArea.innerHTML;
+                }
+            }
+
+            if (!htmlContent) {
+                alert("Please generate or select a quotation first.");
+                return;
+            }
+
+            // Save to local quote history if not saved yet
+            if (currentQuoteData && currentQuoteData.quoteNo) {
+                const dealerCode = localStorage.getItem('partner_code') || 'SUNOVA';
+                const savedKey = 'saved_quotes_' + dealerCode;
+                let savedQuotes = JSON.parse(localStorage.getItem(savedKey) || '[]');
+                if (!savedQuotes.some(q => q.quoteNo === currentQuoteData.quoteNo)) {
+                    savedQuotes.unshift(currentQuoteData);
+                    localStorage.setItem(savedKey, JSON.stringify(savedQuotes));
+                    const savedBadge = document.getElementById('badge-saved-count');
+                    if (savedBadge) savedBadge.textContent = `${savedQuotes.length} Saved`;
+                }
+            }
+
+            // Create or reuse hidden iframe to print purely the document
+            let printFrame = document.getElementById('sunova-isolated-print-frame');
+            if (!printFrame) {
+                printFrame = document.createElement('iframe');
+                printFrame.id = 'sunova-isolated-print-frame';
+                printFrame.style.position = 'fixed';
+                printFrame.style.right = '0';
+                printFrame.style.bottom = '0';
+                printFrame.style.width = '0';
+                printFrame.style.height = '0';
+                printFrame.style.border = '0';
+                document.body.appendChild(printFrame);
+            }
+
+            const frameWindow = printFrame.contentWindow || printFrame;
+            const frameDoc = printFrame.contentDocument || (printFrame.contentWindow ? printFrame.contentWindow.document : null);
+
+            if (!frameDoc) {
+                window.print();
+                return;
+            }
+
+            frameDoc.open();
+            frameDoc.write(`<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>${currentQuoteData ? currentQuoteData.quoteNo : 'SUNOVA SOLAR Proposal'}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        @page {
+            size: A4 portrait;
+            margin: 8mm 10mm 8mm 10mm;
+        }
+        * {
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            color-adjust: exact !important;
+        }
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            margin: 0;
+            padding: 10px;
+            background: #ffffff !important;
+            color: #1e293b !important;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        .no-print { display: none !important; }
+        .pdf-block, tr, blockquote {
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+        }
+        table { width: 100%; border-collapse: collapse; }
+        img { max-width: 100%; height: auto; }
+        .lh-header img, img[src*="logo.jpg"] {
+            display: inline-block !important;
+            height: 52px !important;
+            width: auto !important;
+        }
+    </style>
+</head>
+<body>
+    ${htmlContent}
+</body>
+</html>`);
+            frameDoc.close();
+
+            setTimeout(() => {
+                try {
+                    frameWindow.focus();
+                    frameWindow.print();
+                } catch(e) {
+                    console.warn("Iframe print error fallback:", e);
+                    window.print();
+                }
+            }, 500);
         }
 
         function saveQuotation() {
-            window.print();
+            printQuotationDocument();
         }
 
         function whatsappQuotation() {
@@ -1726,20 +2279,20 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
                 return;
             }
             
-            // Trigger PDF print/save dialog first so partner can save proposal as PDF
-            window.print();
+            // Trigger PDF print/save first
+            printQuotationDocument();
             
             // Open WhatsApp Web/App pre-filled with customer phone and proposal summary
             const cleanPhone = currentQuoteData.customerPhone.replace(/\D/g, '');
             const formattedPhone = cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone;
             
-            const message = `Hello ${currentQuoteData.customerName},\n\nPlease find attached your official Sunova Solar Rooftop Proposal (${currentQuoteData.quoteNo}).\n\n⚡ System Capacity: ${currentQuoteData.capacity} kWp\n💰 Gross Contract Value: ₹${currentQuoteData.grossTotal.toLocaleString('en-IN')}\n\nSUNOVA SOLAR LLP | Govt of India Registered\nPh: +91 90725 22277 | www.sunovasolar.in`;
+            const message = `Hello ${currentQuoteData.customerName},\n\nPlease find attached your official Sunova Solar Rooftop Proposal (${currentQuoteData.quoteNo}).\n\n⚡ System Capacity: ${currentQuoteData.capacity} kWp\n💰 Gross Contract Value: ₹${currentQuoteData.grossTotal ? currentQuoteData.grossTotal.toLocaleString('en-IN') : 'N/A'}\n\nSUNOVA SOLAR LLP | Govt of India Registered\nPh: +91 90725 22277 | https://sunovasolar.in`;
             
             const waUrl = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(message)}`;
             
             setTimeout(() => {
                 window.open(waUrl, '_blank');
-            }, 1200);
+            }, 1500);
         }
 
         function toggleLetterheadStudioPanel() {
@@ -2030,13 +2583,13 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
                                     <td style="padding: 0; border: none;">
 
                         <!-- Document Title Header -->
-                        <div style="background: #f0f7ff; border-left: 5px solid #0056b3; padding: 0.8rem 1.2rem; margin-bottom: 1.8rem; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="background: #f0f7ff; border-left: 5px solid #0056b3; padding: 0.8rem 1.2rem; margin-bottom: 1.8rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem;">
                             <div>
-                                <h2 style="margin: 0; color: #0056b3; font-family: 'Outfit', sans-serif; font-size: 1.3rem;">DETAILED SOLAR POWER PLANT PROPOSAL</h2>
+                                <h2 style="margin: 0; color: #0056b3; font-family: 'Outfit', sans-serif; font-size: 1.25rem;">DETAILED SOLAR POWER PLANT PROPOSAL</h2>
                                 <span style="font-size: 0.78rem; color: #555;">Ref Qtn: <strong>${quoteNo}</strong> | Date: <strong>${dateStr}</strong></span>
                             </div>
-                            <div style="text-align: right;">
-                                <span style="background: #0056b3; color: #fff; padding: 0.3rem 0.8rem; border-radius: 4px; font-weight: bold; font-size: 0.8rem;">${sysConfigLabel.toUpperCase()}</span>
+                            <div style="text-align: right; flex-shrink: 0;">
+                                <span style="background: #0056b3; color: #ffffff !important; padding: 0.4rem 0.85rem; border-radius: 4px; font-weight: bold; font-size: 0.78rem; white-space: nowrap; display: inline-block;">${sysConfigLabel.toUpperCase()}</span>
                             </div>
                         </div>
 
@@ -2070,7 +2623,7 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
                             <p><strong>SUNOVA SOLAR LLP</strong> is a trustworthy Firm that is dedicated to popularizing the use of the never failing Solar Energy replacing the traditional forms energy.</p>
                             <p>The Head Office of the Firm being at Thodupuzha, Idukki, SUNOVA SOLAR LLP has very efficient and dedicated partners in all the 14 Districts of Kerala providing easy access to our Customers and aspirants whereof. Partner: <strong>${dealer.name}</strong>.</p>
                             
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 1rem;">
                                 <div style="background: #f9fafb; padding: 1rem; border-radius: 6px; border: 1px solid #edf2f7;">
                                     <h4 style="margin: 0 0 0.5rem 0; color: #0d1321; font-size: 0.95rem;">🎯 Our Mission</h4>
                                     <p style="margin: 0; font-size: 0.8rem; color: #4a5568;">Acquire, develop, and demonstrate suitable renewable energy technologies. Estimate resources and put in place conducive policies, identify barriers, introduce policy options, popularize the use of renewable energy, and increase capacity through renewable sources. Enhance energy efficiency through energy conservation and management efforts. Maximizes the renewable energy mix.</p>
@@ -2369,10 +2922,10 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
                                             <div style="display: flex; align-items: flex-end; justify-content: space-between; font-size: 0.68rem; color: #64748b; width: 100%;">
                                                 <div style="max-width: 62%; line-height: 1.35;">
                                                     <strong style="color: #1e293b;">SUNOVA SOLAR LLP Registered Office:</strong><br>
-                                                    <span>8/93 Aathickal Arcade, Vengalloor - Mangattukavala Bypass Road, Thodupuzha, Idukki District, Kerala - 685608.</span>
+                                                    <span>8/93 Aathickal Arcade, Vengalloor - Mangattukavala Bypass Road, Thodupuzha, Idukki District, Kerala - 685605.</span>
                                                 </div>
                                                 <div style="text-align: right; line-height: 1.35;">
-                                                    <div style="display: inline-block; background: #f1f5f9; border: 1px solid #cbd5e1; color: #047857; font-weight: 700; font-size: 0.62rem; padding: 2px 6px; border-radius: 4px; margin-bottom: 3px;">MCA REGISTERED LLP � LLPIN: ACX-7067 � RoC ERNAKULAM</div>
+                                                    <div style="display: inline-block; background: #f1f5f9; border: 1px solid #cbd5e1; color: #047857; font-weight: 700; font-size: 0.62rem; padding: 2px 6px; border-radius: 4px; margin-bottom: 3px;">MCA REGISTERED LLP  LLPIN: ACX-7067  RoC ERNAKULAM</div>
                                                     <div>Email: <span>info@sunovasolar.in</span></div>
                                                     <div>Phone: <strong style="color: #1e293b;">+91 90725 22277</strong> | Web: sunovasolar.in</div>
                                                 </div>
@@ -2423,13 +2976,13 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
                                     <td style="padding: 0; border: none;">
 
                         <!-- Document Title Box -->
-                        <div style="background: #f0fdf4; border-left: 5px solid #28a745; padding: 0.8rem 1.2rem; margin-bottom: 1.8rem; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="background: #f0fdf4; border-left: 5px solid #28a745; padding: 0.8rem 1.2rem; margin-bottom: 1.8rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem;">
                             <div>
-                                <h2 style="margin: 0; color: #15803d; font-family: 'Outfit', sans-serif; font-size: 1.3rem;">PROFORMA INVOICE &amp; KSEB FEASIBILITY</h2>
+                                <h2 style="margin: 0; color: #15803d; font-family: 'Outfit', sans-serif; font-size: 1.25rem;">PROFORMA INVOICE &amp; KSEB FEASIBILITY</h2>
                                 <span style="font-size: 0.78rem; color: #555;">Ref Qtn: <strong>${quoteNo}</strong> | Date: <strong>${dateStr}</strong></span>
                             </div>
-                            <div style="text-align: right;">
-                                <span style="background: #15803d; color: #fff; padding: 0.3rem 0.8rem; border-radius: 4px; font-weight: bold; font-size: 0.8rem;">${sysConfigLabel.toUpperCase()}</span>
+                            <div style="text-align: right; flex-shrink: 0;">
+                                <span style="background: #15803d; color: #ffffff !important; padding: 0.4rem 0.85rem; border-radius: 4px; font-weight: bold; font-size: 0.78rem; white-space: nowrap; display: inline-block;">${sysConfigLabel.toUpperCase()}</span>
                             </div>
                         </div>
 
@@ -2578,10 +3131,10 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
                                             <div style="display: flex; align-items: flex-end; justify-content: space-between; font-size: 0.68rem; color: #64748b; width: 100%;">
                                                 <div style="max-width: 62%; line-height: 1.35;">
                                                     <strong style="color: #1e293b;">SUNOVA SOLAR LLP Registered Office:</strong><br>
-                                                    <span>8/93 Aathickal Arcade, Vengalloor - Mangattukavala Bypass Road, Thodupuzha, Idukki District, Kerala - 685608.</span>
+                                                    <span>8/93 Aathickal Arcade, Vengalloor - Mangattukavala Bypass Road, Thodupuzha, Idukki District, Kerala - 685605.</span>
                                                 </div>
                                                 <div style="text-align: right; line-height: 1.35;">
-                                                    <div style="display: inline-block; background: #f1f5f9; border: 1px solid #cbd5e1; color: #047857; font-weight: 700; font-size: 0.62rem; padding: 2px 6px; border-radius: 4px; margin-bottom: 3px;">MCA REGISTERED LLP � LLPIN: ACX-7067 � RoC ERNAKULAM</div>
+                                                    <div style="display: inline-block; background: #f1f5f9; border: 1px solid #cbd5e1; color: #047857; font-weight: 700; font-size: 0.62rem; padding: 2px 6px; border-radius: 4px; margin-bottom: 3px;">MCA REGISTERED LLP  LLPIN: ACX-7067  RoC ERNAKULAM</div>
                                                     <div>Email: <span>info@sunovasolar.in</span></div>
                                                     <div>Phone: <strong style="color: #1e293b;">+91 90725 22277</strong> | Web: sunovasolar.in</div>
                                                 </div>
@@ -2650,11 +3203,288 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
 
         function toggleAllocatedLeads() {
             const panel = document.getElementById('allocated-leads-panel');
-            if (panel.classList.contains('hidden')) {
-                renderAllocatedLeads();
-                panel.classList.remove('hidden');
-            } else {
-                panel.classList.add('hidden');
+            if (panel) {
+                if (panel.classList.contains('hidden')) {
+                    renderAllocatedLeads();
+                    panel.classList.remove('hidden');
+                    panel.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    panel.classList.add('hidden');
+                }
+            }
+        }
+
+        function toggleSavedQuotes() {
+            const panel = document.getElementById('saved-quotes-panel');
+            if (panel) {
+                if (panel.classList.contains('hidden')) {
+                    renderSavedQuotes();
+                    panel.classList.remove('hidden');
+                    panel.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    panel.classList.add('hidden');
+                }
+            }
+        }
+
+        function toggleFeasibilityPanel() {
+            const panel = document.getElementById('feasibility-check-panel');
+            if (panel) {
+                if (panel.classList.contains('hidden')) {
+                    panel.classList.remove('hidden');
+                    panel.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    panel.classList.add('hidden');
+                }
+            }
+        }
+
+        function scrollToQuoteCalc() {
+            const calcSection = document.getElementById('quotation-form-section');
+            if (calcSection) {
+                calcSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function toggleReportsPanel() {
+            const panel = document.getElementById('reports-analytics-panel');
+            if (panel) {
+                if (panel.classList.contains('hidden')) {
+                    panel.classList.remove('hidden');
+                    panel.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    panel.classList.add('hidden');
+                }
+            }
+        }
+
+        function toggleLiveLeadsLog() {
+            const panel = document.getElementById('live-inquiries-log-panel');
+            if (panel) {
+                if (panel.classList.contains('hidden')) {
+                    panel.classList.remove('hidden');
+                    panel.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    panel.classList.add('hidden');
+                }
+            }
+        }
+
+        function toggleKsebTracker() {
+            const panel = document.getElementById('kseb-tracker-panel');
+            if (panel) {
+                if (panel.classList.contains('hidden')) {
+                    panel.classList.remove('hidden');
+                    panel.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    panel.classList.add('hidden');
+                }
+            }
+        }
+
+        function toggleDistrictDirectory() {
+            const panel = document.getElementById('district-partners-panel');
+            if (panel) {
+                if (panel.classList.contains('hidden')) {
+                    renderDistrictPartners(activeDistrictFilter || 'All');
+                    panel.classList.remove('hidden');
+                    panel.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    panel.classList.add('hidden');
+                }
+            }
+        }
+
+        function toggleChangePinPanel() {
+            const panel = document.getElementById('dashboard-change-pin-panel');
+            if (panel) {
+                if (panel.classList.contains('hidden')) {
+                    panel.classList.remove('hidden');
+                    panel.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    panel.classList.add('hidden');
+                }
+            }
+        }
+
+        function openPmSuryaGharModal() {
+            const panel = document.getElementById('pm-surya-ghar-panel');
+            if (panel) {
+                if (panel.classList.contains('hidden')) {
+                    panel.classList.remove('hidden');
+                    panel.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    panel.classList.add('hidden');
+                }
+            }
+        }
+
+        function openSolarEmiModal() {
+            const panel = document.getElementById('solar-emi-calculator-panel');
+            if (panel) {
+                if (panel.classList.contains('hidden')) {
+                    panel.classList.remove('hidden');
+                    calculateSolarEmi();
+                    panel.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    panel.classList.add('hidden');
+                }
+            }
+        }
+
+        function calculateSolarEmi() {
+            const priceEl = document.getElementById('emi-price-range');
+            const tenureEl = document.getElementById('emi-tenure-range');
+            if (!priceEl || !tenureEl) return;
+            const price = parseFloat(priceEl.value) || 185000;
+            const years = parseInt(tenureEl.value) || 5;
+            document.getElementById('emi-price-val').textContent = '₹' + price.toLocaleString('en-IN');
+            document.getElementById('emi-tenure-val').textContent = years + ' Years';
+            
+            const r = 0.07 / 12;
+            const n = years * 12;
+            const emi = Math.round((price * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1));
+            document.getElementById('calculated-monthly-emi').textContent = '₹' + emi.toLocaleString('en-IN') + ' / mo';
+        }
+
+        function openRoofEstimatorModal() {
+            const panel = document.getElementById('rooftop-estimator-panel');
+            if (panel) {
+                if (panel.classList.contains('hidden')) {
+                    panel.classList.remove('hidden');
+                    calculateRoofCapacity();
+                    panel.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    panel.classList.add('hidden');
+                }
+            }
+        }
+
+        function calculateRoofCapacity() {
+            const areaEl = document.getElementById('roof-area-input');
+            if (!areaEl) return;
+            const area = parseFloat(areaEl.value) || 300;
+            const kwp = (area / 100).toFixed(1);
+            const panels = Math.ceil((kwp * 1000) / 550);
+            document.getElementById('roof-kwp-res').textContent = kwp + ' kWp';
+            document.getElementById('roof-panels-count').textContent = panels + ' Panels (550W TOPCon Mono-PERC)';
+        }
+
+        function openKsebChecklistModal() {
+            const panel = document.getElementById('kseb-checklist-panel');
+            if (panel) {
+                if (panel.classList.contains('hidden')) {
+                    panel.classList.remove('hidden');
+                    panel.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    panel.classList.add('hidden');
+                }
+            }
+        }
+
+        function openAmcServiceModal() {
+            const panel = document.getElementById('amc-service-panel');
+            if (panel) {
+                if (panel.classList.contains('hidden')) {
+                    panel.classList.remove('hidden');
+                    panel.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    panel.classList.add('hidden');
+                }
+            }
+        }
+
+        function openEquipmentMatrixModal() {
+            const panel = document.getElementById('equipment-matrix-panel');
+            if (panel) {
+                if (panel.classList.contains('hidden')) {
+                    panel.classList.remove('hidden');
+                    panel.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    panel.classList.add('hidden');
+                }
+            }
+        }
+
+        function openWarrantyGeneratorModal() {
+            const panel = document.getElementById('warranty-generator-panel');
+            if (panel) {
+                if (panel.classList.contains('hidden')) {
+                    panel.classList.remove('hidden');
+                    panel.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    panel.classList.add('hidden');
+                }
+            }
+        }
+
+        function generateWarrantyPdf() {
+            const activePartnerCode = localStorage.getItem('partner_code') || 'SUNOVA';
+            const dealer = DEALERS.find(d => d.code === activePartnerCode) || { name: "Sunova Partner", phone: "9072522277", area: "Kerala", district: "Kerala" };
+            const custName = (document.getElementById('quote-cust-name')?.value || 'VALUED CUSTOMER').toUpperCase();
+            const dateStr = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+            
+            const warrantyHtml = `
+                <div style="font-family: 'Inter', Arial, sans-serif; color: #222; max-width: 850px; margin: 0 auto; background: #fff; padding: 2.5rem; box-sizing: border-box; border: 3px double #047857; position: relative;">
+                    <div style="text-align: center; border-bottom: 2px solid #047857; padding-bottom: 1.2rem; margin-bottom: 1.5rem;">
+                        <img src="assets/logo.jpg" style="height: 60px; margin-bottom: 0.5rem;" alt="SUNOVA SOLAR LLP" onerror="this.style.display='none'">
+                        <h2 style="font-size: 1.6rem; color: #047857; margin: 0; text-transform: uppercase; font-weight: 800;">SUNOVA SOLAR LLP</h2>
+                        <p style="font-size: 0.8rem; color: #f59e0b; font-weight: 700; margin: 3px 0 0 0; letter-spacing: 1px;">25-YEAR SOLAR POWER PLANT PERFORMANCE WARRANTY CERTIFICATE</p>
+                        <p style="font-size: 0.7rem; color: #64748b; margin: 2px 0 0 0;">LLPIN: ACX-7067 | RoC Ernakulam | Thodupuzha, Kerala - 685605</p>
+                    </div>
+
+                    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 1.2rem; margin-bottom: 1.5rem;">
+                        <h3 style="color: #15803d; margin: 0 0 0.5rem 0; font-size: 1.1rem;">Certificate of Commissioning &amp; Guarantee</h3>
+                        <p style="font-size: 0.84rem; margin: 0; line-height: 1.6;">
+                            This is to certify that the Rooftop Solar PV Installation for <strong>${custName}</strong> has been engineered, installed, and commissioned in compliance with MNRE &amp; KSEB Soura standards by Authorized Partner <strong>${dealer.name}</strong> (${dealer.area}).
+                        </p>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.8rem; margin-bottom: 1.5rem;">
+                        <div style="border: 1px solid #e2e8f0; padding: 1rem; border-radius: 8px;">
+                            <h4 style="color: #0d1321; margin: 0 0 0.5rem 0;">☀️ Tier-1 PV Module Guarantee</h4>
+                            <p style="margin: 0; color: #475569; line-height: 1.5;">12-Year Workmanship Warranty &bull; 25-Year Linear Power Output Performance Guarantee (&ge; 84.8% at Year 25).</p>
+                        </div>
+                        <div style="border: 1px solid #e2e8f0; padding: 1rem; border-radius: 8px;">
+                            <h4 style="color: #0d1321; margin: 0 0 0.5rem 0;">⚡ Grid Inverter Guarantee</h4>
+                            <p style="margin: 0; color: #475569; line-height: 1.5;">10-Year Full Manufacturer Warranty with Wi-Fi Cloud Remote Performance Monitoring Support.</p>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #cbd5e1; font-size: 0.8rem;">
+                        <div>
+                            <span>Date of Issuance: <strong>${dateStr}</strong></span><br>
+                            <span>Certificate ID: <strong>SUN/WTY/${activePartnerCode}/${Date.now().toString().slice(-6)}</strong></span>
+                        </div>
+                        <div style="text-align: right;">
+                            <strong>For SUNOVA SOLAR LLP</strong><br><br>
+                            <div style="border-bottom: 1px solid #444; width: 200px; display: inline-block;"></div><br>
+                            <span>Authorized Signatory</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            const renderArea = document.getElementById('quote-render-area');
+            if (renderArea) {
+                renderArea.innerHTML = warrantyHtml;
+            }
+            const modal = document.getElementById('quote-modal-overlay');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.scrollTop = 0;
+            }
+        }
+
+        function toggleCarbonOffsetPanel() {
+            const panel = document.getElementById('carbon-offset-panel');
+            if (panel) {
+                if (panel.classList.contains('hidden')) {
+                    panel.classList.remove('hidden');
+                    panel.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    panel.classList.add('hidden');
+                }
             }
         }
 
@@ -2916,7 +3746,7 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
 
     <!-- Net Metering Checklist Modal Overlay (Initially Hidden) -->
     <div id="checklist-modal-overlay" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 20000; display: flex; justify-content: center; align-items: center; padding: 1rem;">
-        <div style="background: #121824; border: 1px solid var(--color-border); border-radius: 12px; padding: 2rem; width: 100%; max-width: 550px; text-align: left; color: white; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+        <div style="background: var(--color-surface-opaque); border: 1px solid var(--color-border); border-radius: 12px; padding: 2rem; width: 100%; max-width: 550px; text-align: left; color: var(--color-text); box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.8rem; margin-bottom: 1.2rem;">
                 <h3 style="margin: 0; color: var(--color-sun-yellow); font-family: var(--font-heading); font-size: 1.2rem;">📋 KSEB Net Metering Checklist</h3>
                 <button onclick="closeChecklistModal()" style="background: none; border: none; color: var(--color-text-muted); font-size: 1.5rem; cursor: pointer; line-height: 1;">&times;</button>
@@ -2932,22 +3762,26 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
 
     <!-- Printable Quotation Modal Overlay (Hidden initially) -->
     <div id="quote-modal-overlay" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 20000; overflow-y: auto; display: flex; justify-content: center; align-items: flex-start; padding: 2rem 1rem;">
-        <div style="background: white; color: #333; width: 100%; max-width: 800px; border-radius: 12px; padding: 2.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative; text-align: left;" id="printable-quote-content">
-            <!-- Modal Header Actions (Not Printed) -->
-            <div class="no-print" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; padding-bottom: 1rem; margin-bottom: 1.5rem;">
-                <h3 style="margin: 0; color: #333; font-family: 'Outfit', sans-serif;">Solar Quotation Preview</h3>
-                <div style="display: flex; gap: 0.6rem; flex-wrap: wrap; justify-content: flex-end;">
-                    <button onclick="saveQuotation()" style="background: #28a745; color: white; border: none; border-radius: 6px; padding: 0.5rem 1rem; font-weight: 600; font-size: 0.82rem; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+        <div style="background: #ffffff; color: #0d1321; border: 1px solid #cbd5e1; width: 100%; max-width: 880px; border-radius: 12px; padding: 2rem; box-shadow: 0 10px 40px rgba(0,0,0,0.4); position: relative; text-align: left;" id="printable-quote-content">
+            
+            <!-- STICKY Floating Top Actions Bar (Always Visible on Preview) -->
+            <div class="no-print" style="position: sticky; top: -2rem; z-index: 1000; background: #ffffff; padding: 0.8rem 1rem; margin: -2rem -2rem 1.5rem -2rem; border-bottom: 2px solid #047857; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-top-left-radius: 12px; border-top-right-radius: 12px; flex-wrap: wrap; gap: 0.6rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-size: 1.3rem;">📄</span>
+                    <h3 style="margin: 0; color: #0d1321; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.05rem;">Solar Proposal Document Preview</h3>
+                </div>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
+                    <button type="button" onclick="printQuotationDocument()" style="background: #10b981; color: #ffffff; border: none; border-radius: 6px; padding: 0.55rem 1.1rem; font-weight: 800; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35); transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                        🖨️ Print Quotation
+                    </button>
+                    <button type="button" onclick="saveQuotation()" style="background: #2563eb; color: #ffffff; border: none; border-radius: 6px; padding: 0.55rem 1rem; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
                         💾 Save PDF
                     </button>
-                    <button onclick="whatsappQuotation()" style="background: #25d366; color: white; border: none; border-radius: 6px; padding: 0.5rem 1rem; font-weight: 600; font-size: 0.82rem; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
-                        💬 Save PDF &amp; Send WhatsApp
+                    <button type="button" onclick="whatsappQuotation()" style="background: #25d366; color: #ffffff; border: none; border-radius: 6px; padding: 0.55rem 1rem; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                        💬 WhatsApp
                     </button>
-                    <button onclick="window.print()" style="background: #6c757d; color: white; border: none; border-radius: 6px; padding: 0.5rem 1rem; font-weight: 600; font-size: 0.82rem; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
-                        🖨️ Print
-                    </button>
-                    <button onclick="closeQuoteModal()" style="background: #e0e0e0; color: #333; border: none; border-radius: 6px; padding: 0.5rem 1rem; font-weight: 600; font-size: 0.82rem; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
-                        Close
+                    <button type="button" onclick="closeQuoteModal()" style="background: #ef4444; color: #ffffff; border: none; border-radius: 6px; padding: 0.55rem 1rem; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                        ✕ Close
                     </button>
                 </div>
             </div>
@@ -2955,6 +3789,19 @@ Thodupuzha, Idukki District, Kerala - 685584.</textarea>
             <!-- Quotation Template Contents -->
             <div id="quote-render-area">
                 <!-- Dynamically Injected Quote Layout -->
+            </div>
+
+            <!-- Bottom Action Buttons (Always Visible at End of Preview) -->
+            <div class="no-print" style="margin-top: 2rem; padding-top: 1.2rem; border-top: 2px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 0.75rem; flex-wrap: wrap;">
+                <button type="button" onclick="printQuotationDocument()" style="background: #10b981; color: #ffffff; border: none; border-radius: 8px; padding: 0.65rem 1.4rem; font-weight: 800; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+                    🖨️ Print Quotation
+                </button>
+                <button type="button" onclick="saveQuotation()" style="background: #2563eb; color: #ffffff; border: none; border-radius: 8px; padding: 0.65rem 1.2rem; font-weight: 700; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+                    💾 Save PDF
+                </button>
+                <button type="button" onclick="closeQuoteModal()" style="background: #64748b; color: #ffffff; border: none; border-radius: 8px; padding: 0.65rem 1.2rem; font-weight: 700; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+                    ✕ Close Preview
+                </button>
             </div>
         </div>
     </div>

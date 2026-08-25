@@ -28,18 +28,19 @@
 /* Dark Theme (Default) - Ultra-Rich Tech Solar Midnight Glass */
 .dark-theme {
     color-scheme: dark;
-    --color-bg: transparent;
+    --color-bg: #070d19;
     --color-bg-alt: rgba(6, 10, 20, 0.45);
-    --color-bg-gradient: radial-gradient(circle at 12% 18%, rgba(255, 183, 3, 0.1) 0%, transparent 42%),
-                         radial-gradient(circle at 88% 35%, rgba(37, 99, 235, 0.14) 0%, transparent 48%),
-                         radial-gradient(circle at 45% 85%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
-    --color-surface: rgba(15, 23, 42, 0.72);
-    --color-surface-hover: rgba(26, 38, 68, 0.88);
-    --color-surface-opaque: rgba(15, 23, 42, 0.88);
-    --color-text: #f8fafc;
-    --color-text-muted: #94a3b8;
-    --color-text-subtle: #64748b;
-    --color-border: rgba(255, 255, 255, 0.1);
+    --color-bg-gradient: radial-gradient(circle at 12% 18%, rgba(255, 183, 3, 0.12) 0%, transparent 42%),
+                         radial-gradient(circle at 88% 35%, rgba(37, 99, 235, 0.15) 0%, transparent 48%),
+                         radial-gradient(circle at 45% 85%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+                         linear-gradient(180deg, #070d19 0%, #0b1329 100%);
+    --color-surface: rgba(15, 23, 42, 0.78);
+    --color-surface-hover: rgba(26, 38, 68, 0.90);
+    --color-surface-opaque: rgba(15, 23, 42, 0.92);
+    --color-text: #ffffff;
+    --color-text-muted: #e2e8f0;
+    --color-text-subtle: #cbd5e1;
+    --color-border: rgba(255, 255, 255, 0.12);
     --color-border-focus: rgba(255, 183, 3, 0.5);
     --color-shadow: rgba(0, 0, 0, 0.55);
     --color-nav-bg: rgba(6, 10, 20, 0.88);
@@ -49,21 +50,22 @@
 /* Light Theme - Clean Daylight Aura with Warm Solar Glass */
 .light-theme {
     color-scheme: light;
-    --color-bg: transparent;
-    --color-bg-alt: rgba(248, 250, 252, 0.55);
+    --color-bg: #f8fafc;
+    --color-bg-alt: rgba(248, 250, 252, 0.7);
     --color-bg-gradient: radial-gradient(circle at 10% 15%, rgba(255, 183, 3, 0.16) 0%, transparent 45%),
                          radial-gradient(circle at 90% 50%, rgba(59, 130, 246, 0.11) 0%, transparent 50%),
-                         radial-gradient(circle at 45% 88%, rgba(245, 158, 11, 0.08) 0%, transparent 45%);
-    --color-surface: rgba(255, 255, 255, 0.85);
+                         radial-gradient(circle at 45% 88%, rgba(245, 158, 11, 0.08) 0%, transparent 45%),
+                         linear-gradient(180deg, #f1f5f9 0%, #f8fafc 100%);
+    --color-surface: rgba(255, 255, 255, 0.92);
     --color-surface-hover: rgba(255, 255, 255, 0.98);
-    --color-surface-opaque: rgba(255, 255, 255, 0.94);
+    --color-surface-opaque: rgba(255, 255, 255, 0.96);
     --color-text: #0f172a;
-    --color-text-muted: #334155;
-    --color-text-subtle: #64748b;
-    --color-border: rgba(15, 23, 42, 0.09);
+    --color-text-muted: #1e293b;
+    --color-text-subtle: #334155;
+    --color-border: rgba(15, 23, 42, 0.12);
     --color-border-focus: rgba(245, 158, 11, 0.6);
     --color-shadow: rgba(15, 23, 42, 0.08);
-    --color-nav-bg: rgba(255, 255, 255, 0.92);
+    --color-nav-bg: rgba(255, 255, 255, 0.94);
     --glass-opacity: 0.85;
 }
 
@@ -120,7 +122,7 @@ select option {
 
 /* --- Comprehensive Light & Dark Theme Component Rules --- */
 
-/* 1. Dark Theme Component Styling */
+/* 1. Dark Theme Component & High-Contrast Text Styling */
 .dark-theme .glass-card,
 .dark-theme .service-card,
 .dark-theme .testimonial-card,
@@ -136,36 +138,70 @@ select option {
 .dark-theme .feasibility-card,
 .dark-theme .modal-content,
 .dark-theme .kseb-upload-box,
-.dark-theme #letterhead-studio-panel,
 .dark-theme #dealer-profile-details,
 .dark-theme #allocated-leads-panel,
 .dark-theme #saved-quotes-panel,
 .dark-theme #feasibility-check-panel,
 .dark-theme #dash-change-pin-panel {
-    background: rgba(15, 23, 42, 0.72) !important;
-    color: #f8fafc !important;
-    border-color: rgba(255, 255, 255, 0.1) !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+    background: rgba(15, 23, 42, 0.76) !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.55) !important;
 }
 
-.dark-theme h1, .dark-theme h2, .dark-theme h3, .dark-theme h4, .dark-theme h5, .dark-theme h6 {
-    color: #f8fafc !important;
+.dark-theme h1, 
+.dark-theme h2, 
+.dark-theme h3, 
+.dark-theme h4, 
+.dark-theme h5, 
+.dark-theme h6,
+.dark-theme h1 *, 
+.dark-theme h2 *, 
+.dark-theme h3 *, 
+.dark-theme h4 *, 
+.dark-theme h5 *, 
+.dark-theme h6 * {
+    color: #ffffff !important;
 }
 
-.dark-theme p, .dark-theme .section-desc, .dark-theme .sub-title, .dark-theme .dash-subtitle {
-    color: #94a3b8;
+.dark-theme p, 
+.dark-theme span:not(.badge):not(.primary-btn):not(.green-btn):not(.cta-btn):not(#sun-output-display):not(#referral-cash-display):not(#toast-title):not(.sav-val):not(.radar-pulse-pin),
+.dark-theme label,
+.dark-theme div,
+.dark-theme li,
+.dark-theme td,
+.dark-theme th,
+.dark-theme .section-desc, 
+.dark-theme .sub-title, 
+.dark-theme .dash-subtitle {
+    color: #cbd5e1;
 }
 
-.dark-theme label, .dark-theme .form-label {
-    color: #f8fafc !important;
+.dark-theme strong,
+.dark-theme b,
+.dark-theme label, 
+.dark-theme .form-label,
+.dark-theme .card-title,
+.dark-theme .modal-title {
+    color: #ffffff !important;
+}
+
+/* Override inline dark text colors (like color: #0d1321 or #1e293b) in dark mode */
+.dark-theme [style*="color: #0d1321"]:not(button):not(.primary-btn):not(.cta-btn),
+.dark-theme [style*="color:#0d1321"]:not(button):not(.primary-btn):not(.cta-btn),
+.dark-theme [style*="color: #1e293b"]:not(button):not(.primary-btn):not(.cta-btn),
+.dark-theme [style*="color:#1e293b"]:not(button):not(.primary-btn):not(.cta-btn),
+.dark-theme [style*="color: #000000"]:not(button):not(.primary-btn):not(.cta-btn),
+.dark-theme [style*="color:#000000"]:not(button):not(.primary-btn):not(.cta-btn) {
+    color: #ffffff !important;
 }
 
 .dark-theme input:not([type="submit"]):not([type="button"]),
 .dark-theme select,
 .dark-theme textarea {
-    background-color: rgba(6, 10, 20, 0.85) !important;
-    color: #f8fafc !important;
-    border-color: rgba(255, 255, 255, 0.12) !important;
+    background-color: rgba(10, 16, 30, 0.85) !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.16) !important;
 }
 
 .dark-theme .district-main-tab:not(.active) {
@@ -181,27 +217,7 @@ select option {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6) !important;
 }
 
-/* 2. Light Theme Component Styling */
-.light-theme .glass-card,
-.light-theme .service-card,
-.light-theme .testimonial-card,
-.light-theme .news-card,
-.light-theme .contact-card,
-.light-theme .calculator-card,
-.light-theme .login-card,
-.light-theme .portal-card,
-.light-theme .info-card,
-.light-theme .tech-settings-box,
-.light-theme .district-card,
-.light-theme .dealer-card,
-.light-theme .feasibility-card,
-/* --- Master High-Contrast Theme Enforcement Engine --- */
-
-/* 1. LIGHT THEME CONTRAST ENFORCEMENT */
-.light-theme {
-    color: #0f172a !important;
-}
-
+/* 2. Light Theme Component & High-Contrast Text Styling */
 .light-theme .glass-card,
 .light-theme .service-card,
 .light-theme .testimonial-card,
@@ -217,7 +233,6 @@ select option {
 .light-theme .feasibility-card,
 .light-theme .modal-content,
 .light-theme .kseb-upload-box,
-.light-theme #letterhead-studio-panel,
 .light-theme #dealer-profile-details,
 .light-theme #allocated-leads-panel,
 .light-theme #saved-quotes-panel,
@@ -235,35 +250,61 @@ select option {
 .light-theme h4, 
 .light-theme h5, 
 .light-theme h6,
-.light-theme strong,
-.light-theme b,
-.light-theme .hero-title,
-.light-theme .section-title,
-.light-theme .sav-val,
-.light-theme .stat-num,
-.light-theme .pizza-step-title,
-.light-theme .loc-address,
-.light-theme .contact-link-row,
-.light-theme .form-group label,
-.light-theme label,
-.light-theme th,
-.light-theme td,
-.light-theme a:not(.primary-btn):not(.green-btn):not(.cta-btn):not(.toast-inquiry-btn) {
+.light-theme h1 *, 
+.light-theme h2 *, 
+.light-theme h3 *, 
+.light-theme h4 *, 
+.light-theme h5 *, 
+.light-theme h6 * {
     color: #0f172a !important;
-    font-weight: 700;
 }
 
-.light-theme p,
-.light-theme span:not(.primary-btn):not(.green-btn):not(.cta-btn):not(.toast-inquiry-btn):not(.radar-pulse-pin):not(.sub-title):not(.stat-num):not(.input-val-display):not(.sav-val):not(.metric-label):not(.badge):not(.service-badge):not(.project-badge):not(.loc-badge):not(.news-badge):not(.upload-badge):not(.toast-icon-badge):not(.check-icon):not(.info-icon):not(.eco-leaf):not(.highlight-green):not(.unit),
+.light-theme p, 
+.light-theme span:not(.badge):not(.primary-btn):not(.green-btn):not(.cta-btn):not(#sun-output-display):not(#referral-cash-display):not(#toast-title):not(.sav-val):not(.radar-pulse-pin),
+.light-theme label,
+.light-theme div:not(.primary-btn):not(.green-btn),
 .light-theme li,
-.light-theme .section-desc,
-.light-theme .hero-desc-text,
-.light-theme .about-text,
-.light-theme .sav-lbl,
-.light-theme .stat-lbl,
-.light-theme .pizza-step-desc,
-.light-theme .calc-disclaimer,
-.light-theme .dash-subtitle,
+.light-theme td,
+.light-theme th,
+.light-theme .section-desc, 
+.light-theme .sub-title, 
+.light-theme .dash-subtitle {
+    color: #1e293b;
+}
+
+.light-theme strong,
+.light-theme b,
+.light-theme label, 
+.light-theme .form-label,
+.light-theme .card-title,
+.light-theme .modal-title {
+    color: #0f172a !important;
+}
+
+/* Override inline white/light text colors (like color: #ffffff or #f8fafc) in light mode */
+.light-theme [style*="color: #ffffff"]:not(button):not(.primary-btn):not(.cta-btn),
+.light-theme [style*="color:#ffffff"]:not(button):not(.primary-btn):not(.cta-btn),
+.light-theme [style*="color: #fff"]:not(button):not(.primary-btn):not(.cta-btn),
+.light-theme [style*="color:#fff"]:not(button):not(.primary-btn):not(.cta-btn),
+.light-theme [style*="color: #f8fafc"]:not(button):not(.primary-btn):not(.cta-btn),
+.light-theme [style*="color:#f8fafc"]:not(button):not(.primary-btn):not(.cta-btn) {
+    color: #0f172a !important;
+}
+
+.light-theme input:not([type="submit"]):not([type="button"]),
+.light-theme select,
+.light-theme textarea {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border-color: rgba(15, 23, 42, 0.16) !important;
+}
+
+.light-theme input::placeholder,
+.light-theme textarea::placeholder,
+.light-theme select::placeholder {
+    color: #64748b !important;
+    opacity: 1 !important;
+}
 .light-theme .project-location,
 .light-theme .project-specs li,
 .light-theme .card-features li {
@@ -537,13 +578,11 @@ label, .form-label, input, select, textarea {
     font-weight: 600 !important;
 }
 
-/* Universal Focused Solar Panel Background for ALL Pages */
+/* Universal Clean Solar Background for ALL Pages */
 html, body, .login-page-body, .portal-page-body {
-    background-image: url('assets/hero.jpg') !important;
+    background-color: var(--color-bg) !important;
+    background-image: var(--color-bg-gradient) !important;
     background-attachment: fixed !important;
-    background-repeat: no-repeat !important;
-    background-size: cover !important;
-    background-position: center center !important;
     color: var(--color-text);
     font-family: var(--font-body);
     line-height: 1.6;
@@ -948,6 +987,10 @@ body::before {
     display: flex;
     align-items: center;
     overflow: hidden;
+    background-image: linear-gradient(135deg, rgba(13, 19, 33, 0.82) 0%, rgba(13, 19, 33, 0.55) 100%), url('assets/hero.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
 }
 
 .hero-bg {
@@ -971,12 +1014,12 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, rgba(13, 19, 33, 0.65) 0%, rgba(13, 19, 33, 0.25) 50%, rgba(13, 19, 33, 0.1) 100%);
+    background: linear-gradient(90deg, rgba(13, 19, 33, 0.75) 0%, rgba(13, 19, 33, 0.4) 50%, rgba(13, 19, 33, 0.25) 100%);
     z-index: -1;
 }
 
 .light-theme .hero-overlay {
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0.1) 100%);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.45) 50%, rgba(255, 255, 255, 0.2) 100%);
 }
 
 .hero-container {
@@ -1126,25 +1169,7 @@ body::before {
 }
 
 .hero-title::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 280px;
-    height: 280px;
-    background-image: url("assets/logo.jpg");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    opacity: 0.05;
-    z-index: -1;
-    pointer-events: none;
-    border-radius: 50%;
-}
-
-.light-theme .hero-title::before {
-    opacity: 0.08;
+    display: none !important;
 }
 
 .light-theme .hero-title {
@@ -2501,15 +2526,15 @@ input[type=number]:focus {
     font-family: var(--font-heading);
     font-size: 2.2rem;
     font-weight: 800;
-    color: hsl(222, 47%, 9%);
-    line-height: 1;
+    color: var(--color-sun-yellow) !important;
+    line-height: 1.1;
 }
 
 .stat-lbl {
     font-family: var(--font-heading);
     font-size: 0.85rem;
     font-weight: 700;
-    color: hsl(222, 47%, 15%);
+    color: var(--color-text) !important;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-top: 0.25rem;
@@ -3637,19 +3662,12 @@ form {
 
 /* Print Media Styles for Solar Quotations */
 @media print {
-    body * {
-        visibility: hidden !important;
-    }
-    #quote-modal-overlay, #quote-modal-overlay * {
-        visibility: visible !important;
-    }
     #quote-modal-overlay {
-        position: absolute !important;
-        left: 0 !important;
-        top: 0 !important;
+        display: block !important;
+        position: static !important;
         width: 100% !important;
-        background: white !important;
-        color: #333 !important;
+        background: #ffffff !important;
+        color: #000000 !important;
         padding: 0 !important;
         margin: 0 !important;
         overflow: visible !important;
@@ -3660,21 +3678,53 @@ form {
         border: none !important;
         width: 100% !important;
         max-width: 100% !important;
+        background: #ffffff !important;
     }
+}
+/* Quotation Document Preview & Print High-Contrast Styles */
+#printable-quote-content {
+    background: #ffffff !important;
+    color: #0d1321 !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4) !important;
+}
+
+#printable-quote-content .no-print h3 {
+    color: #0d1321 !important;
+}
+
+#quote-render-area {
+    background: #ffffff !important;
+    color: #1e293b !important;
+    border-radius: 6px;
+}
+
+/* Prevent global dark theme rules from overriding proposal text color */
+.dark-theme #quote-render-area,
+.dark-theme #quote-render-area p,
+.dark-theme #quote-render-area label,
+.dark-theme #quote-render-area div,
+.dark-theme #quote-render-area li,
+.dark-theme #quote-render-area td,
+.dark-theme #quote-render-area th,
+.dark-theme #quote-render-area strong,
+.dark-theme #quote-render-area b,
+.dark-theme #quote-render-area h1,
+.dark-theme #quote-render-area h2,
+.dark-theme #quote-render-area h3,
+.dark-theme #quote-render-area h4,
+.dark-theme #quote-render-area h5,
+.dark-theme #quote-render-area h6 {
+    color: inherit !important;
+}
+
+.dark-theme #quote-render-area span:not(.badge):not(.primary-btn):not(.cta-btn) {
+    color: inherit !important;
+}
+
     .no-print {
         display: none !important;
     }
 }
-
-
-
-
-
-
-
-
-
-
 
 /* Highlighted Social Buttons */
 .fb-btn { color: #1877F2 !important; border-color: #1877F2 !important; background: rgba(24, 119, 242, 0.1) !important; transition: all 0.3s ease; }
@@ -4538,5 +4588,1337 @@ form {
     50% {
         border-color: rgba(255, 183, 3, 1);
         box-shadow: 0 12px 40px rgba(255, 183, 3, 0.5);
+    }
+}
+
+/* ==========================================================================
+   MASTER MOBILE & SMARTPHONE VIEWPORT COMPATIBILITY SUITE (iOS & Android)
+   ========================================================================== */
+
+/* 1. Global Viewport & Horizontal Overflow Protection */
+html, body {
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+    -webkit-text-size-adjust: 100%;
+}
+
+* {
+    max-width: 100%;
+}
+
+/* 2. Responsive Mobile Header & Navbar (max-width: 992px) */
+@media (max-width: 992px) {
+    .nav-container {
+        padding: 0.6rem 1rem !important;
+    }
+    
+    .logo-img-file, .logo-img {
+        height: 38px !important;
+        width: auto !important;
+    }
+
+    .brand-text {
+        font-size: 1.15rem !important;
+    }
+
+    .nav-actions {
+        gap: 0.4rem !important;
+    }
+
+    .cta-btn.primary-btn {
+        padding: 0.45rem 0.85rem !important;
+        font-size: 0.8rem !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .nav-container {
+        padding: 0.5rem 0.75rem !important;
+    }
+
+    /* Hide optional social media links on small smartphones to prioritize key action buttons */
+    .fb-btn, .insta-btn {
+        display: none !important;
+    }
+
+    .theme-btn {
+        width: 34px !important;
+        height: 34px !important;
+        padding: 0 !important;
+    }
+
+    /* Ensure Login Icon Button is Always Visible & Glowing on Mobile Header */
+    .login-icon-btn {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 36px !important;
+        height: 36px !important;
+        background: rgba(255, 183, 3, 0.2) !important;
+        border: 1.5px solid var(--color-sun-yellow) !important;
+        color: var(--color-sun-yellow) !important;
+        box-shadow: 0 0 10px rgba(255, 183, 3, 0.4) !important;
+        flex-shrink: 0 !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    .cta-btn.primary-btn#btn-quick-calc {
+        padding: 0.4rem 0.7rem !important;
+        font-size: 0.75rem !important;
+    }
+
+    .brand-tagline {
+        display: none !important;
+    }
+}
+
+/* 3. Hero Section Mobile Optimization (max-width: 768px) */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 6.5rem 0 3rem !important;
+    }
+
+    .hero-container {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+    }
+
+    .hero-title {
+        font-size: 1.85rem !important;
+        line-height: 1.25 !important;
+        margin-top: 0.5rem !important;
+    }
+
+    .hero-pill-badge {
+        font-size: 0.72rem !important;
+        padding: 0.35rem 0.75rem !important;
+        word-break: break-word !important;
+    }
+
+    .hero-desc-panel {
+        padding: 1rem !important;
+        margin: 1rem 0 !important;
+    }
+
+    .hero-benefits-list li {
+        font-size: 0.88rem !important;
+    }
+
+    .hero-actions {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 0.8rem !important;
+    }
+
+    .hero-actions .cta-btn, .hero-actions .secondary-btn {
+        width: 100% !important;
+        justify-content: center !important;
+        text-align: center !important;
+        padding: 0.85rem 1.2rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 1.6rem !important;
+    }
+
+    .festival-glass-banner {
+        padding: 0.9rem 1rem !important;
+    }
+
+    .festival-glass-banner h3 {
+        font-size: 1.05rem !important;
+    }
+}
+
+/* 4. Solar Calculator Mobile Layout (max-width: 900px) */
+@media (max-width: 900px) {
+    .calc-wrapper {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+    }
+
+    .calc-inputs-panel, .calc-outputs-panel {
+        padding: 1.25rem !important;
+    }
+
+    .calc-outputs-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 0.75rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .calc-outputs-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .calc-primary-metric .metric-value {
+        font-size: 1.8rem !important;
+    }
+
+    .bill-slider-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.4rem !important;
+    }
+}
+
+/* 5. Prevent iOS Safari Auto-Zoom on Form Inputs */
+@media (max-width: 768px) {
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="password"],
+    select,
+    textarea {
+        font-size: 16px !important; /* Standard iOS threshold preventing automatic canvas zoom */
+    }
+}
+
+/* 6. Section Grids Mobile Stacking (Services, Projects, District Dealers, News) */
+@media (max-width: 768px) {
+    .services-grid,
+    .projects-grid,
+    .news-grid,
+    .testimonials-grid,
+    .district-dealers-grid,
+    .kseb-features-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.25rem !important;
+    }
+
+    .section-title {
+        font-size: 1.75rem !important;
+    }
+
+    .section-desc {
+        font-size: 0.92rem !important;
+    }
+
+    .district-tabs-bar {
+        gap: 0.4rem !important;
+        padding-bottom: 0.5rem !important;
+    }
+
+    .district-tab-btn {
+        padding: 0.5rem 0.85rem !important;
+        font-size: 0.8rem !important;
+        white-space: nowrap !important;
+    }
+}
+
+/* 7. Floating Social Proof Ticker Mobile Positioning & Layout Optimization */
+@media (max-width: 576px) {
+    #social-proof-toast {
+        left: 10px !important;
+        right: 10px !important;
+        bottom: 12px !important;
+        width: auto !important;
+        max-width: calc(100vw - 20px) !important;
+        padding: 0.55rem 0.8rem !important;
+        border-radius: 20px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 0.5rem !important;
+        backdrop-filter: blur(20px) !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55) !important;
+    }
+
+    .toast-icon-badge {
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 1.05rem !important;
+        flex-shrink: 0 !important;
+    }
+
+    #toast-title {
+        font-size: 0.76rem !important;
+        font-weight: 800 !important;
+        line-height: 1.2 !important;
+    }
+
+    #toast-desc {
+        font-size: 0.68rem !important;
+        line-height: 1.25 !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
+    }
+
+    .toast-inquiry-btn {
+        padding: 0.35rem 0.65rem !important;
+        font-size: 0.72rem !important;
+        flex-shrink: 0 !important;
+        margin-left: 0.2rem !important;
+    }
+}
+
+/* --- Floating Live Activity Social Proof Continuous Scrolling Marquee Ticker --- */
+.social-proof-ticker-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 44px;
+    background: rgba(13, 19, 33, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1.5px solid var(--color-sun-yellow);
+    box-shadow: 0 -8px 25px rgba(0,0,0,0.5);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    font-family: var(--font-body), sans-serif;
+    user-select: none;
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.dark-theme .social-proof-ticker-bar {
+    background: rgba(10, 15, 29, 0.95) !important;
+    border-top-color: var(--color-sun-yellow) !important;
+}
+
+.light-theme .social-proof-ticker-bar {
+    background: rgba(255, 255, 255, 0.96) !important;
+    border-top-color: #f59e0b !important;
+    box-shadow: 0 -6px 20px rgba(15, 23, 42, 0.12) !important;
+}
+
+.ticker-label-badge {
+    background: var(--color-sun-yellow);
+    color: #0d1321 !important;
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 0 0.85rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-shrink: 0;
+    z-index: 2;
+    box-shadow: 4px 0 12px rgba(0,0,0,0.3);
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+}
+
+.light-theme .ticker-label-badge {
+    background: #f59e0b !important;
+    color: #0f172a !important;
+}
+
+.ticker-scroll-track {
+    display: flex;
+    align-items: center;
+    gap: 2.2rem;
+    white-space: nowrap;
+    animation: socialTickerScroll 42s linear infinite;
+    will-change: transform;
+}
+
+.social-proof-ticker-bar:hover .ticker-scroll-track {
+    animation-play-state: paused;
+}
+
+.ticker-item-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.dark-theme .ticker-item-chip {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+}
+
+.dark-theme .ticker-item-chip .ticker-title {
+    color: #ffb703 !important;
+}
+
+.dark-theme .ticker-item-chip .ticker-desc {
+    color: #f8fafc !important;
+}
+
+.light-theme .ticker-item-chip {
+    background: rgba(15, 23, 42, 0.05) !important;
+    border: 1px solid rgba(15, 23, 42, 0.14) !important;
+}
+
+.light-theme .ticker-item-chip .ticker-title {
+    color: #d97706 !important;
+}
+
+.light-theme .ticker-item-chip .ticker-desc {
+    color: #0f172a !important;
+}
+
+.ticker-item-chip:hover {
+    transform: translateY(-1px);
+}
+
+.dark-theme .ticker-item-chip:hover {
+    background: rgba(255, 183, 3, 0.18) !important;
+    border-color: var(--color-sun-yellow) !important;
+}
+
+.light-theme .ticker-item-chip:hover {
+    background: rgba(245, 158, 11, 0.15) !important;
+    border-color: #f59e0b !important;
+}
+
+@keyframes socialTickerScroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* 8.5 Enterprise i360 Dashboard UI (Airtel i360 Exact Rework Layout) */
+.enterprise-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 52px;
+    background: #111317;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    z-index: 1000;
+    color: #ffffff;
+    font-family: var(--font-body);
+}
+
+.enterprise-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.enterprise-logo-circle {
+    width: 28px;
+    height: 28px;
+    background: #dc2626;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-weight: 900;
+    font-size: 0.85rem;
+}
+
+.enterprise-logo {
+    height: 26px;
+    width: auto;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+.enterprise-title {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.3px;
+    margin: 0;
+}
+
+.enterprise-version {
+    font-size: 0.65rem;
+    color: #94a3b8;
+    font-family: monospace;
+    line-height: 1;
+}
+
+.enterprise-user-area {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.enterprise-store-badge {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 0.25rem 0.65rem;
+    border-radius: 4px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.enterprise-profile-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: rgba(255, 255, 255, 0.12);
+    padding: 0.2rem 0.65rem 0.2rem 0.2rem;
+    border-radius: 20px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.enterprise-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #cbd5e1;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 0.78rem;
+}
+
+.enterprise-nav-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+}
+
+.enterprise-nav-btn:hover {
+    background: #dc2626;
+    border-color: #dc2626;
+    color: #ffffff;
+}
+
+/* Sidebar & Main Layout Structure */
+.enterprise-container {
+    display: flex;
+    min-height: calc(100vh - 52px);
+    margin-top: 52px;
+    background: #d4d7dd;
+}
+
+.dark-theme .enterprise-container {
+    background: #161920;
+}
+
+.light-theme .enterprise-container {
+    background: #d4d7dd;
+}
+
+.enterprise-sidebar {
+    width: 48px;
+    background: #e2e5ea;
+    border-right: 1px solid #cbd5e1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.8rem 0;
+    gap: 1.1rem;
+    transition: width 0.3s ease;
+    position: relative;
+    z-index: 10;
+}
+
+.dark-theme .enterprise-sidebar {
+    background: #11141a;
+    border-right-color: rgba(255,255,255,0.08);
+}
+
+.light-theme .enterprise-sidebar {
+    background: #e2e5ea;
+    border-right-color: #cbd5e1;
+}
+
+.sidebar-toggle-btn {
+    position: absolute;
+    top: 10px;
+    right: -10px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #dc2626;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 20;
+}
+
+.sidebar-item {
+    width: 34px;
+    height: 34px;
+    border-radius: 6px;
+    background: transparent;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1.1rem;
+    text-decoration: none;
+}
+
+.dark-theme .sidebar-item {
+    color: #cbd5e1;
+}
+
+.sidebar-item:hover,
+.sidebar-item.active {
+    background: #111317;
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.enterprise-main-canvas {
+    flex: 1;
+    padding: 1.75rem 2.25rem;
+    overflow-y: auto;
+    position: relative;
+    background-image: linear-gradient(180deg, rgba(212, 215, 221, 0.84) 0%, rgba(212, 215, 221, 0.94) 100%), url('assets/hero.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.dark-theme .enterprise-main-canvas {
+    background-image: linear-gradient(180deg, rgba(22, 25, 32, 0.84) 0%, rgba(15, 18, 24, 0.93) 100%), url('assets/hero.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.dashboard-overview-title {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: #111827;
+    margin: 0 0 0.15rem 0;
+    letter-spacing: -0.4px;
+    font-family: var(--font-heading);
+}
+
+.dark-theme .dashboard-overview-title {
+    color: #ffffff;
+}
+
+.dashboard-date-subtitle {
+    font-size: 0.84rem;
+    color: #4b5563;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.dark-theme .dashboard-date-subtitle {
+    color: #94a3b8;
+}
+
+.quick-actions-red-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #dc2626;
+    margin-bottom: 0.85rem;
+    text-transform: capitalize;
+}
+
+/* Quick Action Tiles Grid (Exact Airtel i360 6-Column Grid Layout) */
+.quick-actions-tile-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.9rem;
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 1200px) {
+    .quick-actions-tile-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .quick-actions-tile-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.action-tile-card {
+    background: #1c1e24;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 1.1rem 0.6rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 110px;
+    position: relative;
+    user-select: none;
+}
+
+.action-tile-card:hover {
+    transform: translateY(-3px);
+    background: #252830;
+    border-color: #dc2626;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.action-tile-icon-box {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: transparent;
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: #ffffff;
+    margin-bottom: 0.6rem;
+    transition: all 0.2s ease;
+}
+
+.action-tile-card:hover .action-tile-icon-box {
+    border-color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.05);
+}
+
+.action-tile-label {
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.25;
+    word-break: break-word;
+    text-align: center;
+}
+
+.action-tile-badge {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: #dc2626;
+    color: #ffffff;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 1px 5px;
+    border-radius: 8px;
+}
+
+/* 8. Partner Portal & Login Mobile Adjustments */
+@media (max-width: 768px) {
+    .enterprise-container {
+        flex-direction: column;
+    }
+
+    .enterprise-sidebar {
+        width: 100%;
+        height: 50px;
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 0;
+    }
+
+    .enterprise-main-canvas {
+        padding: 1.25rem 1rem;
+    }
+
+    .quick-actions-tile-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ==========================================================================
+   10. Ultra-Modern UI/UX Polish & Interactive Micro-Interactions
+   ========================================================================== */
+
+/* Enhanced Glassmorphic Hover Lift & Ambient Glow */
+.glass-card {
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
+}
+
+.glass-card:hover {
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22), 0 0 20px rgba(255, 183, 3, 0.08);
+}
+
+.service-card, .tech-card {
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.28s;
+}
+
+.service-card:hover, .tech-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28), 0 0 24px rgba(255, 183, 3, 0.12);
+}
+
+/* Button Shimmer & Micro-Interactions */
+.cta-btn {
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), filter var(--transition-fast);
+}
+
+.cta-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.06);
+}
+
+.cta-btn:active {
+    transform: translateY(0);
+}
+
+.primary-btn:hover {
+    box-shadow: 0 8px 25px rgba(255, 183, 3, 0.4);
+}
+
+.green-btn:hover {
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.35);
+}
+
+/* Polished Form Inputs & High Visibility Focus Rings */
+.form-group input,
+.form-group select,
+.form-group textarea {
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--color-sun-yellow) !important;
+    box-shadow: 0 0 0 3px rgba(255, 183, 3, 0.25) !important;
+    outline: none;
+}
+
+/* Smooth Modern Scrollbars */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-bg-alt, rgba(0, 0, 0, 0.1));
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 183, 3, 0.4);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 183, 3, 0.7);
+}
+
+/* Mobile & Touch Optimizations */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.1rem !important;
+        line-height: 1.25 !important;
+    }
+    
+    .cta-btn {
+        min-height: 46px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .kerala-solar-matrix-ribbon {
+        margin-top: 0.5rem !important;
+    }
+}
+
+/* ==========================================================================
+   11. Special Features: Visualizer, Monsoon Simulator, AI Assistant & Tariff Slider
+   ========================================================================== */
+
+/* 1. Rooftop Visualizer & Energy Flow Styles */
+.roof-visualizer-container {
+    background: var(--color-surface);
+    border: 1.5px solid var(--color-border);
+    border-radius: 20px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    margin-top: 2rem;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+.roof-selector-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+}
+
+.roof-tab-btn {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    padding: 0.6rem 1.2rem;
+    border-radius: 30px;
+    font-size: 0.86rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.roof-tab-btn.active, .roof-tab-btn:hover {
+    background: var(--color-sun-yellow);
+    color: #0d1321;
+    border-color: var(--color-sun-yellow);
+    box-shadow: 0 4px 15px rgba(255, 183, 3, 0.35);
+}
+
+.roof-canvas-box {
+    background: radial-gradient(circle at center, rgba(255, 183, 3, 0.08) 0%, rgba(15, 23, 42, 0.4) 100%);
+    border: 1px solid rgba(255, 183, 3, 0.2);
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    position: relative;
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.flow-nodes-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 800px;
+    position: relative;
+    z-index: 2;
+}
+
+.flow-node-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.flow-node-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--color-surface);
+    border: 2px solid var(--color-sun-yellow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    box-shadow: 0 0 20px rgba(255, 183, 3, 0.3);
+    animation: pulse-glow 3s infinite alternate;
+}
+
+.flow-node-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.flow-node-sub {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+}
+
+.flow-arrow-animated {
+    color: var(--color-sun-yellow);
+    font-size: 1.5rem;
+    animation: arrow-flow 1.5s infinite ease-in-out;
+}
+
+@keyframes arrow-flow {
+    0%, 100% { transform: translateX(0); opacity: 0.5; }
+    50% { transform: translateX(6px); opacity: 1; text-shadow: 0 0 10px rgba(255, 183, 3, 0.8); }
+}
+
+@keyframes pulse-glow {
+    0% { box-shadow: 0 0 12px rgba(255, 183, 3, 0.2); }
+    100% { box-shadow: 0 0 26px rgba(255, 183, 3, 0.55); }
+}
+
+/* 2. Monsoon Solar Yield Simulator Styles */
+.monsoon-sim-card {
+    background: var(--color-surface);
+    border: 1.5px solid var(--color-border);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+.district-yield-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+}
+
+.yield-season-box {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    padding: 1.2rem;
+    text-align: center;
+    transition: transform var(--transition-normal);
+}
+
+.yield-season-box:hover {
+    transform: translateY(-3px);
+    border-color: var(--color-sun-yellow);
+}
+
+.yield-season-icon {
+    font-size: 2rem;
+    margin-bottom: 0.4rem;
+}
+
+.yield-season-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 0.2rem;
+}
+
+.yield-kwh-val {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--color-sun-yellow);
+    margin: 0.4rem 0;
+}
+
+/* 4. Instant WhatsApp & PDF Proposal Action Buttons */
+.instant-quote-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.whatsapp-quote-btn {
+    background: #25d366 !important;
+    color: #ffffff !important;
+    font-weight: 700;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
+    transition: all 0.2s;
+}
+
+.whatsapp-quote-btn:hover {
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.55);
+    transform: translateY(-2px);
+}
+
+.pdf-quote-btn {
+    background: #3b82f6 !important;
+    color: #ffffff !important;
+    font-weight: 700;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.35);
+    transition: all 0.2s;
+}
+
+.pdf-quote-btn:hover {
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.55);
+    transform: translateY(-2px);
+}
+
+/* 9. Universal High-Definition A4 Printable & PDF Export Compatibility Rules (Clean No-Watermark) */
+@media print {
+    @page {
+        size: A4 portrait;
+        margin: 8mm 10mm 8mm 10mm;
+    }
+    
+    /* Remove all background pictures, wallpapers, gradients, and logo watermarks */
+    html,
+    body,
+    .login-page-body,
+    .portal-page-body,
+    .login-wrapper,
+    .portal-wrapper,
+    .dashboard-wrapper,
+    #quote-modal-overlay,
+    #printable-quote-content,
+    #quote-render-area {
+        background-image: none !important;
+        background-color: #ffffff !important;
+        background: #ffffff !important;
+    }
+
+    * {
+        -webkit-print-color-adjust: exact !important;
+        color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        box-sizing: border-box !important;
+        background-image: none !important;
+        text-shadow: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Hide all real pictures, photos, hero images, project photos, and graphics from print */
+    img,
+    picture,
+    figure,
+    .hero-img,
+    .service-img,
+    .project-img,
+    .brand-logo-img,
+    [class*="hero-img"],
+    [class*="service-img"],
+    [class*="project-img"],
+    img[src*="real_"],
+    img[src*="hero"] {
+        display: none !important;
+        visibility: hidden !important;
+        width: 0 !important;
+        height: 0 !important;
+        opacity: 0 !important;
+    }
+
+    img[src*="logo.jpg"],
+    .lh-header img {
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        height: 52px !important;
+        width: auto !important;
+    }
+
+    *::before,
+    *::after {
+        background-image: none !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    /* Completely disable logo watermarks and pseudo-element background pictures in print/PDF */
+    .hero-title::before,
+    .hero-title::after,
+    .watermark,
+    .bg-watermark,
+    [class*="watermark"],
+    #quote-render-area::before,
+    #quote-render-area::after,
+    #printable-quote-content::before,
+    #printable-quote-content::after,
+    .glass-card::before,
+    .glass-card::after,
+    .login-wrapper::before,
+    .login-wrapper::after {
+        display: none !important;
+        content: none !important;
+        background: none !important;
+        background-image: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
+    
+    html, body {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        background-image: none !important;
+        color: #000000 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+    
+    .no-print, nav, .back-home-link, .portal-header, .portal-actions-grid, .portal-role-switch, .tech-settings-box, #allocated-and-saved-container, #admin-edit-modal, .enterprise-navbar, .enterprise-sidebar, header:not(.lh-header), footer:not(.lh-footer) {
+        display: none !important;
+    }
+
+    .enterprise-main-canvas, .enterprise-container {
+        background: #ffffff !important;
+        background-image: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .login-wrapper {
+        display: block !important;
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        background-image: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        min-height: auto !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+
+    .glass-card, .login-card {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        background-image: none !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        display: block !important;
+    }
+
+    #quote-modal-overlay {
+        display: block !important;
+        position: relative !important;
+        inset: auto !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        background-image: none !important;
+        color: #000000 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: visible !important;
+        box-shadow: none !important;
+        z-index: 99999 !important;
+    }
+    
+    #printable-quote-content {
+        box-shadow: none !important;
+        border: none !important;
+        border-radius: 0 !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        background-image: none !important;
+        color: #000000 !important;
+    }
+
+    #quote-render-area {
+        width: 100% !important;
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        background-image: none !important;
+        color: #000000 !important;
+    }
+
+    #quote-render-area > div {
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        background-image: none !important;
+        color: #000000 !important;
+    }
+
+    /* Preserve table headers & footers on multi-page PDF exports */
+    .print-page-table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        display: table !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .print-page-table thead {
+        display: table-header-group !important;
+    }
+
+    .print-page-table tfoot {
+        display: table-footer-group !important;
+    }
+
+    .print-page-table tbody {
+        display: table-row-group !important;
+    }
+
+    .lh-header {
+        display: block !important;
+        width: 100% !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .lh-footer {
+        display: block !important;
+        width: 100% !important;
+        margin-top: 1rem !important;
+    }
+
+    /* Paragraph & Table Row Break Prevention */
+    p, ul, ol, tr, blockquote, .pdf-block, .quote-section {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+    }
+    p {
+        orphans: 3 !important;
+        widows: 3 !important;
+        margin-bottom: 0.6rem !important;
+    }
+    table {
+        page-break-inside: auto !important;
+        break-inside: auto !important;
     }
 }

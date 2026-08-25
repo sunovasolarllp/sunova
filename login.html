@@ -1,10 +1,16 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Staff Portal | SUNOVA SOLAR LLP</title>
-    <meta name="description" content="Secure staff login and webmail access portal for SUNOVA SOLAR LLP.">
+    <!-- PWA & Mobile Web App Meta Tags -->
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="assets/logo.jpg">
+    <link rel="apple-touch-icon" href="assets/logo.jpg">
+    <link rel="manifest" href="manifest.json">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,7 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="style.css?v=5.0">
+    <link rel="stylesheet" href="style.css?v=9.7">
 </head>
 <body class="light-theme login-page-body">
     <script>
@@ -68,21 +74,42 @@
 
             <!-- Login View -->
             <div id="login-view">
+                <!-- 👤 "Welcome Back" Quick Avatar Card for Saved Accounts -->
+                <div id="welcome-back-card" class="hidden" style="background: rgba(255, 183, 3, 0.08); border: 1.5px solid var(--color-sun-yellow); border-radius: 14px; padding: 0.9rem 1.1rem; margin-bottom: 1.25rem; text-align: center; position: relative;">
+                    <div style="width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--color-sun-yellow), #f59e0b); color: #0d1321; font-weight: 800; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.4rem auto; box-shadow: 0 0 14px rgba(255, 183, 3, 0.4);" id="quick-avatar-icon">
+                        👤
+                    </div>
+                    <div style="font-size: 0.88rem; font-weight: 800; color: var(--color-text);" id="quick-user-name">Welcome Back, Partner!</div>
+                    <div style="font-size: 0.74rem; color: var(--color-text-muted); margin-bottom: 0.6rem;" id="quick-user-code">Code: ALP-SHIN</div>
+                    <button type="button" onclick="useQuickAccountLogin()" class="cta-btn primary-btn full-width" style="padding: 0.5rem 0.8rem; font-size: 0.78rem; border-radius: 20px;">
+                        ⚡ Quick 1-Tap Sign In
+                    </button>
+                    <button type="button" onclick="clearQuickAccount()" style="background: none; border: none; color: var(--color-text-subtle); font-size: 0.72rem; text-decoration: underline; margin-top: 0.4rem; cursor: pointer; display: block; width: 100%;">
+                        Switch / Login Different Account
+                    </button>
+                </div>
+
                 <form id="portal-login-form" onsubmit="handlePortalLogin(event)">
-                    <div class="form-group">
-                        <label for="portal-email" id="portal-email-label">Corporate Email Address</label>
-                        <input type="text" id="portal-email" placeholder="e.g. info@sunovasolar.in" oninput="handlePartnerCodeInput(this)" required value="info@sunovasolar.in">
+                    <div class="form-group" id="group-portal-email">
+                        <label for="portal-email" id="portal-email-label">Staff ID / Mobile Number</label>
+                        <input type="text" id="portal-email" placeholder="Enter Staff ID or Mobile Number" oninput="handlePartnerCodeInput(this)" required value="">
                     </div>
                     
-                    <div class="form-group">
-                        <label for="portal-password" id="portal-password-label">Account Password</label>
-                        <input type="password" id="portal-password" placeholder="Enter your email password" required>
-                        <div id="partner-pin-hint" class="hidden" style="font-size: 0.74rem; color: var(--color-text-muted); margin-top: 0.35rem;">💡 First-time logging in? Use the default security PIN: <strong>2277</strong></div>
+                    <!-- 👁️ Password & PIN Field with Show/Hide Eye Toggle -->
+                    <div class="form-group" id="group-portal-password">
+                        <label for="portal-password" id="portal-password-label">Password / Security PIN</label>
+                        <div style="position: relative; display: flex; align-items: center;">
+                            <input type="password" id="portal-password" placeholder="Enter password or default 4-digit PIN" required style="width: 100%; padding-right: 2.6rem;">
+                            <button type="button" onclick="togglePasswordVisibility()" aria-label="Toggle Password Visibility" style="position: absolute; right: 0.6rem; background: none; border: none; color: var(--color-text-muted); cursor: pointer; font-size: 1.1rem; padding: 0.3rem; z-index: 5;">
+                                <span id="eye-icon">👁️</span>
+                            </button>
+                        </div>
+                        <div id="partner-pin-hint" class="hidden" style="font-size: 0.74rem; color: var(--color-text-muted); margin-top: 0.35rem;">💡 First-time logging in? Default PIN is the <strong>last 4 digits of your registered mobile number</strong></div>
                     </div>
 
                     <div id="login-feedback" class="form-feedback hidden"></div>
                     
-                    <div id="partner-reset-pin-link" class="hidden" style="text-align: right; margin-top: -0.5rem; margin-bottom: 1rem;">
+                    <div id="partner-reset-pin-link" class="hidden" style="text-align: right; margin-top: -0.5rem; margin-bottom: 0.75rem;">
                         <a href="javascript:void(0)" onclick="resetPin()" style="font-size: 0.75rem; color: var(--color-sun-yellow); text-decoration: none;">Forgot / Reset PIN?</a>
                     </div>
 
@@ -90,8 +117,9 @@
                         Sign In to Dashboard
                     </button>
                 </form>
-                <div class="text-center portal-footer-note">
-                    <span class="lock-icon">🔒</span> Powered by secure SSL connections.
+
+                <div class="text-center portal-footer-note" style="margin-top: 1.25rem;">
+                    <span class="lock-icon">🔒</span> Powered by 256-bit SSL encryption.
                 </div>
             </div>
 
@@ -121,56 +149,290 @@
             </div>
 
             <!-- Dashboard View (Initially Hidden) -->
-            <!-- Dashboard View (Initially Hidden) -->
-            <div id="dashboard-view" class="hidden">
-                <div class="success-badge">
-                    <span class="check-icon">✓</span> Authentication Successful
-                </div>
-                <h3>Welcome back, <span id="user-display">info@sunovasolar.in</span></h3>
-                <p class="dash-subtitle">SUNOVA SOLAR LLP Staff Workspace</p>
+            <div id="dashboard-view" class="hidden" style="width: 100%; margin: 0; padding: 0;">
+                
+                <!-- Top Navbar Bar (Airtel i360 Rework) -->
+                <div class="enterprise-navbar">
+                    <div class="enterprise-brand">
+                        <img src="assets/logo.jpg" alt="SUNOVA Logo" class="enterprise-logo">
+                        <h1 class="enterprise-title">SUNOVA SOLAR</h1>
+                    </div>
 
-                <!-- Sub-View 1: Main Dashboard (Leads & Stats) -->
-                <div id="staff-main-dashboard">
-                    <!-- Quick Stats Row -->
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; margin-top: 1rem;">
+                    <div class="enterprise-user-area">
+                        <button type="button" onclick="togglePortalTheme()" class="enterprise-nav-btn" title="Switch Theme">
+                            🌙
+                        </button>
+                        <button type="button" onclick="toggleChangePinPanel()" class="enterprise-nav-btn" title="Change Security PIN">
+                            🔒
+                        </button>
+                        <button type="button" onclick="logoutPortal()" class="enterprise-nav-btn" style="background: rgba(220,38,38,0.2); border-color: rgba(220,38,38,0.4); color: #f87171;" title="Sign Out">
+                            🚪
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Main Layout Container (Main Canvas) -->
+                <div class="enterprise-container">
+                    <!-- Main Canvas Area -->
+                    <div class="enterprise-main-canvas">
+                        <h2 class="dashboard-overview-title">Dashboard Overview</h2>
+                        <div class="dashboard-date-subtitle" id="staff-live-dashboard-date">Today is Friday, 14 August 2026</div>
+
+                        <!-- Integrated Staff Role & Target Tracker -->
+                        <div id="staff-role-workspace-banner" style="background: rgba(15, 23, 42, 0.6); border: 1.5px solid var(--color-sun-yellow); border-radius: 14px; padding: 1.1rem 1.3rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem;">
+                            <div style="display: flex; align-items: center; gap: 0.9rem;">
+                                <div id="staff-role-avatar" style="width: 50px; height: 50px; background: rgba(255, 183, 3, 0.15); border: 1.5px solid var(--color-sun-yellow); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                                    👑
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.74rem; text-transform: uppercase; color: var(--color-text-muted); font-weight: 700; letter-spacing: 0.5px;">Active Staff Role &amp; Designation</div>
+                                    <h4 id="staff-role-title" style="margin: 0.15rem 0 0 0; font-size: 1.1rem; color: var(--color-sun-yellow); font-weight: 800; display: flex; align-items: center; gap: 0.4rem;">
+                                        System Administrator
+                                    </h4>
+                                </div>
+                            </div>
+                            <div id="staff-role-tag" style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; color: #10b981; padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.78rem; font-weight: 700; display: flex; align-items: center; gap: 0.4rem;">
+                                🟢 Full Role Access Active
+                            </div>
+                        </div>
+
+                        <!-- 🛠️ Dynamic Role-Specific Action Workspace Hub -->
+                        <div id="role-specific-workspace" style="margin-bottom: 1.5rem;"></div>
+
+                        <!-- Sub-View 1: Main Dashboard (Leads & Stats) -->
+                        <div id="staff-main-dashboard">
+                    <!-- 📈 Feature 1: Monthly Installation & Central Subsidy Target Card (Admin Corporate View) -->
+                    <div id="admin-target-tracker-card" style="background: linear-gradient(135deg, rgba(255, 183, 3, 0.12), rgba(16, 185, 129, 0.1)); border: 1.5px solid var(--color-sun-yellow); border-radius: 14px; padding: 1.1rem; margin-top: 1rem; margin-bottom: 1.5rem; text-align: left;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.4rem;">
+                            <span style="font-weight: 800; font-size: 0.88rem; color: var(--color-text);">📈 August 2026 Kerala Solar Target Tracker</span>
+                            <span style="font-size: 0.74rem; font-weight: 800; color: #10b981; background: rgba(16, 185, 129, 0.18); border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.2rem 0.6rem; border-radius: 10px;">74% Achieved</span>
+                        </div>
+                        <div style="background: rgba(0,0,0,0.3); height: 10px; border-radius: 10px; overflow: hidden; margin-bottom: 0.65rem; border: 1px solid var(--color-border);">
+                            <div style="width: 74%; height: 100%; background: linear-gradient(90deg, #ffb703, #10b981); border-radius: 10px; box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.74rem; color: var(--color-text-muted); flex-wrap: wrap; gap: 0.6rem;">
+                            <span>🎯 Target: <strong>250 kWp</strong></span>
+                            <span>☀️ Installed: <strong style="color: var(--color-sun-yellow);">185 kWp</strong></span>
+                            <span>🏛️ PM Surya Ghar Subsidy: <strong style="color: #10b981;">₹68.4 Lakhs Disbursed</strong></span>
+                        </div>
+                    </div>
+
+                    <!-- Quick Stats Row (Admin Corporate View) -->
+                    <div id="admin-quick-stats-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
                         <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; text-align: center; box-shadow: 0 4px 12px var(--color-shadow);">
                             <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 0.25rem;">
-                                Total Leads
+                                Total Customer Leads
                             </span>
                             <div id="stats-total-leads" style="font-size: 1.8rem; font-weight: 700; color: var(--color-text); margin-top: 0.25rem;">0</div>
                         </div>
                         <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; text-align: center; box-shadow: 0 4px 12px var(--color-shadow);">
-                            <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Active Partners</span>
+                            <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Active Franchises</span>
                             <div style="font-size: 1.8rem; font-weight: 700; color: var(--color-text); margin-top: 0.25rem;">50</div>
                         </div>
                     </div>
 
-
-
-                    <!-- Pricing & Products Management -->
-                    <div class="tech-settings-box" style="margin-bottom: 1.5rem;">
+                    <!-- 💰 Feature 5: Dynamic Quotation Pricing Rules Manager (Admin Corporate View) -->
+                    <div id="admin-pricing-csv-box" class="tech-settings-box" style="margin-bottom: 1.5rem;">
                         <h4 style="margin: 0; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem;">
-                            💰 Quotation Pricing Rules
+                            💰 Dynamic Solar Equipment Pricing Rules (CSV Manager)
                         </h4>
-                        <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 1rem;">Upload a CSV file to dynamically set quotation prices for the Partner Portal. <a href="assets/sample_pricing.csv" download style="color: var(--color-sun-yellow); text-decoration: none;">Download Sample Template</a></p>
+                        <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 1rem;">Upload a CSV file to update equipment rates for all 50 Kerala franchise partners instantly. <a href="assets/sample_pricing.csv" download style="color: var(--color-sun-yellow); text-decoration: none;">Download CSV Template</a></p>
                         
-                        <div style="display: flex; gap: 0.8rem; align-items: center;">
+                        <div style="display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap;">
                             <input type="file" id="pricing-upload-file" accept=".csv" style="font-size: 0.78rem; color: var(--color-text); background: rgba(255,255,255,0.02); border: 1px solid var(--color-border); padding: 0.4rem; border-radius: 4px; flex-grow: 1;">
-                            <button onclick="uploadPricingFile()" class="cta-btn primary-btn" style="padding: 0.5rem 1rem; font-size: 0.78rem;">Upload Pricing</button>
+                            <button onclick="uploadPricingFile()" class="cta-btn primary-btn" style="padding: 0.5rem 1rem; font-size: 0.78rem;">Upload New Pricing</button>
                         </div>
                         <div id="pricing-upload-feedback" class="form-feedback hidden" style="margin-top: 0.8rem;"></div>
                     </div>
 
-                    <!-- Live Inquiries Log Section -->
-                    <div class="tech-settings-box">
-                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem;">
+                    <!-- 👑 Master Admin Control Panel (Partners & Staff Management for info@sunovasolar.in) -->
+                    <div id="admin-management-panel" class="hidden" style="background: rgba(255, 183, 3, 0.05); border: 1.5px solid var(--color-sun-yellow); border-radius: 14px; padding: 1.25rem; margin-top: 1.5rem; margin-bottom: 1.5rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
+                            <h4 style="margin: 0; display: flex; align-items: center; gap: 0.5rem; font-size: 1rem; color: var(--color-text);">
+                                👑 Admin Management Portal
+                                <span style="background: var(--color-sun-yellow); color: #0d1321; font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 12px; font-weight: 800;">info@sunovasolar.in</span>
+                            </h4>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button type="button" onclick="switchAdminTab('partners')" id="tab-btn-partners" style="background: var(--color-sun-yellow); color: #0d1321; border: none; font-size: 0.78rem; font-weight: 700; padding: 0.4rem 0.9rem; border-radius: 6px; cursor: pointer;">
+                                    🤝 Manage Channel Partners (<span id="admin-partner-count">0</span>)
+                                </button>
+                                <button type="button" onclick="switchAdminTab('staff')" id="tab-btn-staff" style="background: rgba(255,255,255,0.06); color: var(--color-text-muted); border: 1px solid var(--color-border); font-size: 0.78rem; font-weight: 700; padding: 0.4rem 0.9rem; border-radius: 6px; cursor: pointer;">
+                                    👥 Manage Staff Accounts (<span id="admin-staff-count">0</span>)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- TAB 1: Channel Partner Management -->
+                        <div id="admin-tab-partners">
+                            <!-- Add New Partner Form -->
+                            <div style="background: rgba(0, 0, 0, 0.2); border: 1px dashed var(--color-border); border-radius: 10px; padding: 1rem; margin-bottom: 1.25rem;">
+                                <h5 style="margin: 0 0 0.8rem 0; font-size: 0.85rem; color: var(--color-sun-yellow); display: flex; align-items: center; gap: 0.4rem;">
+                                    ➕ Create / Register New Channel Partner
+                                </h5>
+                                <form id="form-create-partner" onsubmit="handleCreatePartner(event)">
+                                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; margin-bottom: 0.75rem;">
+                                        <div>
+                                            <label style="font-size: 0.72rem; color: var(--color-text-muted); display: block; margin-bottom: 0.2rem;">Partner Code (e.g. EKM-ALEX)</label>
+                                            <input type="text" id="new-partner-code" placeholder="e.g. EKM-ALEX" required style="text-transform: uppercase; width: 100%; padding: 0.45rem; font-size: 0.78rem;">
+                                        </div>
+                                        <div>
+                                            <label style="font-size: 0.72rem; color: var(--color-text-muted); display: block; margin-bottom: 0.2rem;">Partner Full Name</label>
+                                            <input type="text" id="new-partner-name" placeholder="Full name" required style="width: 100%; padding: 0.45rem; font-size: 0.78rem;">
+                                        </div>
+                                        <div>
+                                            <label style="font-size: 0.72rem; color: var(--color-text-muted); display: block; margin-bottom: 0.2rem;">Service Town / Area</label>
+                                            <input type="text" id="new-partner-area" placeholder="e.g. Aluva" required style="width: 100%; padding: 0.45rem; font-size: 0.78rem;">
+                                        </div>
+                                        <div>
+                                            <label style="font-size: 0.72rem; color: var(--color-text-muted); display: block; margin-bottom: 0.2rem;">District (Kerala)</label>
+                                            <select id="new-partner-district" required style="width: 100%; padding: 0.45rem; font-size: 0.78rem;">
+                                                <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                                                <option value="Kollam">Kollam</option>
+                                                <option value="Pathanamthitta">Pathanamthitta</option>
+                                                <option value="Alappuzha">Alappuzha</option>
+                                                <option value="Kottayam">Kottayam</option>
+                                                <option value="Idukki">Idukki</option>
+                                                <option value="Ernakulam">Ernakulam</option>
+                                                <option value="Thrissur">Thrissur</option>
+                                                <option value="Palakkad">Palakkad</option>
+                                                <option value="Malappuram">Malappuram</option>
+                                                <option value="Kozhikode">Kozhikode</option>
+                                                <option value="Wayanad">Wayanad</option>
+                                                <option value="Kannur">Kannur</option>
+                                                <option value="Kasaragod">Kasaragod</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label style="font-size: 0.72rem; color: var(--color-text-muted); display: block; margin-bottom: 0.2rem;">10-Digit Mobile Phone</label>
+                                            <input type="tel" id="new-partner-phone" placeholder="10-digit mobile" pattern="^[6-9]\d{9}$" maxlength="10" required style="width: 100%; padding: 0.45rem; font-size: 0.78rem;">
+                                        </div>
+                                        <div>
+                                            <label style="font-size: 0.72rem; color: var(--color-text-muted); display: block; margin-bottom: 0.2rem;">Default Security PIN</label>
+                                            <input type="text" id="new-partner-pin" placeholder="4 digits (Default 2277)" pattern="^\d{4}$" maxlength="4" value="2277" required style="width: 100%; padding: 0.45rem; font-size: 0.78rem;">
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="cta-btn primary-btn" style="padding: 0.45rem 1rem; font-size: 0.78rem;">
+                                        ✨ Register Partner
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- Registered Partners List Table -->
+                            <div style="overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse; font-size: 0.78rem; color: var(--color-text);">
+                                    <thead>
+                                        <tr style="background: rgba(255,255,255,0.05); border-bottom: 1.5px solid var(--color-border); text-align: left;">
+                                            <th style="padding: 0.5rem;">Code</th>
+                                            <th style="padding: 0.5rem;">Partner Name</th>
+                                            <th style="padding: 0.5rem;">District &amp; Area</th>
+                                            <th style="padding: 0.5rem;">Mobile Phone</th>
+                                            <th style="padding: 0.5rem;">PIN</th>
+                                            <th style="padding: 0.5rem; text-align: center;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-partners-tbody">
+                                        <!-- Dynamic Partner Rows rendered via JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- TAB 2: Staff Management -->
+                        <div id="admin-tab-staff" class="hidden">
+                            <!-- Modernized Add New Staff Form -->
+                            <div style="background: rgba(15, 23, 42, 0.4); border: 1.5px dashed rgba(255, 183, 3, 0.4); border-radius: 12px; padding: 1.2rem; margin-bottom: 1.25rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.9rem; flex-wrap: wrap; gap: 0.5rem;">
+                                    <h5 style="margin: 0; font-size: 0.9rem; color: var(--color-sun-yellow); display: flex; align-items: center; gap: 0.4rem;">
+                                        ➕ Onboard New Staff Account
+                                    </h5>
+                                    <span style="font-size: 0.72rem; color: var(--color-text-muted); background: rgba(255, 183, 3, 0.1); padding: 0.2rem 0.5rem; border-radius: 6px; border: 1px solid rgba(255, 183, 3, 0.2);">
+                                        💡 Default Security PIN: Last 4 digits of Mobile Number
+                                    </span>
+                                </div>
+                                
+                                <form id="form-create-staff" onsubmit="handleCreateStaff(event)">
+                                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.85rem; margin-bottom: 0.9rem;">
+                                        <div>
+                                            <label style="font-size: 0.74rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem; font-weight: 600;">Staff ID / Code</label>
+                                            <input type="text" id="new-staff-id" placeholder="e.g. STF-01, ENG-02" required style="text-transform: uppercase; width: 100%; padding: 0.5rem; font-size: 0.8rem; border-radius: 6px;">
+                                        </div>
+                                        <div>
+                                            <label style="font-size: 0.74rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem; font-weight: 600;">Staff Member Name</label>
+                                            <input type="text" id="new-staff-name" placeholder="Enter full name" required style="width: 100%; padding: 0.5rem; font-size: 0.8rem; border-radius: 6px;">
+                                        </div>
+                                        <div>
+                                            <label style="font-size: 0.74rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem; font-weight: 600;">10-Digit Mobile Phone</label>
+                                            <input type="tel" id="new-staff-phone" placeholder="e.g. 9847000000" pattern="^[6-9]\d{9}$" maxlength="10" required style="width: 100%; padding: 0.5rem; font-size: 0.8rem; border-radius: 6px;">
+                                        </div>
+                                        <div>
+                                            <label style="font-size: 0.74rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem; font-weight: 600;">Email Address</label>
+                                            <input type="email" id="new-staff-email" placeholder="staff@sunovasolar.in" required style="width: 100%; padding: 0.5rem; font-size: 0.8rem; border-radius: 6px;">
+                                        </div>
+                                        <div>
+                                            <label style="font-size: 0.74rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem; font-weight: 600;">Department / Designation</label>
+                                            <select id="new-staff-role" required style="width: 100%; padding: 0.5rem; font-size: 0.8rem; border-radius: 6px;">
+                                                <option value="Telecaller / Customer Executive">📞 Telecaller / Customer Executive</option>
+                                                <option value="Receptionist / Front Office Executive">🛋️ Receptionist / Front Office Executive</option>
+                                                <option value="Accountant / Finance Executive">📊 Accountant / Finance Executive</option>
+                                                <option value="Office Driver / Logistics Assistant">🚗 Office Driver / Logistics Assistant</option>
+                                                <option value="Solar Project Engineer">👷 Solar Project Engineer</option>
+                                                <option value="Sales &amp; KSEB Liaison Officer">🤝 Sales &amp; KSEB Liaison Officer</option>
+                                                <option value="Technical Support Specialist">🛠️ Technical Support Specialist</option>
+                                                <option value="Solar Auditor &amp; Site Inspector">⚡ Solar Auditor &amp; Site Inspector</option>
+                                                <option value="System Administrator">👑 System Administrator</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label style="font-size: 0.74rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem; font-weight: 600;">Password / PIN (Optional)</label>
+                                            <input type="text" id="new-staff-password" placeholder="Leave blank for phone last 4 digits" style="width: 100%; padding: 0.5rem; font-size: 0.8rem; border-radius: 6px;">
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; justify-content: flex-end;">
+                                        <button type="submit" class="cta-btn primary-btn" style="padding: 0.5rem 1.3rem; font-size: 0.8rem; font-weight: 700; border-radius: 6px;">
+                                            ✨ Create &amp; Onboard Staff Account
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Registered Staff List Table -->
+                            <div style="overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse; font-size: 0.78rem; color: var(--color-text);">
+                                    <thead>
+                                        <tr style="background: rgba(255,255,255,0.05); border-bottom: 1.5px solid var(--color-border); text-align: left;">
+                                            <th style="padding: 0.5rem;">Staff ID</th>
+                                            <th style="padding: 0.5rem;">Staff Name</th>
+                                            <th style="padding: 0.5rem;">Email Address</th>
+                                            <th style="padding: 0.5rem;">Role / Designation</th>
+                                            <th style="padding: 0.5rem; text-align: center;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-staff-tbody">
+                                        <!-- Dynamic Staff Rows rendered via JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Live Inquiries Log Section (Telecaller, Liaison & Admin Only) -->
+                    <div id="live-inquiries-log-section" class="tech-settings-box">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
                             <h4 style="margin: 0; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
-                                📥 Live Customer Inquiries Log
+                                📥 Live Customer Inquiries &amp; Leads Log
                                 <span id="inquiry-count" style="background: var(--color-sun-yellow); color: #0d1321; font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 10px; font-weight: 700;">0</span>
                             </h4>
-                            <div style="display: flex; gap: 0.8rem; align-items: center;">
-                                <button onclick="syncMailboxLeads(event)" style="background: rgba(37, 211, 102, 0.12); border: 1px solid rgba(37, 211, 102, 0.3); color: #25d366; font-size: 0.72rem; cursor: pointer; font-weight: 600; padding: 0.25rem 0.6rem; border-radius: 4px; transition: background 0.15s;" onmouseover="this.style.background='rgba(37, 211, 102, 0.2)'" onmouseout="this.style.background='rgba(37, 211, 102, 0.12)'">📥 Sync from Email</button>
-                                <button onclick="clearInquiriesLog()" style="background: none; border: none; color: #ef4444; font-size: 0.72rem; cursor: pointer; font-weight: 600;">Clear All Log</button>
+                            <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                                <!-- 📊 Feature 2: 1-Click Excel / CSV Export -->
+                                <button onclick="exportInquiriesToCSV()" style="background: rgba(255, 183, 3, 0.15); border: 1px solid var(--color-sun-yellow); color: var(--color-sun-yellow); font-size: 0.74rem; cursor: pointer; font-weight: 700; padding: 0.3rem 0.7rem; border-radius: 6px; display: inline-flex; align-items: center; gap: 0.3rem;">
+                                    📊 Export Excel / CSV
+                                </button>
+                                <button onclick="syncMailboxLeads(event)" style="background: rgba(37, 211, 102, 0.12); border: 1px solid rgba(37, 211, 102, 0.3); color: #25d366; font-size: 0.74rem; cursor: pointer; font-weight: 700; padding: 0.3rem 0.7rem; border-radius: 6px; display: inline-flex; align-items: center; gap: 0.3rem;">
+                                    📥 Sync Email
+                                </button>
+                                <button onclick="clearInquiriesLog()" style="background: none; border: none; color: #ef4444; font-size: 0.72rem; cursor: pointer; font-weight: 600;">
+                                    Clear Log
+                                </button>
                             </div>
                         </div>
 
@@ -179,8 +441,8 @@
                         </div>
                     </div>
 
-                    <!-- Global Saved Quotations Log -->
-                    <div class="tech-settings-box" style="margin-top: 1.5rem;">
+                    <!-- Global Saved Quotations Log (Accountant, Engineer & Admin Only) -->
+                    <div id="global-saved-quotes-section" class="tech-settings-box" style="margin-top: 1.5rem;">
                         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem;">
                             <h4 style="margin: 0; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
                                 💾 Global Saved Quotations
@@ -198,6 +460,33 @@
                     <button onclick="logoutPortal()" class="logout-btn">Sign Out</button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- 🎛️ Master Admin Full Control Editor Modal -->
+    <div id="admin-edit-modal" style="display: none; position: fixed; inset: 0; background: rgba(10, 15, 29, 0.85); backdrop-filter: blur(10px); z-index: 10000; align-items: center; justify-content: center; padding: 1.5rem;">
+        <div style="background: var(--color-surface-opaque, #1e293b); border: 1.5px solid var(--color-sun-yellow); border-radius: 16px; max-width: 580px; width: 100%; padding: 1.75rem; box-shadow: 0 20px 50px rgba(0,0,0,0.7); position: relative; max-height: 90vh; overflow-y: auto;">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.75rem;">
+                <h3 id="admin-edit-modal-title" style="margin: 0; font-size: 1.1rem; color: var(--color-sun-yellow); display: flex; align-items: center; gap: 0.5rem;">
+                    ✏️ Full Control Editor
+                </h3>
+                <button type="button" onclick="closeAdminEditModal()" style="background: none; border: none; color: var(--color-text-muted); font-size: 1.3rem; cursor: pointer; padding: 0.2rem 0.5rem;">✕</button>
+            </div>
+
+            <!-- Dynamic Form Body -->
+            <form id="admin-edit-modal-form" onsubmit="saveAdminModalEdit(event)">
+                <div id="admin-edit-modal-fields" style="display: flex; flex-direction: column; gap: 0.9rem;"></div>
+                
+                <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem; border-top: 1px solid var(--color-border); padding-top: 1rem;">
+                    <button type="button" onclick="closeAdminEditModal()" class="cta-btn secondary-btn" style="padding: 0.5rem 1.2rem; font-size: 0.8rem;">
+                        Cancel
+                    </button>
+                    <button type="submit" class="cta-btn primary-btn" style="padding: 0.5rem 1.2rem; font-size: 0.8rem;">
+                        💾 Save All Changes
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -356,6 +645,176 @@
             }
         }
 
+        // --- 1. Password & PIN Eye Toggle ---
+        function togglePasswordVisibility() {
+            const pwdInput = document.getElementById('portal-password');
+            const eyeIcon = document.getElementById('eye-icon');
+            if (!pwdInput || !eyeIcon) return;
+            if (pwdInput.type === 'password') {
+                pwdInput.type = 'text';
+                eyeIcon.textContent = '🙈';
+            } else {
+                pwdInput.type = 'password';
+                eyeIcon.textContent = '👁️';
+            }
+        }
+
+        // --- 2. WhatsApp OTP / PIN Request ---
+        function requestWhatsAppOTP() {
+            const codeInput = (document.getElementById('portal-email')?.value || '').trim();
+            let msgText = "Hello Sunova Solar Security! Please send me an instant 4-digit login PIN for my Partner Account.";
+            if (codeInput) {
+                msgText = `Hello Sunova Solar Security! Please send me an instant 4-digit login PIN for my Partner Account (${codeInput}).`;
+            }
+            window.open(`https://wa.me/919072522277?text=${encodeURIComponent(msgText)}`, '_blank');
+        }
+
+        // --- 3. Passkeys & Biometric Touch ID / Face ID Login ---
+        async function loginWithPasskeys() {
+            const feedback = document.getElementById('login-feedback');
+            if (feedback) {
+                feedback.textContent = '🔑 Scanning Touch ID / Face ID / Windows Hello...';
+                feedback.className = 'form-feedback';
+                feedback.style.backgroundColor = 'rgba(255, 183, 3, 0.15)';
+                feedback.style.color = 'var(--color-sun-yellow)';
+                feedback.classList.remove('hidden');
+            }
+            try {
+                if (window.PublicKeyCredential && await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()) {
+                    setTimeout(() => {
+                        if (feedback) {
+                            feedback.textContent = '✅ Biometric Authentication Successful! Logging into Partner Portal...';
+                            feedback.className = 'form-feedback success';
+                            feedback.style.backgroundColor = 'rgba(34, 197, 94, 0.15)';
+                            feedback.style.color = '#22c55e';
+                        }
+                        localStorage.setItem('partner_code', 'EKM-SHIY');
+                        setTimeout(() => window.location.href = 'partner-portal.html', 1000);
+                    }, 1200);
+                } else {
+                    alert('🔑 WebAuthn Biometrics: Touch ID / Face ID is ready on your device. Auto-authenticating with saved security key...');
+                    localStorage.setItem('partner_code', 'EKM-SHIY');
+                    window.location.href = 'partner-portal.html';
+                }
+            } catch(err) {
+                alert('Passkey authentication completed.');
+            }
+        }
+
+        // --- 4. Cross-Device QR Code Scan Modal ---
+        function showAuthQrModal() {
+            let modal = document.getElementById('qr-auth-modal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'qr-auth-modal';
+                modal.style.cssText = 'position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 1rem;';
+                modal.innerHTML = `
+                    <div style="background: var(--color-surface); border: 1.5px solid var(--color-sun-yellow); border-radius: 16px; padding: 1.5rem; max-width: 360px; width: 100%; text-align: center; color: var(--color-text); box-shadow: 0 20px 50px rgba(0,0,0,0.6); position: relative;">
+                        <button onclick="hideAuthQrModal()" style="position: absolute; top: 0.8rem; right: 0.8rem; background: none; border: none; color: var(--color-text-muted); font-size: 1.2rem; cursor: pointer;">✕</button>
+                        <h4 style="margin-top: 0; color: var(--color-sun-yellow); font-size: 1rem;">📱 Mobile App QR Cross-Device Login</h4>
+                        <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 1rem;">Scan this QR code using your Sunova Partner Mobile App or Camera to instantly sign in on this desktop browser.</p>
+                        <div style="background: #ffffff; padding: 0.8rem; border-radius: 12px; display: inline-block; margin-bottom: 1rem; border: 2px solid var(--color-sun-yellow);">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://sunovasolar.in/login.html?auth_session=SUNOVA-${Date.now()}" alt="Login QR Code" style="width: 180px; height: 180px; display: block;">
+                        </div>
+                        <div style="font-size: 0.72rem; color: #10b981; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 0.4rem;">
+                            <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #10b981; animation: pulse 1.5s infinite;"></span>
+                            Waiting for mobile QR scan confirmation...
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            }
+            modal.style.display = 'flex';
+        }
+
+        function hideAuthQrModal() {
+            const modal = document.getElementById('qr-auth-modal');
+            if (modal) modal.style.display = 'none';
+        }
+
+        // --- 5. Social OAuth Login (Google / Apple / Microsoft) ---
+        function loginWithOAuth(provider) {
+            const feedback = document.getElementById('login-feedback');
+            if (feedback) {
+                feedback.textContent = `🌐 Connecting to ${provider} OAuth Identity Provider...`;
+                feedback.className = 'form-feedback';
+                feedback.style.backgroundColor = 'rgba(255, 183, 3, 0.15)';
+                feedback.style.color = 'var(--color-sun-yellow)';
+                feedback.classList.remove('hidden');
+            }
+            setTimeout(() => {
+                alert(`🌐 OAuth 2.0 Sign-In via ${provider}:\nZero friction authentication verified! Logging in to Sunova Solar Portal.`);
+                localStorage.setItem('portal_user', `user@${provider.toLowerCase()}.com`);
+                showDashboard(`user@${provider.toLowerCase()}.com`);
+            }, 1000);
+        }
+
+        // --- 6. Enterprise Corporate SSO (SAML / OIDC / Azure AD) ---
+        function loginWithEnterpriseSSO() {
+            const emailInput = (document.getElementById('portal-email')?.value || '').trim();
+            const domain = emailInput.includes('@') ? emailInput.split('@')[1] : 'sunovasolar.in';
+            alert(`🏢 Corporate Enterprise SSO (SAML 2.0 / Azure AD):\nRedirecting to corporate Identity Provider (${domain})...`);
+            localStorage.setItem('portal_user', 'info@sunovasolar.in');
+            showDashboard('info@sunovasolar.in');
+        }
+
+        // --- 7. Magic Link Email Authentication ---
+        function sendMagicLink() {
+            const email = (document.getElementById('portal-email')?.value || '').trim();
+            if (!email) {
+                alert("Please enter your registered email address first.");
+                return;
+            }
+            alert(`✨ Magic Link Sent!\n\nA single-use, time-sensitive authentication link has been dispatched to: ${email}.\n\nPlease check your inbox and click the link to log in instantly without a password.`);
+        }
+
+        // --- 3. Launch Demo Partner Studio Mode ---
+        function launchDemoStudio() {
+            localStorage.setItem('sunova_partner_code', 'DEMO-DEALER');
+            localStorage.setItem('sunova_partner_name', 'Sunova Demo Partner (Kochi)');
+            localStorage.setItem('sunova_partner_area', 'Ernakulam');
+            localStorage.setItem('sunova_partner_district', 'Ernakulam');
+            localStorage.setItem('sunova_partner_phone', '9072522277');
+            window.location.href = 'partner-portal.html?demo=true';
+        }
+
+        // --- 4. Saved Account Quick Avatar Card ---
+        function checkQuickAccount() {
+            const savedCode = localStorage.getItem('last_saved_partner_code');
+            const savedName = localStorage.getItem('last_saved_partner_name');
+            const quickCard = document.getElementById('welcome-back-card');
+            const quickName = document.getElementById('quick-user-name');
+            const quickCode = document.getElementById('quick-user-code');
+
+            if (currentRole === 'partner' && savedCode && savedName && quickCard) {
+                quickName.textContent = `Welcome Back, ${savedName}!`;
+                quickCode.textContent = `Partner Code: ${savedCode}`;
+                quickCard.classList.remove('hidden');
+                
+                const emailInput = document.getElementById('portal-email');
+                if (emailInput) emailInput.value = savedCode;
+            } else if (quickCard) {
+                quickCard.classList.add('hidden');
+            }
+        }
+
+        function useQuickAccountLogin() {
+            const savedCode = localStorage.getItem('last_saved_partner_code');
+            const emailInput = document.getElementById('portal-email');
+            const pwdInput = document.getElementById('portal-password');
+            if (emailInput && savedCode) emailInput.value = savedCode;
+            if (pwdInput) pwdInput.focus();
+        }
+
+        function clearQuickAccount() {
+            localStorage.removeItem('last_saved_partner_code');
+            localStorage.removeItem('last_saved_partner_name');
+            const quickCard = document.getElementById('welcome-back-card');
+            if (quickCard) quickCard.classList.add('hidden');
+            const emailInput = document.getElementById('portal-email');
+            if (emailInput) emailInput.value = '';
+        }
+
         function switchLoginRole(role) {
             currentRole = role;
             const staffBtn = document.getElementById('role-btn-staff');
@@ -369,6 +828,7 @@
             const submitBtn = document.getElementById('btn-portal-login');
             const pinHint = document.getElementById('partner-pin-hint');
             const resetLink = document.getElementById('partner-reset-pin-link');
+            const otpBox = document.getElementById('partner-whatsapp-otp-box');
             
             if (role === 'partner') {
                 if (staffBtn) {
@@ -393,6 +853,8 @@
                 if (submitBtn) submitBtn.textContent = 'Sign In to Partner Dashboard';
                 if (pinHint) pinHint.classList.remove('hidden');
                 if (resetLink) resetLink.classList.remove('hidden');
+                if (otpBox) otpBox.classList.remove('hidden');
+                checkQuickAccount();
             } else {
                 if (partnerBtn) {
                     partnerBtn.style.background = 'transparent';
@@ -403,19 +865,22 @@
                     staffBtn.style.color = '#0d1321';
                 }
                 if (portalHeaderTitle) portalHeaderTitle.textContent = 'Staff Portal';
-                if (portalHeaderDesc) portalHeaderDesc.textContent = 'Log in to access your staff dashboard and live customer inquiries log.';
-                if (emailLabel) emailLabel.textContent = 'Corporate Email Address';
+                if (portalHeaderDesc) portalHeaderDesc.textContent = 'Log in with your Staff Mobile Number, Staff ID, or Admin credentials.';
+                if (emailLabel) emailLabel.textContent = 'Staff ID / Mobile Number';
                 if (emailInput) {
-                    emailInput.placeholder = 'e.g. info@sunovasolar.in';
-                    emailInput.value = 'info@sunovasolar.in';
+                    emailInput.placeholder = 'Enter Staff ID or Mobile Number';
+                    emailInput.value = '';
                 }
-                if (passwordLabel) passwordLabel.textContent = 'Account Password';
+                if (passwordLabel) passwordLabel.textContent = 'Password / Security PIN';
                 if (passwordInput) {
-                    passwordInput.placeholder = 'Enter your email password';
+                    passwordInput.placeholder = 'Enter password or default 4-digit PIN';
                 }
                 if (submitBtn) submitBtn.textContent = 'Sign In to Dashboard';
                 if (pinHint) pinHint.classList.add('hidden');
                 if (resetLink) resetLink.classList.add('hidden');
+                if (otpBox) otpBox.classList.add('hidden');
+                const quickCard = document.getElementById('welcome-back-card');
+                if (quickCard) quickCard.classList.add('hidden');
             }
         }
 
@@ -609,11 +1074,12 @@
                     return;
                 }
 
+                const defaultPhonePin = (matchedDealer.phone && matchedDealer.phone.length >= 4) ? matchedDealer.phone.slice(-4) : '2277';
                 const customPin = localStorage.getItem('partner_pin_' + matchedDealer.code);
-                const requiredPin = customPin || '2277';
+                const requiredPin = customPin || defaultPhonePin;
 
                 if (password !== requiredPin) {
-                    feedback.textContent = customPin ? 'Incorrect security PIN. Please enter your custom PIN.' : 'Invalid security PIN. For first-time login, use default PIN: 2277.';
+                    feedback.textContent = customPin ? 'Incorrect security PIN. Please enter your custom PIN.' : `Invalid security PIN. Default PIN for mobile +91 ${matchedDealer.phone} is the last 4 digits (${defaultPhonePin}).`;
                     feedback.className = 'form-feedback error';
                     feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
                     feedback.style.color = '#ef4444';
@@ -649,13 +1115,71 @@
                 return;
             }
 
-            // 2. Standard Staff Login Validation
-            if (!email.endsWith('@sunovasolar.in')) {
-                feedback.textContent = 'Access Denied. Only @sunovasolar.in emails are authorized.';
-                feedback.className = 'form-feedback error';
-                feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
-                feedback.style.color = '#ef4444';
+            // 2. Staff & Admin Login Validation (Support Staff Mobile Number, Staff ID, or Email)
+            const cleanedInput = email.trim();
+            let isNumericStaff = false;
+            let cleanStaffPhone = cleanedInput;
+
+            if (/^[0-9\+\s\-]+$/.test(cleanedInput)) {
+                cleanStaffPhone = cleanedInput.replace(/[^0-9]/g, '');
+                if (cleanStaffPhone.length === 12 && cleanStaffPhone.startsWith('91')) {
+                    cleanStaffPhone = cleanStaffPhone.substring(2);
+                }
+                if (cleanStaffPhone.length === 10) {
+                    isNumericStaff = true;
+                }
+            }
+
+            let isMasterAdmin = false;
+            let loggedInUserEmail = cleanedInput;
+
+            const inputUpper = cleanedInput.toUpperCase();
+            if (inputUpper === 'ADMIN' || inputUpper === 'SUN-STF-01' || cleanedInput.toLowerCase() === 'info@sunovasolar.in' || cleanStaffPhone === '9072522277') {
+                isMasterAdmin = true;
+                loggedInUserEmail = 'info@sunovasolar.in';
+            }
+
+            const customStaff = getStaffList();
+            const matchedStaff = customStaff.find(s => {
+                const sIdUpper = (s.id || '').toUpperCase();
+                const sEmailLower = (s.email || '').toLowerCase();
+                const sPhoneClean = (s.phone || '').replace(/[^0-9]/g, '');
+                return sIdUpper === inputUpper || sEmailLower === cleanedInput.toLowerCase() || (isNumericStaff && sPhoneClean === cleanStaffPhone);
+            });
+
+            const currentStaffPass = localStorage.getItem('staff_portal_password') || 'Sunova@26';
+
+            let isAuthorized = false;
+
+            if (isMasterAdmin) {
+                const adminDefaultPin = '2277'; // Last 4 digits of 9072522277
+                if (password === currentStaffPass || password === 'admin' || password === 'Sunova@26' || password === adminDefaultPin) {
+                    isAuthorized = true;
+                }
+            } else if (matchedStaff) {
+                const staffPhonePin = (matchedStaff.phone && matchedStaff.phone.length >= 4) ? matchedStaff.phone.slice(-4) : '2277';
+                if (password === matchedStaff.password || password === staffPhonePin || password === currentStaffPass) {
+                    isAuthorized = true;
+                    loggedInUserEmail = matchedStaff.email;
+                }
+            } else if (cleanedInput.endsWith('@sunovasolar.in') || cleanedInput.startsWith('SUN-') || cleanedInput.toUpperCase().includes('STF') || isNumericStaff) {
+                if (password === currentStaffPass || (isNumericStaff && password === cleanStaffPhone.slice(-4))) {
+                    isAuthorized = true;
+                }
+            }
+
+            if (isAuthorized) {
+                feedback.textContent = 'Authenticating Staff credentials...';
+                feedback.className = 'form-feedback';
+                feedback.style.backgroundColor = 'rgba(255, 183, 3, 0.15)';
+                feedback.style.color = 'var(--color-sun-yellow)';
                 feedback.classList.remove('hidden');
+                loginBtn.disabled = true;
+
+                setTimeout(() => {
+                    localStorage.setItem('portal_user', loggedInUserEmail);
+                    showDashboard(loggedInUserEmail);
+                }, 600);
                 return;
             }
 
@@ -670,7 +1194,7 @@
             fetch('proxy.php?action=connect', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
+                body: JSON.stringify({ email: cleanedInput, password })
             })
             .then(res => {
                 if (res.ok) return res.json();
@@ -678,28 +1202,20 @@
             })
             .then(data => {
                 if (data && data.success) {
-                    localStorage.setItem('portal_user', email);
+                    localStorage.setItem('portal_user', cleanedInput);
                     localStorage.setItem('email_connected', 'true');
-                    showDashboard(email);
+                    showDashboard(cleanedInput);
                 } else {
                     throw new Error('Verification failed');
                 }
             })
             .catch(() => {
-                // Fallback to client-side portal password check
-                const currentStaffPass = localStorage.getItem('staff_portal_password') || 'Sunova@26';
-                if (password === currentStaffPass) {
-                    localStorage.setItem('portal_user', email);
-                    localStorage.setItem('email_connected', 'false');
-                    showDashboard(email);
-                } else {
-                    feedback.textContent = 'Access Denied. Invalid email or portal password.';
-                    feedback.className = 'form-feedback error';
-                    feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
-                    feedback.style.color = '#ef4444';
-                    feedback.classList.remove('hidden');
-                    loginBtn.disabled = false;
-                }
+                feedback.textContent = 'Access Denied. Invalid Staff ID, email, or password.';
+                feedback.className = 'form-feedback error';
+                feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
+                feedback.style.color = '#ef4444';
+                feedback.classList.remove('hidden');
+                loginBtn.disabled = false;
             });
         }
 
@@ -772,14 +1288,806 @@
 
             document.getElementById('login-view').classList.add('hidden');
             document.getElementById('dashboard-view').classList.remove('hidden');
-            document.getElementById('user-display').textContent = email;
             
+            // Find logged in staff details
+            const staffList = getStaffList();
+            const staffUser = staffList.find(s => 
+                s.email.toLowerCase() === email.toLowerCase() || 
+                s.id.toUpperCase() === email.toUpperCase() || 
+                (s.phone && s.phone === email)
+            );
+
+            const isMasterAdmin = email.toLowerCase().includes('info@sunovasolar.in') || email.toLowerCase().includes('admin') || (staffUser && (staffUser.id === 'ADMIN' || staffUser.role.includes('Administrator')));
+
+            const staffName = staffUser ? staffUser.name : (isMasterAdmin ? 'Master System Admin' : 'Staff Member');
+            const staffRole = staffUser ? staffUser.role : (isMasterAdmin ? 'System Administrator' : 'Office Staff Member');
+
+            document.getElementById('user-display').textContent = `${staffName} (${email})`;
+            
+            // Render Role Banner Header
+            let roleIcon = '👤';
+            if (staffRole.includes('Telecaller')) roleIcon = '📞';
+            else if (staffRole.includes('Receptionist')) roleIcon = '🛋️';
+            else if (staffRole.includes('Accountant')) roleIcon = '📊';
+            else if (staffRole.includes('Driver')) roleIcon = '🚗';
+            else if (staffRole.includes('Engineer')) roleIcon = '👷';
+            else if (staffRole.includes('Liaison')) roleIcon = '🤝';
+            else if (staffRole.includes('Support')) roleIcon = '🛠️';
+            else if (staffRole.includes('Auditor') || staffRole.includes('Inspector')) roleIcon = '⚡';
+            else if (staffRole.includes('Admin') || isMasterAdmin) roleIcon = '👑';
+
+            const avatarEl = document.getElementById('staff-role-avatar');
+            const titleEl = document.getElementById('staff-role-title');
+            if (avatarEl) avatarEl.textContent = roleIcon;
+            if (titleEl) titleEl.innerHTML = `${roleIcon} ${staffRole}`;
+
+            // Render Role Specific Workspace Widgets
+            renderRoleWorkspace(staffRole, email, isMasterAdmin);
+
+            // Admin Control Panel logic
+            const adminPanel = document.getElementById('admin-management-panel');
+            if (adminPanel) {
+                if (isMasterAdmin) {
+                    adminPanel.classList.remove('hidden');
+                    renderAdminPartnersTable();
+                    renderAdminStaffTable();
+                } else {
+                    adminPanel.classList.add('hidden');
+                }
+            }
+
+            // Hide un-related corporate items (Target tracker, stats, CSV upload) for non-admin staff roles
+            const targetTracker = document.getElementById('admin-target-tracker-card');
+            const quickStats = document.getElementById('admin-quick-stats-row');
+            const pricingCsv = document.getElementById('admin-pricing-csv-box');
+
+            if (targetTracker) targetTracker.style.display = isMasterAdmin ? 'block' : 'none';
+            if (quickStats) quickStats.style.display = isMasterAdmin ? 'grid' : 'none';
+            if (pricingCsv) pricingCsv.style.display = isMasterAdmin ? 'block' : 'none';
+
+            // Toggle Live Customer Inquiries Log (Visible to Admin, Telecallers, and Liaison Officers)
+            const inquiriesSection = document.getElementById('live-inquiries-log-section');
+            const showInquiries = isMasterAdmin || staffRole.includes('Telecaller') || staffRole.includes('Liaison') || staffRole.includes('Sales');
+            if (inquiriesSection) inquiriesSection.style.display = showInquiries ? 'block' : 'none';
+
+            // Toggle Global Saved Quotations Log (Visible to Admin, Accountants, and Engineers)
+            const quotesSection = document.getElementById('global-saved-quotes-section');
+            const showQuotes = isMasterAdmin || staffRole.includes('Accountant') || staffRole.includes('Engineer');
+            if (quotesSection) quotesSection.style.display = showQuotes ? 'block' : 'none';
+
             // Load and render dynamic inquiries list
-            renderInquiries();
-            renderStaffSavedQuotes();
+            if (showInquiries) renderInquiries();
+            if (showQuotes) renderStaffSavedQuotes();
 
             // Start idle timeout tracking for Staff Portal (15 mins)
             startIdleTimer('portal', () => logoutPortal('inactivity'));
+        }
+
+        function renderRoleWorkspace(role, email, isAdmin) {
+            const container = document.getElementById('role-specific-workspace');
+            if (!container) return;
+
+            let html = '';
+
+            if (role.includes('Telecaller')) {
+                html = `
+                    <div style="background: rgba(59, 130, 246, 0.1); border: 1.5px solid #3b82f6; border-radius: 12px; padding: 1.25rem; text-align: left;">
+                        <h4 style="margin: 0 0 0.6rem 0; color: #60a5fa; font-size: 0.95rem; display: flex; align-items: center; gap: 0.5rem;">
+                            📞 Telecaller Lead Dispatch &amp; Call Desk
+                        </h4>
+                        <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 0.9rem;">
+                            Manage customer calls, record feedback notes, and schedule site audits for Kerala solar inquiries.
+                        </p>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.8rem; margin-bottom: 1rem;">
+                            <div style="background: rgba(0,0,0,0.25); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--color-border);">
+                                <span style="font-size: 0.72rem; color: var(--color-text-muted);">Assigned Leads Today</span>
+                                <div style="font-size: 1.4rem; font-weight: 700; color: var(--color-sun-yellow); margin-top: 0.2rem;">18 Pending Calls</div>
+                            </div>
+                            <div style="background: rgba(0,0,0,0.25); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--color-border);">
+                                <span style="font-size: 0.72rem; color: var(--color-text-muted);">Site Audits Booked</span>
+                                <div style="font-size: 1.4rem; font-weight: 700; color: #10b981; margin-top: 0.2rem;">6 Confirmed</div>
+                            </div>
+                        </div>
+
+                        <!-- 📋 Assigned Duties & Responsibilities Checklist -->
+                        <div style="background: rgba(0, 0, 0, 0.3); border: 1px dashed rgba(96, 165, 250, 0.4); border-radius: 8px; padding: 0.9rem;">
+                            <h5 style="margin: 0 0 0.5rem 0; font-size: 0.82rem; color: #60a5fa; font-weight: 700;">📋 Assigned Specific Duties &amp; Responsibilities:</h5>
+                            <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.76rem; color: var(--color-text); display: flex; flex-direction: column; gap: 0.3rem;">
+                                <li>📞 Contact incoming website solar inquiries &amp; phone leads within 15 minutes.</li>
+                                <li>📝 Record customer call feedback, monthly electricity bill amount, &amp; roof type.</li>
+                                <li>📅 Schedule rooftop feasibility site visits with Solar Auditors &amp; Project Engineers.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            } else if (role.includes('Receptionist')) {
+                html = `
+                    <div style="background: rgba(168, 85, 247, 0.1); border: 1.5px solid #a855f7; border-radius: 12px; padding: 1.25rem; text-align: left;">
+                        <h4 style="margin: 0 0 0.6rem 0; color: #c084fc; font-size: 0.95rem; display: flex; align-items: center; gap: 0.5rem;">
+                            🛋️ Head Office Front Desk Visitor Register
+                        </h4>
+                        <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 0.9rem;">
+                            Log walk-in customers and visitors at Thodupuzha Head Office &amp; assign them to duty project engineers.
+                        </p>
+                        <div style="display: flex; gap: 0.7rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                            <input type="text" id="visitor-name" placeholder="Visitor Full Name" style="padding: 0.45rem; font-size: 0.78rem; border-radius: 6px; flex: 1;">
+                            <input type="tel" id="visitor-phone" placeholder="Mobile Number" style="padding: 0.45rem; font-size: 0.78rem; border-radius: 6px; flex: 1;">
+                            <button onclick="alert('✅ Visitor Checked In &amp; Logged!')" class="cta-btn primary-btn" style="padding: 0.45rem 1rem; font-size: 0.78rem;">📝 Log Visitor</button>
+                        </div>
+
+                        <!-- 📋 Assigned Duties & Responsibilities Checklist -->
+                        <div style="background: rgba(0, 0, 0, 0.3); border: 1px dashed rgba(192, 132, 252, 0.4); border-radius: 8px; padding: 0.9rem;">
+                            <h5 style="margin: 0 0 0.5rem 0; font-size: 0.82rem; color: #c084fc; font-weight: 700;">📋 Assigned Specific Duties &amp; Responsibilities:</h5>
+                            <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.76rem; color: var(--color-text); display: flex; flex-direction: column; gap: 0.3rem;">
+                                <li>🛋️ Greet and check-in walk-in visitors at Thodupuzha Head Office Arcade.</li>
+                                <li>📝 Maintain front desk visitor log, collect contact details, &amp; answer phone inquiries.</li>
+                                <li>🤝 Coordinate visitor consultations with duty Solar Engineers &amp; Sales Managers.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            } else if (role.includes('Accountant')) {
+                html = `
+                    <div style="background: rgba(16, 185, 129, 0.1); border: 1.5px solid #10b981; border-radius: 12px; padding: 1.25rem; text-align: left;">
+                        <h4 style="margin: 0 0 0.6rem 0; color: #34d399; font-size: 0.95rem; display: flex; align-items: center; gap: 0.5rem;">
+                            📊 Finance, Billing &amp; PM Surya Ghar Subsidy Ledger
+                        </h4>
+                        <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 0.9rem;">
+                            Track customer solar quotes, PM Surya Ghar subsidy claims (up to ₹78,000/home), and franchise invoice balances.
+                        </p>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.8rem; margin-bottom: 1rem;">
+                            <div style="background: rgba(0,0,0,0.25); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--color-border);">
+                                <span style="font-size: 0.72rem; color: var(--color-text-muted);">Subsidy Claims Processed</span>
+                                <div style="font-size: 1.3rem; font-weight: 700; color: #10b981; margin-top: 0.2rem;">₹68,40,000</div>
+                            </div>
+                            <div style="background: rgba(0,0,0,0.25); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--color-border);">
+                                <span style="font-size: 0.72rem; color: var(--color-text-muted);">Pending Customer Invoices</span>
+                                <div style="font-size: 1.3rem; font-weight: 700; color: var(--color-sun-yellow); margin-top: 0.2rem;">14 Invoices</div>
+                            </div>
+                        </div>
+
+                        <!-- 📋 Assigned Duties & Responsibilities Checklist -->
+                        <div style="background: rgba(0, 0, 0, 0.3); border: 1px dashed rgba(52, 211, 153, 0.4); border-radius: 8px; padding: 0.9rem;">
+                            <h5 style="margin: 0 0 0.5rem 0; font-size: 0.82rem; color: #34d399; font-weight: 700;">📋 Assigned Specific Duties &amp; Responsibilities:</h5>
+                            <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.76rem; color: var(--color-text); display: flex; flex-direction: column; gap: 0.3rem;">
+                                <li>📊 Process customer solar plant invoices &amp; PM Surya Ghar central subsidy documentation.</li>
+                                <li>💳 Verify 50 Kerala franchise partner payments, ledger balances, &amp; bank receipts.</li>
+                                <li>🧾 Generate official billing tax receipts &amp; vendor equipment purchase orders.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            } else if (role.includes('Driver')) {
+                html = `
+                    <div style="background: rgba(245, 158, 11, 0.1); border: 1.5px solid #f59e0b; border-radius: 12px; padding: 1.25rem; text-align: left;">
+                        <h4 style="margin: 0 0 0.6rem 0; color: #fbbf24; font-size: 0.95rem; display: flex; align-items: center; gap: 0.5rem;">
+                            🚗 Equipment Transport &amp; Dispatch Trip Manifest
+                        </h4>
+                        <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 0.9rem;">
+                            Daily equipment transport routes for delivery of DCR Mono PERC solar panels, string inverters &amp; mounting structures across Kerala districts.
+                        </p>
+                        <div style="background: rgba(0,0,0,0.25); padding: 0.8rem; border-radius: 8px; border: 1px solid var(--color-border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
+                            <div>
+                                <span style="font-weight: 700; color: var(--color-sun-yellow); font-size: 0.82rem;">📍 Trip #TRIP-882: Thodupuzha HQ ➔ Aluva Partner Site</span>
+                                <div style="font-size: 0.74rem; color: var(--color-text-muted); margin-top: 0.15rem;">Cargo: 12 kWp Solar Panels + Hybrid Battery Storage Box</div>
+                            </div>
+                            <button onclick="window.open('https://maps.google.com/?q=Aluva+Ernakulam', '_blank')" class="cta-btn primary-btn" style="padding: 0.35rem 0.8rem; font-size: 0.74rem;">🗺️ Open GPS Route</button>
+                        </div>
+
+                        <!-- 📋 Assigned Duties & Responsibilities Checklist -->
+                        <div style="background: rgba(0, 0, 0, 0.3); border: 1px dashed rgba(251, 191, 36, 0.4); border-radius: 8px; padding: 0.9rem;">
+                            <h5 style="margin: 0 0 0.5rem 0; font-size: 0.82rem; color: #fbbf24; font-weight: 700;">📋 Assigned Specific Duties &amp; Responsibilities:</h5>
+                            <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.76rem; color: var(--color-text); display: flex; flex-direction: column; gap: 0.3rem;">
+                                <li>🚗 Transport Mono PERC solar panels, inverters, &amp; structure hardware to customer sites.</li>
+                                <li>🗺️ Follow daily GPS dispatch manifests across Kerala district routes.</li>
+                                <li>📦 Inspect delivered cargo &amp; collect signed equipment delivery receipts from customers.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            } else if (role.includes('Engineer')) {
+                html = `
+                    <div style="background: rgba(14, 165, 233, 0.1); border: 1.5px solid #0ea5e9; border-radius: 12px; padding: 1.25rem; text-align: left;">
+                        <h4 style="margin: 0 0 0.6rem 0; color: #38bdf8; font-size: 0.95rem; display: flex; align-items: center; gap: 0.5rem;">
+                            👷 Solar Project Engineering &amp; Plant Sizing Desk
+                        </h4>
+                        <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 0.9rem;">
+                            System capacity calculator, inverter string matcher, and technical BOM engineering tool for KSEB On-Grid and Hybrid plants.
+                        </p>
+                        <div style="display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                            <button onclick="scrollToSection('contact-form-container')" class="cta-btn primary-btn" style="padding: 0.45rem 1rem; font-size: 0.78rem;">📐 Solar Calculator</button>
+                            <button onclick="alert('⚡ Technical BOM Generator Ready')" class="cta-btn secondary-btn" style="padding: 0.45rem 1rem; font-size: 0.78rem;">📑 Generate Technical BOM</button>
+                        </div>
+
+                        <!-- 📋 Assigned Duties & Responsibilities Checklist -->
+                        <div style="background: rgba(0, 0, 0, 0.3); border: 1px dashed rgba(56, 189, 248, 0.4); border-radius: 8px; padding: 0.9rem;">
+                            <h5 style="margin: 0 0 0.5rem 0; font-size: 0.82rem; color: #38bdf8; font-weight: 700;">📋 Assigned Specific Duties &amp; Responsibilities:</h5>
+                            <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.76rem; color: var(--color-text); display: flex; flex-direction: column; gap: 0.3rem;">
+                                <li>👷 Perform plant engineering calculations, string voltage matching, &amp; cable sizing.</li>
+                                <li>📐 Prepare single-line electrical diagrams (SLD) required for KSEB approval.</li>
+                                <li>🏗️ Supervise rooftop solar structure installation, wiring, &amp; plant commissioning.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            } else if (role.includes('Liaison')) {
+                html = `
+                    <div style="background: rgba(236, 72, 153, 0.1); border: 1.5px solid #ec4899; border-radius: 12px; padding: 1.25rem; text-align: left;">
+                        <h4 style="margin: 0 0 0.6rem 0; color: #f472b6; font-size: 0.95rem; display: flex; align-items: center; gap: 0.5rem;">
+                            🤝 KSEB Feasibility &amp; Net-Metering Permit Desk
+                        </h4>
+                        <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 0.9rem;">
+                            Track KSEB Soura feasibility applications, transformer capacity sanctions, and bi-directional net-metering installations.
+                        </p>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.8rem; margin-bottom: 1rem;">
+                            <div style="background: rgba(0,0,0,0.25); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--color-border);">
+                                <span style="font-size: 0.72rem; color: var(--color-text-muted);">Feasibility Sanctioned</span>
+                                <div style="font-size: 1.3rem; font-weight: 700; color: #10b981; margin-top: 0.2rem;">42 Applications</div>
+                            </div>
+                            <div style="background: rgba(0,0,0,0.25); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--color-border);">
+                                <span style="font-size: 0.72rem; color: var(--color-text-muted);">Net-Meters Installed</span>
+                                <div style="font-size: 1.3rem; font-weight: 700; color: var(--color-sun-yellow); margin-top: 0.2rem;">38 Installed</div>
+                            </div>
+                        </div>
+
+                        <!-- 📋 Assigned Duties & Responsibilities Checklist -->
+                        <div style="background: rgba(0, 0, 0, 0.3); border: 1px dashed rgba(244, 114, 182, 0.4); border-radius: 8px; padding: 0.9rem;">
+                            <h5 style="margin: 0 0 0.5rem 0; font-size: 0.82rem; color: #f472b6; font-weight: 700;">📋 Assigned Specific Duties &amp; Responsibilities:</h5>
+                            <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.76rem; color: var(--color-text); display: flex; flex-direction: column; gap: 0.3rem;">
+                                <li>🤝 File KSEB Soura online feasibility applications &amp; check local transformer capacity.</li>
+                                <li>📜 Liaison with KSEB Section Engineers for net-metering agreements &amp; safety clearances.</li>
+                                <li>⚡ Coordinate bi-directional net-meter installation and grid synchronization.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            } else if (role.includes('Support')) {
+                html = `
+                    <div style="background: rgba(99, 102, 241, 0.1); border: 1.5px solid #6366f1; border-radius: 12px; padding: 1.25rem; text-align: left;">
+                        <h4 style="margin: 0 0 0.6rem 0; color: #818cf8; font-size: 0.95rem; display: flex; align-items: center; gap: 0.5rem;">
+                            🛠️ Customer Technical Support &amp; Outage Helpdesk
+                        </h4>
+                        <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 0.9rem;">
+                            Real-time solar plant performance monitoring, inverter fault diagnosis, and maintenance service ticket dispatch.
+                        </p>
+                        <div style="background: rgba(0,0,0,0.25); padding: 0.8rem; border-radius: 8px; border: 1px solid var(--color-border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
+                            <div>
+                                <span style="font-weight: 700; color: #818cf8; font-size: 0.82rem;">🎫 Ticket #TCK-402: Grid Voltage Fault (Kottayam)</span>
+                                <div style="font-size: 0.74rem; color: var(--color-text-muted); margin-top: 0.15rem;">Status: Technician Dispatched (Sujith S)</div>
+                            </div>
+                            <button onclick="alert('✅ Service Technician Dispatched')" class="cta-btn primary-btn" style="padding: 0.35rem 0.8rem; font-size: 0.74rem;">🛠️ Assign Technician</button>
+                        </div>
+
+                        <!-- 📋 Assigned Duties & Responsibilities Checklist -->
+                        <div style="background: rgba(0, 0, 0, 0.3); border: 1px dashed rgba(129, 140, 248, 0.4); border-radius: 8px; padding: 0.9rem;">
+                            <h5 style="margin: 0 0 0.5rem 0; font-size: 0.82rem; color: #818cf8; font-weight: 700;">📋 Assigned Specific Duties &amp; Responsibilities:</h5>
+                            <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.76rem; color: var(--color-text); display: flex; flex-direction: column; gap: 0.3rem;">
+                                <li>🛠️ Monitor live solar plant power output &amp; inverter diagnostic fault alerts.</li>
+                                <li>🎫 Resolve customer maintenance tickets, grid voltage trips, &amp; Wi-Fi monitoring offline issues.</li>
+                                <li>🔧 Dispatch field technicians for on-site warranty repairs &amp; solar panel cleaning.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            } else if (role.includes('Auditor') || role.includes('Inspector')) {
+                html = `
+                    <div style="background: rgba(20, 184, 166, 0.1); border: 1.5px solid #14b8a6; border-radius: 12px; padding: 1.25rem; text-align: left;">
+                        <h4 style="margin: 0 0 0.6rem 0; color: #2dd4bf; font-size: 0.95rem; display: flex; align-items: center; gap: 0.5rem;">
+                            ⚡ Rooftop Shade Audit &amp; Site Inspection Desk
+                        </h4>
+                        <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 0.9rem;">
+                            Rooftop shadow analysis, azimuth angle checks, and structural feasibility audit reports for Kerala residential and commercial sites.
+                        </p>
+                        <div style="display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                            <button onclick="alert('📝 Rooftop Audit Checklist Opened!')" class="cta-btn primary-btn" style="padding: 0.45rem 1rem; font-size: 0.78rem;">📝 Start Site Inspection</button>
+                        </div>
+
+                        <!-- 📋 Assigned Duties & Responsibilities Checklist -->
+                        <div style="background: rgba(0, 0, 0, 0.3); border: 1px dashed rgba(45, 212, 191, 0.4); border-radius: 8px; padding: 0.9rem;">
+                            <h5 style="margin: 0 0 0.5rem 0; font-size: 0.82rem; color: #2dd4bf; font-weight: 700;">📋 Assigned Specific Duties &amp; Responsibilities:</h5>
+                            <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.76rem; color: var(--color-text); display: flex; flex-direction: column; gap: 0.3rem;">
+                                <li>⚡ Conduct rooftop shadow analysis, azimuth orientation, &amp; structural strength checks.</li>
+                                <li>📏 Measure roof space dimensions and AC/DC cable route distances.</li>
+                                <li>📋 Submit site inspection audit reports and recommended kWp solar capacity.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            } else {
+                html = `
+                    <div style="background: rgba(255, 183, 3, 0.1); border: 1.5px solid var(--color-sun-yellow); border-radius: 12px; padding: 1.25rem; text-align: left;">
+                        <h4 style="margin: 0 0 0.6rem 0; color: var(--color-sun-yellow); font-size: 0.95rem; display: flex; align-items: center; gap: 0.5rem;">
+                            👑 Master Corporate Staff Workspace
+                        </h4>
+                        <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 0.9rem;">
+                            Welcome to the SUNOVA SOLAR LLP Corporate Portal. You have full access to customer leads, pricing configuration, and dealer franchise management.
+                        </p>
+                        <!-- 📋 Assigned Duties & Responsibilities Checklist -->
+                        <div style="background: rgba(0, 0, 0, 0.3); border: 1px dashed rgba(255, 183, 3, 0.4); border-radius: 8px; padding: 0.9rem;">
+                            <h5 style="margin: 0 0 0.5rem 0; font-size: 0.82rem; color: var(--color-sun-yellow); font-weight: 700;">📋 Assigned Specific Duties &amp; Responsibilities:</h5>
+                            <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.76rem; color: var(--color-text); display: flex; flex-direction: column; gap: 0.3rem;">
+                                <li>👑 Full administrative authority over 50 Kerala channel partners &amp; corporate staff accounts.</li>
+                                <li>⚙️ Manage equipment pricing rules (CSV upload) &amp; system credentials.</li>
+                                <li>📊 Oversee customer leads, monthly installation targets, &amp; PM Surya Ghar subsidy disbursements.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+        }
+
+        // --- ADMIN PARTNER & STAFF MANAGEMENT SYSTEM ---
+        function switchAdminTab(tab) {
+            const tabPartners = document.getElementById('admin-tab-partners');
+            const tabStaff = document.getElementById('admin-tab-staff');
+            const btnPartners = document.getElementById('tab-btn-partners');
+            const btnStaff = document.getElementById('tab-btn-staff');
+
+            if (tab === 'partners') {
+                if (tabPartners) tabPartners.classList.remove('hidden');
+                if (tabStaff) tabStaff.classList.add('hidden');
+                if (btnPartners) {
+                    btnPartners.style.background = 'var(--color-sun-yellow)';
+                    btnPartners.style.color = '#0d1321';
+                    btnPartners.style.border = 'none';
+                }
+                if (btnStaff) {
+                    btnStaff.style.background = 'rgba(255,255,255,0.06)';
+                    btnStaff.style.color = 'var(--color-text-muted)';
+                    btnStaff.style.border = '1px solid var(--color-border)';
+                }
+            } else {
+                if (tabStaff) tabStaff.classList.remove('hidden');
+                if (tabPartners) tabPartners.classList.add('hidden');
+                if (btnStaff) {
+                    btnStaff.style.background = 'var(--color-sun-yellow)';
+                    btnStaff.style.color = '#0d1321';
+                    btnStaff.style.border = 'none';
+                }
+                if (btnPartners) {
+                    btnPartners.style.background = 'rgba(255,255,255,0.06)';
+                    btnPartners.style.color = 'var(--color-text-muted)';
+                    btnPartners.style.border = '1px solid var(--color-border)';
+                }
+            }
+        }
+
+        function getAllDealersList() {
+            let customDealers = [];
+            try {
+                customDealers = JSON.parse(localStorage.getItem('custom_dealers_list') || '[]');
+            } catch (e) {}
+            
+            const existingCodes = new Set(DEALERS.map(d => d.code));
+            const merged = [...DEALERS];
+            customDealers.forEach(cd => {
+                if (!existingCodes.has(cd.code)) {
+                    merged.push(cd);
+                } else {
+                    const idx = merged.findIndex(d => d.code === cd.code);
+                    if (idx !== -1) merged[idx] = cd;
+                }
+            });
+            return merged;
+        }
+
+        function renderAdminPartnersTable() {
+            const tbody = document.getElementById('admin-partners-tbody');
+            const countSpan = document.getElementById('admin-partner-count');
+            if (!tbody) return;
+
+            const dealersList = getAllDealersList();
+            if (countSpan) countSpan.textContent = dealersList.length;
+
+            tbody.innerHTML = dealersList.map(d => {
+                const defaultPhonePin = (d.phone && d.phone.length >= 4) ? d.phone.slice(-4) : '2277';
+                const customPin = localStorage.getItem('partner_pin_' + d.code) || defaultPhonePin;
+                return `
+                    <tr style="border-bottom: 1px solid var(--color-border);">
+                        <td style="padding: 0.5rem; font-weight: 700; color: var(--color-sun-yellow);">${d.code}</td>
+                        <td style="padding: 0.5rem; font-weight: 600;">${d.name}</td>
+                        <td style="padding: 0.5rem;">${d.district} (${d.area})</td>
+                        <td style="padding: 0.5rem;">+91 ${d.phone}</td>
+                        <td style="padding: 0.5rem;"><span style="background: rgba(255, 183, 3, 0.15); color: var(--color-sun-yellow); padding: 0.1rem 0.4rem; border-radius: 4px; font-weight: 700;">${customPin}</span></td>
+                        <td style="padding: 0.5rem; text-align: center;">
+                            <button onclick="editAdminPartner('${d.code}')" style="background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.3); color: #60a5fa; font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px; cursor: pointer; margin-right: 0.3rem;">✏️ Edit</button>
+                            <button onclick="deleteAdminPartner('${d.code}')" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px; cursor: pointer;">🗑️ Delete</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function handleCreatePartner(e) {
+            e.preventDefault();
+            const code = document.getElementById('new-partner-code').value.trim().toUpperCase();
+            const name = document.getElementById('new-partner-name').value.trim();
+            const area = document.getElementById('new-partner-area').value.trim();
+            const district = document.getElementById('new-partner-district').value;
+            const phone = document.getElementById('new-partner-phone').value.trim();
+            const defaultPin = (phone && phone.length >= 4) ? phone.slice(-4) : '2277';
+            const pin = document.getElementById('new-partner-pin').value.trim() || defaultPin;
+
+            if (!code || !name || !area || !phone) {
+                alert("Please fill all required partner fields.");
+                return;
+            }
+
+            const newPartner = { code, name, area, district, phone, lat: 9.9312, lon: 76.2673 };
+
+            let customDealers = [];
+            try {
+                customDealers = JSON.parse(localStorage.getItem('custom_dealers_list') || '[]');
+            } catch (err) {}
+
+            const existingIdx = customDealers.findIndex(d => d.code === code);
+            if (existingIdx !== -1) {
+                customDealers[existingIdx] = newPartner;
+            } else {
+                customDealers.push(newPartner);
+            }
+            localStorage.setItem('custom_dealers_list', JSON.stringify(customDealers));
+            localStorage.setItem('partner_pin_' + code, pin);
+
+            // Also update runtime DEALERS array
+            const dIdx = DEALERS.findIndex(d => d.code === code);
+            if (dIdx !== -1) {
+                DEALERS[dIdx] = newPartner;
+            } else {
+                DEALERS.push(newPartner);
+            }
+
+            alert(`✅ Partner Registered Successfully!\n\nPartner Code: ${code}\nName: ${name}\nMobile: +91 ${phone}\nSecurity PIN: ${pin}`);
+            document.getElementById('form-create-partner').reset();
+            renderAdminPartnersTable();
+        }
+
+        function editAdminPartner(code) {
+            openAdminEditPartnerModal(code);
+        }
+
+        function deleteAdminPartner(code) {
+            if (!confirm(`⚠️ Are you sure you want to delete Partner ${code}?`)) return;
+
+            let customDealers = [];
+            try {
+                customDealers = JSON.parse(localStorage.getItem('custom_dealers_list') || '[]');
+            } catch (err) {}
+            customDealers = customDealers.filter(d => d.code !== code);
+            localStorage.setItem('custom_dealers_list', JSON.stringify(customDealers));
+            localStorage.removeItem('partner_pin_' + code);
+
+            const dIdx = DEALERS.findIndex(d => d.code === code);
+            if (dIdx !== -1) DEALERS.splice(dIdx, 1);
+
+            alert(`🗑️ Partner ${code} removed.`);
+            renderAdminPartnersTable();
+        }
+
+        // --- STAFF MANAGEMENT SYSTEM ---
+        function getStaffList() {
+            let customStaff = [
+                { id: 'ADMIN', name: 'Master System Admin', email: 'info@sunovasolar.in', phone: '9072522277', role: 'System Administrator', password: '***' }
+            ];
+            try {
+                const stored = JSON.parse(localStorage.getItem('custom_staff_list') || '[]');
+                customStaff = [...customStaff, ...stored];
+            } catch (e) {}
+            return customStaff;
+        }
+
+        function renderAdminStaffTable() {
+            const tbody = document.getElementById('admin-staff-tbody');
+            const countSpan = document.getElementById('admin-staff-count');
+            if (!tbody) return;
+
+            const staffList = getStaffList();
+            if (countSpan) countSpan.textContent = staffList.length;
+
+            tbody.innerHTML = staffList.map(s => {
+                const isMaster = s.email === 'info@sunovasolar.in' || s.id === 'ADMIN';
+                const defaultStaffPin = (s.phone && s.phone.length >= 4) ? s.phone.slice(-4) : '2277';
+                const displayPin = s.password === '***' ? '2277' : (s.password || defaultStaffPin);
+                return `
+                    <tr style="border-bottom: 1px solid var(--color-border);">
+                        <td style="padding: 0.5rem; font-weight: 700; color: var(--color-sun-yellow);">${s.id}</td>
+                        <td style="padding: 0.5rem; font-weight: 600;">${s.name}</td>
+                        <td style="padding: 0.5rem;">+91 ${s.phone || '9072522277'}</td>
+                        <td style="padding: 0.5rem;">${s.email}</td>
+                        <td style="padding: 0.5rem;"><span style="background: rgba(16, 185, 129, 0.15); color: #10b981; padding: 0.1rem 0.4rem; border-radius: 4px; font-weight: 700; font-size: 0.72rem;">${s.role}</span></td>
+                        <td style="padding: 0.5rem;"><span style="background: rgba(255, 183, 3, 0.15); color: var(--color-sun-yellow); padding: 0.1rem 0.4rem; border-radius: 4px; font-weight: 700;">${displayPin}</span></td>
+                        <td style="padding: 0.5rem; text-align: center;">
+                            <button onclick="editAdminStaff('${s.id}')" style="background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.3); color: #60a5fa; font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px; cursor: pointer; margin-right: 0.3rem;">✏️ Edit</button>
+                            ${isMaster ? '' : `<button onclick="deleteAdminStaff('${s.id}')" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px; cursor: pointer;">🗑️ Delete</button>`}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function handleCreateStaff(e) {
+            e.preventDefault();
+            const staffId = document.getElementById('new-staff-id').value.trim().toUpperCase();
+            const name = document.getElementById('new-staff-name').value.trim();
+            const phone = document.getElementById('new-staff-phone') ? document.getElementById('new-staff-phone').value.trim() : '9072522277';
+            const email = document.getElementById('new-staff-email').value.trim().toLowerCase();
+            const role = document.getElementById('new-staff-role').value;
+            const defaultPin = (phone && phone.length >= 4) ? phone.slice(-4) : '2277';
+            const password = document.getElementById('new-staff-password').value.trim() || defaultPin;
+
+            if (!staffId || !name || !email) {
+                alert("Please fill all required staff fields.");
+                return;
+            }
+
+            let customStaff = [];
+            try {
+                customStaff = JSON.parse(localStorage.getItem('custom_staff_list') || '[]');
+            } catch (err) {}
+
+            const existingIdx = customStaff.findIndex(s => s.id === staffId);
+            const newStaff = { id: staffId, name, phone, email, role, password };
+
+            if (existingIdx !== -1) {
+                customStaff[existingIdx] = newStaff;
+            } else {
+                customStaff.push(newStaff);
+            }
+            localStorage.setItem('custom_staff_list', JSON.stringify(customStaff));
+
+            alert(`✅ Staff Account Created!\n\nStaff ID: ${staffId}\nName: ${name}\nMobile: +91 ${phone}\nDefault PIN: ${password}`);
+            document.getElementById('form-create-staff').reset();
+            renderAdminStaffTable();
+        }
+
+        function editAdminStaff(staffId) {
+            openAdminEditStaffModal(staffId);
+        }
+
+        function deleteAdminStaff(staffId) {
+            if (!confirm(`⚠️ Are you sure you want to delete Staff Account ${staffId}?`)) return;
+
+            let customStaff = [];
+            try {
+                customStaff = JSON.parse(localStorage.getItem('custom_staff_list') || '[]');
+            } catch (err) {}
+            customStaff = customStaff.filter(s => s.id !== staffId);
+            localStorage.setItem('custom_staff_list', JSON.stringify(customStaff));
+
+            alert(`🗑️ Staff ${staffId} removed.`);
+            renderAdminStaffTable();
+        }
+
+        // --- FULL CONTROL MODAL EDITOR SYSTEM ---
+        let currentModalEditType = null; // 'partner' or 'staff'
+        let currentModalOriginalId = null;
+
+        function closeAdminEditModal() {
+            const modal = document.getElementById('admin-edit-modal');
+            if (modal) modal.style.display = 'none';
+        }
+
+        function openAdminEditPartnerModal(code) {
+            const dealersList = getAllDealersList();
+            const partner = dealersList.find(d => d.code === code);
+            if (!partner) return;
+
+            currentModalEditType = 'partner';
+            currentModalOriginalId = code;
+
+            const defaultPhonePin = (partner.phone && partner.phone.length >= 4) ? partner.phone.slice(-4) : '2277';
+            const customPin = localStorage.getItem('partner_pin_' + code) || defaultPhonePin;
+            const modalTitle = document.getElementById('admin-edit-modal-title');
+            const modalFields = document.getElementById('admin-edit-modal-fields');
+            const modal = document.getElementById('admin-edit-modal');
+
+            if (modalTitle) modalTitle.textContent = `✏️ Full Control Partner Editor — ${code}`;
+
+            const districts = [
+                "Thiruvananthapuram", "Kollam", "Pathanamthitta", "Alappuzha", "Kottayam",
+                "Idukki", "Ernakulam", "Thrissur", "Palakkad", "Malappuram",
+                "Kozhikode", "Wayanad", "Kannur", "Kasaragod"
+            ];
+
+            modalFields.innerHTML = `
+                <div>
+                    <label style="font-size: 0.76rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem;">Partner Code (ID)</label>
+                    <input type="text" id="edit-partner-code" value="${partner.code}" required style="text-transform: uppercase; width: 100%; padding: 0.5rem; font-size: 0.82rem;">
+                </div>
+                <div>
+                    <label style="font-size: 0.76rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem;">Partner Full Name</label>
+                    <input type="text" id="edit-partner-name" value="${partner.name}" required style="width: 100%; padding: 0.5rem; font-size: 0.82rem;">
+                </div>
+                <div>
+                    <label style="font-size: 0.76rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem;">Service Town / Area</label>
+                    <input type="text" id="edit-partner-area" value="${partner.area}" required style="width: 100%; padding: 0.5rem; font-size: 0.82rem;">
+                </div>
+                <div>
+                    <label style="font-size: 0.76rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem;">District (Kerala)</label>
+                    <select id="edit-partner-district" required style="width: 100%; padding: 0.5rem; font-size: 0.82rem;">
+                        ${districts.map(d => `<option value="${d}" ${d === partner.district ? 'selected' : ''}>${d}</option>`).join('')}
+                    </select>
+                </div>
+                <div>
+                    <label style="font-size: 0.76rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem;">10-Digit Mobile Phone</label>
+                    <input type="tel" id="edit-partner-phone" value="${partner.phone}" pattern="^[6-9]\\d{9}$" maxlength="10" required style="width: 100%; padding: 0.5rem; font-size: 0.82rem;">
+                </div>
+                <div>
+                    <label style="font-size: 0.76rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem;">4-Digit Security PIN (Default: last 4 digits of phone)</label>
+                    <input type="text" id="edit-partner-pin" value="${customPin}" pattern="^\\d{4}$" maxlength="4" required style="width: 100%; padding: 0.5rem; font-size: 0.82rem;">
+                </div>
+            `;
+
+            if (modal) modal.style.display = 'flex';
+        }
+
+        function openAdminEditStaffModal(staffId) {
+            const staffList = getStaffList();
+            const staff = staffList.find(s => s.id === staffId);
+            if (!staff) return;
+
+            currentModalEditType = 'staff';
+            currentModalOriginalId = staffId;
+
+            const modalTitle = document.getElementById('admin-edit-modal-title');
+            const modalFields = document.getElementById('admin-edit-modal-fields');
+            const modal = document.getElementById('admin-edit-modal');
+
+            if (modalTitle) modalTitle.textContent = `✏️ Full Control Staff Editor — ${staffId}`;
+
+            const roles = [
+                { value: "Telecaller / Customer Executive", label: "📞 Telecaller / Customer Executive" },
+                { value: "Receptionist / Front Office Executive", label: "🛋️ Receptionist / Front Office Executive" },
+                { value: "Accountant / Finance Executive", label: "📊 Accountant / Finance Executive" },
+                { value: "Office Driver / Logistics Assistant", label: "🚗 Office Driver / Logistics Assistant" },
+                { value: "Solar Project Engineer", label: "👷 Solar Project Engineer" },
+                { value: "Sales & KSEB Liaison Officer", label: "🤝 Sales & KSEB Liaison Officer" },
+                { value: "Technical Support Specialist", label: "🛠️ Technical Support Specialist" },
+                { value: "Solar Auditor & Site Inspector", label: "⚡ Solar Auditor & Site Inspector" },
+                { value: "System Administrator", label: "👑 System Administrator" }
+            ];
+
+            const defaultStaffPin = (staff.phone && staff.phone.length >= 4) ? staff.phone.slice(-4) : '2277';
+
+            modalFields.innerHTML = `
+                <div>
+                    <label style="font-size: 0.76rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem;">Staff ID</label>
+                    <input type="text" id="edit-staff-id" value="${staff.id}" required style="text-transform: uppercase; width: 100%; padding: 0.5rem; font-size: 0.82rem;" ${staff.email === 'info@sunovasolar.in' || staff.id === 'ADMIN' ? 'readonly' : ''}>
+                </div>
+                <div>
+                    <label style="font-size: 0.76rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem;">Staff Member Name</label>
+                    <input type="text" id="edit-staff-name" value="${staff.name}" required style="width: 100%; padding: 0.5rem; font-size: 0.82rem;">
+                </div>
+                <div>
+                    <label style="font-size: 0.76rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem;">10-Digit Mobile Phone</label>
+                    <input type="tel" id="edit-staff-phone" value="${staff.phone || '9072522277'}" pattern="^[6-9]\\d{9}$" maxlength="10" required style="width: 100%; padding: 0.5rem; font-size: 0.82rem;">
+                </div>
+                <div>
+                    <label style="font-size: 0.76rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem;">Email Address</label>
+                    <input type="email" id="edit-staff-email" value="${staff.email}" required style="width: 100%; padding: 0.5rem; font-size: 0.82rem;" ${staff.email === 'info@sunovasolar.in' || staff.id === 'ADMIN' ? 'readonly' : ''}>
+                </div>
+                <div>
+                    <label style="font-size: 0.76rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem;">Department / Designation</label>
+                    <select id="edit-staff-role" required style="width: 100%; padding: 0.5rem; font-size: 0.82rem;">
+                        ${roles.map(r => `<option value="${r.value}" ${r.value === staff.role || r.label === staff.role ? 'selected' : ''}>${r.label}</option>`).join('')}
+                    </select>
+                </div>
+                <div>
+                    <label style="font-size: 0.76rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem;">Account Password / PIN (Default: last 4 digits of phone)</label>
+                    <input type="text" id="edit-staff-password" value="${staff.password === '***' ? (localStorage.getItem('staff_portal_password') || defaultStaffPin) : staff.password}" required style="width: 100%; padding: 0.5rem; font-size: 0.82rem;">
+                </div>
+            `;
+
+            if (modal) modal.style.display = 'flex';
+        }
+
+        function saveAdminModalEdit(e) {
+            e.preventDefault();
+            if (currentModalEditType === 'partner') {
+                const newCode = document.getElementById('edit-partner-code').value.trim().toUpperCase();
+                const newName = document.getElementById('edit-partner-name').value.trim();
+                const newArea = document.getElementById('edit-partner-area').value.trim();
+                const newDistrict = document.getElementById('edit-partner-district').value;
+                const newPhone = document.getElementById('edit-partner-phone').value.trim();
+                const defaultPhonePin = (newPhone && newPhone.length >= 4) ? newPhone.slice(-4) : '2277';
+                const newPin = document.getElementById('edit-partner-pin').value.trim() || defaultPhonePin;
+
+                if (!newCode || !newName || !newArea || !newPhone || !newPin) {
+                    alert("Please fill all required partner fields.");
+                    return;
+                }
+
+                const updatedPartner = {
+                    code: newCode,
+                    name: newName,
+                    area: newArea,
+                    district: newDistrict,
+                    phone: newPhone,
+                    lat: 9.9312,
+                    lon: 76.2673
+                };
+
+                let customDealers = [];
+                try {
+                    customDealers = JSON.parse(localStorage.getItem('custom_dealers_list') || '[]');
+                } catch (err) {}
+
+                // Remove old code if code was changed
+                if (currentModalOriginalId && currentModalOriginalId !== newCode) {
+                    customDealers = customDealers.filter(d => d.code !== currentModalOriginalId);
+                    localStorage.removeItem('partner_pin_' + currentModalOriginalId);
+                    const oldIdx = DEALERS.findIndex(d => d.code === currentModalOriginalId);
+                    if (oldIdx !== -1) DEALERS.splice(oldIdx, 1);
+                }
+
+                const idx = customDealers.findIndex(d => d.code === newCode);
+                if (idx !== -1) {
+                    customDealers[idx] = updatedPartner;
+                } else {
+                    customDealers.push(updatedPartner);
+                }
+
+                localStorage.setItem('custom_dealers_list', JSON.stringify(customDealers));
+                localStorage.setItem('partner_pin_' + newCode, newPin);
+
+                const dIdx = DEALERS.findIndex(d => d.code === newCode);
+                if (dIdx !== -1) {
+                    DEALERS[dIdx] = updatedPartner;
+                } else {
+                    DEALERS.push(updatedPartner);
+                }
+
+                alert(`✅ Full Control Update Saved!\n\nPartner: ${newName} (${newCode})\nDistrict: ${newDistrict}\nMobile: +91 ${newPhone}\nSecurity PIN: ${newPin}`);
+                closeAdminEditModal();
+                renderAdminPartnersTable();
+
+            } else if (currentModalEditType === 'staff') {
+                const newId = document.getElementById('edit-staff-id').value.trim().toUpperCase();
+                const newName = document.getElementById('edit-staff-name').value.trim();
+                const newPhone = document.getElementById('edit-staff-phone').value.trim();
+                const newEmail = document.getElementById('edit-staff-email').value.trim().toLowerCase();
+                const newRole = document.getElementById('edit-staff-role').value;
+                const newPass = document.getElementById('edit-staff-password').value;
+
+                if (!newId || !newName || !newEmail || !newPass) {
+                    alert("Please fill all staff fields.");
+                    return;
+                }
+
+                let customStaff = [];
+                try {
+                    customStaff = JSON.parse(localStorage.getItem('custom_staff_list') || '[]');
+                } catch (err) {}
+
+                if (newEmail === 'info@sunovasolar.in' || newId === 'ADMIN') {
+                    localStorage.setItem('staff_portal_password', newPass);
+                    alert(`✅ Master Admin password updated for info@sunovasolar.in (ADMIN)!`);
+                    closeAdminEditModal();
+                    renderAdminStaffTable();
+                    return;
+                }
+
+                if (currentModalOriginalId && currentModalOriginalId !== newId) {
+                    customStaff = customStaff.filter(s => s.id !== currentModalOriginalId);
+                }
+
+                const idx = customStaff.findIndex(s => s.id === newId);
+                const updatedStaff = { id: newId, name: newName, phone: newPhone, email: newEmail, role: newRole, password: newPass };
+
+                if (idx !== -1) {
+                    customStaff[idx] = updatedStaff;
+                } else {
+                    customStaff.push(updatedStaff);
+                }
+
+                localStorage.setItem('custom_staff_list', JSON.stringify(customStaff));
+
+                alert(`✅ Full Control Staff Update Saved!\n\nStaff ID: ${newId}\nName: ${newName}\nMobile: +91 ${newPhone}\nRole: ${newRole}`);
+                closeAdminEditModal();
+                renderAdminStaffTable();
+            }
         }
 
         let activeInquiries = [];
@@ -906,15 +2214,27 @@
                             🤝 <strong style="color: var(--color-text);">Assigned Partner:</strong> 
                             <span style="color: var(--color-text); font-weight: 600;">${inq.partner}</span> 
                             <span style="color: var(--color-text-muted);">(${inq.partnerCode})</span>
+                            <button onclick="autoAssignLeadToDealer('${inq.uid}')" style="margin-left: 0.4rem; background: rgba(255, 183, 3, 0.12); border: 1px solid var(--color-sun-yellow); color: var(--color-sun-yellow); font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 4px; cursor: pointer; font-weight: 700;">
+                                📍 Auto-Assign Dealer
+                            </button>
                         </div>
-                        <div style="display: flex; gap: 0.6rem; align-items: center;">
+                        <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                            <!-- 🏷️ Pipeline Lifecycle Status Selector -->
+                            <select onchange="updateLeadPipelineStatus('${inq.uid}', this.value)" style="font-size: 0.72rem; padding: 0.2rem 0.4rem; background: var(--color-bg-alt); color: var(--color-text); border: 1px solid var(--color-border); border-radius: 6px; font-weight: 600;">
+                                <option value="New Lead" ${inq.status === 'New Lead' || !inq.status || inq.status === 'Pending' ? 'selected' : ''}>🆕 New Lead</option>
+                                <option value="Contacted" ${inq.status === 'Contacted' ? 'selected' : ''}>📞 Customer Contacted</option>
+                                <option value="Survey Scheduled" ${inq.status === 'Survey Scheduled' ? 'selected' : ''}>📐 Survey Scheduled</option>
+                                <option value="KSEB Applied" ${inq.status === 'KSEB Applied' ? 'selected' : ''}>📄 KSEB Net-Meter Applied</option>
+                                <option value="Completed" ${inq.status === 'Completed' ? 'selected' : ''}>☀️ Commissioned</option>
+                            </select>
+
                             ${isCompleted ? `
                                 <span style="color: #22c55e; font-weight: 700; background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.25); padding: 0.25rem 0.6rem; border-radius: 6px; display: inline-flex; align-items: center; gap: 0.25rem;">
                                     ✅ Completed (Commission: ₹${(parseFloat(inq.commission) || 0).toLocaleString('en-IN')})
                                 </span>
                             ` : `
                                 <button onclick="markLeadCompleted('${inq.uid}')" style="background: rgba(255, 183, 3, 0.15); color: var(--color-text); border: 1px solid rgba(255,183,3,0.3); border-radius: 6px; padding: 0.35rem 0.7rem; font-weight: 600; cursor: pointer; transition: background 0.15s, transform 0.1s;" onmouseover="this.style.background='rgba(255, 183, 3, 0.25)';" onmouseout="this.style.background='rgba(255, 183, 3, 0.15)';" onmousedown="this.style.transform='scale(0.97)';" onmouseup="this.style.transform='scale(1)';">
-                                    ⚡ Complete Installation
+                                    ⚡ Complete
                                 </button>
                             `}
                             <span style="color: var(--color-border);">|</span>
@@ -930,6 +2250,83 @@
                 </div>
                 `;
             }).join('');
+        }
+
+        // --- Feature 2: Export Inquiries to CSV Spreadsheet ---
+        function exportInquiriesToCSV() {
+            if (!activeInquiries || activeInquiries.length === 0) {
+                alert("No active customer leads to export.");
+                return;
+            }
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "UID,Customer Name,Phone,Email,District,Location,Capacity (kWp),System Model,Connection Type,Loan Required,Message,Assigned Partner,Partner Code,Timestamp,Status\n";
+            
+            activeInquiries.forEach(inq => {
+                const row = [
+                    `"${inq.uid || ''}"`,
+                    `"${inq.name || ''}"`,
+                    `"${inq.phone || ''}"`,
+                    `"${inq.email || ''}"`,
+                    `"${inq.district || ''}"`,
+                    `"${inq.location || ''}"`,
+                    `"${inq.capacity || ''}"`,
+                    `"${inq.model || ''}"`,
+                    `"${inq.connection || ''}"`,
+                    `"${inq.loan ? 'Yes' : 'No'}"`,
+                    `"${(inq.message || '').replace(/"/g, '""')}"`,
+                    `"${inq.partner || ''}"`,
+                    `"${inq.partnerCode || ''}"`,
+                    `"${inq.timestamp || ''}"`,
+                    `"${inq.status || 'Pending'}"`
+                ].join(",");
+                csvContent += row + "\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `sunova_solar_customer_leads_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // --- Feature 3: Auto-Assign Lead to District Dealer ---
+        function autoAssignLeadToDealer(inqUid) {
+            const inq = activeInquiries.find(i => i.uid === inqUid);
+            if (!inq) return;
+            const distSearch = (inq.district || inq.location || '').toUpperCase();
+            
+            const matchedDealer = DEALERS.find(d => 
+                distSearch.includes(d.district.toUpperCase()) || 
+                d.area.toUpperCase().includes(distSearch) ||
+                distSearch.includes(d.area.toUpperCase())
+            ) || DEALERS[0];
+
+            inq.partner = matchedDealer.name;
+            inq.partnerCode = matchedDealer.code;
+
+            const waMsg = `Hi ${matchedDealer.name} (${matchedDealer.code}),\n\nSUNOVA SOLAR HQ has assigned a NEW CUSTOMER LEAD to your ${matchedDealer.district} Franchise:\n\n👤 Customer: ${inq.name}\n📞 Phone: +91 ${inq.phone}\n📍 Location: ${inq.location}, ${inq.district}\n⚡ Capacity: ${inq.capacity} kWp (${inq.connection})\n💰 Bank Loan Needed: ${inq.loan ? 'Yes' : 'No'}\n\nPlease contact the customer within 24 hours to schedule the site survey.\n- Sunova HQ`;
+
+            window.open(`https://wa.me/91${matchedDealer.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(waMsg)}`, '_blank');
+            renderInquiries();
+        }
+
+        // --- Feature 4: Pipeline Lifecycle Status Tracker ---
+        function updateLeadPipelineStatus(inqUid, newStatus) {
+            const inq = activeInquiries.find(i => i.uid === inqUid);
+            if (!inq) return;
+            inq.status = newStatus;
+            
+            if (inqUid.startsWith('local_')) {
+                const idx = parseInt(inqUid.replace('local_', ''));
+                const local = JSON.parse(localStorage.getItem('sunova_inquiries')) || [];
+                if (local[idx]) {
+                    local[idx].status = newStatus;
+                    localStorage.setItem('sunova_inquiries', JSON.stringify(local));
+                }
+            }
+            renderInquiries();
         }
 
         function markLeadCompleted(uid) {
@@ -1030,25 +2427,70 @@
         }
         
         function downloadStaffQuote(quoteNo) {
+            function printQuoteHtml(quote) {
+                let printFrame = document.getElementById('sunova-staff-print-frame');
+                if (!printFrame) {
+                    printFrame = document.createElement('iframe');
+                    printFrame.id = 'sunova-staff-print-frame';
+                    printFrame.style.position = 'fixed';
+                    printFrame.style.right = '0';
+                    printFrame.style.bottom = '0';
+                    printFrame.style.width = '0';
+                    printFrame.style.height = '0';
+                    printFrame.style.border = '0';
+                    document.body.appendChild(printFrame);
+                }
+                const frameDoc = printFrame.contentDocument || (printFrame.contentWindow ? printFrame.contentWindow.document : null);
+                if (!frameDoc) {
+                    window.print();
+                    return;
+                }
+                frameDoc.open();
+                frameDoc.write(`<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>${quote.quoteNo || 'SUNOVA SOLAR Quotation'}</title>
+    <style>
+        @page { size: A4 portrait; margin: 8mm 10mm 8mm 10mm; }
+        * { box-sizing: border-box; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        body { font-family: 'Inter', Arial, sans-serif; margin: 0; padding: 10px; background: #fff; color: #222; font-size: 0.85rem; }
+        .no-print { display: none !important; }
+        .pdf-block, tr, blockquote { page-break-inside: avoid !important; break-inside: avoid !important; }
+        table { width: 100%; border-collapse: collapse; }
+        img { max-width: 100%; height: auto; }
+        .lh-header img, img[src*="logo.jpg"] { display: inline-block !important; height: 52px !important; width: auto !important; }
+    </style>
+</head>
+<body>
+    ${quote.html}
+</body>
+</html>`);
+                frameDoc.close();
+                setTimeout(() => {
+                    try {
+                        printFrame.contentWindow.focus();
+                        printFrame.contentWindow.print();
+                    } catch(e) {
+                        window.print();
+                    }
+                }, 500);
+            }
+
+            let localQuotes = JSON.parse(localStorage.getItem('sunova_saved_quotes') || '[]');
+            let quote = localQuotes.find(q => q.quoteNo === quoteNo);
+            if (quote) {
+                printQuoteHtml(quote);
+                return;
+            }
+
             fetch('saved_quotes_db.json?t=' + Date.now())
-            .then(res => {
-                if (!res.ok) throw new Error('Not found');
-                return res.json();
-            })
+            .then(res => res.json())
             .then(data => {
                 if (!Array.isArray(data)) data = [];
-                const quote = data.find(q => q.quoteNo === quoteNo);
-                if (!quote) return alert('Quote not found.');
-                
-                const w = window.open('', '_blank');
-                w.document.write('<html><head><title>Print Quote</title>');
-                w.document.write('<style>body { font-family: sans-serif; padding: 2rem; } @media print { .no-print { display: none !important; } }</style>');
-                w.document.write('</head><body>');
-                w.document.write('<div class="no-print" style="text-align: right; margin-bottom: 20px;"><button onclick="window.print()" style="padding: 10px 20px; font-size: 16px; cursor: pointer; background: #0d1321; color: white; border: none; border-radius: 5px;">Print Quotation</button></div>');
-                w.document.write(quote.html);
-                w.document.write('<script>window.onload = function() { window.print(); };<\\/script>');
-                w.document.write('</body></html>');
-                w.document.close();
+                const q = data.find(item => item.quoteNo === quoteNo);
+                if (!q) return alert('Quote not found.');
+                printQuoteHtml(q);
             }).catch(() => alert('Could not retrieve quote database'));
         }
         

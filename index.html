@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,7 +6,13 @@
     <title>SUNOVA SOLAR LLP | Premium Solar Solutions Across Kerala</title>
     <meta name="description" content="Sunova Solar LLP is Thodupuzha's leading solar system installation and service provider. Specialized in premium residential and commercial rooftop solar. Estimate your savings with our interactive solar calculator.">
     <meta name="keywords" content="solar installation Kerala, rooftop solar Thodupuzha, Sunova Solar, solar panels Idukki, solar subsidy PM Surya Ghar, solar company Kerala">
-    <meta name="author" content="Sunova Solar LLP">
+    <!-- PWA & Mobile Web App Meta Tags -->
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="assets/logo.jpg">
+    <link rel="apple-touch-icon" href="assets/logo.jpg">
+    <link rel="manifest" href="manifest.json">
     <link rel="canonical" href="https://sunovasolar.in">
     
     <!-- Open Graph / Facebook -->
@@ -25,7 +31,7 @@
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="style.css?v=5.0">
+    <link rel="stylesheet" href="style.css?v=9.7">
 </head>
 <body class="dark-theme">
     <!-- Header/Navigation -->
@@ -85,7 +91,7 @@
                         <path d="M12 15V17M17 11V7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7V11M5 11H19C20.1046 11 21 11.8954 21 13V20C21 21.1046 20.1046 22 19 22H5C3.89543 22 3 21.1046 3 20V13C3 11.8954 3.89543 11 5 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </a>
-                <a href="#contact" class="cta-btn primary-btn" id="btn-quick-calc" style="background: var(--color-sun-yellow); color: #0d1321; border-color: var(--color-sun-yellow); font-weight: 700;">Get Quotation</a>
+                <a href="#contact-form-container" onclick="if(typeof scrollToContactForm==='function'){ scrollToContactForm(); }" class="cta-btn primary-btn" id="btn-quick-calc" style="background: var(--color-sun-yellow); color: #0d1321; border-color: var(--color-sun-yellow); font-weight: 700;">Get Quotation</a>
                 <button class="hamburger" id="hamburger" aria-label="Open menu">
                     <span class="bar"></span>
                     <span class="bar"></span>
@@ -123,7 +129,7 @@
                 </div>
                 <div class="hero-buttons" style="margin-bottom: 1.5rem;">
                     <a href="#calculator" class="cta-btn primary-btn" id="btn-hero-calc">Calculate Savings</a>
-                    <a href="#contact" class="cta-btn green-btn" id="btn-hero-contact">Get Free Quotation</a>
+                    <a href="#contact-form-container" onclick="if(typeof scrollToContactForm==='function'){ scrollToContactForm(); }" class="cta-btn green-btn" id="btn-hero-contact">Get Free Quotation</a>
                 </div>
                 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; font-size: 0.86rem; font-weight: 600; color: var(--color-text-muted); margin-top: 0.5rem;">
                     <span>✨ 25-Year Peace-of-Mind Care</span>
@@ -1041,9 +1047,9 @@
 
                     <!-- Instant Referral Program Cash Earnings Card -->
                     <div class="glass-card text-center" style="padding: 1.25rem; border: 1.5px solid var(--color-sun-yellow); border-radius: 16px; margin-top: 1.25rem; text-align: center;">
-                        <span class="badge" style="background: var(--color-sun-yellow); color: #0d1321; font-weight: 700; font-size: 0.76rem; padding: 0.25rem 0.65rem; border-radius: 20px;">🎁 Instant Referral Cash Program</span>
+                        <span class="badge" style="background: var(--color-sun-yellow); color: #0d1321; font-weight: 700; font-size: 0.76rem; padding: 0.25rem 0.65rem; border-radius: 20px;">🌼 Festive Referral Bonus</span>
                         <h4 style="font-size: 1.15rem; margin-top: 0.6rem; margin-bottom: 0.3rem; color: var(--color-text);">Share Sunshine. Earn Cash Rewards!</h4>
-                        <p style="font-size: 0.8rem; color: var(--color-text-muted); margin-bottom: 1rem;">Refer your friends or relatives in Kerala to switch to solar with Sunova and earn <strong>₹5,000 cash bonus</strong> per successful installation.</p>
+                        <p style="font-size: 0.8rem; color: var(--color-text-muted); margin-bottom: 1rem;">Special Onam Offer: Earn <strong style="color: #10b981;">₹10,000 Cashback*</strong> on your 1st successful referral installation in Kerala!</p>
                         
                         <!-- Interactive Referral Slider -->
                         <div style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; margin-bottom: 1rem; text-align: left;">
@@ -1053,9 +1059,9 @@
                             </div>
                             <input type="range" id="referral-slider" min="1" max="10" value="3" step="1" oninput="updateReferralCalculator(this.value)" style="width: 100%; accent-color: #10b981; cursor: pointer;">
                             <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--color-text-muted); margin-top: 0.3rem;">
-                                <span>1 Friend (₹5,000)</span>
-                                <span>5 Friends (₹25,000)</span>
-                                <span>10 Friends (₹50,000)</span>
+                                <span>1st Referral (₹10,000*)</span>
+                                <span>5 Friends (₹30,000)</span>
+                                <span>10 Friends (₹55,000)</span>
                             </div>
                         </div>
                         
@@ -1206,18 +1212,37 @@
                         * Approx. Installation Cost may change based on selected panel and structure.*
                     </div>
 
-                    <div class="calc-action-btn">
-                        <a href="#contact" class="cta-btn primary-btn full-width text-center" onclick="transferCalculatorDetails()">Book Site Survey</a>
+                    <div class="calc-action-btn" style="display: flex; flex-direction: column; gap: 0.6rem;">
+                        <!-- Festive Celebration Offer Pill -->
+                        <div style="background: linear-gradient(135deg, rgba(255, 183, 3, 0.15) 0%, rgba(16, 185, 129, 0.12) 100%); border: 1px solid var(--color-sun-yellow); border-radius: 10px; padding: 0.65rem 0.85rem; margin-bottom: 0.4rem; text-align: left; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap;">
+                            <div style="display: flex; align-items: center; gap: 0.4rem;">
+                                <span style="font-size: 1.1rem;">🌼</span>
+                                <span style="font-size: 0.78rem; font-weight: 700; color: var(--color-text);">Onam Special: Extra ₹10,000 Cashback* on 1st Referral!</span>
+                            </div>
+                            <span style="font-size: 0.68rem; color: var(--color-sun-yellow); font-weight: 700; background: rgba(0,0,0,0.3); padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(255, 183, 3, 0.4);">Code: ONAM2026</span>
+                        </div>
+
+                        <a href="#contact-form-container" class="cta-btn primary-btn full-width text-center" onclick="if(typeof scrollToContactForm==='function'){ scrollToContactForm(); } else if(typeof transferCalculatorDetails==='function'){ transferCalculatorDetails(); }">Book Free Site Survey</a>
+                        
+                        <div class="instant-quote-actions">
+                            <button type="button" class="whatsapp-quote-btn" onclick="sendCalculatedQuoteToWhatsApp()">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.725 1.45 5.568 0 10.103-4.52 10.106-10.073.002-2.69-1.04-5.216-2.93-7.11C16.562 1.528 14.045.485 11.993.485c-5.57 0-10.107 4.519-10.11 10.073-.001 1.93.528 3.81 1.53 5.466l-1.002 3.662 3.75-.983c1.557.85 3.125 1.246 4.486 1.246zm11.758-7.85c-.3-.15-1.77-.872-2.046-.972-.275-.1-.475-.15-.675.15-.2.3-.775.972-.95 1.173-.175.2-.35.225-.65.075-.3-.15-1.265-.467-2.41-1.485-.89-.795-1.49-1.778-1.665-2.078-.175-.3-.018-.462.13-.61.135-.133.3-.35.45-.525.15-.175.2-.3.3-.5s.05-.375-.025-.525C9.07 6.4 8.4 4.755 8.125 4.09c-.267-.643-.54-.543-.738-.553-.19-.01-.41-.012-.628-.012-.22 0-.575.083-.875.408-.3.325-1.15 1.125-1.15 2.742s1.175 3.175 1.34 3.4c.165.225 2.3 3.513 5.58 4.937.78.337 1.387.538 1.86.688.784.249 1.497.214 2.062.13.629-.094 1.77-.722 2.02-1.417.25-.695.25-1.293.175-1.417-.075-.124-.275-.2-.575-.35z"/></svg>
+                                <span>WhatsApp Quote</span>
+                            </button>
+                            <button type="button" class="pdf-quote-btn" onclick="generateInstantPDFProposal()">
+                                <span>📄 PDF Estimate</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- GET A QUOTE Feasibility & Quote Request Form -->
+            <!-- CONTACT & ADDRESS Quote Inquiry Form -->
             <div class="contact-form-wrapper scroll-reveal-right" id="contact" style="max-width: 900px; margin: 2.5rem auto 0;">
-                <div class="glass-card contact-card" style="padding: 2rem;">
+                <div class="glass-card contact-card" id="contact-form-container" style="padding: 2rem;">
                     <div style="margin-bottom: 1.5rem; text-align: center;">
-                        <span class="sub-title" style="font-size: 0.8rem; letter-spacing: 1.5px; color: var(--color-sun-yellow); font-weight: 800;">GET A QUOTE</span>
-                        <h3 style="font-size: 1.6rem; margin-top: 0.35rem; margin-bottom: 0.4rem; color: var(--color-text);">Feasibility &amp; Quote Request</h3>
+                        <span class="sub-title" style="font-size: 0.8rem; letter-spacing: 1.5px; color: var(--color-sun-yellow); font-weight: 800;">CONTACT &amp; ADDRESS</span>
+                        <h3 style="font-size: 1.6rem; margin-top: 0.35rem; margin-bottom: 0.4rem; color: var(--color-text);">Contact &amp; Solar Quote Inquiry</h3>
                         <p style="font-size: 0.88rem; color: var(--color-text-muted);">Fill out the form below to receive a customized design layout proposal for your rooftop.</p>
                     </div>
                     
@@ -1479,6 +1504,128 @@
 
 
 
+
+    <!-- Interactive Rooftop Solar & Energy Flow Visualizer -->
+    <section class="section-padding" id="visualizer" style="background: var(--color-bg-alt); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
+        <div class="container">
+            <div class="section-header text-center scroll-reveal">
+                <span class="sub-title">INTERACTIVE SIMULATOR</span>
+                <h2 class="section-title">Kerala Rooftop Solar &amp; Energy Flow Visualizer</h2>
+                <div class="title-line"></div>
+                <p class="section-desc">See how custom solar engineering transforms sunshine into zero-bill power for your specific roof style.</p>
+            </div>
+
+            <div class="roof-visualizer-container scroll-reveal">
+                <div class="roof-selector-tabs">
+                    <button type="button" class="roof-tab-btn active" onclick="switchRoofVisualizer('slanted', this)">🏡 Kerala Slanted Tile Roof</button>
+                    <button type="button" class="roof-tab-btn" onclick="switchRoofVisualizer('flat', this)">🏢 Flat Concrete Terrace</button>
+                    <button type="button" class="roof-tab-btn" onclick="switchRoofVisualizer('truss', this)">🏗️ Elevated Truss Structure</button>
+                </div>
+
+                <div class="roof-canvas-box" id="roof-canvas-area">
+                    <div class="flow-nodes-row">
+                        <div class="flow-node-item">
+                            <div class="flow-node-icon" style="border-color: #ffb703;">☀️</div>
+                            <div class="flow-node-label">Solar Sunshine</div>
+                            <div class="flow-node-sub" id="sim-sun-status">Peak Day Irradiance</div>
+                        </div>
+                        <div class="flow-arrow-animated">➔</div>
+                        <div class="flow-node-item">
+                            <div class="flow-node-icon" style="border-color: #3b82f6;">⚡</div>
+                            <div class="flow-node-label" id="sim-roof-label">TOPCon Panels (6 Nos)</div>
+                            <div class="flow-node-sub" id="sim-panel-type">Slanted Clamp Mounted</div>
+                        </div>
+                        <div class="flow-arrow-animated">➔</div>
+                        <div class="flow-node-item">
+                            <div class="flow-node-icon" style="border-color: #10b981;">🔄</div>
+                            <div class="flow-node-label">Smart Inverter</div>
+                            <div class="flow-node-sub">DC to AC Conversion</div>
+                        </div>
+                        <div class="flow-arrow-animated">➔</div>
+                        <div class="flow-node-item">
+                            <div class="flow-node-icon" style="border-color: #8b5cf6;">🏡</div>
+                            <div class="flow-node-label">Home Appliances</div>
+                            <div class="flow-node-sub">100% Free Green Power</div>
+                        </div>
+                        <div class="flow-arrow-animated">➔</div>
+                        <div class="flow-node-item">
+                            <div class="flow-node-icon" style="border-color: #ec4899;">🔌</div>
+                            <div class="flow-node-label">KSEB Net Meter</div>
+                            <div class="flow-node-sub">Export Surplus Units</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 2rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; font-size: 0.85rem; color: var(--color-text);">
+                        <span style="background: var(--color-surface); padding: 0.4rem 1rem; border-radius: 20px; border: 1px solid var(--color-border);" id="sim-capacity-badge">⚡ Estimated Generation: <strong>480 Units/Mo</strong></span>
+                        <span style="background: var(--color-surface); padding: 0.4rem 1rem; border-radius: 20px; border: 1px solid var(--color-border);" id="sim-structure-badge">🛡️ Wind Load Resistance: <strong>160 km/h Tested</strong></span>
+                        <span style="background: var(--color-surface); padding: 0.4rem 1rem; border-radius: 20px; border: 1px solid var(--color-border);" id="sim-protection-badge">🌱 Waterproof Seal: <strong>100% Zero Leakage</strong></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kerala Monsoon & District Solar Yield Simulator -->
+    <section class="section-padding" id="monsoon-simulator">
+        <div class="container">
+            <div class="section-header text-center scroll-reveal">
+                <span class="sub-title">ALL 14 DISTRICTS CLIMATE ADAPTATION</span>
+                <h2 class="section-title">Kerala Monsoon &amp; District Solar Yield Simulator</h2>
+                <div class="title-line"></div>
+                <p class="section-desc">Does solar generate in heavy Kerala rains? Yes! Our N-Type TOPCon &amp; Bi-facial panels harvest diffuse cloud radiation all year.</p>
+            </div>
+
+            <div class="monsoon-sim-card scroll-reveal">
+                <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--color-border);">
+                    <div>
+                        <h3 style="font-size: 1.25rem; color: var(--color-text); margin-bottom: 0.3rem;">Select Your District for Live Seasonal Modeling:</h3>
+                        <p style="font-size: 0.82rem; color: var(--color-text-muted);">Calibrated with NASA SSE &amp; MNRE Kerala Solar Radiation Data.</p>
+                    </div>
+                    <select id="district-sim-select" onchange="updateDistrictYieldSim(this.value)" style="background: var(--color-bg-alt); color: var(--color-text); border: 1.5px solid var(--color-sun-yellow); border-radius: 12px; padding: 0.65rem 1.2rem; font-weight: 700; font-size: 0.95rem; cursor: pointer; outline: none;">
+                        <option value="Idukki" selected>Idukki (Highland &amp; Valley)</option>
+                        <option value="Ernakulam">Ernakulam (Coastal &amp; Urban)</option>
+                        <option value="Thiruvananthapuram">Thiruvananthapuram (Capital)</option>
+                        <option value="Kottayam">Kottayam (Central)</option>
+                        <option value="Thrissur">Thrissur (Cultural Hub)</option>
+                        <option value="Palakkad">Palakkad (High Sun Exposure)</option>
+                        <option value="Kozhikode">Kozhikode (Malabar Coast)</option>
+                        <option value="Kannur">Kannur (North Malabar)</option>
+                        <option value="Alappuzha">Alappuzha (Coastal Plains)</option>
+                        <option value="Kollam">Kollam (South Coast)</option>
+                        <option value="Pathanamthitta">Pathanamthitta (Midlands)</option>
+                        <option value="Malappuram">Malappuram (Hills &amp; Plains)</option>
+                        <option value="Wayanad">Wayanad (Mist &amp; High Altitude)</option>
+                        <option value="Kasaragod">Kasaragod (Northern Boundary)</option>
+                    </select>
+                </div>
+
+                <div class="district-yield-grid">
+                    <div class="yield-season-box">
+                        <div class="yield-season-icon">☀️</div>
+                        <div class="yield-season-title">Sunny Summer (Jan – May)</div>
+                        <div class="yield-kwh-val" id="yield-summer-val">5.2 kWh / kWp</div>
+                        <p style="font-size: 0.78rem; color: var(--color-text-muted);">Peak daily solar harvesting across rooftops.</p>
+                    </div>
+                    <div class="yield-season-box" style="border-color: rgba(59, 130, 246, 0.4);">
+                        <div class="yield-season-icon">🌧️</div>
+                        <div class="yield-season-title">Kerala Monsoon (Jun – Aug)</div>
+                        <div class="yield-kwh-val" style="color: #60a5fa;" id="yield-monsoon-val">3.4 kWh / kWp</div>
+                        <p style="font-size: 0.78rem; color: var(--color-text-muted);">Continuous diffuse light capture even in heavy rains.</p>
+                    </div>
+                    <div class="yield-season-box" style="border-color: rgba(16, 185, 129, 0.4);">
+                        <div class="yield-season-icon">🌤️</div>
+                        <div class="yield-season-title">Post-Monsoon (Sep – Dec)</div>
+                        <div class="yield-kwh-val" style="color: #10b981;" id="yield-autumn-val">4.7 kWh / kWp</div>
+                        <p style="font-size: 0.78rem; color: var(--color-text-muted);">Balanced autumn generation with crystal-clear skies.</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1.5rem; background: rgba(255, 183, 3, 0.08); border-radius: 12px; padding: 1rem 1.25rem; font-size: 0.82rem; color: var(--color-text); line-height: 1.5;">
+                    💡 <strong>Monsoon Assurance:</strong> Over an entire 365-day year in Kerala, on-grid rooftop solar delivers surplus units banked directly into the KSEB grid during bright sunny months, easily balancing out cloudy periods for a net zero bill year-round!
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- VIP Sunova Quality Guarantee Section -->
     <section class="vip-guarantee-section scroll-reveal" style="padding: 4.5rem 0; position: relative;">
@@ -2348,8 +2495,8 @@
 
 
 
-    <!-- Contact & Address Section -->
-    <section class="projects-section" id="address">
+    <!-- Head Office & Service Locations Section -->
+    <section class="projects-section" id="offices">
         <div class="container">
             <div class="section-header scroll-reveal">
                 <span class="sub-title">CONTACT &amp; ADDRESS</span>
@@ -2376,7 +2523,7 @@
                     </div>
                     <p class="loc-address">
                         <a href="https://maps.app.goo.gl/TM2CL3Bm2DiKtuNY8" target="_blank" rel="noopener" class="maps-address-link" title="Open in Google Maps">
-                            Regd Office :- 8/93 Aathickal Arcade, Vengalloor - Mangattukavala Bypass Road, Thodupuzha, <strong>Idukki District</strong>, Kerala - 685608.
+                            Regd Office :- 8/93 Aathickal Arcade, Vengalloor - Mangattukavala Bypass Road, Thodupuzha, <strong>Idukki District</strong>, Kerala - 685605.
                         </a>
                     </p>
                     <div class="loc-meta">
@@ -2465,7 +2612,7 @@
                 <a href="#services">Our Services</a>
                 <a href="#calculator">Solar Calculator</a>
                 <a href="#about">About LLP</a>
-                <a href="#contact">Offices &amp; Inquiries</a>
+                <a href="#offices">Offices &amp; Locations</a>
                 <a href="login.html">🔒 Staff Portal</a>
                 <a href="partner-portal.html">🤝 Partner Portal</a>
                 <a href="https://mail.hostinger.com/" target="_blank">✉️ Sunova Mail</a>
@@ -2473,7 +2620,7 @@
 
             <div class="footer-contact">
                 <h4>Contact Details</h4>
-                <p>📍 <strong>Office &amp; Outlet:</strong> <a href="https://maps.app.goo.gl/TM2CL3Bm2DiKtuNY8" target="_blank" rel="noopener" class="footer-maps-link" title="Open in Google Maps">Regd Office :- 8/93 Aathickal Arcade, Vengalloor - Mangattukavala Bypass, Thodupuzha, <strong>Idukki District</strong> - 685608</a></p>
+                <p>📍 <strong>Office &amp; Outlet:</strong> <a href="https://maps.app.goo.gl/TM2CL3Bm2DiKtuNY8" target="_blank" rel="noopener" class="footer-maps-link" title="Open in Google Maps">Regd Office :- 8/93 Aathickal Arcade, Vengalloor - Mangattukavala Bypass, Thodupuzha, <strong>Idukki District</strong> - 685605</a></p>
                 <p>📞 <strong>Phone:</strong> <a href="tel:+919072522277">+91 90725 22277</a></p>
                 <p>💬 <strong>WhatsApp:</strong> <a href="https://wa.me/919072522277?text=Hi%20Sunova%20Solar,%20I'm%20interested%20in%20a%20solar%20system%20installation." target="_blank" rel="noopener">Chat with Us (+91 90725 22277)</a></p>
                 <p>✉️ <strong>Email:</strong> <a href="mailto:info@sunovasolar.in">info@sunovasolar.in</a></p>
@@ -2654,25 +2801,63 @@
             renderMainDistrictDealers('All');
         });
     </script>
-    <!-- Live Social Proof Notification Toast with Integrated Instant Solar Inquiry WhatsApp Button -->
-    <div id="social-proof-toast" class="social-proof-toast" style="position: fixed; bottom: 25px; left: 25px; z-index: 9999; display: flex; align-items: center; gap: 0.75rem; background: var(--color-surface-opaque); border: 2px solid var(--color-sun-yellow); padding: 0.65rem 1.1rem; border-radius: 50px; box-shadow: 0 12px 35px rgba(0,0,0,0.35); backdrop-filter: blur(20px); transition: opacity 0.5s ease, transform 0.5s ease, left 0.5s ease, right 0.5s ease; opacity: 0; transform: translateY(30px); pointer-events: auto;">
-        <!-- Circular Avatar Icon Badge -->
-        <div class="toast-icon-badge" style="width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #ffb703, #fb8500); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0; box-shadow: 0 0 16px rgba(255, 183, 3, 0.6); border: 2px solid #ffffff;">⚡</div>
-        <div style="line-height: 1.3;">
-            <div id="toast-title" style="font-size: 0.8rem; font-weight: 800; color: var(--color-text); white-space: nowrap;">⚡ Live Activity in Kerala</div>
-            <div id="toast-desc" style="font-size: 0.74rem; color: var(--color-text-muted); white-space: nowrap;">Mr. Thomas from Kochi requested 5 kWp quote</div>
+    <!-- Floating Live Activity Social Proof Continuous Scrolling Marquee Ticker Bar -->
+    <div id="social-proof-ticker-bar" class="social-proof-ticker-bar">
+        <div class="ticker-label-badge">
+            <span style="font-size: 0.9rem;">⚡</span>
+            <span>LIVE KERALA UPDATES</span>
         </div>
-        <a href="https://wa.me/919072522277?text=Hello%20Sunova%20Solar!%20I%20would%20like%20a%20free%20rooftop%20solar%20consultation%20and%20%E2%82%B978,000%20subsidy%20inquiry." target="_blank" rel="noopener" class="radar-pulse-pin toast-inquiry-btn" style="background: #25d366; color: #ffffff; padding: 0.45rem 0.95rem; border-radius: 25px; text-decoration: none; font-weight: 700; font-size: 0.78rem; display: flex; align-items: center; gap: 0.35rem; white-space: nowrap; box-shadow: 0 4px 14px rgba(37, 211, 102, 0.4); margin-left: 0.4rem; transition: transform 0.15s ease;" title="Instant Solar Inquiry on WhatsApp">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-            </svg>
-            <span>Instant Inquiry</span>
-        </a>
-        <button type="button" onclick="dismissSocialToast()" style="background: transparent; border: none; color: var(--color-text-subtle); cursor: pointer; font-size: 0.95rem; padding: 0 0.2rem; margin-left: 0.1rem;" aria-label="Close notification">✕</button>
-        <!-- Real-Time Countdown Progress Bar -->
-        <div id="toast-progress-bar" class="toast-progress-bar"></div>
+        <div id="ticker-scroll-container" style="flex: 1; overflow: hidden; position: relative;">
+            <div id="ticker-scroll-track" class="ticker-scroll-track">
+                <!-- Auto-populated by app.js with live solar activity chips -->
+            </div>
+        </div>
+        <button type="button" onclick="dismissSocialTickerBar()" style="background: transparent; border: none; color: var(--color-text-subtle); cursor: pointer; font-size: 1.1rem; padding: 0 0.8rem; z-index: 5;" title="Close Live Ticker">✕</button>
     </div>
 
-    <script src="app.js?v=5.0"></script>
+    <!-- Printable Quotation Modal Overlay for Website Calculator & Inquiry -->
+    <div id="quote-modal-overlay" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 20000; overflow-y: auto; display: flex; justify-content: center; align-items: flex-start; padding: 2rem 1rem;">
+        <div style="background: #ffffff; color: #0d1321; border: 1px solid #cbd5e1; width: 100%; max-width: 880px; border-radius: 12px; padding: 2rem; box-shadow: 0 10px 40px rgba(0,0,0,0.4); position: relative; text-align: left;" id="printable-quote-content">
+            
+            <!-- STICKY Floating Top Actions Bar (Always Visible on Preview) -->
+            <div class="no-print" style="position: sticky; top: -2rem; z-index: 1000; background: #ffffff; padding: 0.8rem 1rem; margin: -2rem -2rem 1.5rem -2rem; border-bottom: 2px solid #047857; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-top-left-radius: 12px; border-top-right-radius: 12px; flex-wrap: wrap; gap: 0.6rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-size: 1.3rem;">📄</span>
+                    <h3 style="margin: 0; color: #0d1321; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.05rem;">Solar Proposal Document Preview</h3>
+                </div>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
+                    <button type="button" onclick="printWebsiteProposal()" style="background: #10b981; color: #ffffff; border: none; border-radius: 6px; padding: 0.55rem 1.1rem; font-weight: 800; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35); transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                        🖨️ Print Quotation
+                    </button>
+                    <button type="button" onclick="printWebsiteProposal()" style="background: #2563eb; color: #ffffff; border: none; border-radius: 6px; padding: 0.55rem 1rem; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                        💾 Save PDF
+                    </button>
+                    <button type="button" onclick="closeWebsiteQuoteModal()" style="background: #ef4444; color: #ffffff; border: none; border-radius: 6px; padding: 0.55rem 1rem; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                        ✕ Close
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Quotation Template Contents -->
+            <div id="quote-render-area">
+                <!-- Dynamically Injected Quote Layout -->
+            </div>
+
+            <!-- Bottom Action Buttons (Always Visible at End of Preview) -->
+            <div class="no-print" style="margin-top: 2rem; padding-top: 1.2rem; border-top: 2px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 0.75rem; flex-wrap: wrap;">
+                <button type="button" onclick="printWebsiteProposal()" style="background: #10b981; color: #ffffff; border: none; border-radius: 8px; padding: 0.65rem 1.4rem; font-weight: 800; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+                    🖨️ Print Quotation
+                </button>
+                <button type="button" onclick="printWebsiteProposal()" style="background: #2563eb; color: #ffffff; border: none; border-radius: 8px; padding: 0.65rem 1.2rem; font-weight: 700; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+                    💾 Save PDF
+                </button>
+                <button type="button" onclick="closeWebsiteQuoteModal()" style="background: #64748b; color: #ffffff; border: none; border-radius: 8px; padding: 0.65rem 1.2rem; font-weight: 700; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+                    ✕ Close Preview
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js?v=9.7"></script>
 </body>
 </html>

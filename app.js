@@ -56,6 +56,20 @@ const DEALERS = [
     { code: "KSD-SURE", name: "Suresh Kumar", area: "Balamthode", district: "Kasaragod", phone: "9946960604", lat: 12.4552137, lon: 75.3089981, kseb: "Balamthode" }
 ];
 
+// Merge custom created partners from Admin Management Portal
+try {
+    const customDealersApp = JSON.parse(localStorage.getItem('custom_dealers_list') || '[]');
+    const existingCodesApp = new Set(DEALERS.map(d => d.code));
+    customDealersApp.forEach(cd => {
+        if (!existingCodesApp.has(cd.code)) {
+            DEALERS.push(cd);
+        } else {
+            const idx = DEALERS.findIndex(d => d.code === cd.code);
+            if (idx !== -1) DEALERS[idx] = cd;
+        }
+    });
+} catch (e) {}
+
 // --- DOM elements ---
 const body = document.body;
 const themeToggleBtn = document.getElementById('theme-toggle');
@@ -474,10 +488,26 @@ function resetCapacityToCalculated() {
 
 // Transfer sizing info to form and scroll down smoothly
 function scrollToContactForm() {
-    transferCalculatorDetails();
-    const contactSec = document.getElementById('contact');
+    if (typeof transferCalculatorDetails === 'function') {
+        try { transferCalculatorDetails(); } catch(e) {}
+    }
+    const contactSec = document.getElementById('contact-form-container') || document.getElementById('contact-form') || document.getElementById('contact');
     if (contactSec) {
-        contactSec.scrollIntoView({ behavior: 'smooth' });
+        contactSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const card = contactSec.querySelector('.contact-card') || contactSec;
+        if (card) {
+            card.style.transition = 'box-shadow 0.4s ease, border-color 0.4s ease';
+            card.style.boxShadow = '0 0 35px rgba(255, 183, 3, 0.45)';
+            card.style.borderColor = 'var(--color-sun-yellow)';
+            setTimeout(() => {
+                card.style.boxShadow = '';
+                card.style.borderColor = '';
+            }, 2000);
+        }
+        const firstInput = document.getElementById('form-name');
+        if (firstInput) {
+            setTimeout(() => { firstInput.focus({ preventScroll: true }); }, 600);
+        }
     }
 }
 
@@ -5531,26 +5561,54 @@ function handleFormSubmit(event) {
         console.warn('[Server Mailer] Offline fallback:', err);
     });
 
-    // 4. Build success feedback detailing the assigned partner
+    // Save submission data globally for direct printing
+    lastSubmittedInquiry = {
+        name: name,
+        phone: phone,
+        district: district,
+        location: location,
+        capacity: capacity,
+        connection: connection,
+        roofType: roofType,
+        consumerNo: consumerNo,
+        dealer: dealer
+    };
+
+    // 4. Build success feedback detailing the assigned partner with direct Print & Close buttons
     const successMessage = `
-        <strong>Submission Successful!</strong><br>
-        Thank you, ${name.toUpperCase()}. Your quote request has been registered in our portal.<br><br>
-        <strong>Details Provided:</strong><br>
-        • District: ${district}<br>
-        • KSEB Section: ${location}<br><br>
-        <strong>Matched Authorized Partner:</strong><br>
-        👤 <strong>Partner Name:</strong> ${dealer.name}<br>
-        📍 <strong>Service Area:</strong> ${dealer.area} (${dealer.district})<br>
-        📞 <strong>Contact Phone:</strong> <a href="tel:+91${dealer.phone}" style="color:var(--color-sun-yellow); font-weight:bold;">+91 ${dealer.phone}</a><br>
-        <br>
-        <strong>WhatsApp Copies:</strong><br>
-        Click below to send a copy of your details on WhatsApp directly:<br>
-        <div class="success-wa-buttons">
-            <a href="${waPartnerUrl}" target="_blank" class="wa-btn-success partner-wa-btn">💬 Chat with Partner</a>
-            <a href="${waOfficeUrl}" target="_blank" class="wa-btn-success office-wa-btn">🏢 Chat with Head Office</a>
+        <div style="text-align: left; position: relative;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(16, 185, 129, 0.2); padding-bottom: 0.6rem; margin-bottom: 0.8rem;">
+                <div style="font-size: 1.15rem; font-weight: 800; color: #10b981; display: flex; align-items: center; gap: 0.4rem; margin: 0;">
+                    ✅ Submission Successful!
+                </div>
+                <button type="button" onclick="closeFormFeedback()" style="background: rgba(255,255,255,0.08); border: 1px solid var(--color-border); color: var(--color-text-muted); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer; line-height: 1; transition: all 0.15s;" onmouseover="this.style.color='#fff'; this.style.borderColor='#fff'" onmouseout="this.style.color='var(--color-text-muted)'; this.style.borderColor='var(--color-border)'" title="Close confirmation">&times;</button>
+            </div>
+
+            Thank you, <strong>${name.toUpperCase()}</strong>. Your solar quote request has been registered in our portal.<br><br>
+            
+            <div style="background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 10px; padding: 0.9rem; margin-bottom: 1rem;">
+                <strong>Matched Authorized Partner:</strong><br>
+                👤 <strong>Partner:</strong> ${dealer.name}<br>
+                📍 <strong>Service Territory:</strong> ${dealer.area} (${dealer.district})<br>
+                📞 <strong>Direct Phone:</strong> <a href="tel:+91${dealer.phone}" style="color:var(--color-sun-yellow); font-weight:bold;">+91 ${dealer.phone}</a>
+            </div>
+
+            <!-- Action Buttons: Print & Close -->
+            <div style="margin: 1.2rem 0; display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; align-items: center;">
+                <button type="button" onclick="printSubmittedContactQuote()" style="background: linear-gradient(135deg, #ffb703 0%, #10b981 100%); color: #0d1321; border: none; font-size: 0.9rem; font-weight: 800; padding: 0.75rem 1.4rem; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.45rem; box-shadow: 0 4px 16px rgba(255, 183, 3, 0.4); transition: transform 0.15s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+                    🖨️ Print Quotation / Save PDF
+                </button>
+                <button type="button" onclick="closeFormFeedback()" style="background: rgba(255,255,255,0.1); border: 1px solid var(--color-border); color: var(--color-text); font-size: 0.85rem; font-weight: 600; padding: 0.75rem 1.2rem; border-radius: 8px; cursor: pointer; transition: background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
+                    ✕ Close
+                </button>
+            </div>
+
+            <strong>WhatsApp Direct Copies:</strong><br>
+            <div class="success-wa-buttons" style="margin-top: 0.5rem;">
+                <a href="${waPartnerUrl}" target="_blank" class="wa-btn-success partner-wa-btn">💬 Chat with Partner</a>
+                <a href="${waOfficeUrl}" target="_blank" class="wa-btn-success office-wa-btn">🏢 Chat with Head Office</a>
+            </div>
         </div>
-        <br>
-        <em>Automatically opening partner WhatsApp chat in 3 seconds...</em>
     `;
     showFormFeedback(successMessage, 'success');
     
@@ -5578,6 +5636,13 @@ function handleFormSubmit(event) {
     document.getElementById('form-message').value = '';
 }
 
+function closeFormFeedback() {
+    if (formFeedback) {
+        formFeedback.classList.add('hidden');
+        formFeedback.innerHTML = '';
+    }
+}
+
 function showFormFeedback(msg, type) {
     formFeedback.innerHTML = msg;
     formFeedback.className = 'form-feedback'; // reset
@@ -5593,6 +5658,162 @@ function showFormFeedback(msg, type) {
     }
     
     formFeedback.classList.remove('hidden');
+}
+
+// Standalone Print Engine for Website Contact Inquiries
+function printSubmittedContactQuote() {
+    if (!lastSubmittedInquiry) {
+        alert("No active submission found. Please submit your inquiry details first.");
+        return;
+    }
+
+    const inq = lastSubmittedInquiry;
+    const dateStr = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+    const quoteNo = `SUN/EST/${Date.now().toString().slice(-6)}`;
+    
+    const capacityVal = parseFloat(inq.capacity) || 3;
+    let basePrice = capacityVal * 64000;
+    if (capacityVal === 1) basePrice = 75000;
+    else if (capacityVal === 2) basePrice = 145000;
+    else if (capacityVal === 3) basePrice = 195000;
+    else if (capacityVal === 4) basePrice = 250000;
+    else if (capacityVal === 5) basePrice = 295000;
+
+    let subsidy = 0;
+    if (capacityVal === 1) subsidy = 33000;
+    else if (capacityVal === 2) subsidy = 66000;
+    else if (capacityVal >= 3) subsidy = 78000;
+
+    const netTotal = basePrice - subsidy;
+
+    const quoteHtml = `
+        <div style="font-family: 'Inter', Arial, sans-serif; color: #222; max-width: 850px; margin: 0 auto; background: #fff; padding: 2.2rem; box-sizing: border-box; font-size: 0.85rem; line-height: 1.5; border: 1px solid #cbd5e1;">
+            <header style="width: 100%; border-bottom: 2px solid #047857; padding-bottom: 12px; margin-bottom: 16px;">
+                <div style="height: 4px; background: linear-gradient(90deg, #047857 0%, #f59e0b 100%); margin-bottom: 0.8rem; border-radius: 2px;"></div>
+                <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                    <div style="display: flex; align-items: center; gap: 14px;">
+                        <img src="assets/logo.jpg" style="height: 52px; width: auto; object-fit: contain; border-radius: 4px;" alt="SUNOVA SOLAR Logo" onerror="this.style.display='none'">
+                        <div>
+                            <h2 style="font-size: 1.4rem; font-weight: 800; color: #047857; text-transform: uppercase; margin: 0;">SUNOVA SOLAR LLP</h2>
+                            <p style="font-size: 0.72rem; font-weight: 700; color: #f59e0b; margin: 2px 0 0 0;">Engineering &bull; Procurement &bull; Commissioning &bull; KSEB Soura</p>
+                            <p style="font-size: 0.65rem; color: #64748b; margin: 1px 0 0 0;">LLPIN: ACX-7067 &bull; RoC Ernakulam &bull; Thodupuzha, Kerala - 685605</p>
+                        </div>
+                    </div>
+                    <div style="text-align: right; font-size: 0.74rem; color: #1e293b; line-height: 1.4;">
+                        <div>Helpline: <strong style="color: #047857;">+91 90725 22277</strong></div>
+                        <div style="color: #64748b;">info@sunovasolar.in</div>
+                        <div style="color: #047857; font-weight: 600;">https://sunovasolar.in</div>
+                    </div>
+                </div>
+            </header>
+
+            <div style="background: #f0fdf4; border-left: 4px solid #16a34a; padding: 0.75rem 1rem; margin-bottom: 1.2rem; display: flex; justify-content: space-between; align-items: center; border-radius: 4px;">
+                <div>
+                    <h3 style="margin: 0; color: #15803d; font-size: 1.1rem;">SOLAR ROOFTOP ESTIMATE &amp; SUBSIDY SUMMARY</h3>
+                    <span style="font-size: 0.75rem; color: #475569;">Ref Estimate: <strong>${quoteNo}</strong> &bull; Date: <strong>${dateStr}</strong></span>
+                </div>
+                <div>
+                    <span style="background: #15803d; color: #fff; padding: 0.35rem 0.75rem; border-radius: 4px; font-weight: 700; font-size: 0.78rem;">${capacityVal} kWp On-Grid Solar</span>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.2rem; background: #f8fafc; padding: 1rem; border-radius: 6px; border: 1px solid #e2e8f0;">
+                <div>
+                    <h4 style="margin: 0 0 0.3rem 0; color: #0d1321; font-size: 0.88rem;">👤 APPLICANT DETAILS:</h4>
+                    <strong>Customer Name:</strong> ${inq.name.toUpperCase()}<br>
+                    <strong>Contact Phone:</strong> +91 ${inq.phone}<br>
+                    <strong>District / Section:</strong> ${inq.district} &bull; ${inq.location || inq.district}<br>
+                    ${inq.consumerNo ? `<strong>KSEB Consumer No:</strong> ${inq.consumerNo}<br>` : ''}
+                </div>
+                <div>
+                    <h4 style="margin: 0 0 0.3rem 0; color: #0d1321; font-size: 0.88rem;">🏢 ASSIGNED CHANNEL PARTNER:</h4>
+                    <strong>Partner:</strong> ${inq.dealer ? inq.dealer.name : 'Authorized Sunova Partner'}<br>
+                    <strong>Territory:</strong> ${inq.dealer ? inq.dealer.area : inq.district} (${inq.district})<br>
+                    <strong>Partner Phone:</strong> +91 ${inq.dealer ? inq.dealer.phone : '9072522277'}<br>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 1.2rem;">
+                <h4 style="margin: 0 0 0.5rem 0; color: #0d1321; font-size: 0.88rem;">💰 ESTIMATED SYSTEM INVESTMENT &amp; CENTRAL SUBSIDY:</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.82rem;">
+                    <tr style="background: #f1f5f9; border-bottom: 2px solid #cbd5e1;">
+                        <th style="padding: 0.55rem; text-align: left;">Scope &amp; Equipment</th>
+                        <th style="padding: 0.55rem; text-align: right;">Amount</th>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 0.55rem;">${capacityVal} kWp Complete Grid-Tied Solar Plant (Tier-1 DCR ALMM Modules + High Efficiency Inverter + HDG Structure + KSEB Net Metering Testing)</td>
+                        <td style="padding: 0.55rem; text-align: right; font-weight: 600;">₹ ${basePrice.toLocaleString('en-IN')}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0; color: #15803d; font-weight: 700;">
+                        <td style="padding: 0.55rem;">PM Surya Ghar Muft Bijli Yojana Central Govt Direct Subsidy (DBT)</td>
+                        <td style="padding: 0.55rem; text-align: right;">- ₹ ${subsidy.toLocaleString('en-IN')}</td>
+                    </tr>
+                    <tr style="background: #f8fafc; font-weight: 800; font-size: 0.92rem; border-top: 2px solid #cbd5e1;">
+                        <td style="padding: 0.65rem; color: #047857;">Estimated Net Customer Investment</td>
+                        <td style="padding: 0.65rem; text-align: right; color: #047857;">₹ ${netTotal.toLocaleString('en-IN')}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div style="background: #fffbeb; border: 1px solid #fef3c7; border-radius: 6px; padding: 0.75rem; font-size: 0.76rem; color: #92400e; margin-bottom: 1.2rem;">
+                <strong>⚡ Key Warranties Included:</strong> 25-Year Linear Power Output Warranty on Solar Modules &bull; 10-Year Full Warranty on Solar Inverter &bull; 5-Year Comprehensive Workmanship &amp; Free Maintenance.
+            </div>
+
+            <footer style="width: 100%; padding-top: 8px; border-top: 1px solid #cbd5e1; font-size: 0.68rem; color: #64748b;">
+                <div style="display: flex; justify-content: space-between;">
+                    <div><strong>SUNOVA SOLAR LLP:</strong> 8/93 Aathickal Arcade, Vengalloor Bypass, Thodupuzha, Kerala - 685605.</div>
+                    <div style="text-align: right;">Official Registered Partner Network</div>
+                </div>
+            </footer>
+        </div>
+    `;
+
+    let printFrame = document.getElementById('sunova-submission-print-frame');
+    if (!printFrame) {
+        printFrame = document.createElement('iframe');
+        printFrame.id = 'sunova-submission-print-frame';
+        printFrame.style.position = 'fixed';
+        printFrame.style.right = '0';
+        printFrame.style.bottom = '0';
+        printFrame.style.width = '0';
+        printFrame.style.height = '0';
+        printFrame.style.border = '0';
+        document.body.appendChild(printFrame);
+    }
+
+    const frameDoc = printFrame.contentDocument || (printFrame.contentWindow ? printFrame.contentWindow.document : null);
+    if (!frameDoc) {
+        window.print();
+        return;
+    }
+
+    frameDoc.open();
+    frameDoc.write(`<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SUNOVA SOLAR Proposal - ${inq.name}</title>
+    <style>
+        @page { size: A4 portrait; margin: 8mm 10mm 8mm 10mm; }
+        * { box-sizing: border-box; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        body { font-family: 'Inter', Arial, sans-serif; margin: 0; padding: 10px; background: #fff; color: #222; }
+    </style>
+</head>
+<body>
+    ${quoteHtml}
+</body>
+</html>`);
+    frameDoc.close();
+
+    setTimeout(() => {
+        try {
+            printFrame.contentWindow.focus();
+            printFrame.contentWindow.print();
+        } catch(e) {
+            console.warn('Iframe print error fallback:', e);
+            window.print();
+        }
+    }, 400);
 }
 
 // Initialize on page load
@@ -6175,24 +6396,70 @@ function resetKSEBBillUpload() {
     if (statusEl) statusEl.classList.add('hidden');
 }
 
-// PDF text extractor via PDF.js
+// PDF text extractor via PDF.js with local/worker-less fallback & OCR support
 async function parseKSEBPdf(file) {
     const arrayBuffer = await file.arrayBuffer();
     if (typeof pdfjsLib === 'undefined') {
-        throw new Error("PDF parsing library is still initializing. Please wait a moment and try again.");
+        throw new Error("PDF parser is initializing. Please wait a moment and try again.");
     }
-    if (!pdfjsLib.GlobalWorkerOptions.workerSrc) {
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    
+    try {
+        if (pdfjsLib.GlobalWorkerOptions) {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        }
+    } catch(e) {}
+
+    let pdf = null;
+    try {
+        // First try standard getDocument
+        pdf = await pdfjsLib.getDocument({ 
+            data: arrayBuffer,
+            isEvalSupported: false
+        }).promise;
+    } catch (workerErr) {
+        console.warn("Worker-based PDF load failed, attempting fallback:", workerErr);
+        // Fallback with worker disabled (handles file:// and sandbox restrictions)
+        try {
+            if (pdfjsLib.GlobalWorkerOptions) {
+                pdfjsLib.GlobalWorkerOptions.workerSrc = '';
+            }
+            pdf = await pdfjsLib.getDocument({ 
+                data: arrayBuffer, 
+                disableWorker: true,
+                isEvalSupported: false 
+            }).promise;
+        } catch(fallbackErr) {
+            console.error("PDF loading error:", fallbackErr);
+            throw new Error("Could not parse this PDF file. If it is a scanned image, please upload it as JPG/PNG.");
+        }
     }
 
-    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
     let fullText = "";
-
     for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-        const page = await pdf.getPage(pageNum);
-        const textContent = await page.getTextContent();
-        const pageText = textContent.items.map(item => item.str).join(" ");
-        fullText += pageText + "\n";
+        try {
+            const page = await pdf.getPage(pageNum);
+            const textContent = await page.getTextContent();
+            const pageText = textContent.items.map(item => item.str).join(" ");
+            fullText += pageText + "\n";
+        } catch(pageErr) {
+            console.warn(`Error reading page ${pageNum}:`, pageErr);
+        }
+    }
+
+    // If PDF contains no selectable text (scanned PDF), attempt OCR via Tesseract
+    if (!fullText || fullText.trim().length < 10) {
+        if (typeof Tesseract !== 'undefined') {
+            try {
+                const worker = await Tesseract.createWorker('eng');
+                const ret = await worker.recognize(file);
+                await worker.terminate();
+                if (ret && ret.data && ret.data.text) {
+                    fullText = ret.data.text;
+                }
+            } catch(ocrErr) {
+                console.warn("OCR fallback failed:", ocrErr);
+            }
+        }
     }
 
     return fullText;
@@ -6548,8 +6815,17 @@ let mixedSocialEventsCache = [];
 let socialToastIndex = 0;
 let socialToastTimer = null;
 
-function getSocialProofEvents() {
-    if (mixedSocialEventsCache.length > 0) return mixedSocialEventsCache;
+function shuffleArray(arr) {
+    const array = [...arr];
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function getSocialProofEvents(forceRefresh = false) {
+    if (!forceRefresh && mixedSocialEventsCache.length > 0) return mixedSocialEventsCache;
 
     if (typeof DEALERS === 'undefined' || !DEALERS || !DEALERS.length) {
         return HAPPY_CUSTOMER_EVENTS;
@@ -6561,20 +6837,27 @@ function getSocialProofEvents() {
         "Completed KSEB Net-Metering installation & inspection",
         "Delivered zero electricity bill savings for residential site",
         "Scheduled free on-site rooftop feasibility survey",
-        "Dispatched customized 8 kWp Hybrid Solar Quotation"
+        "Dispatched customized 8 kWp Hybrid Solar Quotation",
+        "Installed 10 kWp Commercial Solar System with battery storage",
+        "Submitted KSEB Solar Portal application & feasibility report",
+        "Commissioned 3 kWp PM Surya Ghar residential solar plant"
     ];
 
     const timeList = [
-        "3 mins ago", "7 mins ago", "12 mins ago", "18 mins ago", 
-        "25 mins ago", "34 mins ago", "46 mins ago", "1 hr ago"
+        "2 mins ago", "5 mins ago", "8 mins ago", "14 mins ago", 
+        "19 mins ago", "27 mins ago", "35 mins ago", "42 mins ago", "58 mins ago", "1 hr ago"
     ];
 
-    const partnerEvents = DEALERS.map((dealer, idx) => {
-        const action = actionTemplates[idx % actionTemplates.length];
-        const time = timeList[idx % timeList.length];
+    // Randomly shuffle authorized channel partners and customer stories for continuous fresh ticker content
+    const shuffledDealers = shuffleArray(DEALERS);
+    const shuffledCustomers = shuffleArray(HAPPY_CUSTOMER_EVENTS);
+
+    const partnerEvents = shuffledDealers.map((dealer) => {
+        const randomAction = actionTemplates[Math.floor(Math.random() * actionTemplates.length)];
+        const randomTime = timeList[Math.floor(Math.random() * timeList.length)];
         return {
             title: `⚡ ${dealer.name} (+91 ${dealer.phone})`,
-            desc: `📍 Partner in ${dealer.area}, ${dealer.district} • ${action} • ${time}`,
+            desc: `📍 Partner in ${dealer.area}, ${dealer.district} • ${randomAction} • ${randomTime}`,
             phone: dealer.phone,
             name: dealer.name,
             area: dealer.area,
@@ -6591,7 +6874,7 @@ function getSocialProofEvents() {
         mixed.push(partnerEvt);
         // Interleave a Happy Customer story after every 2 partner events
         if ((idx + 1) % 2 === 0) {
-            mixed.push(HAPPY_CUSTOMER_EVENTS[custIdx % HAPPY_CUSTOMER_EVENTS.length]);
+            mixed.push(shuffledCustomers[custIdx % shuffledCustomers.length]);
             custIdx++;
         }
     });
@@ -6635,14 +6918,19 @@ function showNextSocialToast() {
             }
         }
 
-        // Vary toast screen location: alternate between bottom-left and bottom-right
+        // Vary toast screen location on desktop; center-fit spanning on mobile
         toastLocationToggle = !toastLocationToggle;
-        if (toastLocationToggle) {
-            toast.style.left = '25px';
-            toast.style.right = 'auto';
+        if (window.innerWidth > 576) {
+            if (toastLocationToggle) {
+                toast.style.left = '25px';
+                toast.style.right = 'auto';
+            } else {
+                toast.style.right = '25px';
+                toast.style.left = 'auto';
+            }
         } else {
-            toast.style.right = '25px';
-            toast.style.left = 'auto';
+            toast.style.left = '10px';
+            toast.style.right = '10px';
         }
 
         // Vary circular badge avatar icon based on activity event type
@@ -6669,17 +6957,45 @@ function showNextSocialToast() {
     }, 550);
 }
 
-function dismissSocialToast() {
-    const toast = document.getElementById('social-proof-toast');
-    if (toast) toast.style.display = 'none';
-    if (socialToastTimer) clearInterval(socialToastTimer);
+function initSocialProofTickerBar() {
+    const track = document.getElementById('ticker-scroll-track');
+    if (!track) return;
+
+    // Force fresh randomized shuffle of partner events & live activities
+    const events = getSocialProofEvents(true);
+    if (!events || !events.length) return;
+
+    // Generate chips HTML for all live Kerala solar activity events
+    const itemsHTML = events.map(evt => {
+        const waLink = (evt.isPartner && evt.phone)
+            ? `https://wa.me/91${evt.phone}?text=${encodeURIComponent(`Hi ${evt.name}! I saw your update on Sunova Solar website. I'd like a solar quote for my site in ${evt.area}, ${evt.district}.`)}`
+            : `https://wa.me/919072522277?text=${encodeURIComponent(`Hello Sunova Solar! I would like a free rooftop solar consultation and ₹78,000 subsidy inquiry.`)}`;
+
+        return `
+            <a href="${waLink}" target="_blank" rel="noopener" class="ticker-item-chip" style="text-decoration: none;">
+                <span style="font-size: 0.95rem;">${evt.isPartner ? '📍' : '☀️'}</span>
+                <strong class="ticker-title">${evt.title}:</strong>
+                <span class="ticker-desc">${evt.desc}</span>
+                <span style="background: #25d366; color: #ffffff; padding: 0.15rem 0.45rem; border-radius: 10px; font-size: 0.68rem; font-weight: 700; margin-left: 0.3rem;">💬 Chat</span>
+            </a>
+        `;
+    }).join('');
+
+    // Duplicate track items twice for seamless 100% infinite marquee loop
+    track.innerHTML = itemsHTML + itemsHTML;
+}
+
+function dismissSocialTickerBar() {
+    const bar = document.getElementById('social-proof-ticker-bar');
+    if (bar) bar.style.display = 'none';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-        showNextSocialToast();
-        socialToastTimer = setInterval(showNextSocialToast, 6500);
-    }, 2500);
+    initSocialProofTickerBar();
+    // Periodically refresh randomized partner details & activities in scrolling ticker
+    setInterval(() => {
+        initSocialProofTickerBar();
+    }, 50000);
 });
 
 // --- Interactive Hero Typing Headline Effect ---
@@ -6826,7 +7142,7 @@ const KERALA_FESTIVALS = [
         startDate: "2026-08-01",
         endDate: "2026-09-15",
         badge: "🌼 ONAM FESTIVAL SOLAR BUMPER 🌼",
-        title: "Celebrate Onam with 0 Electricity Bills & Extra ₹10,000 Onam Cash Cashback!",
+        title: "Celebrate Onam with 0 Electricity Bills & Extra ₹10,000 Onam Cashback*!",
         desc: "Avail Central PM Surya Ghar Subsidy (up to ₹78,000) + Onam Festive Gift & Free 3D Rooftop CAD Design for your home in Kerala.",
         promoCode: "ONAM2026",
         emoji: "🌾🌼👑"
@@ -6849,7 +7165,7 @@ const KERALA_FESTIVALS = [
         endDate: "2026-08-30",
         badge: "🌙 MILAD-E-SHERIF SOLAR MUBARAK 🌙",
         title: "Milad-e-Sherif Mubarak! Celebrate with Zero Electricity Bills!",
-        desc: "Special Milad Mubarak Solar Cashback + Central PM Surya Ghar Subsidy (up to ₹78,000) & 25 Years Performance Warranty.",
+        desc: "Special Milad Mubarak Solar Cashback* + Central PM Surya Ghar Subsidy (up to ₹78,000) & 25 Years Performance Warranty.",
         promoCode: "MILAD2026",
         emoji: "🌙✨🕌"
     },
@@ -6904,7 +7220,7 @@ const KERALA_FESTIVALS = [
         endDate: "2027-05-28",
         badge: "🌙 EID-UL-ADHA (BAKRID) SOLAR MUBARAK 🌙",
         title: "Eid Mubarak! Celebrate Eid-ul-Adha with Lifetime Green Solar Power!",
-        desc: "Special Eid Blessing Cashback + Free On-Grid / Hybrid Battery Storage Upgrade Option for Kerala Homes.",
+        desc: "Special Eid Blessing Cashback* + Free On-Grid / Hybrid Battery Storage Upgrade Option for Kerala Homes.",
         promoCode: "BAKRIDEID2027",
         emoji: "🌙✨🕌"
     }
@@ -6957,8 +7273,11 @@ function initFestivalOfferEngine() {
                     💬 Claim Festival Offer on WhatsApp
                 </a>
                 <span style="font-size: 0.76rem; color: var(--color-text-subtle); font-family: monospace; background: rgba(255, 183, 3, 0.12); padding: 0.3rem 0.6rem; border-radius: 6px; border: 1px dashed var(--color-sun-yellow);">
-                    Promo Code: <strong>${activeFest.promoCode}</strong>
+                    PROMO: <strong>${activeFest.promoCode}</strong>
                 </span>
+            </div>
+            <div style="font-size: 0.72rem; color: var(--color-text-muted); margin-top: 0.6rem; font-style: italic; border-top: 1px dashed rgba(255, 183, 3, 0.25); padding-top: 0.4rem;">
+                *Conditions on Cashback: Cashback reward is valid and credited directly to customer's account upon your 1st successful referral installation.
             </div>
         </div>
     `;
@@ -6967,5 +7286,346 @@ function initFestivalOfferEngine() {
 // Automatically trigger on page load
 document.addEventListener('DOMContentLoaded', () => {
     initFestivalOfferEngine();
+    updateLiveDashboardDate();
 });
+
+// --- Enterprise i360 Sidebar & Dashboard Controls ---
+function toggleEnterpriseSidebar() {
+    const sidebar = document.getElementById('portal-sidebar-nav') || document.getElementById('staff-sidebar-nav');
+    if (sidebar) {
+        sidebar.classList.toggle('expanded');
+    }
+}
+
+function updateLiveDashboardDate() {
+    const now = new Date();
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    
+    const dayName = days[now.getDay()];
+    const dateNum = now.getDate();
+    const monthName = months[now.getMonth()];
+    const yearNum = now.getFullYear();
+
+    const formattedDate = `Today is ${dayName}, ${dateNum} ${monthName} ${yearNum}`;
+    
+    const pDate = document.getElementById('live-dashboard-date');
+    const sDate = document.getElementById('staff-live-dashboard-date');
+    
+    if (pDate) pDate.textContent = formattedDate;
+    if (sDate) sDate.textContent = formattedDate;
+}
+
+function openAdminPartners() {
+    const panel = document.getElementById('admin-management-panel');
+    if (panel) {
+        panel.classList.remove('hidden');
+        if (typeof switchAdminTab === 'function') switchAdminTab('partners');
+        panel.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+function openAdminStaff() {
+    const panel = document.getElementById('admin-management-panel');
+    if (panel) {
+        panel.classList.remove('hidden');
+        if (typeof switchAdminTab === 'function') switchAdminTab('staff');
+        panel.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+function openInquiriesSection() {
+    const sec = document.getElementById('live-inquiries-log-section');
+    if (sec) {
+        sec.classList.remove('hidden');
+        sec.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+function openSavedQuotesSection() {
+    const sec = document.getElementById('global-saved-quotes-section');
+    if (sec) {
+        sec.classList.remove('hidden');
+        sec.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+function openPricingRulesSection() {
+    const sec = document.getElementById('admin-pricing-csv-box');
+    if (sec) {
+        sec.classList.remove('hidden');
+        sec.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+/* ==========================================================================
+   Special Features Logic: Roof Visualizer, Monsoon Sim, WhatsApp/PDF Quote & AI Assistant
+   ========================================================================== */
+
+// 1. Roof Visualizer Switcher
+function switchRoofVisualizer(roofType, btnElem) {
+    document.querySelectorAll('.roof-tab-btn').forEach(b => b.classList.remove('active'));
+    if (btnElem) btnElem.classList.add('active');
+
+    const roofLabel = document.getElementById('sim-roof-label');
+    const panelType = document.getElementById('sim-panel-type');
+    const structureBadge = document.getElementById('sim-structure-badge');
+    const protectionBadge = document.getElementById('sim-protection-badge');
+
+    if (roofType === 'slanted') {
+        if (roofLabel) roofLabel.textContent = 'TOPCon Panels (6 Nos)';
+        if (panelType) panelType.textContent = 'Slanted Tile Non-Penetrative Clamps';
+        if (structureBadge) structureBadge.innerHTML = '🛡️ Wind Load: <strong>160 km/h Rated</strong>';
+        if (protectionBadge) protectionBadge.innerHTML = '🌱 Waterproof: <strong>100% Zero Leakage</strong>';
+    } else if (roofType === 'flat') {
+        if (roofLabel) roofLabel.textContent = 'Elevated Solar Array (6-10 Nos)';
+        if (panelType) panelType.textContent = 'HDG Standard Leg Mounting (15° Tilt)';
+        if (structureBadge) structureBadge.innerHTML = '🛡️ Ballast / Chemical Anchor: <strong>Heavy Duty</strong>';
+        if (protectionBadge) protectionBadge.innerHTML = '🚶 Rooftop Walkway: <strong>Full Usable Terrace Space</strong>';
+    } else if (roofType === 'truss') {
+        if (roofLabel) roofLabel.textContent = 'Elevated Truss Canopy Array';
+        if (panelType) panelType.textContent = 'Structural GI Pipe Elevation (7-9 ft)';
+        if (structureBadge) structureBadge.innerHTML = '🛡️ High Clearance: <strong>Car Porch / Terrace Roof</strong>';
+        if (protectionBadge) protectionBadge.innerHTML = '☔ Full Rain Protection: <strong>Heavy-Gauge GI</strong>';
+    }
+}
+
+// 2. Kerala District Monsoon & Solar Yield Simulator
+const districtYieldData = {
+    'Idukki': { summer: '5.2', monsoon: '3.4', autumn: '4.7' },
+    'Ernakulam': { summer: '5.4', monsoon: '3.6', autumn: '4.9' },
+    'Thiruvananthapuram': { summer: '5.5', monsoon: '3.8', autumn: '5.0' },
+    'Kottayam': { summer: '5.3', monsoon: '3.5', autumn: '4.8' },
+    'Thrissur': { summer: '5.4', monsoon: '3.6', autumn: '4.9' },
+    'Palakkad': { summer: '5.8', monsoon: '3.9', autumn: '5.2' },
+    'Kozhikode': { summer: '5.3', monsoon: '3.3', autumn: '4.8' },
+    'Kannur': { summer: '5.4', monsoon: '3.4', autumn: '4.8' },
+    'Alappuzha': { summer: '5.5', monsoon: '3.7', autumn: '5.0' },
+    'Kollam': { summer: '5.4', monsoon: '3.6', autumn: '4.9' },
+    'Pathanamthitta': { summer: '5.2', monsoon: '3.3', autumn: '4.7' },
+    'Malappuram': { summer: '5.3', monsoon: '3.4', autumn: '4.8' },
+    'Wayanad': { summer: '4.9', monsoon: '3.1', autumn: '4.5' },
+    'Kasaragod': { summer: '5.4', monsoon: '3.3', autumn: '4.8' }
+};
+
+function updateDistrictYieldSim(district) {
+    const data = districtYieldData[district] || { summer: '5.3', monsoon: '3.5', autumn: '4.8' };
+    const sElem = document.getElementById('yield-summer-val');
+    const mElem = document.getElementById('yield-monsoon-val');
+    const aElem = document.getElementById('yield-autumn-val');
+
+    if (sElem) sElem.textContent = `${data.summer} kWh / kWp`;
+    if (mElem) mElem.textContent = `${data.monsoon} kWh / kWp`;
+    if (aElem) aElem.textContent = `${data.autumn} kWh / kWp`;
+}
+
+// 3. Instant WhatsApp Quote Dispatcher
+function sendCalculatedQuoteToWhatsApp() {
+    const cap = document.getElementById('out-size') ? document.getElementById('out-size').value : '3.0';
+    const cost = document.getElementById('out-cost') ? document.getElementById('out-cost').textContent : '2,40,000';
+    const sub = document.getElementById('out-subsidy') ? document.getElementById('out-subsidy').textContent : '78,000';
+    const net = document.getElementById('out-net-cost') ? document.getElementById('out-net-cost').textContent : '1,62,000';
+    const sav = document.getElementById('out-savings') ? document.getElementById('out-savings').textContent : '38,400';
+    const brand = document.getElementById('calc-panel-brand') ? (document.getElementById('calc-panel-brand').options[document.getElementById('calc-panel-brand').selectedIndex]?.text || 'Tier-1 TOPCon') : 'Tier-1';
+
+    const text = `☀️ *Sunova Solar - Instant Solar Quotation Estimate* ☀️%0A%0A` +
+        `• *System Capacity:* ${cap} kWp On-Grid%0A` +
+        `• *Panel Brand:* ${brand} Mono TOPCon%0A` +
+        `• *Total Estimated Cost:* ₹${cost}%0A` +
+        `• *PM Surya Ghar Subsidy:* -₹${sub}%0A` +
+        `• *Net Effective Investment:* ₹${net}%0A` +
+        `• *Estimated Yearly KSEB Savings:* ₹${sav}/year%0A%0A` +
+        `Please schedule a free rooftop site inspection and KSEB feasibility verification.`;
+
+    window.open(`https://wa.me/919072522277?text=${text}`, '_blank');
+}
+
+// 4. Instant PDF / Printable Proposal Preview & Print Engine
+let currentWebsiteQuoteHtml = "";
+
+function generateInstantPDFProposal() {
+    const name = (document.getElementById('form-name')?.value || 'VALUED CUSTOMER').toUpperCase();
+    const phone = document.getElementById('form-phone')?.value || '9072522277';
+    const district = document.getElementById('form-district')?.value || 'Alappuzha';
+    const location = document.getElementById('form-location')?.value || district;
+    const capacityVal = parseFloat(document.getElementById('calc-capacity')?.textContent || document.getElementById('form-size')?.value || '3') || 3;
+    const dateStr = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+    const quoteNo = `SUN/EST/${Date.now().toString().slice(-6)}`;
+
+    let basePrice = capacityVal * 64000;
+    if (capacityVal === 1) basePrice = 75000;
+    else if (capacityVal === 2) basePrice = 145000;
+    else if (capacityVal === 3) basePrice = 195000;
+    else if (capacityVal === 4) basePrice = 250000;
+    else if (capacityVal === 5) basePrice = 295000;
+
+    let subsidy = 0;
+    if (capacityVal === 1) subsidy = 33000;
+    else if (capacityVal === 2) subsidy = 66000;
+    else if (capacityVal >= 3) subsidy = 78000;
+
+    const netTotal = basePrice - subsidy;
+
+    currentWebsiteQuoteHtml = `
+        <div style="font-family: 'Inter', Arial, sans-serif; color: #222; max-width: 850px; margin: 0 auto; background: #fff; padding: 2.2rem; box-sizing: border-box; font-size: 0.85rem; line-height: 1.5; border: 1px solid #cbd5e1;">
+            <header style="width: 100%; border-bottom: 2px solid #047857; padding-bottom: 12px; margin-bottom: 16px;">
+                <div style="height: 4px; background: linear-gradient(90deg, #047857 0%, #f59e0b 100%); margin-bottom: 0.8rem; border-radius: 2px;"></div>
+                <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                    <div style="display: flex; align-items: center; gap: 14px;">
+                        <img src="assets/logo.jpg" style="height: 52px; width: auto; object-fit: contain; border-radius: 4px;" alt="SUNOVA SOLAR Logo" onerror="this.style.display='none'">
+                        <div>
+                            <h2 style="font-size: 1.4rem; font-weight: 800; color: #047857; text-transform: uppercase; margin: 0;">SUNOVA SOLAR LLP</h2>
+                            <p style="font-size: 0.72rem; font-weight: 700; color: #f59e0b; margin: 2px 0 0 0;">Engineering &bull; Procurement &bull; Commissioning &bull; KSEB Soura</p>
+                            <p style="font-size: 0.65rem; color: #64748b; margin: 1px 0 0 0;">LLPIN: ACX-7067 &bull; RoC Ernakulam &bull; Thodupuzha, Kerala - 685605</p>
+                        </div>
+                    </div>
+                    <div style="text-align: right; font-size: 0.74rem; color: #1e293b; line-height: 1.4;">
+                        <div>Helpline: <strong style="color: #047857;">+91 90725 22277</strong></div>
+                        <div style="color: #64748b;">info@sunovasolar.in</div>
+                        <div style="color: #047857; font-weight: 600;">https://sunovasolar.in</div>
+                    </div>
+                </div>
+            </header>
+
+            <div style="background: #f0fdf4; border-left: 4px solid #16a34a; padding: 0.75rem 1rem; margin-bottom: 1.2rem; display: flex; justify-content: space-between; align-items: center; border-radius: 4px;">
+                <div>
+                    <h3 style="margin: 0; color: #15803d; font-size: 1.1rem;">SOLAR ROOFTOP ESTIMATE &amp; SUBSIDY SUMMARY</h3>
+                    <span style="font-size: 0.75rem; color: #475569;">Ref Estimate: <strong>${quoteNo}</strong> &bull; Date: <strong>${dateStr}</strong></span>
+                </div>
+                <div>
+                    <span style="background: #15803d; color: #fff; padding: 0.35rem 0.75rem; border-radius: 4px; font-weight: 700; font-size: 0.78rem;">${capacityVal} kWp On-Grid Solar</span>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.2rem; background: #f8fafc; padding: 1rem; border-radius: 6px; border: 1px solid #e2e8f0;">
+                <div>
+                    <h4 style="margin: 0 0 0.3rem 0; color: #0d1321; font-size: 0.88rem;">👤 APPLICANT DETAILS:</h4>
+                    <strong>Customer Name:</strong> ${name}<br>
+                    <strong>Contact Phone:</strong> +91 ${phone}<br>
+                    <strong>District / Section:</strong> ${district} &bull; ${location}<br>
+                </div>
+                <div>
+                    <h4 style="margin: 0 0 0.3rem 0; color: #0d1321; font-size: 0.88rem;">🏢 AUTHORIZED NETWORK:</h4>
+                    <strong>Company:</strong> SUNOVA SOLAR LLP<br>
+                    <strong>Service Area:</strong> ${district} District, Kerala<br>
+                    <strong>Helpline:</strong> +91 90725 22277<br>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 1.2rem;">
+                <h4 style="margin: 0 0 0.5rem 0; color: #0d1321; font-size: 0.88rem;">💰 ESTIMATED SYSTEM INVESTMENT &amp; CENTRAL SUBSIDY:</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.82rem;">
+                    <tr style="background: #f1f5f9; border-bottom: 2px solid #cbd5e1;">
+                        <th style="padding: 0.55rem; text-align: left;">Scope &amp; Equipment</th>
+                        <th style="padding: 0.55rem; text-align: right;">Amount</th>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 0.55rem;">${capacityVal} kWp Complete Grid-Tied Solar Plant (Tier-1 DCR ALMM Modules + High Efficiency Inverter + HDG Structure + KSEB Net Metering Testing)</td>
+                        <td style="padding: 0.55rem; text-align: right; font-weight: 600;">₹ ${basePrice.toLocaleString('en-IN')}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0; color: #15803d; font-weight: 700;">
+                        <td style="padding: 0.55rem;">PM Surya Ghar Muft Bijli Yojana Central Govt Direct Subsidy (DBT)</td>
+                        <td style="padding: 0.55rem; text-align: right;">- ₹ ${subsidy.toLocaleString('en-IN')}</td>
+                    </tr>
+                    <tr style="background: #f8fafc; font-weight: 800; font-size: 0.92rem; border-top: 2px solid #cbd5e1;">
+                        <td style="padding: 0.65rem; color: #047857;">Estimated Net Customer Investment</td>
+                        <td style="padding: 0.65rem; text-align: right; color: #047857;">₹ ${netTotal.toLocaleString('en-IN')}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div style="background: #fffbeb; border: 1px solid #fef3c7; border-radius: 6px; padding: 0.75rem; font-size: 0.76rem; color: #92400e; margin-bottom: 1.2rem;">
+                <strong>⚡ Key Warranties Included:</strong> 25-Year Linear Power Output Warranty on Solar Modules &bull; 10-Year Full Warranty on Solar Inverter &bull; 5-Year Comprehensive Workmanship &amp; Free Maintenance.
+            </div>
+
+            <footer style="width: 100%; padding-top: 8px; border-top: 1px solid #cbd5e1; font-size: 0.68rem; color: #64748b;">
+                <div style="display: flex; justify-content: space-between;">
+                    <div><strong>SUNOVA SOLAR LLP:</strong> 8/93 Aathickal Arcade, Vengalloor Bypass, Thodupuzha, Kerala - 685605.</div>
+                    <div style="text-align: right;">Official Registered Partner Network</div>
+                </div>
+            </footer>
+        </div>
+    `;
+
+    const renderArea = document.getElementById('quote-render-area');
+    if (renderArea) {
+        renderArea.innerHTML = currentWebsiteQuoteHtml;
+    }
+    const modal = document.getElementById('quote-modal-overlay');
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.scrollTop = 0;
+    }
+}
+
+function closeWebsiteQuoteModal() {
+    const modal = document.getElementById('quote-modal-overlay');
+    if (modal) {
+        modal.classList.add('hidden');
+    }
+}
+
+function printWebsiteProposal() {
+    let htmlContent = currentWebsiteQuoteHtml;
+    if (!htmlContent) {
+        const renderArea = document.getElementById('quote-render-area');
+        if (renderArea && renderArea.innerHTML.trim()) {
+            htmlContent = renderArea.innerHTML;
+        }
+    }
+
+    if (!htmlContent) {
+        alert("Please generate a proposal first.");
+        return;
+    }
+
+    let printFrame = document.getElementById('sunova-website-print-frame');
+    if (!printFrame) {
+        printFrame = document.createElement('iframe');
+        printFrame.id = 'sunova-website-print-frame';
+        printFrame.style.position = 'fixed';
+        printFrame.style.right = '0';
+        printFrame.style.bottom = '0';
+        printFrame.style.width = '0';
+        printFrame.style.height = '0';
+        printFrame.style.border = '0';
+        document.body.appendChild(printFrame);
+    }
+
+    const frameDoc = printFrame.contentDocument || (printFrame.contentWindow ? printFrame.contentWindow.document : null);
+    if (!frameDoc) {
+        window.print();
+        return;
+    }
+
+    frameDoc.open();
+    frameDoc.write(`<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SUNOVA SOLAR Estimate Proposal</title>
+    <style>
+        @page { size: A4 portrait; margin: 8mm 10mm 8mm 10mm; }
+        * { box-sizing: border-box; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        body { font-family: 'Inter', Arial, sans-serif; margin: 0; padding: 10px; background: #fff; color: #222; }
+    </style>
+</head>
+<body>
+    ${htmlContent}
+</body>
+</html>`);
+    frameDoc.close();
+
+    setTimeout(() => {
+        try {
+            printFrame.contentWindow.focus();
+            printFrame.contentWindow.print();
+        } catch(e) {
+            console.warn('Iframe print error fallback:', e);
+            window.print();
+        }
+    }, 400);
+}
+
+
 
