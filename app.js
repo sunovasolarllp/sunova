@@ -7139,8 +7139,8 @@ const KERALA_FESTIVALS = [
     {
         id: "onam-2026",
         name: "Thiruvonam Solar Bumper 2026",
-        startDate: "2026-08-01",
-        endDate: "2026-09-15",
+        startDate: "2026-08-16",
+        endDate: "2026-09-05",
         badge: "🌼 ONAM FESTIVAL SOLAR BUMPER 🌼",
         title: "Celebrate Onam with 0 Electricity Bills & Extra ₹10,000 Onam Cashback*!",
         desc: "Avail Central PM Surya Ghar Subsidy (up to ₹78,000) + Onam Festive Gift & Free 3D Rooftop CAD Design for your home in Kerala.",
@@ -7150,8 +7150,8 @@ const KERALA_FESTIVALS = [
     {
         id: "ind-day-2026",
         name: "Independence Energy Freedom Fest",
-        startDate: "2026-08-10",
-        endDate: "2026-08-17",
+        startDate: "2026-08-05",
+        endDate: "2026-08-25",
         badge: "🇮🇳 ENERGY FREEDOM FEST 🇮🇳",
         title: "79th Independence Day Energy Freedom Offer!",
         desc: "Enjoy Zero Electricity Anxiety with 0% Interest Solar Bank Financing across SBI, Canara Bank & Federal Bank.",
@@ -7161,8 +7161,8 @@ const KERALA_FESTIVALS = [
     {
         id: "eid-milad-2026",
         name: "Milad-e-Sherif Solar Mubarak 2026",
-        startDate: "2026-08-20",
-        endDate: "2026-08-30",
+        startDate: "2026-08-16",
+        endDate: "2026-09-05",
         badge: "🌙 MILAD-E-SHERIF SOLAR MUBARAK 🌙",
         title: "Milad-e-Sherif Mubarak! Celebrate with Zero Electricity Bills!",
         desc: "Special Milad Mubarak Solar Cashback* + Central PM Surya Ghar Subsidy (up to ₹78,000) & 25 Years Performance Warranty.",
@@ -7172,8 +7172,8 @@ const KERALA_FESTIVALS = [
     {
         id: "diwali-2026",
         name: "Diwali Light Up Kerala Offer",
-        startDate: "2026-10-25",
-        endDate: "2026-11-15",
+        startDate: "2026-10-29",
+        endDate: "2026-11-18",
         badge: "🪔 DIWALI FESTIVAL OF LIGHTS 🪔",
         title: "Light Up Your Home with Free Lifetime Sunshine Energy!",
         desc: "Illuminate your roof this Diwali with free solar power generation & 25 years warranty.",
@@ -7184,7 +7184,7 @@ const KERALA_FESTIVALS = [
         id: "xmas-2026",
         name: "Christmas & New Year Bumper 2026",
         startDate: "2026-12-15",
-        endDate: "2027-01-10",
+        endDate: "2027-01-04",
         badge: "🎄 XMAS & NEW YEAR SOLAR BUMPER 🎄",
         title: "Gift Your Family 25 Years of Zero Power Bills!",
         desc: "Special Year-End Rebate & Priority KSEB Net-Meter Installation within 7 business days.",
@@ -7194,8 +7194,8 @@ const KERALA_FESTIVALS = [
     {
         id: "ramzan-eid-2027",
         name: "Holy Ramzan & Eid Mubarak Solar Bumper 2027",
-        startDate: "2027-02-15",
-        endDate: "2027-03-25",
+        startDate: "2027-02-27",
+        endDate: "2027-03-19",
         badge: "🌙 HOLY RAMZAN & EID MUBARAK BUMPER 🌙",
         title: "Ramzan & Eid Mubarak! Gift Your Family Blessed Energy Independence!",
         desc: "Special Ramzan Fasting Month Solar Bonus + Zero Processing Fee Solar Bank Financing & Priority KSEB Interconnection.",
@@ -7205,8 +7205,8 @@ const KERALA_FESTIVALS = [
     {
         id: "vishu-2027",
         name: "Vishu Kani Solar Prosperity",
-        startDate: "2027-04-01",
-        endDate: "2027-04-20",
+        startDate: "2027-04-04",
+        endDate: "2027-04-24",
         badge: "🌼 VISHU KANI SOLAR PROSPERITY 🌼",
         title: "Vishu Kani for Your Rooftop: Pure Golden Sunshine Power!",
         desc: "Start the new astrological year with permanent energy savings & zero electricity bill anxiety.",
@@ -7216,8 +7216,8 @@ const KERALA_FESTIVALS = [
     {
         id: "bakrid-eid-2027",
         name: "Eid-ul-Adha (Bakrid) Solar Mubarak 2027",
-        startDate: "2027-05-15",
-        endDate: "2027-05-28",
+        startDate: "2027-05-07",
+        endDate: "2027-05-27",
         badge: "🌙 EID-UL-ADHA (BAKRID) SOLAR MUBARAK 🌙",
         title: "Eid Mubarak! Celebrate Eid-ul-Adha with Lifetime Green Solar Power!",
         desc: "Special Eid Blessing Cashback* + Free On-Grid / Hybrid Battery Storage Upgrade Option for Kerala Homes.",
@@ -7627,5 +7627,163 @@ function printWebsiteProposal() {
     }, 400);
 }
 
+/* ==========================================================================
+   INTERACTIVE KERALA SOLAR INSTALLATIONS SHOWCASE ENGINE
+   ========================================================================== */
+const KERALA_PROJECTS = [
+    {
+        id: 1,
+        customerName: "Dr. Mathew Abraham",
+        location: "Thodupuzha Town",
+        district: "Idukki",
+        capacity: "5.0 kWp On-Grid",
+        panels: "Waaree 560W TOPCon (9 Panels)",
+        ksebSection: "Thodupuzha Electrical Section",
+        monthlyUnits: "620 Units",
+        oldBill: "₹6,800 / bi-month",
+        newBill: "₹0 (Zero Bill)",
+        subsidyClaimed: "₹78,000 Direct Bank Credit",
+        testimonial: "Zero electricity bills for 14 straight months. Sunova's local Thodupuzha team handled the entire KSEB net-metering and subsidy smoothly."
+    },
+    {
+        id: 2,
+        customerName: "Adv. Suresh Kumar & Family",
+        location: "Kakkanad",
+        district: "Ernakulam",
+        capacity: "3.0 kWp On-Grid",
+        panels: "Emmvee TOPCon 560W (6 Panels)",
+        ksebSection: "Kakkanad Section",
+        monthlyUnits: "370 Units",
+        oldBill: "₹4,200 / bi-month",
+        newBill: "₹0 (Zero Bill)",
+        subsidyClaimed: "₹78,000 Direct Bank Credit",
+        testimonial: "Got our full ₹78,000 PM Surya Ghar subsidy credited into our SBI account in just 19 days! Highly recommend Sunova Solar."
+    },
+    {
+        id: 3,
+        customerName: "Mrs. Shylaja Nair",
+        location: "Kazhakootam",
+        district: "Thiruvananthapuram",
+        capacity: "3.0 kWp On-Grid",
+        panels: "Adani Solar TOPCon 610W",
+        ksebSection: "Kazhakootam Section",
+        monthlyUnits: "380 Units",
+        oldBill: "₹4,500 / bi-month",
+        newBill: "₹0 (Zero Bill)",
+        subsidyClaimed: "₹78,000 Direct Bank Credit",
+        testimonial: "Heavy AC usage during summer now costs us nothing. The 25-year performance guarantee gives us total peace of mind."
+    },
+    {
+        id: 4,
+        customerName: "Mr. Shaji Varghese",
+        location: "Pala",
+        district: "Kottayam",
+        capacity: "5.0 kWp Hybrid (With Battery)",
+        panels: "Tier-1 Mono TOPCon (9 Panels)",
+        ksebSection: "Pala Town Section",
+        monthlyUnits: "600 Units",
+        oldBill: "₹7,200 / bi-month",
+        newBill: "₹0 + 24/7 Power Backup",
+        subsidyClaimed: "₹78,000 Direct Bank Credit",
+        testimonial: "Hybrid solar was the best decision. Zero power cuts during monsoon rains and ₹0 KSEB bills throughout the year."
+    },
+    {
+        id: 5,
+        customerName: "Mr. Abdul Razak",
+        location: "Manjeri",
+        district: "Malappuram",
+        capacity: "3.0 kWp On-Grid",
+        panels: "Emmvee TOPCon 560W (6 Panels)",
+        ksebSection: "Manjeri Section",
+        monthlyUnits: "360 Units",
+        oldBill: "₹4,100 / bi-month",
+        newBill: "₹0 (Zero Bill)",
+        subsidyClaimed: "₹78,000 Direct Bank Credit",
+        testimonial: "Quick installation completed in 3 days. Clean galvanized structure and very polite engineering crew."
+    },
+    {
+        id: 6,
+        customerName: "Mr. K. Radhakrishnan",
+        location: "Cherthala",
+        district: "Alappuzha",
+        capacity: "3.0 kWp On-Grid",
+        panels: "Waaree TOPCon 560W",
+        ksebSection: "Cherthala Section",
+        monthlyUnits: "390 Units",
+        oldBill: "₹4,600 / bi-month",
+        newBill: "₹0 (Zero Bill)",
+        subsidyClaimed: "₹78,000 Direct Bank Credit",
+        testimonial: "Coastal weather resistant hot-dip structure. Solid build quality and excellent app monitoring support."
+    }
+];
 
+function renderDistrictProjects(district = 'all') {
+    const container = document.getElementById('district-projects-grid');
+    if (!container) return;
 
+    const filtered = (district === 'all') 
+        ? KERALA_PROJECTS 
+        : KERALA_PROJECTS.filter(p => p.district.toLowerCase() === district.toLowerCase());
+
+    container.innerHTML = filtered.map(p => `
+        <div class="glass-card" style="padding: 1.4rem; border-radius: 14px; border: 1px solid var(--color-border); background: rgba(15, 23, 42, 0.7); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)'">
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.6rem;">
+                    <div>
+                        <span style="background: rgba(255, 183, 3, 0.15); color: var(--color-sun-yellow); font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 12px; border: 1px solid rgba(255, 183, 3, 0.3);">
+                            📍 ${p.district} (${p.location})
+                        </span>
+                        <h4 style="margin: 0.5rem 0 0.2rem 0; font-size: 1.1rem; color: var(--color-text);">${p.customerName}</h4>
+                        <div style="font-size: 0.75rem; color: var(--color-text-muted);">${p.ksebSection}</div>
+                    </div>
+                    <span style="font-size: 0.78rem; font-weight: 800; color: #10b981; background: rgba(16, 185, 129, 0.12); padding: 0.25rem 0.6rem; border-radius: 8px;">
+                        ⚡ ${p.capacity}
+                    </span>
+                </div>
+
+                <div style="background: var(--color-bg-alt); border-radius: 10px; padding: 0.75rem; margin: 0.8rem 0; font-size: 0.78rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem;">
+                    <div><strong style="color: var(--color-text);">Old Bill:</strong> <span style="color: #f87171; text-decoration: line-through;">${p.oldBill}</span></div>
+                    <div><strong style="color: var(--color-text);">New Bill:</strong> <span style="color: #10b981; font-weight: 800;">${p.newBill}</span></div>
+                    <div><strong style="color: var(--color-text);">Generation:</strong> ${p.monthlyUnits}</div>
+                    <div><strong style="color: var(--color-text);">Subsidy:</strong> <span style="color: var(--color-sun-yellow);">${p.subsidyClaimed}</span></div>
+                </div>
+
+                <p style="font-size: 0.8rem; color: var(--color-text-muted); font-style: italic; line-height: 1.45; margin: 0 0 1rem 0;">
+                    "${p.testimonial}"
+                </p>
+            </div>
+
+            <div style="border-top: 1px dashed var(--color-border); padding-top: 0.8rem; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.74rem; color: #10b981; font-weight: 700;">✅ Verified KSEB Net-Metered</span>
+                <a href="#contact" onclick="if(document.getElementById('form-district')) { document.getElementById('form-district').value = '${p.district}'; if(typeof handleDistrictChange==='function') handleDistrictChange('${p.district}'); }" style="font-size: 0.76rem; font-weight: 700; color: var(--color-sun-yellow); text-decoration: none;">
+                    Get Same Plan &rarr;
+                </a>
+            </div>
+        </div>
+    `).join('');
+}
+
+function filterDistrictProjects(district) {
+    const chips = document.querySelectorAll('.district-chip');
+    chips.forEach(chip => {
+        if (chip.textContent.includes(district) || (district === 'all' && chip.textContent.includes('All Kerala'))) {
+            chip.style.background = 'var(--color-sun-yellow)';
+            chip.style.color = '#0d1321';
+            chip.style.borderColor = 'var(--color-sun-yellow)';
+        } else {
+            chip.style.background = 'rgba(255,255,255,0.05)';
+            chip.style.color = 'var(--color-text)';
+            chip.style.borderColor = 'var(--color-border)';
+        }
+    });
+    renderDistrictProjects(district);
+}
+
+// Auto-initialize Kerala Showcase
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        renderDistrictProjects('all');
+    });
+} else {
+    renderDistrictProjects('all');
+}

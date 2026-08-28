@@ -1006,7 +1006,10 @@
                             </div>
                         </div>
                         
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.8rem; margin-top: 1.2rem;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.8rem; margin-top: 1.2rem;">
+                            <button type="button" id="btn-save-customer-quote" onclick="saveQuotationFromForm()" class="cta-btn text-center" style="padding: 0.7rem 0.5rem; font-size: 0.82rem; font-weight: 700; border-radius: 8px; cursor: pointer; text-align: center; background: #0284c7; color: white; border: none; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35); transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                                💾 Save for Future
+                            </button>
                             <button type="button" onclick="generateQuotation('customer')" class="cta-btn secondary-btn text-center" style="padding: 0.7rem 0.5rem; font-size: 0.82rem; font-weight: 700; border-radius: 8px; cursor: pointer; text-align: center;">
                                 📄 Preview Proposal
                             </button>
@@ -1634,17 +1637,230 @@
 
         let currentQuoteData = null; // Global for sharing/saving
 
+        function showPortalToast(msg, duration = 3500) {
+            let toast = document.getElementById('portal-save-toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'portal-save-toast';
+                toast.style.cssText = 'position: fixed; bottom: 25px; right: 25px; background: linear-gradient(135deg, #0d1321 0%, #1e293b 100%); color: #fff; border: 1.5px solid #10b981; border-radius: 12px; padding: 0.9rem 1.4rem; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 99999; font-size: 0.88rem; font-weight: 600; display: flex; align-items: center; gap: 0.6rem; transform: translateY(100px); opacity: 0; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);';
+                document.body.appendChild(toast);
+            }
+            toast.innerHTML = msg;
+            toast.style.transform = 'translateY(0)';
+            toast.style.opacity = '1';
+            setTimeout(() => {
+                toast.style.transform = 'translateY(100px)';
+                toast.style.opacity = '0';
+            }, duration);
+        }
+
+        function updateSavedQuotesCount() {
+            const dealerCode = localStorage.getItem('partner_code') || '';
+            const allQuotes = JSON.parse(localStorage.getItem('sunova_saved_quotes') || '[]');
+            const dealerQuotes = allQuotes.filter(q => !q.partnerCode || q.partnerCode === dealerCode);
+            const savedBadge = document.getElementById('badge-saved-count');
+            if (savedBadge) {
+                savedBadge.textContent = `${dealerQuotes.length} Saved`;
+            }
+        }
+
+        async function saveQuotationFromForm() {
+            try {
+                const name = (document.getElementById('quote-cust-name')?.value || '').trim().toUpperCase();
+                const phone = (document.getElementById('quote-cust-phone')?.value || '').trim();
+                const consumerNoVal = (document.getElementById('quote-consumer-no')?.value || '').trim();
+                const addr = (document.getElementById('quote-cust-addr')?.value || '').trim();
+                const capacityVal = parseFloat(document.getElementById('quote-capacity')?.value || '3');
+                const districtVal = document.getElementById('quote-district')?.value || '';
+                const ksebSectionVal = document.getElementById('quote-kseb-section')?.value || '';
+                const panelModel = document.getElementById('quote-panel-brand')?.value || 'Emmvee';
+                const inverterModel = document.getElementById('quote-inverter-brand')?.value || 'Eastman String Inverter';
+                const sysConfig = document.getElementById('quote-sys-config')?.value || '3';
+                const roofTypeVal = document.getElementById('quote-roof-type')?.value || 'Flat Standard';
+                const storeyNum = parseInt(document.getElementById('quote-storey')?.value || '1', 10);
+                const phase = document.getElementById('quote-phase')?.value || 'Single Phase';
+                const payAdvance = document.getElementById('quote-pay-advance')?.value || '60';
+                const payDelivery = document.getElementById('quote-pay-delivery')?.value || '30';
+                const payCompletion = document.getElementById('quote-pay-completion')?.value || '10';
+
+                if (!name) {
+                    alert('Please enter the Customer Full Name before saving.');
+                    document.getElementById('quote-cust-name')?.focus();
+                    return;
+                }
+                if (!phone) {
+                    alert('Please enter the Mobile Number before saving.');
+                    document.getElementById('quote-cust-phone')?.focus();
+                    return;
+                }
+                if (!/^[6-9]\d{9}$/.test(phone)) {
+                    alert('Please enter a valid 10-digit mobile number starting with 6, 7, 8, or 9.');
+                    document.getElementById('quote-cust-phone')?.focus();
+                    return;
+                }
+
+                const activePartnerCode = localStorage.getItem('partner_code') || 'TVM-JOBI';
+                const dealer = DEALERS.find(d => d.code === activePartnerCode) || DEALERS[0];
+                
+                let seq = parseInt(localStorage.getItem(`quote_seq_${activePartnerCode}`) || '0') + 1;
+                localStorage.setItem(`quote_seq_${activePartnerCode}`, seq);
+                const quoteNo = `${activePartnerCode}/QTN/${String(seq).padStart(3, '0')}`;
+                const dateStr = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+
+                // Pricing math
+                let basePrice = 0;
+                if (sysConfig === '5inv_3panel') {
+                    basePrice = (phase === 'Three Phase') ? ((panelModel === 'Adani') ? 270000 : 260000) : ((panelModel === 'Adani') ? 250000 : 240000);
+                } else if (capacityVal === 3) {
+                    basePrice = (panelModel === 'Adani') ? 210000 : 200000;
+                } else if (capacityVal === 5) {
+                    basePrice = (phase === 'Three Phase') ? ((panelModel === 'Adani') ? 320000 : 310000) : ((panelModel === 'Adani') ? 300000 : 290000);
+                } else {
+                    let ratePerKw = (panelModel === 'Adani') ? 66000 : 64000;
+                    if (phase === 'Three Phase') ratePerKw += 3000;
+                    basePrice = capacityVal * ratePerKw;
+                }
+
+                let roofAddon = 0;
+                const is3kW = (capacityVal <= 3);
+                if (roofTypeVal === 'Flat Self Structure') roofAddon = is3kW ? -15000 : -25000;
+                else if (roofTypeVal === 'Flat Truss') roofAddon = is3kW ? 3500 : 6500;
+                else if (roofTypeVal === 'Slanted No Truss') roofAddon = is3kW ? 5000 : 6000;
+                else if (roofTypeVal === 'Slanted With Truss') roofAddon = is3kW ? 6500 : 8500;
+
+                let storeyAddon = 0;
+                if (roofTypeVal.startsWith('Slanted')) {
+                    if (storeyNum >= 2) storeyAddon = (storeyNum - 1) * 5000;
+                } else {
+                    if (storeyNum >= 3) storeyAddon = (storeyNum - 2) * 5000;
+                }
+
+                const grossTotal = basePrice + roofAddon + storeyAddon;
+                let subsidy = 0;
+                if (capacityVal === 1) subsidy = 30000;
+                else if (capacityVal === 2) subsidy = 60000;
+                else if (capacityVal >= 3) subsidy = 78000;
+
+                const newSavedQuote = {
+                    id: `QUOTE-${Date.now()}`,
+                    quoteNo: quoteNo,
+                    date: dateStr,
+                    timestamp: Date.now(),
+                    customerName: name,
+                    customerPhone: phone,
+                    customerAddress: addr || 'N/A',
+                    district: districtVal || dealer.district,
+                    ksebSection: ksebSectionVal || dealer.area,
+                    consumerNo: consumerNoVal || 'N/A',
+                    capacity: capacityVal,
+                    panelBrand: panelModel,
+                    inverterBrand: inverterModel,
+                    sysConfig: sysConfig,
+                    roofType: roofTypeVal,
+                    storey: storeyNum,
+                    phase: phase,
+                    payAdvance: payAdvance,
+                    payDelivery: payDelivery,
+                    payCompletion: payCompletion,
+                    grossTotal: grossTotal,
+                    subsidy: subsidy,
+                    netInvestment: Math.max(0, grossTotal - subsidy),
+                    partnerCode: activePartnerCode,
+                    partnerName: dealer.name
+                };
+
+                currentQuoteData = newSavedQuote;
+
+                // Save into localStorage
+                const savedQuotes = JSON.parse(localStorage.getItem('sunova_saved_quotes') || '[]');
+                // Filter out duplicate if same quoteNo
+                const updatedQuotes = [newSavedQuote, ...savedQuotes.filter(q => q.quoteNo !== quoteNo)];
+                localStorage.setItem('sunova_saved_quotes', JSON.stringify(updatedQuotes));
+
+                // Also save under partner specific key
+                const partnerKey = 'saved_quotes_' + activePartnerCode;
+                const partnerSaved = JSON.parse(localStorage.getItem(partnerKey) || '[]');
+                localStorage.setItem(partnerKey, JSON.stringify([newSavedQuote, ...partnerSaved.filter(q => q.quoteNo !== quoteNo)]));
+
+                // Sync with server if available
+                fetch('proxy.php?action=save_quote', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newSavedQuote)
+                }).catch(e => console.log('Saved to local storage.'));
+
+                // Update badge count
+                updateSavedQuotesCount();
+
+                // If saved quotes panel is visible, re-render it
+                const panel = document.getElementById('saved-quotes-panel');
+                if (panel && !panel.classList.contains('hidden')) {
+                    renderSavedQuotes();
+                }
+
+                // Show visual feedback toast
+                showPortalToast(`✅ Customer "${name}" saved for future reference (${quoteNo})!`);
+
+            } catch (err) {
+                console.error("Save quote error", err);
+                alert('Failed to save quote. Please check inputs.');
+            }
+        }
+
+        function loadSavedQuoteIntoForm(quoteNo) {
+            const allQuotes = JSON.parse(localStorage.getItem('sunova_saved_quotes') || '[]');
+            const quote = allQuotes.find(q => q.quoteNo === quoteNo);
+            if (!quote) {
+                alert('Could not find saved details for this quotation.');
+                return;
+            }
+
+            if (quote.customerName && document.getElementById('quote-cust-name')) document.getElementById('quote-cust-name').value = quote.customerName;
+            if (quote.customerPhone && document.getElementById('quote-cust-phone')) document.getElementById('quote-cust-phone').value = quote.customerPhone;
+            if (document.getElementById('quote-consumer-no')) document.getElementById('quote-consumer-no').value = (quote.consumerNo && quote.consumerNo !== 'N/A') ? quote.consumerNo : '';
+            if (document.getElementById('quote-cust-addr')) document.getElementById('quote-cust-addr').value = (quote.customerAddress && quote.customerAddress !== 'N/A') ? quote.customerAddress : '';
+            if (quote.district && document.getElementById('quote-district')) {
+                document.getElementById('quote-district').value = quote.district;
+                if (typeof handleQuoteDistrictChange === 'function') handleQuoteDistrictChange(quote.district);
+            }
+            if (quote.ksebSection) {
+                setTimeout(() => {
+                    const secEl = document.getElementById('quote-kseb-section');
+                    if (secEl) secEl.value = quote.ksebSection;
+                }, 150);
+            }
+            if (quote.capacity && document.getElementById('quote-capacity')) document.getElementById('quote-capacity').value = quote.capacity;
+            if (quote.panelBrand && document.getElementById('quote-panel-brand')) document.getElementById('quote-panel-brand').value = quote.panelBrand;
+            if (quote.inverterBrand && document.getElementById('quote-inverter-brand')) document.getElementById('quote-inverter-brand').value = quote.inverterBrand;
+            if (quote.sysConfig && document.getElementById('quote-sys-config')) {
+                document.getElementById('quote-sys-config').value = quote.sysConfig;
+                if (typeof handleSysConfigChange === 'function') handleSysConfigChange(quote.sysConfig);
+            }
+            if (quote.roofType && document.getElementById('quote-roof-type')) document.getElementById('quote-roof-type').value = quote.roofType;
+            if (quote.storey && document.getElementById('quote-storey')) document.getElementById('quote-storey').value = quote.storey;
+            if (quote.phase && document.getElementById('quote-phase')) document.getElementById('quote-phase').value = quote.phase;
+            if (quote.payAdvance && document.getElementById('quote-pay-advance')) document.getElementById('quote-pay-advance').value = quote.payAdvance;
+            if (quote.payDelivery && document.getElementById('quote-pay-delivery')) document.getElementById('quote-pay-delivery').value = quote.payDelivery;
+            if (quote.payCompletion && document.getElementById('quote-pay-completion')) document.getElementById('quote-pay-completion').value = quote.payCompletion;
+
+            const formEl = document.getElementById('quote-generator') || document.getElementById('portal-quote-form');
+            if (formEl) {
+                formEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            showPortalToast(`📋 Loaded "${quote.customerName}" into Quotation Generator!`);
+        }
+
         function saveQuotation() {
             if (!currentQuoteData) return;
-            const dealerCode = localStorage.getItem('partner_code');
+            const dealerCode = localStorage.getItem('partner_code') || 'TVM-JOBI';
             const savedQuotes = JSON.parse(localStorage.getItem('sunova_saved_quotes') || '[]');
-            savedQuotes.push(currentQuoteData);
-            localStorage.setItem('sunova_saved_quotes', JSON.stringify(savedQuotes));
+            const updatedQuotes = [currentQuoteData, ...savedQuotes.filter(q => q.quoteNo !== currentQuoteData.quoteNo)];
+            localStorage.setItem('sunova_saved_quotes', JSON.stringify(updatedQuotes));
             
-            // Increment the sequence counter for this partner
-            let seq = parseInt(localStorage.getItem(`quote_seq_${dealerCode}`) || '0');
-            localStorage.setItem(`quote_seq_${dealerCode}`, seq + 1);
-            
+            const partnerKey = 'saved_quotes_' + dealerCode;
+            const partnerSaved = JSON.parse(localStorage.getItem(partnerKey) || '[]');
+            localStorage.setItem(partnerKey, JSON.stringify([currentQuoteData, ...partnerSaved.filter(q => q.quoteNo !== currentQuoteData.quoteNo)]));
+
             // Backup to server
             fetch('proxy.php?action=save_quote', {
                 method: 'POST',
@@ -1652,7 +1868,8 @@
                 body: JSON.stringify(currentQuoteData)
             }).catch(e => console.log('Server backup failed, saved locally.'));
             
-            alert('Quotation ' + currentQuoteData.quoteNo + ' saved successfully!');
+            updateSavedQuotesCount();
+            showPortalToast(`✅ Quotation ${currentQuoteData.quoteNo} saved successfully!`);
         }
 
         function emailQuotation() {
@@ -1664,7 +1881,6 @@
         
         function whatsappQuotation() {
             if (!currentQuoteData) return;
-            // Get partner's phone from DEALERS array based on code
             const dealerCode = localStorage.getItem('partner_code');
             const dealer = DEALERS.find(d => d.code === dealerCode);
             if (!dealer || !dealer.phone) {
@@ -1689,6 +1905,7 @@
 
         function toggleSavedQuotes() {
             const panel = document.getElementById('saved-quotes-panel');
+            if (!panel) return;
             if (panel.classList.contains('hidden')) {
                 renderSavedQuotes();
                 panel.classList.remove('hidden');
@@ -1700,6 +1917,7 @@
         function renderSavedQuotes() {
             const dealerCode = localStorage.getItem('partner_code');
             const container = document.getElementById('saved-quotes-list');
+            if (!container) return;
             
             fetch('saved_quotes_db.json?t=' + Date.now())
             .then(res => {
@@ -1716,20 +1934,19 @@
                 
                 const missingQuotes = localQuotes.filter(lq => !serverQuotes.some(sq => sq.quoteNo === lq.quoteNo));
                 missingQuotes.forEach(q => {
-                    // Sync back to server
                     fetch('proxy.php?action=save_quote', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(q)
-                    });
+                    }).catch(() => {});
                 });
                 
-                const myQuotes = [...serverQuotes, ...missingQuotes].sort((a, b) => b.timestamp - a.timestamp);
+                const myQuotes = [...serverQuotes, ...missingQuotes].sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
                 
                 if (myQuotes.length === 0) {
                     container.innerHTML = `
                         <div style="text-align: center; padding: 2rem 1rem; color: var(--color-text-muted); font-size: 0.84rem;">
-                            [Empty] No saved quotations found.
+                            📁 No saved quotations yet. Fill customer details and click <strong>"💾 Save for Future"</strong> to store quotes here.
                         </div>
                     `;
                     return;
@@ -1738,44 +1955,46 @@
                 container.innerHTML = myQuotes.map(quote => `
                     <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 10px; padding: 1.2rem; font-size: 0.82rem; line-height: 1.55; color: var(--color-text); margin-bottom: 0.8rem; box-shadow: 0 4px 15px var(--color-shadow);">
                         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem;">
-                            <strong style="color: var(--color-text); font-size: 0.9rem;">[Doc] ${quote.quoteNo}</strong>
-                            <span style="font-size: 0.72rem; color: var(--color-text-muted);">${new Date(quote.timestamp).toLocaleDateString()}</span>
+                            <strong style="color: var(--color-sun-yellow); font-size: 0.9rem;">📄 ${quote.quoteNo}</strong>
+                            <span style="font-size: 0.72rem; color: var(--color-text-muted);">${quote.date || (quote.timestamp ? new Date(quote.timestamp).toLocaleDateString() : '')}</span>
                         </div>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem 1rem; margin-bottom: 0.6rem; color: var(--color-text-muted);">
                             <div><strong style="color: var(--color-text);">Customer:</strong> ${quote.customerName}</div>
                             <div><strong style="color: var(--color-text);">Phone:</strong> ${quote.customerPhone}</div>
-                            <div><strong style="color: var(--color-text);">System:</strong> ${quote.capacity} kWp</div>
-                            <div><strong style="color: var(--color-text);">Value:</strong> Rs. ${(quote.grossTotal || 0).toLocaleString('en-IN')}</div>
+                            <div><strong style="color: var(--color-text);">System:</strong> ${quote.capacity} kWp (${quote.district || 'Kerala'})</div>
+                            <div><strong style="color: var(--color-text);">Value:</strong> ₹${(quote.grossTotal || 0).toLocaleString('en-IN')}</div>
                         </div>
-                        <div style="display: flex; justify-content: flex-end; gap: 0.6rem; margin-top: 0.8rem;">
-                            <button onclick="viewPartnerQuote('${quote.quoteNo}')" class="cta-btn secondary-btn" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;">View / Print</button>
-                            <button onclick="deletePartnerQuote('${quote.quoteNo}')" class="cta-btn" style="padding: 0.4rem 0.8rem; font-size: 0.75rem; background: #dc3545; color: white; border: none;">Delete</button>
+                        <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 0.8rem; flex-wrap: wrap;">
+                            <button onclick="loadSavedQuoteIntoForm('${quote.quoteNo}')" class="cta-btn text-center" style="padding: 0.4rem 0.75rem; font-size: 0.75rem; background: #0284c7; color: white; border: none; border-radius: 6px; cursor: pointer;" title="Load into generator form">📋 Load Details</button>
+                            <button onclick="viewPartnerQuote('${quote.quoteNo}')" class="cta-btn secondary-btn" style="padding: 0.4rem 0.75rem; font-size: 0.75rem; border-radius: 6px; cursor: pointer;">🖨️ View / Print</button>
+                            <button onclick="deletePartnerQuote('${quote.quoteNo}')" class="cta-btn" style="padding: 0.4rem 0.75rem; font-size: 0.75rem; background: #dc3545; color: white; border: none; border-radius: 6px; cursor: pointer;">🗑️ Delete</button>
                         </div>
                     </div>
                 `).join('');
             }).catch(err => {
                 // Fallback to local storage if server fails
                 const savedQuotes = JSON.parse(localStorage.getItem('sunova_saved_quotes') || '[]');
-                const myQuotes = savedQuotes.filter(q => q.partnerCode === dealerCode).reverse();
+                const myQuotes = savedQuotes.filter(q => !q.partnerCode || q.partnerCode === dealerCode);
                 if (myQuotes.length === 0) {
-                    container.innerHTML = `<div style="text-align: center; padding: 2rem 1rem; color: var(--color-text-muted); font-size: 0.84rem;">[Empty] No saved quotations found.</div>`;
+                    container.innerHTML = `<div style="text-align: center; padding: 2rem 1rem; color: var(--color-text-muted); font-size: 0.84rem;">📁 No saved quotations yet. Fill customer details and click <strong>"💾 Save for Future"</strong> to store quotes here.</div>`;
                     return;
                 }
                 container.innerHTML = myQuotes.map(quote => `
                     <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 10px; padding: 1.2rem; font-size: 0.82rem; line-height: 1.55; color: var(--color-text); margin-bottom: 0.8rem; box-shadow: 0 4px 15px var(--color-shadow);">
                         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem;">
-                            <strong style="color: var(--color-text); font-size: 0.9rem;">[Doc] ${quote.quoteNo}</strong>
-                            <span style="font-size: 0.72rem; color: var(--color-text-muted);">${new Date(quote.timestamp).toLocaleDateString()}</span>
+                            <strong style="color: var(--color-sun-yellow); font-size: 0.9rem;">📄 ${quote.quoteNo}</strong>
+                            <span style="font-size: 0.72rem; color: var(--color-text-muted);">${quote.date || (quote.timestamp ? new Date(quote.timestamp).toLocaleDateString() : '')}</span>
                         </div>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem 1rem; margin-bottom: 0.6rem; color: var(--color-text-muted);">
                             <div><strong style="color: var(--color-text);">Customer:</strong> ${quote.customerName}</div>
                             <div><strong style="color: var(--color-text);">Phone:</strong> ${quote.customerPhone}</div>
-                            <div><strong style="color: var(--color-text);">System:</strong> ${quote.capacity} kWp</div>
-                            <div><strong style="color: var(--color-text);">Value:</strong> Rs. ${(quote.grossTotal || 0).toLocaleString('en-IN')}</div>
+                            <div><strong style="color: var(--color-text);">System:</strong> ${quote.capacity} kWp (${quote.district || 'Kerala'})</div>
+                            <div><strong style="color: var(--color-text);">Value:</strong> ₹${(quote.grossTotal || 0).toLocaleString('en-IN')}</div>
                         </div>
-                        <div style="display: flex; justify-content: flex-end; gap: 0.6rem; margin-top: 0.8rem;">
-                            <button onclick="viewPartnerQuote('${quote.quoteNo}')" class="cta-btn secondary-btn" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;">View / Print</button>
-                            <button onclick="deletePartnerQuote('${quote.quoteNo}')" class="cta-btn" style="padding: 0.4rem 0.8rem; font-size: 0.75rem; background: #dc3545; color: white; border: none;">Delete</button>
+                        <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 0.8rem; flex-wrap: wrap;">
+                            <button onclick="loadSavedQuoteIntoForm('${quote.quoteNo}')" class="cta-btn text-center" style="padding: 0.4rem 0.75rem; font-size: 0.75rem; background: #0284c7; color: white; border: none; border-radius: 6px; cursor: pointer;" title="Load into generator form">📋 Load Details</button>
+                            <button onclick="viewPartnerQuote('${quote.quoteNo}')" class="cta-btn secondary-btn" style="padding: 0.4rem 0.75rem; font-size: 0.75rem; border-radius: 6px; cursor: pointer;">🖨️ View / Print</button>
+                            <button onclick="deletePartnerQuote('${quote.quoteNo}')" class="cta-btn" style="padding: 0.4rem 0.75rem; font-size: 0.75rem; background: #dc3545; color: white; border: none; border-radius: 6px; cursor: pointer;">🗑️ Delete</button>
                         </div>
                     </div>
                 `).join('');
@@ -1787,7 +2006,16 @@
                 currentQuoteData = quote;
                 const renderArea = document.getElementById('quote-render-area');
                 if (renderArea) {
-                    renderArea.innerHTML = quote.html;
+                    if (quote.html) {
+                        renderArea.innerHTML = quote.html;
+                    } else {
+                        // Re-generate quotation HTML if not stored directly
+                        document.getElementById('quote-cust-name').value = quote.customerName;
+                        document.getElementById('quote-cust-phone').value = quote.customerPhone;
+                        document.getElementById('quote-capacity').value = quote.capacity;
+                        generateQuotation('customer');
+                        return;
+                    }
                 }
                 const modal = document.getElementById('quote-modal-overlay');
                 if (modal) {
@@ -1833,14 +2061,23 @@
             localQuotes = localQuotes.filter(q => q.quoteNo !== quoteNo);
             localStorage.setItem('sunova_saved_quotes', JSON.stringify(localQuotes));
             
+            const dealerCode = localStorage.getItem('partner_code') || '';
+            const partnerKey = 'saved_quotes_' + dealerCode;
+            let partnerQuotes = JSON.parse(localStorage.getItem(partnerKey) || '[]');
+            partnerQuotes = partnerQuotes.filter(q => q.quoteNo !== quoteNo);
+            localStorage.setItem(partnerKey, JSON.stringify(partnerQuotes));
+
+            updateSavedQuotesCount();
+
             // Delete from server
             fetch(`proxy.php?action=delete_quote&quoteNo=${encodeURIComponent(quoteNo)}`)
             .then(res => res.json())
             .then(data => {
                 renderSavedQuotes();
+                showPortalToast(`🗑️ Quotation ${quoteNo} deleted.`);
             }).catch(() => {
-                alert('Deleted locally, but network error while deleting from server.');
                 renderSavedQuotes();
+                showPortalToast(`🗑️ Quotation ${quoteNo} deleted locally.`);
             });
         }
 
