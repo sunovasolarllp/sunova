@@ -7718,49 +7718,61 @@ const KERALA_PROJECTS = [
 ];
 
 function renderDistrictProjects(district = 'all') {
-    const container = document.getElementById('district-projects-grid');
-    if (!container) return;
+    const track = document.getElementById('district-projects-track');
+    if (!track) return;
 
     const filtered = (district === 'all') 
         ? KERALA_PROJECTS 
         : KERALA_PROJECTS.filter(p => p.district.toLowerCase() === district.toLowerCase());
 
-    container.innerHTML = filtered.map(p => `
-        <div class="glass-card" style="padding: 1.4rem; border-radius: 14px; border: 1px solid var(--color-border); background: rgba(15, 23, 42, 0.7); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)'">
+    const buildCardHtml = (p) => `
+        <div class="kerala-showcase-card">
             <div>
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.6rem;">
                     <div>
-                        <span style="background: rgba(255, 183, 3, 0.15); color: var(--color-sun-yellow); font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 12px; border: 1px solid rgba(255, 183, 3, 0.3);">
+                        <span style="background: rgba(255, 183, 3, 0.15); color: var(--color-sun-yellow); font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 12px; border: 1px solid rgba(255, 183, 3, 0.3); display: inline-block;">
                             📍 ${p.district} (${p.location})
                         </span>
-                        <h4 style="margin: 0.5rem 0 0.2rem 0; font-size: 1.1rem; color: var(--color-text);">${p.customerName}</h4>
-                        <div style="font-size: 0.75rem; color: var(--color-text-muted);">${p.ksebSection}</div>
+                        <h4 style="margin: 0.5rem 0 0.2rem 0; font-size: 1.05rem; color: var(--color-text); font-weight: 700;">${p.customerName}</h4>
+                        <div style="font-size: 0.73rem; color: var(--color-text-muted);">${p.ksebSection}</div>
                     </div>
-                    <span style="font-size: 0.78rem; font-weight: 800; color: #10b981; background: rgba(16, 185, 129, 0.12); padding: 0.25rem 0.6rem; border-radius: 8px;">
+                    <span class="pulse-badge" style="font-size: 0.76rem; font-weight: 800; color: #10b981; background: rgba(16, 185, 129, 0.15); padding: 0.25rem 0.6rem; border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.3); white-space: nowrap;">
                         ⚡ ${p.capacity}
                     </span>
                 </div>
 
-                <div style="background: var(--color-bg-alt); border-radius: 10px; padding: 0.75rem; margin: 0.8rem 0; font-size: 0.78rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem;">
+                <div style="background: var(--color-bg-alt); border-radius: 10px; padding: 0.75rem; margin: 0.75rem 0; font-size: 0.76rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; border: 1px solid rgba(255,255,255,0.05);">
                     <div><strong style="color: var(--color-text);">Old Bill:</strong> <span style="color: #f87171; text-decoration: line-through;">${p.oldBill}</span></div>
                     <div><strong style="color: var(--color-text);">New Bill:</strong> <span style="color: #10b981; font-weight: 800;">${p.newBill}</span></div>
-                    <div><strong style="color: var(--color-text);">Generation:</strong> ${p.monthlyUnits}</div>
-                    <div><strong style="color: var(--color-text);">Subsidy:</strong> <span style="color: var(--color-sun-yellow);">${p.subsidyClaimed}</span></div>
+                    <div><strong style="color: var(--color-text);">Monthly Units:</strong> ${p.monthlyUnits}</div>
+                    <div><strong style="color: var(--color-text);">Subsidy:</strong> <span style="color: var(--color-sun-yellow); font-weight: 700;">${p.subsidyClaimed}</span></div>
                 </div>
 
-                <p style="font-size: 0.8rem; color: var(--color-text-muted); font-style: italic; line-height: 1.45; margin: 0 0 1rem 0;">
+                <p style="font-size: 0.78rem; color: var(--color-text-muted); font-style: italic; line-height: 1.45; margin: 0 0 0.8rem 0;">
                     "${p.testimonial}"
                 </p>
             </div>
 
-            <div style="border-top: 1px dashed var(--color-border); padding-top: 0.8rem; display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-size: 0.74rem; color: #10b981; font-weight: 700;">✅ Verified KSEB Net-Metered</span>
-                <a href="#contact" onclick="if(document.getElementById('form-district')) { document.getElementById('form-district').value = '${p.district}'; if(typeof handleDistrictChange==='function') handleDistrictChange('${p.district}'); }" style="font-size: 0.76rem; font-weight: 700; color: var(--color-sun-yellow); text-decoration: none;">
+            <div style="border-top: 1px dashed var(--color-border); padding-top: 0.75rem; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.72rem; color: #10b981; font-weight: 700; display: inline-flex; align-items: center; gap: 0.25rem;">
+                    ✅ Verified KSEB Net-Metered
+                </span>
+                <a href="#contact" onclick="if(document.getElementById('form-district')) { document.getElementById('form-district').value = '${p.district}'; if(typeof handleDistrictChange==='function') handleDistrictChange('${p.district}'); }" style="font-size: 0.75rem; font-weight: 800; color: var(--color-sun-yellow); text-decoration: none; display: inline-flex; align-items: center; gap: 0.2rem;">
                     Get Same Plan &rarr;
                 </a>
             </div>
         </div>
-    `).join('');
+    `;
+
+    // If "All Kerala", clone items to create a seamless infinite marquee loop
+    if (district === 'all') {
+        const singleSet = filtered.map(buildCardHtml).join('');
+        track.innerHTML = singleSet + singleSet; // Duplicate for smooth infinite CSS loop
+        track.style.animation = 'marqueeScroll 45s linear infinite';
+    } else {
+        track.innerHTML = filtered.map(buildCardHtml).join('');
+        track.style.animation = 'none'; // Stop marquee when a specific district filter is clicked
+    }
 }
 
 function filterDistrictProjects(district) {
@@ -7777,6 +7789,19 @@ function filterDistrictProjects(district) {
         }
     });
     renderDistrictProjects(district);
+}
+
+function scrollShowcaseManual(offset) {
+    const container = document.getElementById('kerala-marquee-container');
+    const track = document.getElementById('district-projects-track');
+    if (!container || !track) return;
+    
+    // Pause animation temporarily when user manually clicks arrows
+    track.style.animationPlayState = 'paused';
+    container.scrollBy({ left: offset, behavior: 'smooth' });
+    setTimeout(() => {
+        track.style.animationPlayState = 'running';
+    }, 4000);
 }
 
 // Auto-initialize Kerala Showcase
