@@ -5741,7 +5741,7 @@ function printSubmittedContactQuote() {
                         <th style="padding: 0.55rem; text-align: right;">Amount</th>
                     </tr>
                     <tr style="border-bottom: 1px solid #e2e8f0;">
-                        <td style="padding: 0.55rem;">${capacityVal} kWp Complete Grid-Tied Solar Plant (SUNOVA SOLAR Tier-1 DCR ALMM Modules + SUNOVA SOLAR Smart Inverter + SUNOVA SOLAR HDG Structure + KSEB Net Metering Testing)</td>
+                        <td style="padding: 0.55rem;">${capacityVal} kWp Complete Grid-Tied Solar Plant (Tier-1 DCR ALMM Modules + High Efficiency Inverter + HDG Structure + KSEB Net Metering Testing)</td>
                         <td style="padding: 0.55rem; text-align: right; font-weight: 600;">₹ ${basePrice.toLocaleString('en-IN')}</td>
                     </tr>
                     <tr style="border-bottom: 1px solid #e2e8f0; color: #15803d; font-weight: 700;">
@@ -7370,7 +7370,7 @@ function generateInstantPDFProposal() {
                         <th style="padding: 0.55rem; text-align: right;">Amount</th>
                     </tr>
                     <tr style="border-bottom: 1px solid #e2e8f0;">
-                        <td style="padding: 0.55rem;">${capacityVal} kWp Complete Grid-Tied Solar Plant (SUNOVA SOLAR Tier-1 DCR ALMM Modules + SUNOVA SOLAR Smart Inverter + SUNOVA SOLAR HDG Structure + KSEB Net Metering Testing)</td>
+                        <td style="padding: 0.55rem;">${capacityVal} kWp Complete Grid-Tied Solar Plant (Tier-1 DCR ALMM Modules + High Efficiency Inverter + HDG Structure + KSEB Net Metering Testing)</td>
                         <td style="padding: 0.55rem; text-align: right; font-weight: 600;">₹ ${basePrice.toLocaleString('en-IN')}</td>
                     </tr>
                     <tr style="border-bottom: 1px solid #e2e8f0; color: #15803d; font-weight: 700;">
@@ -7531,17 +7531,95 @@ document.addEventListener('DOMContentLoaded', () => {
         statCounters.forEach(el => counterObserver.observe(el));
     }
 
-    // 3. Auto-Shuffle Full-Page Background Slideshow
-    let globalSlideIdx = 0;
-    setInterval(() => {
-        const gSlides = document.querySelectorAll('.global-slide');
-        if (gSlides.length > 0) {
-            gSlides.forEach((s, i) => {
-                s.classList.toggle('active', i === globalSlideIdx);
-            });
-            globalSlideIdx = (globalSlideIdx + 1) % gSlides.length;
+    // 3. Start Hero Background Auto-Shuffle Slideshow
+    restartHeroSlideTimer();
+});
+
+// --- Hero Photo Auto-Shuffle Engine ---
+let currentHeroSlide = 0;
+let heroSlideTimer = null;
+
+function setHeroSlide(index) {
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.slide-dot');
+    const label = document.getElementById('hero-photo-label');
+    if (!slides.length) return;
+
+    slides.forEach((s, i) => {
+        s.classList.toggle('active', i === index);
+    });
+    dots.forEach((d, i) => {
+        d.classList.toggle('active', i === index);
+    });
+
+    currentHeroSlide = index;
+    if (label && slides[index]) {
+        label.textContent = slides[index].getAttribute('data-label') || 'Kerala Solar';
+    }
+}
+
+function shuffleHeroPhoto() {
+    const slides = document.querySelectorAll('.hero-slide');
+    if (!slides.length) return;
+    let next = (currentHeroSlide + 1) % slides.length;
+    setHeroSlide(next);
+    restartHeroSlideTimer();
+}
+
+function restartHeroSlideTimer() {
+    if (heroSlideTimer) clearInterval(heroSlideTimer);
+    heroSlideTimer = setInterval(() => {
+        const slides = document.querySelectorAll('.hero-slide');
+        if (slides.length) {
+            let next = (currentHeroSlide + 1) % slides.length;
+            setHeroSlide(next);
         }
     }, 5500);
+}
+
+// --- Interactive Gallery Filter & Lightbox Engine ---
+function filterGallery(category, btn) {
+    const filterButtons = document.querySelectorAll('.gallery-filter-btn');
+    filterButtons.forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    galleryItems.forEach(item => {
+        const itemCategory = item.getAttribute('data-category');
+        if (category === 'all' || itemCategory === category) {
+            item.style.display = 'block';
+            item.style.opacity = '1';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+
+function openPhotoLightbox(imgSrc, title, desc) {
+    const modal = document.getElementById('photo-lightbox-modal');
+    const imgEl = document.getElementById('lightbox-img');
+    const titleEl = document.getElementById('lightbox-title');
+    const descEl = document.getElementById('lightbox-desc');
+
+    if (modal && imgEl && titleEl && descEl) {
+        imgEl.src = imgSrc;
+        titleEl.textContent = title;
+        descEl.textContent = desc;
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closePhotoLightbox() {
+    const modal = document.getElementById('photo-lightbox-modal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closePhotoLightbox();
 });
 
 

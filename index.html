@@ -34,15 +34,6 @@
     <link rel="stylesheet" href="style.css?v=9.7">
 </head>
 <body class="dark-theme">
-    <!-- Full-Page Global Ambient Solar Background Slideshow -->
-    <div id="global-bg-slideshow" class="global-slideshow-container" aria-hidden="true">
-        <div class="global-slide active" style="background-image: url('assets/kerala_solar_villa.jpg');"></div>
-        <div class="global-slide" style="background-image: url('assets/kerala_tile_roof.jpg');"></div>
-        <div class="global-slide" style="background-image: url('assets/engineer_site_survey.jpg');"></div>
-        <div class="global-slide" style="background-image: url('assets/inverter_app_screen.jpg');"></div>
-        <div class="global-overlay"></div>
-    </div>
-
     <!-- Header/Navigation -->
     <header class="navbar" id="navbar">
 
@@ -55,6 +46,7 @@
                 <a href="#hero" class="nav-link active" id="link-hero">Home</a>
                 <a href="#services" class="nav-link" id="link-services">Services</a>
                 <a href="#calculator" class="nav-link" id="link-calculator">Calculator</a>
+                <a href="#gallery" class="nav-link" id="link-gallery">Gallery</a>
                 <a href="#about" class="nav-link" id="link-about">About Us</a>
                 <a href="#contact" class="nav-link" id="link-contact">Contact</a>
             </nav>
@@ -112,9 +104,25 @@
 
     <!-- Hero Section -->
     <section class="hero-section" id="hero">
-        <div class="hero-bg">
-            <img src="assets/kerala_solar_villa.jpg?v=2" alt="Contemporary luxury residential villa with solar panels in Kerala" class="hero-img">
+        <div class="hero-bg" id="hero-slideshow-container">
+            <div class="hero-slide active" style="background-image: url('assets/kerala_solar_villa.jpg');" data-label="Luxury Solar Villa"></div>
+            <div class="hero-slide" style="background-image: url('assets/kerala_tile_roof.jpg');" data-label="Kerala Slanted Tile Roof"></div>
+            <div class="hero-slide" style="background-image: url('assets/engineer_site_survey.jpg');" data-label="SUNOVA Engineer Survey"></div>
+            <div class="hero-slide" style="background-image: url('assets/inverter_app_screen.jpg');" data-label="Smart Inverter &amp; App"></div>
             <div class="hero-overlay"></div>
+            
+            <!-- Interactive Photo Shuffle Controls -->
+            <div class="hero-shuffle-controls">
+                <button type="button" class="hero-shuffle-btn" onclick="shuffleHeroPhoto()" title="Shuffle Hero Photo">
+                    <span>🔀</span> <span id="hero-photo-label">Luxury Solar Villa</span>
+                </button>
+                <div class="hero-slide-dots">
+                    <span class="slide-dot active" onclick="setHeroSlide(0)"></span>
+                    <span class="slide-dot" onclick="setHeroSlide(1)"></span>
+                    <span class="slide-dot" onclick="setHeroSlide(2)"></span>
+                    <span class="slide-dot" onclick="setHeroSlide(3)"></span>
+                </div>
+            </div>
         </div>
         <div class="container hero-container">
             <div class="hero-content scroll-reveal-left">
@@ -1591,6 +1599,115 @@
             </div>
         </div>
     </section>
+
+    <!-- Real Kerala Solar & Equipment Showcase Gallery -->
+    <section class="section-padding" id="gallery" style="background: var(--color-bg-alt); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); padding: 5rem 0;">
+        <div class="container">
+            <div class="section-header text-center scroll-reveal">
+                <span class="sub-title">AUTHENTIC WORK &amp; HARDWARE</span>
+                <h2 class="section-title">Kerala Installations &amp; Certified Hardware Gallery</h2>
+                <div class="title-line"></div>
+                <p class="section-desc">Explore verified rooftop installations, official SUNOVA branded smart inverters, and on-site engineering consultations across Kerala.</p>
+            </div>
+
+            <!-- Gallery Filter Buttons -->
+            <div style="display: flex; justify-content: center; gap: 0.6rem; flex-wrap: wrap; margin-top: 1.5rem; margin-bottom: 2.2rem;">
+                <button type="button" class="gallery-filter-btn active" onclick="filterGallery('all', this)">🌟 All Photos</button>
+                <button type="button" class="gallery-filter-btn" onclick="filterGallery('rooftop', this)">🏡 Rooftops &amp; Villas</button>
+                <button type="button" class="gallery-filter-btn" onclick="filterGallery('equipment', this)">⚡ Smart Inverters &amp; Tech</button>
+                <button type="button" class="gallery-filter-btn" onclick="filterGallery('survey', this)">📐 Engineering &amp; Surveys</button>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="gallery-grid" id="main-photo-gallery" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+                
+                <!-- Photo 1: Slanted Clay Tile Roof -->
+                <div class="gallery-item glass-card" data-category="rooftop" onclick="openPhotoLightbox('assets/kerala_tile_roof.jpg', 'Traditional Kerala Slanted Tile Roof Solar', 'Monocrystalline TOPCon installation on red terracotta clay tiles • Idukki District')" style="cursor: pointer;">
+                    <div class="gallery-thumb-wrapper">
+                        <img src="assets/kerala_tile_roof.jpg" alt="Traditional Kerala Clay Tile Roof Solar" class="gallery-img">
+                        <div class="gallery-badge">🏡 Slanted Roof</div>
+                    </div>
+                    <div class="gallery-info" style="padding: 1.2rem;">
+                        <h3 style="font-size: 1.05rem; margin-bottom: 0.3rem; color: var(--color-text);">Traditional Kerala Clay Tile Rooftop</h3>
+                        <p style="font-size: 0.82rem; color: var(--color-text-muted); margin: 0;">Heavy-duty clamp mounting without tile drilling. Slashing KSEB tariffs in Idukki.</p>
+                    </div>
+                </div>
+
+                <!-- Photo 2: Luxury Villa Concrete Terrace -->
+                <div class="gallery-item glass-card" data-category="rooftop" onclick="openPhotoLightbox('assets/kerala_solar_villa.jpg', 'Contemporary Luxury Solar Villa', 'Grid-tied solar power plant on flat concrete terrace with hot-dip galvanized structure • Kochi')" style="cursor: pointer;">
+                    <div class="gallery-thumb-wrapper">
+                        <img src="assets/kerala_solar_villa.jpg" alt="Contemporary Luxury Solar Villa Kerala" class="gallery-img">
+                        <div class="gallery-badge">🏢 Concrete Villa</div>
+                    </div>
+                    <div class="gallery-info" style="padding: 1.2rem;">
+                        <h3 style="font-size: 1.05rem; margin-bottom: 0.3rem; color: var(--color-text);">Modern Concrete Terrace Solar Plant</h3>
+                        <p style="font-size: 0.82rem; color: var(--color-text-muted); margin: 0;">Elevated galvanized structure providing full usable roof space below.</p>
+                    </div>
+                </div>
+
+                <!-- Photo 3: Smart Inverter & Mobile App -->
+                <div class="gallery-item glass-card" data-category="equipment" onclick="openPhotoLightbox('assets/inverter_app_screen.jpg', 'SUNOVA Smart String Inverter & Mobile App', 'Real-time 24/7 solar generation analytics with ₹0 net-zero billing monitoring')" style="cursor: pointer;">
+                    <div class="gallery-thumb-wrapper">
+                        <img src="assets/inverter_app_screen.jpg" alt="SUNOVA Smart Inverter & App" class="gallery-img">
+                        <div class="gallery-badge">📱 Smart Tech</div>
+                    </div>
+                    <div class="gallery-info" style="padding: 1.2rem;">
+                        <h3 style="font-size: 1.05rem; margin-bottom: 0.3rem; color: var(--color-text);">SUNOVA Inverter &amp; Mobile App</h3>
+                        <p style="font-size: 0.82rem; color: var(--color-text-muted); margin: 0;">Live Wi-Fi generation tracking, system health diagnostics, and net-zero billing.</p>
+                    </div>
+                </div>
+
+                <!-- Photo 4: Engineer Site Survey -->
+                <div class="gallery-item glass-card" data-category="survey" onclick="openPhotoLightbox('assets/engineer_site_survey.jpg', 'Certified Engineer Rooftop Shadow Survey', 'Professional 3D CAD proposal and customized solar layout consultation with Kerala homeowners')" style="cursor: pointer;">
+                    <div class="gallery-thumb-wrapper">
+                        <img src="assets/engineer_site_survey.jpg" alt="Engineer Site Survey Kerala" class="gallery-img">
+                        <div class="gallery-badge">📐 On-Site Survey</div>
+                    </div>
+                    <div class="gallery-info" style="padding: 1.2rem;">
+                        <h3 style="font-size: 1.05rem; margin-bottom: 0.3rem; color: var(--color-text);">3D CAD Site Survey &amp; Consultation</h3>
+                        <p style="font-size: 0.82rem; color: var(--color-text-muted); margin: 0;">Certified engineers conducting precise rooftop shadow and transformer load checks.</p>
+                    </div>
+                </div>
+
+                <!-- Photo 5: Monocrystalline TOPCon Solar Modules -->
+                <div class="gallery-item glass-card" data-category="equipment" onclick="openPhotoLightbox('assets/real_residential_solar.jpg', 'SUNOVA Monocrystalline TOPCon Solar Modules', 'Tier-1 high efficiency panels with laser-branded frame and 25-year performance warranty')" style="cursor: pointer;">
+                    <div class="gallery-thumb-wrapper">
+                        <img src="assets/real_residential_solar.jpg" alt="SUNOVA Solar Panels Close-Up" class="gallery-img">
+                        <div class="gallery-badge">⚡ TOPCon Modules</div>
+                    </div>
+                    <div class="gallery-info" style="padding: 1.2rem;">
+                        <h3 style="font-size: 1.05rem; margin-bottom: 0.3rem; color: var(--color-text);">SUNOVA Monocrystalline Panels</h3>
+                        <p style="font-size: 0.82rem; color: var(--color-text-muted); margin: 0;">Premium high-efficiency solar cells engineered for superior low-light and monsoon yield.</p>
+                    </div>
+                </div>
+
+                <!-- Photo 6: Commercial Solar Complex -->
+                <div class="gallery-item glass-card" data-category="rooftop" onclick="openPhotoLightbox('assets/real_commercial_office.jpg', 'Commercial Rooftop Solar Complex', 'High-capacity solar array lowering commercial operating expenses and peak demand tariffs')" style="cursor: pointer;">
+                    <div class="gallery-thumb-wrapper">
+                        <img src="assets/real_commercial_office.jpg" alt="Commercial Solar Power Plant" class="gallery-img">
+                        <div class="gallery-badge">🏭 Commercial</div>
+                    </div>
+                    <div class="gallery-info" style="padding: 1.2rem;">
+                        <h3 style="font-size: 1.05rem; margin-bottom: 0.3rem; color: var(--color-text);">Commercial Office Solar Plant</h3>
+                        <p style="font-size: 0.82rem; color: var(--color-text-muted); margin: 0;">Accelerated tax depreciation with fast 3 to 4-year financial return on investment.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Photo Lightbox Modal -->
+    <div id="photo-lightbox-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 9999; backdrop-filter: blur(12px); align-items: center; justify-content: center; padding: 1.5rem;" onclick="if(event.target===this) closePhotoLightbox()">
+        <div style="position: relative; max-width: 900px; width: 100%; background: #0f172a; border: 1px solid rgba(255,255,255,0.2); border-radius: 18px; overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.6);">
+            <button type="button" onclick="closePhotoLightbox()" style="position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.3); color: #fff; width: 36px; height: 36px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10;">&times;</button>
+            <img id="lightbox-img" src="" alt="Solar Preview" style="width: 100%; max-height: 70vh; object-fit: cover; display: block;">
+            <div style="padding: 1.5rem; color: #fff;">
+                <h3 id="lightbox-title" style="margin: 0 0 0.4rem 0; font-size: 1.3rem; color: var(--color-sun-yellow);"></h3>
+                <p id="lightbox-desc" style="margin: 0; font-size: 0.9rem; color: #cbd5e1;"></p>
+            </div>
+        </div>
+    </div>
 
     <!-- Customer Testimonials Section -->
     <section class="testimonials-section" id="testimonials" style="padding: 5rem 0; background: var(--color-bg);">

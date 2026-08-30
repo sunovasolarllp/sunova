@@ -580,18 +580,15 @@ label, .form-label, input, select, textarea {
 
 /* Universal Clean Solar Background for ALL Pages */
 html, body, .login-page-body, .portal-page-body {
-    background-color: transparent !important;
-    background-image: none !important;
+    background-color: var(--color-bg) !important;
+    background-image: var(--color-bg-gradient) !important;
+    background-attachment: fixed !important;
     color: var(--color-text);
     font-family: var(--font-body);
     line-height: 1.6;
     overflow-x: hidden;
     position: relative;
-    transition: color var(--transition-normal);
-}
-
-.light-theme {
-    background-color: transparent !important;
+    transition: background-color var(--transition-normal), color var(--transition-normal);
 }
 
 .login-wrapper,
@@ -622,7 +619,20 @@ footer,
 
 /* Solar Panel Focused Background Tint Overlay Engine for All Pages */
 body::before {
-    display: none !important;
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    transition: background 0.4s ease;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.18) 0%, rgba(15, 23, 42, 0.25) 100%) !important;
+}
+
+.light-theme::before {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.42) 0%, rgba(248, 250, 252, 0.48) 100%) !important;
 }
 
 /* Custom Scrollbar */
@@ -989,13 +999,27 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -2;
+    z-index: 0;
+    overflow: hidden;
 }
 
-.hero-img {
+.hero-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    background-size: cover;
+    background-position: center center;
+    opacity: 0;
+    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 6s ease-out;
+    transform: scale(1.04);
+    z-index: 1;
+}
+
+.hero-slide.active {
+    opacity: 1;
+    transform: scale(1);
 }
 
 .hero-overlay {
@@ -1004,8 +1028,55 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, rgba(13, 19, 33, 0.75) 0%, rgba(13, 19, 33, 0.4) 50%, rgba(13, 19, 33, 0.25) 100%);
-    z-index: -1;
+    background: linear-gradient(90deg, rgba(13, 19, 33, 0.82) 0%, rgba(13, 19, 33, 0.5) 50%, rgba(13, 19, 33, 0.3) 100%);
+    z-index: 2;
+}
+
+.hero-shuffle-controls {
+    position: absolute;
+    bottom: 25px;
+    right: 25px;
+    z-index: 15;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: rgba(15, 23, 42, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 30px;
+    padding: 0.4rem 0.9rem;
+    backdrop-filter: blur(10px);
+}
+
+.hero-shuffle-btn {
+    background: none;
+    border: none;
+    color: #ffb703;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.hero-slide-dots {
+    display: flex;
+    gap: 0.35rem;
+}
+
+.slide-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.35);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.slide-dot.active {
+    background: #ffb703;
+    width: 18px;
+    border-radius: 10px;
 }
 
 .light-theme .hero-overlay {
@@ -6012,89 +6083,53 @@ html, body {
     animation: stamp-bounce 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
-/* --- Full-Page Global Ambient Solar Background Slideshow --- */
-.global-slideshow-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 0;
-    pointer-events: none;
-    overflow: hidden;
-}
-
-.global-slide {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    opacity: 0;
-    transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1), transform 8s ease-out;
-    transform: scale(1.04);
-}
-
-.global-slide.active {
-    opacity: 0.70;
-    transform: scale(1);
-}
-
-.global-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at center, rgba(13, 19, 33, 0.5) 0%, rgba(13, 19, 33, 0.75) 100%);
-    z-index: 1;
-}
-
-.light-theme .global-overlay {
-    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.55) 0%, rgba(248, 250, 252, 0.8) 100%);
-}
-
-.light-theme .global-slide.active {
-    opacity: 0.55;
-}
-
-/* Ensure page content sits safely above the background with high-contrast text */
-.login-wrapper,
-.portal-wrapper,
-.dashboard-wrapper,
-header,
-main,
-section,
-footer {
-    position: relative;
-    z-index: 10;
-}
-
-/* Crisp Text Readability Boost */
-h1, h2, h3, h4, h5, h6 {
-    color: var(--color-text);
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
-}
-
-.section-desc, .hero-desc-text, p {
+/* 6. Real Kerala Solar & Equipment Showcase Gallery Styles */
+.gallery-filter-btn {
+    padding: 0.5rem 1.25rem;
+    border-radius: 25px;
+    font-size: 0.84rem;
+    font-weight: 700;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
     color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all 0.25s ease;
 }
 
-.light-theme h1, 
-.light-theme h2, 
-.light-theme h3, 
-.light-theme h4, 
-.light-theme h5, 
-.light-theme h6 {
-    color: #0f172a !important;
-    text-shadow: none !important;
+.gallery-filter-btn.active, .gallery-filter-btn:hover {
+    background: var(--color-sun-yellow);
+    color: #0d1321;
+    border-color: var(--color-sun-yellow);
 }
 
-.light-theme .section-desc,
-.light-theme .hero-desc-text,
-.light-theme p {
-    color: #334155 !important;
+.gallery-thumb-wrapper {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+    border-radius: 14px 14px 0 0;
+}
+
+.gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.45s ease;
+}
+
+.gallery-item:hover .gallery-img {
+    transform: scale(1.08);
+}
+
+.gallery-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(255, 183, 3, 0.4);
+    color: #ffb703;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.25rem 0.65rem;
+    border-radius: 20px;
+    backdrop-filter: blur(8px);
 }
