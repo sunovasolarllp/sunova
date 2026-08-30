@@ -5741,7 +5741,7 @@ function printSubmittedContactQuote() {
                         <th style="padding: 0.55rem; text-align: right;">Amount</th>
                     </tr>
                     <tr style="border-bottom: 1px solid #e2e8f0;">
-                        <td style="padding: 0.55rem;">${capacityVal} kWp Complete Grid-Tied Solar Plant (Tier-1 DCR ALMM Modules + High Efficiency Inverter + HDG Structure + KSEB Net Metering Testing)</td>
+                        <td style="padding: 0.55rem;">${capacityVal} kWp Complete Grid-Tied Solar Plant (SUNOVA SOLAR Tier-1 DCR ALMM Modules + SUNOVA SOLAR Smart Inverter + SUNOVA SOLAR HDG Structure + KSEB Net Metering Testing)</td>
                         <td style="padding: 0.55rem; text-align: right; font-weight: 600;">₹ ${basePrice.toLocaleString('en-IN')}</td>
                     </tr>
                     <tr style="border-bottom: 1px solid #e2e8f0; color: #15803d; font-weight: 700;">
@@ -7370,7 +7370,7 @@ function generateInstantPDFProposal() {
                         <th style="padding: 0.55rem; text-align: right;">Amount</th>
                     </tr>
                     <tr style="border-bottom: 1px solid #e2e8f0;">
-                        <td style="padding: 0.55rem;">${capacityVal} kWp Complete Grid-Tied Solar Plant (Tier-1 DCR ALMM Modules + High Efficiency Inverter + HDG Structure + KSEB Net Metering Testing)</td>
+                        <td style="padding: 0.55rem;">${capacityVal} kWp Complete Grid-Tied Solar Plant (SUNOVA SOLAR Tier-1 DCR ALMM Modules + SUNOVA SOLAR Smart Inverter + SUNOVA SOLAR HDG Structure + KSEB Net Metering Testing)</td>
                         <td style="padding: 0.55rem; text-align: right; font-weight: 600;">₹ ${basePrice.toLocaleString('en-IN')}</td>
                     </tr>
                     <tr style="border-bottom: 1px solid #e2e8f0; color: #15803d; font-weight: 700;">
