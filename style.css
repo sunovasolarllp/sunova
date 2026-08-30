@@ -6133,3 +6133,29 @@ html, body {
     border-radius: 20px;
     backdrop-filter: blur(8px);
 }
+
+/* Light Theme Harmonization & Color Matching Overrides */
+.light-theme .hero-shuffle-controls {
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(15, 23, 42, 0.15);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.light-theme .hero-shuffle-btn {
+    color: #d97706;
+}
+
+.light-theme .slide-dot {
+    background: rgba(15, 23, 42, 0.25);
+}
+
+.light-theme .slide-dot.active {
+    background: #f59e0b;
+}
+
+.light-theme .gallery-badge {
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(245, 158, 11, 0.5);
+    color: #d97706;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
