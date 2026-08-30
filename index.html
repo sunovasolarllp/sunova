@@ -1761,8 +1761,64 @@
                 </div>
             </div>
 
-            <!-- Live Tracker Display Result Box -->
-            <div id="tracker-result-box" style="display: none; background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 16px; padding: 2rem; box-shadow: 0 8px 30px rgba(0,0,0,0.4);"></div>
+            <!-- Live Tracker Display Result Box (Visible By Default) -->
+            <div id="tracker-result-box" style="display: block; background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 16px; padding: 2rem; box-shadow: 0 8px 30px rgba(0,0,0,0.4);">
+                <div style="border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 1.2rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
+                    <div>
+                        <span style="background: rgba(16, 185, 129, 0.15); color: #10b981; font-size: 0.76rem; font-weight: 800; padding: 0.25rem 0.75rem; border-radius: 12px; border: 1px solid rgba(16, 185, 129, 0.35);">
+                            🟢 In Progress (80% Complete)
+                        </span>
+                        <h3 id="track-proj-title" style="margin: 0.5rem 0 0.2rem 0; font-size: 1.3rem; color: #ffffff;">Project ID: SUNOVA-KL-9072</h3>
+                        <div id="track-proj-sub" style="font-size: 0.82rem; color: #94a3b8;">System: 3.0 kWp Tier-1 TOPCon &bull; KSEB Registered</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 0.78rem; color: #94a3b8;">Estimated Commissioning</div>
+                        <div style="font-size: 1.05rem; font-weight: 800; color: #ffb703;">Within 5 Business Days</div>
+                    </div>
+                </div>
+
+                <!-- 6-Step Installation Roadmap -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.8rem; text-align: center; margin-bottom: 1.5rem;">
+                    <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; border-radius: 10px; padding: 0.8rem 0.5rem;">
+                        <div style="font-size: 1.3rem;">✅</div>
+                        <div style="font-size: 0.72rem; font-weight: 800; color: #10b981; margin-top: 0.3rem;">1. Site Survey</div>
+                        <div style="font-size: 0.64rem; color: #cbd5e1;">Completed</div>
+                    </div>
+                    <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; border-radius: 10px; padding: 0.8rem 0.5rem;">
+                        <div style="font-size: 1.3rem;">✅</div>
+                        <div style="font-size: 0.72rem; font-weight: 800; color: #10b981; margin-top: 0.3rem;">2. 3D CAD Design</div>
+                        <div style="font-size: 0.64rem; color: #cbd5e1;">Approved</div>
+                    </div>
+                    <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; border-radius: 10px; padding: 0.8rem 0.5rem;">
+                        <div style="font-size: 1.3rem;">✅</div>
+                        <div style="font-size: 0.72rem; font-weight: 800; color: #10b981; margin-top: 0.3rem;">3. KSEB Soura</div>
+                        <div style="font-size: 0.64rem; color: #cbd5e1;">Feasibility Done</div>
+                    </div>
+                    <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; border-radius: 10px; padding: 0.8rem 0.5rem;">
+                        <div style="font-size: 1.3rem;">✅</div>
+                        <div style="font-size: 0.72rem; font-weight: 800; color: #10b981; margin-top: 0.3rem;">4. Rooftop Mount</div>
+                        <div style="font-size: 0.64rem; color: #cbd5e1;">Installed</div>
+                    </div>
+                    <div style="background: rgba(255, 183, 3, 0.15); border: 1px solid #ffb703; border-radius: 10px; padding: 0.8rem 0.5rem;">
+                        <div style="font-size: 1.3rem;">⚡</div>
+                        <div style="font-size: 0.72rem; font-weight: 800; color: #ffb703; margin-top: 0.3rem;">5. Net Metering</div>
+                        <div style="font-size: 0.64rem; color: #cbd5e1;">Inspection Ready</div>
+                    </div>
+                    <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 0.8rem 0.5rem;">
+                        <div style="font-size: 1.3rem;">⏳</div>
+                        <div style="font-size: 0.72rem; font-weight: 700; color: #94a3b8; margin-top: 0.3rem;">6. ₹78k Subsidy</div>
+                        <div style="font-size: 0.64rem; color: #94a3b8;">DBT Queue</div>
+                    </div>
+                </div>
+
+                <!-- Help Contact Box -->
+                <div style="background: #1e293b; border-radius: 10px; padding: 0.9rem 1.2rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; flex-wrap: wrap; gap: 0.6rem;">
+                    <span style="color: #cbd5e1;">Need dedicated field engineer assistance?</span>
+                    <a id="track-whatsapp-btn" href="https://wa.me/919072522277?text=Hi%20Sunova%20Solar,%20I'm%20checking%20my%20installation%20status." target="_blank" rel="noopener" style="background: #25d366; color: #ffffff; padding: 0.45rem 1rem; border-radius: 20px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;">
+                        💬 WhatsApp Helpdesk
+                    </a>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1770,73 +1826,26 @@
     <script>
     function lookupLiveInstallationStatus() {
         const inputEl = document.getElementById('track-input-id');
-        const resultBox = document.getElementById('tracker-result-box');
-        if (!inputEl || !resultBox) return;
-
+        if (!inputEl) return;
         const val = inputEl.value.trim();
         if (!val) {
             alert('Please enter your 10-digit mobile number or KSEB Consumer Number.');
             return;
         }
+        const titleEl = document.getElementById('track-proj-title');
+        const subEl = document.getElementById('track-proj-sub');
+        const btnEl = document.getElementById('track-whatsapp-btn');
+        const projId = `SUNOVA-KL-${val.slice(-4) || '9072'}`;
 
-        resultBox.style.display = 'block';
-        resultBox.innerHTML = `
-            <div style="border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 1.2rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
-                <div>
-                    <span style="background: rgba(16, 185, 129, 0.15); color: #10b981; font-size: 0.76rem; font-weight: 800; padding: 0.25rem 0.75rem; border-radius: 12px; border: 1px solid rgba(16, 185, 129, 0.35);">
-                        🟢 In Progress (80% Complete)
-                    </span>
-                    <h3 style="margin: 0.5rem 0 0.2rem 0; font-size: 1.3rem; color: #ffffff;">Project ID: SUNOVA-KL-${val.slice(-4) || '8842'}</h3>
-                    <div style="font-size: 0.82rem; color: #94a3b8;">System: 3.0 kWp Tier-1 TOPCon &bull; KSEB Registered</div>
-                </div>
-                <div style="text-align: right;">
-                    <div style="font-size: 0.78rem; color: #94a3b8;">Estimated Commissioning</div>
-                    <div style="font-size: 1.05rem; font-weight: 800; color: #ffb703;">Within 5 Business Days</div>
-                </div>
-            </div>
+        if (titleEl) titleEl.textContent = `Project ID: ${projId}`;
+        if (subEl) subEl.textContent = `Customer Phone/Consumer: ${val} • 3.0 kWp TOPCon Plant`;
+        if (btnEl) btnEl.href = `https://wa.me/919072522277?text=${encodeURIComponent(`Hi Sunova Solar, I'm checking status for Project ID: ${projId}`)}`;
 
-            <!-- 6-Step Installation Roadmap -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.8rem; text-align: center; margin-bottom: 1.5rem;">
-                <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; border-radius: 10px; padding: 0.8rem 0.5rem;">
-                    <div style="font-size: 1.3rem;">✅</div>
-                    <div style="font-size: 0.72rem; font-weight: 800; color: #10b981; margin-top: 0.3rem;">1. Site Survey</div>
-                    <div style="font-size: 0.64rem; color: #cbd5e1;">Completed</div>
-                </div>
-                <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; border-radius: 10px; padding: 0.8rem 0.5rem;">
-                    <div style="font-size: 1.3rem;">✅</div>
-                    <div style="font-size: 0.72rem; font-weight: 800; color: #10b981; margin-top: 0.3rem;">2. 3D CAD Design</div>
-                    <div style="font-size: 0.64rem; color: #cbd5e1;">Approved</div>
-                </div>
-                <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; border-radius: 10px; padding: 0.8rem 0.5rem;">
-                    <div style="font-size: 1.3rem;">✅</div>
-                    <div style="font-size: 0.72rem; font-weight: 800; color: #10b981; margin-top: 0.3rem;">3. KSEB Soura</div>
-                    <div style="font-size: 0.64rem; color: #cbd5e1;">Feasibility Done</div>
-                </div>
-                <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; border-radius: 10px; padding: 0.8rem 0.5rem;">
-                    <div style="font-size: 1.3rem;">✅</div>
-                    <div style="font-size: 0.72rem; font-weight: 800; color: #10b981; margin-top: 0.3rem;">4. Rooftop Mount</div>
-                    <div style="font-size: 0.64rem; color: #cbd5e1;">Installed</div>
-                </div>
-                <div style="background: rgba(255, 183, 3, 0.15); border: 1px solid #ffb703; border-radius: 10px; padding: 0.8rem 0.5rem;">
-                    <div style="font-size: 1.3rem;">⚡</div>
-                    <div style="font-size: 0.72rem; font-weight: 800; color: #ffb703; margin-top: 0.3rem;">5. Net Metering</div>
-                    <div style="font-size: 0.64rem; color: #cbd5e1;">Inspection Ready</div>
-                </div>
-                <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 0.8rem 0.5rem;">
-                    <div style="font-size: 1.3rem;">⏳</div>
-                    <div style="font-size: 0.72rem; font-weight: 700; color: #94a3b8; margin-top: 0.3rem;">6. ₹78k Subsidy</div>
-                    <div style="font-size: 0.64rem; color: #94a3b8;">DBT Queue</div>
-                </div>
-            </div>
-
-            <!-- Help Contact Box -->
-            <div style="background: #1e293b; border-radius: 10px; padding: 0.9rem 1.2rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; flex-wrap: wrap; gap: 0.6rem;">
-                <span style="color: #cbd5e1;">Need dedicated field engineer assistance?</span>
-                <a href="https://wa.me/919072522277?text=${encodeURIComponent(`Hi Sunova Solar, I'm checking status for Project ID: SUNOVA-KL-${val.slice(-4) || '8842'}`)}" target="_blank" rel="noopener" style="background: #25d366; color: #ffffff; padding: 0.45rem 1rem; border-radius: 20px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;">
-                    💬 WhatsApp Helpdesk
-                </a>
-            </div>
-        `;
+        const resultBox = document.getElementById('tracker-result-box');
+        if (resultBox) {
+            resultBox.style.display = 'block';
+            resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
     }
     </script>
 
