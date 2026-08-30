@@ -7530,6 +7530,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         statCounters.forEach(el => counterObserver.observe(el));
     }
+
+    // 3. Auto-Shuffle Full-Page Background Slideshow
+    let globalSlideIdx = 0;
+    setInterval(() => {
+        const gSlides = document.querySelectorAll('.global-slide');
+        if (gSlides.length > 0) {
+            gSlides.forEach((s, i) => {
+                s.classList.toggle('active', i === globalSlideIdx);
+            });
+            globalSlideIdx = (globalSlideIdx + 1) % gSlides.length;
+        }
+    }, 5500);
 });
 
 
