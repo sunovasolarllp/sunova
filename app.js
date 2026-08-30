@@ -680,8 +680,8 @@ function performCalculationsDirect(capacity, units, skipSyncForm = false, syncBi
     outSavings.textContent = annualSavingsVal.toLocaleString('en-IN');
     outPayback.textContent = paybackVal;
     outRoi.textContent = roiVal;
-    outCo2.textContent = co2Offset;
-    outTrees.textContent = equivalentTrees;
+    if (outCo2) outCo2.textContent = co2Offset;
+    if (outTrees) outTrees.textContent = equivalentTrees;
     
     // Sync Average Monthly Bill to reflect the recommended capacity (only when capacity is the source)
     if (syncBill) {
