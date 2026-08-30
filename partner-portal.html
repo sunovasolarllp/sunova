@@ -1006,18 +1006,21 @@
                             </div>
                         </div>
                         
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.8rem; margin-top: 1.2rem;">
-                            <button type="button" id="btn-save-customer-quote" onclick="saveQuotationFromForm()" class="cta-btn text-center" style="padding: 0.7rem 0.5rem; font-size: 0.82rem; font-weight: 700; border-radius: 8px; cursor: pointer; text-align: center; background: #0284c7; color: white; border: none; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35); transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.6rem; margin-top: 1.2rem;">
+                            <button type="button" id="btn-save-customer-quote" onclick="saveQuotationFromForm()" class="cta-btn text-center" style="padding: 0.7rem 0.4rem; font-size: 0.8rem; font-weight: 700; border-radius: 8px; cursor: pointer; text-align: center; background: #0284c7; color: white; border: none; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);">
                                 💾 Save for Future
                             </button>
-                            <button type="button" onclick="generateQuotation('customer')" class="cta-btn secondary-btn text-center" style="padding: 0.7rem 0.5rem; font-size: 0.82rem; font-weight: 700; border-radius: 8px; cursor: pointer; text-align: center;">
-                                📄 Preview Proposal
+                            <button type="button" onclick="generateQuotation('customer')" class="cta-btn secondary-btn text-center" style="padding: 0.7rem 0.4rem; font-size: 0.8rem; font-weight: 700; border-radius: 8px; cursor: pointer; text-align: center;">
+                                📄 Preview
                             </button>
-                            <button type="button" onclick="generateAndPrintQuotation('customer')" class="cta-btn primary-btn text-center" style="padding: 0.7rem 0.5rem; font-size: 0.84rem; font-weight: 800; border-radius: 8px; cursor: pointer; text-align: center; background: linear-gradient(135deg, #ffb703 0%, #10b981 100%); color: #0d1321; border: none; box-shadow: 0 4px 14px rgba(255, 183, 3, 0.35);">
-                                🖨️ Instant Print / PDF
+                            <button type="button" onclick="shareWhatsAppCustomerQuote()" class="cta-btn text-center" style="padding: 0.7rem 0.4rem; font-size: 0.8rem; font-weight: 700; border-radius: 8px; cursor: pointer; text-align: center; background: #25d366; color: white; border: none; box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);">
+                                📲 WhatsApp Quote
                             </button>
-                            <button type="button" onclick="generateQuotation('kseb')" class="cta-btn text-center" style="background: #28a745; color: white; border: none; padding: 0.7rem 0.5rem; font-size: 0.82rem; font-weight: 700; border-radius: 8px; cursor: pointer; text-align: center; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
-                                ⚡ KSEB Submission
+                            <button type="button" onclick="generateAndPrintQuotation('customer')" class="cta-btn primary-btn text-center" style="padding: 0.7rem 0.4rem; font-size: 0.82rem; font-weight: 800; border-radius: 8px; cursor: pointer; text-align: center; background: linear-gradient(135deg, #ffb703 0%, #10b981 100%); color: #0d1321; border: none; box-shadow: 0 4px 14px rgba(255, 183, 3, 0.35);">
+                                🖨️ Print / PDF
+                            </button>
+                            <button type="button" onclick="generateQuotation('kseb')" class="cta-btn text-center" style="background: #28a745; color: white; border: none; padding: 0.7rem 0.4rem; font-size: 0.8rem; font-weight: 700; border-radius: 8px; cursor: pointer; text-align: center;">
+                                ⚡ KSEB Submit
                             </button>
                         </div>
                     </form>
@@ -1890,6 +1893,45 @@
             const grossVal = currentQuoteData.grossTotal ? currentQuoteData.grossTotal.toLocaleString('en-IN') : 'N/A';
             const text = encodeURIComponent(`*SUNOVA SOLAR QUOTATION SUMMARY*\n\n*Quote No:* ${currentQuoteData.quoteNo}\n*Customer:* ${currentQuoteData.customerName}\n*Phone:* ${currentQuoteData.customerPhone}\n*Capacity:* ${currentQuoteData.capacity} kWp\n*Total Value:* Rs. ${grossVal}\n\nThis quote was generated via the Partner Portal.`);
             window.open(`https://wa.me/91${dealer.phone}?text=${text}`, '_blank');
+        }
+
+        function shareWhatsAppCustomerQuote() {
+            const name = document.getElementById('quote-cust-name')?.value.trim() || 'Valued Customer';
+            const phone = document.getElementById('quote-cust-phone')?.value.trim() || '';
+            const capacity = document.getElementById('quote-capacity')?.value || '3.0';
+            const district = document.getElementById('quote-district')?.value || 'Kerala';
+            const panelBrand = document.getElementById('quote-panel-brand')?.value || 'Emmvee TOPCon 560W';
+            const inverterBrand = document.getElementById('quote-inverter-brand')?.value || 'Eastman High-Efficiency';
+
+            const grossTotal = capacity === '3.0' ? '₹2,00,000' : (capacity === '5.0' ? '₹3,10,000' : `₹${(parseFloat(capacity)*65000).toLocaleString('en-IN')}`);
+            const subsidy = parseFloat(capacity) >= 3.0 ? '₹78,000' : `₹${(parseFloat(capacity)*30000).toLocaleString('en-IN')}`;
+            const netCost = capacity === '3.0' ? '₹1,22,000' : (capacity === '5.0' ? '₹2,32,000' : 'Contact Partner');
+
+            const partnerCode = localStorage.getItem('partner_code') || 'SUNOVA';
+
+            const text = encodeURIComponent(
+                `☀️ *SUNOVA SOLAR LLP - OFFICIAL ROOFTOP PROPOSAL*\n\n` +
+                `Dear *${name}*,\n` +
+                `Here is your customized rooftop solar proposal for your home in *${district}*:\n\n` +
+                `⚡ *System Capacity:* ${capacity} kWp On-Grid Plant\n` +
+                `🛡️ *Solar Panels:* ${panelBrand}\n` +
+                `🔄 *Inverter:* ${inverterBrand}\n` +
+                `📈 *Estimated Monthly Output:* ${Math.round(parseFloat(capacity) * 120)} Units / Month (₹0 KSEB Bill)\n\n` +
+                `💵 *Turnkey Plant Value:* ${grossTotal}\n` +
+                `🎁 *Central PM Surya Ghar Subsidy:* -${subsidy} (Direct Bank Transfer)\n` +
+                `------------------------------------\n` +
+                `✅ *NET CUSTOMER INVESTMENT:* *${netCost}*\n\n` +
+                `✨ *Benefits:* 25-Year Power Guarantee • KSEB Net-Meter Filing • 0% Bank Loan Support\n\n` +
+                `🔗 *View Complete Details:* https://sunovasolar.in\n` +
+                `📞 *Authorized Partner:* ${partnerCode} (Sunova Solar LLP)`
+            );
+
+            const targetPhone = phone ? `91${phone.replace(/[^0-9]/g, '')}` : '';
+            if (targetPhone.length === 12) {
+                window.open(`https://wa.me/${targetPhone}?text=${text}`, '_blank');
+            } else {
+                window.open(`https://wa.me/?text=${text}`, '_blank');
+            }
         }
 
         function toggleAllocatedLeads() {
