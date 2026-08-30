@@ -5922,3 +5922,102 @@ html, body {
         break-inside: auto !important;
     }
 }
+
+/* --- High-Tech Interactive Animations Suite --- */
+
+/* 1. Electric Energy Flow Pulse */
+@keyframes electric-pulse {
+    0% {
+        box-shadow: 0 0 5px rgba(255, 183, 3, 0.2), 0 0 10px rgba(16, 185, 129, 0.2);
+        border-color: rgba(255, 183, 3, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 22px rgba(255, 183, 3, 0.65), 0 0 32px rgba(16, 185, 129, 0.45);
+        border-color: #ffb703;
+    }
+    100% {
+        box-shadow: 0 0 5px rgba(255, 183, 3, 0.2), 0 0 10px rgba(16, 185, 129, 0.2);
+        border-color: rgba(255, 183, 3, 0.4);
+    }
+}
+
+.pizza-tracker-step:hover .pizza-step-icon {
+    animation: electric-pulse 1.8s infinite ease-in-out;
+    transform: scale(1.12);
+    transition: transform 0.3s ease;
+}
+
+/* 2. Solar Sunburst & Breathing Glow */
+@keyframes solar-breath {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 4px 20px rgba(255, 183, 3, 0.25);
+    }
+    50% {
+        transform: scale(1.03);
+        box-shadow: 0 8px 32px rgba(255, 183, 3, 0.5);
+    }
+}
+
+.hero-pill-badge {
+    animation: solar-breath 4s infinite ease-in-out;
+    display: inline-block;
+}
+
+/* 3. 3D Glass Sheen & Interactive Tilt */
+.glass-card {
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 40%,
+        rgba(255, 255, 255, 0.06) 50%,
+        transparent 60%
+    );
+    transform: translateX(-100%) rotate(35deg);
+    transition: transform 0.8s ease;
+    pointer-events: none;
+}
+
+.glass-card:hover::after {
+    transform: translateX(100%) rotate(35deg);
+}
+
+.glass-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
+    border-color: rgba(255, 183, 3, 0.45);
+}
+
+/* 4. Animated Step Connectors */
+.flow-arrow-animated {
+    animation: bounce-right 1.5s infinite ease-in-out;
+    color: var(--color-sun-yellow);
+    display: inline-block;
+}
+
+@keyframes bounce-right {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(6px); }
+}
+
+/* 5. Smooth Seal Stamp Animation */
+@keyframes stamp-bounce {
+    0% { transform: scale(0.6) rotate(-10deg); opacity: 0; }
+    70% { transform: scale(1.08) rotate(3deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+.verified-stamp-badge {
+    animation: stamp-bounce 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}

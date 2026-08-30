@@ -7477,5 +7477,60 @@ function printWebsiteProposal() {
     }, 400);
 }
 
+// --- Interactive 3D Card Tilt & Counter Animations Suite ---
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Subtle 3D Card Tilt Effect on Mouse Move
+    const tiltCards = document.querySelectorAll('.glass-card, .service-card, .benefit-list li');
+    tiltCards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -5;
+            const rotateY = ((x - centerX) / centerX) * 5;
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
+        });
+    });
+
+    // 2. Smooth Number Counter-Up Animation on Scroll
+    const statCounters = document.querySelectorAll('[data-counter]');
+    if (statCounters.length > 0) {
+        const counterObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const targetEl = entry.target;
+                    const targetNum = parseInt(targetEl.getAttribute('data-counter'), 10);
+                    const suffix = targetEl.getAttribute('data-suffix') || '';
+                    const prefix = targetEl.getAttribute('data-prefix') || '';
+                    let currentNum = 0;
+                    const duration = 1500;
+                    const stepTime = 30;
+                    const steps = duration / stepTime;
+                    const increment = targetNum / steps;
+
+                    const counterInterval = setInterval(() => {
+                        currentNum += increment;
+                        if (currentNum >= targetNum) {
+                            currentNum = targetNum;
+                            clearInterval(counterInterval);
+                        }
+                        targetEl.textContent = prefix + Math.round(currentNum).toLocaleString('en-IN') + suffix;
+                    }, stepTime);
+
+                    observer.unobserve(targetEl);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        statCounters.forEach(el => counterObserver.observe(el));
+    }
+});
+
 
 
