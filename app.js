@@ -7907,9 +7907,11 @@ function deleteCustomPartnerCMS(idx) {
 }
 
 // Reviews Management Helpers in CMS
-function addCustomerReviewCMS() {
+function saveCustomerReviewCMS() {
+    const editIndex = parseInt(document.getElementById('cms-review-edit-index')?.value || '-1', 10);
     const name = document.getElementById('cms-review-name')?.value.trim();
     const loc = document.getElementById('cms-review-location')?.value.trim();
+    const cap = document.getElementById('cms-review-capacity')?.value.trim();
     const text = document.getElementById('cms-review-text')?.value.trim();
 
     if (!name || !text) {
@@ -7918,15 +7920,191 @@ function addCustomerReviewCMS() {
     }
 
     const reviews = JSON.parse(localStorage.getItem('custom_reviews_list') || '[]');
-    reviews.unshift({ name, location: loc || 'Kerala', text, rating: 5, date: new Date().toLocaleDateString('en-IN') });
+
+    if (editIndex >= 0 && editIndex < reviews.length) {
+        // Update existing review
+        reviews[editIndex].name = name;
+        reviews[editIndex].location = loc || 'Kerala';
+        reviews[editIndex].capacity = cap || 'Rooftop Solar';
+        reviews[editIndex].text = text;
+        reviews[editIndex].editedAt = new Date().toLocaleDateString('en-IN');
+        alert(`Review for "${name}" updated successfully!`);
+    } else {
+        // Add new review
+        reviews.unshift({
+            name,
+            location: loc || 'Kerala',
+            capacity: cap || 'Rooftop Solar',
+            text,
+            rating: 5,
+            tags: ['✅ Verified Solar Client'],
+            date: new Date().toLocaleDateString('en-IN')
+        });
+        alert(`Review from "${name}" added live!`);
+    }
+
     localStorage.setItem('custom_reviews_list', JSON.stringify(reviews));
 
+    cancelEditReviewCMS();
+    renderCustomReviewsListCMS();
+    if (typeof renderLiveCustomReviews === 'function') {
+        renderLiveCustomReviews();
+    }
+}
+
+// Alias for backward compatibility
+function addCustomerReviewCMS() {
+    saveCustomerReviewCMS();
+}
+
+function editCustomerReviewCMS(idx) {
+    const list = JSON.parse(localStorage.getItem('custom_reviews_list') || '[]');
+    const r = list[idx];
+    if (!r) return;
+
+    document.getElementById('cms-review-edit-index').value = idx;
+    if (document.getElementById('cms-review-name')) document.getElementById('cms-review-name').value = r.name || '';
+    if (document.getElementById('cms-review-location')) document.getElementById('cms-review-location').value = r.location || '';
+    if (document.getElementById('cms-review-capacity')) document.getElementById('cms-review-capacity').value = r.capacity || '';
+    if (document.getElementById('cms-review-text')) document.getElementById('cms-review-text').value = r.text || '';
+
+    // Switch UI to Edit Mode
+    const submitBtn = document.getElementById('cms-review-submit-btn');
+    if (submitBtn) {
+        submitBtn.innerHTML = '💾 Update Review';
+        submitBtn.style.background = '#2563eb';
+    }
+
+    const cancelBtn = document.getElementById('cms-review-cancel-btn');
+    if (cancelBtn) cancelBtn.style.display = 'inline-block';
+
+    const titleEl = document.getElementById('cms-review-form-title');
+    if (titleEl) titleEl.textContent = `✏️ Editing Review: ${r.name}`;
+
+    // Smooth scroll to editor inputs
+    document.getElementById('cms-tab-reviews').scrollIntoView({ behavior: 'smooth' });
+}
+
+function cancelEditReviewCMS() {
+    document.getElementById('cms-review-edit-index').value = '-1';
     if (document.getElementById('cms-review-name')) document.getElementById('cms-review-name').value = '';
     if (document.getElementById('cms-review-location')) document.getElementById('cms-review-location').value = '';
+    if (document.getElementById('cms-review-capacity')) document.getElementById('cms-review-capacity').value = '';
     if (document.getElementById('cms-review-text')) document.getElementById('cms-review-text').value = '';
 
-    renderCustomReviewsListCMS();
-    alert(`Review from "${name}" added live!`);
+    const submitBtn = document.getElementById('cms-review-submit-btn');
+    if (submitBtn) {
+        submitBtn.innerHTML = '➕ Add Review';
+        submitBtn.style.background = '#10b981';
+    }
+
+    const cancelBtn = document.getElementById('cms-review-cancel-btn');
+    if (cancelBtn) cancelBtn.style.display = 'none';
+
+    const titleEl = document.getElementById('cms-review-form-title');
+    if (titleEl) titleEl.textContent = '➕ Add / ✏️ Edit Customer Testimonial';
+}
+
+function deleteCustomReviewCMS(idx) {
+    const list = JSON.parse(localStorage.getItem('custom_reviews_list') || '[]');
+    const name = list[idx]?.name || 'this review';
+    if (confirm(`Are you sure you want to delete the review by "${name}"?`)) {
+        list.splice(idx, 1);
+        localStorage.setItem('custom_reviews_list', JSON.stringify(list));
+        cancelEditReviewCMS();
+        renderCustomReviewsListCMS();
+        if (typeof renderLiveCustomReviews === 'function') {
+            renderLiveCustomReviews();
+        }
+    }
+}
+
+function loadDefaultReviewsIntoCMS() {
+    const defaultReviews = [
+        {
+            name: "Dr. K. Nair",
+            location: "Thodupuzha, Idukki",
+            capacity: "5 kWp On-Grid Mono PERC",
+            text: "Installed a 5 kWp Mono PERC system at my home in Thodupuzha. Our KSEB bi-monthly bill dropped from ₹6,400 to just ₹390! Sunova Solar handled the entire KSEB net-metering & PM Surya Ghar ₹78,000 subsidy processing effortlessly.",
+            rating: 5,
+            tags: ["✅ Verified Client"],
+            date: "Recent"
+        },
+        {
+            name: "Mathew Varghese",
+            location: "Edappally, Ernakulam",
+            capacity: "15 kWp Commercial Rooftop",
+            text: "Sunova Solar installed a 15 kWp commercial on-grid solar plant for our textile enterprise in Edappally. The heavy-duty GI structure is robust and wind-proof. Real-time Wi-Fi tracking makes generation monitoring very simple!",
+            rating: 5,
+            tags: ["🏢 Commercial Client"],
+            date: "Recent"
+        },
+        {
+            name: "Priya S. Kumar",
+            location: "Cherthala, Alappuzha",
+            capacity: "3 kWp Hybrid + Lithium Storage",
+            text: "We opted for a 3 kWp Hybrid system with lithium battery storage in Cherthala. During heavy monsoons and coastal power outages, our home runs completely uninterrupted. Direct bank credit of ₹78,000 PM Surya Ghar subsidy was seamless!",
+            rating: 5,
+            tags: ["✅ Verified Hybrid"],
+            date: "Recent"
+        },
+        {
+            name: "Col. R. Menon",
+            location: "Kowdiar, Thiruvananthapuram",
+            capacity: "10 kWp TOPCon Bifacial",
+            text: "Exceptional engineering quality from the Sunova Solar TVM team! They installed 10 kWp TOPCon Bifacial panels on our residence in Kowdiar. Zero hassle with KSEB net-metering approvals.",
+            rating: 5,
+            tags: ["✅ Verified Homeowner"],
+            date: "Recent"
+        },
+        {
+            name: "Fr. Joseph Pulikkal",
+            location: "Pala, Kottayam",
+            capacity: "8 kWp High-Rise Terrace",
+            text: "The high-rise galvanized canopy structure gave us full usable rooftop utility space while generating 36–40 solar units daily! Clean execution and superb coordination by the Sunova Kottayam team.",
+            rating: 5,
+            tags: ["✅ Verified Client"],
+            date: "Recent"
+        },
+        {
+            name: "Sujatha Sreedharan",
+            location: "Kadavanthra, Ernakulam",
+            capacity: "3 kWp PM Surya Ghar Rooftop",
+            text: "Got ₹78,000 central government subsidy credited directly into my bank account within 25 days of system commissioning! Sunova Solar's team is polite, punctual, and highly skilled.",
+            rating: 5,
+            tags: ["✅ PM Surya Ghar Grant"],
+            date: "Recent"
+        },
+        {
+            name: "Venkatesh Prabhu",
+            location: "Palakkad Town, Palakkad",
+            capacity: "6 kWp Industrial Solar",
+            text: "Palakkad heat yields maximum solar power! Our 6 kWp system produces over 28–30 units of green electricity every single day. Extremely satisfied with Sunova Solar's workmanship.",
+            rating: 5,
+            tags: ["🏭 Industrial Client"],
+            date: "Recent"
+        },
+        {
+            name: "Gopika R. Kurup",
+            location: "West Hill, Kozhikode",
+            capacity: "4 kWp On-Grid System",
+            text: "The solar structure engineering and cable neatness exceeded our expectations. The post-installation service team checked back after 1 month to verify generation reports. 100% recommended!",
+            rating: 5,
+            tags: ["✅ Verified Homeowner"],
+            date: "Recent"
+        }
+    ];
+
+    if (confirm("Load all 8 default website testimonials into the editable database? (Existing customized reviews will be merged)")) {
+        const currentList = JSON.parse(localStorage.getItem('custom_reviews_list') || '[]');
+        const combined = [...currentList, ...defaultReviews.filter(d => !currentList.some(c => c.name === d.name))];
+        localStorage.setItem('custom_reviews_list', JSON.stringify(combined));
+        renderCustomReviewsListCMS();
+        if (typeof renderLiveCustomReviews === 'function') {
+            renderLiveCustomReviews();
+        }
+        alert("Default 8 reviews loaded into editor! You can now edit and customize every single one.");
+    }
 }
 
 function renderCustomReviewsListCMS() {
@@ -7935,27 +8113,40 @@ function renderCustomReviewsListCMS() {
     const list = JSON.parse(localStorage.getItem('custom_reviews_list') || '[]');
 
     if (!list.length) {
-        container.innerHTML = '<div style="font-size: 0.8rem; color: #94a3b8; font-style: italic;">No custom reviews added yet. Default customer reviews active.</div>';
+        container.innerHTML = `
+            <div style="font-size: 0.8rem; color: #94a3b8; font-style: italic; background: rgba(255,255,255,0.03); padding: 0.8rem; border-radius: 8px; border: 1px dashed rgba(255,255,255,0.15);">
+                No custom reviews added yet. 8 default customer reviews are currently active on website. Click <strong>"Load Default 8 Reviews into Manager"</strong> above to edit and customize them directly!
+            </div>
+        `;
         return;
     }
 
-    let html = '<div style="font-size: 0.82rem; font-weight: 700; color: var(--color-sun-yellow); margin-bottom: 0.5rem;">Custom Customer Reviews:</div>';
+    let html = '';
     list.forEach((r, idx) => {
         html += `
-            <div style="background: #1e293b; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0.5rem 0.8rem; margin-bottom: 0.4rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem;">
-                <div>⭐⭐⭐⭐⭐ <strong>${r.name}</strong> (${r.location}): "${r.text.substring(0, 60)}..."</div>
-                <button type="button" onclick="deleteCustomReviewCMS(${idx})" style="background: #ef4444; color: #fff; border: none; border-radius: 4px; padding: 0.2rem 0.6rem; cursor: pointer; font-size: 0.75rem;">Delete</button>
+            <div style="background: #1e293b; border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 0.65rem 0.85rem; display: flex; justify-content: space-between; align-items: center; gap: 0.6rem; font-size: 0.82rem; transition: border-color 0.15s;" onmouseover="this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.12)'">
+                <div style="flex: 1; min-width: 0;">
+                    <div style="display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.2rem; flex-wrap: wrap;">
+                        <span style="color: #f59e0b; font-size: 0.85rem;">★★★★★</span>
+                        <strong style="color: #fff; font-size: 0.86rem;">${r.name}</strong>
+                        <span style="color: #94a3b8; font-size: 0.74rem;">📍 ${r.location || 'Kerala'} • ⚡ ${r.capacity || 'Solar'}</span>
+                    </div>
+                    <div style="color: #cbd5e1; font-size: 0.78rem; line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        "${r.text}"
+                    </div>
+                </div>
+                <div style="display: flex; gap: 0.4rem; flex-shrink: 0;">
+                    <button type="button" onclick="editCustomerReviewCMS(${idx})" style="background: #3b82f6; color: #fff; border: none; border-radius: 6px; padding: 0.35rem 0.75rem; font-weight: 700; cursor: pointer; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.25rem;">
+                        ✏️ Edit
+                    </button>
+                    <button type="button" onclick="deleteCustomReviewCMS(${idx})" style="background: #ef4444; color: #fff; border: none; border-radius: 6px; padding: 0.35rem 0.6rem; font-weight: 700; cursor: pointer; font-size: 0.75rem;">
+                        🗑️ Delete
+                    </button>
+                </div>
             </div>
         `;
     });
     container.innerHTML = html;
-}
-
-function deleteCustomReviewCMS(idx) {
-    const list = JSON.parse(localStorage.getItem('custom_reviews_list') || '[]');
-    list.splice(idx, 1);
-    localStorage.setItem('custom_reviews_list', JSON.stringify(list));
-    renderCustomReviewsListCMS();
 }
 
 function exportCMSDataJSON() {

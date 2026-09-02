@@ -3028,23 +3028,51 @@
 
                 <!-- Tab 4: Reviews -->
                 <div id="cms-tab-reviews" class="cms-tab-content" style="display: none;">
-                    <h4 style="color: var(--color-sun-yellow); margin-bottom: 0.75rem;">Add Customer Testimonial</h4>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+                        <h4 id="cms-review-form-title" style="color: var(--color-sun-yellow); margin: 0; font-size: 1rem;">➕ Add / ✏️ Edit Customer Testimonial</h4>
+                        <button type="button" onclick="loadDefaultReviewsIntoCMS()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #cbd5e1; font-size: 0.74rem; padding: 0.35rem 0.75rem; border-radius: 6px; cursor: pointer; transition: background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">
+                            📋 Load Default 8 Reviews into Manager
+                        </button>
+                    </div>
+
+                    <!-- Hidden input to store index during editing -->
+                    <input type="hidden" id="cms-review-edit-index" value="-1">
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
                         <div>
-                            <label style="font-size: 0.8rem; color: #94a3b8; display: block; margin-bottom: 0.3rem;">Customer Full Name</label>
-                            <input type="text" id="cms-review-name" placeholder="e.g. Adv. George Mathew" style="width: 100%; padding: 0.65rem; border-radius: 8px; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                            <label style="font-size: 0.78rem; color: #94a3b8; display: block; margin-bottom: 0.25rem;">Customer Full Name *</label>
+                            <input type="text" id="cms-review-name" placeholder="e.g. Adv. George Mathew" style="width: 100%; padding: 0.6rem; border-radius: 8px; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #fff; font-size: 0.84rem;">
                         </div>
                         <div>
-                            <label style="font-size: 0.8rem; color: #94a3b8; display: block; margin-bottom: 0.3rem;">District &amp; System Size</label>
-                            <input type="text" id="cms-review-location" placeholder="e.g. Thodupuzha (5 kWp System)" style="width: 100%; padding: 0.65rem; border-radius: 8px; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                            <label style="font-size: 0.78rem; color: #94a3b8; display: block; margin-bottom: 0.25rem;">Location / District *</label>
+                            <input type="text" id="cms-review-location" placeholder="e.g. Thodupuzha, Idukki" style="width: 100%; padding: 0.6rem; border-radius: 8px; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #fff; font-size: 0.84rem;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.78rem; color: #94a3b8; display: block; margin-bottom: 0.25rem;">System Size / Specs</label>
+                            <input type="text" id="cms-review-capacity" placeholder="e.g. 5 kWp On-Grid Mono PERC" style="width: 100%; padding: 0.6rem; border-radius: 8px; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #fff; font-size: 0.84rem;">
                         </div>
                         <div style="grid-column: 1 / -1;">
-                            <label style="font-size: 0.8rem; color: #94a3b8; display: block; margin-bottom: 0.3rem;">Customer Quote / Feedback</label>
-                            <textarea id="cms-review-text" rows="3" placeholder="e.g. My KSEB bill dropped from ₹4,800 to ₹0. Seamless subsidy credit directly into my bank account." style="width: 100%; padding: 0.65rem; border-radius: 8px; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #fff;"></textarea>
+                            <label style="font-size: 0.78rem; color: #94a3b8; display: block; margin-bottom: 0.25rem;">Customer Quote / Review Content *</label>
+                            <textarea id="cms-review-text" rows="3" placeholder="e.g. My KSEB bill dropped from ₹4,800 to ₹0. Seamless subsidy credit directly into my bank account." style="width: 100%; padding: 0.65rem; border-radius: 8px; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #fff; font-size: 0.84rem; line-height: 1.5;"></textarea>
                         </div>
                     </div>
-                    <button type="button" onclick="addCustomerReviewCMS()" style="background: #10b981; color: #fff; border: none; padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 700; cursor: pointer;">➕ Add Review</button>
-                    <div id="cms-reviews-list" style="margin-top: 1.5rem; max-height: 180px; overflow-y: auto;"></div>
+
+                    <div style="display: flex; gap: 0.6rem; align-items: center; margin-bottom: 1.2rem;">
+                        <button type="button" id="cms-review-submit-btn" onclick="saveCustomerReviewCMS()" style="background: #10b981; color: #fff; border: none; padding: 0.6rem 1.4rem; border-radius: 8px; font-weight: 700; font-size: 0.84rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+                            ➕ Add Review
+                        </button>
+                        <button type="button" id="cms-review-cancel-btn" onclick="cancelEditReviewCMS()" style="display: none; background: #64748b; color: #fff; border: none; padding: 0.6rem 1.1rem; border-radius: 8px; font-weight: 700; font-size: 0.84rem; cursor: pointer;">
+                            ✕ Cancel Edit
+                        </button>
+                    </div>
+
+                    <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.8rem;">
+                        <div style="font-size: 0.82rem; font-weight: 700; color: var(--color-sun-yellow); margin-bottom: 0.6rem; display: flex; justify-content: space-between; align-items: center;">
+                            <span>Customer Reviews Directory:</span>
+                            <span style="font-size: 0.74rem; color: #94a3b8; font-weight: normal;">Click ✏️ Edit on any review to modify text &amp; details</span>
+                        </div>
+                        <div id="cms-reviews-list" style="max-height: 240px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem; padding-right: 0.3rem;"></div>
+                    </div>
                 </div>
 
                 <!-- Tab 5: Contacts -->
