@@ -3063,9 +3063,33 @@
 
             </div>
 
-        </div>
     </div>
 
+    <script>
+        (function() {
+            function checkAdminUrl() {
+                var url = window.location.href || '';
+                var search = window.location.search || '';
+                var hash = window.location.hash || '';
+                if (url.indexOf('admin_cms') !== -1 || search.indexOf('admin_cms') !== -1 || hash.indexOf('admin-cms') !== -1) {
+                    var m = document.getElementById('admin-cms-modal');
+                    if (m) {
+                        m.style.display = 'flex';
+                        document.body.style.overflow = 'hidden';
+                        var inp = document.getElementById('cms-pin-input');
+                        if (inp) setTimeout(function(){ inp.focus(); }, 200);
+                    }
+                }
+            }
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', checkAdminUrl);
+            } else {
+                checkAdminUrl();
+            }
+            window.addEventListener('load', checkAdminUrl);
+            window.addEventListener('hashchange', checkAdminUrl);
+        })();
+    </script>
     <script src="app.js?v=9.7"></script>
 </body>
 </html>

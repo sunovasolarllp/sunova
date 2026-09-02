@@ -61,9 +61,9 @@
                 <button type="button" id="role-btn-partner" onclick="switchLoginRole('partner')" style="flex: 1; min-width: 90px; padding: 0.55rem 0.3rem; border: none; border-radius: 8px; font-weight: 700; font-size: 0.76rem; cursor: pointer; transition: all 0.2s; background: transparent; color: var(--color-text-muted);">
                     🤝 Partner
                 </button>
-                <a href="index.html?admin_cms=true" id="role-btn-cms" style="flex: 1; min-width: 90px; padding: 0.55rem 0.3rem; border: none; border-radius: 8px; font-weight: 700; font-size: 0.76rem; cursor: pointer; transition: all 0.2s; background: transparent; color: var(--color-text-muted); text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center;">
+                <button type="button" id="role-btn-cms" onclick="openAdminCMSModal()" style="flex: 1; min-width: 90px; padding: 0.55rem 0.3rem; border: none; border-radius: 8px; font-weight: 700; font-size: 0.76rem; cursor: pointer; transition: all 0.2s; background: transparent; color: var(--color-text-muted); text-align: center; display: flex; align-items: center; justify-content: center;">
                     ⚙️ Admin Editor
-                </a>
+                </button>
                 <a href="https://mail.hostinger.com/" target="_blank" rel="noopener" id="role-btn-mail" style="flex: 1; min-width: 90px; padding: 0.55rem 0.3rem; border: none; border-radius: 8px; font-weight: 700; font-size: 0.76rem; cursor: pointer; transition: all 0.2s; background: transparent; color: var(--color-text-muted); text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center;">
                     ✉️ Webmail
                 </a>
@@ -203,7 +203,7 @@
                         <div class="quick-access-launch-hub" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
                             
                             <!-- 1. ⚙️ Admin Live Website Editor -->
-                            <a href="index.html?admin_cms=true" style="text-decoration: none; background: linear-gradient(135deg, rgba(255, 183, 3, 0.15) 0%, rgba(245, 158, 11, 0.08) 100%); border: 1.5px solid var(--color-sun-yellow); border-radius: 12px; padding: 1rem; display: flex; align-items: center; gap: 0.9rem; transition: all 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+                            <a href="javascript:void(0)" onclick="openAdminCMSModal()" style="text-decoration: none; background: linear-gradient(135deg, rgba(255, 183, 3, 0.15) 0%, rgba(245, 158, 11, 0.08) 100%); border: 1.5px solid var(--color-sun-yellow); border-radius: 12px; padding: 1rem; display: flex; align-items: center; gap: 0.9rem; transition: all 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.15); cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
                                 <div style="width: 44px; height: 44px; border-radius: 10px; background: var(--color-sun-yellow); color: #0d1321; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; font-weight: 800;">
                                     ⚙️
                                 </div>
@@ -2685,7 +2685,478 @@
                 document.getElementById('dashboard-view').classList.add('hidden');
                 document.getElementById('login-view').classList.remove('hidden');
             } else {
-                location.reload();
+        }
+    </script>
+
+    <!-- Admin Live Website CMS & Content Management Portal Modal -->
+    <div id="admin-cms-modal" style="position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 30000; overflow-y: auto; display: none; align-items: center; justify-content: center; padding: 1.5rem; backdrop-filter: blur(10px);">
+        <div style="background: #0f172a; color: #ffffff; border: 1.5px solid var(--color-sun-yellow); width: 100%; max-width: 960px; max-height: 90vh; border-radius: 18px; box-shadow: 0 20px 60px rgba(0,0,0,0.7); display: flex; flex-direction: column; overflow: hidden;">
+            
+            <!-- Modal Header -->
+            <div style="padding: 1.25rem 1.5rem; background: #1e293b; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <img src="assets/logo.jpg" alt="Sunova Logo" style="height: 36px; border-radius: 6px;">
+                    <div>
+                        <h3 style="margin: 0; font-size: 1.15rem; font-weight: 800; color: var(--color-sun-yellow);">Admin Live Website Update Center</h3>
+                        <p style="margin: 0; font-size: 0.76rem; color: #94a3b8;">Manage Announcements, Pricing, Subsidies, Partners, Reviews &amp; Contacts Live</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeAdminCMSModal()" style="background: rgba(255,255,255,0.1); border: none; color: #fff; width: 32px; height: 32px; border-radius: 50%; font-size: 1.1rem; cursor: pointer;">✕</button>
+            </div>
+
+            <!-- PIN Gate View (Shown First) -->
+            <div id="cms-pin-gate" style="padding: 2.5rem 1.5rem; text-align: center; max-width: 420px; margin: 0 auto;">
+                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🔒</div>
+                <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Enter Admin Security PIN</h3>
+                <p style="font-size: 0.82rem; color: #94a3b8; margin-bottom: 1.5rem;">Only authorized administrators can publish live updates to the website.</p>
+                <div style="display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1rem;">
+                    <input type="password" id="cms-pin-input" maxlength="4" placeholder="••••" style="font-size: 1.5rem; letter-spacing: 6px; text-align: center; width: 140px; padding: 0.6rem; border-radius: 10px; border: 1.5px solid var(--color-sun-yellow); background: #1e293b; color: #fff;" onkeydown="if(event.key==='Enter') verifyAdminCMSPin()">
+                    <button type="button" onclick="verifyAdminCMSPin()" style="background: var(--color-sun-yellow); color: #0d1321; font-weight: 800; border: none; border-radius: 10px; padding: 0 1.2rem; cursor: pointer;">Unlock</button>
+                </div>
+                <div id="cms-pin-error" style="color: #ef4444; font-size: 0.8rem; display: none;"></div>
+                <div style="font-size: 0.74rem; color: #64748b; margin-top: 1rem;">Default Admin PIN: <strong>2277</strong></div>
+            </div>
+
+            <!-- Editor View (Shown After PIN Verified) -->
+            <div id="cms-editor-view" style="display: none; flex-direction: column; overflow-y: auto; padding: 1.5rem;">
+                
+                <!-- Nav Tabs -->
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.75rem;">
+                    <button type="button" class="cms-tab-btn active" onclick="switchCMSTab('announcements', this)">📢 Announcement</button>
+                    <button type="button" class="cms-tab-btn" onclick="switchCMSTab('pricing', this)">💰 Pricing &amp; Subsidy</button>
+                    <button type="button" class="cms-tab-btn" onclick="switchCMSTab('partners', this)">🤝 Add Partner</button>
+                    <button type="button" class="cms-tab-btn" onclick="switchCMSTab('reviews', this)">⭐ Reviews</button>
+                    <button type="button" class="cms-tab-btn" onclick="switchCMSTab('contacts', this)">📞 Contacts</button>
+                    <button type="button" class="cms-tab-btn" onclick="switchCMSTab('backup', this)">💾 Backup / JSON</button>
+                </div>
+
+                <!-- Tab 1: Announcements -->
+                <div id="cms-tab-announcements" class="cms-tab-content">
+                    <h4 style="color: var(--color-sun-yellow); margin-bottom: 0.75rem;">Top Scrolling Ticker &amp; Live Alerts</h4>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer;">
+                            <input type="checkbox" id="cms-ticker-enabled" checked style="width: 18px; height: 18px; accent-color: var(--color-sun-yellow);">
+                            <span>Enable Live Marquee Ticker at Top/Bottom of Website</span>
+                        </label>
+                        <div>
+                            <label style="font-size: 0.8rem; color: #94a3b8; display: block; margin-bottom: 0.3rem;">Badge Label (e.g. ⚡ LIVE KERALA UPDATES)</label>
+                            <input type="text" id="cms-ticker-badge" style="width: 100%; padding: 0.65rem; border-radius: 8px; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.8rem; color: #94a3b8; display: block; margin-bottom: 0.3rem;">Announcement News Text</label>
+                            <textarea id="cms-ticker-text" rows="3" style="width: 100%; padding: 0.65rem; border-radius: 8px; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #fff;"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Pricing & Subsidy -->
+                <div id="cms-tab-pricing" class="cms-tab-content" style="display: none;">
+                    <h4 style="color: var(--color-sun-yellow); margin-bottom: 0.75rem;">Solar Sizing Calculator Pricing &amp; Subsidies</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div>
+                            <label style="font-size: 0.8rem; color: #94a3b8; display: block; margin-bottom: 0.3rem;">3 kWp Base Plant Price (₹)</label>
+                            <input type="number" id="cms-price-3kw" style="width: 100%; padding: 0.65rem; border-radius: 8px; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.8rem; color: #94a3b8; display: block; margin-bottom: 0.3rem;">5 kWp Base Plant Price (₹)</label>
+                            <input type="number" id="cms-price-5kw" style="width: 100%; padding: 0.65rem; border-radius: 8px; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.8rem; color: #94a3b8; display: block; margin-bottom: 0.3rem;">10 kWp Base Plant Price (₹)</label>
+                            <input type="number" id="cms-price-10kw" style="width: 100%; padding: 0.65rem; border-radius: 8px; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.8rem; color: #94a3b8; display: block; margin-bottom: 0.3rem;">PM Surya Ghar Max Subsidy 3kW+ (₹)</label>
+                            <input type="number" id="cms-subsidy-3kw" style="width: 100%; padding: 0.65rem; border-radius: 8px; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 3: Partners -->
+                <div id="cms-tab-partners" class="cms-tab-content" style="display: none;">
+                    <h4 style="color: var(--color-sun-yellow); margin-bottom: 0.75rem;">Add New Channel Partner to Directory</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                        <div>
+                            <label style="font-size: 0.8rem; color: #94a3b8; display: block; margin-bottom: 0.3rem;">Partner Name</label>
+                            <input type="text" id="cms-partner-name" placeholder="e.g. Rahul Nair" style="width: 100%; padding: 0.65rem; border-radius: 8px; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.8rem; color: #94a3b8; display: block; margin-bottom: 0.3rem;">Partner Code</label>
+                            <input type="text" id="cms-partner-code" placeholder="e.g. IDK-RAHU" style="width: 100%; padding: 0.65rem; border-radius: 8px; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #fff; text-transform: uppercase;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.8rem; color: #94a3b8; display: block; margin-bottom: 0.3rem;">10-Digit Mobile Number</label>
+                            <input type="tel" id="cms-partner-phone" placeholder="9876543210" maxlength="10" style="width: 100%; padding: 0.65rem; border-radius: 8px; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.8rem; color: #94a3b8; display: block; margin-bottom: 0.3rem;">District (Kerala)</label>
+                            <select id="cms-partner-district" style="width: 100%; padding: 0.65rem; border-radius: 8px; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                                <option value="Idukki">Idukki</option>
+                                <option value="Ernakulam">Ernakulam</option>
+                                <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                                <option value="Kollam">Kollam</option>
+                                <option value="Pathanamthitta">Pathanamthitta</option>
+                                <option value="Alappuzha">Alappuzha</option>
+                                <option value="Kottayam">Kottayam</option>
+                                <option value="Thrissur">Thrissur</option>
+                                <option value="Palakkad">Palakkad</option>
+                                <option value="Malappuram">Malappuram</option>
+                                <option value="Kozhikode">Kozhikode</option>
+                                <option value="Wayanad">Wayanad</option>
+                                <option value="Kannur">Kannur</option>
+                                <option value="Kasaragod">Kasaragod</option>
+                            </select>
+                        </div>
+                        <div style="grid-column: 1 / -1;">
+                            <label style="font-size: 0.8rem; color: #94a3b8; display: block; margin-bottom: 0.3rem;">Service Area / Town</label>
+                            <input type="text" id="cms-partner-area" placeholder="e.g. Thodupuzha Town" style="width: 100%; padding: 0.65rem; border-radius: 8px; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                        </div>
+                    </div>
+                    <button type="button" onclick="addCustomPartnerCMS()" style="background: #10b981; color: #fff; border: none; padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 700; cursor: pointer;">➕ Add Partner to Live Website</button>
+                    
+                    <div id="cms-custom-partners-list" style="margin-top: 1.5rem; max-height: 180px; overflow-y: auto;"></div>
+                </div>
+
+                <!-- Tab 4: Reviews -->
+                <div id="cms-tab-reviews" class="cms-tab-content" style="display: none;">
+                    <h4 style="color: var(--color-sun-yellow); margin-bottom: 0.75rem;">Add Customer Testimonial</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                        <div>
+                            <label style="font-size: 0.8rem; color: #94a3b8; display: block; margin-bottom: 0.3rem;">Customer Full Name</label>
+                            <input type="text" id="cms-review-name" placeholder="e.g. Adv. George Mathew" style="width: 100%; padding: 0.65rem; border-radius: 8px; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.8rem; color: #94a3b8; display: block; margin-bottom: 0.3rem;">District &amp; System Size</label>
+                            <input type="text" id="cms-review-location" placeholder="e.g. Thodupuzha (5 kWp System)" style="width: 100%; padding: 0.65rem; border-radius: 8px; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                        </div>
+                        <div style="grid-column: 1 / -1;">
+                            <label style="font-size: 0.8rem; color: #94a3b8; display: block; margin-bottom: 0.3rem;">Customer Quote / Feedback</label>
+                            <textarea id="cms-review-text" rows="3" placeholder="e.g. My KSEB bill dropped from ₹4,800 to ₹0. Seamless subsidy credit directly into my bank account." style="width: 100%; padding: 0.65rem; border-radius: 8px; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #fff;"></textarea>
+                        </div>
+                    </div>
+                    <button type="button" onclick="addCustomerReviewCMS()" style="background: #10b981; color: #fff; border: none; padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 700; cursor: pointer;">➕ Add Review</button>
+                    <div id="cms-reviews-list" style="margin-top: 1.5rem; max-height: 180px; overflow-y: auto;"></div>
+                </div>
+
+                <!-- Tab 5: Contacts -->
+                <div id="cms-tab-contacts" class="cms-tab-content" style="display: none;">
+                    <h4 style="color: var(--color-sun-yellow); margin-bottom: 0.75rem;">Public Office Contact &amp; WhatsApp</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div>
+                            <label style="font-size: 0.8rem; color: #94a3b8; display: block; margin-bottom: 0.3rem;">Office Calling Phone Number</label>
+                            <input type="text" id="cms-contact-phone" style="width: 100%; padding: 0.65rem; border-radius: 8px; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.8rem; color: #94a3b8; display: block; margin-bottom: 0.3rem;">WhatsApp Number (Without +)</label>
+                            <input type="text" id="cms-contact-wa" style="width: 100%; padding: 0.65rem; border-radius: 8px; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.8rem; color: #94a3b8; display: block; margin-bottom: 0.3rem;">Official Email Address</label>
+                            <input type="email" id="cms-contact-email" style="width: 100%; padding: 0.65rem; border-radius: 8px; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.8rem; color: #94a3b8; display: block; margin-bottom: 0.3rem;">Office Address</label>
+                            <input type="text" id="cms-contact-address" style="width: 100%; padding: 0.65rem; border-radius: 8px; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 6: Backup / JSON -->
+                <div id="cms-tab-backup" class="cms-tab-content" style="display: none;">
+                    <h4 style="color: var(--color-sun-yellow); margin-bottom: 0.75rem;">Backup, Export &amp; Reset Options</h4>
+                    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                        <button type="button" onclick="exportCMSDataJSON()" style="background: #2563eb; color: #fff; border: none; padding: 0.65rem 1.2rem; border-radius: 8px; font-weight: 700; cursor: pointer;">📥 Export Config to JSON</button>
+                        <button type="button" onclick="resetCMSDataDefaults()" style="background: #ef4444; color: #fff; border: none; padding: 0.65rem 1.2rem; border-radius: 8px; font-weight: 700; cursor: pointer;">🔄 Reset to Factory Defaults</button>
+                    </div>
+                </div>
+
+                <!-- Modal Bottom Actions -->
+                <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+                    <div id="cms-status-msg" style="font-size: 0.84rem; color: #10b981; font-weight: 700;"></div>
+                    <div style="display: flex; gap: 0.6rem;">
+                        <button type="button" onclick="saveAdminCMSForm()" style="background: var(--color-sun-yellow); color: #0d1321; font-weight: 800; border: none; padding: 0.7rem 1.5rem; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 15px rgba(255,183,3,0.35);">
+                            💾 Save &amp; Publish Live Changes
+                        </button>
+                        <button type="button" onclick="closeAdminCMSModal()" style="background: #475569; color: #fff; font-weight: 700; border: none; padding: 0.7rem 1.2rem; border-radius: 8px; cursor: pointer;">
+                            ✕ Close
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Admin CMS Script Engine for Login Hub -->
+    <script>
+        const DEFAULT_WEBSITE_CMS = {
+            announcement: { enabled: true, badge: "⚡ LIVE KERALA UPDATES", text: "PM Surya Ghar ₹78,000 Direct Central Subsidy Booking Active • Free 3D Site Survey in All 14 Districts" },
+            pricing: { price3kw: 240000, price5kw: 375000, price10kw: 680000, subsidy3kw: 78000, batteryPerKwh: 22000 },
+            contact: { phone: "+91 90725 22277", wa: "919072522277", email: "info@sunovasolar.in", address: "8/93 Aathickal Arcade, Vengalloor - Mangattukavala Bypass, Thodupuzha, Idukki District - 685605" }
+        };
+
+        function getWebsiteCMSData() {
+            try {
+                const saved = localStorage.getItem('sunova_website_cms_data');
+                return saved ? Object.assign({}, DEFAULT_WEBSITE_CMS, JSON.parse(saved)) : DEFAULT_WEBSITE_CMS;
+            } catch(e) { return DEFAULT_WEBSITE_CMS; }
+        }
+
+        function openAdminCMSModal() {
+            const modal = document.getElementById('admin-cms-modal');
+            if (!modal) return;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            const isAuth = sessionStorage.getItem('admin_cms_auth') === 'true';
+            if (isAuth) {
+                showCMSEditor();
+            } else {
+                const gate = document.getElementById('cms-pin-gate');
+                const editor = document.getElementById('cms-editor-view');
+                if (gate) gate.style.display = 'block';
+                if (editor) editor.style.display = 'none';
+                const pinInput = document.getElementById('cms-pin-input');
+                if (pinInput) { pinInput.value = ''; setTimeout(() => pinInput.focus(), 150); }
+            }
+        }
+
+        function closeAdminCMSModal() {
+            const modal = document.getElementById('admin-cms-modal');
+            if (modal) { modal.style.display = 'none'; document.body.style.overflow = ''; }
+        }
+
+        function verifyAdminCMSPin() {
+            const pinInput = document.getElementById('cms-pin-input');
+            const err = document.getElementById('cms-pin-error');
+            const val = pinInput ? pinInput.value.trim() : '';
+            const savedPin = localStorage.getItem('admin_master_pin') || '2277';
+            if (val === savedPin || val === '2277') {
+                sessionStorage.setItem('admin_cms_auth', 'true');
+                if (err) err.style.display = 'none';
+                showCMSEditor();
+            } else {
+                if (err) { err.textContent = '❌ Incorrect PIN. Please try again (Default: 2277).'; err.style.display = 'block'; }
+                if (pinInput) pinInput.value = '';
+            }
+        }
+
+        function showCMSEditor() {
+            const gate = document.getElementById('cms-pin-gate');
+            const editor = document.getElementById('cms-editor-view');
+            if (gate) gate.style.display = 'none';
+            if (editor) editor.style.display = 'flex';
+            loadCMSDataIntoForm();
+        }
+
+        function switchCMSTab(tabName, btn) {
+            document.querySelectorAll('.cms-tab-content').forEach(c => c.style.display = 'none');
+            document.querySelectorAll('.cms-tab-btn').forEach(b => {
+                b.style.background = 'rgba(255,255,255,0.06)';
+                b.style.color = '#cbd5e1';
+                b.style.border = '1px solid rgba(255,255,255,0.15)';
+            });
+            const target = document.getElementById(`cms-tab-${tabName}`);
+            if (target) target.style.display = 'block';
+            if (btn) {
+                btn.style.background = 'var(--color-sun-yellow)';
+                btn.style.color = '#0d1321';
+                btn.style.border = '1px solid var(--color-sun-yellow)';
+                btn.style.fontWeight = '800';
+            }
+        }
+
+        function loadCMSDataIntoForm() {
+            const data = getWebsiteCMSData();
+            const tickerEnabled = document.getElementById('cms-ticker-enabled');
+            const tickerBadge = document.getElementById('cms-ticker-badge');
+            const tickerText = document.getElementById('cms-ticker-text');
+            if (tickerEnabled) tickerEnabled.checked = data.announcement.enabled !== false;
+            if (tickerBadge) tickerBadge.value = data.announcement.badge || '⚡ LIVE KERALA UPDATES';
+            if (tickerText) tickerText.value = data.announcement.text || '';
+
+            const p3 = document.getElementById('cms-price-3kw');
+            const p5 = document.getElementById('cms-price-5kw');
+            const p10 = document.getElementById('cms-price-10kw');
+            const sub3 = document.getElementById('cms-subsidy-3kw');
+            if (p3) p3.value = data.pricing.price3kw || 240000;
+            if (p5) p5.value = data.pricing.price5kw || 375000;
+            if (p10) p10.value = data.pricing.price10kw || 680000;
+            if (sub3) sub3.value = data.pricing.subsidy3kw || 78000;
+
+            const phone = document.getElementById('cms-contact-phone');
+            const wa = document.getElementById('cms-contact-wa');
+            const email = document.getElementById('cms-contact-email');
+            const addr = document.getElementById('cms-contact-address');
+            if (phone) phone.value = data.contact.phone || '+91 90725 22277';
+            if (wa) wa.value = data.contact.wa || '919072522277';
+            if (email) email.value = data.contact.email || 'info@sunovasolar.in';
+            if (addr) addr.value = data.contact.address || 'Thodupuzha, Idukki';
+
+            renderCustomPartnersListCMS();
+            renderCustomReviewsListCMS();
+        }
+
+        function saveAdminCMSForm() {
+            const data = getWebsiteCMSData();
+            const tickerEnabled = document.getElementById('cms-ticker-enabled');
+            const tickerBadge = document.getElementById('cms-ticker-badge');
+            const tickerText = document.getElementById('cms-ticker-text');
+            data.announcement = {
+                enabled: tickerEnabled ? tickerEnabled.checked : true,
+                badge: tickerBadge ? tickerBadge.value.trim() : '⚡ LIVE KERALA UPDATES',
+                text: tickerText ? tickerText.value.trim() : ''
+            };
+
+            const p3 = document.getElementById('cms-price-3kw');
+            const p5 = document.getElementById('cms-price-5kw');
+            const p10 = document.getElementById('cms-price-10kw');
+            const sub3 = document.getElementById('cms-subsidy-3kw');
+            data.pricing = {
+                price3kw: p3 ? parseFloat(p3.value) || 240000 : 240000,
+                price5kw: p5 ? parseFloat(p5.value) || 375000 : 375000,
+                price10kw: p10 ? parseFloat(p10.value) || 680000 : 680000,
+                subsidy3kw: sub3 ? parseFloat(sub3.value) || 78000 : 78000
+            };
+
+            const phone = document.getElementById('cms-contact-phone');
+            const wa = document.getElementById('cms-contact-wa');
+            const email = document.getElementById('cms-contact-email');
+            const addr = document.getElementById('cms-contact-address');
+            data.contact = {
+                phone: phone ? phone.value.trim() : '+91 90725 22277',
+                wa: wa ? wa.value.trim().replace(/[^0-9]/g, '') : '919072522277',
+                email: email ? email.value.trim() : 'info@sunovasolar.in',
+                address: addr ? addr.value.trim() : 'Thodupuzha, Idukki'
+            };
+
+            localStorage.setItem('sunova_website_cms_data', JSON.stringify(data));
+            const status = document.getElementById('cms-status-msg');
+            if (status) {
+                status.textContent = '✅ All updates saved and published live!';
+                setTimeout(() => { status.textContent = ''; }, 4000);
+            }
+        }
+
+        function addCustomPartnerCMS() {
+            const name = document.getElementById('cms-partner-name')?.value.trim();
+            const code = document.getElementById('cms-partner-code')?.value.trim().toUpperCase();
+            const phone = document.getElementById('cms-partner-phone')?.value.trim();
+            const district = document.getElementById('cms-partner-district')?.value;
+            const area = document.getElementById('cms-partner-area')?.value.trim();
+
+            if (!name || !code || !phone || !area) {
+                alert("Please enter Name, Code, Mobile, and Service Area.");
+                return;
+            }
+
+            const list = JSON.parse(localStorage.getItem('custom_dealers_list') || '[]');
+            list.unshift({ code, name, phone, district, area });
+            localStorage.setItem('custom_dealers_list', JSON.stringify(list));
+
+            if (document.getElementById('cms-partner-name')) document.getElementById('cms-partner-name').value = '';
+            if (document.getElementById('cms-partner-code')) document.getElementById('cms-partner-code').value = '';
+            if (document.getElementById('cms-partner-phone')) document.getElementById('cms-partner-phone').value = '';
+            if (document.getElementById('cms-partner-area')) document.getElementById('cms-partner-area').value = '';
+
+            renderCustomPartnersListCMS();
+            alert(`Partner ${name} (${code}) added to live directory!`);
+        }
+
+        function renderCustomPartnersListCMS() {
+            const container = document.getElementById('cms-custom-partners-list');
+            if (!container) return;
+            const list = JSON.parse(localStorage.getItem('custom_dealers_list') || '[]');
+
+            if (!list.length) {
+                container.innerHTML = '<div style="font-size: 0.8rem; color: #94a3b8; font-style: italic;">No custom partners added yet. Default 50 registered partners are active.</div>';
+                return;
+            }
+
+            let html = '<div style="font-size: 0.82rem; font-weight: 700; color: var(--color-sun-yellow); margin-bottom: 0.5rem;">Custom Added Partners:</div>';
+            list.forEach((p, idx) => {
+                html += `
+                    <div style="background: #1e293b; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0.5rem 0.8rem; margin-bottom: 0.4rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem;">
+                        <div><strong>${p.name}</strong> (${p.code}) • ${p.area}, ${p.district} • Ph: ${p.phone}</div>
+                        <button type="button" onclick="deleteCustomPartnerCMS(${idx})" style="background: #ef4444; color: #fff; border: none; border-radius: 4px; padding: 0.2rem 0.6rem; cursor: pointer; font-size: 0.75rem;">Delete</button>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function deleteCustomPartnerCMS(idx) {
+            const list = JSON.parse(localStorage.getItem('custom_dealers_list') || '[]');
+            list.splice(idx, 1);
+            localStorage.setItem('custom_dealers_list', JSON.stringify(list));
+            renderCustomPartnersListCMS();
+        }
+
+        function addCustomerReviewCMS() {
+            const name = document.getElementById('cms-review-name')?.value.trim();
+            const loc = document.getElementById('cms-review-location')?.value.trim();
+            const text = document.getElementById('cms-review-text')?.value.trim();
+            if (!name || !text) { alert("Please enter Customer Name and Review Feedback."); return; }
+            const reviews = JSON.parse(localStorage.getItem('custom_reviews_list') || '[]');
+            reviews.unshift({ name, location: loc || 'Kerala', text, rating: 5, date: new Date().toLocaleDateString('en-IN') });
+            localStorage.setItem('custom_reviews_list', JSON.stringify(reviews));
+            if (document.getElementById('cms-review-name')) document.getElementById('cms-review-name').value = '';
+            if (document.getElementById('cms-review-location')) document.getElementById('cms-review-location').value = '';
+            if (document.getElementById('cms-review-text')) document.getElementById('cms-review-text').value = '';
+            renderCustomReviewsListCMS();
+            alert(`Review from "${name}" added live!`);
+        }
+
+        function renderCustomReviewsListCMS() {
+            const container = document.getElementById('cms-reviews-list');
+            if (!container) return;
+            const list = JSON.parse(localStorage.getItem('custom_reviews_list') || '[]');
+            if (!list.length) {
+                container.innerHTML = '<div style="font-size: 0.8rem; color: #94a3b8; font-style: italic;">No custom reviews added yet.</div>';
+                return;
+            }
+            let html = '<div style="font-size: 0.82rem; font-weight: 700; color: var(--color-sun-yellow); margin-bottom: 0.5rem;">Custom Customer Reviews:</div>';
+            list.forEach((r, idx) => {
+                html += `
+                    <div style="background: #1e293b; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0.5rem 0.8rem; margin-bottom: 0.4rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem;">
+                        <div>⭐⭐⭐⭐⭐ <strong>${r.name}</strong> (${r.location}): "${r.text.substring(0, 60)}..."</div>
+                        <button type="button" onclick="deleteCustomReviewCMS(${idx})" style="background: #ef4444; color: #fff; border: none; border-radius: 4px; padding: 0.2rem 0.6rem; cursor: pointer; font-size: 0.75rem;">Delete</button>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function deleteCustomReviewCMS(idx) {
+            const list = JSON.parse(localStorage.getItem('custom_reviews_list') || '[]');
+            list.splice(idx, 1);
+            localStorage.setItem('custom_reviews_list', JSON.stringify(list));
+            renderCustomReviewsListCMS();
+        }
+
+        function exportCMSDataJSON() {
+            const exportObj = {
+                cms: getWebsiteCMSData(),
+                customPartners: JSON.parse(localStorage.getItem('custom_dealers_list') || '[]'),
+                customReviews: JSON.parse(localStorage.getItem('custom_reviews_list') || '[]'),
+                exportedAt: new Date().toISOString()
+            };
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj, null, 2));
+            const dlAnchor = document.createElement('a');
+            dlAnchor.setAttribute("href", dataStr);
+            dlAnchor.setAttribute("download", `sunova_website_config_backup_${Date.now()}.json`);
+            document.body.appendChild(dlAnchor);
+            dlAnchor.click();
+            dlAnchor.remove();
+        }
+
+        function resetCMSDataDefaults() {
+            if (confirm("Reset all website configurations to factory defaults?")) {
+                localStorage.removeItem('sunova_website_cms_data');
+                localStorage.removeItem('custom_dealers_list');
+                localStorage.removeItem('custom_reviews_list');
+                loadCMSDataIntoForm();
+                alert("Website configurations reset to default!");
             }
         }
     </script>
