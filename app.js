@@ -7907,11 +7907,9 @@ function deleteCustomPartnerCMS(idx) {
 }
 
 // Reviews Management Helpers in CMS
-function saveCustomerReviewCMS() {
-    const editIndex = parseInt(document.getElementById('cms-review-edit-index')?.value || '-1', 10);
+function addCustomerReviewCMS() {
     const name = document.getElementById('cms-review-name')?.value.trim();
     const loc = document.getElementById('cms-review-location')?.value.trim();
-    const cap = document.getElementById('cms-review-capacity')?.value.trim();
     const text = document.getElementById('cms-review-text')?.value.trim();
 
     if (!name || !text) {
@@ -7920,191 +7918,15 @@ function saveCustomerReviewCMS() {
     }
 
     const reviews = JSON.parse(localStorage.getItem('custom_reviews_list') || '[]');
-
-    if (editIndex >= 0 && editIndex < reviews.length) {
-        // Update existing review
-        reviews[editIndex].name = name;
-        reviews[editIndex].location = loc || 'Kerala';
-        reviews[editIndex].capacity = cap || 'Rooftop Solar';
-        reviews[editIndex].text = text;
-        reviews[editIndex].editedAt = new Date().toLocaleDateString('en-IN');
-        alert(`Review for "${name}" updated successfully!`);
-    } else {
-        // Add new review
-        reviews.unshift({
-            name,
-            location: loc || 'Kerala',
-            capacity: cap || 'Rooftop Solar',
-            text,
-            rating: 5,
-            tags: ['✅ Verified Solar Client'],
-            date: new Date().toLocaleDateString('en-IN')
-        });
-        alert(`Review from "${name}" added live!`);
-    }
-
+    reviews.unshift({ name, location: loc || 'Kerala', text, rating: 5, date: new Date().toLocaleDateString('en-IN') });
     localStorage.setItem('custom_reviews_list', JSON.stringify(reviews));
 
-    cancelEditReviewCMS();
-    renderCustomReviewsListCMS();
-    if (typeof renderLiveCustomReviews === 'function') {
-        renderLiveCustomReviews();
-    }
-}
-
-// Alias for backward compatibility
-function addCustomerReviewCMS() {
-    saveCustomerReviewCMS();
-}
-
-function editCustomerReviewCMS(idx) {
-    const list = JSON.parse(localStorage.getItem('custom_reviews_list') || '[]');
-    const r = list[idx];
-    if (!r) return;
-
-    document.getElementById('cms-review-edit-index').value = idx;
-    if (document.getElementById('cms-review-name')) document.getElementById('cms-review-name').value = r.name || '';
-    if (document.getElementById('cms-review-location')) document.getElementById('cms-review-location').value = r.location || '';
-    if (document.getElementById('cms-review-capacity')) document.getElementById('cms-review-capacity').value = r.capacity || '';
-    if (document.getElementById('cms-review-text')) document.getElementById('cms-review-text').value = r.text || '';
-
-    // Switch UI to Edit Mode
-    const submitBtn = document.getElementById('cms-review-submit-btn');
-    if (submitBtn) {
-        submitBtn.innerHTML = '💾 Update Review';
-        submitBtn.style.background = '#2563eb';
-    }
-
-    const cancelBtn = document.getElementById('cms-review-cancel-btn');
-    if (cancelBtn) cancelBtn.style.display = 'inline-block';
-
-    const titleEl = document.getElementById('cms-review-form-title');
-    if (titleEl) titleEl.textContent = `✏️ Editing Review: ${r.name}`;
-
-    // Smooth scroll to editor inputs
-    document.getElementById('cms-tab-reviews').scrollIntoView({ behavior: 'smooth' });
-}
-
-function cancelEditReviewCMS() {
-    document.getElementById('cms-review-edit-index').value = '-1';
     if (document.getElementById('cms-review-name')) document.getElementById('cms-review-name').value = '';
     if (document.getElementById('cms-review-location')) document.getElementById('cms-review-location').value = '';
-    if (document.getElementById('cms-review-capacity')) document.getElementById('cms-review-capacity').value = '';
     if (document.getElementById('cms-review-text')) document.getElementById('cms-review-text').value = '';
 
-    const submitBtn = document.getElementById('cms-review-submit-btn');
-    if (submitBtn) {
-        submitBtn.innerHTML = '➕ Add Review';
-        submitBtn.style.background = '#10b981';
-    }
-
-    const cancelBtn = document.getElementById('cms-review-cancel-btn');
-    if (cancelBtn) cancelBtn.style.display = 'none';
-
-    const titleEl = document.getElementById('cms-review-form-title');
-    if (titleEl) titleEl.textContent = '➕ Add / ✏️ Edit Customer Testimonial';
-}
-
-function deleteCustomReviewCMS(idx) {
-    const list = JSON.parse(localStorage.getItem('custom_reviews_list') || '[]');
-    const name = list[idx]?.name || 'this review';
-    if (confirm(`Are you sure you want to delete the review by "${name}"?`)) {
-        list.splice(idx, 1);
-        localStorage.setItem('custom_reviews_list', JSON.stringify(list));
-        cancelEditReviewCMS();
-        renderCustomReviewsListCMS();
-        if (typeof renderLiveCustomReviews === 'function') {
-            renderLiveCustomReviews();
-        }
-    }
-}
-
-function loadDefaultReviewsIntoCMS() {
-    const defaultReviews = [
-        {
-            name: "Dr. K. Nair",
-            location: "Thodupuzha, Idukki",
-            capacity: "5 kWp On-Grid Mono PERC",
-            text: "Installed a 5 kWp Mono PERC system at my home in Thodupuzha. Our KSEB bi-monthly bill dropped from ₹6,400 to just ₹390! Sunova Solar handled the entire KSEB net-metering & PM Surya Ghar ₹78,000 subsidy processing effortlessly.",
-            rating: 5,
-            tags: ["✅ Verified Client"],
-            date: "Recent"
-        },
-        {
-            name: "Mathew Varghese",
-            location: "Edappally, Ernakulam",
-            capacity: "15 kWp Commercial Rooftop",
-            text: "Sunova Solar installed a 15 kWp commercial on-grid solar plant for our textile enterprise in Edappally. The heavy-duty GI structure is robust and wind-proof. Real-time Wi-Fi tracking makes generation monitoring very simple!",
-            rating: 5,
-            tags: ["🏢 Commercial Client"],
-            date: "Recent"
-        },
-        {
-            name: "Priya S. Kumar",
-            location: "Cherthala, Alappuzha",
-            capacity: "3 kWp Hybrid + Lithium Storage",
-            text: "We opted for a 3 kWp Hybrid system with lithium battery storage in Cherthala. During heavy monsoons and coastal power outages, our home runs completely uninterrupted. Direct bank credit of ₹78,000 PM Surya Ghar subsidy was seamless!",
-            rating: 5,
-            tags: ["✅ Verified Hybrid"],
-            date: "Recent"
-        },
-        {
-            name: "Col. R. Menon",
-            location: "Kowdiar, Thiruvananthapuram",
-            capacity: "10 kWp TOPCon Bifacial",
-            text: "Exceptional engineering quality from the Sunova Solar TVM team! They installed 10 kWp TOPCon Bifacial panels on our residence in Kowdiar. Zero hassle with KSEB net-metering approvals.",
-            rating: 5,
-            tags: ["✅ Verified Homeowner"],
-            date: "Recent"
-        },
-        {
-            name: "Fr. Joseph Pulikkal",
-            location: "Pala, Kottayam",
-            capacity: "8 kWp High-Rise Terrace",
-            text: "The high-rise galvanized canopy structure gave us full usable rooftop utility space while generating 36–40 solar units daily! Clean execution and superb coordination by the Sunova Kottayam team.",
-            rating: 5,
-            tags: ["✅ Verified Client"],
-            date: "Recent"
-        },
-        {
-            name: "Sujatha Sreedharan",
-            location: "Kadavanthra, Ernakulam",
-            capacity: "3 kWp PM Surya Ghar Rooftop",
-            text: "Got ₹78,000 central government subsidy credited directly into my bank account within 25 days of system commissioning! Sunova Solar's team is polite, punctual, and highly skilled.",
-            rating: 5,
-            tags: ["✅ PM Surya Ghar Grant"],
-            date: "Recent"
-        },
-        {
-            name: "Venkatesh Prabhu",
-            location: "Palakkad Town, Palakkad",
-            capacity: "6 kWp Industrial Solar",
-            text: "Palakkad heat yields maximum solar power! Our 6 kWp system produces over 28–30 units of green electricity every single day. Extremely satisfied with Sunova Solar's workmanship.",
-            rating: 5,
-            tags: ["🏭 Industrial Client"],
-            date: "Recent"
-        },
-        {
-            name: "Gopika R. Kurup",
-            location: "West Hill, Kozhikode",
-            capacity: "4 kWp On-Grid System",
-            text: "The solar structure engineering and cable neatness exceeded our expectations. The post-installation service team checked back after 1 month to verify generation reports. 100% recommended!",
-            rating: 5,
-            tags: ["✅ Verified Homeowner"],
-            date: "Recent"
-        }
-    ];
-
-    if (confirm("Load all 8 default website testimonials into the editable database? (Existing customized reviews will be merged)")) {
-        const currentList = JSON.parse(localStorage.getItem('custom_reviews_list') || '[]');
-        const combined = [...currentList, ...defaultReviews.filter(d => !currentList.some(c => c.name === d.name))];
-        localStorage.setItem('custom_reviews_list', JSON.stringify(combined));
-        renderCustomReviewsListCMS();
-        if (typeof renderLiveCustomReviews === 'function') {
-            renderLiveCustomReviews();
-        }
-        alert("Default 8 reviews loaded into editor! You can now edit and customize every single one.");
-    }
+    renderCustomReviewsListCMS();
+    alert(`Review from "${name}" added live!`);
 }
 
 function renderCustomReviewsListCMS() {
@@ -8113,40 +7935,27 @@ function renderCustomReviewsListCMS() {
     const list = JSON.parse(localStorage.getItem('custom_reviews_list') || '[]');
 
     if (!list.length) {
-        container.innerHTML = `
-            <div style="font-size: 0.8rem; color: #94a3b8; font-style: italic; background: rgba(255,255,255,0.03); padding: 0.8rem; border-radius: 8px; border: 1px dashed rgba(255,255,255,0.15);">
-                No custom reviews added yet. 8 default customer reviews are currently active on website. Click <strong>"Load Default 8 Reviews into Manager"</strong> above to edit and customize them directly!
-            </div>
-        `;
+        container.innerHTML = '<div style="font-size: 0.8rem; color: #94a3b8; font-style: italic;">No custom reviews added yet. Default customer reviews active.</div>';
         return;
     }
 
-    let html = '';
+    let html = '<div style="font-size: 0.82rem; font-weight: 700; color: var(--color-sun-yellow); margin-bottom: 0.5rem;">Custom Customer Reviews:</div>';
     list.forEach((r, idx) => {
         html += `
-            <div style="background: #1e293b; border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 0.65rem 0.85rem; display: flex; justify-content: space-between; align-items: center; gap: 0.6rem; font-size: 0.82rem; transition: border-color 0.15s;" onmouseover="this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.12)'">
-                <div style="flex: 1; min-width: 0;">
-                    <div style="display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.2rem; flex-wrap: wrap;">
-                        <span style="color: #f59e0b; font-size: 0.85rem;">★★★★★</span>
-                        <strong style="color: #fff; font-size: 0.86rem;">${r.name}</strong>
-                        <span style="color: #94a3b8; font-size: 0.74rem;">📍 ${r.location || 'Kerala'} • ⚡ ${r.capacity || 'Solar'}</span>
-                    </div>
-                    <div style="color: #cbd5e1; font-size: 0.78rem; line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                        "${r.text}"
-                    </div>
-                </div>
-                <div style="display: flex; gap: 0.4rem; flex-shrink: 0;">
-                    <button type="button" onclick="editCustomerReviewCMS(${idx})" style="background: #3b82f6; color: #fff; border: none; border-radius: 6px; padding: 0.35rem 0.75rem; font-weight: 700; cursor: pointer; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.25rem;">
-                        ✏️ Edit
-                    </button>
-                    <button type="button" onclick="deleteCustomReviewCMS(${idx})" style="background: #ef4444; color: #fff; border: none; border-radius: 6px; padding: 0.35rem 0.6rem; font-weight: 700; cursor: pointer; font-size: 0.75rem;">
-                        🗑️ Delete
-                    </button>
-                </div>
+            <div style="background: #1e293b; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0.5rem 0.8rem; margin-bottom: 0.4rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem;">
+                <div>⭐⭐⭐⭐⭐ <strong>${r.name}</strong> (${r.location}): "${r.text.substring(0, 60)}..."</div>
+                <button type="button" onclick="deleteCustomReviewCMS(${idx})" style="background: #ef4444; color: #fff; border: none; border-radius: 4px; padding: 0.2rem 0.6rem; cursor: pointer; font-size: 0.75rem;">Delete</button>
             </div>
         `;
     });
     container.innerHTML = html;
+}
+
+function deleteCustomReviewCMS(idx) {
+    const list = JSON.parse(localStorage.getItem('custom_reviews_list') || '[]');
+    list.splice(idx, 1);
+    localStorage.setItem('custom_reviews_list', JSON.stringify(list));
+    renderCustomReviewsListCMS();
 }
 
 function exportCMSDataJSON() {
@@ -8176,306 +7985,10 @@ function resetCMSDataDefaults() {
     }
 }
 
-/* =========================================================================
-   CUSTOMER FEEDBACK & VERIFIED REVIEWS SYSTEM
-   ========================================================================= */
-
-function openCustomerFeedbackModal() {
-    const modal = document.getElementById('customer-feedback-modal');
-    if (modal) {
-        modal.classList.remove('hidden');
-        modal.style.display = 'flex';
-        try {
-            history.pushState({ modalOpen: 'feedback' }, '');
-        } catch(e){}
-    }
-}
-
-function closeCustomerFeedbackModal() {
-    const modal = document.getElementById('customer-feedback-modal');
-    if (modal) {
-        modal.classList.add('hidden');
-        modal.style.display = 'none';
-        const statusEl = document.getElementById('feedback-form-status');
-        if (statusEl) statusEl.classList.add('hidden');
-    }
-}
-
-window.openCustomerFeedbackModal = openCustomerFeedbackModal;
-window.closeCustomerFeedbackModal = closeCustomerFeedbackModal;
-
-let currentSelectedRating = 5;
-const ratingLabels = {
-    1: '1 Star - Poor Experience',
-    2: '2 Stars - Needs Improvement',
-    3: '3 Stars - Average Service',
-    4: '4 Stars - Very Good Experience!',
-    5: '5 Stars - Excellent Experience!'
-};
-
-function setReviewRating(stars) {
-    currentSelectedRating = stars;
-    const input = document.getElementById('feedback-star-rating');
-    if (input) input.value = stars;
-    const label = document.getElementById('star-rating-label');
-    if (label) {
-        label.textContent = ratingLabels[stars] || `${stars} Stars`;
-        label.style.color = stars >= 4 ? '#10b981' : (stars === 3 ? '#f59e0b' : '#ef4444');
-    }
-    highlightStars(stars);
-}
-
-function highlightStars(stars) {
-    for (let i = 1; i <= 5; i++) {
-        const star = document.getElementById(`star-${i}`);
-        if (star) {
-            star.style.color = i <= stars ? '#f59e0b' : '#64748b';
-            star.style.transform = i <= stars ? 'scale(1.15)' : 'scale(1)';
-            star.style.display = 'inline-block';
-            star.style.transition = 'all 0.15s ease';
-        }
-    }
-}
-
-function resetStars() {
-    highlightStars(currentSelectedRating);
-}
-
-function toggleFeedbackTag(buttonEl) {
-    buttonEl.classList.toggle('active');
-    if (buttonEl.classList.contains('active')) {
-        buttonEl.style.background = 'rgba(16, 185, 129, 0.2)';
-        buttonEl.style.borderColor = '#10b981';
-        buttonEl.style.color = '#10b981';
-    } else {
-        buttonEl.style.background = 'rgba(255,255,255,0.06)';
-        buttonEl.style.borderColor = 'var(--color-border)';
-        buttonEl.style.color = 'var(--color-text-muted)';
-    }
-}
-
-function submitCustomerReviewForm(event) {
-    event.preventDefault();
-
-    const name = document.getElementById('feedback-name')?.value.trim();
-    const district = document.getElementById('feedback-district')?.value || 'Kerala';
-    const capacity = document.getElementById('feedback-capacity')?.value.trim() || 'Rooftop Solar';
-    const locality = document.getElementById('feedback-locality')?.value.trim() || district;
-    const comment = document.getElementById('feedback-comment')?.value.trim();
-    const stars = parseInt(document.getElementById('feedback-star-rating')?.value || '5', 10);
-
-    // Collect active tags
-    const activeTags = [];
-    document.querySelectorAll('#feedback-tags-group .feedback-tag.active').forEach(tag => {
-        activeTags.push(tag.textContent.trim());
-    });
-
-    if (!name || !comment) {
-        alert("Please provide your Name and Review Feedback.");
-        return;
-    }
-
-    const reviewObj = {
-        name,
-        district,
-        location: `${locality}, ${district}`,
-        capacity: capacity.includes('kW') ? capacity : `${capacity} System`,
-        text: comment,
-        rating: stars,
-        tags: activeTags,
-        date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
-    };
-
-    // Save to localStorage
-    const existingReviews = JSON.parse(localStorage.getItem('custom_reviews_list') || '[]');
-    existingReviews.unshift(reviewObj);
-    localStorage.setItem('custom_reviews_list', JSON.stringify(existingReviews));
-
-    // Render immediately into live testimonials track
-    renderLiveCustomReviews();
-
-    // Show Thank You and Google Maps review prompt
-    const statusEl = document.getElementById('feedback-form-status');
-    if (statusEl) {
-        statusEl.classList.remove('hidden');
-        statusEl.innerHTML = `
-            <div style="font-weight: 800; font-size: 0.95rem; margin-bottom: 0.4rem;">🎉 Thank you, ${name}!</div>
-            <div style="font-size: 0.8rem; line-height: 1.5; color: #ffffff; margin-bottom: 0.75rem;">
-                Your verified 5-star review has been published on our website.
-            </div>
-            <div style="display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
-                <a href="https://maps.app.goo.gl/TM2CL3Bm2DiKtuNY8" target="_blank" rel="noopener" style="background: #f59e0b; color: #0d1321; font-weight: 800; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.8rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem;">
-                    📍 Post on Google Maps ↗
-                </a>
-                <button type="button" onclick="closeCustomerFeedbackModal()" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; font-weight: 700; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">
-                    Done
-                </button>
-            </div>
-        `;
-    }
-
-    // Reset Form fields
-    document.getElementById('customer-feedback-form').reset();
-    setReviewRating(5);
-}
-
-function renderLiveCustomReviews() {
-    const track = document.getElementById('testimonials-scroll-track');
-    if (!track) return;
-
-    const list = JSON.parse(localStorage.getItem('custom_reviews_list') || '[]');
-    if (!list.length) return;
-
-    // Remove any previously rendered custom review elements to avoid duplicates
-    track.querySelectorAll('.custom-injected-review').forEach(el => el.remove());
-
-    const starsMap = (n) => '★'.repeat(Math.max(1, Math.min(5, n)));
-
-    list.slice(0, 8).reverse().forEach(r => {
-        const initials = r.name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase() || 'SV';
-        const tagBadge = (r.tags && r.tags.length) ? r.tags[0] : '✅ Verified Solar Client';
-        
-        const cardHtml = `
-            <div class="testimonial-card custom-injected-review" style="flex: 0 0 350px; width: 350px; background: var(--color-surface); border: 1.5px solid var(--color-sun-yellow); border-radius: 16px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 20px rgba(255, 183, 3, 0.15);">
-                <div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
-                        <div class="stars-row" style="margin: 0; color: #f59e0b; font-size: 1.05rem;">${starsMap(r.rating || 5)}</div>
-                        <span style="font-size: 0.7rem; font-weight: 700; background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3); padding: 2px 8px; border-radius: 12px;">${tagBadge}</span>
-                    </div>
-                    <div style="background: rgba(255, 183, 3, 0.08); border-left: 3px solid var(--color-sun-yellow); padding: 0.5rem 0.75rem; border-radius: 4px; font-size: 0.78rem; font-weight: 700; color: var(--color-sun-yellow); margin-bottom: 0.8rem;">
-                        ⚡ Verified Kerala Solar Customer
-                    </div>
-                    <p class="review-text" style="font-size: 0.88rem; line-height: 1.55; color: var(--color-text); font-style: italic; margin-bottom: 1.2rem;">"${r.text}"</p>
-                </div>
-                <div class="reviewer-info" style="border-top: 1px solid var(--color-border); padding-top: 0.8rem;">
-                    <div class="avatar-circle" style="background: #10b981; color: white;">${initials}</div>
-                    <div>
-                        <h4 style="font-size: 0.92rem; margin: 0; font-weight: 700; color: var(--color-text);">${r.name}</h4>
-                        <span class="reviewer-loc" style="font-size: 0.76rem; color: var(--color-text-subtle);">📍 ${r.location || 'Kerala'} • ${r.date || 'Recent'}</span>
-                        <span style="font-size: 0.72rem; color: var(--color-sun-yellow); font-weight: 600; display: block;">System: ${r.capacity || 'Rooftop Solar'}</span>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        track.insertAdjacentHTML('afterbegin', cardHtml);
-    });
-}
-
-// Run initial sync on DOM ready
+// Run CMS initial sync on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
     applyWebsiteCMSUpdates();
-    renderLiveCustomReviews();
 });
-
-// Popstate handler for modal back navigation
-window.addEventListener('popstate', (e) => {
-    const feedbackModal = document.getElementById('customer-feedback-modal');
-    if (feedbackModal && !feedbackModal.classList.contains('hidden') && feedbackModal.style.display !== 'none') {
-        closeCustomerFeedbackModal();
-        return;
-    }
-    const adminModal = document.getElementById('admin-cms-modal');
-    if (adminModal && adminModal.style.display !== 'none') {
-        closeAdminCMSModal();
-        return;
-    }
-    const quoteModal = document.getElementById('quote-modal-overlay');
-    if (quoteModal && !quoteModal.classList.contains('hidden') && quoteModal.style.display !== 'none') {
-        closeWebsiteQuoteModal();
-        return;
-    }
-});
-
-/* =========================================================================
-   AIRTEL-STYLE MULTI-TAB HERO WIDGET INTERACTION LOGIC
-   ========================================================================= */
-
-function switchAirtelHeroTab(tabName, btnEl) {
-    const buttons = document.querySelectorAll('.airtel-tab-btn');
-    buttons.forEach(b => b.classList.remove('active'));
-    if (btnEl) btnEl.classList.add('active');
-
-    const panels = document.querySelectorAll('.airtel-tab-panel');
-    panels.forEach(p => p.classList.remove('active'));
-
-    const activePanel = document.getElementById(`airtel-tab-${tabName}`);
-    if (activePanel) {
-        activePanel.classList.add('active');
-    }
-}
-
-function calculateAirtelHeroSolar() {
-    const kwSelect = document.getElementById('airtel-hero-kw');
-    if (!kwSelect) return;
-    const kw = parseFloat(kwSelect.value) || 3;
-
-    // Pricing benchmark: Tier-1 TOPCon Bifacial Mono PERC
-    let grossCost = 0;
-    let subsidy = 0;
-
-    if (kw <= 2) {
-        grossCost = 135000;
-        subsidy = 60000;
-    } else if (kw === 3) {
-        grossCost = 145000;
-        subsidy = 78000;
-    } else if (kw === 4) {
-        grossCost = 200000;
-        subsidy = 78000;
-    } else if (kw === 5) {
-        grossCost = 245000;
-        subsidy = 78000;
-    } else if (kw === 10) {
-        grossCost = 450000;
-        subsidy = 78000;
-    } else {
-        grossCost = kw * 50000;
-        subsidy = 78000;
-    }
-
-    const netCost = Math.max(0, grossCost - subsidy);
-    const annualSavings = Math.round(kw * 4 * 365 * 7.5); // 4 units/kW/day * ₹7.5 avg tariff
-
-    const netCostEl = document.getElementById('airtel-hero-net-cost');
-    if (netCostEl) {
-        netCostEl.textContent = `₹${netCost.toLocaleString('en-IN')}*`;
-    }
-
-    const subsidyTextEl = document.getElementById('airtel-hero-subsidy-text');
-    if (subsidyTextEl) {
-        subsidyTextEl.textContent = `(After ₹${subsidy.toLocaleString('en-IN')} Subsidy)`;
-    }
-
-    const savingsEl = document.getElementById('airtel-hero-savings');
-    if (savingsEl) {
-        savingsEl.textContent = `~₹${annualSavings.toLocaleString('en-IN')} / yr`;
-    }
-}
-
-function calculateAirtelBillReduction() {
-    const input = document.getElementById('airtel-bill-input');
-    const resultBox = document.getElementById('airtel-bill-result');
-    if (!input || !resultBox) return;
-
-    const bimonthlyBill = parseFloat(input.value) || 4500;
-    
-    // Estimate optimal size (typically 1kW generates ~240 units bi-monthly, approx ₹1,800 bill offset)
-    let recKw = 3;
-    if (bimonthlyBill <= 2500) recKw = 2;
-    else if (bimonthlyBill <= 5500) recKw = 3;
-    else if (bimonthlyBill <= 8500) recKw = 5;
-    else recKw = Math.min(15, Math.ceil(bimonthlyBill / 1600));
-
-    const newBill = 290; // KSEB minimum fixed charge
-    const yearlySavings = Math.max(0, Math.round((bimonthlyBill - newBill) * 6));
-
-    resultBox.innerHTML = `👉 With a <strong>${recKw} kWp Solar Plant</strong>, your KSEB bi-monthly bill drops from <strong>₹${bimonthlyBill.toLocaleString('en-IN')}</strong> to just <strong>₹${newBill}</strong>! You save <strong>₹${yearlySavings.toLocaleString('en-IN')} every year</strong>.`;
-}
-
-window.switchAirtelHeroTab = switchAirtelHeroTab;
-window.calculateAirtelHeroSolar = calculateAirtelHeroSolar;
-window.calculateAirtelBillReduction = calculateAirtelBillReduction;
 
 
 
