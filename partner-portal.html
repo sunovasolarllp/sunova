@@ -2748,7 +2748,7 @@
             const totalGstVal = grossTotal - taxableVal;
             const goodsTaxable = Math.round(taxableVal * 0.70);
             const servicesTaxable = taxableVal - goodsTaxable;
-            const goodsGstVal = Math.round(goodsTaxable * 0.12);
+const goodsGstVal = Math.round(goodsTaxable * 0.12);
             const servicesGstVal = totalGstVal - goodsGstVal;
 
             let distBadge = '';
@@ -2766,25 +2766,25 @@
                 }
 
                 quoteHTML = `
-                    <div style="font-family: 'Inter', Arial, sans-serif; color: #222; max-width: 850px; margin: 0 auto; background: #fff; padding: 2.5rem; box-sizing: border-box; font-size: 0.85rem; line-height: 1.6; border: 1px solid #e2e8f0; box-shadow: 0 4px 20px rgba(0,0,0,0.06); position: relative;">
+                    <div style="font-family: 'Inter', Arial, sans-serif; color: #1e293b; max-width: 860px; margin: 0 auto; background: #fff; padding: 2.5rem; box-sizing: border-box; font-size: 0.85rem; line-height: 1.6; border: 1px solid #cbd5e1; box-shadow: 0 4px 25px rgba(0,0,0,0.08); position: relative;">
                         
                         <table class="print-page-table" style="width: 100%; border-collapse: collapse;">
                             <thead>
                                 <tr>
                                     <td style="padding: 0; border: none;">
-                                        <!-- SUNOVA SOLAR LLP Official Studio Letterhead Header -->
+                                        <!-- SUNOVA SOLAR LLP Official Letterhead Header -->
                                         <header class="lh-header pdf-block" style="width: 100%; border-bottom: 2px solid #047857; padding-bottom: 12px; margin-bottom: 16px; position: relative; background: #ffffff; page-break-inside: avoid; break-inside: avoid;">
                                             <div style="height: 4px; background: linear-gradient(90deg, #047857 0%, #f59e0b 100%); margin-bottom: 1rem; border-radius: 2px;"></div>
                                             <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
                                                 <div style="display: flex; align-items: center; gap: 14px;">
-                                                    <img src="assets/logo.jpg" style="height: 56px; width: auto; object-fit: contain; border-radius: 4px;" alt="SUNOVA SOLAR LLP Logo" onerror="this.style.display='none'">
+                                                    <img src="assets/logo.jpg" style="height: 58px; width: auto; object-fit: contain; border-radius: 4px;" alt="SUNOVA SOLAR LLP Logo" onerror="this.style.display='none'">
                                                     <div>
                                                         <h2 style="font-size: 1.45rem; font-weight: 800; color: #047857; letter-spacing: 0.5px; line-height: 1.1; text-transform: uppercase; margin: 0; font-family: 'Outfit', 'Montserrat', sans-serif;">SUNOVA SOLAR LLP</h2>
-                                                        <p style="font-size: 0.72rem; font-weight: 700; color: #f59e0b; letter-spacing: 1.2px; text-transform: uppercase; margin: 3px 0 0 0;">Clean Energy, Bright Future | Solar Engineering &amp; Installations</p>
-                                                        <p style="font-size: 0.65rem; color: #64748b; font-weight: 500; margin: 2px 0 0 0;">Ministry of Corporate Affairs Registered LLP &bull; LLPIN: ACX-7067 &bull; RoC Ernakulam</p>
+                                                        <p style="font-size: 0.72rem; font-weight: 700; color: #f59e0b; letter-spacing: 1.2px; text-transform: uppercase; margin: 3px 0 0 0;">Clean Energy, Bright Future | MNRE &amp; KSEB Approved Solar EPC</p>
+                                                        <p style="font-size: 0.65rem; color: #64748b; font-weight: 600; margin: 2px 0 0 0;">LLPIN: ACX-7067 &bull; RoC Ernakulam &bull; GSTIN: 32AFXFS8160F1ZJ</p>
                                                     </div>
                                                 </div>
-                                                <div style="text-align: right; font-size: 0.74rem; color: #1e293b; line-height: 1.5;">
+                                                <div style="text-align: right; font-size: 0.74rem; color: #1e293b; line-height: 1.45;">
                                                     <div>Ph: <strong style="color: #047857;">+91 90725 22277</strong></div>
                                                     <div style="color: #64748b;">info@sunovasolar.in</div>
                                                     <div style="color: #047857; font-weight: 600;">https://sunovasolar.in</div>
@@ -2798,332 +2798,299 @@
                                 <tr>
                                     <td style="padding: 0; border: none;">
 
-                        <!-- Document Title Header -->
-                        <div style="background: #f0f7ff; border-left: 5px solid #0056b3; padding: 0.8rem 1.2rem; margin-bottom: 1.8rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem;">
+                        <!-- Document Title & Reference Header -->
+                        <div style="background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%); border-left: 5px solid #047857; padding: 0.9rem 1.2rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; border-radius: 4px;">
                             <div>
-                                <h2 style="margin: 0; color: #0056b3; font-family: 'Outfit', sans-serif; font-size: 1.25rem;">DETAILED SOLAR POWER PLANT PROPOSAL</h2>
-                                <span style="font-size: 0.78rem; color: #555;">Ref Qtn: <strong>${quoteNo}</strong> | Date: <strong>${dateStr}</strong></span>
+                                <h2 style="margin: 0; color: #047857; font-family: 'Outfit', sans-serif; font-size: 1.22rem; font-weight: 800;">DETAILED SOLAR POWER PLANT PROPOSAL</h2>
+                                <span style="font-size: 0.78rem; color: #475569;">Ref Qtn: <strong>${quoteNo}</strong> | Date: <strong>${dateStr}</strong></span>
                             </div>
                             <div style="text-align: right; flex-shrink: 0;">
-                                <span style="background: #0056b3; color: #ffffff !important; padding: 0.4rem 0.85rem; border-radius: 4px; font-weight: bold; font-size: 0.78rem; white-space: nowrap; display: inline-block;">${sysConfigLabel.toUpperCase()}</span>
+                                <span style="background: #047857; color: #ffffff !important; padding: 0.45rem 0.9rem; border-radius: 6px; font-weight: 800; font-size: 0.78rem; white-space: nowrap; display: inline-block; box-shadow: 0 2px 6px rgba(4,120,87,0.2);">${sysConfigLabel.toUpperCase()}</span>
                             </div>
                         </div>
 
-                        <!-- SECTION 1: COVER LETTER -->
-                        <div class="pdf-block" style="background: #fafafa; border: 1px solid #e5e7eb; border-radius: 6px; padding: 1.2rem; margin-bottom: 2rem; page-break-inside: avoid; break-inside: avoid;">
-                            <p style="margin-top: 0;"><strong>Sub:-</strong> Proposal for Design, Supply, Installation &amp; Commissioning of ${sysConfigLabel}.</p>
-                            
-                            <p style="margin-bottom: 0.3rem;"><strong>To,</strong></p>
-                            <div style="margin-left: 1rem; color: #111; font-weight: 600; line-height: 1.5;">
-                                ${name}<br>
-                                ${addr}, ${selectedDistrict}<br>
-                                📱 Mob: +91 ${phone}<br>
-                                ⚡ KSEB Consumer No: ${consumerNoVal || 'Pending / Under Process'}<br>
-                                🏢 KSEB Section: ${ksebSecVal}
-                            </div>
-
-                            <p style="margin-top: 1rem;">Dear Sir/Madam,</p>
-                            <p>Thank you for your interest in partnering with us to support your growth aspirations. We are pleased to present our offer for the ${capacityVal}KWP solar rooftop on-grid systems for your review.</p>
-                            <p style="margin-bottom: 0;">We believe you will find this proposal appealing, and we look forward to your positive response so that we can move forward with it.</p>
-                            
-                            <div style="margin-top: 1.2rem;">
-                                <strong>Thanking You,</strong><br>
-                                <strong>For SUNOVA SOLAR LLP</strong><br>
-                                <span style="color: #555;">Managing Partner<br>Mob: 9072522277 | E-mail ID: info@sunovasolar.in<br><strong>GSTIN : 32AFXFS8160F1ZJ</strong></span>
-                            </div>
-                        </div>
-
-                        <!-- SECTION 2: INTRODUCTION & COMPANY VISION -->
-                        <div class="pdf-block" style="margin-bottom: 2rem; page-break-inside: avoid; break-inside: avoid;">
-                            <h3 style="color: #0056b3; font-family: 'Outfit', sans-serif; font-size: 1.1rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; margin-top: 0;">1. INTRODUCTION &amp; COMPANY PROFILE</h3>
-                            <p><strong>SUNOVA SOLAR LLP</strong> is a trustworthy Firm that is dedicated to popularizing the use of the never failing Solar Energy replacing the traditional forms energy.</p>
-                            <p>The Head Office of the Firm being at Thodupuzha, Idukki, SUNOVA SOLAR LLP has very efficient and dedicated partners in all the 14 Districts of Kerala providing easy access to our Customers and aspirants whereof. Partner: <strong>${dealer.name}</strong>.</p>
-                            
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 1rem;">
-                                <div style="background: #f9fafb; padding: 1rem; border-radius: 6px; border: 1px solid #edf2f7;">
-                                    <h4 style="margin: 0 0 0.5rem 0; color: #0d1321; font-size: 0.95rem;">🎯 Our Mission</h4>
-                                    <p style="margin: 0; font-size: 0.8rem; color: #4a5568;">Acquire, develop, and demonstrate suitable renewable energy technologies. Estimate resources and put in place conducive policies, identify barriers, introduce policy options, popularize the use of renewable energy, and increase capacity through renewable sources. Enhance energy efficiency through energy conservation and management efforts. Maximizes the renewable energy mix.</p>
+                        <!-- SECTION 1: PROPOSAL RECIPIENT & AUTHORIZED PARTNER INFO -->
+                        <div class="pdf-block" style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.2rem; margin-bottom: 1.5rem; page-break-inside: avoid; break-inside: avoid;">
+                            <!-- Client Details -->
+                            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 1rem;">
+                                <div style="font-size: 0.75rem; color: #047857; font-weight: 800; text-transform: uppercase; margin-bottom: 0.4rem;">👤 Proposal Prepared For:</div>
+                                <div style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-bottom: 0.2rem;">${name}</div>
+                                <div style="font-size: 0.8rem; color: #475569; line-height: 1.45;">
+                                    📍 <strong>Site Address:</strong> ${addr}, ${selectedDistrict}<br>
+                                    📱 <strong>Mobile:</strong> +91 ${phone}<br>
+                                    ⚡ <strong>KSEB Consumer No:</strong> <strong style="color: #0d1321;">${consumerNoVal || 'Pending / Under Process'}</strong><br>
+                                    🏢 <strong>KSEB Section Office:</strong> ${ksebSecVal} Section
                                 </div>
-                                <div style="background: #f9fafb; padding: 1rem; border-radius: 6px; border: 1px solid #edf2f7;">
-                                    <h4 style="margin: 0 0 0.5rem 0; color: #0d1321; font-size: 0.95rem;">👁️ Our Vision</h4>
-                                    <p style="margin: 0; font-size: 0.8rem; color: #4a5568;">Harness the maximum possible renewable energy and minimize the consumption of conventional electricity and fossil fuels.</p>
+                            </div>
+                            <!-- Authorized Partner Details -->
+                            <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; padding: 1rem;">
+                                <div style="font-size: 0.75rem; color: #15803d; font-weight: 800; text-transform: uppercase; margin-bottom: 0.4rem;">🤝 Authorized District Partner:</div>
+                                <div style="font-size: 0.95rem; font-weight: 800; color: #166534; margin-bottom: 0.2rem;">${dealer.name}</div>
+                                <div style="font-size: 0.8rem; color: #15803d; line-height: 1.45;">
+                                    🏷️ <strong>Partner ID:</strong> ${activePartnerCode}<br>
+                                    📍 <strong>Service Area:</strong> ${dealer.area}, ${dealer.district} District<br>
+                                    📞 <strong>Partner Phone:</strong> +91 ${dealer.phone}<br>
+                                    🏢 <strong>Corporate Regd Office:</strong> Thodupuzha, Idukki District
                                 </div>
                             </div>
                         </div>
 
-                        <!-- SECTION 3: TECHNICAL KNOWLEDGE & WORKING PRINCIPLE -->
-                        <div class="pdf-block" style="margin-bottom: 2rem; background: #fff8f0; border: 1px solid #ffe8cc; border-radius: 6px; padding: 1.2rem; page-break-inside: avoid; break-inside: avoid;">
-                            <h3 style="color: #d97706; font-family: 'Outfit', sans-serif; font-size: 1.1rem; margin-top: 0; border-bottom: 1px solid #fbd38d; padding-bottom: 0.4rem;">2. HARNESSING SOLAR ENERGY &amp; SYSTEM TYPES</h3>
-                            <p><strong>Solar Panels:</strong> Installed on rooftops of buildings/houses with their face slanting to south direction where from most sunlight falls down. When solar light falls on the Silicon Panels, there occurs a photovoltaic reaction leading to a flow of electrons, that is electric current! Since the electrons flow in one direction, this current is called Direct Current or DC. We have to convert this DC to Alternating Current or AC because, in India, all electrical equipments are designed to function in AC only. This conversion of DC to AC is made possible by an Inverter installed at some convenient place in the building/house. The AC coming from the Inverter is fed into the house wiring. The net result is that all your electrical equipments work on the energy derived from the Sun.</p>
-                            
-                            <h4 style="color: #b45309; margin: 1rem 0 0.4rem 0; font-size: 0.9rem;">ON GRID, OFF GRID, HYBRID SOLAR SYSTEM:</h4>
-                            <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.82rem; line-height: 1.5;">
-                                <li><strong>On Grid System:</strong> If the Solar Panels produce more Electricity than you need to work your equipment’s, the excess electricity is fed to the State Electricity Board Grid (KSEB in Kerala). Suppose that the Panels produce less electricity than you need, then the deficiency is compensated by drawing enough current from the KSEB Grid. When KSEB Current is cut off, your 'On Grid' System also cuts off as an unavoidable safety measure.</li>
-                                <li><strong>Hybrid System:</strong> If you want electric current even when the supply from mains of KSEB is cut off, you will install a HYBRID SOLAR SYSTEM pairing Solar Panels with a specialized Hybrid Inverter and Battery Bank for uninterrupted supply.</li>
-                                <li><strong>Off Grid System:</strong> Operates completely independent of KSEB lines relying totally on Battery Back Up with a mandatory Change-over Switch.</li>
-                            </ul>
-
-                            <h4 style="color: #b45309; margin: 1rem 0 0.4rem 0; font-size: 0.9rem;">NET METERING &amp; BILLING FORMULA:</h4>
-                            <p style="margin: 0 0 0.5rem 0; font-size: 0.82rem;">The pure On Grid or Hybrid Solar System will have a Net Meter which runs forward when importing current from KSEB Grid and runs backward when exporting current to KSEB Grid.</p>
-                            <div style="background: #fff; padding: 0.6rem 1rem; border-radius: 4px; font-weight: bold; color: #d97706; text-align: center; border: 1px dashed #fbd38d;">
-                                KSEB Billing Formula: Gross Import - Gross Export = Net Consumption (Billed)
+                        <!-- SECTION 2: EXECUTIVE SUMMARY & COVER LETTER -->
+                        <div class="pdf-block" style="background: #fafafa; border: 1px solid #e5e7eb; border-radius: 6px; padding: 1rem 1.2rem; margin-bottom: 1.5rem; page-break-inside: avoid; break-inside: avoid;">
+                            <p style="margin-top: 0; margin-bottom: 0.5rem;"><strong>Sub:</strong> Proposal for Turnkey Engineering, Supply, Installation, Testing &amp; Commissioning of <strong>${capacityVal} kWp ${sysTopology} Rooftop Solar PV Power Plant</strong> with PM Surya Ghar Subsidy Support.</p>
+                            <p style="margin-bottom: 0.4rem; font-size: 0.82rem; color: #334155;">Dear Sir/Madam,</p>
+                            <p style="margin-bottom: 0.4rem; font-size: 0.82rem; color: #334155; line-height: 1.5;">We thank you for considering <strong>SUNOVA SOLAR LLP</strong> as your clean energy partner. We are delighted to submit our comprehensive engineering proposal for your <strong>${capacityVal} kWp</strong> rooftop solar power system, engineered to provide high-efficiency solar generation and maximum electricity bill savings under the Central Government <strong>PM Surya Ghar Muft Bijli Yojana</strong> scheme.</p>
+                            <div style="font-size: 0.78rem; color: #64748b; margin-top: 0.5rem; border-top: 1px dashed #cbd5e1; padding-top: 0.4rem;">
+                                <strong>System Configuration:</strong> ${capacityVal} kWp Solar Capacity &bull; ${phase} &bull; ${roofTypeLabel} (${storeyLabel})
                             </div>
                         </div>
 
-                        <!-- SECTION 4: ESTIMATE DETAILS & BILL OF MATERIALS -->
-                        <div class="pdf-block" style="margin-bottom: 2rem; page-break-inside: avoid; break-inside: avoid;">
-                            <h3 style="color: #0056b3; font-family: 'Outfit', sans-serif; font-size: 1.1rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; margin-top: 0;">3. ESTIMATE DETAILS &amp; BILL OF MATERIALS (${capacityVal}KW ON-GRID SYSTEM)</h3>
-                            <table style="width: 100%; border-collapse: collapse; margin-bottom: 1rem; font-size: 0.78rem; text-align: left;">
-                                <tr style="background: #0056b3; color: #fff;">
-                                    <th style="padding: 0.5rem; border: 1px solid #0056b3;">COMPONENT / ITEM</th>
-                                    <th style="padding: 0.5rem; border: 1px solid #0056b3;">SPECIFICATION &amp; STANDARDS</th>
-                                    <th style="padding: 0.5rem; border: 1px solid #0056b3;">MAKE / BRAND</th>
-                                    <th style="padding: 0.5rem; border: 1px solid #0056b3; text-align: center;">QTY</th>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd; font-weight: 600;">GRID TIE INVERTER</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd;">${capacityVal}KW ON GRID INVERTER, ${phase} WITH LCD DISPLAY, BIS APPROVED, IP65 PROTECTION WITH ONLINE MONITORING FACILITY</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd;">${inverterModel} / DEYE (WITH 10 YEAR WARRANTY)</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd; text-align: center;">1 NO.</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd; font-weight: 600;">SOLAR MODULE</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd;">N TYPE (TOPCON) BIFACIAL TRANSPARENT MODULE, 144 CELLS/GEN II (${panelWattage}Wp+)</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd;">${panelModel} / ADANI / WAAREE (12 YR PRODUCT / 25 YR PERF GUARANTEE)</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd; text-align: center;">FOR ${capacityVal}KW (${panelCount} NOS)</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd; font-weight: 600;">MOUNTING STRUCTURE</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd;">${roofTypeLabel} HIGH-RISE GP 16 MM STRUCTURE WITH ALUMINIUM END &amp; MID CLAMPS (${storeyLabel})</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd;">APOLLO / STANDARD GI</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd; text-align: center;">AS REQUIRED</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd; font-weight: 600;">SPD-AC &amp; SPD-DC</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd;">SURGE PROTECTION DEVICE CERTIFIED WITH IEC: 61643-11, RATING 275V/600V Imax 40kA 1P+N/2P TYPE 2</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd;">HAVELLS / EASTMAN</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd; text-align: center;">1 NO. EACH</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd; font-weight: 600;">AC / DC JUNCTION BOX</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd;">EXECUTIVE STANDARD - IEC 60439-1, 60529 WITH IP 66 PROTECTION</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd;">STANDARD IP66</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd; text-align: center;">1 EACH</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd; font-weight: 600;">AC-MCB &amp; DC-MCB</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd;">IS/IEC 60898-1, IEC 60947–2, 2 POLE RATING 32A / 220V PER POLE 20A</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd;">HAVELLS</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd; text-align: center;">1 NO. EACH</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd; font-weight: 600;">DC FUSE &amp; ENERGY METER</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd;">1000V DC 32A FUSE HOLDER &amp; 1 PHASE 2 WIRE AC STATIC WATT HOUR METER CALIBRATED LAB</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd;">MERSEN / HAVELLS / L&amp;T / VISIONTEK</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd; text-align: center;">1 NO. EACH</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd; font-weight: 600;">AC / DC SOLAR CABLES</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd;">6 SQ MM AC WIRE &amp; 4 SQ MM DC CABLE WITH APPROVED STANDARDS</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd;">FINOLEX / RR / VGUARD / WAAREE</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd; text-align: center;">AS REQUIRED</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd; font-weight: 600;">EARTHING &amp; LIGHTNING</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd;">10 SWG COPPER WIRE, CHEMICAL COMPOUND, COPPER BONDED ROD (14mm x 4FT), 16MM/1MTR ARRESTER</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd;">ACCURATE / CHOICE</td>
-                                    <td style="padding: 0.45rem; border: 1px solid #ddd; text-align: center;">4 NOS / 1 NO</td>
-                                </tr>
-                            </table>
-                        </div>
-
-                        <!-- SECTION 5: OFFER PRICE & ITEMIZED COMMERCIAL BREAKDOWN -->
-                        <div class="pdf-block" style="margin-bottom: 2rem; page-break-inside: avoid; break-inside: avoid;">
-                            <h3 style="color: #0056b3; font-family: 'Outfit', sans-serif; font-size: 1.1rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; margin-top: 0;">4. OFFER PRICE &amp; ITEMIZATION FOR ${capacityVal} KW ONGRID SYSTEM</h3>
-                            
-                            <table style="width: 100%; border-collapse: collapse; margin-bottom: 1rem; font-size: 0.82rem;">
-                                <tr style="background: #f8f9fa;">
-                                    <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: center; width: 40px;">Sl.</th>
-                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">DESCRIPTION</th>
-                                    <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: right; width: 150px;">AMOUNT (₹)</th>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center;">1</td>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">
-                                        <strong>Gross Project Rate (Including Turnkey Installation &amp; Total GST):</strong>
-                                    </td>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: right; font-weight: 700; font-size: 0.9rem;">Rs. ${grossTotal.toLocaleString('en-IN')}/-</td>
-                                </tr>
-                                <tr style="background: rgba(255, 183, 3, 0.05); font-size: 0.78rem;">
-                                    <td style="padding: 0.4rem; border: 1px solid #ddd;"></td>
-                                    <td style="padding: 0.4rem; border: 1px solid #ddd; color: #555;">
-                                        • Solar PV Equipment &amp; Goods Portion (70% Value @ 12% GST)<br>
-                                        <span style="font-size: 0.72rem; color: #777;">Taxable Base: ₹ ${goodsTaxable.toLocaleString('en-IN')} | 12% GST Tax: ₹ ${goodsGstVal.toLocaleString('en-IN')}</span>
-                                    </td>
-                                    <td style="padding: 0.4rem; border: 1px solid #ddd; text-align: right; font-weight: 600;">Rs. ${(goodsTaxable + goodsGstVal).toLocaleString('en-IN')}/-</td>
-                                </tr>
-                                <tr style="background: rgba(255, 183, 3, 0.05); font-size: 0.78rem;">
-                                    <td style="padding: 0.4rem; border: 1px solid #ddd;"></td>
-                                    <td style="padding: 0.4rem; border: 1px solid #ddd; color: #555;">
-                                        • Erection, Fabrication &amp; Services Portion (30% Value @ 18% GST)<br>
-                                        <span style="font-size: 0.72rem; color: #777;">Taxable Base: ₹ ${servicesTaxable.toLocaleString('en-IN')} | 18% GST Tax: ₹ ${servicesGstVal.toLocaleString('en-IN')}</span>
-                                    </td>
-                                    <td style="padding: 0.4rem; border: 1px solid #ddd; text-align: right; font-weight: 600;">Rs. ${(servicesTaxable + servicesGstVal).toLocaleString('en-IN')}/-</td>
-                                </tr>
-                                <tr style="color: #c5221f;">
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center;">2</td>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">
-                                        <strong>PM Surya Ghar Central Government Subsidy Amount (DBT to Bank):</strong>
-                                    </td>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: right; font-weight: 700; font-size: 0.9rem;">- Rs. ${subsidy.toLocaleString('en-IN')}/-</td>
-                                </tr>
-                                <tr style="background: #e6fffa; color: #047857; font-weight: 800;">
-                                    <td style="padding: 0.6rem; border: 1px solid #047857; text-align: center;">3</td>
-                                    <td style="padding: 0.6rem; border: 1px solid #047857; font-size: 0.95rem;">
-                                        Effective Customer Investment (Net Project Cost):
-                                    </td>
-                                    <td style="padding: 0.6rem; border: 1px solid #047857; text-align: right; font-size: 1.05rem;">Rs. ${(grossTotal - subsidy).toLocaleString('en-IN')}/-</td>
-                                </tr>
-                            </table>
-                            <div style="background: #f8f9fa; padding: 0.6rem; border-left: 4px solid #047857; font-style: italic; font-weight: bold; margin-bottom: 1.5rem;">
-                                Amount in Words: ${numberToWords(grossTotal - subsidy)}
-                            </div>
-                        </div>
-
-                        <!-- SECTION 5: KSEB FEES & ROI REPORT -->
+                        <!-- SECTION 3: DETAILED BILL OF MATERIALS & TECHNICAL SPECIFICATIONS -->
                         <div class="pdf-block" style="margin-bottom: 1.5rem; page-break-inside: avoid; break-inside: avoid;">
-                            <h3 style="color: #0056b3; font-family: 'Outfit', sans-serif; font-size: 1.1rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; margin-top: 0;">5. KSEB FEES &amp; RETURN ON INVESTMENT (ROI)</h3>
-                            
-                            <h4 style="margin: 0.8rem 0 0.4rem 0; font-size: 0.88rem; color: #333;">ESTIMATE DETAILS FOR KSEB FEASIBILITY AND REGISTRATION FEES:</h4>
-                            <table style="width: 100%; border-collapse: collapse; margin-bottom: 0.5rem; font-size: 0.78rem;">
-                                <tr style="background: #f8f9fa;">
-                                    <td style="padding: 0.4rem; border: 1px solid #ddd; width: 40px; text-align: center;">1</td>
-                                    <td style="padding: 0.4rem; border: 1px solid #ddd;">Feasibility Charges</td>
-                                    <td style="padding: 0.4rem; border: 1px solid #ddd; text-align: right; font-weight: 600;">Rs. 1000/-</td>
-                                </tr>
-                                <tr style="background: #f8f9fa;">
-                                    <td style="padding: 0.4rem; border: 1px solid #ddd; text-align: center;">2</td>
-                                    <td style="padding: 0.4rem; border: 1px solid #ddd;">Registration Charge</td>
-                                    <td style="padding: 0.4rem; border: 1px solid #ddd; text-align: right; font-weight: 600;">Rs. 5900/-</td>
-                                </tr>
+                            <h3 style="color: #047857; font-family: 'Outfit', sans-serif; font-size: 1.05rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.4rem; margin-top: 0;">1. TECHNICAL SPECIFICATIONS &amp; BILL OF MATERIALS (${capacityVal} kWp SYSTEM)</h3>
+                            <table style="width: 100%; border-collapse: collapse; margin-bottom: 0.8rem; font-size: 0.78rem; text-align: left;">
+                                <thead>
+                                    <tr style="background: #047857; color: #ffffff;">
+                                        <th style="padding: 0.5rem; border: 1px solid #047857; width: 140px;">COMPONENT</th>
+                                        <th style="padding: 0.5rem; border: 1px solid #047857;">TECHNICAL SPECIFICATIONS &amp; CERTIFICATION STANDARDS</th>
+                                        <th style="padding: 0.5rem; border: 1px solid #047857; width: 150px;">MAKE / BRAND</th>
+                                        <th style="padding: 0.5rem; border: 1px solid #047857; text-align: center; width: 80px;">QTY</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0; font-weight: 700; color: #0f172a;">Solar PV Modules</td>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0;">N-Type TOPCon High-Efficiency Bifacial Solar Modules (${panelWattage}Wp+). Certified under IEC 61215, IEC 61730 &amp; ALMM Empaneled. <strong>12-Yr Product / 25-Yr Performance Warranty</strong>.</td>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0; font-weight: 600;">${panelModel} / Adani / Waaree</td>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0; text-align: center; font-weight: 700;">${panelCount} Nos</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0; font-weight: 700; color: #0f172a;">Grid-Tie Inverter</td>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0;">${capacityVal} kW Transformerless On-Grid Inverter (${phase}) with LCD Display, Built-in Wi-Fi Cloud Monitoring, IP65 Enclosure, Efficiency > 98.4%. <strong>10-Year Manufacturer Warranty</strong>.</td>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0; font-weight: 600;">${inverterModel} / DEYE</td>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0; text-align: center; font-weight: 700;">1 Unit</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0; font-weight: 700; color: #0f172a;">Mounting Structure</td>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0;">${roofTypeLabel} High-Rise GP 16MM Structure / Anodized Aluminium Rails with SS304 Fasteners, designed for 150 km/h wind resistance (${storeyLabel}).</td>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0; font-weight: 600;">Apollo / Standard GI</td>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0; text-align: center;">Complete Set</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0; font-weight: 700; color: #0f172a;">ACDB &amp; DCDB Boxes</td>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0;">IP65 Weatherproof Distribution Enclosures with Type-II AC &amp; DC Surge Protection Devices (SPD 40kA), MCB / Isolators complying with IS/IEC 60947.</td>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0; font-weight: 600;">Havells / Standard IP65</td>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0; text-align: center;">1 Set Each</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0; font-weight: 700; color: #0f172a;">Solar Solar Cables</td>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0;">4 sq.mm TUV Certified UV-Resistant Dual-Insulated Copper Solar DC Cable &amp; 6 sq.mm Finolex / RR Armoured AC Cable with PVC Conduits.</td>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0; font-weight: 600;">Finolex / RR Kabel</td>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0; text-align: center;">As Required</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0; font-weight: 700; color: #0f172a;">Earthing &amp; Lightning</td>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0;">3 Maintenance-Free Chemical Earthing Pits with Copper-Bonded Electrodes (AC, DC &amp; LA) + 16MM Copper Lightning Arrester (IS 3043 compliant).</td>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0; font-weight: 600;">Choice / Accurate</td>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0; text-align: center;">3 Pits + 1 LA</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0; font-weight: 700; color: #0f172a;">Bi-Directional Meter</td>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0;">KSEB Approved Bi-Directional Net Meter with Solar Generation Check Meter (Calibrated Testing).</td>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0; font-weight: 600;">L&amp;T / Secure / Genus</td>
+                                        <td style="padding: 0.45rem; border: 1px solid #e2e8f0; text-align: center;">1 Set</td>
+                                    </tr>
+                                </tbody>
                             </table>
-                            <div style="color: #c5221f; font-size: 0.75rem; font-weight: bold; margin-bottom: 1rem;">
-                                * Note: The KSEB costs indicated above are not included in the project cost. The buyer has to pay that amount additionally.
-                            </div>
+                        </div>
 
-                            <!-- ROI Report -->
-                            <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; padding: 0.8rem 1rem;">
-                                <h4 style="margin: 0 0 0.3rem 0; color: #166534; font-size: 0.9rem;">📈 RETURN ON INVESTMENT (ROI) REPORT</h4>
-                                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #15803d; font-weight: 600;">
-                                    <span>Solar revenue / year at 8.50 / unit (365 x 20 x 8.5) + 18% GST (approx.):</span>
-                                    <span>Rs. 43,931/-</span>
-                                </div>
-                                <div style="font-size: 0.82rem; color: #166534; font-weight: 800; margin-top: 0.4rem; text-align: right;">
-                                    ✅ You will be able to get back your investment in approximately 3.3 years!
-                                </div>
+                        <!-- SECTION 4: COMMERCIAL PRICING, GST & PM SURYA GHAR SUBSIDY -->
+                        <div class="pdf-block" style="margin-bottom: 1.5rem; page-break-inside: avoid; break-inside: avoid;">
+                            <h3 style="color: #047857; font-family: 'Outfit', sans-serif; font-size: 1.05rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.4rem; margin-top: 0;">2. COMMERCIAL OFFER &amp; CENTRAL GOVERNMENT SUBSIDY BREAKDOWN</h3>
+                            
+                            <table style="width: 100%; border-collapse: collapse; margin-bottom: 0.8rem; font-size: 0.82rem;">
+                                <thead>
+                                    <tr style="background: #f8fafc; color: #0f172a;">
+                                        <th style="padding: 0.5rem; border: 1px solid #cbd5e1; text-align: center; width: 40px;">Sl.</th>
+                                        <th style="padding: 0.5rem; border: 1px solid #cbd5e1;">COMMERCIAL ITEM DESCRIPTION</th>
+                                        <th style="padding: 0.5rem; border: 1px solid #cbd5e1; text-align: right; width: 170px;">AMOUNT (₹)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 0.5rem; border: 1px solid #cbd5e1; text-align: center; font-weight: 700;">1</td>
+                                        <td style="padding: 0.5rem; border: 1px solid #cbd5e1;">
+                                            <strong style="color: #0f172a;">Gross Turnkey Project Cost (Supply, Installation, Testing &amp; Total GST):</strong>
+                                        </td>
+                                        <td style="padding: 0.5rem; border: 1px solid #cbd5e1; text-align: right; font-weight: 800; font-size: 0.92rem; color: #0f172a;">Rs. ${grossTotal.toLocaleString('en-IN')}/-</td>
+                                    </tr>
+                                    <tr style="background: #fbfdfe; font-size: 0.77rem;">
+                                        <td style="padding: 0.4rem; border: 1px solid #cbd5e1;"></td>
+                                        <td style="padding: 0.4rem; border: 1px solid #cbd5e1; color: #475569;">
+                                            &bull; Solar PV Equipment &amp; Goods Portion (70% Value @ 12% GST)<br>
+                                            <span style="font-size: 0.72rem; color: #64748b;">Taxable Value: ₹${goodsTaxable.toLocaleString('en-IN')} | 12% GST: ₹${goodsGstVal.toLocaleString('en-IN')}</span>
+                                        </td>
+                                        <td style="padding: 0.4rem; border: 1px solid #cbd5e1; text-align: right; font-weight: 600; color: #475569;">Rs. ${(goodsTaxable + goodsGstVal).toLocaleString('en-IN')}/-</td>
+                                    </tr>
+                                    <tr style="background: #fbfdfe; font-size: 0.77rem;">
+                                        <td style="padding: 0.4rem; border: 1px solid #cbd5e1;"></td>
+                                        <td style="padding: 0.4rem; border: 1px solid #cbd5e1; color: #475569;">
+                                            &bull; Erection, Civil Works &amp; Commissioning Services (30% Value @ 18% GST)<br>
+                                            <span style="font-size: 0.72rem; color: #64748b;">Taxable Value: ₹${servicesTaxable.toLocaleString('en-IN')} | 18% GST: ₹${servicesGstVal.toLocaleString('en-IN')}</span>
+                                        </td>
+                                        <td style="padding: 0.4rem; border: 1px solid #cbd5e1; text-align: right; font-weight: 600; color: #475569;">Rs. ${(servicesTaxable + servicesGstVal).toLocaleString('en-IN')}/-</td>
+                                    </tr>
+                                    <tr style="background: #fef2f2; color: #dc2626;">
+                                        <td style="padding: 0.5rem; border: 1px solid #fecaca; text-align: center; font-weight: 800;">2</td>
+                                        <td style="padding: 0.5rem; border: 1px solid #fecaca;">
+                                            <strong>PM Surya Ghar Central Government Subsidy (Direct Benefit Transfer to Bank):</strong><br>
+                                            <span style="font-size: 0.73rem; color: #991b1b;">Deposited straight into client's Aadhaar-linked bank account upon KSEB meter commissioning.</span>
+                                        </td>
+                                        <td style="padding: 0.5rem; border: 1px solid #fecaca; text-align: right; font-weight: 800; font-size: 0.95rem;">- Rs. ${subsidy.toLocaleString('en-IN')}/-</td>
+                                    </tr>
+                                    <tr style="background: #ecfdf5; color: #047857; font-weight: 800;">
+                                        <td style="padding: 0.6rem; border: 2px solid #047857; text-align: center; font-size: 0.95rem;">3</td>
+                                        <td style="padding: 0.6rem; border: 2px solid #047857; font-size: 0.95rem;">
+                                            🎯 NET EFFECTIVE CUSTOMER INVESTMENT (After Subsidy Benefit):
+                                        </td>
+                                        <td style="padding: 0.6rem; border: 2px solid #047857; text-align: right; font-size: 1.1rem; color: #047857;">Rs. ${(grossTotal - subsidy).toLocaleString('en-IN')}/-</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div style="background: #f8fafc; padding: 0.6rem 0.9rem; border-left: 4px solid #047857; font-style: italic; font-weight: 700; color: #1e293b; margin-bottom: 1rem; border-radius: 0 4px 4px 0;">
+                                Net Investment in Words: ${numberToWords(grossTotal - subsidy)}
                             </div>
                         </div>
 
-                        <!-- SECTION 6: POWER GENERATION DATA (KERALA IRRADIANCE CHART) -->
-                        <div class="pdf-block" style="background: #fcfcfc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 1rem; margin-bottom: 1.5rem; page-break-inside: avoid; break-inside: avoid;">
-                            <h4 style="margin: 0 0 0.4rem 0; color: #0d1321; font-size: 0.9rem;">☀️ POWER GENERATION DATA (KERALA IRRADIANCE CHART)</h4>
-                            <p style="font-size: 0.78rem; margin: 0 0 0.8rem 0; color: #4a5568; line-height: 1.45;">
-                                Power generation is quite an unpredictable factor for solar energy, as output is directly proportional to sunlight availability and inversely proportional to temperature. Solar irradiation charts specify the average annual yield of solar power from a 1000 Wp module is around 5.15 kWh per day (ranging from 0.5 to 6 units/kW/day on sunny days).
-                            </p>
+                        <!-- SECTION 5: FINANCIAL ROI, ELECTRICITY SAVINGS & IRRADIANCE TABLE -->
+                        <div class="pdf-block" style="margin-bottom: 1.5rem; page-break-inside: avoid; break-inside: avoid;">
+                            <h3 style="color: #047857; font-family: 'Outfit', sans-serif; font-size: 1.05rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.4rem; margin-top: 0;">3. FINANCIAL RETURN ON INVESTMENT (ROI) &amp; GENERATION PROJECTION</h3>
                             
-                            <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.4rem; text-align: center; font-size: 0.73rem; page-break-inside: avoid; break-inside: avoid;">
-                                <div style="background: #f1f5f9; padding: 0.3rem; border-radius: 4px;"><strong>Jan:</strong> 5.80</div>
-                                <div style="background: #f1f5f9; padding: 0.3rem; border-radius: 4px;"><strong>Feb:</strong> 6.46</div>
-                                <div style="background: #f1f5f9; padding: 0.3rem; border-radius: 4px;"><strong>Mar:</strong> 6.83</div>
-                                <div style="background: #f1f5f9; padding: 0.3rem; border-radius: 4px;"><strong>Apr:</strong> 6.24</div>
-                                <div style="background: #f1f5f9; padding: 0.3rem; border-radius: 4px;"><strong>May:</strong> 5.57</div>
-                                <div style="background: #f1f5f9; padding: 0.3rem; border-radius: 4px;"><strong>Jun:</strong> 4.83</div>
-                                <div style="background: #f1f5f9; padding: 0.3rem; border-radius: 4px;"><strong>Jul:</strong> 4.91</div>
-                                <div style="background: #f1f5f9; padding: 0.3rem; border-radius: 4px;"><strong>Aug:</strong> 5.26</div>
-                                <div style="background: #f1f5f9; padding: 0.3rem; border-radius: 4px;"><strong>Sep:</strong> 5.74</div>
-                                <div style="background: #f1f5f9; padding: 0.3rem; border-radius: 4px;"><strong>Oct:</strong> 5.24</div>
-                                <div style="background: #f1f5f9; padding: 0.3rem; border-radius: 4px;"><strong>Nov:</strong> 4.94</div>
-                                <div style="background: #f1f5f9; padding: 0.3rem; border-radius: 4px;"><strong>Dec:</strong> 5.30</div>
-                            </div>
-                        </div>
-
-                        <!-- SECTION 7: NOTES, EXCLUSIONS, PAYMENT & WARRANTY -->
-                        <div class="pdf-block" style="margin-bottom: 2rem; page-break-inside: avoid; break-inside: avoid;">
-                            <h3 style="color: #0056b3; font-family: 'Outfit', sans-serif; font-size: 1.1rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; margin-top: 0;">6. TERMS, EXCLUSIONS &amp; WARRANTY DETAILS</h3>
-                            
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; font-size: 0.78rem;">
-                                <div>
-                                    <h4 style="margin: 0 0 0.4rem 0; color: #0d1321;">📌 IMPORTANT NOTES:</h4>
-                                    <ul style="margin: 0; padding-left: 1rem; line-height: 1.5; color: #444;">
-                                        <li>The above-mentioned price includes design, supply, installation and commissioning.</li>
-                                        <li>The above-mentioned price is considered for <strong>${roofTypeLabel}</strong> roofs only.</li>
-                                        <li>If UG Cable is required for solar installation, cost will be additionally charged.</li>
-                                        <li>All goods comply with MNRE requirements. Offer valid for <strong>15 days</strong>.</li>
-                                        <li>KSEB deposits subsidy straight into customer's bank account via DBT.</li>
-                                        <li>Capacity is subject to KSEB feasibility allocation.</li>
-                                        <li>Customer to provide Wi-Fi modem with internet access within inverter range.</li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h4 style="margin: 0 0 0.4rem 0; color: #0d1321;">🚫 EXCLUSIONS:</h4>
-                                    <ul style="margin: 0; padding-left: 1rem; line-height: 1.5; color: #444;">
-                                        <li>All associated civil works, structural alterations, wall/floor cutting &amp; chasing.</li>
-                                        <li>System decommissioning and component replacement due to natural disasters.</li>
-                                        <li>Cost of loading, unloading &amp; associated local labour concerns.</li>
-                                        <li>Fees for registration, feasibility, Attestation &amp; agreement stamp paper.</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-top: 1.2rem; font-size: 0.78rem;">
-                                <div style="background: #f8fafc; padding: 0.8rem; border-radius: 4px; border: 1px solid #e2e8f0;">
-                                    <h4 style="margin: 0 0 0.3rem 0; color: #0d1321;">💳 PAYMENT TERMS &amp; BANK DETAILS:</h4>
-                                    <p style="margin: 0 0 0.4rem 0;"><strong>Payment Terms:</strong> ${payAdvance}% upon order confirmation, ${payDelivery}% upon material delivery, and ${payCompletion}% following commissioning.</p>
-                                    <div style="font-size: 0.75rem; color: #334155;">
-                                        <strong>Sunova Solar LLP</strong><br>
-                                        A/c No.: 11210200020065<br>
-                                        IFSC Code: FDRL0001121<br>
-                                        Federal Bank, Thodupuzha Branch
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0.8rem;">
+                                <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; padding: 0.9rem;">
+                                    <h4 style="margin: 0 0 0.3rem 0; color: #166534; font-size: 0.88rem;">📈 Estimated Solar Units &amp; Annual Savings:</h4>
+                                    <div style="font-size: 0.78rem; color: #15803d; line-height: 1.5;">
+                                        &bull; <strong>Daily Generation:</strong> ~${(capacityVal * 4.2).toFixed(1)} kWh Units / Day<br>
+                                        &bull; <strong>Annual Solar Output:</strong> ~${Math.round(capacityVal * 4.2 * 365).toLocaleString('en-IN')} Units / Year<br>
+                                        &bull; <strong>Annual Electricity Bill Savings (@ ₹8.50/unit):</strong> <strong style="font-size: 0.88rem; color: #047857;">Rs. ${Math.round(capacityVal * 4.2 * 365 * 8.5).toLocaleString('en-IN')}/- / Year</strong>
                                     </div>
                                 </div>
-                                <div style="background: #f8fafc; padding: 0.8rem; border-radius: 4px; border: 1px solid #e2e8f0;">
-                                    <h4 style="margin: 0 0 0.3rem 0; color: #0d1321;">🛡️ WARRANTY DETAILS:</h4>
-                                    <ul style="margin: 0; padding-left: 1rem; line-height: 1.4; color: #334155; font-size: 0.75rem;">
-                                        <li><strong>Solar Inverter:</strong> Covered by 10-year manufacturer warranty.</li>
-                                        <li><strong>Solar Panels:</strong> Covered by 12-year product guarantee &amp; 25-year performance warranty.</li>
-                                        <li><strong>Mounting Structure:</strong> As per manufacturer warranty policy.</li>
+                                <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 6px; padding: 0.9rem;">
+                                    <h4 style="margin: 0 0 0.3rem 0; color: #0369a1; font-size: 0.88rem;">⚡ Payback Period &amp; 25-Yr Net Benefit:</h4>
+                                    <div style="font-size: 0.78rem; color: #0284c7; line-height: 1.5;">
+                                        &bull; <strong>Estimated Capital Payback:</strong> <strong>~${((grossTotal - subsidy) / (capacityVal * 4.2 * 365 * 8.5)).toFixed(1)} Years</strong><br>
+                                        &bull; <strong>Free Electricity Period:</strong> Next 21+ Years Free Power!<br>
+                                        &bull; <strong>25-Year Cumulative Savings:</strong> <strong style="color: #0369a1;">Rs. ${Math.round(capacityVal * 4.2 * 365 * 8.5 * 25).toLocaleString('en-IN')}/-</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Statutory KSEB Fees Note -->
+                            <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 0.6rem 0.9rem; font-size: 0.75rem; color: #92400e; margin-bottom: 0.8rem;">
+                                ⚡ <strong>Statutory KSEB Fees:</strong> Feasibility Inspection Fee (Rs. 1,000/-) and Registration &amp; Testing Fee (Rs. 5,900/-) are standard government board fees payable directly to KSEB Ltd.
+                            </div>
+
+                            <!-- Kerala Solar Irradiance Reference -->
+                            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.75rem;">
+                                <div style="font-size: 0.74rem; font-weight: 700; color: #334155; margin-bottom: 0.3rem;">☀️ Kerala Average Daily Solar Radiation (kWh/m²/day):</div>
+                                <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.3rem; text-align: center; font-size: 0.72rem;">
+                                    <div style="background: #ffffff; padding: 0.25rem; border: 1px solid #e2e8f0; border-radius: 3px;">Jan: <strong>5.80</strong></div>
+                                    <div style="background: #ffffff; padding: 0.25rem; border: 1px solid #e2e8f0; border-radius: 3px;">Feb: <strong>6.46</strong></div>
+                                    <div style="background: #ffffff; padding: 0.25rem; border: 1px solid #e2e8f0; border-radius: 3px;">Mar: <strong>6.83</strong></div>
+                                    <div style="background: #ffffff; padding: 0.25rem; border: 1px solid #e2e8f0; border-radius: 3px;">Apr: <strong>6.24</strong></div>
+                                    <div style="background: #ffffff; padding: 0.25rem; border: 1px solid #e2e8f0; border-radius: 3px;">May: <strong>5.57</strong></div>
+                                    <div style="background: #ffffff; padding: 0.25rem; border: 1px solid #e2e8f0; border-radius: 3px;">Jun: <strong>4.83</strong></div>
+                                    <div style="background: #ffffff; padding: 0.25rem; border: 1px solid #e2e8f0; border-radius: 3px;">Jul: <strong>4.91</strong></div>
+                                    <div style="background: #ffffff; padding: 0.25rem; border: 1px solid #e2e8f0; border-radius: 3px;">Aug: <strong>5.26</strong></div>
+                                    <div style="background: #ffffff; padding: 0.25rem; border: 1px solid #e2e8f0; border-radius: 3px;">Sep: <strong>5.74</strong></div>
+                                    <div style="background: #ffffff; padding: 0.25rem; border: 1px solid #e2e8f0; border-radius: 3px;">Oct: <strong>5.24</strong></div>
+                                    <div style="background: #ffffff; padding: 0.25rem; border: 1px solid #e2e8f0; border-radius: 3px;">Nov: <strong>4.94</strong></div>
+                                    <div style="background: #ffffff; padding: 0.25rem; border: 1px solid #e2e8f0; border-radius: 3px;">Dec: <strong>5.30</strong></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SECTION 6: PAYMENT TERMS, BANKING CREDENTIALS & WARRANTIES -->
+                        <div class="pdf-block" style="margin-bottom: 1.5rem; page-break-inside: avoid; break-inside: avoid;">
+                            <h3 style="color: #047857; font-family: 'Outfit', sans-serif; font-size: 1.05rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.4rem; margin-top: 0;">4. PAYMENT MILESTONES &amp; OFFICIAL BANKING DETAILS</h3>
+                            
+                            <div style="display: grid; grid-template-columns: 1.1fr 1fr; gap: 1rem; font-size: 0.78rem;">
+                                <!-- Bank Account Box -->
+                                <div style="background: #f8fafc; padding: 0.9rem; border-radius: 6px; border: 1.5px solid #047857;">
+                                    <h4 style="margin: 0 0 0.4rem 0; color: #047857; font-size: 0.88rem;">🏦 Official Bank Account for RTGS / NEFT / UPI:</h4>
+                                    <div style="color: #1e293b; line-height: 1.5;">
+                                        <strong>Beneficiary Name:</strong> SUNOVA SOLAR LLP<br>
+                                        <strong>Current A/c No.:</strong> <span style="font-family: monospace; font-size: 0.9rem; font-weight: 800; color: #047857;">11210200020065</span><br>
+                                        <strong>IFSC Code:</strong> <span style="font-family: monospace; font-size: 0.9rem; font-weight: 800;">FDRL0001121</span><br>
+                                        <strong>Bank &amp; Branch:</strong> Federal Bank, Thodupuzha Branch<br>
+                                        <strong>GSTIN:</strong> 32AFXFS8160F1ZJ | <strong>LLPIN:</strong> ACX-7067
+                                    </div>
+                                </div>
+                                <!-- Payment Schedule -->
+                                <div style="background: #f8fafc; padding: 0.9rem; border-radius: 6px; border: 1px solid #cbd5e1;">
+                                    <h4 style="margin: 0 0 0.4rem 0; color: #0f172a; font-size: 0.88rem;">💳 Structured Payment Milestones:</h4>
+                                    <ul style="margin: 0; padding-left: 1.1rem; line-height: 1.5; color: #334155;">
+                                        <li><strong>${payAdvance}% Advance:</strong> Upon confirmation &amp; KSEB Soura portal filing.</li>
+                                        <li><strong>${payDelivery}% On Delivery:</strong> Upon delivery of solar panels &amp; inverter at site.</li>
+                                        <li><strong>${payCompletion}% On Commissioning:</strong> After structure assembly, testing &amp; net-meter installation.</li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- SECTION 8: FAMOUS QUOTE & SIGNATURE -->
-                        <div class="pdf-block" style="background: #fafafa; border: 1px solid #e5e7eb; border-radius: 6px; padding: 1rem; text-align: center; margin-bottom: 2rem; page-break-inside: avoid; break-inside: avoid;">
-                            <blockquote style="margin: 0; font-style: italic; color: #d97706; font-size: 0.88rem; font-weight: bold;">
-                                “I’D PUT MY MONEY ON THE SUN AND SOLAR ENERGY WHAT A SOURCE OF POWER...! I HOPE WE DON’T HAVE TO WAIT UNTIL OIL AND COAL RUN OUT BEFORE WE TACKLE THAT.”
-                            </blockquote>
-                            <div style="font-size: 0.78rem; color: #555; margin-top: 0.3rem;">- Thomas Alva Edison (1931)</div>
-                        </div>
-
-                        <!-- Signatures & Acceptance Footer -->
-                        <div class="pdf-block" style="page-break-inside: avoid; break-inside: avoid; border-top: 2px solid #0056b3; padding-top: 1.2rem; margin-top: 1.5rem;">
-                            <h4 style="margin: 0 0 0.8rem 0; font-family: 'Outfit', sans-serif; color: #0d1321;">CUSTOMER ACCEPTANCE &amp; SIGNATURE</h4>
-                            <p style="font-size: 0.78rem; margin-bottom: 1.5rem;">I hereby confirm that I have reviewed the complete proposal specifications, estimate breakdown, payment terms, and conditions above, and agree to proceed with installation.</p>
-                            
-                            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.5rem;">
+                        <!-- SECTION 7: WARRANTIES & IMPORTANT TERMS -->
+                        <div class="pdf-block" style="margin-bottom: 1.5rem; page-break-inside: avoid; break-inside: avoid;">
+                            <h3 style="color: #047857; font-family: 'Outfit', sans-serif; font-size: 1.05rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.4rem; margin-top: 0;">5. WARRANTY TERMS &amp; EXECUTION CONDITIONS</h3>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.78rem;">
                                 <div>
-                                    <div style="border-bottom: 1px solid #444; width: 220px; margin-bottom: 0.4rem;"></div>
-                                    <strong>Consumer Signature</strong><br>
-                                    <span style="font-size: 0.75rem; color: #666;">Name: ${name}<br>Date: ____ / ____ / ______</span>
+                                    <h4 style="margin: 0 0 0.3rem 0; color: #0f172a;">🛡️ Equipment Warranty Guarantee:</h4>
+                                    <ul style="margin: 0; padding-left: 1rem; line-height: 1.45; color: #475569;">
+                                        <li><strong>Solar Modules:</strong> 12-Yr Product Guarantee &amp; 25-Yr Performance Guarantee.</li>
+                                        <li><strong>Solar Inverter:</strong> 10-Year Comprehensive Manufacturer Replacement Warranty.</li>
+                                        <li><strong>Mounting Structure:</strong> High-Rise Hot-Dip Galvanized / Anodized (10-Yr Guarantee).</li>
+                                    </ul>
                                 </div>
-                                <div style="text-align: right;">
-                                    <strong>For SUNOVA SOLAR LLP</strong><br><br>
-                                    <div style="border-bottom: 1px solid #444; width: 220px; margin-bottom: 0.4rem; display: inline-block;"></div><br>
-                                    <strong>Managing Partner / Authorized Signatory</strong>
+                                <div>
+                                    <h4 style="margin: 0 0 0.3rem 0; color: #0f172a;">📌 Scope Notes &amp; Exclusions:</h4>
+                                    <ul style="margin: 0; padding-left: 1rem; line-height: 1.45; color: #475569;">
+                                        <li>Offer validity: <strong>15 days</strong> from proposal date.</li>
+                                        <li>Customer to provide 230V single phase / 415V three phase auxiliary supply during erection.</li>
+                                        <li>Underground cabling, specialized civil modifications or tree-pruning (if any) are outside standard scope.</li>
+                                    </ul>
                                 </div>
                             </div>
-                            <div style="text-align: center; margin-top: 1.5rem; border-top: 1px dashed #cbd5e1; padding-top: 0.6rem; font-size: 0.72rem; color: #777; font-style: italic;">
-                                This is a computer-generated document and is valid without a physical signature or company seal.
+                        </div>
+
+                        <!-- SECTION 8: SIGNATURES, DUAL STAMPING & ACCEPTANCE -->
+                        <div class="pdf-block" style="page-break-inside: avoid; break-inside: avoid; border-top: 2px solid #047857; padding-top: 1.2rem; margin-top: 1.5rem;">
+                            <h4 style="margin: 0 0 0.8rem 0; font-family: 'Outfit', sans-serif; color: #0f172a;">CUSTOMER ACCEPTANCE &amp; AUTHORIZED PARTNER ENDORSEMENT</h4>
+                            <p style="font-size: 0.78rem; margin-bottom: 1.8rem; color: #475569;">I / We hereby confirm having reviewed the complete proposal specifications, commercial estimate breakdown, payment terms, and warranty conditions, and accept the offer to proceed with engineering and installation.</p>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1rem;">
+                                <!-- Client Signature -->
+                                <div style="width: 260px;">
+                                    <div style="border-bottom: 1.5px solid #0f172a; width: 100%; margin-bottom: 0.5rem;"></div>
+                                    <strong style="color: #0f172a;">Customer / Consumer Signature</strong><br>
+                                    <span style="font-size: 0.75rem; color: #64748b;">
+                                        Name: <strong>${name}</strong><br>
+                                        Mobile: +91 ${phone}<br>
+                                        Date: ____ / ____ / ________
+                                    </span>
+                                </div>
+                                <!-- Dealership & Corporate Stamp -->
+                                <div style="text-align: right; width: 280px;">
+                                    <div style="background: #f0fdf4; border: 1.5px dashed #047857; border-radius: 6px; padding: 0.5rem 0.8rem; text-align: center; margin-bottom: 0.5rem;">
+                                        <div style="font-weight: 800; color: #047857; font-size: 0.82rem;">SUNOVA SOLAR LLP</div>
+                                        <div style="font-size: 0.72rem; color: #166534;">Authorized Partner: <strong>${dealer.name}</strong></div>
+                                        <div style="font-size: 0.68rem; color: #475569;">Partner Code: <strong>${activePartnerCode}</strong> &bull; Ph: +91 ${dealer.phone}</div>
+                                        <div style="font-size: 0.65rem; color: #64748b;">${dealer.area}, ${dealer.district} &bull; Regd. No. ACX-7067</div>
+                                    </div>
+                                    <strong style="color: #047857;">For SUNOVA SOLAR LLP</strong><br>
+                                    <span style="font-size: 0.72rem; color: #64748b;">Managing Partner / Authorized Signatory</span>
+                                </div>
+                            </div>
+                            <div style="text-align: center; margin-top: 1.2rem; border-top: 1px dashed #cbd5e1; padding-top: 0.5rem; font-size: 0.7rem; color: #94a3b8; font-style: italic;">
+                                Computer-generated proposal document issued by Sunova Solar LLP Partner Portal. Valid for execution upon mutual sign-off.
                             </div>
                         </div>
 
@@ -3133,7 +3100,7 @@
                             <tfoot>
                                 <tr>
                                     <td style="padding: 0; border: none;">
-                                        <!-- SUNOVA SOLAR LLP Official Studio Letterhead Footer -->
+                                        <!-- Official Footer -->
                                         <footer class="lh-footer pdf-block" style="width: 100%; padding-top: 10px; margin-top: 20px; border-top: 1px solid #cbd5e1; position: relative; background: #ffffff; page-break-inside: avoid; break-inside: avoid;">
                                             <div style="display: flex; align-items: flex-end; justify-content: space-between; font-size: 0.68rem; color: #64748b; width: 100%;">
                                                 <div style="max-width: 62%; line-height: 1.35;">
@@ -3141,7 +3108,7 @@
                                                     <span>8/93 Aathickal Arcade, Vengalloor - Mangattukavala Bypass Road, Thodupuzha, Idukki District, Kerala - 685605.</span>
                                                 </div>
                                                 <div style="text-align: right; line-height: 1.35;">
-                                                    <div style="display: inline-block; background: #f1f5f9; border: 1px solid #cbd5e1; color: #047857; font-weight: 700; font-size: 0.62rem; padding: 2px 6px; border-radius: 4px; margin-bottom: 3px;">MCA REGISTERED LLP  LLPIN: ACX-7067  RoC ERNAKULAM</div>
+                                                    <div style="display: inline-block; background: #f1f5f9; border: 1px solid #cbd5e1; color: #047857; font-weight: 700; font-size: 0.62rem; padding: 2px 6px; border-radius: 4px; margin-bottom: 3px;">MCA REGISTERED LLP &bull; LLPIN: ACX-7067 &bull; RoC ERNAKULAM</div>
                                                     <div>Email: <span>info@sunovasolar.in</span></div>
                                                     <div>Phone: <strong style="color: #1e293b;">+91 90725 22277</strong> | Web: sunovasolar.in</div>
                                                 </div>
@@ -3159,7 +3126,7 @@
                 const gstVal = grossTotal - grossLiaison;
                 
                 quoteHTML = `
-                    <div style="font-family: 'Inter', sans-serif; color: #333; line-height: 1.6; max-width: 850px; margin: 0 auto; background: #fff; padding: 2.5rem; box-sizing: border-box; border: 1px solid #e2e8f0; box-shadow: 0 4px 20px rgba(0,0,0,0.06); position: relative;">
+                    <div style="font-family: 'Inter', Arial, sans-serif; color: #1e293b; max-width: 860px; margin: 0 auto; background: #fff; padding: 2.5rem; box-sizing: border-box; font-size: 0.85rem; line-height: 1.6; border: 1px solid #cbd5e1; box-shadow: 0 4px 25px rgba(0,0,0,0.08); position: relative;">
                         
                         <table class="print-page-table" style="width: 100%; border-collapse: collapse;">
                             <thead>
@@ -3170,14 +3137,14 @@
                                             <div style="height: 4px; background: linear-gradient(90deg, #047857 0%, #f59e0b 100%); margin-bottom: 1rem; border-radius: 2px;"></div>
                                             <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
                                                 <div style="display: flex; align-items: center; gap: 14px;">
-                                                    <img src="assets/logo.jpg" style="height: 56px; width: auto; object-fit: contain; border-radius: 4px;" alt="SUNOVA SOLAR LLP Logo" onerror="this.style.display='none'">
+                                                    <img src="assets/logo.jpg" style="height: 58px; width: auto; object-fit: contain; border-radius: 4px;" alt="SUNOVA SOLAR LLP Logo" onerror="this.style.display='none'">
                                                     <div>
                                                         <h2 style="font-size: 1.45rem; font-weight: 800; color: #047857; letter-spacing: 0.5px; line-height: 1.1; text-transform: uppercase; margin: 0; font-family: 'Outfit', 'Montserrat', sans-serif;">SUNOVA SOLAR LLP</h2>
-                                                        <p style="font-size: 0.72rem; font-weight: 700; color: #f59e0b; letter-spacing: 1.2px; text-transform: uppercase; margin: 3px 0 0 0;">Clean Energy, Bright Future | Solar Engineering &amp; Installations</p>
-                                                        <p style="font-size: 0.65rem; color: #64748b; font-weight: 500; margin: 2px 0 0 0;">Ministry of Corporate Affairs Registered LLP &bull; LLPIN: ACX-7067 &bull; RoC Ernakulam</p>
+                                                        <p style="font-size: 0.72rem; font-weight: 700; color: #f59e0b; letter-spacing: 1.2px; text-transform: uppercase; margin: 3px 0 0 0;">KSEB Soura Empaneled Channel Partner &bull; MNRE Compliant EPC</p>
+                                                        <p style="font-size: 0.65rem; color: #64748b; font-weight: 600; margin: 2px 0 0 0;">LLPIN: ACX-7067 &bull; RoC Ernakulam &bull; GSTIN: 32AFXFS8160F1ZJ</p>
                                                     </div>
                                                 </div>
-                                                <div style="text-align: right; font-size: 0.74rem; color: #1e293b; line-height: 1.5;">
+                                                <div style="text-align: right; font-size: 0.74rem; color: #1e293b; line-height: 1.45;">
                                                     <div>Ph: <strong style="color: #047857;">+91 90725 22277</strong></div>
                                                     <div style="color: #64748b;">info@sunovasolar.in</div>
                                                     <div style="color: #047857; font-weight: 600;">https://sunovasolar.in</div>
@@ -3191,14 +3158,13 @@
                                 <tr>
                                     <td style="padding: 0; border: none;">
 
-                        <!-- Document Title Box -->
-                        <div style="background: #f0fdf4; border-left: 5px solid #28a745; padding: 0.8rem 1.2rem; margin-bottom: 1.8rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem;">
+                        <div style="background: #f0fdf4; border-left: 5px solid #16a34a; padding: 0.8rem 1.2rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; border-radius: 4px;">
                             <div>
-                                <h2 style="margin: 0; color: #15803d; font-family: 'Outfit', sans-serif; font-size: 1.25rem;">PROFORMA INVOICE &amp; KSEB FEASIBILITY</h2>
-                                <span style="font-size: 0.78rem; color: #555;">Ref Qtn: <strong>${quoteNo}</strong> | Date: <strong>${dateStr}</strong></span>
+                                <h2 style="margin: 0; color: #166534; font-family: 'Outfit', sans-serif; font-size: 1.22rem; font-weight: 800;">KSEB TECHNICAL FEASIBILITY &amp; PROFORMA SUBMISSION</h2>
+                                <span style="font-size: 0.78rem; color: #15803d;">Ref Qtn: <strong>${quoteNo}</strong> | Date: <strong>${dateStr}</strong></span>
                             </div>
                             <div style="text-align: right; flex-shrink: 0;">
-                                <span style="background: #15803d; color: #ffffff !important; padding: 0.4rem 0.85rem; border-radius: 4px; font-weight: bold; font-size: 0.78rem; white-space: nowrap; display: inline-block;">${sysConfigLabel.toUpperCase()}</span>
+                                <span style="background: #15803d; color: #ffffff !important; padding: 0.45rem 0.9rem; border-radius: 6px; font-weight: 800; font-size: 0.78rem; white-space: nowrap; display: inline-block;">${sysConfigLabel.toUpperCase()}</span>
                             </div>
                         </div>
 
@@ -3206,162 +3172,122 @@
                             <strong>To,</strong><br>
                             The Assistant Executive Engineer,<br>
                             Electrical Section Office, KSEB Limited,<br>
-                            ${ksebSecVal} Section, ${selectedDistrict} District, Kerala
+                            <strong>${ksebSecVal} Section</strong>, ${selectedDistrict} District, Kerala
                         </div>
 
-                        <div style="font-size: 0.84rem; font-weight: 600; line-height: 1.5; margin-bottom: 1.5rem; background: #f8f9fa; padding: 0.75rem; border-left: 4px solid #28a745; border-radius: 4px;">
-                            Subject: Solar rooftop grid-tied feasibility proforma &amp; components compliance checklist for ${sysConfigLabel} (${phase}) net-metering application.
+                        <div style="font-size: 0.84rem; font-weight: 700; line-height: 1.5; margin-bottom: 1.5rem; background: #f8fafc; padding: 0.75rem 1rem; border-left: 4px solid #16a34a; border-radius: 4px; color: #0f172a;">
+                            Subject: Solar rooftop grid-tied feasibility proforma &amp; components technical compliance checklist for ${sysConfigLabel} (${phase}) net-metering application under PM Surya Ghar Muft Bijli Yojana.
                         </div>
 
-                        <div class="pdf-block" style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; margin-bottom: 1.5rem; font-size: 0.8rem; page-break-inside: avoid; break-inside: avoid;">
-                            <div>
-                                <strong style="color: #0d1321; display: block; margin-bottom: 0.3rem;">Consumer Details (Site Address)</strong>
-                                <table style="width: 100%; border-collapse: collapse;">
+                        <div class="pdf-block" style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; font-size: 0.8rem; page-break-inside: avoid; break-inside: avoid;">
+                            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.9rem;">
+                                <strong style="color: #0f172a; display: block; margin-bottom: 0.4rem; font-size: 0.85rem;">👤 Consumer Site Parameters</strong>
+                                <table style="width: 100%; border-collapse: collapse; font-size: 0.78rem;">
                                     <tr>
-                                        <td style="color: #666; width: 110px;">Consumer Name:</td>
-                                        <td style="padding-right: 15px;"><strong>${name}</strong></td>
-                                        <td style="color: #666; width: 75px;">Mobile No:</td>
+                                        <td style="color: #64748b; width: 115px; padding: 3px 0;">Consumer Name:</td>
+                                        <td><strong>${name}</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="color: #64748b; padding: 3px 0;">Contact Mobile:</td>
                                         <td><strong>+91 ${phone}</strong></td>
                                     </tr>
-                                    <tr><td style="color: #666;">Site Address:</td><td colspan="3">${addr}, ${selectedDistrict}</td></tr>
-                                    <tr><td style="color: #666;">Consumer No:</td><td colspan="3" style="font-weight: bold; color: #0d1321;">${consumerNoVal || 'Pending / Application under process'}</td></tr>
-                                    <tr><td style="color: #666;">KSEB Section:</td><td colspan="3"><strong>${ksebSecVal}</strong></td></tr>
+                                    <tr>
+                                        <td style="color: #64748b; padding: 3px 0;">Site Address:</td>
+                                        <td>${addr}, ${selectedDistrict}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="color: #64748b; padding: 3px 0;">KSEB 13-Digit No:</td>
+                                        <td><strong style="color: #047857;">${consumerNoVal || 'Pending / Under Application'}</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="color: #64748b; padding: 3px 0;">KSEB Section Office:</td>
+                                        <td><strong>${ksebSecVal}</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="color: #64748b; padding: 3px 0;">Electrical Phase:</td>
+                                        <td><strong>${phase}</strong></td>
+                                    </tr>
                                 </table>
                             </div>
-                            <div>
-                                <strong style="color: #0d1321; display: block; margin-bottom: 0.3rem;">Empaneled Installer Details</strong>
-                                <strong>Partner:</strong> Sunova Solar LLP - ${dealer.name}<br>
-                                <strong>Area Office:</strong> ${dealer.area} Office<br>
-                                <strong>Contact No:</strong> +91 ${dealer.phone}
+                            <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; padding: 0.9rem;">
+                                <strong style="color: #166534; display: block; margin-bottom: 0.4rem; font-size: 0.85rem;">🤝 Empaneled Channel Partner</strong>
+                                <div style="font-size: 0.78rem; line-height: 1.5; color: #15803d;">
+                                    <strong>Partner Firm:</strong> Sunova Solar LLP<br>
+                                    <strong>Authorized Partner:</strong> ${dealer.name}<br>
+                                    <strong>Partner Code:</strong> ${activePartnerCode}<br>
+                                    <strong>Area Office:</strong> ${dealer.area} Office (${dealer.district})<br>
+                                    <strong>Contact Phone:</strong> +91 ${dealer.phone}<br>
+                                    <strong>GSTIN:</strong> 32AFXFS8160F1ZJ
+                                </div>
                             </div>
                         </div>
 
                         <div class="pdf-block" style="page-break-inside: avoid; break-inside: avoid;">
-                            <h4 style="margin: 1.5rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; font-size: 0.9rem; border-bottom: 1px solid #eee; padding-bottom: 0.3rem;">📋 Components Technical Compliance details (Grouped by System Domain)</h4>
+                            <h4 style="margin: 1.5rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0f172a; font-size: 0.9rem; border-bottom: 1px solid #eee; padding-bottom: 0.3rem;">📋 Components Technical Compliance Details (Grouped by System Domain)</h4>
                             <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.78rem; text-align: left;">
-                            <thead>
-                                <tr style="background: #f1f3f5; color: #0d1321; font-weight: 600;">
-                                    <th style="padding: 0.5rem; border: 1px solid #ddd; width: 160px;">Category Domain</th>
-                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Manufacturer / Technical Specifications</th>
-                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Standards &amp; Certifications</th>
-                                    <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: center; width: 110px;">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">1. Core Generation Equipment</td>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">
-                                        • <strong>System Config:</strong> ${sysConfigLabel}<br>
-                                        • <strong>PV Modules:</strong> ${panelModel} Mono PERC / TOPCon (${panelCount} Nos - ${panelWattage}Wp+)<br>
-                                        • <strong>Grid-Tie Inverter:</strong> ${inverterModel} String Inverter (${phase})
-                                    </td>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">IEC 61215, IEC 61730, ALMM Listed, IEC 62109, IEC 61000 (Anti-islanding)</td>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center; color: #28a745; font-weight: bold;">✅ Compliant</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">2. Electrical Cables &amp; Distribution</td>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">
-                                        • <strong>Cables:</strong> 4 sq mm multi-strand copper solar DC &amp; AC cables<br>
-                                        • <strong>Enclosures:</strong> IP65 Weatherproof Array Junction Box, ACDB &amp; DCDB
-                                    </td>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">EN 50618, IEC 60947, IS 1554 / IS 7098 Standards</td>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center; color: #28a745; font-weight: bold;">✅ Compliant</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">3. Earthing &amp; Surge Protection</td>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">
-                                        • <strong>Protection:</strong> Type-II Surge Protection Devices (SPD), MCB, ELCB<br>
-                                        • <strong>Earthing:</strong> Separate Chemical Maintenance-Free Earthing Pits (AC, DC, LA)
-                                    </td>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">IS 3043 (Code of Practice for Earthing), IEC 61643</td>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center; color: #28a745; font-weight: bold;">✅ Compliant</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd; font-weight: 600;">4. Structure &amp; Grid Metering</td>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">
-                                        • <strong>Structure:</strong> ${roofTypeLabel} (${storeyLabel})<br>
-                                        • <strong>Net Metering:</strong> Bi-directional Net Metering &amp; Generation Meter Provisions
-                                    </td>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">IS 800 Code for Structural Steel, KSEB Soura Guidelines</td>
-                                    <td style="padding: 0.5rem; border: 1px solid #ddd; text-align: center; color: #28a745; font-weight: bold;">✅ Compliant</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                <thead>
+                                    <tr style="background: #f1f5f9; color: #0f172a; font-weight: 700;">
+                                        <th style="padding: 0.5rem; border: 1px solid #cbd5e1; width: 160px;">Category Domain</th>
+                                        <th style="padding: 0.5rem; border: 1px solid #cbd5e1;">Manufacturer / Technical Specifications</th>
+                                        <th style="padding: 0.5rem; border: 1px solid #cbd5e1;">Standards &amp; Certifications</th>
+                                        <th style="padding: 0.5rem; border: 1px solid #cbd5e1; text-align: center; width: 100px;">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 0.5rem; border: 1px solid #cbd5e1; font-weight: 600;">1. Core Generation Equipment</td>
+                                        <td style="padding: 0.5rem; border: 1px solid #cbd5e1;">
+                                            &bull; <strong>System Config:</strong> ${sysConfigLabel}<br>
+                                            &bull; <strong>PV Modules:</strong> ${panelModel} Mono PERC / TOPCon (${panelCount} Nos - ${panelWattage}Wp+)<br>
+                                            &bull; <strong>Grid-Tie Inverter:</strong> ${inverterModel} String Inverter (${phase})
+                                        </td>
+                                        <td style="padding: 0.5rem; border: 1px solid #cbd5e1;">IEC 61215, IEC 61730, ALMM Listed, IEC 62109, IEC 61000 (Anti-islanding)</td>
+                                        <td style="padding: 0.5rem; border: 1px solid #cbd5e1; text-align: center; color: #16a34a; font-weight: bold;">✅ Compliant</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.5rem; border: 1px solid #cbd5e1; font-weight: 600;">2. Electrical Cables &amp; Distribution</td>
+                                        <td style="padding: 0.5rem; border: 1px solid #cbd5e1;">
+                                            &bull; <strong>Cables:</strong> 4 sq mm multi-strand copper solar DC &amp; AC cables<br>
+                                            &bull; <strong>Enclosures:</strong> IP65 Weatherproof Array Junction Box, ACDB &amp; DCDB
+                                        </td>
+                                        <td style="padding: 0.5rem; border: 1px solid #cbd5e1;">EN 50618, IEC 60947, IS 1554 / IS 7098 Standards</td>
+                                        <td style="padding: 0.5rem; border: 1px solid #cbd5e1; text-align: center; color: #16a34a; font-weight: bold;">✅ Compliant</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.5rem; border: 1px solid #cbd5e1; font-weight: 600;">3. Earthing &amp; Surge Protection</td>
+                                        <td style="padding: 0.5rem; border: 1px solid #cbd5e1;">
+                                            &bull; <strong>Protection:</strong> Type-II Surge Protection Devices (SPD), MCB, ELCB<br>
+                                            &bull; <strong>Earthing:</strong> Separate Chemical Maintenance-Free Earthing Pits (AC, DC, LA)
+                                        </td>
+                                        <td style="padding: 0.5rem; border: 1px solid #cbd5e1;">IS 3043 (Code of Practice for Earthing), IEC 61643</td>
+                                        <td style="padding: 0.5rem; border: 1px solid #cbd5e1; text-align: center; color: #16a34a; font-weight: bold;">✅ Compliant</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.5rem; border: 1px solid #cbd5e1; font-weight: 600;">4. Structure &amp; Grid Metering</td>
+                                        <td style="padding: 0.5rem; border: 1px solid #cbd5e1;">
+                                            &bull; <strong>Mounting Structure:</strong> ${roofTypeLabel} (${storeyLabel})<br>
+                                            &bull; <strong>Net Metering:</strong> Bi-Directional TOD / Net Meter with 0.2s/0.5s Accuracy
+                                        </td>
+                                        <td style="padding: 0.5rem; border: 1px solid #cbd5e1;">IS 875 Part-3 (Wind Speed 150 km/h), CEA (Metering) Regulations</td>
+                                        <td style="padding: 0.5rem; border: 1px solid #cbd5e1; text-align: center; color: #16a34a; font-weight: bold;">✅ Compliant</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
 
-                        <div class="pdf-block" style="page-break-inside: avoid; break-inside: avoid; margin-bottom: 1.5rem;">
-                            <h4 style="margin: 1.5rem 0 0.5rem 0; font-family: 'Outfit', sans-serif; color: #0d1321; font-size: 0.9rem; border-bottom: 1px solid #eee; padding-bottom: 0.3rem;">💰 Commercial Value &amp; Statutory GST Split Statement</h4>
-                            <div style="background: #fdfefe; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; margin-bottom: 1.5rem; font-size: 0.8rem;">
-                                <div style="display: flex; justify-content: space-between; padding: 0.6rem 1rem; border-bottom: 1px solid #eee; background: #f8f9fa; font-weight: 700;">
-                                    <span>Supply &amp; Installation Taxable Base Value (Excl. GST)</span>
-                                    <span>₹ ${taxableVal.toLocaleString('en-IN')}</span>
+                        <div class="pdf-block" style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 1.2rem; margin-bottom: 1.5rem; page-break-inside: avoid; break-inside: avoid;">
+                            <h4 style="margin: 0 0 0.6rem 0; font-family: 'Outfit', sans-serif; color: #0f172a; font-size: 0.9rem;">Commercial Valuation &amp; GST Assessment</h4>
+                            <div style="font-size: 0.8rem; border: 1px solid #e2e8f0; border-radius: 6px; overflow: hidden; margin-bottom: 0.8rem;">
+                                <div style="display: flex; justify-content: space-between; padding: 0.55rem 1rem; border-bottom: 1px solid #eee; background: #ffffff;">
+                                    <span>&bull; Goods Portion Taxable (70% Value @ 12% GST)</span>
+                                    <span>Taxable: ₹${goodsTaxable.toLocaleString('en-IN')} | GST: <strong>₹${goodsGstVal.toLocaleString('en-IN')}</strong></span>
                                 </div>
                                 <div style="display: flex; justify-content: space-between; padding: 0.55rem 1rem; border-bottom: 1px solid #eee; background: #ffffff;">
-                                    <span>• Goods Portion Taxable (70% Value @ 12% GST)</span>
-                                    <span>Taxable: ₹ ${goodsTaxable.toLocaleString('en-IN')} | GST: <strong>₹ ${goodsGstVal.toLocaleString('en-IN')}</strong></span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; padding: 0.55rem 1rem; border-bottom: 1px solid #eee; background: #ffffff;">
-                                    <span>• Services Portion Taxable (30% Value @ 18% GST)</span>
-                                    <span>Taxable: ₹ ${servicesTaxable.toLocaleString('en-IN')} | GST: <strong>₹ ${servicesGstVal.toLocaleString('en-IN')}</strong></span>
+                                    <span>&bull; Services Portion Taxable (30% Value @ 18% GST)</span>
+                                    <span>Taxable: ₹${servicesTaxable.toLocaleString('en-IN')} | GST: <strong>₹${servicesGstVal.toLocaleString('en-IN')}</strong></span>
                                 </div>
                                 <div style="display: flex; justify-content: space-between; padding: 0.6rem 1rem; border-bottom: 1px solid #eee; background: #eef2ff; color: #3730a3; font-weight: 700;">
                                     <span>Total Combined GST Tax Amount (Effective 13.8% GST)</span>
-                                    <span>₹ ${totalGstVal.toLocaleString('en-IN')}</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; padding: 0.8rem 1rem; background: #f8f9fa; font-weight: 800; color: #0d1321; font-size: 0.88rem;">
-                                    <span>Total Gross Quotation Contract Value (Inclusive of GST)</span>
-                                    <span>₹ ${grossTotal.toLocaleString('en-IN')}</span>
-                                </div>
-                            </div>
-
-                            <div style="color: #c5221f; font-weight: 600; margin-bottom: 1.5rem; padding: 0.5rem; background: rgba(239, 68, 68, 0.05); border: 1px dashed #c5221f; font-size: 0.8rem;">
-                                Note: The above cost is Gross Project Cost. PM Surya Ghar Subsidy of ₹ ${subsidy.toLocaleString('en-IN')} will be directly credited to customer bank account via DBT. Net customer investment is ₹ ${(grossTotal - subsidy).toLocaleString('en-IN')}.
-                            </div>
-                        </div>
-
-                        <div class="pdf-block" style="page-break-inside: avoid; break-inside: avoid;">
-                            <div style="display: flex; justify-content: space-between; margin-top: 3.5rem; font-size: 0.82rem;">
-                                <div style="text-align: center; width: 180px;">
-                                    <div style="border-bottom: 1px solid #999; height: 35px; margin-bottom: 0.35rem;"></div>
-                                    <span>Signature of Consumer</span>
-                                </div>
-                                <div style="text-align: center; width: 220px;">
-                                    <div style="font-family: 'Outfit', sans-serif; font-weight: 700; color: #0d1321; font-size: 0.84rem; margin-bottom: 0.35rem;">For SUNOVA SOLAR LLP</div>
-                                    <div style="border-bottom: 1px solid #999; height: 18px; margin-bottom: 0.35rem;"></div>
-                                    <span>Empaneled Channel Partner Stamp</span>
-                                </div>
-                            </div>
-                            <div style="text-align: center; margin-top: 1.5rem; border-top: 1px dashed #cbd5e1; padding-top: 0.6rem; font-size: 0.72rem; color: #777; font-style: italic;">
-                                This is a computer-generated document and is valid without a physical signature or company seal.
-                            </div>
-                        </div>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td style="padding: 0; border: none;">
-                                        <!-- SUNOVA SOLAR LLP Official Studio Letterhead Footer -->
-                                        <footer class="lh-footer pdf-block" style="width: 100%; padding-top: 10px; margin-top: 20px; border-top: 1px solid #cbd5e1; position: relative; background: #ffffff; page-break-inside: avoid; break-inside: avoid;">
-                                            <div style="display: flex; align-items: flex-end; justify-content: space-between; font-size: 0.68rem; color: #64748b; width: 100%;">
-                                                <div style="max-width: 62%; line-height: 1.35;">
-                                                    <strong style="color: #1e293b;">SUNOVA SOLAR LLP Registered Office:</strong><br>
-                                                    <span>8/93 Aathickal Arcade, Vengalloor - Mangattukavala Bypass Road, Thodupuzha, Idukki District, Kerala - 685605.</span>
-                                                </div>
-                                                <div style="text-align: right; line-height: 1.35;">
-                                                    <div style="display: inline-block; background: #f1f5f9; border: 1px solid #cbd5e1; color: #047857; font-weight: 700; font-size: 0.62rem; padding: 2px 6px; border-radius: 4px; margin-bottom: 3px;">MCA REGISTERED LLP  LLPIN: ACX-7067  RoC ERNAKULAM</div>
-                                                    <div>Email: <span>info@sunovasolar.in</span></div>
-                                                    <div>Phone: <strong style="color: #1e293b;">+91 90725 22277</strong> | Web: sunovasolar.in</div>
-                                                </div>
-                                            </div>
-                                            <div style="text-align: center; margin-top: 0.5rem; font-size: 0.65rem; color: #94a3b8; font-style: italic; border-top: 1px dashed #e2e8f0; padding-top: 0.4rem;">
-                                                This is a computer-generated document and is valid without a physical signature or company seal.
-                                            </div>
-                                            <div style="height: 3px; background: #047857; margin-top: 0.8rem; border-radius: 2px;"></div>
-                                        </footer>
-                                    </td>
-                                </tr>
                             </tfoot>
                         </table>
                     </div>
