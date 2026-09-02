@@ -1073,32 +1073,32 @@
             const loginBtn = document.getElementById('btn-portal-login');
 
             if (currentRole === 'partner') {
-                let inputValCleaned = email;
-                const isNumeric = /^[0-9\+\s\-]+$/.test(email);
-                if (isNumeric) {
-                    let cleanPhone = email.replace(/[^0-9]/g, '');
-                    if (cleanPhone.length === 12 && cleanPhone.startsWith('91')) {
-                        cleanPhone = cleanPhone.substring(2);
-                    }
-                    const phoneRegex = /^[6-9][0-9]{9}$/;
-                    if (!phoneRegex.test(cleanPhone)) {
-                        feedback.textContent = 'Invalid Phone. If logging in with a mobile number, it must be exactly 10 digits starting with 6-9.';
-                        feedback.className = 'form-feedback error';
-                        feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
-                        feedback.style.color = '#ef4444';
-                        feedback.classList.remove('hidden');
-                        return;
-                    }
-                    inputValCleaned = cleanPhone;
+                const rawInput = email.trim();
+                let phoneDigits = rawInput.replace(/[^0-9]/g, '');
+                if (phoneDigits.length === 12 && phoneDigits.startsWith('91')) {
+                    phoneDigits = phoneDigits.substring(2);
                 }
+                const searchClean = rawInput.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
 
-                const matchedDealer = DEALERS.find(d => {
-                    const searchVal = inputValCleaned.toUpperCase();
-                    return d.code === searchVal || d.phone === inputValCleaned;
+                // Merge static dealers and custom dealers
+                const customDealers = JSON.parse(localStorage.getItem('custom_dealers_list') || '[]');
+                const allDealers = [...DEALERS, ...customDealers];
+
+                let matchedDealer = allDealers.find(d => {
+                    const codeClean = (d.code || '').replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+                    const phoneClean = (d.phone || '').replace(/[^0-9]/g, '');
+                    return codeClean === searchClean || (phoneDigits && phoneClean === phoneDigits) || codeClean.includes(searchClean);
                 });
 
+                if (!matchedDealer && searchClean.length >= 3) {
+                    matchedDealer = allDealers.find(d => {
+                        const nameClean = (d.name || '').replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+                        return nameClean.includes(searchClean);
+                    });
+                }
+
                 if (!matchedDealer) {
-                    feedback.textContent = 'Access Denied. Your partner code or mobile number is not registered in our dealer list.';
+                    feedback.textContent = `Access Denied. '${rawInput}' is not found in registered dealer list. Please check your Partner Code or Registered Mobile Number.`;
                     feedback.className = 'form-feedback error';
                     feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
                     feedback.style.color = '#ef4444';
@@ -1116,11 +1116,14 @@
                 }
 
                 const defaultPhonePin = (matchedDealer.phone && matchedDealer.phone.length >= 4) ? matchedDealer.phone.slice(-4) : '2277';
-                const customPin = localStorage.getItem('partner_pin_' + matchedDealer.code);
-                const requiredPin = customPin || defaultPhonePin;
+                const customPin = localStorage.getItem('partner_pin_' + matchedDealer.code) || 
+                                  localStorage.getItem('partner_pin_' + (matchedDealer.phone || ''));
+                
+                // Allow default 2277, last 4 digits of phone, OR custom set PIN
+                const isPinValid = (password === '2277') || (password === defaultPhonePin) || (customPin && password === customPin);
 
-                if (password !== requiredPin) {
-                    feedback.textContent = customPin ? 'Incorrect security PIN. Please enter your custom PIN.' : `Invalid security PIN. Default PIN for mobile +91 ${matchedDealer.phone} is the last 4 digits (${defaultPhonePin}).`;
+                if (!isPinValid) {
+                    feedback.textContent = 'Invalid security PIN. Use default PIN: 2277 or click "Forgot / Reset PIN?".';
                     feedback.className = 'form-feedback error';
                     feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
                     feedback.style.color = '#ef4444';
@@ -1140,7 +1143,7 @@
                     localStorage.setItem('partner_code', matchedDealer.code);
                     localStorage.setItem('partner_last_activity', Date.now().toString());
                     window.location.href = 'partner-portal.html';
-                }, 1000);
+                }, 600);
                 return;
             }
 
