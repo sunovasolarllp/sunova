@@ -8387,5 +8387,95 @@ window.addEventListener('popstate', (e) => {
     }
 });
 
+/* =========================================================================
+   AIRTEL-STYLE MULTI-TAB HERO WIDGET INTERACTION LOGIC
+   ========================================================================= */
+
+function switchAirtelHeroTab(tabName, btnEl) {
+    const buttons = document.querySelectorAll('.airtel-tab-btn');
+    buttons.forEach(b => b.classList.remove('active'));
+    if (btnEl) btnEl.classList.add('active');
+
+    const panels = document.querySelectorAll('.airtel-tab-panel');
+    panels.forEach(p => p.classList.remove('active'));
+
+    const activePanel = document.getElementById(`airtel-tab-${tabName}`);
+    if (activePanel) {
+        activePanel.classList.add('active');
+    }
+}
+
+function calculateAirtelHeroSolar() {
+    const kwSelect = document.getElementById('airtel-hero-kw');
+    if (!kwSelect) return;
+    const kw = parseFloat(kwSelect.value) || 3;
+
+    // Pricing benchmark: Tier-1 TOPCon Bifacial Mono PERC
+    let grossCost = 0;
+    let subsidy = 0;
+
+    if (kw <= 2) {
+        grossCost = 135000;
+        subsidy = 60000;
+    } else if (kw === 3) {
+        grossCost = 145000;
+        subsidy = 78000;
+    } else if (kw === 4) {
+        grossCost = 200000;
+        subsidy = 78000;
+    } else if (kw === 5) {
+        grossCost = 245000;
+        subsidy = 78000;
+    } else if (kw === 10) {
+        grossCost = 450000;
+        subsidy = 78000;
+    } else {
+        grossCost = kw * 50000;
+        subsidy = 78000;
+    }
+
+    const netCost = Math.max(0, grossCost - subsidy);
+    const annualSavings = Math.round(kw * 4 * 365 * 7.5); // 4 units/kW/day * ₹7.5 avg tariff
+
+    const netCostEl = document.getElementById('airtel-hero-net-cost');
+    if (netCostEl) {
+        netCostEl.textContent = `₹${netCost.toLocaleString('en-IN')}*`;
+    }
+
+    const subsidyTextEl = document.getElementById('airtel-hero-subsidy-text');
+    if (subsidyTextEl) {
+        subsidyTextEl.textContent = `(After ₹${subsidy.toLocaleString('en-IN')} Subsidy)`;
+    }
+
+    const savingsEl = document.getElementById('airtel-hero-savings');
+    if (savingsEl) {
+        savingsEl.textContent = `~₹${annualSavings.toLocaleString('en-IN')} / yr`;
+    }
+}
+
+function calculateAirtelBillReduction() {
+    const input = document.getElementById('airtel-bill-input');
+    const resultBox = document.getElementById('airtel-bill-result');
+    if (!input || !resultBox) return;
+
+    const bimonthlyBill = parseFloat(input.value) || 4500;
+    
+    // Estimate optimal size (typically 1kW generates ~240 units bi-monthly, approx ₹1,800 bill offset)
+    let recKw = 3;
+    if (bimonthlyBill <= 2500) recKw = 2;
+    else if (bimonthlyBill <= 5500) recKw = 3;
+    else if (bimonthlyBill <= 8500) recKw = 5;
+    else recKw = Math.min(15, Math.ceil(bimonthlyBill / 1600));
+
+    const newBill = 290; // KSEB minimum fixed charge
+    const yearlySavings = Math.max(0, Math.round((bimonthlyBill - newBill) * 6));
+
+    resultBox.innerHTML = `👉 With a <strong>${recKw} kWp Solar Plant</strong>, your KSEB bi-monthly bill drops from <strong>₹${bimonthlyBill.toLocaleString('en-IN')}</strong> to just <strong>₹${newBill}</strong>! You save <strong>₹${yearlySavings.toLocaleString('en-IN')} every year</strong>.`;
+}
+
+window.switchAirtelHeroTab = switchAirtelHeroTab;
+window.calculateAirtelHeroSolar = calculateAirtelHeroSolar;
+window.calculateAirtelBillReduction = calculateAirtelBillReduction;
+
 
 

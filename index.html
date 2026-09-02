@@ -34,6 +34,23 @@
     <link rel="stylesheet" href="style.css?v=9.7">
 </head>
 <body class="dark-theme">
+    <!-- Airtel-Style Top Utility Strip -->
+    <div class="airtel-utility-strip no-print">
+        <div class="airtel-utility-container">
+            <div class="airtel-utility-links">
+                <a href="#hero" class="airtel-utility-link active"><span>🏡</span> Residential Solar</a>
+                <a href="#solutions" class="airtel-utility-link"><span>🏢</span> Commercial &amp; Business</a>
+                <a href="#calculator" class="airtel-utility-link"><span>💰</span> PM Surya Ghar Subsidy</a>
+                <a href="#gallery" class="airtel-utility-link"><span>📸</span> Projects Gallery</a>
+            </div>
+            <div class="airtel-utility-links">
+                <a href="partner-portal.html" class="airtel-utility-link" style="color: #ffb703; font-weight: 700;"><span>🤝</span> Partner Portal</a>
+                <a href="login.html" class="airtel-utility-link"><span>🔒</span> Staff Portal</a>
+                <a href="https://mail.hostinger.com/" target="_blank" rel="noopener" class="airtel-utility-link"><span>✉️</span> Webmail</a>
+            </div>
+        </div>
+    </div>
+
     <!-- Header/Navigation -->
     <header class="navbar" id="navbar">
 
@@ -44,6 +61,7 @@
             
             <nav class="nav-menu" id="nav-menu">
                 <a href="#hero" class="nav-link active" id="link-hero">Home</a>
+                <a href="#solutions" class="nav-link" id="link-solutions">Solar Plans</a>
                 <a href="#services" class="nav-link" id="link-services">Services</a>
                 <a href="#calculator" class="nav-link" id="link-calculator">Calculator</a>
                 <a href="#gallery" class="nav-link" id="link-gallery">Gallery</a>
@@ -129,10 +147,10 @@
                 </div>
             </div>
         </div>
-        <div class="container hero-container">
-            <div class="hero-content scroll-reveal-left">
-                <span class="badge hero-pill-badge"><strong>☀️ Brightening Kerala Homes • 💚 1,500+ Happy Families</strong></span>
-                <h1 class="hero-title">Power Your Home with Sunshine. <span class="gradient-text">Protect Your Family's Future.</span></h1>
+        <div class="container hero-container" style="align-items: center; gap: 2rem;">
+            <div class="hero-content scroll-reveal-left" style="flex: 1.1;">
+                <span class="badge hero-pill-badge"><strong>☀️ Kerala's #1 Rated Solar EPC • 💚 1,500+ Happy Families</strong></span>
+                <h1 class="hero-title">Power Your Home with Sunshine. <span class="gradient-text">Zero Electricity Bills.</span></h1>
                 
                 <!-- Typing Value Proposition & Solar Energy Flow Conduit -->
                 <div style="font-size: 1.05rem; font-weight: 700; color: var(--color-sun-yellow); margin-top: 0.4rem; margin-bottom: 0.8rem; min-height: 28px;">
@@ -147,7 +165,7 @@
                     <p class="hero-desc-text">Experience true energy freedom and zero bill anxiety. Join over 1,500+ happy families across Kerala who enjoy clean, sustainable rooftop solar power, direct government subsidies (up to ₹78,000), and 25 years of warm local care.</p>
                 </div>
                 <div class="hero-buttons" style="margin-bottom: 1.5rem;">
-                    <a href="#calculator" class="cta-btn primary-btn" id="btn-hero-calc">Calculate Savings</a>
+                    <a href="#solutions" class="cta-btn primary-btn" id="btn-hero-calc">⚡ Explore Solar Plans</a>
                     <a href="#contact-form-container" onclick="if(typeof scrollToContactForm==='function'){ scrollToContactForm(); }" class="cta-btn green-btn" id="btn-hero-contact">Get Free Quotation</a>
                 </div>
                 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; font-size: 0.86rem; font-weight: 600; color: var(--color-text-muted); margin-top: 0.5rem;">
@@ -158,32 +176,154 @@
                     <span>🌱 100% Green Eco Protection</span>
                 </div>
             </div>
-            <div class="hero-card scroll-reveal-right">
-                <div class="glass-card">
-                    <h3>☀️ Family Solar Benefits</h3>
-                    <ul class="benefit-list">
-                        <li>
-                            <div class="benefit-icon">🏡</div>
-                            <div>
-                                <h4>Zero Bill Happiness</h4>
-                                <p>Enjoy near-zero KSEB monthly power bills and lifelong financial freedom for your home.</p>
+
+            <!-- Airtel-Style Multi-Tab Floating Quick Action Card -->
+            <div class="hero-card scroll-reveal-right" style="flex: 1; max-width: 540px; width: 100%;">
+                <div class="airtel-hero-widget-card" id="airtel-hero-widget">
+                    <!-- Tab Navigation -->
+                    <div class="airtel-tab-nav">
+                        <button type="button" class="airtel-tab-btn active" onclick="switchAirtelHeroTab('residential', this)">
+                            <span>🏡</span> Residential (1–10kW)
+                        </button>
+                        <button type="button" class="airtel-tab-btn" onclick="switchAirtelHeroTab('commercial', this)">
+                            <span>🏢</span> Commercial
+                        </button>
+                        <button type="button" class="airtel-tab-btn" onclick="switchAirtelHeroTab('hybrid', this)">
+                            <span>🔋</span> Hybrid
+                        </button>
+                        <button type="button" class="airtel-tab-btn" onclick="switchAirtelHeroTab('quickbill', this)">
+                            <span>⚡</span> Quick Bill
+                        </button>
+                    </div>
+
+                    <div class="airtel-tab-body">
+                        <!-- Tab 1: Residential Solar -->
+                        <div id="airtel-tab-residential" class="airtel-tab-panel active">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; flex-wrap: wrap; gap: 0.4rem;">
+                                <div>
+                                    <h4 style="margin: 0; color: #ffb703; font-size: 1.05rem; font-weight: 800;">PM Surya Ghar Subsidy Scheme</h4>
+                                    <p style="margin: 0; font-size: 0.76rem; color: #cbd5e1;">Direct Bank Transfer (DBT) Central Subsidy across Kerala</p>
+                                </div>
+                                <span style="background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: #34d399; font-size: 0.72rem; font-weight: 800; padding: 3px 10px; border-radius: 12px;">✅ Empaneled EPC</span>
                             </div>
-                        </li>
-                        <li>
-                            <div class="benefit-icon">💚</div>
-                            <div>
-                                <h4>Clean Green Legacy</h4>
-                                <p>Offset tons of CO2 emissions and leave a healthier, greener Kerala for your children.</p>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.9rem;">
+                                <div>
+                                    <label style="font-size: 0.78rem; font-weight: 700; color: #94a3b8; display: block; margin-bottom: 0.3rem;">System Size</label>
+                                    <select id="airtel-hero-kw" onchange="calculateAirtelHeroSolar()" style="width: 100%; padding: 0.65rem; border-radius: 8px; background: #1e293b; border: 1.5px solid #475569; color: #ffffff; font-weight: 700; font-size: 0.88rem;">
+                                        <option value="2">2 kWp (₹60k Subsidy)</option>
+                                        <option value="3" selected>3 kWp (₹78k Subsidy) ⭐</option>
+                                        <option value="4">4 kWp (₹78k Subsidy)</option>
+                                        <option value="5">5 kWp (₹78k Subsidy)</option>
+                                        <option value="10">10 kWp (₹78k Subsidy)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size: 0.78rem; font-weight: 700; color: #94a3b8; display: block; margin-bottom: 0.3rem;">District</label>
+                                    <select id="airtel-hero-dist" style="width: 100%; padding: 0.65rem; border-radius: 8px; background: #1e293b; border: 1.5px solid #475569; color: #ffffff; font-weight: 700; font-size: 0.88rem;">
+                                        <option value="Idukki">Idukki</option>
+                                        <option value="Ernakulam">Ernakulam</option>
+                                        <option value="Kottayam">Kottayam</option>
+                                        <option value="Thrissur">Thrissur</option>
+                                        <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                                        <option value="Kollam">Kollam</option>
+                                        <option value="Pathanamthitta">Pathanamthitta</option>
+                                        <option value="Alappuzha">Alappuzha</option>
+                                        <option value="Palakkad">Palakkad</option>
+                                        <option value="Malappuram">Malappuram</option>
+                                        <option value="Kozhikode">Kozhikode</option>
+                                        <option value="Wayanad">Wayanad</option>
+                                        <option value="Kannur">Kannur</option>
+                                        <option value="Kasaragod">Kasaragod</option>
+                                    </select>
+                                </div>
                             </div>
-                        </li>
-                        <li>
-                            <div class="benefit-icon">🎁</div>
-                            <div>
-                                <h4>Govt. Subsidy (Up to ₹78,000)</h4>
-                                <p>Hassle-free PM Surya Ghar Yojana subsidy credited directly to your bank account.</p>
+
+                            <!-- Live Quick Calculation Results Box -->
+                            <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 0.85rem 1.1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1rem;">
+                                <div>
+                                    <div style="font-size: 0.74rem; color: #94a3b8; text-transform: uppercase; font-weight: 700;">Net Effective Investment</div>
+                                    <div style="display: flex; align-items: baseline; gap: 0.4rem;">
+                                        <span id="airtel-hero-net-cost" style="font-size: 1.6rem; font-weight: 900; color: #10b981; font-family: 'Outfit', sans-serif;">₹67,000*</span>
+                                        <span id="airtel-hero-subsidy-text" style="font-size: 0.76rem; color: #ffb703; font-weight: 700;">(After ₹78,000 Subsidy)</span>
+                                    </div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-size: 0.74rem; color: #94a3b8; text-transform: uppercase; font-weight: 700;">Annual Savings</div>
+                                    <div id="airtel-hero-savings" style="font-size: 1.1rem; font-weight: 800; color: #ffffff;">~₹38,000 / yr</div>
+                                </div>
                             </div>
-                        </li>
-                    </ul>
+
+                            <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                                <a href="#contact-form-container" onclick="if(typeof scrollToContactForm==='function'){ scrollToContactForm(); }" class="cta-btn primary-btn" style="flex: 1; padding: 0.65rem 1rem; font-size: 0.85rem; font-weight: 800; text-align: center; border-radius: 8px; background: #ffb703; color: #0d1321; text-decoration: none;">
+                                    ⚡ Book Free Site Survey →
+                                </a>
+                                <a href="#calculator" class="cta-btn secondary-btn" style="padding: 0.65rem 1rem; font-size: 0.85rem; font-weight: 700; text-align: center; border-radius: 8px; background: rgba(255,255,255,0.1); color: #fff; text-decoration: none;">
+                                    Calculator 🧮
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Tab 2: Commercial & Business -->
+                        <div id="airtel-tab-commercial" class="airtel-tab-panel">
+                            <h4 style="margin: 0 0 0.3rem 0; color: #ffb703; font-size: 1.05rem; font-weight: 800;">Commercial Solar EPC (15–100 kWp+)</h4>
+                            <p style="font-size: 0.78rem; color: #cbd5e1; margin-bottom: 0.9rem;">Cut power tariffs from ₹8.50/unit to ₹2.20/unit with 40% tax depreciation benefits.</p>
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-bottom: 0.9rem;">
+                                <div style="background: rgba(255,255,255,0.05); padding: 0.6rem; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 0.7rem; color: #94a3b8;">15 kWp Solar</div>
+                                    <div style="font-weight: 800; color: #ffffff; font-size: 0.88rem;">₹2.8L / yr</div>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.05); padding: 0.6rem; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 0.7rem; color: #94a3b8;">50 kWp Solar</div>
+                                    <div style="font-weight: 800; color: #ffffff; font-size: 0.88rem;">₹9.5L / yr</div>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.05); padding: 0.6rem; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 0.7rem; color: #94a3b8;">Payback</div>
+                                    <div style="font-weight: 800; color: #10b981; font-size: 0.88rem;">3.2 Years</div>
+                                </div>
+                            </div>
+                            <a href="#contact-form-container" onclick="if(typeof scrollToContactForm==='function'){ scrollToContactForm(); }" class="cta-btn primary-btn" style="display: block; width: 100%; padding: 0.65rem 1rem; font-size: 0.85rem; font-weight: 800; text-align: center; border-radius: 8px; background: #ffb703; color: #0d1321; text-decoration: none;">
+                                🏢 Request Commercial ROI Feasibility →
+                            </a>
+                        </div>
+
+                        <!-- Tab 3: Hybrid Solar -->
+                        <div id="airtel-tab-hybrid" class="airtel-tab-panel">
+                            <h4 style="margin: 0 0 0.3rem 0; color: #ffb703; font-size: 1.05rem; font-weight: 800;">Hybrid Solar + Lithium Storage</h4>
+                            <p style="font-size: 0.78rem; color: #cbd5e1; margin-bottom: 0.9rem;">24/7 power during monsoons &amp; coastal blackouts without diesel fumes or noise.</p>
+                            <div style="display: flex; gap: 0.6rem; margin-bottom: 0.9rem;">
+                                <div style="flex: 1; background: rgba(255,255,255,0.05); padding: 0.65rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                                    <div style="font-size: 0.8rem; font-weight: 700; color: #ffffff;">🔋 15-Yr Lithium LiFePO4</div>
+                                </div>
+                                <div style="flex: 1; background: rgba(255,255,255,0.05); padding: 0.65rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                                    <div style="font-size: 0.8rem; font-weight: 700; color: #ffffff;">⚡ 0.01s Instant UPS</div>
+                                </div>
+                            </div>
+                            <a href="#contact-form-container" onclick="if(typeof scrollToContactForm==='function'){ scrollToContactForm(); }" class="cta-btn primary-btn" style="display: block; width: 100%; padding: 0.65rem 1rem; font-size: 0.85rem; font-weight: 800; text-align: center; border-radius: 8px; background: #ffb703; color: #0d1321; text-decoration: none;">
+                                🔋 Consult Hybrid Solar Specialist →
+                            </a>
+                        </div>
+
+                        <!-- Tab 4: 1-Click Bill Estimator -->
+                        <div id="airtel-tab-quickbill" class="airtel-tab-panel">
+                            <h4 style="margin: 0 0 0.3rem 0; color: #ffb703; font-size: 1.05rem; font-weight: 800;">Instant KSEB Bill Estimator</h4>
+                            <div style="margin-bottom: 0.8rem;">
+                                <label style="font-size: 0.78rem; font-weight: 700; color: #94a3b8; display: block; margin-bottom: 0.3rem;">Bi-Monthly KSEB Bill (₹)</label>
+                                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                    <input type="number" id="airtel-bill-input" value="4500" oninput="calculateAirtelBillReduction()" style="flex: 1; padding: 0.6rem 0.85rem; border-radius: 8px; background: #1e293b; border: 1.5px solid #475569; color: #ffffff; font-weight: 800; font-size: 0.95rem;">
+                                    <button type="button" onclick="calculateAirtelBillReduction()" style="background: #10b981; color: white; border: none; border-radius: 8px; padding: 0.6rem 0.9rem; font-weight: 800; font-size: 0.82rem; cursor: pointer;">
+                                        ⚡ Estimate
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="airtel-bill-result" style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; border-radius: 10px; padding: 0.75rem; font-size: 0.8rem; color: #ffffff; line-height: 1.45; margin-bottom: 0.8rem;">
+                                👉 With a <strong>3 kWp Solar Plant</strong>, your KSEB bill drops from <strong>₹4,500</strong> to just <strong>₹290</strong>! You save <strong>₹25,200/year</strong>.
+                            </div>
+                            <a href="#contact-form-container" onclick="if(typeof scrollToContactForm==='function'){ scrollToContactForm(); }" class="cta-btn primary-btn" style="display: block; width: 100%; padding: 0.65rem 1rem; font-size: 0.85rem; font-weight: 800; text-align: center; border-radius: 8px; background: #ffb703; color: #0d1321; text-decoration: none;">
+                                ⚡ Claim ₹78,000 Subsidy &amp; Zero Bill →
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -241,6 +381,87 @@
             </div>
         </div>
     </div>
+
+    <!-- Airtel-Style Recommended Solar Plans Section -->
+    <section class="solutions-section" id="solutions" style="padding: 4rem 0 2rem 0; position: relative;">
+        <div class="container">
+            <div class="section-header text-center scroll-reveal">
+                <span class="sub-title">POPULAR ROOFTOP SOLAR PACKAGES</span>
+                <h2 class="section-title">Recommended Solar Plans for Kerala Homes</h2>
+                <div class="title-line"></div>
+                <p class="section-desc">Tier-1 N-Type TOPCon Mono Bifacial panels with 25-Year Performance Warranty, MNRE KSEB Net Metering &amp; Direct Bank Subsidy.</p>
+            </div>
+
+            <div class="airtel-plan-grid">
+                <!-- Plan 1: 3 kWp Starter -->
+                <div class="airtel-plan-card featured scroll-reveal">
+                    <div class="airtel-plan-badge">🔥 Most Popular in Kerala</div>
+                    <div style="font-size: 0.8rem; font-weight: 700; color: #ffb703; text-transform: uppercase;">3 kWp On-Grid Solar Plant</div>
+                    <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0.2rem 0 0.5rem 0;">Family Zero Bill Starter</h3>
+                    <div class="airtel-plan-price">
+                        ₹67,000* <span>Net Effective Cost</span>
+                    </div>
+                    <div style="font-size: 0.76rem; color: #10b981; font-weight: 700; background: rgba(16,185,129,0.15); padding: 3px 8px; border-radius: 6px; display: inline-block; margin-bottom: 0.6rem;">
+                        💰 ₹78,000 PM Surya Ghar Subsidy Deducted
+                    </div>
+                    <ul class="airtel-plan-feature-list">
+                        <li><span class="check">✓</span> <strong>12-14 Units/day</strong> solar generation</li>
+                        <li><span class="check">✓</span> Ideal for 2-3 BHK homes (1-2 ACs, Refrigerator)</li>
+                        <li><span class="check">✓</span> 550W+ Tier-1 Bifacial N-Type Glass-to-Glass Panels</li>
+                        <li><span class="check">✓</span> 3 kW Smart Inverter with Wi-Fi Cloud App</li>
+                        <li><span class="check">✓</span> Complete KSEB Net-Meter testing &amp; subsidy paperless filing</li>
+                    </ul>
+                    <a href="#contact-form-container" onclick="if(typeof scrollToContactForm==='function'){ scrollToContactForm(); }" class="cta-btn primary-btn" style="width: 100%; text-align: center; font-weight: 800; padding: 0.75rem; border-radius: 10px; background: #ffb703; color: #0d1321; text-decoration: none;">
+                        ⚡ Book 3 kWp Site Survey →
+                    </a>
+                </div>
+
+                <!-- Plan 2: 5 kWp Premium -->
+                <div class="airtel-plan-card scroll-reveal">
+                    <div style="font-size: 0.8rem; font-weight: 700; color: #38bdf8; text-transform: uppercase;">5 kWp High-Capacity Solar</div>
+                    <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0.2rem 0 0.5rem 0;">Villa &amp; EV Charging Power</h3>
+                    <div class="airtel-plan-price">
+                        ₹1,32,000* <span>Net Effective Cost</span>
+                    </div>
+                    <div style="font-size: 0.76rem; color: #10b981; font-weight: 700; background: rgba(16,185,129,0.15); padding: 3px 8px; border-radius: 6px; display: inline-block; margin-bottom: 0.6rem;">
+                        💰 ₹78,000 PM Surya Ghar Subsidy Deducted
+                    </div>
+                    <ul class="airtel-plan-feature-list">
+                        <li><span class="check">✓</span> <strong>20-24 Units/day</strong> solar generation</li>
+                        <li><span class="check">✓</span> Powers 3-4 ACs, EV car charger &amp; water pump</li>
+                        <li><span class="check">✓</span> Heavy-duty aluminum/HDG monsoon wind structure</li>
+                        <li><span class="check">✓</span> 5 kW Dual-MPPT Smart Inverter with App</li>
+                        <li><span class="check">✓</span> 25-Year Linear Power Warranty</li>
+                    </ul>
+                    <a href="#contact-form-container" onclick="if(typeof scrollToContactForm==='function'){ scrollToContactForm(); }" class="cta-btn primary-btn" style="width: 100%; text-align: center; font-weight: 800; padding: 0.75rem; border-radius: 10px; background: #3b82f6; color: #ffffff; text-decoration: none;">
+                        ⚡ Book 5 kWp Site Survey →
+                    </a>
+                </div>
+
+                <!-- Plan 3: 10 kWp Powerhouse -->
+                <div class="airtel-plan-card scroll-reveal">
+                    <div style="font-size: 0.8rem; font-weight: 700; color: #a855f7; text-transform: uppercase;">10 kWp Luxury &amp; Light Commercial</div>
+                    <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0.2rem 0 0.5rem 0;">Estate &amp; Commercial Elite</h3>
+                    <div class="airtel-plan-price">
+                        ₹3,02,000* <span>Net Effective Cost</span>
+                    </div>
+                    <div style="font-size: 0.76rem; color: #10b981; font-weight: 700; background: rgba(16,185,129,0.15); padding: 3px 8px; border-radius: 6px; display: inline-block; margin-bottom: 0.6rem;">
+                        💰 ₹78,000 Subsidy + 40% Commercial Tax Write-off
+                    </div>
+                    <ul class="airtel-plan-feature-list">
+                        <li><span class="check">✓</span> <strong>40-45 Units/day</strong> solar generation</li>
+                        <li><span class="check">✓</span> High-rise residences, homestays, clinics &amp; small offices</li>
+                        <li><span class="check">✓</span> 3-Phase Smart Inverter with high surge protection</li>
+                        <li><span class="check">✓</span> Dedicated Sunova Solar Project Manager</li>
+                        <li><span class="check">✓</span> Free 5-Year Maintenance &amp; Cleaning Suite</li>
+                    </ul>
+                    <a href="#contact-form-container" onclick="if(typeof scrollToContactForm==='function'){ scrollToContactForm(); }" class="cta-btn primary-btn" style="width: 100%; text-align: center; font-weight: 800; padding: 0.75rem; border-radius: 10px; background: #8b5cf6; color: #ffffff; text-decoration: none;">
+                        ⚡ Book 10 kWp Consultation →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Services Section -->
     <section class="services-section" id="services" style="padding: 5rem 0; overflow: hidden;">
@@ -3222,7 +3443,26 @@
             </form>
         </div>
     </div>
+    <!-- Airtel-Style Sticky Mobile Bottom Action Bar -->
+    <div class="airtel-mobile-bottom-bar no-print">
+        <a href="https://wa.me/919072522277?text=Hi%20Sunova%20Solar,%20I'm%20interested%20in%20a%20solar%20system%20installation." target="_blank" rel="noopener" class="airtel-mobile-btn">
+            <span style="font-size: 1.1rem; color: #22c55e;">💬</span>
+            <span>WhatsApp</span>
+        </a>
+        <a href="tel:+919072522277" class="airtel-mobile-btn">
+            <span style="font-size: 1.1rem; color: #38bdf8;">📞</span>
+            <span>Call</span>
+        </a>
+        <a href="#solutions" class="airtel-mobile-btn highlight">
+            <span style="font-size: 1.1rem;">⚡</span>
+            <span>Solar Plans</span>
+        </a>
+        <a href="#contact-form-container" onclick="if(typeof scrollToContactForm==='function'){ scrollToContactForm(); }" class="airtel-mobile-btn">
+            <span style="font-size: 1.1rem; color: #ffb703;">📝</span>
+            <span>Get Quote</span>
+        </a>
+    </div>
 
-    <script src="app.js?v=9.8"></script>
+    <script src="app.js?v=9.9"></script>
 </body>
 </html>
