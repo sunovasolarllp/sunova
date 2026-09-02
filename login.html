@@ -199,6 +199,44 @@
                             </div>
                         </div>
 
+                        <!-- ⚡ 1-Click Unified Workspace Launch Hub (Admin Editor, Staff CRM, Webmail) -->
+                        <div class="quick-access-launch-hub" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                            
+                            <!-- 1. ⚙️ Admin Live Website Editor -->
+                            <a href="index.html?admin_cms=true" style="text-decoration: none; background: linear-gradient(135deg, rgba(255, 183, 3, 0.15) 0%, rgba(245, 158, 11, 0.08) 100%); border: 1.5px solid var(--color-sun-yellow); border-radius: 12px; padding: 1rem; display: flex; align-items: center; gap: 0.9rem; transition: all 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+                                <div style="width: 44px; height: 44px; border-radius: 10px; background: var(--color-sun-yellow); color: #0d1321; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; font-weight: 800;">
+                                    ⚙️
+                                </div>
+                                <div style="text-align: left;">
+                                    <div style="font-weight: 800; font-size: 0.92rem; color: var(--color-text);">⚙️ Admin Editor</div>
+                                    <div style="font-size: 0.74rem; color: var(--color-text-muted);">Edit News, Prices &amp; Directory</div>
+                                </div>
+                            </a>
+
+                            <!-- 2. 🔒 Staff CRM & Inquiries -->
+                            <a href="javascript:void(0)" onclick="if(document.getElementById('live-inquiries-log-section')){ document.getElementById('live-inquiries-log-section').scrollIntoView({behavior:'smooth'}); }" style="text-decoration: none; background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(37, 99, 235, 0.08) 100%); border: 1.5px solid #3b82f6; border-radius: 12px; padding: 1rem; display: flex; align-items: center; gap: 0.9rem; transition: all 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+                                <div style="width: 44px; height: 44px; border-radius: 10px; background: #3b82f6; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; font-weight: 800;">
+                                    🔒
+                                </div>
+                                <div style="text-align: left;">
+                                    <div style="font-weight: 800; font-size: 0.92rem; color: var(--color-text);">🔒 Staff CRM</div>
+                                    <div style="font-size: 0.74rem; color: var(--color-text-muted);">Customer Leads &amp; Calls Desk</div>
+                                </div>
+                            </a>
+
+                            <!-- 3. ✉️ Webmail (Hostinger) -->
+                            <a href="https://mail.hostinger.com/" target="_blank" rel="noopener" style="text-decoration: none; background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.08) 100%); border: 1.5px solid #10b981; border-radius: 12px; padding: 1rem; display: flex; align-items: center; gap: 0.9rem; transition: all 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+                                <div style="width: 44px; height: 44px; border-radius: 10px; background: #10b981; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; font-weight: 800;">
+                                    ✉️
+                                </div>
+                                <div style="text-align: left;">
+                                    <div style="font-weight: 800; font-size: 0.92rem; color: var(--color-text);">✉️ Webmail</div>
+                                    <div style="font-size: 0.74rem; color: var(--color-text-muted);">Sunova Official Email Inbox</div>
+                                </div>
+                            </a>
+
+                        </div>
+
                         <!-- 🛠️ Dynamic Role-Specific Action Workspace Hub -->
                         <div id="role-specific-workspace" style="margin-bottom: 1.5rem;"></div>
 
