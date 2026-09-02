@@ -812,9 +812,6 @@ function updateFormMessageDetails() {
     if (isLoan) extras.push("Solar Bank Loan Assistance");
     if (extras.length > 0) detailsList.push(`• Benefits & Financing: ${extras.join(' & ')}`);
 
-    detailsList.push(`• Installation Schedule: ${timeline}`);
-    detailsList.push(`• Preferred Contact: ${contactMode}`);
-
     msgArea.value = `Feasibility Request Details:\n${detailsList.join('\n')}`;
 }
 
@@ -823,7 +820,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fieldsToWatch = [
         'form-name', 'form-phone', 'form-district', 'form-location', 'form-dealer', 'form-consumer-no',
         'form-connection', 'form-size-select', 'form-size', 'form-system-model',
-        'form-roof-type', 'form-kseb-bill', 'form-contact-pref', 'form-timeline',
+        'form-roof-type', 'form-kseb-bill',
         'form-subsidy', 'form-loan'
     ];
     
@@ -5433,8 +5430,6 @@ function handleFormSubmit(event) {
 - Consumer No: ${consumerNo || 'Not Provided'}
 - PM Surya Ghar Subsidy: ${subsidyRequired}
 - Bank Loan Required: ${loanRequired}
-- Contact Pref: ${contactPref}
-- Timeline: ${timeline}
 - Site Details: ${message || 'None'}
 - Assigned Partner: ${dealer.name}`;
 
@@ -5466,8 +5461,6 @@ function handleFormSubmit(event) {
         "KSEB Consumer No": consumerNo || 'Not Provided',
         "PM Surya Ghar Subsidy": subsidyRequired,
         "Bank Loan Required": loanRequired,
-        "Preferred Contact": contactPref,
-        "Timeline": timeline,
         "Message / Site Details": message || 'None',
         "Matched Dealer": `${dealer.name} (${dealer.code})`,
         subject: `New Solar Inquiry from ${name} (${location}, ${district})`
