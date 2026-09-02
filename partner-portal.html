@@ -328,16 +328,6 @@
         }
     </script>
     <div class="login-wrapper">
-        <!-- Floating Header Controls -->
-        <div style="position: absolute; top: 1.2rem; right: 1.2rem; display: flex; gap: 0.6rem; align-items: center; z-index: 100;">
-            <button type="button" onclick="togglePortalTheme()" style="background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text); padding: 0.4rem 0.85rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 8px var(--color-shadow);">
-                <span>🌙 / ☀️ Switch Theme</span>
-            </button>
-            <button type="button" onclick="toggleChangePinPanel()" style="background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text); padding: 0.4rem 0.85rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 8px var(--color-shadow);">
-                <span>🔒 Change PIN</span>
-            </button>
-        </div>
-
         <!-- Floating Home Link -->
         <a href="index.html" class="back-home-link">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="18" height="18">
@@ -417,18 +407,7 @@
                     </div>
 
                     <div class="enterprise-user-area">
-                        <button type="button" onclick="printQuotationDocument()" class="enterprise-nav-btn" title="Print Current Proposal" style="background: rgba(34, 197, 94, 0.15); border-color: rgba(34, 197, 94, 0.4); color: #22c55e; font-size: 0.82rem; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px; display: flex; align-items: center; gap: 0.35rem;">
-                            🖨️ Print Quote
-                        </button>
-                        <button type="button" onclick="togglePortalTheme()" class="enterprise-nav-btn" title="Switch Theme">
-                            🌙
-                        </button>
-                        <button type="button" onclick="toggleChangePinPanel()" class="enterprise-nav-btn" title="Change Security PIN">
-                            🔒
-                        </button>
-                        <button type="button" onclick="logoutPortal()" class="enterprise-nav-btn" style="background: rgba(220,38,38,0.2); border-color: rgba(220,38,38,0.4); color: #f87171;" title="Sign Out">
-                            🚪
-                        </button>
+                        <button type="button" onclick="logoutPartner()" style="background: rgba(220,38,38,0.15); border: 1px solid rgba(220,38,38,0.3); color: #f87171; padding: 0.4rem 0.9rem; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">Sign Out</button>
                     </div>
                 </div>
 
