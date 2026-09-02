@@ -8184,6 +8184,7 @@ function openCustomerFeedbackModal() {
     const modal = document.getElementById('customer-feedback-modal');
     if (modal) {
         modal.classList.remove('hidden');
+        modal.style.display = 'flex';
         try {
             history.pushState({ modalOpen: 'feedback' }, '');
         } catch(e){}
@@ -8194,10 +8195,14 @@ function closeCustomerFeedbackModal() {
     const modal = document.getElementById('customer-feedback-modal');
     if (modal) {
         modal.classList.add('hidden');
+        modal.style.display = 'none';
         const statusEl = document.getElementById('feedback-form-status');
         if (statusEl) statusEl.classList.add('hidden');
     }
 }
+
+window.openCustomerFeedbackModal = openCustomerFeedbackModal;
+window.closeCustomerFeedbackModal = closeCustomerFeedbackModal;
 
 let currentSelectedRating = 5;
 const ratingLabels = {
@@ -8361,6 +8366,25 @@ function renderLiveCustomReviews() {
 document.addEventListener('DOMContentLoaded', () => {
     applyWebsiteCMSUpdates();
     renderLiveCustomReviews();
+});
+
+// Popstate handler for modal back navigation
+window.addEventListener('popstate', (e) => {
+    const feedbackModal = document.getElementById('customer-feedback-modal');
+    if (feedbackModal && !feedbackModal.classList.contains('hidden') && feedbackModal.style.display !== 'none') {
+        closeCustomerFeedbackModal();
+        return;
+    }
+    const adminModal = document.getElementById('admin-cms-modal');
+    if (adminModal && adminModal.style.display !== 'none') {
+        closeAdminCMSModal();
+        return;
+    }
+    const quoteModal = document.getElementById('quote-modal-overlay');
+    if (quoteModal && !quoteModal.classList.contains('hidden') && quoteModal.style.display !== 'none') {
+        closeWebsiteQuoteModal();
+        return;
+    }
 });
 
 
