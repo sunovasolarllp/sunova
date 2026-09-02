@@ -7622,37 +7622,5 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closePhotoLightbox();
 });
 
-// --- Instant WhatsApp Proposal Generator Engine ---
-function sendWhatsAppProposal() {
-    const size = document.getElementById('out-size') ? document.getElementById('out-size').value : '3.0';
-    const cost = document.getElementById('out-cost') ? document.getElementById('out-cost').innerText : '2,40,000';
-    const subsidy = document.getElementById('out-subsidy') ? document.getElementById('out-subsidy').innerText : '78,000';
-    const netCost = document.getElementById('out-net-cost') ? document.getElementById('out-net-cost').innerText : '1,62,000';
-    const savings = document.getElementById('out-savings') ? document.getElementById('out-savings').innerText : '38,400';
-    const brandSelect = document.getElementById('calc-panel-brand');
-    const brand = brandSelect ? brandSelect.options[brandSelect.selectedIndex].text : 'Tier-1 TOPCon';
-    const nameInput = document.getElementById('form-name') ? document.getElementById('form-name').value.trim() : '';
-    const phoneInput = document.getElementById('form-phone') ? document.getElementById('form-phone').value.trim() : '';
-    const districtInput = document.getElementById('form-district') ? document.getElementById('form-district').value : 'Kerala';
-
-    let greeting = nameInput ? `Hello Sunova Solar, I am *${nameInput}* from ${districtInput}.` : `Hello Sunova Solar,`;
-    
-    let message = `${greeting}\n\n` +
-        `I generated a Rooftop Solar Proposal on your website and would like the detailed PDF proposal & survey:\n\n` +
-        `☀️ *Recommended Capacity:* ${size} kWp (${brand})\n` +
-        `⚡ *Approx. Plant Cost:* ₹${cost}\n` +
-        `🎁 *PM Surya Ghar Subsidy:* -₹${subsidy}\n` +
-        `💎 *Net Investment:* ₹${netCost}\n` +
-        `💰 *Estimated Annual Savings:* ₹${savings}/year\n` +
-        `🛡️ *Guarantees Included:* 100% ₹0 Bill Guarantee + 5-Year Monsoon Shield Pass\n\n` +
-        (phoneInput ? `📱 *My Mobile:* ${phoneInput}\n\n` : ``) +
-        `Please send me the formal quotation and arrange a free rooftop feasibility survey. Thank you!`;
-
-    const encoded = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/919072522277?text=${encoded}`;
-    
-    window.open(whatsappUrl, '_blank');
-}
-
 
 
