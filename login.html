@@ -884,10 +884,14 @@
                 if (staffBtn) {
                     staffBtn.style.background = 'transparent';
                     staffBtn.style.color = 'var(--color-text-muted)';
+                    staffBtn.style.fontWeight = '700';
                 }
                 if (partnerBtn) {
                     partnerBtn.style.background = 'var(--color-sun-yellow)';
                     partnerBtn.style.color = '#0d1321';
+                    partnerBtn.style.borderColor = 'var(--color-sun-yellow)';
+                    partnerBtn.style.boxShadow = '0 4px 14px rgba(255,183,3,0.35)';
+                    partnerBtn.style.fontWeight = '800';
                 }
                 if (portalHeaderTitle) portalHeaderTitle.textContent = 'Partner Portal';
                 if (portalHeaderDesc) portalHeaderDesc.textContent = 'Log in with your Authorized Partner Code to access client leads and saved quotes.';
@@ -895,6 +899,7 @@
                 if (emailInput) {
                     emailInput.placeholder = 'eg:- ALP-SHIN or Mobile number';
                     emailInput.value = '';
+                    setTimeout(() => emailInput.focus(), 100);
                 }
                 if (passwordLabel) passwordLabel.textContent = 'PIN';
                 if (passwordInput) {
@@ -909,10 +914,14 @@
                 if (partnerBtn) {
                     partnerBtn.style.background = 'transparent';
                     partnerBtn.style.color = 'var(--color-text-muted)';
+                    partnerBtn.style.borderColor = 'rgba(255, 183, 3, 0.4)';
+                    partnerBtn.style.boxShadow = 'none';
+                    partnerBtn.style.fontWeight = '700';
                 }
                 if (staffBtn) {
                     staffBtn.style.background = 'var(--color-sun-yellow)';
                     staffBtn.style.color = '#0d1321';
+                    staffBtn.style.fontWeight = '800';
                 }
                 if (portalHeaderTitle) portalHeaderTitle.textContent = 'Staff Portal';
                 if (portalHeaderDesc) portalHeaderDesc.textContent = 'Log in with your Staff Mobile Number, Staff ID, or Admin credentials.';
@@ -920,6 +929,7 @@
                 if (emailInput) {
                     emailInput.placeholder = 'Enter Staff ID or Mobile Number';
                     emailInput.value = '';
+                    setTimeout(() => emailInput.focus(), 100);
                 }
                 if (passwordLabel) passwordLabel.textContent = 'Password / Security PIN';
                 if (passwordInput) {
