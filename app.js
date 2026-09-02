@@ -7988,9 +7988,6 @@ function resetCMSDataDefaults() {
 // Run CMS initial sync on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
     applyWebsiteCMSUpdates();
-    if (window.location.search.includes('admin_cms=true') || window.location.hash === '#admin-cms') {
-        setTimeout(openAdminCMSModal, 300);
-    }
 });
 
 
