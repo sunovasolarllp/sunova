@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SolarPulse OS - Energy Management & Diagnostics Platform</title>
+    <link rel="shortcut icon" href="assets/logo.jpg" type="image/jpeg">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        h1, h2, h3, .font-heading {
+            font-family: 'Outfit', sans-serif;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-4 relative overflow-x-hidden selection:bg-amber-500 selection:text-slate-950">
+
+    <!-- Background Solar Glow Effect -->
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-amber-500/10 blur-3xl rounded-full pointer-events-none"></div>
+
+    <div class="w-full max-w-md relative z-10">
+        
+        <!-- Back to Website Link -->
+        <div class="mb-4 text-center">
+            <a href="index.html" class="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-amber-400 transition-colors">
+                <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+                Back to Public Website
+            </a>
+        </div>
+
+        <!-- Brand Header -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-500 to-amber-300 text-slate-950 mb-4 shadow-lg shadow-amber-500/20">
+                <i data-lucide="sun" class="w-8 h-8 stroke-[2.5]"></i>
+            </div>
+            <h1 class="text-2xl font-bold tracking-tight text-white">SolarPulse OS</h1>
+            <p class="text-sm text-slate-400 mt-1">Energy Management &amp; Diagnostics Platform</p>
+        </div>
+
+        <!-- Card Container -->
+        <div class="bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-2xl p-6 shadow-2xl">
+            
+            <!-- Quick Demo Shortcuts -->
+            <div class="mb-6">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                        Quick Test Shortcuts
+                    </span>
+                    <span class="text-[10px] text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-full font-medium border border-amber-400/20">
+                        Dev Mode
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-3 gap-2" id="quick-accounts-grid">
+                    <!-- Super Admin -->
+                    <button
+                        type="button"
+                        id="btn-super-admin"
+                        onclick="handleQuickLogin('Super Admin', 'admin@solarops.com', 'demo-password-123', this)"
+                        class="quick-account-btn flex flex-col items-center p-2.5 rounded-xl border text-xs font-medium transition-all bg-amber-500/10 text-amber-500 border-amber-500/30 hover:bg-amber-500/20 ring-2 ring-amber-500 border-transparent shadow-md"
+                    >
+                        <i data-lucide="shield" class="w-4 h-4 mb-1.5"></i>
+                        <span class="truncate w-full text-center">Super Admin</span>
+                    </button>
+
+                    <!-- Field Tech -->
+                    <button
+                        type="button"
+                        id="btn-field-tech"
+                        onclick="handleQuickLogin('Field Tech', 'tech@solarops.com', 'demo-password-123', this)"
+                        class="quick-account-btn flex flex-col items-center p-2.5 rounded-xl border text-xs font-medium transition-all bg-blue-500/10 text-blue-400 border-blue-500/30 hover:bg-blue-500/20"
+                    >
+                        <i data-lucide="wrench" class="w-4 h-4 mb-1.5"></i>
+                        <span class="truncate w-full text-center">Field Tech</span>
+                    </button>
+
+                    <!-- Partner Dealer -->
+                    <button
+                        type="button"
+                        id="btn-partner-dealer"
+                        onclick="handleQuickLogin('Partner Dealer', 'partner@solardealer.com', 'demo-password-123', this)"
+                        class="quick-account-btn flex flex-col items-center p-2.5 rounded-xl border text-xs font-medium transition-all bg-emerald-500/10 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/20"
+                    >
+                        <i data-lucide="building-2" class="w-4 h-4 mb-1.5"></i>
+                        <span class="truncate w-full text-center">Partner Dealer</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="relative my-4">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-slate-800"></div>
+                </div>
+                <div class="relative flex justify-center text-xs uppercase">
+                    <span class="bg-slate-900 px-2 text-slate-500">Or sign in manually</span>
+                </div>
+            </div>
+
+            <!-- Main Form -->
+            <form id="solar-login-form" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1.5">Work Email</label>
+                    <div class="relative">
+                        <i data-lucide="mail" class="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                        <input
+                            type="email"
+                            id="login-email"
+                            required
+                            value="admin@solarops.com"
+                            class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-colors"
+                        />
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex justify-between items-center mb-1.5">
+                        <label class="block text-xs font-medium text-slate-300">Password</label>
+                        <a href="javascript:void(0)" onclick="alert('Password reset instructions have been sent to your registered work email.')" class="text-xs text-amber-400 hover:underline">Forgot?</a>
+                    </div>
+                    <div class="relative">
+                        <i data-lucide="lock" class="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                        <input
+                            type="password"
+                            id="login-password"
+                            required
+                            value="••••••••••••"
+                            class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-colors"
+                        />
+                    </div>
+                </div>
+
+                <!-- Status Feedback -->
+                <div id="login-status-msg" class="hidden text-xs text-center py-2 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20"></div>
+
+                <button
+                    type="submit"
+                    id="btn-submit-login"
+                    class="w-full mt-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-semibold py-2.5 rounded-xl transition-all shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2 group cursor-pointer"
+                >
+                    <span id="btn-submit-text">Sign In to Dashboard</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentRole = 'Super Admin';
+
+        function handleQuickLogin(role, email, password, btnElement) {
+            currentRole = role;
+            document.getElementById('login-email').value = email;
+            document.getElementById('login-password').value = password;
+
+            // Update active ring styling on shortcut buttons
+            document.querySelectorAll('.quick-account-btn').forEach(b => {
+                b.classList.remove('ring-2', 'ring-amber-500', 'border-transparent', 'shadow-md');
+            });
+            if (btnElement) {
+                btnElement.classList.add('ring-2', 'ring-amber-500', 'border-transparent', 'shadow-md');
+            }
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+            const statusMsg = document.getElementById('login-status-msg');
+            const submitBtn = document.getElementById('btn-submit-login');
+            const submitText = document.getElementById('btn-submit-text');
+
+            statusMsg.textContent = `Authenticating ${currentRole} (${email})...`;
+            statusMsg.classList.remove('hidden');
+            submitBtn.disabled = true;
+
+            setTimeout(() => {
+                statusMsg.textContent = `✅ Welcome, ${currentRole}! Redirecting to workspace...`;
+                setTimeout(() => {
+                    if (currentRole === 'Partner Dealer') {
+                        window.location.href = 'partner-portal.html';
+                    } else if (currentRole === 'Super Admin') {
+                        window.location.href = 'index.html?admin_cms=true';
+                    } else {
+                        window.location.href = 'partner-portal.html';
+                    }
+                }, 800);
+            }, 600);
+        }
+
+        // Initialize Lucide Icons
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
