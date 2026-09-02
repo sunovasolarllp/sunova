@@ -53,16 +53,19 @@
 
         <!-- Portal Glass Card -->
         <div class="glass-card login-card" id="portal-card">
-            <!-- 3-Way Merged Role Switcher Bar (Staff, Partner, Webmail) -->
-            <div class="portal-role-switch" style="display: flex; gap: 0.4rem; background: var(--color-bg-alt); padding: 0.35rem; border-radius: 12px; border: 1px solid var(--color-border); margin-bottom: 1.5rem;">
-                <button type="button" id="role-btn-staff" onclick="switchLoginRole('staff')" style="flex: 1; padding: 0.6rem 0.3rem; border: none; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; background: var(--color-sun-yellow); color: #0d1321;">
-                    🔒 Staff Login
+            <!-- 4-Way Merged Role Switcher Bar (Staff, Partner, Admin Live Editor, Webmail) -->
+            <div class="portal-role-switch" style="display: flex; gap: 0.35rem; background: var(--color-bg-alt); padding: 0.35rem; border-radius: 12px; border: 1px solid var(--color-border); margin-bottom: 1.5rem; flex-wrap: wrap;">
+                <button type="button" id="role-btn-staff" onclick="switchLoginRole('staff')" style="flex: 1; min-width: 90px; padding: 0.55rem 0.3rem; border: none; border-radius: 8px; font-weight: 700; font-size: 0.76rem; cursor: pointer; transition: all 0.2s; background: var(--color-sun-yellow); color: #0d1321;">
+                    🔒 Staff
                 </button>
-                <button type="button" id="role-btn-partner" onclick="switchLoginRole('partner')" style="flex: 1; padding: 0.6rem 0.3rem; border: none; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; background: transparent; color: var(--color-text-muted);">
-                    🤝 Partner Login
+                <button type="button" id="role-btn-partner" onclick="switchLoginRole('partner')" style="flex: 1; min-width: 90px; padding: 0.55rem 0.3rem; border: none; border-radius: 8px; font-weight: 700; font-size: 0.76rem; cursor: pointer; transition: all 0.2s; background: transparent; color: var(--color-text-muted);">
+                    🤝 Partner
                 </button>
-                <a href="https://mail.hostinger.com/" target="_blank" rel="noopener" id="role-btn-mail" style="flex: 1; padding: 0.6rem 0.3rem; border: none; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; background: transparent; color: var(--color-text-muted); text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center;">
-                    ✉️ Sunova Mail
+                <a href="index.html?admin_cms=true" id="role-btn-cms" style="flex: 1; min-width: 90px; padding: 0.55rem 0.3rem; border: none; border-radius: 8px; font-weight: 700; font-size: 0.76rem; cursor: pointer; transition: all 0.2s; background: transparent; color: var(--color-text-muted); text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center;">
+                    ⚙️ Admin Editor
+                </a>
+                <a href="https://mail.hostinger.com/" target="_blank" rel="noopener" id="role-btn-mail" style="flex: 1; min-width: 90px; padding: 0.55rem 0.3rem; border: none; border-radius: 8px; font-weight: 700; font-size: 0.76rem; cursor: pointer; transition: all 0.2s; background: transparent; color: var(--color-text-muted); text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center;">
+                    ✉️ Webmail
                 </a>
             </div>
 
