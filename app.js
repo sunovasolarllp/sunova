@@ -7985,9 +7985,191 @@ function resetCMSDataDefaults() {
     }
 }
 
-// Run CMS initial sync on DOM ready
+/* =========================================================================
+   CUSTOMER FEEDBACK & VERIFIED REVIEWS SYSTEM
+   ========================================================================= */
+
+function openCustomerFeedbackModal() {
+    const modal = document.getElementById('customer-feedback-modal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        try {
+            history.pushState({ modalOpen: 'feedback' }, '');
+        } catch(e){}
+    }
+}
+
+function closeCustomerFeedbackModal() {
+    const modal = document.getElementById('customer-feedback-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+        const statusEl = document.getElementById('feedback-form-status');
+        if (statusEl) statusEl.classList.add('hidden');
+    }
+}
+
+let currentSelectedRating = 5;
+const ratingLabels = {
+    1: '1 Star - Poor Experience',
+    2: '2 Stars - Needs Improvement',
+    3: '3 Stars - Average Service',
+    4: '4 Stars - Very Good Experience!',
+    5: '5 Stars - Excellent Experience!'
+};
+
+function setReviewRating(stars) {
+    currentSelectedRating = stars;
+    const input = document.getElementById('feedback-star-rating');
+    if (input) input.value = stars;
+    const label = document.getElementById('star-rating-label');
+    if (label) {
+        label.textContent = ratingLabels[stars] || `${stars} Stars`;
+        label.style.color = stars >= 4 ? '#10b981' : (stars === 3 ? '#f59e0b' : '#ef4444');
+    }
+    highlightStars(stars);
+}
+
+function highlightStars(stars) {
+    for (let i = 1; i <= 5; i++) {
+        const star = document.getElementById(`star-${i}`);
+        if (star) {
+            star.style.color = i <= stars ? '#f59e0b' : '#64748b';
+            star.style.transform = i <= stars ? 'scale(1.15)' : 'scale(1)';
+            star.style.display = 'inline-block';
+            star.style.transition = 'all 0.15s ease';
+        }
+    }
+}
+
+function resetStars() {
+    highlightStars(currentSelectedRating);
+}
+
+function toggleFeedbackTag(buttonEl) {
+    buttonEl.classList.toggle('active');
+    if (buttonEl.classList.contains('active')) {
+        buttonEl.style.background = 'rgba(16, 185, 129, 0.2)';
+        buttonEl.style.borderColor = '#10b981';
+        buttonEl.style.color = '#10b981';
+    } else {
+        buttonEl.style.background = 'rgba(255,255,255,0.06)';
+        buttonEl.style.borderColor = 'var(--color-border)';
+        buttonEl.style.color = 'var(--color-text-muted)';
+    }
+}
+
+function submitCustomerReviewForm(event) {
+    event.preventDefault();
+
+    const name = document.getElementById('feedback-name')?.value.trim();
+    const district = document.getElementById('feedback-district')?.value || 'Kerala';
+    const capacity = document.getElementById('feedback-capacity')?.value.trim() || 'Rooftop Solar';
+    const locality = document.getElementById('feedback-locality')?.value.trim() || district;
+    const comment = document.getElementById('feedback-comment')?.value.trim();
+    const stars = parseInt(document.getElementById('feedback-star-rating')?.value || '5', 10);
+
+    // Collect active tags
+    const activeTags = [];
+    document.querySelectorAll('#feedback-tags-group .feedback-tag.active').forEach(tag => {
+        activeTags.push(tag.textContent.trim());
+    });
+
+    if (!name || !comment) {
+        alert("Please provide your Name and Review Feedback.");
+        return;
+    }
+
+    const reviewObj = {
+        name,
+        district,
+        location: `${locality}, ${district}`,
+        capacity: capacity.includes('kW') ? capacity : `${capacity} System`,
+        text: comment,
+        rating: stars,
+        tags: activeTags,
+        date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+    };
+
+    // Save to localStorage
+    const existingReviews = JSON.parse(localStorage.getItem('custom_reviews_list') || '[]');
+    existingReviews.unshift(reviewObj);
+    localStorage.setItem('custom_reviews_list', JSON.stringify(existingReviews));
+
+    // Render immediately into live testimonials track
+    renderLiveCustomReviews();
+
+    // Show Thank You and Google Maps review prompt
+    const statusEl = document.getElementById('feedback-form-status');
+    if (statusEl) {
+        statusEl.classList.remove('hidden');
+        statusEl.innerHTML = `
+            <div style="font-weight: 800; font-size: 0.95rem; margin-bottom: 0.4rem;">🎉 Thank you, ${name}!</div>
+            <div style="font-size: 0.8rem; line-height: 1.5; color: #ffffff; margin-bottom: 0.75rem;">
+                Your verified 5-star review has been published on our website.
+            </div>
+            <div style="display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
+                <a href="https://maps.app.goo.gl/TM2CL3Bm2DiKtuNY8" target="_blank" rel="noopener" style="background: #f59e0b; color: #0d1321; font-weight: 800; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.8rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem;">
+                    📍 Post on Google Maps ↗
+                </a>
+                <button type="button" onclick="closeCustomerFeedbackModal()" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; font-weight: 700; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">
+                    Done
+                </button>
+            </div>
+        `;
+    }
+
+    // Reset Form fields
+    document.getElementById('customer-feedback-form').reset();
+    setReviewRating(5);
+}
+
+function renderLiveCustomReviews() {
+    const track = document.getElementById('testimonials-scroll-track');
+    if (!track) return;
+
+    const list = JSON.parse(localStorage.getItem('custom_reviews_list') || '[]');
+    if (!list.length) return;
+
+    // Remove any previously rendered custom review elements to avoid duplicates
+    track.querySelectorAll('.custom-injected-review').forEach(el => el.remove());
+
+    const starsMap = (n) => '★'.repeat(Math.max(1, Math.min(5, n)));
+
+    list.slice(0, 8).reverse().forEach(r => {
+        const initials = r.name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase() || 'SV';
+        const tagBadge = (r.tags && r.tags.length) ? r.tags[0] : '✅ Verified Solar Client';
+        
+        const cardHtml = `
+            <div class="testimonial-card custom-injected-review" style="flex: 0 0 350px; width: 350px; background: var(--color-surface); border: 1.5px solid var(--color-sun-yellow); border-radius: 16px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 20px rgba(255, 183, 3, 0.15);">
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                        <div class="stars-row" style="margin: 0; color: #f59e0b; font-size: 1.05rem;">${starsMap(r.rating || 5)}</div>
+                        <span style="font-size: 0.7rem; font-weight: 700; background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3); padding: 2px 8px; border-radius: 12px;">${tagBadge}</span>
+                    </div>
+                    <div style="background: rgba(255, 183, 3, 0.08); border-left: 3px solid var(--color-sun-yellow); padding: 0.5rem 0.75rem; border-radius: 4px; font-size: 0.78rem; font-weight: 700; color: var(--color-sun-yellow); margin-bottom: 0.8rem;">
+                        ⚡ Verified Kerala Solar Customer
+                    </div>
+                    <p class="review-text" style="font-size: 0.88rem; line-height: 1.55; color: var(--color-text); font-style: italic; margin-bottom: 1.2rem;">"${r.text}"</p>
+                </div>
+                <div class="reviewer-info" style="border-top: 1px solid var(--color-border); padding-top: 0.8rem;">
+                    <div class="avatar-circle" style="background: #10b981; color: white;">${initials}</div>
+                    <div>
+                        <h4 style="font-size: 0.92rem; margin: 0; font-weight: 700; color: var(--color-text);">${r.name}</h4>
+                        <span class="reviewer-loc" style="font-size: 0.76rem; color: var(--color-text-subtle);">📍 ${r.location || 'Kerala'} • ${r.date || 'Recent'}</span>
+                        <span style="font-size: 0.72rem; color: var(--color-sun-yellow); font-weight: 600; display: block;">System: ${r.capacity || 'Rooftop Solar'}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        track.insertAdjacentHTML('afterbegin', cardHtml);
+    });
+}
+
+// Run initial sync on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
     applyWebsiteCMSUpdates();
+    renderLiveCustomReviews();
 });
 
 

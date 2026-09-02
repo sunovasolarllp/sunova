@@ -529,6 +529,9 @@
                                 <button type="button" onclick="sendPartnerToolkitMsg('loan')" style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); color: #c084fc; padding: 0.65rem 0.9rem; border-radius: 10px; font-size: 0.78rem; font-weight: 700; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 0.45rem;">
                                     🏦 7% Solar Bank Loan Info
                                 </button>
+                                <button type="button" onclick="sendPartnerToolkitMsg('review')" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: #f59e0b; padding: 0.65rem 0.9rem; border-radius: 10px; font-size: 0.78rem; font-weight: 700; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 0.45rem;">
+                                    ⭐ Request 5-Star Review &amp; Feedback
+                                </button>
                             </div>
                         </div>
 
@@ -2258,6 +2261,8 @@
                 text = `*KSEB Solar Net-Metering Required Documents*\n\nTo initiate your KSEB Soura net-metering application, please provide:\n1. Latest KSEB Electricity Bill copy\n2. Aadhaar Card copy of Consumer\n3. Cancelled Cheque / Bank Passbook front page (for subsidy DBT transfer)\n4. Passport size photo\n\nSend docs via WhatsApp to +91 ${dealer.phone}\nSunova Solar LLP`;
             } else if (type === 'loan') {
                 text = `*Low-Interest Solar Financing (7% per annum)*\n\nInstall your Rooftop Solar system with convenient bank EMI loans from SBI, Canara Bank, and Federal Bank.\n\n• Loan tenure up to 7 years\n• Zero collateral required for residential installations up to 3 kW\n• Subsidy credited directly into loan account\n\nContact ${dealer.name} (+91 ${dealer.phone}) for full details.\nhttps://sunovasolar.in`;
+            } else if (type === 'review') {
+                text = `*Sunova Solar LLP - Customer Experience & Review*\n\nNamaskaram! Thank you for trusting Sunova Solar (${dealer.area}) for your rooftop solar installation.\n\nWe hope your solar power plant is generating maximum units and lowering your KSEB bills! Could you please take 30 seconds to share your 5-star rating & review?\n\n⭐ Share Website Review: https://sunovasolar.in/#testimonials\n📍 Leave a Google Maps Rating: https://maps.app.goo.gl/TM2CL3Bm2DiKtuNY8\n\nYour feedback inspires more Kerala families to go solar!\n\nWarm regards,\n${dealer.name} (+91 ${dealer.phone})\nSunova Solar LLP`;
             }
 
             const phone = prompt("Enter customer's 10-digit WhatsApp number (or leave blank to open WhatsApp with pre-filled message):", "");
@@ -3797,13 +3802,16 @@ const goodsGstVal = Math.round(goodsTaxable * 0.12);
                         <div style="background: var(--color-bg-alt); padding: 0.6rem 0.8rem; border-radius: 6px; font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 0.8rem; border-left: 3px solid var(--color-sun-yellow); line-height: 1.45;">
                             <strong style="color: var(--color-text);">Site Message:</strong> "${lead.message}"
                         </div>
-                        <div style="display: flex; gap: 0.6rem;">
-                            <a href="https://wa.me/91${lead.phone}?text=${encodeURIComponent(`Hi ${lead.name}, this is ${DEALERS.find(d => d.code === activePartnerCode).name} from Sunova Solar. We received your quote request for a ${lead.capacity} kWp system. (Bank Loan Required: ${lead.loan ? 'Yes' : 'No'}). We would love to discuss the details.`)}" target="_blank" rel="noopener" style="flex: 1; text-align: center; background: #25d366; color: white; border: none; border-radius: 6px; padding: 0.45rem; font-size: 0.75rem; font-weight: 600; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 0.3rem; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
-                                💬 WhatsApp Client
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <a href="https://wa.me/91${lead.phone}?text=${encodeURIComponent(`Hi ${lead.name}, this is ${DEALERS.find(d => d.code === activePartnerCode).name} from Sunova Solar. We received your quote request for a ${lead.capacity} kWp system. (Bank Loan Required: ${lead.loan ? 'Yes' : 'No'}). We would love to discuss the details.`)}" target="_blank" rel="noopener" style="flex: 1; min-width: 110px; text-align: center; background: #25d366; color: white; border: none; border-radius: 6px; padding: 0.45rem; font-size: 0.75rem; font-weight: 600; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 0.3rem; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                                💬 WhatsApp
                             </a>
-                            <button type="button" onclick="prefillFormForQuote('${lead.name.replace(/'/g, "\\'")}', '${lead.location.replace(/'/g, "\\'")}', ${lead.capacity})" style="flex: 1; background: var(--color-sun-yellow); color: #0d1321; border: none; border-radius: 6px; padding: 0.45rem; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
-                                ⚡ Load into Generator
+                            <button type="button" onclick="prefillFormForQuote('${lead.name.replace(/'/g, "\\'")}', '${lead.location.replace(/'/g, "\\'")}', ${lead.capacity})" style="flex: 1; min-width: 110px; background: var(--color-sun-yellow); color: #0d1321; border: none; border-radius: 6px; padding: 0.45rem; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                                ⚡ Load Quote
                             </button>
+                            <a href="https://wa.me/91${lead.phone}?text=${encodeURIComponent(`Namaskaram ${lead.name}! Thank you for choosing Sunova Solar (${DEALERS.find(d => d.code === activePartnerCode).area}). We value your experience! Please take 30 seconds to rate us & share your review: https://sunovasolar.in/#testimonials`)}" target="_blank" rel="noopener" style="flex: 1; min-width: 120px; text-align: center; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.4); color: #f59e0b; border-radius: 6px; padding: 0.45rem; font-size: 0.75rem; font-weight: 700; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 0.3rem; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                                ⭐ Request Review
+                            </a>
                         </div>
                     </div>
                 `).join('');
