@@ -5689,7 +5689,7 @@ function printSubmittedContactQuote() {
                         <div>
                             <h2 style="font-size: 1.4rem; font-weight: 800; color: #047857; text-transform: uppercase; margin: 0;">SUNOVA SOLAR LLP</h2>
                             <p style="font-size: 0.72rem; font-weight: 700; color: #f59e0b; margin: 2px 0 0 0;">Engineering &bull; Procurement &bull; Commissioning &bull; KSEB Soura</p>
-                            <p style="font-size: 0.65rem; color: #64748b; margin: 1px 0 0 0;">LLPIN: ACX-7067 &bull; RoC Ernakulam &bull; Thodupuzha, Kerala - 685605</p>
+                            <p style="font-size: 0.65rem; color: #64748b; margin: 1px 0 0 0;">GSTIN: 32AFXFS8160F1ZJ &bull; Thodupuzha, Kerala - 685605</p>
                         </div>
                     </div>
                     <div style="text-align: right; font-size: 0.74rem; color: #1e293b; line-height: 1.4;">
@@ -7319,7 +7319,7 @@ function generateInstantPDFProposal() {
                         <div>
                             <h2 style="font-size: 1.4rem; font-weight: 800; color: #047857; text-transform: uppercase; margin: 0;">SUNOVA SOLAR LLP</h2>
                             <p style="font-size: 0.72rem; font-weight: 700; color: #f59e0b; margin: 2px 0 0 0;">Engineering &bull; Procurement &bull; Commissioning &bull; KSEB Soura</p>
-                            <p style="font-size: 0.65rem; color: #64748b; margin: 1px 0 0 0;">LLPIN: ACX-7067 &bull; RoC Ernakulam &bull; Thodupuzha, Kerala - 685605</p>
+                            <p style="font-size: 0.65rem; color: #64748b; margin: 1px 0 0 0;">GSTIN: 32AFXFS8160F1ZJ &bull; Thodupuzha, Kerala - 685605</p>
                         </div>
                     </div>
                     <div style="text-align: right; font-size: 0.74rem; color: #1e293b; line-height: 1.4;">
@@ -7549,7 +7549,7 @@ function generateInstantPDFProposalFromIQ() {
                         <div>
                             <h2 style="font-size: 1.4rem; font-weight: 800; color: #047857; text-transform: uppercase; margin: 0;">SUNOVA SOLAR LLP</h2>
                             <p style="font-size: 0.72rem; font-weight: 700; color: #f59e0b; margin: 2px 0 0 0;">Engineering &bull; Procurement &bull; Commissioning &bull; KSEB Soura</p>
-                            <p style="font-size: 0.65rem; color: #64748b; margin: 1px 0 0 0;">LLPIN: ACX-7067 &bull; RoC Ernakulam &bull; Thodupuzha, Kerala - 685605</p>
+                            <p style="font-size: 0.65rem; color: #64748b; margin: 1px 0 0 0;">GSTIN: 32AFXFS8160F1ZJ &bull; Thodupuzha, Kerala - 685605</p>
                         </div>
                     </div>
                     <div style="text-align: right; font-size: 0.74rem; color: #1e293b; line-height: 1.4;">
