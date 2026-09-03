@@ -555,6 +555,62 @@
         </div>
     </div>
 
+    <!-- Printable Quotation Modal Overlay for Staff Portal -->
+    <div id="staff-quote-modal-overlay" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 20000; overflow-y: auto; display: flex; justify-content: center; align-items: flex-start; padding: 2rem 1rem;">
+        <div style="background: #ffffff; color: #0d1321; border: 1px solid #cbd5e1; width: 100%; max-width: 880px; border-radius: 12px; padding: 2rem; box-shadow: 0 10px 40px rgba(0,0,0,0.4); position: relative; text-align: left;" id="staff-printable-quote-content">
+            
+            <!-- STICKY Floating Top Actions Bar (Always Visible on Preview) -->
+            <div class="no-print" style="position: sticky; top: -2rem; z-index: 1000; background: #ffffff; padding: 0.8rem 1rem; margin: -2rem -2rem 1.5rem -2rem; border-bottom: 2px solid #047857; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 14px rgba(0,0,0,0.1); border-top-left-radius: 12px; border-top-right-radius: 12px; flex-wrap: wrap; gap: 0.6rem;">
+                <!-- Left: Prominent Back button -->
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <button type="button" onclick="closeStaffQuoteModal()" style="background: #0f172a; color: #ffffff; border: none; border-radius: 8px; padding: 0.6rem 1.1rem; font-weight: 800; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.3); transition: background 0.15s;" onmouseover="this.style.background='#334155'" onmouseout="this.style.background='#0f172a'">
+                        <span style="font-size: 1.15rem; font-weight: 900; line-height: 1;">&larr;</span> Back
+                    </button>
+                    <div style="display: flex; align-items: center; gap: 0.35rem;">
+                        <span style="font-size: 1.2rem;">📄</span>
+                        <h3 style="margin: 0; color: #0d1321; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.05rem;">Quotation Preview</h3>
+                    </div>
+                </div>
+
+                <!-- Right Action Buttons -->
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
+                    <button type="button" onclick="printActiveStaffQuote()" style="background: #10b981; color: #ffffff; border: none; border-radius: 6px; padding: 0.55rem 1.1rem; font-weight: 800; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35); transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                        🖨️ Print Quotation
+                    </button>
+                    <button type="button" onclick="printActiveStaffQuote()" style="background: #2563eb; color: #ffffff; border: none; border-radius: 6px; padding: 0.55rem 1rem; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                        💾 Save PDF
+                    </button>
+                    <button type="button" onclick="closeStaffQuoteModal()" style="background: #ef4444; color: #ffffff; border: none; border-radius: 6px; padding: 0.55rem 1rem; font-weight: 800; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35); transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                        ✕ Close Preview
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Quotation Template Contents -->
+            <div id="staff-quote-render-area">
+                <!-- Dynamically Injected Quote Layout -->
+            </div>
+
+            <!-- Bottom Action Buttons (Always Visible at End of Preview) -->
+            <div class="no-print" style="margin-top: 2rem; padding-top: 1.2rem; border-top: 2px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                <button type="button" onclick="closeStaffQuoteModal()" style="background: #0f172a; color: #ffffff; border: none; border-radius: 8px; padding: 0.65rem 1.4rem; font-weight: 800; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.2);">
+                    <span style="font-size: 1.15rem; font-weight: 900; line-height: 1;">&larr;</span> Back
+                </button>
+                <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                    <button type="button" onclick="printActiveStaffQuote()" style="background: #10b981; color: #ffffff; border: none; border-radius: 8px; padding: 0.65rem 1.4rem; font-weight: 800; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+                        🖨️ Print Quotation
+                    </button>
+                    <button type="button" onclick="printActiveStaffQuote()" style="background: #2563eb; color: #ffffff; border: none; border-radius: 8px; padding: 0.65rem 1.2rem; font-weight: 700; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+                        💾 Save PDF
+                    </button>
+                    <button type="button" onclick="closeStaffQuoteModal()" style="background: #ef4444; color: #ffffff; border: none; border-radius: 8px; padding: 0.65rem 1.2rem; font-weight: 800; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+                        ✕ Close Preview
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Script -->
     <script>
         const DEALERS = [
@@ -2562,7 +2618,8 @@
                             <div><strong style="color: var(--color-text);">Value:</strong> Rs. ${(quote.grossTotal || 0).toLocaleString('en-IN')}</div>
                         </div>
                         <div style="display: flex; justify-content: flex-end; gap: 0.6rem; margin-top: 0.8rem;">
-                            <button onclick="downloadStaffQuote('${quote.quoteNo}')" class="cta-btn secondary-btn" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;">Download Copy</button>
+                            <button onclick="viewStaffQuote('${quote.quoteNo}')" class="cta-btn secondary-btn" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;">👁️ View / Print</button>
+                            <button onclick="downloadStaffQuote('${quote.quoteNo}')" class="cta-btn" style="padding: 0.4rem 0.8rem; font-size: 0.75rem; background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid #10b981;">🖨️ Direct Print</button>
                             <button onclick="deleteStaffQuote('${quote.quoteNo}')" class="cta-btn" style="padding: 0.4rem 0.8rem; font-size: 0.75rem; background: #dc3545; color: white; border: none;">Delete</button>
                         </div>
                     </div>
@@ -2573,31 +2630,67 @@
             });
         }
         
-        function downloadStaffQuote(quoteNo) {
-            function printQuoteHtml(quote) {
-                let printFrame = document.getElementById('sunova-staff-print-frame');
-                if (!printFrame) {
-                    printFrame = document.createElement('iframe');
-                    printFrame.id = 'sunova-staff-print-frame';
-                    printFrame.style.position = 'fixed';
-                    printFrame.style.right = '0';
-                    printFrame.style.bottom = '0';
-                    printFrame.style.width = '0';
-                    printFrame.style.height = '0';
-                    printFrame.style.border = '0';
-                    document.body.appendChild(printFrame);
-                }
-                const frameDoc = printFrame.contentDocument || (printFrame.contentWindow ? printFrame.contentWindow.document : null);
-                if (!frameDoc) {
-                    window.print();
-                    return;
-                }
-                frameDoc.open();
-                frameDoc.write(`<!DOCTYPE html>
+        let currentStaffActiveQuoteHtml = "";
+
+        function openStaffQuoteModal(html) {
+            currentStaffActiveQuoteHtml = html;
+            const area = document.getElementById('staff-quote-render-area');
+            if (area) area.innerHTML = html;
+            const modal = document.getElementById('staff-quote-modal-overlay');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.scrollTop = 0;
+            }
+        }
+
+        function closeStaffQuoteModal() {
+            const modal = document.getElementById('staff-quote-modal-overlay');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function viewStaffQuote(quoteNo) {
+            let localQuotes = JSON.parse(localStorage.getItem('sunova_saved_quotes') || '[]');
+            let quote = localQuotes.find(q => q.quoteNo === quoteNo);
+            if (quote && quote.html) {
+                openStaffQuoteModal(quote.html);
+                return;
+            }
+
+            fetch('saved_quotes_db.json?t=' + Date.now())
+            .then(res => res.json())
+            .then(data => {
+                if (!Array.isArray(data)) data = [];
+                const q = data.find(item => item.quoteNo === quoteNo);
+                if (!q || !q.html) return alert('Quote details not found.');
+                openStaffQuoteModal(q.html);
+            }).catch(() => alert('Could not retrieve quote from database.'));
+        }
+
+        function printActiveStaffQuote() {
+            if (!currentStaffActiveQuoteHtml) return;
+            let printFrame = document.getElementById('sunova-staff-print-frame');
+            if (!printFrame) {
+                printFrame = document.createElement('iframe');
+                printFrame.id = 'sunova-staff-print-frame';
+                printFrame.style.position = 'fixed';
+                printFrame.style.right = '0';
+                printFrame.style.bottom = '0';
+                printFrame.style.width = '0';
+                printFrame.style.height = '0';
+                printFrame.style.border = '0';
+                document.body.appendChild(printFrame);
+            }
+            const frameDoc = printFrame.contentDocument || (printFrame.contentWindow ? printFrame.contentWindow.document : null);
+            if (!frameDoc) {
+                window.print();
+                return;
+            }
+            frameDoc.open();
+            frameDoc.write(`<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>${quote.quoteNo || 'SUNOVA SOLAR Quotation'}</title>
+    <title>SUNOVA SOLAR Proposal</title>
     <style>
         @page { size: A4 portrait; margin: 8mm 10mm 8mm 10mm; }
         * { box-sizing: border-box; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
@@ -2610,35 +2703,22 @@
     </style>
 </head>
 <body>
-    ${quote.html}
+    ${currentStaffActiveQuoteHtml}
 </body>
 </html>`);
-                frameDoc.close();
-                setTimeout(() => {
-                    try {
-                        printFrame.contentWindow.focus();
-                        printFrame.contentWindow.print();
-                    } catch(e) {
-                        window.print();
-                    }
-                }, 500);
-            }
+            frameDoc.close();
+            setTimeout(() => {
+                try {
+                    printFrame.contentWindow.focus();
+                    printFrame.contentWindow.print();
+                } catch(e) {
+                    window.print();
+                }
+            }, 500);
+        }
 
-            let localQuotes = JSON.parse(localStorage.getItem('sunova_saved_quotes') || '[]');
-            let quote = localQuotes.find(q => q.quoteNo === quoteNo);
-            if (quote) {
-                printQuoteHtml(quote);
-                return;
-            }
-
-            fetch('saved_quotes_db.json?t=' + Date.now())
-            .then(res => res.json())
-            .then(data => {
-                if (!Array.isArray(data)) data = [];
-                const q = data.find(item => item.quoteNo === quoteNo);
-                if (!q) return alert('Quote not found.');
-                printQuoteHtml(q);
-            }).catch(() => alert('Could not retrieve quote database'));
+        function downloadStaffQuote(quoteNo) {
+            viewStaffQuote(quoteNo);
         }
         
         function deleteStaffQuote(quoteNo) {

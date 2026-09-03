@@ -2935,11 +2935,19 @@
         <div style="background: #ffffff; color: #0d1321; border: 1px solid #cbd5e1; width: 100%; max-width: 880px; border-radius: 12px; padding: 2rem; box-shadow: 0 10px 40px rgba(0,0,0,0.4); position: relative; text-align: left;" id="printable-quote-content">
             
             <!-- STICKY Floating Top Actions Bar (Always Visible on Preview) -->
-            <div class="no-print" style="position: sticky; top: -2rem; z-index: 1000; background: #ffffff; padding: 0.8rem 1rem; margin: -2rem -2rem 1.5rem -2rem; border-bottom: 2px solid #047857; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-top-left-radius: 12px; border-top-right-radius: 12px; flex-wrap: wrap; gap: 0.6rem;">
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <span style="font-size: 1.3rem;">📄</span>
-                    <h3 style="margin: 0; color: #0d1321; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.05rem;">Solar Proposal Document Preview</h3>
+            <div class="no-print" style="position: sticky; top: -2rem; z-index: 1000; background: #ffffff; padding: 0.8rem 1rem; margin: -2rem -2rem 1.5rem -2rem; border-bottom: 2px solid #047857; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 14px rgba(0,0,0,0.1); border-top-left-radius: 12px; border-top-right-radius: 12px; flex-wrap: wrap; gap: 0.6rem;">
+                <!-- Left: Prominent Back button -->
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <button type="button" onclick="closeWebsiteQuoteModal()" style="background: #0f172a; color: #ffffff; border: none; border-radius: 8px; padding: 0.6rem 1.1rem; font-weight: 800; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.3); transition: background 0.15s;" onmouseover="this.style.background='#334155'" onmouseout="this.style.background='#0f172a'">
+                        <span style="font-size: 1.15rem; font-weight: 900; line-height: 1;">&larr;</span> Back
+                    </button>
+                    <div style="display: flex; align-items: center; gap: 0.35rem;">
+                        <span style="font-size: 1.2rem;">📄</span>
+                        <h3 style="margin: 0; color: #0d1321; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.05rem;">Solar Proposal Preview</h3>
+                    </div>
                 </div>
+
+                <!-- Right Action Buttons -->
                 <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
                     <button type="button" onclick="printWebsiteProposal()" style="background: #10b981; color: #ffffff; border: none; border-radius: 6px; padding: 0.55rem 1.1rem; font-weight: 800; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35); transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
                         🖨️ Print Quotation
@@ -2947,8 +2955,8 @@
                     <button type="button" onclick="printWebsiteProposal()" style="background: #2563eb; color: #ffffff; border: none; border-radius: 6px; padding: 0.55rem 1rem; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
                         💾 Save PDF
                     </button>
-                    <button type="button" onclick="closeWebsiteQuoteModal()" style="background: #ef4444; color: #ffffff; border: none; border-radius: 6px; padding: 0.55rem 1rem; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
-                        ✕ Close
+                    <button type="button" onclick="closeWebsiteQuoteModal()" style="background: #ef4444; color: #ffffff; border: none; border-radius: 6px; padding: 0.55rem 1rem; font-weight: 800; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35); transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                        ✕ Close Preview
                     </button>
                 </div>
             </div>
@@ -2959,16 +2967,21 @@
             </div>
 
             <!-- Bottom Action Buttons (Always Visible at End of Preview) -->
-            <div class="no-print" style="margin-top: 2rem; padding-top: 1.2rem; border-top: 2px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 0.75rem; flex-wrap: wrap;">
-                <button type="button" onclick="printWebsiteProposal()" style="background: #10b981; color: #ffffff; border: none; border-radius: 8px; padding: 0.65rem 1.4rem; font-weight: 800; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
-                    🖨️ Print Quotation
+            <div class="no-print" style="margin-top: 2rem; padding-top: 1.2rem; border-top: 2px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                <button type="button" onclick="closeWebsiteQuoteModal()" style="background: #0f172a; color: #ffffff; border: none; border-radius: 8px; padding: 0.65rem 1.4rem; font-weight: 800; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.2);">
+                    <span style="font-size: 1.15rem; font-weight: 900; line-height: 1;">&larr;</span> Back
                 </button>
-                <button type="button" onclick="printWebsiteProposal()" style="background: #2563eb; color: #ffffff; border: none; border-radius: 8px; padding: 0.65rem 1.2rem; font-weight: 700; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
-                    💾 Save PDF
-                </button>
-                <button type="button" onclick="closeWebsiteQuoteModal()" style="background: #64748b; color: #ffffff; border: none; border-radius: 8px; padding: 0.65rem 1.2rem; font-weight: 700; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
-                    ✕ Close Preview
-                </button>
+                <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                    <button type="button" onclick="printWebsiteProposal()" style="background: #10b981; color: #ffffff; border: none; border-radius: 8px; padding: 0.65rem 1.4rem; font-weight: 800; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+                        🖨️ Print Quotation
+                    </button>
+                    <button type="button" onclick="printWebsiteProposal()" style="background: #2563eb; color: #ffffff; border: none; border-radius: 8px; padding: 0.65rem 1.2rem; font-weight: 700; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+                        💾 Save PDF
+                    </button>
+                    <button type="button" onclick="closeWebsiteQuoteModal()" style="background: #ef4444; color: #ffffff; border: none; border-radius: 8px; padding: 0.65rem 1.2rem; font-weight: 800; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+                        ✕ Close Preview
+                    </button>
+                </div>
             </div>
         </div>
     </div>
