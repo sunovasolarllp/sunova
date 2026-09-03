@@ -196,264 +196,329 @@
                             </div>
                         </div>
 
-                        <!-- 🛠️ Dynamic Role-Specific Action Workspace Hub -->
-                        <div id="role-specific-workspace" style="margin-bottom: 1.5rem;"></div>
+                        <!-- Staff Portal Navigation Tabs Bar -->
+                        <div class="staff-nav-tabs" style="display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1.5px solid var(--color-border); scrollbar-width: thin;">
+                            <button type="button" class="staff-tab-btn" onclick="switchStaffPortalTab('overview')" id="staff-tab-btn-overview" style="background: var(--color-sun-yellow); color: #0d1321; border: 1px solid var(--color-sun-yellow); font-weight: 800; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
+                                📊 Overview &amp; Targets
+                            </button>
+                            <button type="button" class="staff-tab-btn" onclick="switchStaffPortalTab('leads')" id="staff-tab-btn-leads" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
+                                📥 Customer Inquiries (<span id="staff-tab-badge-leads">0</span>)
+                            </button>
+                            <button type="button" class="staff-tab-btn" onclick="switchStaffPortalTab('quotes')" id="staff-tab-btn-quotes" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
+                                💾 Global Quotes (<span id="staff-tab-badge-quotes">0</span>)
+                            </button>
+                            <button type="button" class="staff-tab-btn" onclick="switchStaffPortalTab('management')" id="staff-tab-btn-management" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
+                                👑 Partner &amp; Staff Admin
+                            </button>
+                            <button type="button" class="staff-tab-btn" onclick="switchStaffPortalTab('pricing')" id="staff-tab-btn-pricing" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
+                                💰 Dynamic Pricing CSV
+                            </button>
+                            <button type="button" class="staff-tab-btn" onclick="switchStaffPortalTab('security')" id="staff-tab-btn-security" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
+                                🔒 Security &amp; Password
+                            </button>
+                        </div>
 
-                        <!-- Sub-View 1: Main Dashboard (Leads & Stats) -->
-                        <div id="staff-main-dashboard">
-                    <!-- 📈 Feature 1: Monthly Installation & Central Subsidy Target Card (Admin Corporate View) -->
-                    <div id="admin-target-tracker-card" style="background: linear-gradient(135deg, rgba(255, 183, 3, 0.12), rgba(16, 185, 129, 0.1)); border: 1.5px solid var(--color-sun-yellow); border-radius: 14px; padding: 1.1rem; margin-top: 1rem; margin-bottom: 1.5rem; text-align: left;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.4rem;">
-                            <span style="font-weight: 800; font-size: 0.88rem; color: var(--color-text);">📈 August 2026 Kerala Solar Target Tracker</span>
-                            <span style="font-size: 0.74rem; font-weight: 800; color: #10b981; background: rgba(16, 185, 129, 0.18); border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.2rem 0.6rem; border-radius: 10px;">74% Achieved</span>
-                        </div>
-                        <div style="background: rgba(0,0,0,0.3); height: 10px; border-radius: 10px; overflow: hidden; margin-bottom: 0.65rem; border: 1px solid var(--color-border);">
-                            <div style="width: 74%; height: 100%; background: linear-gradient(90deg, #ffb703, #10b981); border-radius: 10px; box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);"></div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; font-size: 0.74rem; color: var(--color-text-muted); flex-wrap: wrap; gap: 0.6rem;">
-                            <span>🎯 Target: <strong>250 kWp</strong></span>
-                            <span>☀️ Installed: <strong style="color: var(--color-sun-yellow);">185 kWp</strong></span>
-                            <span>🏛️ PM Surya Ghar Subsidy: <strong style="color: #10b981;">₹68.4 Lakhs Disbursed</strong></span>
-                        </div>
-                    </div>
+                        <!-- TAB 1: Overview & Targets (Default Active) -->
+                        <div id="staff-tab-overview" class="staff-tab-pane">
+                            <!-- 📈 Feature 1: Monthly Installation & Central Subsidy Target Card (Admin Corporate View) -->
+                            <div id="admin-target-tracker-card" style="background: linear-gradient(135deg, rgba(255, 183, 3, 0.12), rgba(16, 185, 129, 0.1)); border: 1.5px solid var(--color-sun-yellow); border-radius: 14px; padding: 1.1rem; margin-top: 0.5rem; margin-bottom: 1.5rem; text-align: left;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.4rem;">
+                                    <span style="font-weight: 800; font-size: 0.88rem; color: var(--color-text);">📈 August 2026 Kerala Solar Target Tracker</span>
+                                    <span style="font-size: 0.74rem; font-weight: 800; color: #10b981; background: rgba(16, 185, 129, 0.18); border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.2rem 0.6rem; border-radius: 10px;">74% Achieved</span>
+                                </div>
+                                <div style="background: rgba(0,0,0,0.3); height: 10px; border-radius: 10px; overflow: hidden; margin-bottom: 0.65rem; border: 1px solid var(--color-border);">
+                                    <div style="width: 74%; height: 100%; background: linear-gradient(90deg, #ffb703, #10b981); border-radius: 10px; box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);"></div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.74rem; color: var(--color-text-muted); flex-wrap: wrap; gap: 0.6rem;">
+                                    <span>🎯 Target: <strong>250 kWp</strong></span>
+                                    <span>☀️ Installed: <strong style="color: var(--color-sun-yellow);">185 kWp</strong></span>
+                                    <span>🏛️ PM Surya Ghar Subsidy: <strong style="color: #10b981;">₹68.4 Lakhs Disbursed</strong></span>
+                                </div>
+                            </div>
 
-                    <!-- Quick Stats Row (Admin Corporate View) -->
-                    <div id="admin-quick-stats-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
-                        <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; text-align: center; box-shadow: 0 4px 12px var(--color-shadow);">
-                            <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 0.25rem;">
-                                Total Customer Leads
-                            </span>
-                            <div id="stats-total-leads" style="font-size: 1.8rem; font-weight: 700; color: var(--color-text); margin-top: 0.25rem;">0</div>
-                        </div>
-                        <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; text-align: center; box-shadow: 0 4px 12px var(--color-shadow);">
-                            <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Active Franchises</span>
-                            <div style="font-size: 1.8rem; font-weight: 700; color: var(--color-text); margin-top: 0.25rem;">50</div>
-                        </div>
-                    </div>
-
-                    <!-- 💰 Feature 5: Dynamic Quotation Pricing Rules Manager (Admin Corporate View) -->
-                    <div id="admin-pricing-csv-box" class="tech-settings-box" style="margin-bottom: 1.5rem;">
-                        <h4 style="margin: 0; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem;">
-                            💰 Dynamic Solar Equipment Pricing Rules (CSV Manager)
-                        </h4>
-                        <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 1rem;">Upload a CSV file to update equipment rates for all 50 Kerala franchise partners instantly. <a href="assets/sample_pricing.csv" download style="color: var(--color-sun-yellow); text-decoration: none;">Download CSV Template</a></p>
-                        
-                        <div style="display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap;">
-                            <input type="file" id="pricing-upload-file" accept=".csv" style="font-size: 0.78rem; color: var(--color-text); background: rgba(255,255,255,0.02); border: 1px solid var(--color-border); padding: 0.4rem; border-radius: 4px; flex-grow: 1;">
-                            <button onclick="uploadPricingFile()" class="cta-btn primary-btn" style="padding: 0.5rem 1rem; font-size: 0.78rem;">Upload New Pricing</button>
-                        </div>
-                        <div id="pricing-upload-feedback" class="form-feedback hidden" style="margin-top: 0.8rem;"></div>
-                    </div>
-
-                    <!-- 👑 Master Admin Control Panel (Partners & Staff Management for info@sunovasolar.in) -->
-                    <div id="admin-management-panel" class="hidden" style="background: rgba(255, 183, 3, 0.05); border: 1.5px solid var(--color-sun-yellow); border-radius: 14px; padding: 1.25rem; margin-top: 1.5rem; margin-bottom: 1.5rem;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
-                            <h4 style="margin: 0; display: flex; align-items: center; gap: 0.5rem; font-size: 1rem; color: var(--color-text);">
-                                👑 Admin Management Portal
-                                <span style="background: var(--color-sun-yellow); color: #0d1321; font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 12px; font-weight: 800;">info@sunovasolar.in</span>
-                            </h4>
-                            <div style="display: flex; gap: 0.5rem;">
-                                <button type="button" onclick="switchAdminTab('partners')" id="tab-btn-partners" style="background: var(--color-sun-yellow); color: #0d1321; border: none; font-size: 0.78rem; font-weight: 700; padding: 0.4rem 0.9rem; border-radius: 6px; cursor: pointer;">
-                                    🤝 Manage Channel Partners (<span id="admin-partner-count">0</span>)
-                                </button>
-                                <button type="button" onclick="switchAdminTab('staff')" id="tab-btn-staff" style="background: rgba(255,255,255,0.06); color: var(--color-text-muted); border: 1px solid var(--color-border); font-size: 0.78rem; font-weight: 700; padding: 0.4rem 0.9rem; border-radius: 6px; cursor: pointer;">
-                                    👥 Manage Staff Accounts (<span id="admin-staff-count">0</span>)
-                                </button>
+                            <!-- Quick Stats Row (Admin Corporate View) -->
+                            <div id="admin-quick-stats-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                                <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 12px; padding: 1.25rem; text-align: center; box-shadow: 0 4px 12px var(--color-shadow); cursor: pointer;" onclick="switchStaffPortalTab('leads')">
+                                    <span style="font-size: 0.74rem; color: var(--color-text-muted); text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 0.25rem;">
+                                        📥 Total Customer Leads
+                                    </span>
+                                    <div id="stats-total-leads" style="font-size: 2rem; font-weight: 800; color: var(--color-sun-yellow); margin-top: 0.25rem;">0</div>
+                                </div>
+                                <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 12px; padding: 1.25rem; text-align: center; box-shadow: 0 4px 12px var(--color-shadow); cursor: pointer;" onclick="switchStaffPortalTab('management')">
+                                    <span style="font-size: 0.74rem; color: var(--color-text-muted); text-transform: uppercase;">
+                                        🤝 Active Channel Partners
+                                    </span>
+                                    <div style="font-size: 2rem; font-weight: 800; color: #10b981; margin-top: 0.25rem;">50</div>
+                                </div>
                             </div>
                         </div>
+                        <!-- End Tab 1: Overview -->
 
-                        <!-- TAB 1: Channel Partner Management -->
-                        <div id="admin-tab-partners">
-                            <!-- Add New Partner Form -->
-                            <div style="background: rgba(0, 0, 0, 0.2); border: 1px dashed var(--color-border); border-radius: 10px; padding: 1rem; margin-bottom: 1.25rem;">
-                                <h5 style="margin: 0 0 0.8rem 0; font-size: 0.85rem; color: var(--color-sun-yellow); display: flex; align-items: center; gap: 0.4rem;">
-                                    ➕ Create / Register New Channel Partner
-                                </h5>
-                                <form id="form-create-partner" onsubmit="handleCreatePartner(event)">
-                                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; margin-bottom: 0.75rem;">
-                                        <div>
-                                            <label style="font-size: 0.72rem; color: var(--color-text-muted); display: block; margin-bottom: 0.2rem;">Partner Code (e.g. EKM-ALEX)</label>
-                                            <input type="text" id="new-partner-code" placeholder="e.g. EKM-ALEX" required style="text-transform: uppercase; width: 100%; padding: 0.45rem; font-size: 0.78rem;">
-                                        </div>
-                                        <div>
-                                            <label style="font-size: 0.72rem; color: var(--color-text-muted); display: block; margin-bottom: 0.2rem;">Partner Full Name</label>
-                                            <input type="text" id="new-partner-name" placeholder="Full name" required style="width: 100%; padding: 0.45rem; font-size: 0.78rem;">
-                                        </div>
-                                        <div>
-                                            <label style="font-size: 0.72rem; color: var(--color-text-muted); display: block; margin-bottom: 0.2rem;">Service Town / Area</label>
-                                            <input type="text" id="new-partner-area" placeholder="e.g. Aluva" required style="width: 100%; padding: 0.45rem; font-size: 0.78rem;">
-                                        </div>
-                                        <div>
-                                            <label style="font-size: 0.72rem; color: var(--color-text-muted); display: block; margin-bottom: 0.2rem;">District (Kerala)</label>
-                                            <select id="new-partner-district" required style="width: 100%; padding: 0.45rem; font-size: 0.78rem;">
-                                                <option value="Thiruvananthapuram">Thiruvananthapuram</option>
-                                                <option value="Kollam">Kollam</option>
-                                                <option value="Pathanamthitta">Pathanamthitta</option>
-                                                <option value="Alappuzha">Alappuzha</option>
-                                                <option value="Kottayam">Kottayam</option>
-                                                <option value="Idukki">Idukki</option>
-                                                <option value="Ernakulam">Ernakulam</option>
-                                                <option value="Thrissur">Thrissur</option>
-                                                <option value="Palakkad">Palakkad</option>
-                                                <option value="Malappuram">Malappuram</option>
-                                                <option value="Kozhikode">Kozhikode</option>
-                                                <option value="Wayanad">Wayanad</option>
-                                                <option value="Kannur">Kannur</option>
-                                                <option value="Kasaragod">Kasaragod</option>
-                                            </select>
-                                        </div>
-                                        <div>
-                                            <label style="font-size: 0.72rem; color: var(--color-text-muted); display: block; margin-bottom: 0.2rem;">10-Digit Mobile Phone</label>
-                                            <input type="tel" id="new-partner-phone" placeholder="10-digit mobile" pattern="^[6-9]\d{9}$" maxlength="10" required style="width: 100%; padding: 0.45rem; font-size: 0.78rem;">
-                                        </div>
-                                        <div>
-                                            <label style="font-size: 0.72rem; color: var(--color-text-muted); display: block; margin-bottom: 0.2rem;">Default Security PIN</label>
-                                            <input type="text" id="new-partner-pin" placeholder="4 digits (Default 2277)" pattern="^\d{4}$" maxlength="4" value="2277" required style="width: 100%; padding: 0.45rem; font-size: 0.78rem;">
-                                        </div>
+                        <!-- TAB 2: Customer Leads & Inquiries -->
+                        <div id="staff-tab-leads" class="staff-tab-pane hidden">
+                            <!-- Live Inquiries Log Section -->
+                            <div id="live-inquiries-log-section" class="tech-settings-box">
+                                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
+                                    <h4 style="margin: 0; display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; color: var(--color-sun-yellow);">
+                                        📥 Live Customer Inquiries &amp; Leads Log
+                                        <span id="inquiry-count" style="background: var(--color-sun-yellow); color: #0d1321; font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 10px; font-weight: 700;">0</span>
+                                    </h4>
+                                    <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                                        <!-- 📊 Feature 2: 1-Click Excel / CSV Export -->
+                                        <button onclick="exportInquiriesToCSV()" style="background: rgba(255, 183, 3, 0.15); border: 1px solid var(--color-sun-yellow); color: var(--color-sun-yellow); font-size: 0.74rem; cursor: pointer; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px; display: inline-flex; align-items: center; gap: 0.3rem;">
+                                            📊 Export Excel / CSV
+                                        </button>
+                                        <button onclick="syncMailboxLeads(event)" style="background: rgba(37, 211, 102, 0.12); border: 1px solid rgba(37, 211, 102, 0.3); color: #25d366; font-size: 0.74rem; cursor: pointer; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px; display: inline-flex; align-items: center; gap: 0.3rem;">
+                                            📥 Sync Email
+                                        </button>
+                                        <button onclick="clearInquiriesLog()" style="background: none; border: none; color: #ef4444; font-size: 0.72rem; cursor: pointer; font-weight: 600;">
+                                            Clear Log
+                                        </button>
                                     </div>
-                                    <button type="submit" class="cta-btn primary-btn" style="padding: 0.45rem 1rem; font-size: 0.78rem;">
-                                        ✨ Register Partner
+                                </div>
+
+                                <div id="inquiries-container" style="max-height: 450px; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem;">
+                                    <p style="font-size: 0.8rem; color: var(--color-text-muted); text-align: center; padding: 1rem 0;">No inquiries logged in this browser session.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Tab 2: Leads -->
+
+                        <!-- TAB 3: Global Saved Quotations -->
+                        <div id="staff-tab-quotes" class="staff-tab-pane hidden">
+                            <div id="global-saved-quotes-section" class="tech-settings-box">
+                                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem;">
+                                    <h4 style="margin: 0; display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; color: var(--color-sun-yellow);">
+                                        💾 Global Saved Quotations &amp; Proposals
+                                        <span id="saved-quotes-count" style="background: var(--color-sun-yellow); color: #0d1321; font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 10px; font-weight: 700;">0</span>
+                                    </h4>
+                                </div>
+                                <div id="staff-saved-quotes-container" style="max-height: 450px; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem;">
+                                    <p style="font-size: 0.8rem; color: var(--color-text-muted); text-align: center; padding: 1rem 0;">No quotes saved by partners yet.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Tab 3: Quotes -->
+
+                        <!-- TAB 4: Master Admin Management Panel -->
+                        <div id="staff-tab-management" class="staff-tab-pane hidden">
+                            <!-- 👑 Master Admin Control Panel (Partners & Staff Management) -->
+                            <div id="admin-management-panel" style="background: rgba(255, 183, 3, 0.05); border: 1.5px solid var(--color-sun-yellow); border-radius: 14px; padding: 1.25rem; margin-bottom: 1.5rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
+                                    <h4 style="margin: 0; display: flex; align-items: center; gap: 0.5rem; font-size: 1rem; color: var(--color-text);">
+                                        👑 Admin Management Portal
+                                        <span style="background: var(--color-sun-yellow); color: #0d1321; font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 12px; font-weight: 800;">info@sunovasolar.in</span>
+                                    </h4>
+                                    <div style="display: flex; gap: 0.5rem;">
+                                        <button type="button" onclick="switchAdminTab('partners')" id="tab-btn-partners" style="background: var(--color-sun-yellow); color: #0d1321; border: none; font-size: 0.78rem; font-weight: 700; padding: 0.4rem 0.9rem; border-radius: 6px; cursor: pointer;">
+                                            🤝 Manage Channel Partners (<span id="admin-partner-count">0</span>)
+                                        </button>
+                                        <button type="button" onclick="switchAdminTab('staff')" id="tab-btn-staff" style="background: rgba(255,255,255,0.06); color: var(--color-text-muted); border: 1px solid var(--color-border); font-size: 0.78rem; font-weight: 700; padding: 0.4rem 0.9rem; border-radius: 6px; cursor: pointer;">
+                                            👥 Manage Staff Accounts (<span id="admin-staff-count">0</span>)
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Sub Tab: Channel Partner Management -->
+                                <div id="admin-tab-partners">
+                                    <!-- Add New Partner Form -->
+                                    <div style="background: rgba(0, 0, 0, 0.2); border: 1px dashed var(--color-border); border-radius: 10px; padding: 1rem; margin-bottom: 1.25rem;">
+                                        <h5 style="margin: 0 0 0.8rem 0; font-size: 0.85rem; color: var(--color-sun-yellow); display: flex; align-items: center; gap: 0.4rem;">
+                                            ➕ Create / Register New Channel Partner
+                                        </h5>
+                                        <form id="form-create-partner" onsubmit="handleCreatePartner(event)">
+                                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; margin-bottom: 0.75rem;">
+                                                <div>
+                                                    <label style="font-size: 0.72rem; color: var(--color-text-muted); display: block; margin-bottom: 0.2rem;">Partner Code (e.g. EKM-ALEX)</label>
+                                                    <input type="text" id="new-partner-code" placeholder="e.g. EKM-ALEX" required style="text-transform: uppercase; width: 100%; padding: 0.45rem; font-size: 0.78rem;">
+                                                </div>
+                                                <div>
+                                                    <label style="font-size: 0.72rem; color: var(--color-text-muted); display: block; margin-bottom: 0.2rem;">Partner Full Name</label>
+                                                    <input type="text" id="new-partner-name" placeholder="Full name" required style="width: 100%; padding: 0.45rem; font-size: 0.78rem;">
+                                                </div>
+                                                <div>
+                                                    <label style="font-size: 0.72rem; color: var(--color-text-muted); display: block; margin-bottom: 0.2rem;">Service Town / Area</label>
+                                                    <input type="text" id="new-partner-area" placeholder="e.g. Aluva" required style="width: 100%; padding: 0.45rem; font-size: 0.78rem;">
+                                                </div>
+                                                <div>
+                                                    <label style="font-size: 0.72rem; color: var(--color-text-muted); display: block; margin-bottom: 0.2rem;">District (Kerala)</label>
+                                                    <select id="new-partner-district" required style="width: 100%; padding: 0.45rem; font-size: 0.78rem;">
+                                                        <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                                                        <option value="Kollam">Kollam</option>
+                                                        <option value="Pathanamthitta">Pathanamthitta</option>
+                                                        <option value="Alappuzha">Alappuzha</option>
+                                                        <option value="Kottayam">Kottayam</option>
+                                                        <option value="Idukki">Idukki</option>
+                                                        <option value="Ernakulam">Ernakulam</option>
+                                                        <option value="Thrissur">Thrissur</option>
+                                                        <option value="Palakkad">Palakkad</option>
+                                                        <option value="Malappuram">Malappuram</option>
+                                                        <option value="Kozhikode">Kozhikode</option>
+                                                        <option value="Wayanad">Wayanad</option>
+                                                        <option value="Kannur">Kannur</option>
+                                                        <option value="Kasaragod">Kasaragod</option>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <label style="font-size: 0.72rem; color: var(--color-text-muted); display: block; margin-bottom: 0.2rem;">10-Digit Mobile Phone</label>
+                                                    <input type="tel" id="new-partner-phone" placeholder="10-digit mobile" pattern="^[6-9]\d{9}$" maxlength="10" required style="width: 100%; padding: 0.45rem; font-size: 0.78rem;">
+                                                </div>
+                                                <div>
+                                                    <label style="font-size: 0.72rem; color: var(--color-text-muted); display: block; margin-bottom: 0.2rem;">Default Security PIN</label>
+                                                    <input type="text" id="new-partner-pin" placeholder="4 digits (Default 2277)" pattern="^\d{4}$" maxlength="4" value="2277" required style="width: 100%; padding: 0.45rem; font-size: 0.78rem;">
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="cta-btn primary-btn" style="padding: 0.45rem 1rem; font-size: 0.78rem;">
+                                                ✨ Register Partner
+                                            </button>
+                                        </form>
+                                    </div>
+
+                                    <!-- Registered Partners List Table -->
+                                    <div style="overflow-x: auto;">
+                                        <table style="width: 100%; border-collapse: collapse; font-size: 0.78rem; color: var(--color-text);">
+                                            <thead>
+                                                <tr style="background: rgba(255,255,255,0.05); border-bottom: 1.5px solid var(--color-border); text-align: left;">
+                                                    <th style="padding: 0.5rem;">Code</th>
+                                                    <th style="padding: 0.5rem;">Partner Name</th>
+                                                    <th style="padding: 0.5rem;">District &amp; Area</th>
+                                                    <th style="padding: 0.5rem;">Mobile Phone</th>
+                                                    <th style="padding: 0.5rem;">PIN</th>
+                                                    <th style="padding: 0.5rem; text-align: center;">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="admin-partners-tbody">
+                                                <!-- Dynamic Partner Rows rendered via JS -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Sub Tab: Staff Management -->
+                                <div id="admin-tab-staff" class="hidden">
+                                    <!-- Modernized Add New Staff Form -->
+                                    <div style="background: rgba(15, 23, 42, 0.4); border: 1.5px dashed rgba(255, 183, 3, 0.4); border-radius: 12px; padding: 1.2rem; margin-bottom: 1.25rem;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.9rem; flex-wrap: wrap; gap: 0.5rem;">
+                                            <h5 style="margin: 0; font-size: 0.9rem; color: var(--color-sun-yellow); display: flex; align-items: center; gap: 0.4rem;">
+                                                ➕ Onboard New Staff Account
+                                            </h5>
+                                            <span style="font-size: 0.72rem; color: var(--color-text-muted); background: rgba(255, 183, 3, 0.1); padding: 0.2rem 0.5rem; border-radius: 6px; border: 1px solid rgba(255, 183, 3, 0.2);">
+                                                💡 Default Security PIN: Last 4 digits of Mobile Number
+                                            </span>
+                                        </div>
+                                        
+                                        <form id="form-create-staff" onsubmit="handleCreateStaff(event)">
+                                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.85rem; margin-bottom: 0.9rem;">
+                                                <div>
+                                                    <label style="font-size: 0.74rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem; font-weight: 600;">Staff ID / Code</label>
+                                                    <input type="text" id="new-staff-id" placeholder="e.g. STF-01, ENG-02" required style="text-transform: uppercase; width: 100%; padding: 0.5rem; font-size: 0.8rem; border-radius: 6px;">
+                                                </div>
+                                                <div>
+                                                    <label style="font-size: 0.74rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem; font-weight: 600;">Staff Member Name</label>
+                                                    <input type="text" id="new-staff-name" placeholder="Enter full name" required style="width: 100%; padding: 0.5rem; font-size: 0.8rem; border-radius: 6px;">
+                                                </div>
+                                                <div>
+                                                    <label style="font-size: 0.74rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem; font-weight: 600;">10-Digit Mobile Phone</label>
+                                                    <input type="tel" id="new-staff-phone" placeholder="e.g. 9847000000" pattern="^[6-9]\d{9}$" maxlength="10" required style="width: 100%; padding: 0.5rem; font-size: 0.8rem; border-radius: 6px;">
+                                                </div>
+                                                <div>
+                                                    <label style="font-size: 0.74rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem; font-weight: 600;">Email Address</label>
+                                                    <input type="email" id="new-staff-email" placeholder="staff@sunovasolar.in" required style="width: 100%; padding: 0.5rem; font-size: 0.8rem; border-radius: 6px;">
+                                                </div>
+                                                <div>
+                                                    <label style="font-size: 0.74rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem; font-weight: 600;">Department / Designation</label>
+                                                    <select id="new-staff-role" required style="width: 100%; padding: 0.5rem; font-size: 0.8rem; border-radius: 6px;">
+                                                        <option value="Telecaller / Customer Executive">📞 Telecaller / Customer Executive</option>
+                                                        <option value="Receptionist / Front Office Executive">🛋️ Receptionist / Front Office Executive</option>
+                                                        <option value="Accountant / Finance Executive">📊 Accountant / Finance Executive</option>
+                                                        <option value="Office Driver / Logistics Assistant">🚗 Office Driver / Logistics Assistant</option>
+                                                        <option value="Solar Project Engineer">👷 Solar Project Engineer</option>
+                                                        <option value="Sales &amp; KSEB Liaison Officer">🤝 Sales &amp; KSEB Liaison Officer</option>
+                                                        <option value="Technical Support Specialist">🛠️ Technical Support Specialist</option>
+                                                        <option value="Solar Auditor &amp; Site Inspector">⚡ Solar Auditor &amp; Site Inspector</option>
+                                                        <option value="System Administrator">👑 System Administrator</option>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <label style="font-size: 0.74rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem; font-weight: 600;">Password / PIN (Optional)</label>
+                                                    <input type="text" id="new-staff-password" placeholder="Leave blank for phone last 4 digits" style="width: 100%; padding: 0.5rem; font-size: 0.8rem; border-radius: 6px;">
+                                                </div>
+                                            </div>
+                                            <div style="display: flex; justify-content: flex-end;">
+                                                <button type="submit" class="cta-btn primary-btn" style="padding: 0.5rem 1.3rem; font-size: 0.8rem; font-weight: 700; border-radius: 6px;">
+                                                    ✨ Create &amp; Onboard Staff Account
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <!-- Registered Staff List Table -->
+                                    <div style="overflow-x: auto;">
+                                        <table style="width: 100%; border-collapse: collapse; font-size: 0.78rem; color: var(--color-text);">
+                                            <thead>
+                                                <tr style="background: rgba(255,255,255,0.05); border-bottom: 1.5px solid var(--color-border); text-align: left;">
+                                                    <th style="padding: 0.5rem;">Staff ID</th>
+                                                    <th style="padding: 0.5rem;">Staff Name</th>
+                                                    <th style="padding: 0.5rem;">Email Address</th>
+                                                    <th style="padding: 0.5rem;">Role / Designation</th>
+                                                    <th style="padding: 0.5rem; text-align: center;">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="admin-staff-tbody">
+                                                <!-- Dynamic Staff Rows rendered via JS -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Tab 4: Management -->
+
+                        <!-- TAB 5: Dynamic Pricing CSV Manager -->
+                        <div id="staff-tab-pricing" class="staff-tab-pane hidden">
+                            <!-- 💰 Feature 5: Dynamic Quotation Pricing Rules Manager -->
+                            <div id="admin-pricing-csv-box" class="tech-settings-box">
+                                <h4 style="margin: 0; display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem;">
+                                    💰 Dynamic Solar Equipment Pricing Rules (CSV Manager)
+                                </h4>
+                                <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 1rem;">Upload a CSV file to update equipment rates for all 50 Kerala franchise partners instantly. <a href="assets/sample_pricing.csv" download style="color: var(--color-sun-yellow); text-decoration: none;">Download CSV Template</a></p>
+                                
+                                <div style="display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap;">
+                                    <input type="file" id="pricing-upload-file" accept=".csv" style="font-size: 0.78rem; color: var(--color-text); background: rgba(255,255,255,0.02); border: 1px solid var(--color-border); padding: 0.4rem; border-radius: 4px; flex-grow: 1;">
+                                    <button onclick="uploadPricingFile()" class="cta-btn primary-btn" style="padding: 0.5rem 1rem; font-size: 0.78rem;">Upload New Pricing</button>
+                                </div>
+                                <div id="pricing-upload-feedback" class="form-feedback hidden" style="margin-top: 0.8rem;"></div>
+                            </div>
+                        </div>
+                        <!-- End Tab 5: Pricing -->
+
+                        <!-- TAB 6: Staff Account Security & Password -->
+                        <div id="staff-tab-security" class="staff-tab-pane hidden">
+                            <div class="tech-settings-box" style="max-width: 450px; margin: 0 auto; text-align: left;">
+                                <h4 style="margin: 0 0 1rem 0; font-size: 0.95rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem;">
+                                    🔒 Change Staff Account Password / PIN
+                                </h4>
+                                <form id="staff-change-password-form" onsubmit="handleStaffPasswordChange(event)">
+                                    <div class="form-group" style="margin-bottom: 0.8rem;">
+                                        <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block;">Current Password / PIN</label>
+                                        <input type="password" id="staff-current-pwd" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+                                    </div>
+                                    <div class="form-group" style="margin-bottom: 0.8rem;">
+                                        <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block;">New Password / PIN</label>
+                                        <input type="password" id="staff-new-pwd" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+                                    </div>
+                                    <div class="form-group" style="margin-bottom: 0.8rem;">
+                                        <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block;">Confirm New Password / PIN</label>
+                                        <input type="password" id="staff-confirm-pwd" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required>
+                                    </div>
+                                    <div id="staff-pwd-feedback" class="form-feedback hidden"></div>
+                                    <button type="submit" class="cta-btn primary-btn full-width" style="margin-top: 0.5rem; padding: 0.65rem; border-radius: 8px;">
+                                        Update Password
                                     </button>
                                 </form>
                             </div>
-
-                            <!-- Registered Partners List Table -->
-                            <div style="overflow-x: auto;">
-                                <table style="width: 100%; border-collapse: collapse; font-size: 0.78rem; color: var(--color-text);">
-                                    <thead>
-                                        <tr style="background: rgba(255,255,255,0.05); border-bottom: 1.5px solid var(--color-border); text-align: left;">
-                                            <th style="padding: 0.5rem;">Code</th>
-                                            <th style="padding: 0.5rem;">Partner Name</th>
-                                            <th style="padding: 0.5rem;">District &amp; Area</th>
-                                            <th style="padding: 0.5rem;">Mobile Phone</th>
-                                            <th style="padding: 0.5rem;">PIN</th>
-                                            <th style="padding: 0.5rem; text-align: center;">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="admin-partners-tbody">
-                                        <!-- Dynamic Partner Rows rendered via JS -->
-                                    </tbody>
-                                </table>
-                            </div>
                         </div>
-
-                        <!-- TAB 2: Staff Management -->
-                        <div id="admin-tab-staff" class="hidden">
-                            <!-- Modernized Add New Staff Form -->
-                            <div style="background: rgba(15, 23, 42, 0.4); border: 1.5px dashed rgba(255, 183, 3, 0.4); border-radius: 12px; padding: 1.2rem; margin-bottom: 1.25rem;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.9rem; flex-wrap: wrap; gap: 0.5rem;">
-                                    <h5 style="margin: 0; font-size: 0.9rem; color: var(--color-sun-yellow); display: flex; align-items: center; gap: 0.4rem;">
-                                        ➕ Onboard New Staff Account
-                                    </h5>
-                                    <span style="font-size: 0.72rem; color: var(--color-text-muted); background: rgba(255, 183, 3, 0.1); padding: 0.2rem 0.5rem; border-radius: 6px; border: 1px solid rgba(255, 183, 3, 0.2);">
-                                        💡 Default Security PIN: Last 4 digits of Mobile Number
-                                    </span>
-                                </div>
-                                
-                                <form id="form-create-staff" onsubmit="handleCreateStaff(event)">
-                                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.85rem; margin-bottom: 0.9rem;">
-                                        <div>
-                                            <label style="font-size: 0.74rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem; font-weight: 600;">Staff ID / Code</label>
-                                            <input type="text" id="new-staff-id" placeholder="e.g. STF-01, ENG-02" required style="text-transform: uppercase; width: 100%; padding: 0.5rem; font-size: 0.8rem; border-radius: 6px;">
-                                        </div>
-                                        <div>
-                                            <label style="font-size: 0.74rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem; font-weight: 600;">Staff Member Name</label>
-                                            <input type="text" id="new-staff-name" placeholder="Enter full name" required style="width: 100%; padding: 0.5rem; font-size: 0.8rem; border-radius: 6px;">
-                                        </div>
-                                        <div>
-                                            <label style="font-size: 0.74rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem; font-weight: 600;">10-Digit Mobile Phone</label>
-                                            <input type="tel" id="new-staff-phone" placeholder="e.g. 9847000000" pattern="^[6-9]\d{9}$" maxlength="10" required style="width: 100%; padding: 0.5rem; font-size: 0.8rem; border-radius: 6px;">
-                                        </div>
-                                        <div>
-                                            <label style="font-size: 0.74rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem; font-weight: 600;">Email Address</label>
-                                            <input type="email" id="new-staff-email" placeholder="staff@sunovasolar.in" required style="width: 100%; padding: 0.5rem; font-size: 0.8rem; border-radius: 6px;">
-                                        </div>
-                                        <div>
-                                            <label style="font-size: 0.74rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem; font-weight: 600;">Department / Designation</label>
-                                            <select id="new-staff-role" required style="width: 100%; padding: 0.5rem; font-size: 0.8rem; border-radius: 6px;">
-                                                <option value="Telecaller / Customer Executive">📞 Telecaller / Customer Executive</option>
-                                                <option value="Receptionist / Front Office Executive">🛋️ Receptionist / Front Office Executive</option>
-                                                <option value="Accountant / Finance Executive">📊 Accountant / Finance Executive</option>
-                                                <option value="Office Driver / Logistics Assistant">🚗 Office Driver / Logistics Assistant</option>
-                                                <option value="Solar Project Engineer">👷 Solar Project Engineer</option>
-                                                <option value="Sales &amp; KSEB Liaison Officer">🤝 Sales &amp; KSEB Liaison Officer</option>
-                                                <option value="Technical Support Specialist">🛠️ Technical Support Specialist</option>
-                                                <option value="Solar Auditor &amp; Site Inspector">⚡ Solar Auditor &amp; Site Inspector</option>
-                                                <option value="System Administrator">👑 System Administrator</option>
-                                            </select>
-                                        </div>
-                                        <div>
-                                            <label style="font-size: 0.74rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem; font-weight: 600;">Password / PIN (Optional)</label>
-                                            <input type="text" id="new-staff-password" placeholder="Leave blank for phone last 4 digits" style="width: 100%; padding: 0.5rem; font-size: 0.8rem; border-radius: 6px;">
-                                        </div>
-                                    </div>
-                                    <div style="display: flex; justify-content: flex-end;">
-                                        <button type="submit" class="cta-btn primary-btn" style="padding: 0.5rem 1.3rem; font-size: 0.8rem; font-weight: 700; border-radius: 6px;">
-                                            ✨ Create &amp; Onboard Staff Account
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-
-                            <!-- Registered Staff List Table -->
-                            <div style="overflow-x: auto;">
-                                <table style="width: 100%; border-collapse: collapse; font-size: 0.78rem; color: var(--color-text);">
-                                    <thead>
-                                        <tr style="background: rgba(255,255,255,0.05); border-bottom: 1.5px solid var(--color-border); text-align: left;">
-                                            <th style="padding: 0.5rem;">Staff ID</th>
-                                            <th style="padding: 0.5rem;">Staff Name</th>
-                                            <th style="padding: 0.5rem;">Email Address</th>
-                                            <th style="padding: 0.5rem;">Role / Designation</th>
-                                            <th style="padding: 0.5rem; text-align: center;">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="admin-staff-tbody">
-                                        <!-- Dynamic Staff Rows rendered via JS -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Live Inquiries Log Section (Telecaller, Liaison & Admin Only) -->
-                    <div id="live-inquiries-log-section" class="tech-settings-box">
-                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
-                            <h4 style="margin: 0; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
-                                📥 Live Customer Inquiries &amp; Leads Log
-                                <span id="inquiry-count" style="background: var(--color-sun-yellow); color: #0d1321; font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 10px; font-weight: 700;">0</span>
-                            </h4>
-                            <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
-                                <!-- 📊 Feature 2: 1-Click Excel / CSV Export -->
-                                <button onclick="exportInquiriesToCSV()" style="background: rgba(255, 183, 3, 0.15); border: 1px solid var(--color-sun-yellow); color: var(--color-sun-yellow); font-size: 0.74rem; cursor: pointer; font-weight: 700; padding: 0.3rem 0.7rem; border-radius: 6px; display: inline-flex; align-items: center; gap: 0.3rem;">
-                                    📊 Export Excel / CSV
-                                </button>
-                                <button onclick="syncMailboxLeads(event)" style="background: rgba(37, 211, 102, 0.12); border: 1px solid rgba(37, 211, 102, 0.3); color: #25d366; font-size: 0.74rem; cursor: pointer; font-weight: 700; padding: 0.3rem 0.7rem; border-radius: 6px; display: inline-flex; align-items: center; gap: 0.3rem;">
-                                    📥 Sync Email
-                                </button>
-                                <button onclick="clearInquiriesLog()" style="background: none; border: none; color: #ef4444; font-size: 0.72rem; cursor: pointer; font-weight: 600;">
-                                    Clear Log
-                                </button>
-                            </div>
-                        </div>
-
-                        <div id="inquiries-container" style="max-height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem;">
-                            <p style="font-size: 0.8rem; color: var(--color-text-muted); text-align: center; padding: 1rem 0;">No inquiries logged in this browser session.</p>
-                        </div>
-                    </div>
-
-                    <!-- Global Saved Quotations Log (Accountant, Engineer & Admin Only) -->
-                    <div id="global-saved-quotes-section" class="tech-settings-box" style="margin-top: 1.5rem;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem;">
-                            <h4 style="margin: 0; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
-                                💾 Global Saved Quotations
-                                <span id="saved-quotes-count" style="background: var(--color-sun-yellow); color: #0d1321; font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 10px; font-weight: 700;">0</span>
-                            </h4>
-                        </div>
-                        <div id="staff-saved-quotes-container" style="max-height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem;">
-                            <p style="font-size: 0.8rem; color: var(--color-text-muted); text-align: center; padding: 1rem 0;">No quotes saved by partners yet.</p>
-                        </div>
-                    </div>
-                </div>
+                        <!-- End Tab 6: Security -->
 
 
                 <div class="dashboard-footer-actions" style="margin-top: 1.5rem; border-top: 1px solid var(--color-border); padding-top: 1.5rem;">
@@ -1356,11 +1421,87 @@
             if (quotesSection) quotesSection.style.display = showQuotes ? 'block' : 'none';
 
             // Load and render dynamic inquiries list
-            if (showInquiries) renderInquiries();
-            if (showQuotes) renderStaffSavedQuotes();
+            renderInquiries();
+            renderStaffSavedQuotes();
+
+            // Set default tab to overview
+            switchStaffPortalTab('overview');
 
             // Start idle timeout tracking for Staff Portal (15 mins)
             startIdleTimer('portal', () => logoutPortal('inactivity'));
+        }
+
+        function switchStaffPortalTab(tabId) {
+            const tabs = ['overview', 'leads', 'quotes', 'management', 'pricing', 'security'];
+            tabs.forEach(t => {
+                const pane = document.getElementById('staff-tab-' + t);
+                const btn = document.getElementById('staff-tab-btn-' + t);
+                if (pane) {
+                    if (t === tabId) {
+                        pane.classList.remove('hidden');
+                        pane.style.display = 'block';
+                    } else {
+                        pane.classList.add('hidden');
+                        pane.style.display = 'none';
+                    }
+                }
+                if (btn) {
+                    if (t === tabId) {
+                        btn.style.background = 'var(--color-sun-yellow)';
+                        btn.style.color = '#0d1321';
+                        btn.style.borderColor = 'var(--color-sun-yellow)';
+                        btn.style.fontWeight = '800';
+                    } else {
+                        btn.style.background = 'rgba(255,255,255,0.06)';
+                        btn.style.color = 'var(--color-text)';
+                        btn.style.borderColor = 'var(--color-border)';
+                        btn.style.fontWeight = '700';
+                    }
+                }
+            });
+
+            if (tabId === 'leads') {
+                renderInquiries();
+            } else if (tabId === 'quotes') {
+                renderStaffSavedQuotes();
+            } else if (tabId === 'management') {
+                renderAdminPartnersTable();
+                renderAdminStaffTable();
+            }
+        }
+
+        function handleStaffPasswordChange(e) {
+            e.preventDefault();
+            const curr = document.getElementById('staff-current-pwd').value.trim();
+            const newP = document.getElementById('staff-new-pwd').value.trim();
+            const conf = document.getElementById('staff-confirm-pwd').value.trim();
+            const fb = document.getElementById('staff-pwd-feedback');
+            if (!fb) return;
+
+            if (newP !== conf) {
+                fb.textContent = '❌ New password and confirmation do not match.';
+                fb.style.color = '#ef4444';
+                fb.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
+                fb.classList.remove('hidden');
+                return;
+            }
+
+            if (newP.length < 4) {
+                fb.textContent = '❌ Password/PIN must be at least 4 characters.';
+                fb.style.color = '#ef4444';
+                fb.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
+                fb.classList.remove('hidden');
+                return;
+            }
+
+            // Save to localStorage
+            localStorage.setItem('staff_portal_password', newP);
+            fb.textContent = '✅ Password updated successfully!';
+            fb.style.color = '#22c55e';
+            fb.style.backgroundColor = 'rgba(34, 197, 94, 0.15)';
+            fb.classList.remove('hidden');
+            document.getElementById('staff-change-password-form').reset();
+            setTimeout(() => fb.classList.add('hidden'), 3000);
         }
 
         function renderRoleWorkspace(role, email, isAdmin) {
@@ -2130,6 +2271,8 @@
                     
                     countBadge.textContent = activeInquiries.length;
                     if (totalLeadsBadge) totalLeadsBadge.textContent = activeInquiries.length;
+                    const tabLeadsBadge = document.getElementById('staff-tab-badge-leads');
+                    if (tabLeadsBadge) tabLeadsBadge.textContent = activeInquiries.length;
 
                     if (activeInquiries.length === 0) {
                         container.innerHTML = `<p style="font-size: 0.8rem; color: var(--color-text-muted); text-align: center; padding: 1.5rem 0;">No inquiries logged in the database yet.</p>`;
@@ -2166,6 +2309,8 @@
                 
                 countBadge.textContent = activeInquiries.length;
                 if (totalLeadsBadge) totalLeadsBadge.textContent = activeInquiries.length;
+                const tabLeadsBadge = document.getElementById('staff-tab-badge-leads');
+                if (tabLeadsBadge) tabLeadsBadge.textContent = activeInquiries.length;
 
                 if (activeInquiries.length === 0) {
                     container.innerHTML = `<p style="font-size: 0.8rem; color: var(--color-text-muted); text-align: center; padding: 1.5rem 0;">No inquiries logged in this browser session.</p>`;
@@ -2395,6 +2540,8 @@
                 if (!Array.isArray(data)) data = [];
                 const savedQuotes = data.reverse(); // Newest first
                 countBadge.textContent = savedQuotes.length;
+                const tabQuotesBadge = document.getElementById('staff-tab-badge-quotes');
+                if (tabQuotesBadge) tabQuotesBadge.textContent = savedQuotes.length;
 
                 if (savedQuotes.length === 0) {
                     container.innerHTML = `<p style="font-size: 0.8rem; color: var(--color-text-muted); text-align: center; padding: 1.5rem 0;">No quotes saved by partners yet.</p>`;

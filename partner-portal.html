@@ -466,384 +466,77 @@
                         </div>
 
                         <!-- 2. Clean 4-Card Core Action Hub -->
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
-                            <!-- Card 1: Allocated Leads -->
-                            <div class="glass-card" onclick="toggleAllocatedLeads()" style="cursor: pointer; padding: 1.25rem; border: 1px solid var(--color-border); border-radius: 14px; background: rgba(15, 23, 42, 0.6); transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)'">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
-                                    <span style="font-size: 1.6rem;">📥</span>
-                                    <span id="badge-allocated-count" style="background: var(--color-sun-yellow); color: #0d1321; font-weight: 800; font-size: 0.75rem; padding: 2px 8px; border-radius: 12px;">0 Leads</span>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                            <!-- Card 1: Quotation Generator -->
+                            <div class="glass-card" onclick="switchPartnerPortalTab('quote-generator')" style="cursor: pointer; padding: 1.15rem; border: 1px solid var(--color-border); border-radius: 14px; background: rgba(15, 23, 42, 0.6); transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)'">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                    <span style="font-size: 1.5rem;">⚡</span>
+                                    <span style="background: #10b981; color: white; font-weight: 700; font-size: 0.72rem; padding: 2px 8px; border-radius: 12px;">Core Tool</span>
                                 </div>
-                                <h4 style="margin: 0 0 0.3rem 0; font-size: 0.95rem; color: var(--color-text);">District Customer Inquiries</h4>
-                                <p style="margin: 0; font-size: 0.75rem; color: var(--color-text-muted); line-height: 1.4;">View and contact customer inquiries assigned to your district.</p>
+                                <h4 style="margin: 0 0 0.25rem 0; font-size: 0.92rem; color: var(--color-text);">Quotation Generator</h4>
+                                <p style="margin: 0; font-size: 0.74rem; color: var(--color-text-muted); line-height: 1.4;">Create custom proposals with official letterhead &amp; BOM.</p>
                             </div>
 
-                            <!-- Card 2: New Proposal Generator & Print -->
-                            <div class="glass-card" onclick="scrollToQuoteCalc()" style="cursor: pointer; padding: 1.25rem; border: 1px solid var(--color-border); border-radius: 14px; background: rgba(15, 23, 42, 0.6); transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)'">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
-                                    <span style="font-size: 1.6rem;">🖨️</span>
-                                    <span style="background: #10b981; color: white; font-weight: 700; font-size: 0.72rem; padding: 2px 8px; border-radius: 12px;">Print &amp; PDF</span>
+                            <!-- Card 2: Allocated Leads -->
+                            <div class="glass-card" onclick="switchPartnerPortalTab('leads')" style="cursor: pointer; padding: 1.15rem; border: 1px solid var(--color-border); border-radius: 14px; background: rgba(15, 23, 42, 0.6); transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)'">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                    <span style="font-size: 1.5rem;">📥</span>
+                                    <span id="badge-allocated-count" style="background: var(--color-sun-yellow); color: #0d1321; font-weight: 800; font-size: 0.74rem; padding: 2px 8px; border-radius: 12px;">0 Leads</span>
                                 </div>
-                                <h4 style="margin: 0 0 0.3rem 0; font-size: 0.95rem; color: var(--color-text);">Generate &amp; Print Proposal</h4>
-                                <p style="margin: 0; font-size: 0.75rem; color: var(--color-text-muted); line-height: 1.4;">Instant 1-click print &amp; PDF generation with official letterhead.</p>
+                                <h4 style="margin: 0 0 0.25rem 0; font-size: 0.92rem; color: var(--color-text);">District Customer Inquiries</h4>
+                                <p style="margin: 0; font-size: 0.74rem; color: var(--color-text-muted); line-height: 1.4;">Contact leads &amp; trigger 1-click WhatsApp follow-ups.</p>
                             </div>
 
-                            <!-- Card 3: Saved Quotes & Deal Tracker -->
-                            <div class="glass-card" onclick="toggleSavedQuotes()" style="cursor: pointer; padding: 1.25rem; border: 1px solid var(--color-border); border-radius: 14px; background: rgba(15, 23, 42, 0.6); transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)'">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
-                                    <span style="font-size: 1.6rem;">💾</span>
+                            <!-- Card 3: Saved Quotes -->
+                            <div class="glass-card" onclick="switchPartnerPortalTab('saved-quotes')" style="cursor: pointer; padding: 1.15rem; border: 1px solid var(--color-border); border-radius: 14px; background: rgba(15, 23, 42, 0.6); transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)'">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                    <span style="font-size: 1.5rem;">💾</span>
                                     <span id="badge-saved-count" style="background: rgba(255,255,255,0.1); color: var(--color-text); font-weight: 700; font-size: 0.72rem; padding: 2px 8px; border-radius: 12px;">0 Saved</span>
                                 </div>
-                                <h4 style="margin: 0 0 0.3rem 0; font-size: 0.95rem; color: var(--color-text);">Saved Quotations &amp; Deals</h4>
-                                <p style="margin: 0; font-size: 0.75rem; color: var(--color-text-muted); line-height: 1.4;">Review quote history, re-print proposals, or share on WhatsApp.</p>
+                                <h4 style="margin: 0 0 0.25rem 0; font-size: 0.92rem; color: var(--color-text);">Saved Quotations</h4>
+                                <p style="margin: 0; font-size: 0.74rem; color: var(--color-text-muted); line-height: 1.4;">Review quote history, re-print, and share on WhatsApp.</p>
                             </div>
 
-                            <!-- Card 4: KSEB Section Verification -->
-                            <div class="glass-card" onclick="toggleFeasibilityPanel()" style="cursor: pointer; padding: 1.25rem; border: 1px solid var(--color-border); border-radius: 14px; background: rgba(15, 23, 42, 0.6); transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)'">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
-                                    <span style="font-size: 1.6rem;">⚡</span>
+                            <!-- Card 4: KSEB Feasibility -->
+                            <div class="glass-card" onclick="switchPartnerPortalTab('kseb')" style="cursor: pointer; padding: 1.15rem; border: 1px solid var(--color-border); border-radius: 14px; background: rgba(15, 23, 42, 0.6); transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)'">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                    <span style="font-size: 1.5rem;">⚡</span>
                                     <span style="background: #10b981; color: white; font-weight: 700; font-size: 0.72rem; padding: 2px 8px; border-radius: 12px;">400+ Sections</span>
                                 </div>
-                                <h4 style="margin: 0 0 0.3rem 0; font-size: 0.95rem; color: var(--color-text);">KSEB Feasibility Check</h4>
-                                <p style="margin: 0; font-size: 0.75rem; color: var(--color-text-muted); line-height: 1.4;">Look up section codes, transformer status &amp; net-meter rules.</p>
+                                <h4 style="margin: 0 0 0.25rem 0; font-size: 0.92rem; color: var(--color-text);">KSEB Feasibility Check</h4>
+                                <p style="margin: 0; font-size: 0.74rem; color: var(--color-text-muted); line-height: 1.4;">Verify section codes, transformers &amp; net-metering.</p>
                             </div>
                         </div>
 
-                        <!-- 3. WhatsApp 1-Click Follow-up Toolkit -->
-                        <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid var(--color-border); border-radius: 14px; padding: 1.25rem; margin-bottom: 1.5rem;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.6rem; margin-bottom: 0.9rem;">
-                                <h4 style="margin: 0; font-size: 0.95rem; color: var(--color-sun-yellow); display: flex; align-items: center; gap: 0.4rem;">
-                                    💬 1-Click WhatsApp Follow-up Toolkit
-                                </h4>
-                                <span style="font-size: 0.72rem; color: #25d366; font-weight: 700;">● Direct Client Closing</span>
-                            </div>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem;">
-                                <button type="button" onclick="sendPartnerToolkitMsg('survey')" style="background: rgba(37, 211, 102, 0.1); border: 1px solid rgba(37, 211, 102, 0.3); color: #25d366; padding: 0.65rem 0.9rem; border-radius: 10px; font-size: 0.78rem; font-weight: 700; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 0.45rem;">
-                                    📅 Schedule Free Site Survey
-                                </button>
-                                <button type="button" onclick="sendPartnerToolkitMsg('subsidy')" style="background: rgba(255, 183, 3, 0.1); border: 1px solid rgba(255, 183, 3, 0.3); color: var(--color-sun-yellow); padding: 0.65rem 0.9rem; border-radius: 10px; font-size: 0.78rem; font-weight: 700; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 0.45rem;">
-                                    💰 ₹78,000 Subsidy Guide
-                                </button>
-                                <button type="button" onclick="sendPartnerToolkitMsg('docs')" style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); color: #60a5fa; padding: 0.65rem 0.9rem; border-radius: 10px; font-size: 0.78rem; font-weight: 700; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 0.45rem;">
-                                    📑 KSEB Document Checklist
-                                </button>
-                                <button type="button" onclick="sendPartnerToolkitMsg('loan')" style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); color: #c084fc; padding: 0.65rem 0.9rem; border-radius: 10px; font-size: 0.78rem; font-weight: 700; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 0.45rem;">
-                                    🏦 7% Solar Bank Loan Info
-                                </button>
-                            </div>
+                        <!-- 3. Partner Workspace Navigation Tabs Bar -->
+                        <div class="partner-nav-tabs" style="display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1.5px solid var(--color-border); scrollbar-width: thin;">
+                            <button type="button" class="partner-tab-btn" onclick="switchPartnerPortalTab('quote-generator')" id="tab-btn-quote-generator" style="background: var(--color-sun-yellow); color: #0d1321; border: 1px solid var(--color-sun-yellow); font-weight: 800; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
+                                ⚡ Quotation Generator
+                            </button>
+                            <button type="button" class="partner-tab-btn" onclick="switchPartnerPortalTab('leads')" id="tab-btn-leads" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
+                                📥 Leads &amp; Inquiries (<span id="tab-badge-allocated">0</span>)
+                            </button>
+                            <button type="button" class="partner-tab-btn" onclick="switchPartnerPortalTab('saved-quotes')" id="tab-btn-saved-quotes" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
+                                💾 Saved Quotes (<span id="tab-badge-saved">0</span>)
+                            </button>
+                            <button type="button" class="partner-tab-btn" onclick="switchPartnerPortalTab('calculators')" id="tab-btn-calculators" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
+                                🧮 Solar Tools &amp; Subsidy
+                            </button>
+                            <button type="button" class="partner-tab-btn" onclick="switchPartnerPortalTab('kseb')" id="tab-btn-kseb" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
+                                ⚡ KSEB Feasibility
+                            </button>
+                            <button type="button" class="partner-tab-btn" onclick="switchPartnerPortalTab('resources')" id="tab-btn-resources" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
+                                📂 Tech Locker &amp; Warranty
+                            </button>
+                            <button type="button" class="partner-tab-btn" onclick="switchPartnerPortalTab('security')" id="tab-btn-security" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
+                                🔒 Security &amp; PIN
+                            </button>
                         </div>
 
-                        <!-- 4. Official Technical Resource & Download Locker -->
-                        <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid var(--color-border); border-radius: 14px; padding: 1.25rem; margin-bottom: 1.5rem;">
-                            <h4 style="margin: 0 0 0.6rem 0; font-size: 0.95rem; color: var(--color-sun-yellow); display: flex; align-items: center; gap: 0.4rem;">
-                                📂 Partner Technical Downloads &amp; Resource Locker
-                            </h4>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem;">
-                                <a href="https://pmsuryaghar.gov.in" target="_blank" rel="noopener" style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); padding: 0.65rem 0.9rem; border-radius: 10px; color: var(--color-text); text-decoration: none; font-size: 0.78rem; display: flex; align-items: center; justify-content: space-between;">
-                                    <span>🏛️ PM Surya Ghar Portal</span>
-                                    <span style="color: var(--color-sun-yellow);">↗</span>
-                                </a>
-                                <a href="https://www.kseb.in/images/soura/Soura_Phase_II_Guidelines.pdf" target="_blank" rel="noopener" style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); padding: 0.65rem 0.9rem; border-radius: 10px; color: var(--color-text); text-decoration: none; font-size: 0.78rem; display: flex; align-items: center; justify-content: space-between;">
-                                    <span>⚡ KSEB Soura Guidelines (PDF)</span>
-                                    <span style="color: var(--color-sun-yellow);">↓</span>
-                                </a>
-                                <a href="javascript:void(0)" onclick="downloadProformaTemplate()" style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); padding: 0.65rem 0.9rem; border-radius: 10px; color: var(--color-text); text-decoration: none; font-size: 0.78rem; display: flex; align-items: center; justify-content: space-between;">
-                                    <span>📊 Proforma Invoice Excel (XLSX)</span>
-                                    <span style="color: var(--color-sun-yellow);">↓</span>
-                                </a>
-                                <a href="javascript:void(0)" onclick="showChecklistModal()" style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); padding: 0.65rem 0.9rem; border-radius: 10px; color: var(--color-text); text-decoration: none; font-size: 0.78rem; display: flex; align-items: center; justify-content: space-between;">
-                                    <span>🛡️ Net Metering Checklist</span>
-                                    <span style="color: var(--color-sun-yellow);">↗</span>
-                                </a>
-                            </div>
-                        </div>
-
-                        <!-- Container for Allocated Inquiries, Saved Quotations & Feasibility Check -->
-                        <div id="allocated-and-saved-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
-                            <!-- Allocated Leads Panel (Collapsible) -->
-                            <div id="allocated-leads-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; text-align: left; margin: 0;">
-                                <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 0.95rem;">
-                                    📋 Allocated Customer Inquiries
-                                </h4>
-                                <p style="font-size: 0.74rem; color: var(--color-text-muted); margin-bottom: 0.8rem; line-height: 1.45;">Inquiries submitted by customers selecting your dealership area.</p>
-                                
-                                <div id="allocated-leads-list" style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 350px; overflow-y: auto; padding-right: 0.3rem;">
-                                    <!-- Dynamically Injected leads list -->
-                                </div>
-                            </div>
-
-                            <!-- Saved Quotes Panel (Collapsible) -->
-                            <div id="saved-quotes-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; text-align: left; margin: 0;">
-                                <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 0.95rem;">
-                                    💾 Saved Quotations
-                                </h4>
-                                <p style="font-size: 0.74rem; color: var(--color-text-muted); margin-bottom: 0.8rem; line-height: 1.45;">Your generated quotes saved to this browser.</p>
-                                
-                                <div id="saved-quotes-list" style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 350px; overflow-y: auto; padding-right: 0.3rem;">
-                                </div>
-                            </div>
-
-                            <!-- Feasibility Check Panel (Collapsible) -->
-                            <div id="feasibility-check-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; text-align: left; margin: 0;">
-                                <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 0.95rem;">
-                                    ✅ Feasibility &amp; KSEB Verification
-                                </h4>
-                                <p style="font-size: 0.74rem; color: var(--color-text-muted); margin-bottom: 0.8rem; line-height: 1.45;">Verify KSEB section offices &amp; perform feasibility checks for new solar installations.</p>
-                                <div style="background: var(--color-bg-alt); padding: 0.9rem; border-radius: 8px; text-align: center;">
-                                    <span style="display:block; font-size: 0.82rem; font-weight:600; color:var(--color-text); margin-bottom: 0.5rem;">KSEB Section Verification</span>
-                                    <a href="https://wss.kseb.in/selfservices/reCap" target="_blank" rel="noopener" class="cta-btn primary-btn" style="display:inline-block; font-size:0.78rem; padding: 0.45rem 0.85rem; text-decoration:none;">
-                                        Verify at wss.kseb.in ↗
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Reports & Analytics Panel (Collapsible) -->
-                        <div id="reports-analytics-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
-                            <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
-                                📊 Reports &amp; Lead Conversion Analytics
-                            </h4>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 1rem;">
-                                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; text-align: center;">
-                                    <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Lead Conversion Rate</span>
-                                    <div style="font-size: 1.6rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">78.5%</div>
-                                </div>
-                                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; text-align: center;">
-                                    <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Total kWp Quoted</span>
-                                    <div style="font-size: 1.6rem; font-weight: 800; color: var(--color-sun-yellow); margin-top: 0.3rem;">145 kWp</div>
-                                </div>
-                                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; text-align: center;">
-                                    <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Subsidy Claims Settled</span>
-                                    <div style="font-size: 1.6rem; font-weight: 800; color: #3b82f6; margin-top: 0.3rem;">₹48.2 L</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Live Inquiries Log Panel (Collapsible) -->
-                        <div id="live-inquiries-log-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
-                                <h4 style="margin: 0; color: var(--color-sun-yellow); font-size: 1rem;">
-                                    📥 Live District Inquiries Log
-                                </h4>
-                                <div style="display: flex; gap: 0.5rem;">
-                                    <button onclick="exportInquiriesToCSV()" style="background: rgba(255, 183, 3, 0.15); border: 1px solid var(--color-sun-yellow); color: var(--color-sun-yellow); font-size: 0.74rem; cursor: pointer; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px;">📊 Export CSV</button>
-                                    <button onclick="syncMailboxLeads(event)" style="background: rgba(37, 211, 102, 0.12); border: 1px solid rgba(37, 211, 102, 0.3); color: #25d366; font-size: 0.74rem; cursor: pointer; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px;">📥 Sync Email</button>
-                                </div>
-                            </div>
-                            <div id="partner-live-inquiries-container" style="max-height: 350px; overflow-y: auto;">
-                                <p style="font-size: 0.8rem; color: var(--color-text-muted); text-align: center; padding: 1rem 0;">Click Sync Email to load district customer leads.</p>
-                            </div>
-                        </div>
-
-                        <!-- KSEB Tracker Panel (Collapsible) -->
-                        <div id="kseb-tracker-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
-                            <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
-                                ⚡ KSEB Transformer &amp; Net-Metering Tracker
-                            </h4>
-                            <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 1rem;">Verify transformer capacity allocations and KSEB section approval requirements across Kerala.</p>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-                                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem;">
-                                    <strong style="color: var(--color-text); font-size: 0.85rem; display: block; margin-bottom: 0.3rem;">LT Feasibility (Up to 10 kWp)</strong>
-                                    <span style="font-size: 0.75rem; color: var(--color-text-muted);">Self-declaration under PM Surya Ghar. No transformer capacity blocking required.</span>
-                                </div>
-                                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem;">
-                                    <strong style="color: var(--color-text); font-size: 0.85rem; display: block; margin-bottom: 0.3rem;">HT Commercial (Above 10 kWp)</strong>
-                                    <span style="font-size: 0.75rem; color: var(--color-text-muted);">Requires Assistant Executive Engineer (AEE) Section Office Feasibility Certificate.</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- PM Surya Ghar Subsidy Panel (Collapsible) -->
-                        <div id="pm-surya-ghar-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
-                                <h4 style="margin: 0; color: var(--color-sun-yellow); font-size: 1rem;">
-                                    🏛️ PM Surya Ghar Muft Bijli Yojana (Central Bank Subsidy Calculator)
-                                </h4>
-                                <a href="https://pmsuryaghar.gov.in" target="_blank" rel="noopener" class="cta-btn primary-btn" style="font-size:0.75rem; padding: 0.35rem 0.75rem;">Apply at pmsuryaghar.gov.in ↗</a>
-                            </div>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
-                                <div style="background: rgba(22, 163, 74, 0.1); border: 1px solid rgba(22, 163, 74, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
-                                    <span style="font-size: 0.72rem; color: #86efac; text-transform: uppercase;">1 kWp Rooftop System</span>
-                                    <div style="font-size: 1.5rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">₹30,000 Subsidy</div>
-                                </div>
-                                <div style="background: rgba(22, 163, 74, 0.1); border: 1px solid rgba(22, 163, 74, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
-                                    <span style="font-size: 0.72rem; color: #86efac; text-transform: uppercase;">2 kWp Rooftop System</span>
-                                    <div style="font-size: 1.5rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">₹60,000 Subsidy</div>
-                                </div>
-                                <div style="background: rgba(22, 163, 74, 0.15); border: 1px solid rgba(22, 163, 74, 0.5); border-radius: 10px; padding: 1rem; text-align: center;">
-                                    <span style="font-size: 0.72rem; color: #86efac; text-transform: uppercase;">3 kWp+ Maximum Cap</span>
-                                    <div style="font-size: 1.5rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">₹78,000 Subsidy</div>
-                                </div>
-                            </div>
-                            <div style="font-size: 0.78rem; color: var(--color-text-muted); line-height: 1.5;">
-                                📋 <strong>Required Claim Documents:</strong> Aadhaar Card, KSEB Electricity Bill (Consumer No.), Bank Passbook / Cancelled Cheque, Roof Photo with Lat/Long.
-                            </div>
-                        </div>
-
-                        <!-- Solar Loan EMI Calculator Panel (Collapsible) -->
-                        <div id="solar-emi-calculator-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
-                            <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
-                                💳 Solar Bank Loan &amp; Zero-Downpayment EMI Calculator
-                            </h4>
-                            <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 1rem;">Specialized solar loans from SBI &amp; Canara Bank @ 7% Interest Rate p.a.</p>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; align-items: center;">
-                                <div>
-                                    <label style="font-size:0.75rem; color:var(--color-text-muted); display:block; margin-bottom:0.3rem;">System Price: <strong id="emi-price-val" style="color:var(--color-sun-yellow);">₹1,85,000</strong></label>
-                                    <input type="range" id="emi-price-range" min="100000" max="1000000" step="10000" value="185000" oninput="calculateSolarEmi()" style="width:100%;">
-                                    
-                                    <label style="font-size:0.75rem; color:var(--color-text-muted); display:block; margin-top:0.8rem; margin-bottom:0.3rem;">Tenure (Years): <strong id="emi-tenure-val" style="color:var(--color-sun-yellow);">5 Years</strong></label>
-                                    <input type="range" id="emi-tenure-range" min="1" max="7" step="1" value="5" oninput="calculateSolarEmi()" style="width:100%;">
-                                </div>
-                                <div style="background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; text-align: center;">
-                                    <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Estimated Monthly Loan EMI</span>
-                                    <div id="calculated-monthly-emi" style="font-size: 1.8rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">₹3,663 / mo</div>
-                                    <span style="font-size: 0.7rem; color: var(--color-sun-yellow); display: block; margin-top: 0.4rem;">💡 Offsets monthly KSEB bill instantly!</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 3D Roof Calculator Panel (Collapsible) -->
-                        <div id="rooftop-estimator-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
-                            <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
-                                📐 3D Rooftop Solar Capacity &amp; Panel Estimator
-                            </h4>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; align-items: center; margin-top: 1rem;">
-                                <div>
-                                    <label style="font-size:0.75rem; color:var(--color-text-muted); display:block; margin-bottom:0.3rem;">Shade-Free Roof Area (sq. ft.):</label>
-                                    <input type="number" id="roof-area-input" value="300" placeholder="e.g. 300" oninput="calculateRoofCapacity()" style="width:100%; padding:0.4rem 0.6rem; border-radius:6px; background:var(--color-bg); border:1px solid var(--color-border); color:var(--color-text);">
-                                </div>
-                                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; text-align: center;">
-                                    <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Max Solar Capacity</span>
-                                    <div id="roof-kwp-res" style="font-size: 1.5rem; font-weight: 800; color: var(--color-sun-yellow); margin-top: 0.2rem;">3.0 kWp</div>
-                                    <span id="roof-panels-count" style="font-size: 0.72rem; color: #3b82f6; display: block; margin-top: 0.2rem;">6 Panels (550W TOPCon Mono-PERC)</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- KSEB Inspection Checklist Panel (Collapsible) -->
-                        <div id="kseb-checklist-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
-                            <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
-                                ⚙️ KSEB Field Engineer Technical Inspection Checklist
-                            </h4>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; margin-top: 1rem;">
-                                <label style="font-size:0.78rem; color:var(--color-text); display:flex; align-items:center; gap:0.5rem;">
-                                    <input type="checkbox" checked> ⚡ Transformer Capacity Available (< 80%)
-                                </label>
-                                <label style="font-size:0.78rem; color:var(--color-text); display:flex; align-items:center; gap:0.5rem;">
-                                    <input type="checkbox" checked> 🎯 Dual Earth Pit Resistance &lt; 5 Ω
-                                </label>
-                                <label style="font-size:0.78rem; color:var(--color-text); display:flex; align-items:center; gap:0.5rem;">
-                                    <input type="checkbox" checked> 🛡️ ACDB / DCDB Surge Protection (SPD)
-                                </label>
-                                <label style="font-size:0.78rem; color:var(--color-text); display:flex; align-items:center; gap:0.5rem;">
-                                    <input type="checkbox" checked> 🔄 Bi-Directional Net-Meter Test
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- AMC Service Panel (Collapsible) -->
-                        <div id="amc-service-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
-                            <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
-                                🛠️ Customer AMC &amp; Solar Panel Maintenance Tracker
-                            </h4>
-                            <div style="font-size:0.78rem; color:var(--color-text-muted); margin-top:0.8rem; line-height:1.6;">
-                                📅 <strong>Next Scheduled Panel Washing:</strong> 28 August 2026<br>
-                                ⚡ <strong>Inverter String Voltage Audit:</strong> Passed (380V DC)<br>
-                                📲 <strong>Automated Client WhatsApp Alert:</strong> Active
-                            </div>
-                        </div>
-
-                        <!-- Brand Comparison Matrix Panel (Collapsible) -->
-                        <div id="equipment-matrix-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
-                            <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
-                                🏷️ Tier-1 Equipment Brand Matrix
-                            </h4>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
-                                <div style="background: rgba(255,255,255,0.03); border:1px solid var(--color-border); border-radius:10px; padding:0.8rem;">
-                                    <strong style="color:var(--color-sun-yellow); font-size:0.85rem;">Solar Panels (25-Yr Warranty)</strong>
-                                    <p style="font-size:0.75rem; color:var(--color-text-muted); margin-top:0.4rem;">Waaree, Adani, Tata Power Solar (550W N-Type TOPCon Mono-PERC)</p>
-                                </div>
-                                <div style="background: rgba(255,255,255,0.03); border:1px solid var(--color-border); border-radius:10px; padding:0.8rem;">
-                                    <strong style="color:var(--color-sun-yellow); font-size:0.85rem;">On-Grid Inverters (10-Yr Warranty)</strong>
-                                    <p style="font-size:0.75rem; color:var(--color-text-muted); margin-top:0.4rem;">Growatt, Solis, Deye, Enphase Microinverters</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Warranty Card Panel (Collapsible) -->
-                        <div id="warranty-generator-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
-                                <h4 style="margin: 0; color: var(--color-sun-yellow); font-size: 1rem;">
-                                    📜 25-Year Warranty &amp; Commissioning Certificate Generator
-                                </h4>
-                                <button onclick="generateWarrantyPdf()" class="cta-btn primary-btn" style="font-size:0.75rem; padding:0.35rem 0.75rem;">📄 Generate PDF Certificate</button>
-                            </div>
-                            <p style="font-size:0.78rem; color:var(--color-text-muted);">Generates official SUNOVA SOLAR LLP 25-Year Performance Guarantee certificate for handover to clients.</p>
-                        </div>
-
-                        <!-- Carbon Offset Panel (Collapsible) -->
-                        <div id="carbon-offset-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
-                            <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
-                                🌿 Kerala Green Energy &amp; Carbon Offset Impact Counter
-                            </h4>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 1rem;">
-                                <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
-                                    <span style="font-size: 0.72rem; color: #86efac; text-transform: uppercase;">Green Power Generated</span>
-                                    <div style="font-size: 1.6rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">1.85 GWh</div>
-                                </div>
-                                <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
-                                    <span style="font-size: 0.72rem; color: #86efac; text-transform: uppercase;">CO₂ Avoided</span>
-                                    <div style="font-size: 1.6rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">1,450 MT</div>
-                                </div>
-                                <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
-                                    <span style="font-size: 0.72rem; color: #86efac; text-transform: uppercase;">Trees Equivalent</span>
-                                    <div style="font-size: 1.6rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">68,000 🌲</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- District Directory Panel (Collapsible) -->
-                        <div id="district-partners-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
-                                <h4 style="margin: 0; color: var(--color-sun-yellow); font-size: 1rem;">
-                                    📍 Kerala 14 Districts Partner Contact Directory
-                                </h4>
-                                <span id="district-partner-count-badge" style="background: var(--color-sun-yellow); color: #0d1321; font-weight: 800; font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 10px;">50 Dealers</span>
-                            </div>
-                            <div id="district-info-banner" style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 1rem;">
-                                📍 Showing authorized channel partners across all 14 Kerala districts.
-                            </div>
-                            <div id="district-dealers-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; max-height: 400px; overflow-y: auto;">
-                                <!-- Dynamic Dealers List -->
-                            </div>
-                        </div>
-
-                        <!-- Change PIN Panel (Collapsible) -->
-                        <div id="dashboard-change-pin-panel" class="hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
-                            <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
-                                🔒 Change Security PIN
-                            </h4>
-                    <form id="dash-change-pin-form" onsubmit="handleDashPinChange(event)">
-                        <div class="form-group" style="margin-bottom: 0.8rem;">
-                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block;">Old PIN</label>
-                            <input type="password" id="dash-old-pin" maxlength="4" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required pattern="[0-9]{4}">
-                        </div>
-                        <div class="form-group" style="margin-bottom: 0.8rem;">
-                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block;">New PIN</label>
-                            <input type="password" id="dash-new-pin" maxlength="4" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required pattern="[0-9]{4}">
-                        </div>
-                        <div class="form-group" style="margin-bottom: 0.8rem;">
-                            <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block;">Confirm New PIN</label>
-                            <input type="password" id="dash-confirm-pin" maxlength="4" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required pattern="[0-9]{4}">
-                        </div>
-                        <div id="dash-change-pin-feedback" class="form-feedback hidden"></div>
-                        <button type="submit" class="cta-btn primary-btn full-width" style="margin-top: 0.5rem; padding: 0.65rem; border-radius: 8px;">
-                            Update PIN
-                        </button>
-                    </form>
-                </div>
-
-                <!-- Solar Quotation Generator Card -->
-                <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;" id="quotation-form-section">
+                        <!-- TAB 1: Quotation Generator (Default Active Tab) -->
+                        <div id="partner-tab-quote-generator" class="partner-tab-pane">
+                            <!-- Solar Quotation Generator Card -->
+                            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;" id="quotation-form-section">
                     <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); display: flex; align-items: center; gap: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
                         ⚡ Solar Quotation Generator
                     </h4>
@@ -1005,81 +698,416 @@
                     </form>
                 </div>
 
-                <!-- Technical Configuration & Partner Resources -->
-                <div class="tech-settings-box">
-                    <h4>📘 Partner Resources &amp; Downloads</h4>
-                    <p class="settings-intro">Authorized document downloads and technical rules for KSEB Soura integration.</p>
-                    
-                    <div class="settings-table">
-                        <div class="settings-row">
-                            <span class="sett-lbl">KSEB Feasibility Specs</span>
-                            <span class="sett-val"><a href="https://www.kseb.in/images/soura/Soura_Phase_II_Guidelines.pdf" target="_blank" rel="noopener" style="color: var(--color-sun-yellow);">Download PDF Guide</a></span>
                         </div>
-                        <div class="settings-row">
-                            <span class="sett-lbl">Proforma Invoice Template</span>
-                            <span class="sett-val"><a href="javascript:void(0)" onclick="downloadProformaTemplate()" style="color: var(--color-sun-yellow);">Download Excel Sheet</a></span>
+                        <!-- End Tab 1: Quotation Generator -->
+
+                        <!-- TAB 2: District Leads & Inquiries -->
+                        <div id="partner-tab-leads" class="partner-tab-pane hidden">
+                            <!-- WhatsApp 1-Click Follow-up Toolkit -->
+                            <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid var(--color-border); border-radius: 14px; padding: 1.25rem; margin-bottom: 1.5rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.6rem; margin-bottom: 0.9rem;">
+                                    <h4 style="margin: 0; font-size: 0.95rem; color: var(--color-sun-yellow); display: flex; align-items: center; gap: 0.4rem;">
+                                        💬 1-Click WhatsApp Follow-up Toolkit
+                                    </h4>
+                                    <span style="font-size: 0.72rem; color: #25d366; font-weight: 700;">● Direct Client Closing</span>
+                                </div>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem;">
+                                    <button type="button" onclick="sendPartnerToolkitMsg('survey')" style="background: rgba(37, 211, 102, 0.1); border: 1px solid rgba(37, 211, 102, 0.3); color: #25d366; padding: 0.65rem 0.9rem; border-radius: 10px; font-size: 0.78rem; font-weight: 700; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 0.45rem;">
+                                        📅 Schedule Free Site Survey
+                                    </button>
+                                    <button type="button" onclick="sendPartnerToolkitMsg('subsidy')" style="background: rgba(255, 183, 3, 0.1); border: 1px solid rgba(255, 183, 3, 0.3); color: var(--color-sun-yellow); padding: 0.65rem 0.9rem; border-radius: 10px; font-size: 0.78rem; font-weight: 700; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 0.45rem;">
+                                        💰 ₹78,000 Subsidy Guide
+                                    </button>
+                                    <button type="button" onclick="sendPartnerToolkitMsg('docs')" style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); color: #60a5fa; padding: 0.65rem 0.9rem; border-radius: 10px; font-size: 0.78rem; font-weight: 700; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 0.45rem;">
+                                        📑 KSEB Document Checklist
+                                    </button>
+                                    <button type="button" onclick="sendPartnerToolkitMsg('loan')" style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); color: #c084fc; padding: 0.65rem 0.9rem; border-radius: 10px; font-size: 0.78rem; font-weight: 700; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 0.45rem;">
+                                        🏦 7% Solar Bank Loan Info
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Allocated Leads Panel -->
+                            <div id="allocated-leads-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; text-align: left; margin-bottom: 1.5rem;">
+                                <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 0.95rem;">
+                                    📋 Allocated Customer Inquiries
+                                </h4>
+                                <p style="font-size: 0.74rem; color: var(--color-text-muted); margin-bottom: 0.8rem; line-height: 1.45;">Inquiries submitted by customers in your authorized dealership district.</p>
+                                
+                                <div id="allocated-leads-list" style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 400px; overflow-y: auto; padding-right: 0.3rem;">
+                                    <!-- Dynamically Injected leads list -->
+                                </div>
+                            </div>
+
+                            <!-- Live Inquiries Log Panel -->
+                            <div id="live-inquiries-log-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
+                                    <h4 style="margin: 0; color: var(--color-sun-yellow); font-size: 1rem;">
+                                        📥 Live District Inquiries Log
+                                    </h4>
+                                    <div style="display: flex; gap: 0.5rem;">
+                                        <button onclick="exportInquiriesToCSV()" style="background: rgba(255, 183, 3, 0.15); border: 1px solid var(--color-sun-yellow); color: var(--color-sun-yellow); font-size: 0.74rem; cursor: pointer; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px;">📊 Export CSV</button>
+                                        <button onclick="syncMailboxLeads(event)" style="background: rgba(37, 211, 102, 0.12); border: 1px solid rgba(37, 211, 102, 0.3); color: #25d366; font-size: 0.74rem; cursor: pointer; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px;">📥 Sync Email</button>
+                                    </div>
+                                </div>
+                                <div id="partner-live-inquiries-container" style="max-height: 350px; overflow-y: auto;">
+                                    <p style="font-size: 0.8rem; color: var(--color-text-muted); text-align: center; padding: 1rem 0;">Click Sync Email to load district customer leads.</p>
+                                </div>
+                            </div>
+
+                            <!-- Reports & Conversion Analytics -->
+                            <div id="reports-analytics-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; text-align: left;">
+                                <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                                    📊 Reports &amp; Lead Conversion Analytics
+                                </h4>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; text-align: center;">
+                                        <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Lead Conversion Rate</span>
+                                        <div style="font-size: 1.6rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">78.5%</div>
+                                    </div>
+                                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; text-align: center;">
+                                        <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Total kWp Quoted</span>
+                                        <div style="font-size: 1.6rem; font-weight: 800; color: var(--color-sun-yellow); margin-top: 0.3rem;">145 kWp</div>
+                                    </div>
+                                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; text-align: center;">
+                                        <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Subsidy Claims Settled</span>
+                                        <div style="font-size: 1.6rem; font-weight: 800; color: #3b82f6; margin-top: 0.3rem;">₹48.2 L</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="settings-row">
-                            <span class="sett-lbl">Net Metering Checklist</span>
-                            <span class="sett-val"><a href="javascript:void(0)" onclick="showChecklistModal()" style="color: var(--color-sun-yellow);">View Online List</a></span>
+                        <!-- End Tab 2: Leads -->
+
+                        <!-- TAB 3: Saved Quotes & History -->
+                        <div id="partner-tab-saved-quotes" class="partner-tab-pane hidden">
+                            <div id="saved-quotes-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; text-align: left;">
+                                <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                                    💾 Saved Customer Quotations &amp; Proposals
+                                </h4>
+                                <p style="font-size: 0.74rem; color: var(--color-text-muted); margin-bottom: 0.8rem; line-height: 1.45;">Your generated quotes saved to this browser session. You can preview, re-print, or share directly on WhatsApp.</p>
+                                
+                                <div id="saved-quotes-list" style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 450px; overflow-y: auto; padding-right: 0.3rem;">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Tab 3: Saved Quotes -->
+
+                        <!-- TAB 4: Solar Tools & Subsidy -->
+                        <div id="partner-tab-calculators" class="partner-tab-pane hidden">
+                            <!-- PM Surya Ghar Subsidy Calculator -->
+                            <div id="pm-surya-ghar-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
+                                    <h4 style="margin: 0; color: var(--color-sun-yellow); font-size: 1rem;">
+                                        🏛️ PM Surya Ghar Muft Bijli Yojana (Central Subsidy Calculator)
+                                    </h4>
+                                    <a href="https://pmsuryaghar.gov.in" target="_blank" rel="noopener" class="cta-btn primary-btn" style="font-size:0.75rem; padding: 0.35rem 0.75rem;">Apply at pmsuryaghar.gov.in ↗</a>
+                                </div>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                                    <div style="background: rgba(22, 163, 74, 0.1); border: 1px solid rgba(22, 163, 74, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
+                                        <span style="font-size: 0.72rem; color: #86efac; text-transform: uppercase;">1 kWp Rooftop System</span>
+                                        <div style="font-size: 1.5rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">₹30,000 Subsidy</div>
+                                    </div>
+                                    <div style="background: rgba(22, 163, 74, 0.1); border: 1px solid rgba(22, 163, 74, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
+                                        <span style="font-size: 0.72rem; color: #86efac; text-transform: uppercase;">2 kWp Rooftop System</span>
+                                        <div style="font-size: 1.5rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">₹60,000 Subsidy</div>
+                                    </div>
+                                    <div style="background: rgba(22, 163, 74, 0.15); border: 1px solid rgba(22, 163, 74, 0.5); border-radius: 10px; padding: 1rem; text-align: center;">
+                                        <span style="font-size: 0.72rem; color: #86efac; text-transform: uppercase;">3 kWp+ Maximum Cap</span>
+                                        <div style="font-size: 1.5rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">₹78,000 Subsidy</div>
+                                    </div>
+                                </div>
+                                <div style="font-size: 0.78rem; color: var(--color-text-muted); line-height: 1.5;">
+                                    📋 <strong>Required Claim Documents:</strong> Aadhaar Card, KSEB Electricity Bill (Consumer No.), Bank Passbook / Cancelled Cheque, Roof Photo with Lat/Long.
+                                </div>
+                            </div>
+
+                            <!-- Solar Loan EMI Calculator -->
+                            <div id="solar-emi-calculator-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                                <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                                    💳 Solar Bank Loan &amp; Zero-Downpayment EMI Calculator
+                                </h4>
+                                <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 1rem;">Specialized solar loans from SBI, Canara Bank &amp; Federal Bank @ 7% Interest Rate p.a.</p>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; align-items: center;">
+                                    <div>
+                                        <label style="font-size:0.75rem; color:var(--color-text-muted); display:block; margin-bottom:0.3rem;">System Price: <strong id="emi-price-val" style="color:var(--color-sun-yellow);">₹1,85,000</strong></label>
+                                        <input type="range" id="emi-price-range" min="100000" max="1000000" step="10000" value="185000" oninput="calculateSolarEmi()" style="width:100%;">
+                                        
+                                        <label style="font-size:0.75rem; color:var(--color-text-muted); display:block; margin-top:0.8rem; margin-bottom:0.3rem;">Tenure (Years): <strong id="emi-tenure-val" style="color:var(--color-sun-yellow);">5 Years</strong></label>
+                                        <input type="range" id="emi-tenure-range" min="1" max="7" step="1" value="5" oninput="calculateSolarEmi()" style="width:100%;">
+                                    </div>
+                                    <div style="background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; text-align: center;">
+                                        <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Estimated Monthly Loan EMI</span>
+                                        <div id="calculated-monthly-emi" style="font-size: 1.8rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">₹3,663 / mo</div>
+                                        <span style="font-size: 0.7rem; color: var(--color-sun-yellow); display: block; margin-top: 0.4rem;">💡 Offsets monthly KSEB bill instantly!</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 3D Roof Area & Panel Estimator -->
+                            <div id="rooftop-estimator-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                                <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                                    📐 3D Rooftop Solar Capacity &amp; Panel Estimator
+                                </h4>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; align-items: center; margin-top: 1rem;">
+                                    <div>
+                                        <label style="font-size:0.75rem; color:var(--color-text-muted); display:block; margin-bottom:0.3rem;">Shade-Free Roof Area (sq. ft.):</label>
+                                        <input type="number" id="roof-area-input" value="300" placeholder="e.g. 300" oninput="calculateRoofCapacity()" style="width:100%; padding:0.4rem 0.6rem; border-radius:6px; background:var(--color-bg); border:1px solid var(--color-border); color:var(--color-text);">
+                                    </div>
+                                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; text-align: center;">
+                                        <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Max Solar Capacity</span>
+                                        <div id="roof-kwp-res" style="font-size: 1.5rem; font-weight: 800; color: var(--color-sun-yellow); margin-top: 0.2rem;">3.0 kWp</div>
+                                        <span id="roof-panels-count" style="font-size: 0.72rem; color: #3b82f6; display: block; margin-top: 0.2rem;">6 Panels (550W TOPCon Mono-PERC)</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Carbon Offset Counter -->
+                            <div id="carbon-offset-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; text-align: left;">
+                                <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                                    🌿 Kerala Green Energy &amp; Carbon Offset Impact Counter
+                                </h4>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                                    <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
+                                        <span style="font-size: 0.72rem; color: #86efac; text-transform: uppercase;">Green Power Generated</span>
+                                        <div style="font-size: 1.6rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">1.85 GWh</div>
+                                    </div>
+                                    <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
+                                        <span style="font-size: 0.72rem; color: #86efac; text-transform: uppercase;">CO₂ Avoided</span>
+                                        <div style="font-size: 1.6rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">1,450 MT</div>
+                                    </div>
+                                    <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
+                                        <span style="font-size: 0.72rem; color: #86efac; text-transform: uppercase;">Trees Equivalent</span>
+                                        <div style="font-size: 1.6rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">68,000 🌲</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Tab 4: Calculators -->
+
+                        <!-- TAB 5: KSEB Feasibility & Net-Metering -->
+                        <div id="partner-tab-kseb" class="partner-tab-pane hidden">
+                            <!-- Feasibility & KSEB Verification -->
+                            <div id="feasibility-check-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                                <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 0.95rem;">
+                                    ✅ Feasibility &amp; KSEB Section Verification
+                                </h4>
+                                <p style="font-size: 0.74rem; color: var(--color-text-muted); margin-bottom: 0.8rem; line-height: 1.45;">Verify KSEB section offices &amp; perform feasibility checks for new solar installations.</p>
+                                <div style="background: var(--color-bg-alt); padding: 0.9rem; border-radius: 8px; text-align: center;">
+                                    <span style="display:block; font-size: 0.82rem; font-weight:600; color:var(--color-text); margin-bottom: 0.5rem;">KSEB Online Section Self-Services Portal</span>
+                                    <a href="https://wss.kseb.in/selfservices/reCap" target="_blank" rel="noopener" class="cta-btn primary-btn" style="display:inline-block; font-size:0.78rem; padding: 0.45rem 0.85rem; text-decoration:none;">
+                                        Verify at wss.kseb.in ↗
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- KSEB Transformer Tracker -->
+                            <div id="kseb-tracker-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                                <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                                    ⚡ KSEB Transformer &amp; Net-Metering Tracker
+                                </h4>
+                                <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 1rem;">Verify transformer capacity allocations and KSEB section approval requirements across Kerala.</p>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem;">
+                                        <strong style="color: var(--color-text); font-size: 0.85rem; display: block; margin-bottom: 0.3rem;">LT Feasibility (Up to 10 kWp)</strong>
+                                        <span style="font-size: 0.75rem; color: var(--color-text-muted);">Self-declaration under PM Surya Ghar. No transformer capacity blocking required.</span>
+                                    </div>
+                                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem;">
+                                        <strong style="color: var(--color-text); font-size: 0.85rem; display: block; margin-bottom: 0.3rem;">HT Commercial (Above 10 kWp)</strong>
+                                        <span style="font-size: 0.75rem; color: var(--color-text-muted);">Requires Assistant Executive Engineer (AEE) Section Office Feasibility Certificate.</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- KSEB Field Engineer Checklist -->
+                            <div id="kseb-checklist-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; text-align: left;">
+                                <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                                    ⚙️ KSEB Field Engineer Technical Inspection Checklist
+                                </h4>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; margin-top: 1rem;">
+                                    <label style="font-size:0.78rem; color:var(--color-text); display:flex; align-items:center; gap:0.5rem;">
+                                        <input type="checkbox" checked> ⚡ Transformer Capacity Available (&lt; 80%)
+                                    </label>
+                                    <label style="font-size:0.78rem; color:var(--color-text); display:flex; align-items:center; gap:0.5rem;">
+                                        <input type="checkbox" checked> 🎯 Dual Earth Pit Resistance &lt; 5 Ω
+                                    </label>
+                                    <label style="font-size:0.78rem; color:var(--color-text); display:flex; align-items:center; gap:0.5rem;">
+                                        <input type="checkbox" checked> 🛡️ ACDB / DCDB Surge Protection (SPD)
+                                    </label>
+                                    <label style="font-size:0.78rem; color:var(--color-text); display:flex; align-items:center; gap:0.5rem;">
+                                        <input type="checkbox" checked> 🔄 Bi-Directional Net-Meter Test
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Tab 5: KSEB -->
+
+                        <!-- TAB 6: Resources & Technical Locker -->
+                        <div id="partner-tab-resources" class="partner-tab-pane hidden">
+                            <!-- Official Technical Resource Locker -->
+                            <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid var(--color-border); border-radius: 14px; padding: 1.25rem; margin-bottom: 1.5rem;">
+                                <h4 style="margin: 0 0 0.6rem 0; font-size: 0.95rem; color: var(--color-sun-yellow); display: flex; align-items: center; gap: 0.4rem;">
+                                    📂 Partner Technical Downloads &amp; Resource Locker
+                                </h4>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem;">
+                                    <a href="https://pmsuryaghar.gov.in" target="_blank" rel="noopener" style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); padding: 0.65rem 0.9rem; border-radius: 10px; color: var(--color-text); text-decoration: none; font-size: 0.78rem; display: flex; align-items: center; justify-content: space-between;">
+                                        <span>🏛️ PM Surya Ghar Portal</span>
+                                        <span style="color: var(--color-sun-yellow);">↗</span>
+                                    </a>
+                                    <a href="https://www.kseb.in/images/soura/Soura_Phase_II_Guidelines.pdf" target="_blank" rel="noopener" style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); padding: 0.65rem 0.9rem; border-radius: 10px; color: var(--color-text); text-decoration: none; font-size: 0.78rem; display: flex; align-items: center; justify-content: space-between;">
+                                        <span>⚡ KSEB Soura Guidelines (PDF)</span>
+                                        <span style="color: var(--color-sun-yellow);">↓</span>
+                                    </a>
+                                    <a href="javascript:void(0)" onclick="downloadProformaTemplate()" style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); padding: 0.65rem 0.9rem; border-radius: 10px; color: var(--color-text); text-decoration: none; font-size: 0.78rem; display: flex; align-items: center; justify-content: space-between;">
+                                        <span>📊 Proforma Invoice Excel (XLSX)</span>
+                                        <span style="color: var(--color-sun-yellow);">↓</span>
+                                    </a>
+                                    <a href="javascript:void(0)" onclick="showChecklistModal()" style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); padding: 0.65rem 0.9rem; border-radius: 10px; color: var(--color-text); text-decoration: none; font-size: 0.78rem; display: flex; align-items: center; justify-content: space-between;">
+                                        <span>🛡️ Net Metering Checklist</span>
+                                        <span style="color: var(--color-sun-yellow);">↗</span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Tier-1 Equipment Brand Matrix -->
+                            <div id="equipment-matrix-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                                <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                                    🏷️ Tier-1 Equipment Brand Matrix
+                                </h4>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                                    <div style="background: rgba(255,255,255,0.03); border:1px solid var(--color-border); border-radius:10px; padding:0.8rem;">
+                                        <strong style="color:var(--color-sun-yellow); font-size:0.85rem;">Solar Panels (25-Yr Warranty)</strong>
+                                        <p style="font-size:0.75rem; color:var(--color-text-muted); margin-top:0.4rem;">Waaree, Adani, Tata Power Solar (550W N-Type TOPCon Mono-PERC)</p>
+                                    </div>
+                                    <div style="background: rgba(255,255,255,0.03); border:1px solid var(--color-border); border-radius:10px; padding:0.8rem;">
+                                        <strong style="color:var(--color-sun-yellow); font-size:0.85rem;">On-Grid Inverters (10-Yr Warranty)</strong>
+                                        <p style="font-size:0.75rem; color:var(--color-text-muted); margin-top:0.4rem;">Growatt, Solis, Deye, Enphase Microinverters</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 25-Year Warranty Generator -->
+                            <div id="warranty-generator-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
+                                    <h4 style="margin: 0; color: var(--color-sun-yellow); font-size: 1rem;">
+                                        📜 25-Year Warranty &amp; Commissioning Certificate Generator
+                                    </h4>
+                                    <button onclick="generateWarrantyPdf()" class="cta-btn primary-btn" style="font-size:0.75rem; padding:0.35rem 0.75rem;">📄 Generate PDF Certificate</button>
+                                </div>
+                                <p style="font-size:0.78rem; color:var(--color-text-muted);">Generates official SUNOVA SOLAR LLP 25-Year Performance Guarantee certificate for handover to clients.</p>
+                            </div>
+
+                            <!-- Customer AMC Maintenance Tracker -->
+                            <div id="amc-service-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                                <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                                    🛠️ Customer AMC &amp; Solar Panel Maintenance Tracker
+                                </h4>
+                                <div style="font-size:0.78rem; color:var(--color-text-muted); margin-top:0.8rem; line-height:1.6;">
+                                    📅 <strong>Next Scheduled Panel Washing:</strong> 28 August 2026<br>
+                                    ⚡ <strong>Inverter String Voltage Audit:</strong> Passed (380V DC)<br>
+                                    📲 <strong>Automated Client WhatsApp Alert:</strong> Active
+                                </div>
+                            </div>
+
+                            <!-- District Partner Directory -->
+                            <div id="district-partners-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
+                                    <h4 style="margin: 0; color: var(--color-sun-yellow); font-size: 1rem;">
+                                        📍 Kerala 14 Districts Partner Contact Directory
+                                    </h4>
+                                    <span id="district-partner-count-badge" style="background: var(--color-sun-yellow); color: #0d1321; font-weight: 800; font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 10px;">50 Dealers</span>
+                                </div>
+                                <div id="district-info-banner" style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 1rem;">
+                                    📍 Showing authorized channel partners across all 14 Kerala districts.
+                                </div>
+                                <div id="district-dealers-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; max-height: 400px; overflow-y: auto;">
+                                    <!-- Dynamic Dealers List -->
+                                </div>
+                            </div>
+
+                            <!-- Base Pricing & Structure Rules Box -->
+                            <div class="tech-settings-box">
+                                <h4 style="font-family: var(--font-heading); font-size: 0.9rem; margin-bottom: 0.6rem; color: var(--color-sun-yellow);">🏷️ Official Plant Pricing Rates &amp; Structure Add-On Rules</h4>
+                                
+                                <div style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 10px; padding: 0.9rem; margin-bottom: 0.8rem; font-size: 0.78rem;">
+                                    <h5 style="color: var(--color-sun-yellow); margin-top: 0; margin-bottom: 0.5rem; font-size: 0.82rem;">Official Base Rates (Grid-Tied)</h5>
+                                    <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.76rem;">
+                                        <tr style="border-bottom: 1px solid var(--color-border);">
+                                            <td style="padding: 0.35rem; font-weight: 600;">System Configuration</td>
+                                            <td style="padding: 0.35rem; font-weight: 600;">Emmvee</td>
+                                            <td style="padding: 0.35rem; font-weight: 600;">Adani</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid var(--color-border);">
+                                            <td style="padding: 0.35rem;">3 kWp On-Grid</td>
+                                            <td style="padding: 0.35rem; color: var(--color-sun-yellow); font-weight: 700;">₹2,00,000</td>
+                                            <td style="padding: 0.35rem; color: var(--color-sun-yellow); font-weight: 700;">₹2,10,000</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid var(--color-border);">
+                                            <td style="padding: 0.35rem;">5 kWp Single Phase</td>
+                                            <td style="padding: 0.35rem; color: var(--color-sun-yellow); font-weight: 700;">₹2,90,000</td>
+                                            <td style="padding: 0.35rem; color: var(--color-sun-yellow); font-weight: 700;">₹3,00,000</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid var(--color-border);">
+                                            <td style="padding: 0.35rem;">5 kWp 3-Phase</td>
+                                            <td style="padding: 0.35rem; color: var(--color-sun-yellow); font-weight: 700;">₹3,10,000</td>
+                                            <td style="padding: 0.35rem; color: var(--color-sun-yellow); font-weight: 700;">₹3,20,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 0.35rem;">5kW Inv. + 3kW Panel (1-Ph / 3-Ph)</td>
+                                            <td style="padding: 0.35rem;">₹2.40L / ₹2.60L</td>
+                                            <td style="padding: 0.35rem;">₹2.50L / ₹2.70L</td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 10px; padding: 0.9rem; font-size: 0.76rem; line-height: 1.45;">
+                                    <h5 style="color: var(--color-sun-yellow); margin-top: 0; margin-bottom: 0.4rem; font-size: 0.82rem;">Roof Structure &amp; Floor Rules</h5>
+                                    <ul style="padding-left: 1rem; margin: 0; display: flex; flex-direction: column; gap: 0.3rem; color: var(--color-text-muted);">
+                                        <li>• <strong>Flat Roof:</strong> 1 &amp; 2 Storey included. Extra ₹5,000/floor for 3rd floor &amp; above.</li>
+                                        <li>• <strong>Self Structure Discount:</strong> Less ₹15,000 (3kW) / Less ₹25,000 (5kW).</li>
+                                        <li>• <strong>Flat Roof with Truss:</strong> Extra ₹3,500 (3kW) / Extra ₹6,500 (5kW).</li>
+                                        <li>• <strong>Slanted Roof (No Truss):</strong> Extra ₹5,000 (3kW) / Extra ₹6,000 (5kW).</li>
+                                        <li>• <strong>Slanted Roof (With Truss):</strong> Extra ₹6,500 (3kW) / Extra ₹8,500 (5kW).</li>
+                                        <li>• <strong>Slanted Multi-Storey Surcharge:</strong> Extra ₹5,000/floor for 2-Storey or higher slanted roofs.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Tab 6: Resources -->
+
+                        <!-- TAB 7: Account Security & PIN -->
+                        <div id="partner-tab-security" class="partner-tab-pane hidden">
+                            <div id="dashboard-change-pin-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; text-align: left; max-width: 450px; margin: 0 auto;">
+                                <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                                    🔒 Change Security PIN
+                                </h4>
+                                <form id="dash-change-pin-form" onsubmit="handleDashPinChange(event)">
+                                    <div class="form-group" style="margin-bottom: 0.8rem;">
+                                        <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block;">Old PIN</label>
+                                        <input type="password" id="dash-old-pin" maxlength="4" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required pattern="[0-9]{4}">
+                                    </div>
+                                    <div class="form-group" style="margin-bottom: 0.8rem;">
+                                        <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block;">New PIN</label>
+                                        <input type="password" id="dash-new-pin" maxlength="4" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required pattern="[0-9]{4}">
+                                    </div>
+                                    <div class="form-group" style="margin-bottom: 0.8rem;">
+                                        <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block;">Confirm New PIN</label>
+                                        <input type="password" id="dash-confirm-pin" maxlength="4" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;" required pattern="[0-9]{4}">
+                                    </div>
+                                    <div id="dash-change-pin-feedback" class="form-feedback hidden"></div>
+                                    <button type="submit" class="cta-btn primary-btn full-width" style="margin-top: 0.5rem; padding: 0.65rem; border-radius: 8px;">
+                                        Update PIN
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- End Tab 7: Security -->
+
+                        <div class="dashboard-footer-actions" style="margin-top: 1.5rem; border-top: 1px solid var(--color-border); padding-top: 1.5rem;">
+                            <button onclick="logoutPartner()" class="logout-btn">Sign Out</button>
                         </div>
                     </div>
-
-                    <!-- Official Rate Matrix & Technical Configuration -->
-                    <div style="margin-top: 1.25rem;">
-                        <h4 style="font-family: var(--font-heading); font-size: 0.9rem; margin-bottom: 0.6rem; color: var(--color-sun-yellow);">🏷️ Official Plant Pricing Rates &amp; Structure Add-On Rules</h4>
-                        
-                        <div style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 10px; padding: 0.9rem; margin-bottom: 0.8rem; font-size: 0.78rem;">
-                            <h5 style="color: var(--color-sun-yellow); margin-top: 0; margin-bottom: 0.5rem; font-size: 0.82rem;">Official Base Rates (Grid-Tied)</h5>
-                            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.76rem;">
-                                <tr style="border-bottom: 1px solid var(--color-border);">
-                                    <td style="padding: 0.35rem; font-weight: 600;">System Configuration</td>
-                                    <td style="padding: 0.35rem; font-weight: 600;">Emmvee</td>
-                                    <td style="padding: 0.35rem; font-weight: 600;">Adani</td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid var(--color-border);">
-                                    <td style="padding: 0.35rem;">3 kWp On-Grid</td>
-                                    <td style="padding: 0.35rem; color: var(--color-sun-yellow); font-weight: 700;">₹2,00,000</td>
-                                    <td style="padding: 0.35rem; color: var(--color-sun-yellow); font-weight: 700;">₹2,10,000</td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid var(--color-border);">
-                                    <td style="padding: 0.35rem;">5 kWp Single Phase</td>
-                                    <td style="padding: 0.35rem; color: var(--color-sun-yellow); font-weight: 700;">₹2,90,000</td>
-                                    <td style="padding: 0.35rem; color: var(--color-sun-yellow); font-weight: 700;">₹3,00,000</td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid var(--color-border);">
-                                    <td style="padding: 0.35rem;">5 kWp 3-Phase</td>
-                                    <td style="padding: 0.35rem; color: var(--color-sun-yellow); font-weight: 700;">₹3,10,000</td>
-                                    <td style="padding: 0.35rem; color: var(--color-sun-yellow); font-weight: 700;">₹3,20,000</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 0.35rem;">5kW Inv. + 3kW Panel (1-Ph / 3-Ph)</td>
-                                    <td style="padding: 0.35rem;">₹2.40L / ₹2.60L</td>
-                                    <td style="padding: 0.35rem;">₹2.50L / ₹2.70L</td>
-                                </tr>
-                            </table>
-                        </div>
-
-                        <div style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 10px; padding: 0.9rem; font-size: 0.76rem; line-height: 1.45;">
-                            <h5 style="color: var(--color-sun-yellow); margin-top: 0; margin-bottom: 0.4rem; font-size: 0.82rem;">Roof Structure &amp; Floor Rules</h5>
-                            <ul style="padding-left: 1rem; margin: 0; display: flex; flex-direction: column; gap: 0.3rem; color: var(--color-text-muted);">
-                                <li>• <strong>Flat Roof:</strong> 1 &amp; 2 Storey included. Extra ₹5,000/floor for 3rd floor &amp; above.</li>
-                                <li>• <strong>Self Structure Discount:</strong> Less ₹15,000 (3kW) / Less ₹25,000 (5kW).</li>
-                                <li>• <strong>Flat Roof with Truss:</strong> Extra ₹3,500 (3kW) / Extra ₹6,500 (5kW).</li>
-                                <li>• <strong>Slanted Roof (No Truss):</strong> Extra ₹5,000 (3kW) / Extra ₹6,000 (5kW).</li>
-                                <li>• <strong>Slanted Roof (With Truss):</strong> Extra ₹6,500 (3kW) / Extra ₹8,500 (5kW).</li>
-                                <li>• <strong>Slanted Multi-Storey Surcharge:</strong> Extra ₹5,000/floor for 2-Storey or higher slanted roofs.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="dashboard-footer-actions" style="margin-top: 1.5rem;">
-                    <button onclick="logoutPartner()" class="logout-btn">Sign Out</button>
                 </div>
             </div>
-        </div>
-    </div>
 
     <!-- Script -->
     <script>
@@ -2211,12 +2239,16 @@
                 
                 const allocBadge = document.getElementById('badge-allocated-count');
                 if (allocBadge) allocBadge.textContent = `${activeLeadsCount} Leads`;
+                const tabAllocBadge = document.getElementById('tab-badge-allocated');
+                if (tabAllocBadge) tabAllocBadge.textContent = activeLeadsCount;
 
                 // Update saved quotes count badge
                 const savedQuotesKey = 'saved_quotes_' + dealerCode;
                 const savedQuotes = JSON.parse(localStorage.getItem(savedQuotesKey) || '[]');
                 const savedBadge = document.getElementById('badge-saved-count');
                 if (savedBadge) savedBadge.textContent = `${savedQuotes.length} Saved`;
+                const tabSavedBadge = document.getElementById('tab-badge-saved');
+                if (tabSavedBadge) tabSavedBadge.textContent = savedQuotes.length;
                 
                 // Dynamic Goal Target Calculation (Based on capacity sum of leads)
                 const totalKwQuoted = dealerLeads.reduce((sum, lead) => sum + (parseFloat(lead.capacity) || 3.0), 0);
@@ -3374,45 +3406,58 @@ const goodsGstVal = Math.round(goodsTaxable * 0.12);
             }
         }
 
-        function toggleAllocatedLeads() {
-            const panel = document.getElementById('allocated-leads-panel');
-            if (panel) {
-                if (panel.classList.contains('hidden')) {
-                    renderAllocatedLeads();
-                    panel.classList.remove('hidden');
-                    panel.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    panel.classList.add('hidden');
+        function switchPartnerPortalTab(tabId) {
+            const tabs = ['quote-generator', 'leads', 'saved-quotes', 'calculators', 'kseb', 'resources', 'security'];
+            tabs.forEach(t => {
+                const pane = document.getElementById('partner-tab-' + t);
+                const btn = document.getElementById('tab-btn-' + t);
+                if (pane) {
+                    if (t === tabId) {
+                        pane.classList.remove('hidden');
+                        pane.style.display = 'block';
+                    } else {
+                        pane.classList.add('hidden');
+                        pane.style.display = 'none';
+                    }
                 }
+                if (btn) {
+                    if (t === tabId) {
+                        btn.style.background = 'var(--color-sun-yellow)';
+                        btn.style.color = '#0d1321';
+                        btn.style.borderColor = 'var(--color-sun-yellow)';
+                        btn.style.fontWeight = '800';
+                    } else {
+                        btn.style.background = 'rgba(255,255,255,0.06)';
+                        btn.style.color = 'var(--color-text)';
+                        btn.style.borderColor = 'var(--color-border)';
+                        btn.style.fontWeight = '700';
+                    }
+                }
+            });
+
+            if (tabId === 'leads') {
+                renderAllocatedLeads();
+            } else if (tabId === 'saved-quotes') {
+                renderSavedQuotes();
+            } else if (tabId === 'resources') {
+                renderDistrictPartners(activeDistrictFilter || 'All');
             }
+        }
+
+        function toggleAllocatedLeads() {
+            switchPartnerPortalTab('leads');
         }
 
         function toggleSavedQuotes() {
-            const panel = document.getElementById('saved-quotes-panel');
-            if (panel) {
-                if (panel.classList.contains('hidden')) {
-                    renderSavedQuotes();
-                    panel.classList.remove('hidden');
-                    panel.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    panel.classList.add('hidden');
-                }
-            }
+            switchPartnerPortalTab('saved-quotes');
         }
 
         function toggleFeasibilityPanel() {
-            const panel = document.getElementById('feasibility-check-panel');
-            if (panel) {
-                if (panel.classList.contains('hidden')) {
-                    panel.classList.remove('hidden');
-                    panel.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    panel.classList.add('hidden');
-                }
-            }
+            switchPartnerPortalTab('kseb');
         }
 
         function scrollToQuoteCalc() {
+            switchPartnerPortalTab('quote-generator');
             const calcSection = document.getElementById('quotation-form-section');
             if (calcSection) {
                 calcSection.scrollIntoView({ behavior: 'smooth' });
@@ -3420,89 +3465,42 @@ const goodsGstVal = Math.round(goodsTaxable * 0.12);
         }
 
         function toggleReportsPanel() {
+            switchPartnerPortalTab('leads');
             const panel = document.getElementById('reports-analytics-panel');
-            if (panel) {
-                if (panel.classList.contains('hidden')) {
-                    panel.classList.remove('hidden');
-                    panel.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    panel.classList.add('hidden');
-                }
-            }
+            if (panel) panel.scrollIntoView({ behavior: 'smooth' });
         }
 
         function toggleLiveLeadsLog() {
+            switchPartnerPortalTab('leads');
             const panel = document.getElementById('live-inquiries-log-panel');
-            if (panel) {
-                if (panel.classList.contains('hidden')) {
-                    panel.classList.remove('hidden');
-                    panel.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    panel.classList.add('hidden');
-                }
-            }
+            if (panel) panel.scrollIntoView({ behavior: 'smooth' });
         }
 
         function toggleKsebTracker() {
-            const panel = document.getElementById('kseb-tracker-panel');
-            if (panel) {
-                if (panel.classList.contains('hidden')) {
-                    panel.classList.remove('hidden');
-                    panel.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    panel.classList.add('hidden');
-                }
-            }
+            switchPartnerPortalTab('kseb');
         }
 
         function toggleDistrictDirectory() {
+            switchPartnerPortalTab('resources');
             const panel = document.getElementById('district-partners-panel');
-            if (panel) {
-                if (panel.classList.contains('hidden')) {
-                    renderDistrictPartners(activeDistrictFilter || 'All');
-                    panel.classList.remove('hidden');
-                    panel.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    panel.classList.add('hidden');
-                }
-            }
+            if (panel) panel.scrollIntoView({ behavior: 'smooth' });
         }
 
         function toggleChangePinPanel() {
-            const panel = document.getElementById('dashboard-change-pin-panel');
-            if (panel) {
-                if (panel.classList.contains('hidden')) {
-                    panel.classList.remove('hidden');
-                    panel.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    panel.classList.add('hidden');
-                }
-            }
+            switchPartnerPortalTab('security');
         }
 
         function openPmSuryaGharModal() {
+            switchPartnerPortalTab('calculators');
             const panel = document.getElementById('pm-surya-ghar-panel');
-            if (panel) {
-                if (panel.classList.contains('hidden')) {
-                    panel.classList.remove('hidden');
-                    panel.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    panel.classList.add('hidden');
-                }
-            }
+            if (panel) panel.scrollIntoView({ behavior: 'smooth' });
         }
 
         function openSolarEmiModal() {
+            switchPartnerPortalTab('calculators');
+            calculateSolarEmi();
             const panel = document.getElementById('solar-emi-calculator-panel');
-            if (panel) {
-                if (panel.classList.contains('hidden')) {
-                    panel.classList.remove('hidden');
-                    calculateSolarEmi();
-                    panel.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    panel.classList.add('hidden');
-                }
-            }
+            if (panel) panel.scrollIntoView({ behavior: 'smooth' });
         }
 
         function calculateSolarEmi() {
@@ -3521,16 +3519,10 @@ const goodsGstVal = Math.round(goodsTaxable * 0.12);
         }
 
         function openRoofEstimatorModal() {
+            switchPartnerPortalTab('calculators');
+            calculateRoofCapacity();
             const panel = document.getElementById('rooftop-estimator-panel');
-            if (panel) {
-                if (panel.classList.contains('hidden')) {
-                    panel.classList.remove('hidden');
-                    calculateRoofCapacity();
-                    panel.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    panel.classList.add('hidden');
-                }
-            }
+            if (panel) panel.scrollIntoView({ behavior: 'smooth' });
         }
 
         function calculateRoofCapacity() {
