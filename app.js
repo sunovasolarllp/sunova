@@ -7470,8 +7470,223 @@ function printWebsiteProposal() {
     }, 400);
 }
 
+// --- Instant Solar Quotation Form Handlers (Contact & Feasibility Section) ---
+function updateInstantQuotationCalculations() {
+    const capSelect = document.getElementById('iq-capacity');
+    if (!capSelect) return;
+    const cap = parseFloat(capSelect.value) || 3.0;
+    const brand = document.getElementById('iq-panel-brand') ? document.getElementById('iq-panel-brand').value : 'waaree';
+    const inv = document.getElementById('iq-inverter-type') ? document.getElementById('iq-inverter-type').value : '1phase_ongrid';
+    const roof = document.getElementById('iq-roof-type') ? document.getElementById('iq-roof-type').value : 'flat';
+
+    let base = cap * 64000;
+    if (cap === 1) base = 75000;
+    else if (cap === 2) base = 145000;
+    else if (cap === 3) base = 195000;
+    else if (cap === 4) base = 250000;
+    else if (cap === 5) base = 295000;
+    else if (cap === 8) base = 460000;
+    else if (cap === 10) base = 560000;
+    else if (cap === 15) base = 825000;
+
+    // Roof surcharge
+    if (roof === 'slanted') base += (cap * 6000);
+    else if (roof === 'truss') base += (cap * 15000);
+
+    // Inverter surcharge
+    if (inv === '3phase_ongrid') base += 18000;
+    else if (inv === 'hybrid_battery') base += 55000;
+
+    // Subsidy calculation
+    let subsidy = 0;
+    if (cap === 1) subsidy = 33000;
+    else if (cap === 2) subsidy = 66000;
+    else if (cap >= 3) subsidy = 78000;
+
+    const net = Math.max(0, base - subsidy);
+    const monthlyUnitsMin = Math.round(cap * 115);
+    const monthlyUnitsMax = Math.round(cap * 135);
+    const monthlySavingsMin = Math.round(monthlyUnitsMin * 6.5);
+    const monthlySavingsMax = Math.round(monthlyUnitsMax * 7.5);
+
+    const grossEl = document.getElementById('iq-gross-price');
+    const subEl = document.getElementById('iq-subsidy-amount');
+    const netEl = document.getElementById('iq-net-cost');
+    const genEl = document.getElementById('iq-monthly-gen');
+    const savEl = document.getElementById('iq-monthly-savings');
+
+    if (grossEl) grossEl.textContent = '₹ ' + base.toLocaleString('en-IN');
+    if (subEl) subEl.textContent = subsidy > 0 ? '- ₹ ' + subsidy.toLocaleString('en-IN') : '₹ 0 (Commercial)';
+    if (netEl) netEl.textContent = '₹ ' + net.toLocaleString('en-IN');
+    if (genEl) genEl.textContent = `~${monthlyUnitsMin} - ${monthlyUnitsMax} kWh`;
+    if (savEl) savEl.textContent = `₹ ${monthlySavingsMin.toLocaleString('en-IN')} - ₹ ${monthlySavingsMax.toLocaleString('en-IN')}`;
+}
+
+function generateInstantPDFProposalFromIQ() {
+    const capSelect = document.getElementById('iq-capacity');
+    const cap = capSelect ? parseFloat(capSelect.value) : 3.0;
+    const name = (document.getElementById('form-name')?.value || 'VALUED CUSTOMER').toUpperCase();
+    const phone = document.getElementById('form-phone')?.value || '9072522277';
+    const district = document.getElementById('form-district')?.value || 'Alappuzha';
+    const location = document.getElementById('form-location')?.value || district;
+    const roofType = document.getElementById('iq-roof-type')?.options[document.getElementById('iq-roof-type')?.selectedIndex]?.text || 'Flat Roof';
+    const brand = document.getElementById('iq-panel-brand')?.options[document.getElementById('iq-panel-brand')?.selectedIndex]?.text || 'Waaree 550W TOPCon';
+
+    const grossText = document.getElementById('iq-gross-price')?.textContent || '₹ 1,95,000';
+    const subText = document.getElementById('iq-subsidy-amount')?.textContent || '- ₹ 78,000';
+    const netText = document.getElementById('iq-net-cost')?.textContent || '₹ 1,17,000';
+
+    const dateStr = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+    const quoteNo = `SUN/EST/${Date.now().toString().slice(-6)}`;
+
+    currentWebsiteQuoteHtml = `
+        <div style="font-family: 'Inter', Arial, sans-serif; color: #222; max-width: 850px; margin: 0 auto; background: #fff; padding: 2.2rem; box-sizing: border-box; font-size: 0.85rem; line-height: 1.5; border: 1px solid #cbd5e1;">
+            <header style="width: 100%; border-bottom: 2px solid #047857; padding-bottom: 12px; margin-bottom: 16px;">
+                <div style="height: 4px; background: linear-gradient(90deg, #047857 0%, #f59e0b 100%); margin-bottom: 0.8rem; border-radius: 2px;"></div>
+                <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                    <div style="display: flex; align-items: center; gap: 14px;">
+                        <img src="assets/logo.jpg" style="height: 52px; width: auto; object-fit: contain; border-radius: 4px;" alt="SUNOVA SOLAR Logo" onerror="this.style.display='none'">
+                        <div>
+                            <h2 style="font-size: 1.4rem; font-weight: 800; color: #047857; text-transform: uppercase; margin: 0;">SUNOVA SOLAR LLP</h2>
+                            <p style="font-size: 0.72rem; font-weight: 700; color: #f59e0b; margin: 2px 0 0 0;">Engineering &bull; Procurement &bull; Commissioning &bull; KSEB Soura</p>
+                            <p style="font-size: 0.65rem; color: #64748b; margin: 1px 0 0 0;">LLPIN: ACX-7067 &bull; RoC Ernakulam &bull; Thodupuzha, Kerala - 685605</p>
+                        </div>
+                    </div>
+                    <div style="text-align: right; font-size: 0.74rem; color: #1e293b; line-height: 1.4;">
+                        <div>Helpline: <strong style="color: #047857;">+91 90725 22277</strong></div>
+                        <div style="color: #64748b;">info@sunovasolar.in</div>
+                        <div style="color: #047857; font-weight: 600;">https://sunovasolar.in</div>
+                    </div>
+                </div>
+            </header>
+
+            <div style="background: #f0fdf4; border-left: 4px solid #16a34a; padding: 0.75rem 1rem; margin-bottom: 1.2rem; display: flex; justify-content: space-between; align-items: center; border-radius: 4px;">
+                <div>
+                    <h3 style="margin: 0; color: #15803d; font-size: 1.1rem;">SOLAR ROOFTOP ESTIMATE &amp; SUBSIDY SUMMARY</h3>
+                    <span style="font-size: 0.75rem; color: #475569;">Ref Estimate: <strong>${quoteNo}</strong> &bull; Date: <strong>${dateStr}</strong></span>
+                </div>
+                <div>
+                    <span style="background: #15803d; color: #fff; padding: 0.35rem 0.75rem; border-radius: 4px; font-weight: 700; font-size: 0.78rem;">${cap} kWp Solar Plant</span>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.2rem; background: #f8fafc; padding: 1rem; border-radius: 6px; border: 1px solid #e2e8f0;">
+                <div>
+                    <h4 style="margin: 0 0 0.3rem 0; color: #0d1321; font-size: 0.88rem;">👤 APPLICANT DETAILS:</h4>
+                    <strong>Customer Name:</strong> ${name}<br>
+                    <strong>Contact Phone:</strong> +91 ${phone}<br>
+                    <strong>District / Section:</strong> ${district} &bull; ${location}<br>
+                </div>
+                <div>
+                    <h4 style="margin: 0 0 0.3rem 0; color: #0d1321; font-size: 0.88rem;">🏢 SYSTEM &amp; STRUCTURE SPECIFICATIONS:</h4>
+                    <strong>Solar Panels:</strong> ${brand}<br>
+                    <strong>Mounting Structure:</strong> ${roofType}<br>
+                    <strong>Helpline:</strong> +91 90725 22277<br>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 1.2rem;">
+                <h4 style="margin: 0 0 0.5rem 0; color: #0d1321; font-size: 0.88rem;">💰 ESTIMATED SYSTEM INVESTMENT &amp; CENTRAL SUBSIDY:</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.82rem;">
+                    <tr style="background: #f1f5f9; border-bottom: 2px solid #cbd5e1;">
+                        <th style="padding: 0.55rem; text-align: left;">Scope &amp; Equipment</th>
+                        <th style="padding: 0.55rem; text-align: right;">Amount</th>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 0.55rem;">${cap} kWp Complete Grid-Tied Solar Plant (${brand} + Inverter + ${roofType} + KSEB Net Metering Testing)</td>
+                        <td style="padding: 0.55rem; text-align: right; font-weight: 600;">${grossText}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0; color: #15803d; font-weight: 700;">
+                        <td style="padding: 0.55rem;">PM Surya Ghar Muft Bijli Yojana Central Govt Direct Subsidy (DBT)</td>
+                        <td style="padding: 0.55rem; text-align: right;">${subText}</td>
+                    </tr>
+                    <tr style="background: #f8fafc; font-weight: 800; font-size: 0.92rem; border-top: 2px solid #cbd5e1;">
+                        <td style="padding: 0.65rem; color: #047857;">Estimated Net Customer Investment</td>
+                        <td style="padding: 0.65rem; text-align: right; color: #047857;">${netText}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div style="background: #fffbeb; border: 1px solid #fef3c7; border-radius: 6px; padding: 0.75rem; font-size: 0.76rem; color: #92400e; margin-bottom: 1.2rem;">
+                <strong>⚡ Key Warranties Included:</strong> 25-Year Linear Power Output Warranty on Solar Modules &bull; 10-Year Full Warranty on Solar Inverter &bull; 5-Year Comprehensive Workmanship &amp; Free Maintenance.
+            </div>
+
+            <footer style="width: 100%; padding-top: 8px; border-top: 1px solid #cbd5e1; font-size: 0.68rem; color: #64748b;">
+                <div style="display: flex; justify-content: space-between;">
+                    <div><strong>SUNOVA SOLAR LLP:</strong> 8/93 Aathickal Arcade, Vengalloor Bypass, Thodupuzha, Kerala - 685605.</div>
+                    <div style="text-align: right;">Official Registered Partner Network</div>
+                </div>
+            </footer>
+        </div>
+    `;
+
+    const renderArea = document.getElementById('quote-render-area');
+    if (renderArea) renderArea.innerHTML = currentWebsiteQuoteHtml;
+    const modal = document.getElementById('quote-modal-overlay');
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.scrollTop = 0;
+    }
+}
+
+function sendCalculatedQuoteToWhatsAppFromIQ() {
+    const capSelect = document.getElementById('iq-capacity');
+    const cap = capSelect ? capSelect.value : '3.0';
+    const brand = document.getElementById('iq-panel-brand')?.options[document.getElementById('iq-panel-brand')?.selectedIndex]?.text || 'Tier-1 TOPCon';
+    const gross = document.getElementById('iq-gross-price')?.textContent || '₹ 1,95,000';
+    const sub = document.getElementById('iq-subsidy-amount')?.textContent || '- ₹ 78,000';
+    const net = document.getElementById('iq-net-cost')?.textContent || '₹ 1,17,000';
+    const savings = document.getElementById('iq-monthly-savings')?.textContent || '₹ 2,400 - ₹ 3,200';
+
+    const text = `☀️ *Sunova Solar - Instant Solar Quotation* ☀️%0A%0A` +
+        `• *System Capacity:* ${cap} kWp Solar Plant%0A` +
+        `• *Solar Panels:* ${brand}%0A` +
+        `• *Estimated Total Cost:* ${gross}%0A` +
+        `• *PM Surya Ghar Subsidy:* ${sub}%0A` +
+        `• *Net Effective Investment:* ${net}%0A` +
+        `• *Est. Monthly Savings:* ${savings}%0A%0A` +
+        `Please schedule my free KSEB feasibility site survey.`;
+
+    window.open(`https://wa.me/919072522277?text=${text}`, '_blank');
+}
+
+function syncIQToFeasibilityForm() {
+    const cap = document.getElementById('iq-capacity')?.value || '3.0';
+    const sizeSelect = document.getElementById('form-size-select');
+    if (sizeSelect) {
+        sizeSelect.value = cap;
+        if (typeof handleFormSizeSelectChange === 'function') {
+            handleFormSizeSelectChange(cap);
+        }
+    }
+    const roofSelect = document.getElementById('iq-roof-type');
+    const formRoof = document.getElementById('form-roof-type');
+    if (roofSelect && formRoof) {
+        if (roofSelect.value === 'slanted') formRoof.value = 'Slanted Tile Roof';
+        else if (roofSelect.value === 'truss') formRoof.value = 'Truss Work Structure';
+        else if (roofSelect.value === 'ground') formRoof.value = 'Open Ground Installation';
+        else formRoof.value = 'Flat Concrete Rooftop';
+    }
+
+    const formContainer = document.getElementById('contact-form-container');
+    if (formContainer) {
+        formContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        formContainer.style.borderColor = 'var(--color-sun-yellow)';
+        formContainer.style.boxShadow = '0 0 25px rgba(255, 183, 3, 0.4)';
+        setTimeout(() => {
+            formContainer.style.borderColor = 'var(--color-border)';
+            formContainer.style.boxShadow = '';
+        }, 2000);
+    }
+}
+
 // --- Interactive 3D Card Tilt & Counter Animations Suite ---
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize instant quotation calculations if element is present
+    if (document.getElementById('iq-capacity')) {
+        updateInstantQuotationCalculations();
+    }
+
     // 1. Subtle 3D Card Tilt Effect on Mouse Move
     const tiltCards = document.querySelectorAll('.glass-card, .service-card, .benefit-list li');
     tiltCards.forEach(card => {
