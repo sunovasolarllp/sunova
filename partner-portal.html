@@ -1066,8 +1066,12 @@
                                             <td style="padding: 0.35rem; color: #60a5fa; font-weight: 700;" colspan="2">₹3,40,000</td>
                                         </tr>
                                         <tr style="border-bottom: 1px solid var(--color-border); background: rgba(59,130,246,0.06);">
-                                            <td style="padding: 0.35rem; font-weight: 600; color: #60a5fa;">5 kWp Hybrid (With Battery)</td>
-                                            <td style="padding: 0.35rem; color: #60a5fa; font-weight: 700;" colspan="2">₹4,45,000</td>
+                                            <td style="padding: 0.35rem; font-weight: 600; color: #60a5fa;">5 kWp Single Phase Hybrid (With Battery)</td>
+                                            <td style="padding: 0.35rem; color: #60a5fa; font-weight: 700;" colspan="2">₹4,80,000</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid var(--color-border); background: rgba(59,130,246,0.06);">
+                                            <td style="padding: 0.35rem; font-weight: 600; color: #60a5fa;">5 kWp 3-Phase Hybrid (With Battery)</td>
+                                            <td style="padding: 0.35rem; color: #60a5fa; font-weight: 700;" colspan="2">₹5,40,000</td>
                                         </tr>
                                         <tr style="background: rgba(59,130,246,0.06);">
                                             <td style="padding: 0.35rem; font-weight: 600; color: #60a5fa;">10 kWp Hybrid (With Battery)</td>
@@ -1752,7 +1756,10 @@
                 let topologyAddon = 0;
                 const sysTopology = (sysConfig === 'custom') ? (document.getElementById('quote-sys-topology')?.value || 'On-Grid') : 'On-Grid';
                 if (sysTopology === 'Hybrid') {
-                    topologyAddon = Math.round(capacityVal * 25000);
+                    if (capacityVal === 3) topologyAddon = Math.max(0, 340000 - basePrice);
+                    else if (capacityVal === 5) topologyAddon = Math.max(0, ((phase === 'Three Phase') ? 540000 : 480000) - basePrice);
+                    else if (capacityVal === 10) topologyAddon = Math.max(0, 895000 - basePrice);
+                    else topologyAddon = Math.round(capacityVal * 25000);
                 } else if (sysTopology === 'Off-Grid') {
                     topologyAddon = Math.round(capacityVal * 30000);
                 }
@@ -2804,7 +2811,10 @@
             // System Topology Add-on (Hybrid / Off-Grid with Battery Storage)
             let topologyAddon = 0;
             if (sysTopology === 'Hybrid') {
-                topologyAddon = Math.round(capacityVal * 25000);
+                if (capacityVal === 3) topologyAddon = Math.max(0, 340000 - basePrice);
+                else if (capacityVal === 5) topologyAddon = Math.max(0, ((phase === 'Three Phase') ? 540000 : 480000) - basePrice);
+                else if (capacityVal === 10) topologyAddon = Math.max(0, 895000 - basePrice);
+                else topologyAddon = Math.round(capacityVal * 25000);
             } else if (sysTopology === 'Off-Grid') {
                 topologyAddon = Math.round(capacityVal * 30000);
             }
