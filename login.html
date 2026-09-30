@@ -128,16 +128,17 @@
                         <h1 class="enterprise-title">SUNOVA SOLAR</h1>
                     </div>
 
-                    <div class="enterprise-user-area">
+                    <div class="enterprise-user-area" style="display: flex; align-items: center; gap: 0.6rem;">
                         <button type="button" onclick="togglePortalTheme()" class="enterprise-nav-btn" title="Switch Theme">
                             🌙
                         </button>
                         <button type="button" onclick="toggleChangePinPanel()" class="enterprise-nav-btn" title="Change Security PIN">
                             🔒
                         </button>
-                        <button type="button" onclick="logoutPortal()" class="enterprise-nav-btn" style="background: rgba(220,38,38,0.2); border-color: rgba(220,38,38,0.4); color: #f87171;" title="Sign Out">
-                            🚪
-                        </button>
+                        <a href="index.html" class="enterprise-nav-btn" style="width: auto; padding: 0.4rem 0.85rem; text-decoration: none; font-size: 0.8rem; font-weight: 700; display: inline-flex; gap: 0.35rem;">
+                            <span>🏠</span> Back to Website
+                        </a>
+                        <button type="button" onclick="logoutPortal()" class="enterprise-nav-btn" style="width: auto; padding: 0.4rem 0.9rem; background: rgba(220,38,38,0.15) !important; border: 1px solid rgba(220,38,38,0.3) !important; color: #ef4444 !important; font-weight: 700; font-size: 0.8rem; cursor: pointer;" title="Sign Out">Sign Out</button>
                     </div>
                 </div>
 

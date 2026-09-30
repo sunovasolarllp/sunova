@@ -418,10 +418,16 @@
                     </div>
 
                     <div class="enterprise-user-area" style="display: flex; align-items: center; gap: 0.6rem;">
-                        <a href="index.html" style="background: rgba(255,255,255,0.08); border: 1px solid var(--color-border); color: var(--color-text); padding: 0.4rem 0.85rem; border-radius: 8px; font-weight: 700; font-size: 0.8rem; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                        <button type="button" onclick="togglePortalTheme()" class="enterprise-nav-btn" title="Switch Theme">
+                            🌙
+                        </button>
+                        <button type="button" onclick="toggleChangePinPanel()" class="enterprise-nav-btn" title="Change Security PIN">
+                            🔒
+                        </button>
+                        <a href="index.html" class="enterprise-nav-btn" style="width: auto; padding: 0.4rem 0.85rem; text-decoration: none; font-size: 0.8rem; font-weight: 700; display: inline-flex; gap: 0.35rem;">
                             <span>🏠</span> Back to Website
                         </a>
-                        <button type="button" onclick="logoutPartner()" style="background: rgba(220,38,38,0.15); border: 1px solid rgba(220,38,38,0.3); color: #f87171; padding: 0.4rem 0.9rem; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">Sign Out</button>
+                        <button type="button" onclick="logoutPartner()" class="enterprise-nav-btn" style="width: auto; padding: 0.4rem 0.9rem; background: rgba(220,38,38,0.15) !important; border: 1px solid rgba(220,38,38,0.3) !important; color: #ef4444 !important; font-weight: 700; font-size: 0.8rem; cursor: pointer;" title="Sign Out">Sign Out</button>
                     </div>
                 </div>
 
