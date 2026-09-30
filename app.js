@@ -588,6 +588,8 @@ function performCalculationsDirect(capacity, units, skipSyncForm = false, syncBi
             } else {
                 rawCost = is3Phase ? 310000 : 290000;
             }
+        } else if (capacity === 10.0) {
+            rawCost = 585000;
         } else {
             // Linear rate per kWp for custom capacity values
             let ratePerKw = isAdani ? 66000 : 64000;
@@ -596,7 +598,7 @@ function performCalculationsDirect(capacity, units, skipSyncForm = false, syncBi
         }
     } else {
         // Commercial bulk pricing
-        rawCost = Math.round(capacity * 52000);
+        rawCost = (capacity === 10.0) ? 585000 : Math.round(capacity * 52000);
     }
     
     // Roof Structure Add-ons & Discounts
@@ -646,7 +648,15 @@ function performCalculationsDirect(capacity, units, skipSyncForm = false, syncBi
     if (currentSystemType === 'hybrid') {
         batterySize = Math.round(capacity * 1.5 * 10) / 10;
         if (batterySize < 2.4) batterySize = 2.4; // Minimum battery bank for hybrid system
-        batteryCost = Math.round(capacity * 25000);
+        if (capacity === 3.0) {
+            batteryCost = 340000 - rawCost;
+        } else if (capacity === 5.0) {
+            batteryCost = 445000 - rawCost;
+        } else if (capacity === 10.0) {
+            batteryCost = 895000 - rawCost;
+        } else {
+            batteryCost = Math.round(capacity * 29000);
+        }
     }
     const totalInstallationCost = rawCost + batteryCost;
     
@@ -7090,7 +7100,7 @@ function updateEVChargingMatcher(val) {
     if (val === 'none') {
         resEl.innerHTML = `⚡ Selected: Standard Residential Solar System (No EV Add-on).`;
     } else if (val === 'nexon') {
-        resEl.innerHTML = `<strong style="color: #10b981;">⚡ Tata Nexon / Punch EV Match:</strong> +1.5 kWp Solar Add-on (3 Extra Monocrystalline Panels) for ~1,200 km/mo 100% Free Sunshine Driving!`;
+        resEl.innerHTML = `<strong style="color: #10b981;">⚡ Compact SUV EV Match (Nexon / Punch):</strong> +1.5 kWp Solar Add-on (3 Extra Monocrystalline Panels) for ~1,200 km/mo 100% Free Sunshine Driving!`;
     } else if (val === 'mg') {
         resEl.innerHTML = `<strong style="color: #10b981;">⚡ MG ZS / Hyundai Ioniq 5 Match:</strong> +2.5 kWp Solar Add-on (5 Extra Monocrystalline Panels) for ~2,000 km/mo 100% Free Sunshine Driving!`;
     } else if (val === 'scooter') {
@@ -7487,22 +7497,22 @@ function updateInstantQuotationCalculations() {
         cap = 3.0;
         if (brand === 'emmvee') {
             base = 215000;
-        } else if (brand === 'adani' || brand === 'waaree') {
+        } else if (brand === 'adani' || brand === 'waaree' || brand === 'premier') {
             base = 225000;
         } else {
-            base = 220000;
+            base = 225000;
         }
     } else if (cap === 1) base = 75000;
     else if (cap === 2) base = 145000;
     else if (cap === 3) {
         if (brand === 'emmvee') base = 195000;
-        else if (brand === 'adani' || brand === 'waaree') base = 205000;
+        else if (brand === 'adani' || brand === 'waaree' || brand === 'premier') base = 205000;
         else base = 195000;
     }
     else if (cap === 4) base = 250000;
     else if (cap === 5) base = 295000;
     else if (cap === 8) base = 460000;
-    else if (cap === 10) base = 560000;
+    else if (cap === 10) base = 585000;
     else if (cap === 15) base = 825000;
 
     // Roof surcharge
@@ -7513,7 +7523,12 @@ function updateInstantQuotationCalculations() {
     if (!is3kW_5kWInv) {
         if (inv === '5kw_1phase') base += 20000;
         else if (inv === '3phase_ongrid') base += 18000;
-        else if (inv === 'hybrid_battery') base += 55000;
+        else if (inv === 'hybrid_battery') {
+            if (cap === 3) base = 340000;
+            else if (cap === 5) base = 445000;
+            else if (cap === 10) base = 895000;
+            else base += Math.round(cap * 32000);
+        }
     }
 
     // Subsidy calculation (PM Surya Ghar up to 3kW = ₹78,000)
