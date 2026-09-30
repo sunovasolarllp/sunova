@@ -574,26 +574,32 @@ function performCalculationsDirect(capacity, units, skipSyncForm = false, syncBi
     
     // 5. Official Plant Pricing Rates & Structure Add-On Calculations
     let rawCost = 0;
-    const isAdani = (brandSelect && brandSelect.value === '610');
+    const isEmmvee = (brandSelect && brandSelect.value === '560');
     const phaseSelect = document.getElementById('calc-phase');
     const phaseVal = phaseSelect ? phaseSelect.value : 'Single Phase';
+    const is5kW1Phase = (phaseVal === '5kW Single Phase' || phaseVal === '5kw_1phase');
     const is3Phase = (phaseVal === 'Three Phase');
     
     if (currentMode === 'residential') {
         if (capacity === 3.0) {
-            rawCost = isAdani ? 210000 : 200000;
-        } else if (capacity === 5.0) {
-            if (isAdani) {
-                rawCost = is3Phase ? 320000 : 300000;
+            if (is5kW1Phase) {
+                rawCost = isEmmvee ? 215000 : 225000;
             } else {
-                rawCost = is3Phase ? 310000 : 290000;
+                rawCost = isEmmvee ? 195000 : 205000;
+            }
+        } else if (capacity === 5.0) {
+            if (is3Phase) {
+                rawCost = isEmmvee ? 310000 : 320000;
+            } else {
+                rawCost = isEmmvee ? 290000 : 300000;
             }
         } else if (capacity === 10.0) {
             rawCost = 585000;
         } else {
             // Linear rate per kWp for custom capacity values
-            let ratePerKw = isAdani ? 66000 : 64000;
-            if (is3Phase) ratePerKw += 3000;
+            let ratePerKw = isEmmvee ? 64000 : 66000;
+            if (is5kW1Phase) ratePerKw += 2500;
+            else if (is3Phase) ratePerKw += 3000;
             rawCost = Math.round(capacity * ratePerKw);
         }
     } else {
@@ -7275,20 +7281,27 @@ function updateDistrictYieldSim(district) {
 // 3. Instant WhatsApp Quote Dispatcher
 function sendCalculatedQuoteToWhatsApp() {
     const cap = document.getElementById('out-size') ? document.getElementById('out-size').value : '3.0';
-    const cost = document.getElementById('out-cost') ? document.getElementById('out-cost').textContent : '2,40,000';
+    const cost = document.getElementById('out-cost') ? document.getElementById('out-cost').textContent : '2,15,000';
     const sub = document.getElementById('out-subsidy') ? document.getElementById('out-subsidy').textContent : '78,000';
-    const net = document.getElementById('out-net-cost') ? document.getElementById('out-net-cost').textContent : '1,62,000';
+    const net = document.getElementById('out-net-cost') ? document.getElementById('out-net-cost').textContent : '1,37,000';
     const sav = document.getElementById('out-savings') ? document.getElementById('out-savings').textContent : '38,400';
-    const brand = document.getElementById('calc-panel-brand') ? (document.getElementById('calc-panel-brand').options[document.getElementById('calc-panel-brand').selectedIndex]?.text || 'Tier-1 TOPCon') : 'Tier-1';
+    const gen = document.getElementById('out-generation') ? document.getElementById('out-generation').textContent : '360';
+    const brand = document.getElementById('calc-panel-brand') ? (document.getElementById('calc-panel-brand').options[document.getElementById('calc-panel-brand').selectedIndex]?.text || 'Emmvee 560W TOPCon') : 'Emmvee 560W TOPCon';
+    const phase = document.getElementById('calc-phase') ? (document.getElementById('calc-phase').options[document.getElementById('calc-phase').selectedIndex]?.text || 'Single Phase') : 'Single Phase';
+    const roof = document.getElementById('calc-roof-type') ? (document.getElementById('calc-roof-type').options[document.getElementById('calc-roof-type').selectedIndex]?.text || 'Flat Roof (Standard)') : 'Flat Roof (Standard)';
 
-    const text = `☀️ *Sunova Solar - Instant Solar Quotation Estimate* ☀️%0A%0A` +
-        `• *System Capacity:* ${cap} kWp On-Grid%0A` +
-        `• *Panel Brand:* ${brand} Mono TOPCon%0A` +
-        `• *Total Estimated Cost:* ₹${cost}%0A` +
+    const text = `☀️ *Sunova Solar - Instant Solar Quotation* ☀️%0A%0A` +
+        `• *System Capacity:* ${cap} kWp Solar Plant%0A` +
+        `• *Solar Panels:* ${brand} TOPCon Modules%0A` +
+        `• *Inverter & Phase:* ${phase}%0A` +
+        `• *Mounting Structure:* ${roof}%0A` +
+        `• *Estimated Total Cost:* ₹${cost}%0A` +
         `• *PM Surya Ghar Subsidy:* -₹${sub}%0A` +
         `• *Net Effective Investment:* ₹${net}%0A` +
-        `• *Estimated Yearly KSEB Savings:* ₹${sav}/year%0A%0A` +
-        `Please schedule a free rooftop site inspection and KSEB feasibility verification.`;
+        `• *Est. Monthly Generation:* ~${gen} Units/Mo%0A` +
+        `• *Est. Annual Savings:* ₹${sav}/year%0A%0A` +
+        `_കുറിപ്പ്: പാനലിൻ്റെയും ഇൻവെർട്ടറിൻ്റെയും ഡിമാൻഡ് അനുസരിച്ചു വില വ്യത്യാസം വരുന്നതാണ്_%0A%0A` +
+        `Please schedule my free KSEB feasibility site survey.`;
 
     window.open(`https://wa.me/919072522277?text=${text}`, '_blank');
 }
@@ -7301,23 +7314,16 @@ function generateInstantPDFProposal() {
     const phone = document.getElementById('form-phone')?.value || '9072522277';
     const district = document.getElementById('form-district')?.value || 'Alappuzha';
     const location = document.getElementById('form-location')?.value || district;
-    const capacityVal = parseFloat(document.getElementById('calc-capacity')?.textContent || document.getElementById('form-size')?.value || '3') || 3;
+    const capacityVal = parseFloat(document.getElementById('out-size')?.value || document.getElementById('calc-capacity')?.textContent || '3.0') || 3.0;
+    const brand = document.getElementById('calc-panel-brand') ? (document.getElementById('calc-panel-brand').options[document.getElementById('calc-panel-brand').selectedIndex]?.text || 'Emmvee 560W TOPCon') : 'Emmvee 560W TOPCon';
+    const phase = document.getElementById('calc-phase') ? (document.getElementById('calc-phase').options[document.getElementById('calc-phase').selectedIndex]?.text || 'Single Phase') : 'Single Phase';
+    const roofType = document.getElementById('calc-roof-type') ? (document.getElementById('calc-roof-type').options[document.getElementById('calc-roof-type').selectedIndex]?.text || 'Flat Roof (Standard)') : 'Flat Roof (Standard)';
+    
+    const costText = document.getElementById('out-cost')?.textContent || '2,15,000';
+    const subText = document.getElementById('out-subsidy')?.textContent || '78,000';
+    const netText = document.getElementById('out-net-cost')?.textContent || '1,37,000';
     const dateStr = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
     const quoteNo = `SUN/EST/${Date.now().toString().slice(-6)}`;
-
-    let basePrice = capacityVal * 64000;
-    if (capacityVal === 1) basePrice = 75000;
-    else if (capacityVal === 2) basePrice = 145000;
-    else if (capacityVal === 3) basePrice = 195000;
-    else if (capacityVal === 4) basePrice = 250000;
-    else if (capacityVal === 5) basePrice = 295000;
-
-    let subsidy = 0;
-    if (capacityVal === 1) subsidy = 33000;
-    else if (capacityVal === 2) subsidy = 66000;
-    else if (capacityVal >= 3) subsidy = 78000;
-
-    const netTotal = basePrice - subsidy;
 
     currentWebsiteQuoteHtml = `
         <div style="font-family: 'Inter', Arial, sans-serif; color: #222; max-width: 850px; margin: 0 auto; background: #fff; padding: 2.2rem; box-sizing: border-box; font-size: 0.85rem; line-height: 1.5; border: 1px solid #cbd5e1;">
@@ -7346,7 +7352,7 @@ function generateInstantPDFProposal() {
                     <span style="font-size: 0.75rem; color: #475569;">Ref Estimate: <strong>${quoteNo}</strong> &bull; Date: <strong>${dateStr}</strong></span>
                 </div>
                 <div>
-                    <span style="background: #15803d; color: #fff; padding: 0.35rem 0.75rem; border-radius: 4px; font-weight: 700; font-size: 0.78rem;">${capacityVal} kWp On-Grid Solar</span>
+                    <span style="background: #15803d; color: #fff; padding: 0.35rem 0.75rem; border-radius: 4px; font-weight: 700; font-size: 0.78rem;">${capacityVal} kWp Solar System</span>
                 </div>
             </div>
 
@@ -7358,10 +7364,10 @@ function generateInstantPDFProposal() {
                     <strong>District / Section:</strong> ${district} &bull; ${location}<br>
                 </div>
                 <div>
-                    <h4 style="margin: 0 0 0.3rem 0; color: #0d1321; font-size: 0.88rem;">🏢 AUTHORIZED NETWORK:</h4>
-                    <strong>Company:</strong> SUNOVA SOLAR LLP<br>
-                    <strong>Service Area:</strong> ${district} District, Kerala<br>
-                    <strong>Helpline:</strong> +91 90725 22277<br>
+                    <h4 style="margin: 0 0 0.3rem 0; color: #0d1321; font-size: 0.88rem;">🏢 SYSTEM SPECIFICATIONS:</h4>
+                    <strong>Solar Panels:</strong> ${brand} TOPCon Modules<br>
+                    <strong>Inverter Topology:</strong> ${phase}<br>
+                    <strong>Mounting Structure:</strong> ${roofType}<br>
                 </div>
             </div>
 
@@ -7373,22 +7379,23 @@ function generateInstantPDFProposal() {
                         <th style="padding: 0.55rem; text-align: right;">Amount</th>
                     </tr>
                     <tr style="border-bottom: 1px solid #e2e8f0;">
-                        <td style="padding: 0.55rem;">${capacityVal} kWp Complete Grid-Tied Solar Plant (Tier-1 DCR ALMM Modules + High Efficiency Inverter + HDG Structure + KSEB Net Metering Testing)</td>
-                        <td style="padding: 0.55rem; text-align: right; font-weight: 600;">₹ ${basePrice.toLocaleString('en-IN')}</td>
+                        <td style="padding: 0.55rem;">${capacityVal} kWp Complete Grid-Tied Solar Plant (${brand} + ${phase} + ${roofType} + KSEB Net Metering Testing)</td>
+                        <td style="padding: 0.55rem; text-align: right; font-weight: 600;">₹ ${costText}</td>
                     </tr>
                     <tr style="border-bottom: 1px solid #e2e8f0; color: #15803d; font-weight: 700;">
                         <td style="padding: 0.55rem;">PM Surya Ghar Muft Bijli Yojana Central Govt Direct Subsidy (DBT)</td>
-                        <td style="padding: 0.55rem; text-align: right;">- ₹ ${subsidy.toLocaleString('en-IN')}</td>
+                        <td style="padding: 0.55rem; text-align: right;">- ₹ ${subText}</td>
                     </tr>
                     <tr style="background: #f8fafc; font-weight: 800; font-size: 0.92rem; border-top: 2px solid #cbd5e1;">
                         <td style="padding: 0.65rem; color: #047857;">Estimated Net Customer Investment</td>
-                        <td style="padding: 0.65rem; text-align: right; color: #047857;">₹ ${netTotal.toLocaleString('en-IN')}</td>
+                        <td style="padding: 0.65rem; text-align: right; color: #047857;">₹ ${netText}</td>
                     </tr>
                 </table>
             </div>
 
             <div style="background: #fffbeb; border: 1px solid #fef3c7; border-radius: 6px; padding: 0.75rem; font-size: 0.76rem; color: #92400e; margin-bottom: 1.2rem;">
-                <strong>⚡ Key Warranties Included:</strong> 25-Year Linear Power Output Warranty on Solar Modules &bull; 10-Year Full Warranty on Solar Inverter &bull; 5-Year Comprehensive Workmanship &amp; Free Maintenance.
+                <strong>⚡ Key Warranties Included:</strong> 25-Year Linear Power Output Warranty on Solar Modules &bull; 10-Year Full Warranty on Solar Inverter &bull; 5-Year Comprehensive Workmanship &amp; Free Maintenance.<br>
+                <span style="display:inline-block; margin-top:0.35rem; color:#b45309; font-weight:600;">💡 കുറിപ്പ്: പാനലിൻ്റെയും ഇൻവെർട്ടറിൻ്റെയും ഡിമാൻഡ് അനുസരിച്ചു വില വ്യത്യാസം വരുന്നതാണ്</span>
             </div>
 
             <footer style="width: 100%; padding-top: 8px; border-top: 1px solid #cbd5e1; font-size: 0.68rem; color: #64748b;">

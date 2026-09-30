@@ -999,8 +999,9 @@
                             <span class="metric-label">Electrical Phase &amp; Structure</span>
                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; margin-top: 0.25rem; width: 100%;">
                                 <select id="calc-phase" onchange="handlePanelBrandChange()" style="background: rgba(255, 255, 255, 0.05); color: var(--color-text); border: 1px solid var(--color-border); border-radius: 8px; padding: 0.3rem 0.4rem; font-size: 0.75rem; cursor: pointer; outline: none; width: 100%;">
-                                    <option value="Single Phase" selected>Single Phase</option>
-                                    <option value="Three Phase">Three Phase</option>
+                                    <option value="Single Phase" selected>Single Phase (Standard)</option>
+                                    <option value="5kW Single Phase">5 kW 1-Ph Inverter (Combo)</option>
+                                    <option value="Three Phase">Three Phase 415V</option>
                                 </select>
                                 <select id="calc-roof-type" onchange="handlePanelBrandChange()" style="background: rgba(255, 255, 255, 0.05); color: var(--color-text); border: 1px solid var(--color-border); border-radius: 8px; padding: 0.3rem 0.4rem; font-size: 0.75rem; cursor: pointer; outline: none; width: 100%;">
                                     <option value="Flat Standard" selected>Flat Roof (Standard)</option>
@@ -1068,116 +1069,32 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Demand notice in Malayalam -->
+                    <div style="background: rgba(255, 183, 3, 0.06); border: 1px dashed rgba(255, 183, 3, 0.35); border-radius: 8px; padding: 0.55rem 0.75rem; font-size: 0.73rem; color: var(--color-sun-yellow); margin-bottom: 1.2rem; text-align: center;">
+                        💡 <strong>കുറിപ്പ്:</strong> പാനലിൻ്റെയും ഇൻവെർട്ടറിൻ്റെയും ഡിമാൻഡ് അനുസരിച്ചു വില വ്യത്യാസം വരുന്നതാണ്
+                    </div>
+
+                    <!-- Instant Proposal & Official Quotation Action Buttons -->
+                    <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+                        <button type="button" onclick="generateInstantPDFProposal()" class="cta-btn primary-btn full-width" style="padding: 0.85rem; font-weight: 800; display: flex; justify-content: center; align-items: center; gap: 0.5rem;">
+                            📄 Generate &amp; Print Official Quotation
+                        </button>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem;">
+                            <button type="button" onclick="sendCalculatedQuoteToWhatsApp()" class="cta-btn secondary-btn" style="padding: 0.7rem; font-size: 0.82rem; display: flex; justify-content: center; align-items: center; gap: 0.4rem; border-color: #25D366; color: #25D366;">
+                                💬 WhatsApp Quote
+                            </button>
+                            <button type="button" onclick="scrollToContactForm()" class="cta-btn secondary-btn" style="padding: 0.7rem; font-size: 0.82rem; display: flex; justify-content: center; align-items: center; gap: 0.4rem;">
+                                📋 Apply to Feasibility Form Below
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- CONTACT & QUOTATION HUB: Instant Quotation Form (Top) & Feasibility Form (Underneath) -->
-            <div class="contact-form-wrapper" id="contact" style="max-width: 900px; margin: 2.5rem auto 0; display: flex; flex-direction: column; gap: 2.5rem;">
+            <!-- CONTACT & FEASIBILITY HUB: KSEB Feasibility Application & Site Survey Form -->
+            <div class="contact-form-wrapper" id="contact" style="max-width: 850px; margin: 2.5rem auto 0; display: flex; flex-direction: column;">
                 
-                <!-- CARD 2: ⚡ Instant Solar Quotation & Cost Calculator Form -->
-                <div class="contact-card static-form-card" id="instant-quote-form-container" style="padding: 2.25rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 16px; box-shadow: 0 4px 20px var(--color-shadow); text-align: left; transform: none !important; transition: none !important; animation: none !important;">
-                    <div style="margin-bottom: 1.5rem; text-align: center;">
-                        <span class="sub-title" style="font-size: 0.8rem; letter-spacing: 1.5px; color: var(--color-sun-yellow); font-weight: 800; animation: none !important;">INSTANT PROPOSAL ENGINE</span>
-                        <h3 style="font-size: 1.6rem; margin-top: 0.35rem; margin-bottom: 0.4rem; color: var(--color-text);">⚡ Instant Solar Quotation Form</h3>
-                        <p style="font-size: 0.82rem; color: var(--color-text-muted); margin: 0;">Configure your plant capacity, Tier-1 modules, &amp; get instant itemized pricing and PM Surya Ghar subsidy calculations.</p>
-                    </div>
-
-                    <form id="instant-quotation-form" onsubmit="event.preventDefault(); generateInstantPDFProposalFromIQ();">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="iq-capacity">System Capacity</label>
-                                <select id="iq-capacity" onchange="updateInstantQuotationCalculations()" style="width: 100%; border-radius: 8px; border: 1px solid var(--color-border); padding: 0.8rem; background-color: var(--color-bg-alt); color: var(--color-text);">
-                                    <option value="1.0">1.0 kWp (Basic Home Lighting)</option>
-                                    <option value="2.0">2.0 kWp (Compact Residential)</option>
-                                    <option value="3.0" selected>3.0 kWp (Standard - ₹78,000 Subsidy)</option>
-                                    <option value="3.0_5inv">3.0 kWp Panels + 5.0 kW Single-Phase Inverter</option>
-                                    <option value="4.0">4.0 kWp (Medium Family Villa)</option>
-                                    <option value="5.0">5.0 kWp (Large 4BHK / Multi-AC)</option>
-                                    <option value="8.0">8.0 kWp (Commercial / Luxury Villa)</option>
-                                    <option value="10.0">10.0 kWp (Heavy Residential / 3-Phase)</option>
-                                    <option value="15.0">15.0 kWp (Commercial Enterprise)</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="iq-panel-brand">Solar Module Technology</label>
-                                <select id="iq-panel-brand" onchange="updateInstantQuotationCalculations()" style="width: 100%; border-radius: 8px; border: 1px solid var(--color-border); padding: 0.8rem; background-color: var(--color-bg-alt); color: var(--color-text);">
-                                    <option value="emmvee">Emmvee 560W TOPCon (₹2,15,000 for 3kW+5kW Inv)</option>
-                                    <option value="adani">Adani Solar 550W/610W TOPCon (₹2,25,000 for 3kW+5kW Inv)</option>
-                                    <option value="waaree" selected>Waaree 550W TOPCon (₹2,25,000 for 3kW+5kW Inv)</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="iq-inverter-type">Inverter &amp; Grid Topology</label>
-                                <select id="iq-inverter-type" onchange="updateInstantQuotationCalculations()" style="width: 100%; border-radius: 8px; border: 1px solid var(--color-border); padding: 0.8rem; background-color: var(--color-bg-alt); color: var(--color-text);">
-                                    <option value="1phase_ongrid" selected>Single-Phase 230V On-Grid (Growatt/Deye)</option>
-                                    <option value="5kw_1phase">5.0 kW Single-Phase High-Efficiency Inverter</option>
-                                    <option value="3phase_ongrid">Three-Phase 415V On-Grid (Growatt/SMA)</option>
-                                    <option value="hybrid_battery">Hybrid Inverter + Battery Ready</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="iq-roof-type">Mounting Structure</label>
-                                <select id="iq-roof-type" onchange="updateInstantQuotationCalculations()" style="width: 100%; border-radius: 8px; border: 1px solid var(--color-border); padding: 0.8rem; background-color: var(--color-bg-alt); color: var(--color-text);">
-                                    <option value="flat" selected>Hot-Dip Galvanized Flat Roof Structure</option>
-                                    <option value="slanted">Kerala Slanted Tile Roof Clamp Fixtures</option>
-                                    <option value="truss">Elevated Walkable GI Truss Work</option>
-                                    <option value="ground">Ground Mount Ballasted Rail</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Live Cost & Subsidy Breakdown Box -->
-                        <div style="background: var(--color-bg-alt); border: 1.5px solid var(--color-border); border-radius: 12px; padding: 1.25rem; margin-top: 1rem; margin-bottom: 1.2rem; text-align: left;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem;">
-                                <span style="font-size: 0.82rem; color: var(--color-text-muted);">Gross System Investment</span>
-                                <span id="iq-gross-price" style="font-size: 1.05rem; font-weight: 700; color: var(--color-text);">₹ 1,95,000</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem;">
-                                <span style="font-size: 0.82rem; color: #16a34a; font-weight: 600;">PM Surya Ghar Central Subsidy</span>
-                                <span id="iq-subsidy-amount" style="font-size: 1.05rem; font-weight: 700; color: #16a34a;">- ₹ 78,000</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; background: rgba(255, 183, 3, 0.1); border: 1px solid rgba(255, 183, 3, 0.3); border-radius: 8px; padding: 0.6rem 0.8rem;">
-                                <div>
-                                    <span style="font-size: 0.78rem; color: var(--color-text-muted); display: block;">Net Effective Cost</span>
-                                    <span style="font-size: 0.72rem; color: #10b981; font-weight: 700;">Direct DBT Bank Credit</span>
-                                </div>
-                                <span id="iq-net-cost" style="font-size: 1.35rem; font-weight: 800; color: var(--color-sun-yellow);">₹ 1,17,000</span>
-                            </div>
-
-                            <!-- Performance Metrics Grid -->
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; font-size: 0.75rem;">
-                                <div style="background: var(--color-surface); padding: 0.6rem; border-radius: 6px; border: 1px solid var(--color-border);">
-                                    <span style="color: var(--color-text-muted); display: block;">Monthly Generation</span>
-                                    <strong id="iq-monthly-gen" style="color: #60a5fa; font-size: 0.88rem;">~360 - 420 kWh</strong>
-                                </div>
-                                <div style="background: var(--color-surface); padding: 0.6rem; border-radius: 6px; border: 1px solid var(--color-border);">
-                                    <span style="color: var(--color-text-muted); display: block;">Est. Monthly Savings</span>
-                                    <strong id="iq-monthly-savings" style="color: #10b981; font-size: 0.88rem;">₹ 2,400 - ₹ 3,200</strong>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Action Buttons Row -->
-                        <div style="display: flex; flex-direction: column; gap: 0.65rem;">
-                            <button type="button" onclick="generateInstantPDFProposalFromIQ()" class="cta-btn primary-btn full-width" style="padding: 0.85rem; font-weight: 800; display: flex; justify-content: center; align-items: center; gap: 0.5rem;">
-                                📄 Generate &amp; Print Official Quotation
-                            </button>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem;">
-                                <button type="button" onclick="sendCalculatedQuoteToWhatsAppFromIQ()" class="cta-btn secondary-btn" style="padding: 0.7rem; font-size: 0.82rem; display: flex; justify-content: center; align-items: center; gap: 0.4rem; border-color: #25D366; color: #25D366;">
-                                    💬 WhatsApp Quote
-                                </button>
-                                <button type="button" onclick="syncIQToFeasibilityForm()" class="cta-btn secondary-btn" style="padding: 0.7rem; font-size: 0.82rem; display: flex; justify-content: center; align-items: center; gap: 0.4rem;">
-                                    📋 Apply to Feasibility Form Below
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- CARD 1: 📋 KSEB Feasibility Application & Site Survey Form -->
+                <!-- KSEB Feasibility Application & Site Survey Form -->
                 <div class="contact-card static-form-card" id="contact-form-container" style="padding: 2.25rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 16px; box-shadow: 0 4px 20px var(--color-shadow); transform: none !important; transition: none !important; animation: none !important;">
                     <div style="margin-bottom: 1.5rem; text-align: center;">
                         <span class="sub-title" style="font-size: 0.8rem; letter-spacing: 1.5px; color: var(--color-sun-yellow); font-weight: 800; animation: none !important;">KSEB FEASIBILITY CLEARANCE</span>
