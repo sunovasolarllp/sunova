@@ -2799,6 +2799,29 @@ input[type=number]:focus {
     margin-bottom: 2rem;
 }
 
+/* Static form card - strictly no tilt, float, or animations */
+.static-form-card,
+#instant-quote-form-container,
+#contact-form-container {
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+}
+
+.static-form-card:hover,
+#instant-quote-form-container:hover,
+#contact-form-container:hover {
+    transform: none !important;
+    box-shadow: 0 4px 20px var(--color-shadow) !important;
+}
+
+.static-form-card .sub-title,
+#instant-quote-form-container .sub-title,
+#contact-form-container .sub-title {
+    animation: none !important;
+    transform: none !important;
+}
+
 form {
     display: flex;
     flex-direction: column;

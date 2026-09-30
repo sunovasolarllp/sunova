@@ -7497,7 +7497,7 @@ function updateInstantQuotationCalculations() {
         cap = 3.0;
         if (brand === 'emmvee') {
             base = 215000;
-        } else if (brand === 'adani' || brand === 'waaree' || brand === 'premier') {
+        } else if (brand === 'adani' || brand === 'waaree') {
             base = 225000;
         } else {
             base = 225000;
@@ -7506,8 +7506,8 @@ function updateInstantQuotationCalculations() {
     else if (cap === 2) base = 145000;
     else if (cap === 3) {
         if (brand === 'emmvee') base = 195000;
-        else if (brand === 'adani' || brand === 'waaree' || brand === 'premier') base = 205000;
-        else base = 195000;
+        else if (brand === 'adani' || brand === 'waaree') base = 205000;
+        else base = 200000;
     }
     else if (cap === 4) base = 250000;
     else if (cap === 5) base = 295000;
@@ -7724,8 +7724,8 @@ document.addEventListener('DOMContentLoaded', () => {
         updateInstantQuotationCalculations();
     }
 
-    // 1. Subtle 3D Card Tilt Effect on Mouse Move
-    const tiltCards = document.querySelectorAll('.glass-card, .service-card, .benefit-list li');
+    // 1. Subtle 3D Card Tilt Effect on Mouse Move (Form cards excluded)
+    const tiltCards = document.querySelectorAll('.glass-card:not(.contact-card):not(.static-form-card), .service-card, .benefit-list li');
     tiltCards.forEach(card => {
         card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
