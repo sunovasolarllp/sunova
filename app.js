@@ -7300,7 +7300,7 @@ function sendCalculatedQuoteToWhatsApp() {
         `• *Net Effective Investment:* ₹${net}%0A` +
         `• *Est. Monthly Generation:* ~${gen} Units/Mo%0A` +
         `• *Est. Annual Savings:* ₹${sav}/year%0A%0A` +
-        `_കുറിപ്പ്: പാനലിൻ്റെയും ഇൻവെർട്ടറിൻ്റെയും ഡിമാൻഡ് അനുസരിച്ചു വില വ്യത്യാസം വരുന്നതാണ്_%0A%0A` +
+        `_Note: Prices may vary depending on the market demand and availability of solar panels and inverters._%0A%0A` +
         `Please schedule my free KSEB feasibility site survey.`;
 
     window.open(`https://wa.me/919072522277?text=${text}`, '_blank');
@@ -7395,7 +7395,7 @@ function generateInstantPDFProposal() {
 
             <div style="background: #fffbeb; border: 1px solid #fef3c7; border-radius: 6px; padding: 0.75rem; font-size: 0.76rem; color: #92400e; margin-bottom: 1.2rem;">
                 <strong>⚡ Key Warranties Included:</strong> 25-Year Linear Power Output Warranty on Solar Modules &bull; 10-Year Full Warranty on Solar Inverter &bull; 5-Year Comprehensive Workmanship &amp; Free Maintenance.<br>
-                <span style="display:inline-block; margin-top:0.35rem; color:#b45309; font-weight:600;">💡 കുറിപ്പ്: പാനലിൻ്റെയും ഇൻവെർട്ടറിൻ്റെയും ഡിമാൻഡ് അനുസരിച്ചു വില വ്യത്യാസം വരുന്നതാണ്</span>
+                <span style="display:inline-block; margin-top:0.35rem; color:#b45309; font-weight:600;">💡 Note: Prices may vary depending on the market demand and availability of solar panels and inverters.</span>
             </div>
 
             <footer style="width: 100%; padding-top: 8px; border-top: 1px solid #cbd5e1; font-size: 0.68rem; color: #64748b;">
