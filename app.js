@@ -584,6 +584,8 @@ function performCalculationsDirect(capacity, units, skipSyncForm = false, syncBi
         if (capacity === 3.0) {
             if (is5kW1Phase) {
                 rawCost = isEmmvee ? 215000 : 225000;
+            } else if (is3Phase) {
+                rawCost = isEmmvee ? 215000 : 225000;
             } else {
                 rawCost = isEmmvee ? 195000 : 205000;
             }
@@ -655,7 +657,8 @@ function performCalculationsDirect(capacity, units, skipSyncForm = false, syncBi
         batterySize = Math.round(capacity * 1.5 * 10) / 10;
         if (batterySize < 2.4) batterySize = 2.4; // Minimum battery bank for hybrid system
         if (capacity === 3.0) {
-            batteryCost = 340000 - rawCost;
+            const hybrid3kWTarget = is3Phase ? 390000 : 340000;
+            batteryCost = hybrid3kWTarget - rawCost;
         } else if (capacity === 5.0) {
             const hybrid5kWTarget = is3Phase ? 540000 : 480000;
             batteryCost = hybrid5kWTarget - rawCost;

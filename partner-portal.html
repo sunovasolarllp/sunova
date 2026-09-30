@@ -1744,7 +1744,11 @@
                 if (sysConfig === '5inv_3panel') {
                     basePrice = (phase === 'Three Phase') ? ((panelModel === 'Adani' || panelModel === 'Waaree') ? 245000 : 235000) : ((panelModel === 'Adani' || panelModel === 'Waaree') ? 225000 : 215000);
                 } else if (capacityVal === 3) {
-                    basePrice = (panelModel === 'Adani') ? 210000 : 200000;
+                    if (phase === 'Three Phase') {
+                        basePrice = (panelModel === 'Adani' || panelModel === 'Waaree') ? 225000 : 215000;
+                    } else {
+                        basePrice = (panelModel === 'Adani' || panelModel === 'Waaree') ? 205000 : 195000;
+                    }
                 } else if (capacityVal === 5) {
                     basePrice = (phase === 'Three Phase') ? ((panelModel === 'Adani') ? 320000 : 310000) : ((panelModel === 'Adani') ? 300000 : 290000);
                 } else {
@@ -2791,10 +2795,10 @@
                     basePrice = (phase === 'Three Phase') ? 235000 : 215000;
                 }
             } else if (capacityVal === 3) {
-                if (panelModel === 'Adani') {
-                    basePrice = 210000;
+                if (phase === 'Three Phase') {
+                    basePrice = (panelModel === 'Adani' || panelModel === 'Waaree') ? 225000 : 215000;
                 } else {
-                    basePrice = 200000;
+                    basePrice = (panelModel === 'Adani' || panelModel === 'Waaree') ? 205000 : 195000;
                 }
             } else if (capacityVal === 5) {
                 if (panelModel === 'Adani') {
