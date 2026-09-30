@@ -233,7 +233,7 @@
                                 <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
                                     <h4 style="margin: 0; display: flex; align-items: center; gap: 0.5rem; font-size: 1rem; color: var(--color-text);">
                                         👑 Admin Management Portal
-                                        <span style="background: var(--color-sun-yellow); color: #0d1321; font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 12px; font-weight: 800;">info@sunovasolar.in</span>
+                                        <span style="background: var(--color-sun-yellow); color: #0d1321; font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 12px; font-weight: 800;">ADMIN</span>
                                     </h4>
                                     <div style="display: flex; gap: 0.5rem;">
                                         <button type="button" onclick="switchAdminTab('partners')" id="tab-btn-partners" style="background: var(--color-sun-yellow); color: #0d1321; border: none; font-size: 0.78rem; font-weight: 700; padding: 0.4rem 0.9rem; border-radius: 6px; cursor: pointer;">
@@ -1163,9 +1163,9 @@
             let loggedInUserEmail = cleanedInput;
 
             const inputUpper = cleanedInput.toUpperCase();
-            if (inputUpper === 'ADMIN' || inputUpper === 'SUN-STF-01' || cleanedInput.toLowerCase() === 'info@sunovasolar.in' || cleanStaffPhone === '9072522277') {
+            if (inputUpper === 'ADMIN' || cleanedInput.toLowerCase() === 'admin@sunovasolar.in' || inputUpper === 'SUN-ADMIN') {
                 isMasterAdmin = true;
-                loggedInUserEmail = 'info@sunovasolar.in';
+                loggedInUserEmail = 'admin';
             }
 
             const customStaff = getStaffList();
@@ -1326,7 +1326,7 @@
                 (s.phone && s.phone === email)
             );
 
-            const isMasterAdmin = email.toLowerCase().includes('info@sunovasolar.in') || email.toLowerCase().includes('admin') || (staffUser && (staffUser.id === 'ADMIN' || staffUser.role.includes('Administrator')));
+            const isMasterAdmin = email.toLowerCase() === 'admin' || email.toLowerCase() === 'admin@sunovasolar.in' || (staffUser && (staffUser.id === 'ADMIN' || staffUser.role.includes('Administrator')));
 
             const staffName = staffUser ? staffUser.name : (isMasterAdmin ? 'Master System Admin' : 'Staff Member');
             const staffRole = staffUser ? staffUser.role : (isMasterAdmin ? 'System Administrator' : 'Office Staff Member');
@@ -1876,11 +1876,17 @@
         // --- STAFF MANAGEMENT SYSTEM ---
         function getStaffList() {
             let customStaff = [
-                { id: 'ADMIN', name: 'Master System Admin', email: 'info@sunovasolar.in', phone: '9072522277', role: 'System Administrator', password: '***' }
+                { id: 'ADMIN', name: 'Master System Admin', email: 'admin@sunovasolar.in', phone: '9072522277', role: 'System Administrator', password: '***' },
+                { id: 'STF-01', name: 'Sunova General Desk', email: 'info@sunovasolar.in', phone: '9072522277', role: 'Telecaller / Customer Executive', password: '2277' }
             ];
             try {
                 const stored = JSON.parse(localStorage.getItem('custom_staff_list') || '[]');
-                customStaff = [...customStaff, ...stored];
+                // Filter out any older stored copies of STF-01 or ADMIN if present to ensure clean defaults
+                customStaff = [
+                    customStaff[0],
+                    customStaff[1],
+                    ...stored.filter(s => s.id !== 'ADMIN' && s.id !== 'STF-01' && s.email !== 'admin@sunovasolar.in' && s.email !== 'info@sunovasolar.in')
+                ];
             } catch (e) {}
             return customStaff;
         }
@@ -1894,7 +1900,7 @@
             if (countSpan) countSpan.textContent = staffList.length;
 
             tbody.innerHTML = staffList.map(s => {
-                const isMaster = s.email === 'info@sunovasolar.in' || s.id === 'ADMIN';
+                const isMaster = s.email === 'admin@sunovasolar.in' || s.id === 'ADMIN';
                 const defaultStaffPin = (s.phone && s.phone.length >= 4) ? s.phone.slice(-4) : '2277';
                 const displayPin = s.password === '***' ? '2277' : (s.password || defaultStaffPin);
                 return `
@@ -2061,7 +2067,7 @@
             modalFields.innerHTML = `
                 <div>
                     <label style="font-size: 0.76rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem;">Staff ID</label>
-                    <input type="text" id="edit-staff-id" value="${staff.id}" required style="text-transform: uppercase; width: 100%; padding: 0.5rem; font-size: 0.82rem;" ${staff.email === 'info@sunovasolar.in' || staff.id === 'ADMIN' ? 'readonly' : ''}>
+                    <input type="text" id="edit-staff-id" value="${staff.id}" required style="text-transform: uppercase; width: 100%; padding: 0.5rem; font-size: 0.82rem;" ${staff.email === 'admin@sunovasolar.in' || staff.id === 'ADMIN' ? 'readonly' : ''}>
                 </div>
                 <div>
                     <label style="font-size: 0.76rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem;">Staff Member Name</label>
@@ -2073,7 +2079,7 @@
                 </div>
                 <div>
                     <label style="font-size: 0.76rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem;">Email Address</label>
-                    <input type="email" id="edit-staff-email" value="${staff.email}" required style="width: 100%; padding: 0.5rem; font-size: 0.82rem;" ${staff.email === 'info@sunovasolar.in' || staff.id === 'ADMIN' ? 'readonly' : ''}>
+                    <input type="email" id="edit-staff-email" value="${staff.email}" required style="width: 100%; padding: 0.5rem; font-size: 0.82rem;" ${staff.email === 'admin@sunovasolar.in' || staff.id === 'ADMIN' ? 'readonly' : ''}>
                 </div>
                 <div>
                     <label style="font-size: 0.76rem; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem;">Department / Designation</label>
@@ -2168,9 +2174,9 @@
                     customStaff = JSON.parse(localStorage.getItem('custom_staff_list') || '[]');
                 } catch (err) {}
 
-                if (newEmail === 'info@sunovasolar.in' || newId === 'ADMIN') {
+                if (newEmail === 'admin@sunovasolar.in' || newId === 'ADMIN') {
                     localStorage.setItem('staff_portal_password', newPass);
-                    alert(`✅ Master Admin password updated for info@sunovasolar.in (ADMIN)!`);
+                    alert(`✅ Master Admin password updated for admin (ADMIN)!`);
                     closeAdminEditModal();
                     renderAdminStaffTable();
                     return;
