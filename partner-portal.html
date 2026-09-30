@@ -1731,6 +1731,14 @@
                     basePrice = capacityVal * ratePerKw;
                 }
 
+                let topologyAddon = 0;
+                const sysTopology = (sysConfig === 'custom') ? (document.getElementById('quote-sys-topology')?.value || 'On-Grid') : 'On-Grid';
+                if (sysTopology === 'Hybrid') {
+                    topologyAddon = Math.round(capacityVal * 25000);
+                } else if (sysTopology === 'Off-Grid') {
+                    topologyAddon = Math.round(capacityVal * 30000);
+                }
+
                 let roofAddon = 0;
                 const is3kW = (capacityVal <= 3);
                 if (roofTypeVal === 'Flat Self Structure') roofAddon = is3kW ? -15000 : -25000;
@@ -1745,7 +1753,7 @@
                     if (storeyNum >= 3) storeyAddon = (storeyNum - 2) * 5000;
                 }
 
-                const grossTotal = basePrice + roofAddon + storeyAddon;
+                const grossTotal = basePrice + topologyAddon + roofAddon + storeyAddon;
                 let subsidy = 0;
                 if (capacityVal === 1) subsidy = 30000;
                 else if (capacityVal === 2) subsidy = 60000;
@@ -2775,6 +2783,14 @@
                 basePrice = capacityVal * ratePerKw;
             }
 
+            // System Topology Add-on (Hybrid / Off-Grid with Battery Storage)
+            let topologyAddon = 0;
+            if (sysTopology === 'Hybrid') {
+                topologyAddon = Math.round(capacityVal * 25000);
+            } else if (sysTopology === 'Off-Grid') {
+                topologyAddon = Math.round(capacityVal * 30000);
+            }
+
             // Roof structure add-on / discount
             let roofAddon = 0;
             const is3kW = (capacityVal <= 3);
@@ -2800,7 +2816,7 @@
                 }
             }
 
-            grossTotal = basePrice + roofAddon + storeyAddon;
+            grossTotal = basePrice + topologyAddon + roofAddon + storeyAddon;
 
             let subsidy = 0;
             if (capacityVal === 1) subsidy = 30000;
