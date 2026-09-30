@@ -596,7 +596,7 @@ function performCalculationsDirect(capacity, units, skipSyncForm = false, syncBi
                 rawCost = isEmmvee ? 290000 : 300000;
             }
         } else if (capacity === 10.0) {
-            rawCost = 585000;
+            rawCost = isEmmvee ? 585000 : 605000;
         } else {
             // Linear rate per kWp for custom capacity values
             let ratePerKw = isEmmvee ? 64000 : 66000;
@@ -606,7 +606,7 @@ function performCalculationsDirect(capacity, units, skipSyncForm = false, syncBi
         }
     } else {
         // Commercial bulk pricing
-        rawCost = (capacity === 10.0) ? 585000 : Math.round(capacity * 52000);
+        rawCost = (capacity === 10.0) ? (isEmmvee ? 585000 : 605000) : Math.round(capacity * 52000);
     }
     
     // Roof Structure Add-ons & Discounts
@@ -650,22 +650,20 @@ function performCalculationsDirect(capacity, units, skipSyncForm = false, syncBi
         }
     }
     
-    // 7. Battery Cost (for hybrid system)
+    // 7. Battery Cost (for hybrid system - maintains exact panel brand price delta)
     let batteryCost = 0;
     let batterySize = 0;
     if (currentSystemType === 'hybrid') {
         batterySize = Math.round(capacity * 1.5 * 10) / 10;
         if (batterySize < 2.4) batterySize = 2.4; // Minimum battery bank for hybrid system
         if (capacity === 3.0) {
-            const hybrid3kWTarget = is3Phase ? 390000 : 340000;
-            batteryCost = hybrid3kWTarget - rawCost;
+            batteryCost = is3Phase ? 175000 : 145000;
         } else if (capacity === 5.0) {
-            const hybrid5kWTarget = is3Phase ? 540000 : 480000;
-            batteryCost = hybrid5kWTarget - rawCost;
+            batteryCost = is3Phase ? 230000 : 190000;
         } else if (capacity === 10.0) {
-            batteryCost = 895000 - rawCost;
+            batteryCost = 310000;
         } else {
-            batteryCost = Math.round(capacity * 29000);
+            batteryCost = Math.round(capacity * 29000) + (is3Phase ? 30000 : 0);
         }
     }
     const totalInstallationCost = rawCost + batteryCost;
