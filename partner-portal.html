@@ -466,50 +466,7 @@
                             </div>
                         </div>
 
-                        <!-- 2. Clean 4-Card Core Action Hub -->
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
-                            <!-- Card 1: Quotation Generator -->
-                            <div class="glass-card portal-card-box" onclick="switchPartnerPortalTab('quote-generator')" style="cursor: pointer; padding: 1.15rem; border: 1px solid var(--color-border); border-radius: 14px; background: var(--color-surface); transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)'">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                                    <span style="font-size: 1.5rem;">⚡</span>
-                                    <span style="background: #10b981; color: white; font-weight: 700; font-size: 0.72rem; padding: 2px 8px; border-radius: 12px;">Core Tool</span>
-                                </div>
-                                <h4 style="margin: 0 0 0.25rem 0; font-size: 0.92rem; color: var(--color-text);">Quotation Generator</h4>
-                                <p style="margin: 0; font-size: 0.74rem; color: var(--color-text-muted); line-height: 1.4;">Create custom proposals with official letterhead &amp; BOM.</p>
-                            </div>
-
-                            <!-- Card 2: Allocated Leads -->
-                            <div class="glass-card portal-card-box" onclick="switchPartnerPortalTab('leads')" style="cursor: pointer; padding: 1.15rem; border: 1px solid var(--color-border); border-radius: 14px; background: var(--color-surface); transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)'">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                                    <span style="font-size: 1.5rem;">📥</span>
-                                    <span id="badge-allocated-count" style="background: var(--color-sun-yellow); color: #0d1321; font-weight: 800; font-size: 0.74rem; padding: 2px 8px; border-radius: 12px;">0 Leads</span>
-                                </div>
-                                <h4 style="margin: 0 0 0.25rem 0; font-size: 0.92rem; color: var(--color-text);">District Customer Inquiries</h4>
-                                <p style="margin: 0; font-size: 0.74rem; color: var(--color-text-muted); line-height: 1.4;">Contact leads &amp; trigger 1-click WhatsApp follow-ups.</p>
-                            </div>
-
-                            <!-- Card 3: Saved Quotes -->
-                            <div class="glass-card portal-card-box" onclick="switchPartnerPortalTab('saved-quotes')" style="cursor: pointer; padding: 1.15rem; border: 1px solid var(--color-border); border-radius: 14px; background: var(--color-surface); transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)'">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                                    <span style="font-size: 1.5rem;">💾</span>
-                                    <span id="badge-saved-count" style="background: rgba(125,125,125,0.2); color: var(--color-text); font-weight: 700; font-size: 0.72rem; padding: 2px 8px; border-radius: 12px;">0 Saved</span>
-                                </div>
-                                <h4 style="margin: 0 0 0.25rem 0; font-size: 0.92rem; color: var(--color-text);">Saved Quotations</h4>
-                                <p style="margin: 0; font-size: 0.74rem; color: var(--color-text-muted); line-height: 1.4;">Review quote history, re-print, and share on WhatsApp.</p>
-                            </div>
-
-                            <!-- Card 4: KSEB Feasibility -->
-                            <div class="glass-card portal-card-box" onclick="switchPartnerPortalTab('kseb')" style="cursor: pointer; padding: 1.15rem; border: 1px solid var(--color-border); border-radius: 14px; background: var(--color-surface); transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)'">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                                    <span style="font-size: 1.5rem;">⚡</span>
-                                    <span style="background: #10b981; color: white; font-weight: 700; font-size: 0.72rem; padding: 2px 8px; border-radius: 12px;">400+ Sections</span>
-                                </div>
-                                <h4 style="margin: 0 0 0.25rem 0; font-size: 0.92rem; color: var(--color-text);">KSEB Feasibility Check</h4>
-                                <p style="margin: 0; font-size: 0.74rem; color: var(--color-text-muted); line-height: 1.4;">Verify section codes, transformers &amp; net-metering.</p>
-                            </div>
-                        </div>
-
-                        <!-- 3. Partner Workspace Navigation Tabs Bar -->
+                        <!-- 2. Partner Workspace Navigation Tabs Bar -->
                         <div class="partner-nav-tabs" style="display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1.5px solid var(--color-border); scrollbar-width: thin;">
                             <button type="button" class="partner-tab-btn" onclick="switchPartnerPortalTab('quote-generator')" id="tab-btn-quote-generator" style="background: var(--color-sun-yellow); color: #0d1321; border: 1px solid var(--color-sun-yellow); font-weight: 800; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
                                 ⚡ Quotation Generator
@@ -2245,37 +2202,11 @@
                             <span style="background: #10b981; color: white; padding: 3px 9px; border-radius: 12px; font-size: 0.7rem; font-weight: 700;">🌟 Authorized Channel Partner</span>
                         </div>
 
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 1.2rem; font-size: 0.84rem; margin-bottom: 1rem;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 1.2rem; font-size: 0.84rem;">
                             <div><span style="color: var(--color-text-muted);">Partner Name &amp; Number:</span> <strong style="color: var(--color-text);">${dealer.name} (+91 ${dealer.phone})</strong></div>
                             <div><span style="color: var(--color-text-muted);">Partner ID Code:</span> <strong style="color: var(--color-text);">${dealer.code}</strong></div>
                             <div><span style="color: var(--color-text-muted);">Service Area:</span> <strong style="color: var(--color-text);">${dealer.area}</strong></div>
                             <div><span style="color: var(--color-text-muted);">District:</span> <strong style="color: var(--color-text);">${dealer.district}</strong></div>
-                        </div>
-
-                        <!-- Monthly Sales Goal & Target Achievement Tracker -->
-                        <div style="background: rgba(0, 0, 0, 0.25); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.45rem; font-size: 0.82rem;">
-                                <strong style="color: var(--color-text);">🎯 Monthly Sales Target: 25 kWp</strong>
-                                <span style="color: var(--color-sun-yellow); font-weight: 700;" id="partner-goal-percentage">Loading...</span>
-                            </div>
-                            <div style="width: 100%; background: rgba(255,255,255,0.1); height: 10px; border-radius: 5px; overflow: hidden; margin-bottom: 0.45rem;">
-                                <div id="partner-goal-bar" style="width: 0%; background: linear-gradient(90deg, #ffb703, #10b981); height: 100%; transition: width 1s ease;"></div>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--color-text-muted);">
-                                <span>Installed / Quoted: <strong style="color: var(--color-text);" id="partner-quoted-kw">0 kWp</strong></span>
-                                <span>Target Commission: <strong style="color: #10b981;">₹50,000 / mo</strong></span>
-                            </div>
-                        </div>
-
-                        <!-- 4 Action Steps to Achieve Sales Goals -->
-                        <div style="background: rgba(255, 255, 255, 0.03); border: 1px dashed var(--color-border); border-radius: 12px; padding: 0.9rem;">
-                            <h5 style="margin: 0 0 0.5rem 0; color: var(--color-sun-yellow); font-size: 0.85rem;">🚀 4 Key Action Steps to Achieve Your Sales Goals:</h5>
-                            <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.78rem; color: var(--color-text-muted); line-height: 1.6;">
-                                <li>⚡ <strong>Contact New Leads within 15 Mins:</strong> Allocated leads convert 3x faster when called immediately.</li>
-                                <li>📜 <strong>Dispatch Instant PDF Quotes:</strong> Generate branded PDF quotes with 1-click in the Quotation Generator.</li>
-                                <li>🎁 <strong>Highlight ₹78,000 PM Surya Ghar Subsidy:</strong> Explain direct bank transfer subsidy for zero-bill savings.</li>
-                                <li>🏦 <strong>Offer 7% Bank Solar Financing:</strong> Present SBI, Federal &amp; Canara Bank EMI options to close deals.</li>
-                            </ul>
                         </div>
                     </div>
                 `;
