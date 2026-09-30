@@ -7474,15 +7474,31 @@ function printWebsiteProposal() {
 function updateInstantQuotationCalculations() {
     const capSelect = document.getElementById('iq-capacity');
     if (!capSelect) return;
-    const cap = parseFloat(capSelect.value) || 3.0;
-    const brand = document.getElementById('iq-panel-brand') ? document.getElementById('iq-panel-brand').value : 'waaree';
+    const capVal = capSelect.value;
+    const brand = document.getElementById('iq-panel-brand') ? document.getElementById('iq-panel-brand').value.toLowerCase() : 'waaree';
     const inv = document.getElementById('iq-inverter-type') ? document.getElementById('iq-inverter-type').value : '1phase_ongrid';
     const roof = document.getElementById('iq-roof-type') ? document.getElementById('iq-roof-type').value : 'flat';
 
+    let cap = parseFloat(capVal) || 3.0;
+    const is3kW_5kWInv = (capVal === '3.0_5inv' || (cap === 3.0 && inv === '5kw_1phase'));
+
     let base = cap * 64000;
-    if (cap === 1) base = 75000;
+    if (is3kW_5kWInv) {
+        cap = 3.0;
+        if (brand === 'emmvee') {
+            base = 215000;
+        } else if (brand === 'adani' || brand === 'waaree') {
+            base = 225000;
+        } else {
+            base = 220000;
+        }
+    } else if (cap === 1) base = 75000;
     else if (cap === 2) base = 145000;
-    else if (cap === 3) base = 195000;
+    else if (cap === 3) {
+        if (brand === 'emmvee') base = 195000;
+        else if (brand === 'adani' || brand === 'waaree') base = 205000;
+        else base = 195000;
+    }
     else if (cap === 4) base = 250000;
     else if (cap === 5) base = 295000;
     else if (cap === 8) base = 460000;
@@ -7493,11 +7509,14 @@ function updateInstantQuotationCalculations() {
     if (roof === 'slanted') base += (cap * 6000);
     else if (roof === 'truss') base += (cap * 15000);
 
-    // Inverter surcharge
-    if (inv === '3phase_ongrid') base += 18000;
-    else if (inv === 'hybrid_battery') base += 55000;
+    // Inverter surcharge (when not already 5kw_1phase combo)
+    if (!is3kW_5kWInv) {
+        if (inv === '5kw_1phase') base += 20000;
+        else if (inv === '3phase_ongrid') base += 18000;
+        else if (inv === 'hybrid_battery') base += 55000;
+    }
 
-    // Subsidy calculation
+    // Subsidy calculation (PM Surya Ghar up to 3kW = ₹78,000)
     let subsidy = 0;
     if (cap === 1) subsidy = 33000;
     else if (cap === 2) subsidy = 66000;
@@ -7524,17 +7543,20 @@ function updateInstantQuotationCalculations() {
 
 function generateInstantPDFProposalFromIQ() {
     const capSelect = document.getElementById('iq-capacity');
-    const cap = capSelect ? parseFloat(capSelect.value) : 3.0;
+    const capVal = capSelect ? capSelect.value : '3.0';
+    const cap = (capVal === '3.0_5inv') ? 3.0 : (parseFloat(capVal) || 3.0);
+    const is3kW_5kWInv = (capVal === '3.0_5inv' || document.getElementById('iq-inverter-type')?.value === '5kw_1phase');
     const name = (document.getElementById('form-name')?.value || 'VALUED CUSTOMER').toUpperCase();
     const phone = document.getElementById('form-phone')?.value || '9072522277';
     const district = document.getElementById('form-district')?.value || 'Alappuzha';
     const location = document.getElementById('form-location')?.value || district;
     const roofType = document.getElementById('iq-roof-type')?.options[document.getElementById('iq-roof-type')?.selectedIndex]?.text || 'Flat Roof';
     const brand = document.getElementById('iq-panel-brand')?.options[document.getElementById('iq-panel-brand')?.selectedIndex]?.text || 'Waaree 550W TOPCon';
+    const invType = is3kW_5kWInv ? '5.0 kW Single-Phase Inverter + 3 kW PV Panels' : (document.getElementById('iq-inverter-type')?.options[document.getElementById('iq-inverter-type')?.selectedIndex]?.text || 'Single-Phase On-Grid Inverter');
 
-    const grossText = document.getElementById('iq-gross-price')?.textContent || '₹ 1,95,000';
+    const grossText = document.getElementById('iq-gross-price')?.textContent || '₹ 2,15,000';
     const subText = document.getElementById('iq-subsidy-amount')?.textContent || '- ₹ 78,000';
-    const netText = document.getElementById('iq-net-cost')?.textContent || '₹ 1,17,000';
+    const netText = document.getElementById('iq-net-cost')?.textContent || '₹ 1,37,000';
 
     const dateStr = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
     const quoteNo = `SUN/EST/${Date.now().toString().slice(-6)}`;
