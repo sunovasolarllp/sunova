@@ -175,7 +175,7 @@
                             <button type="button" class="staff-tab-btn" onclick="switchStaffPortalTab('quotes')" id="staff-tab-btn-quotes" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
                                 💾 Global Quotes (<span id="staff-tab-badge-quotes">0</span>)
                             </button>
-                            <button type="button" class="staff-tab-btn" onclick="switchStaffPortalTab('management')" id="staff-tab-btn-management" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
+                            <button type="button" class="staff-tab-btn" onclick="switchStaffPortalTab('management')" id="staff-tab-btn-management" style="display: none; background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; align-items: center; gap: 0.4rem; white-space: nowrap;">
                                 👑 Partner &amp; Staff Admin
                             </button>
                             <button type="button" class="staff-tab-btn" onclick="switchStaffPortalTab('security')" id="staff-tab-btn-security" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
@@ -1353,8 +1353,15 @@
             // Render Role Specific Workspace Widgets
             renderRoleWorkspace(staffRole, email, isMasterAdmin);
 
-            // Admin Control Panel logic
+            window.currentUserIsMasterAdmin = isMasterAdmin;
+
+            // Admin Control Panel logic & Tab Button Visibility
             const adminPanel = document.getElementById('admin-management-panel');
+            const managementTabBtn = document.getElementById('staff-tab-btn-management');
+            if (managementTabBtn) {
+                managementTabBtn.style.display = isMasterAdmin ? 'flex' : 'none';
+            }
+
             if (adminPanel) {
                 if (isMasterAdmin) {
                     adminPanel.classList.remove('hidden');
@@ -1396,6 +1403,11 @@
         }
 
         function switchStaffPortalTab(tabId) {
+            // Guard: Partner & Staff Admin tab is strictly accessible for admin
+            if (tabId === 'management' && !window.currentUserIsMasterAdmin) {
+                tabId = 'leads';
+            }
+
             const tabs = ['leads', 'quotes', 'management', 'security'];
             tabs.forEach(t => {
                 const pane = document.getElementById('staff-tab-' + t);
