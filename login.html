@@ -179,7 +179,7 @@
                         <div class="dashboard-date-subtitle" id="staff-live-dashboard-date">Today is Friday, 14 August 2026</div>
 
                         <!-- Integrated Staff Role & Target Tracker -->
-                        <div id="staff-role-workspace-banner" style="background: rgba(15, 23, 42, 0.6); border: 1.5px solid var(--color-sun-yellow); border-radius: 14px; padding: 1.1rem 1.3rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem;">
+                        <div id="staff-role-workspace-banner" class="portal-card-box" style="background: var(--color-surface); border: 1.5px solid var(--color-sun-yellow); border-radius: 14px; padding: 1.1rem 1.3rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem;">
                             <div style="display: flex; align-items: center; gap: 0.9rem;">
                                 <div id="staff-role-avatar" style="width: 50px; height: 50px; background: rgba(255, 183, 3, 0.15); border: 1.5px solid var(--color-sun-yellow); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
                                     👑
@@ -221,12 +221,12 @@
                         <!-- TAB 1: Overview & Targets (Default Active) -->
                         <div id="staff-tab-overview" class="staff-tab-pane">
                             <!-- 📈 Feature 1: Monthly Installation & Central Subsidy Target Card (Admin Corporate View) -->
-                            <div id="admin-target-tracker-card" style="background: linear-gradient(135deg, rgba(255, 183, 3, 0.12), rgba(16, 185, 129, 0.1)); border: 1.5px solid var(--color-sun-yellow); border-radius: 14px; padding: 1.1rem; margin-top: 0.5rem; margin-bottom: 1.5rem; text-align: left;">
+                            <div id="admin-target-tracker-card" class="portal-card-box" style="background: linear-gradient(135deg, rgba(255, 183, 3, 0.12), rgba(16, 185, 129, 0.1)); border: 1.5px solid var(--color-sun-yellow); border-radius: 14px; padding: 1.1rem; margin-top: 0.5rem; margin-bottom: 1.5rem; text-align: left;">
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.4rem;">
                                     <span style="font-weight: 800; font-size: 0.88rem; color: var(--color-text);">📈 August 2026 Kerala Solar Target Tracker</span>
                                     <span style="font-size: 0.74rem; font-weight: 800; color: #10b981; background: rgba(16, 185, 129, 0.18); border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.2rem 0.6rem; border-radius: 10px;">74% Achieved</span>
                                 </div>
-                                <div style="background: rgba(0,0,0,0.3); height: 10px; border-radius: 10px; overflow: hidden; margin-bottom: 0.65rem; border: 1px solid var(--color-border);">
+                                <div style="background: rgba(125,125,125,0.2); height: 10px; border-radius: 10px; overflow: hidden; margin-bottom: 0.65rem; border: 1px solid var(--color-border);">
                                     <div style="width: 74%; height: 100%; background: linear-gradient(90deg, #ffb703, #10b981); border-radius: 10px; box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);"></div>
                                 </div>
                                 <div style="display: flex; justify-content: space-between; font-size: 0.74rem; color: var(--color-text-muted); flex-wrap: wrap; gap: 0.6rem;">
@@ -238,13 +238,13 @@
 
                             <!-- Quick Stats Row (Admin Corporate View) -->
                             <div id="admin-quick-stats-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
-                                <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 12px; padding: 1.25rem; text-align: center; box-shadow: 0 4px 12px var(--color-shadow); cursor: pointer;" onclick="switchStaffPortalTab('leads')">
+                                <div class="portal-card-box portal-stat-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 12px; padding: 1.25rem; text-align: center; box-shadow: 0 4px 12px var(--color-shadow); cursor: pointer;" onclick="switchStaffPortalTab('leads')">
                                     <span style="font-size: 0.74rem; color: var(--color-text-muted); text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 0.25rem;">
                                         📥 Total Customer Leads
                                     </span>
                                     <div id="stats-total-leads" style="font-size: 2rem; font-weight: 800; color: var(--color-sun-yellow); margin-top: 0.25rem;">0</div>
                                 </div>
-                                <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 12px; padding: 1.25rem; text-align: center; box-shadow: 0 4px 12px var(--color-shadow); cursor: pointer;" onclick="switchStaffPortalTab('management')">
+                                <div class="portal-card-box portal-stat-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 12px; padding: 1.25rem; text-align: center; box-shadow: 0 4px 12px var(--color-shadow); cursor: pointer;" onclick="switchStaffPortalTab('management')">
                                     <span style="font-size: 0.74rem; color: var(--color-text-muted); text-transform: uppercase;">
                                         🤝 Active Channel Partners
                                     </span>
@@ -257,7 +257,7 @@
                         <!-- TAB 2: Customer Leads & Inquiries -->
                         <div id="staff-tab-leads" class="staff-tab-pane hidden">
                             <!-- Live Inquiries Log Section -->
-                            <div id="live-inquiries-log-section" class="tech-settings-box">
+                            <div id="live-inquiries-log-section" class="tech-settings-box portal-card-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 14px; padding: 1.25rem;">
                                 <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
                                     <h4 style="margin: 0; display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; color: var(--color-sun-yellow);">
                                         📥 Live Customer Inquiries &amp; Leads Log
@@ -286,7 +286,7 @@
 
                         <!-- TAB 3: Global Saved Quotations -->
                         <div id="staff-tab-quotes" class="staff-tab-pane hidden">
-                            <div id="global-saved-quotes-section" class="tech-settings-box">
+                            <div id="global-saved-quotes-section" class="tech-settings-box portal-card-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 14px; padding: 1.25rem;">
                                 <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem;">
                                     <h4 style="margin: 0; display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; color: var(--color-sun-yellow);">
                                         💾 Global Saved Quotations &amp; Proposals
@@ -303,7 +303,7 @@
                         <!-- TAB 4: Master Admin Management Panel -->
                         <div id="staff-tab-management" class="staff-tab-pane hidden">
                             <!-- 👑 Master Admin Control Panel (Partners & Staff Management) -->
-                            <div id="admin-management-panel" style="background: rgba(255, 183, 3, 0.05); border: 1.5px solid var(--color-sun-yellow); border-radius: 14px; padding: 1.25rem; margin-bottom: 1.5rem;">
+                            <div id="admin-management-panel" class="portal-card-box" style="background: var(--color-surface); border: 1.5px solid var(--color-sun-yellow); border-radius: 14px; padding: 1.25rem; margin-bottom: 1.5rem;">
                                 <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
                                     <h4 style="margin: 0; display: flex; align-items: center; gap: 0.5rem; font-size: 1rem; color: var(--color-text);">
                                         👑 Admin Management Portal
@@ -322,7 +322,7 @@
                                 <!-- Sub Tab: Channel Partner Management -->
                                 <div id="admin-tab-partners">
                                     <!-- Add New Partner Form -->
-                                    <div style="background: rgba(0, 0, 0, 0.2); border: 1px dashed var(--color-border); border-radius: 10px; padding: 1rem; margin-bottom: 1.25rem;">
+                                    <div class="portal-sub-box" style="background: var(--color-bg-alt); border: 1px dashed var(--color-border); border-radius: 10px; padding: 1rem; margin-bottom: 1.25rem;">
                                         <h5 style="margin: 0 0 0.8rem 0; font-size: 0.85rem; color: var(--color-sun-yellow); display: flex; align-items: center; gap: 0.4rem;">
                                             ➕ Create / Register New Channel Partner
                                         </h5>
@@ -378,7 +378,7 @@
                                     <div style="overflow-x: auto;">
                                         <table style="width: 100%; border-collapse: collapse; font-size: 0.78rem; color: var(--color-text);">
                                             <thead>
-                                                <tr style="background: rgba(255,255,255,0.05); border-bottom: 1.5px solid var(--color-border); text-align: left;">
+                                                <tr style="background: var(--color-bg-alt); border-bottom: 1.5px solid var(--color-border); text-align: left;">
                                                     <th style="padding: 0.5rem;">Code</th>
                                                     <th style="padding: 0.5rem;">Partner Name</th>
                                                     <th style="padding: 0.5rem;">District &amp; Area</th>
@@ -397,7 +397,7 @@
                                 <!-- Sub Tab: Staff Management -->
                                 <div id="admin-tab-staff" class="hidden">
                                     <!-- Modernized Add New Staff Form -->
-                                    <div style="background: rgba(15, 23, 42, 0.4); border: 1.5px dashed rgba(255, 183, 3, 0.4); border-radius: 12px; padding: 1.2rem; margin-bottom: 1.25rem;">
+                                    <div class="portal-sub-box" style="background: var(--color-bg-alt); border: 1.5px dashed rgba(255, 183, 3, 0.4); border-radius: 12px; padding: 1.2rem; margin-bottom: 1.25rem;">
                                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.9rem; flex-wrap: wrap; gap: 0.5rem;">
                                             <h5 style="margin: 0; font-size: 0.9rem; color: var(--color-sun-yellow); display: flex; align-items: center; gap: 0.4rem;">
                                                 ➕ Onboard New Staff Account

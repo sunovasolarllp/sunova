@@ -422,7 +422,7 @@
                         <div class="dashboard-date-subtitle" id="live-dashboard-date">Today is Friday, 14 August 2026</div>
 
                         <!-- 1. Partner Profile & Monthly Goal Achievement Card -->
-                        <div id="partner-overview-banner" style="background: linear-gradient(135deg, rgba(255, 183, 3, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border: 1.5px solid var(--color-sun-yellow); border-radius: 16px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem;">
+                        <div id="partner-overview-banner" class="portal-card-box" style="background: linear-gradient(135deg, rgba(255, 183, 3, 0.12) 0%, rgba(16, 185, 129, 0.1) 100%); border: 1.5px solid var(--color-sun-yellow); border-radius: 16px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem;">
                             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
                                 <div>
                                     <div style="font-size: 0.76rem; color: var(--color-text-muted); text-transform: uppercase; font-weight: 700;">Authorized Partner Workspace</div>
@@ -438,12 +438,12 @@
 
                             <!-- Monthly Sales Milestone & Target Tracker -->
                             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; align-items: center;">
-                                <div style="background: rgba(0, 0, 0, 0.25); border: 1px solid var(--color-border); border-radius: 12px; padding: 0.9rem;">
+                                <div class="portal-sub-box" style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 12px; padding: 0.9rem;">
                                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; font-size: 0.8rem;">
                                         <strong style="color: var(--color-text);">🎯 Monthly Target (25 kWp)</strong>
                                         <span style="color: var(--color-sun-yellow); font-weight: 700;" id="partner-goal-percentage">0% Achieved</span>
                                     </div>
-                                    <div style="width: 100%; background: rgba(255,255,255,0.1); height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 0.35rem;">
+                                    <div style="width: 100%; background: rgba(125,125,125,0.2); height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 0.35rem;">
                                         <div id="partner-goal-bar" style="width: 0%; background: linear-gradient(90deg, #ffb703, #10b981); height: 100%; transition: width 0.8s ease;"></div>
                                     </div>
                                     <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--color-text-muted);">
@@ -453,11 +453,11 @@
                                 </div>
 
                                 <div style="display: flex; gap: 0.75rem;">
-                                    <div style="flex: 1; background: rgba(0,0,0,0.25); border: 1px solid var(--color-border); border-radius: 12px; padding: 0.9rem; text-align: center;">
+                                    <div class="portal-stat-box" style="flex: 1; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 12px; padding: 0.9rem; text-align: center;">
                                         <span style="font-size: 0.7rem; color: var(--color-text-muted); text-transform: uppercase; font-weight: 700;">Active District Leads</span>
                                         <div id="partner-active-leads" style="font-size: 1.5rem; font-weight: 800; color: var(--color-sun-yellow); margin-top: 0.2rem;">0</div>
                                     </div>
-                                    <div style="flex: 1; background: rgba(0,0,0,0.25); border: 1px solid var(--color-border); border-radius: 12px; padding: 0.9rem; text-align: center;">
+                                    <div class="portal-stat-box" style="flex: 1; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 12px; padding: 0.9rem; text-align: center;">
                                         <span style="font-size: 0.7rem; color: var(--color-text-muted); text-transform: uppercase; font-weight: 700;">Commission Balance</span>
                                         <div id="partner-commission-earned" style="font-size: 1.5rem; font-weight: 800; color: #10b981; margin-top: 0.2rem;">₹0</div>
                                     </div>
@@ -468,7 +468,7 @@
                         <!-- 2. Clean 4-Card Core Action Hub -->
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
                             <!-- Card 1: Quotation Generator -->
-                            <div class="glass-card" onclick="switchPartnerPortalTab('quote-generator')" style="cursor: pointer; padding: 1.15rem; border: 1px solid var(--color-border); border-radius: 14px; background: rgba(15, 23, 42, 0.6); transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)'">
+                            <div class="glass-card portal-card-box" onclick="switchPartnerPortalTab('quote-generator')" style="cursor: pointer; padding: 1.15rem; border: 1px solid var(--color-border); border-radius: 14px; background: var(--color-surface); transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)'">
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
                                     <span style="font-size: 1.5rem;">⚡</span>
                                     <span style="background: #10b981; color: white; font-weight: 700; font-size: 0.72rem; padding: 2px 8px; border-radius: 12px;">Core Tool</span>
@@ -478,7 +478,7 @@
                             </div>
 
                             <!-- Card 2: Allocated Leads -->
-                            <div class="glass-card" onclick="switchPartnerPortalTab('leads')" style="cursor: pointer; padding: 1.15rem; border: 1px solid var(--color-border); border-radius: 14px; background: rgba(15, 23, 42, 0.6); transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)'">
+                            <div class="glass-card portal-card-box" onclick="switchPartnerPortalTab('leads')" style="cursor: pointer; padding: 1.15rem; border: 1px solid var(--color-border); border-radius: 14px; background: var(--color-surface); transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)'">
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
                                     <span style="font-size: 1.5rem;">📥</span>
                                     <span id="badge-allocated-count" style="background: var(--color-sun-yellow); color: #0d1321; font-weight: 800; font-size: 0.74rem; padding: 2px 8px; border-radius: 12px;">0 Leads</span>
@@ -488,17 +488,17 @@
                             </div>
 
                             <!-- Card 3: Saved Quotes -->
-                            <div class="glass-card" onclick="switchPartnerPortalTab('saved-quotes')" style="cursor: pointer; padding: 1.15rem; border: 1px solid var(--color-border); border-radius: 14px; background: rgba(15, 23, 42, 0.6); transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)'">
+                            <div class="glass-card portal-card-box" onclick="switchPartnerPortalTab('saved-quotes')" style="cursor: pointer; padding: 1.15rem; border: 1px solid var(--color-border); border-radius: 14px; background: var(--color-surface); transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)'">
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
                                     <span style="font-size: 1.5rem;">💾</span>
-                                    <span id="badge-saved-count" style="background: rgba(255,255,255,0.1); color: var(--color-text); font-weight: 700; font-size: 0.72rem; padding: 2px 8px; border-radius: 12px;">0 Saved</span>
+                                    <span id="badge-saved-count" style="background: rgba(125,125,125,0.2); color: var(--color-text); font-weight: 700; font-size: 0.72rem; padding: 2px 8px; border-radius: 12px;">0 Saved</span>
                                 </div>
                                 <h4 style="margin: 0 0 0.25rem 0; font-size: 0.92rem; color: var(--color-text);">Saved Quotations</h4>
                                 <p style="margin: 0; font-size: 0.74rem; color: var(--color-text-muted); line-height: 1.4;">Review quote history, re-print, and share on WhatsApp.</p>
                             </div>
 
                             <!-- Card 4: KSEB Feasibility -->
-                            <div class="glass-card" onclick="switchPartnerPortalTab('kseb')" style="cursor: pointer; padding: 1.15rem; border: 1px solid var(--color-border); border-radius: 14px; background: rgba(15, 23, 42, 0.6); transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)'">
+                            <div class="glass-card portal-card-box" onclick="switchPartnerPortalTab('kseb')" style="cursor: pointer; padding: 1.15rem; border: 1px solid var(--color-border); border-radius: 14px; background: var(--color-surface); transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--color-sun-yellow)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border)'">
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
                                     <span style="font-size: 1.5rem;">⚡</span>
                                     <span style="background: #10b981; color: white; font-weight: 700; font-size: 0.72rem; padding: 2px 8px; border-radius: 12px;">400+ Sections</span>
@@ -704,7 +704,7 @@
                         <!-- TAB 2: District Leads & Inquiries -->
                         <div id="partner-tab-leads" class="partner-tab-pane hidden">
                             <!-- WhatsApp 1-Click Follow-up Toolkit -->
-                            <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid var(--color-border); border-radius: 14px; padding: 1.25rem; margin-bottom: 1.5rem;">
+                            <div class="portal-card-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 14px; padding: 1.25rem; margin-bottom: 1.5rem;">
                                 <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.6rem; margin-bottom: 0.9rem;">
                                     <h4 style="margin: 0; font-size: 0.95rem; color: var(--color-sun-yellow); display: flex; align-items: center; gap: 0.4rem;">
                                         💬 1-Click WhatsApp Follow-up Toolkit
@@ -728,7 +728,7 @@
                             </div>
 
                             <!-- Allocated Leads Panel -->
-                            <div id="allocated-leads-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; text-align: left; margin-bottom: 1.5rem;">
+                            <div id="allocated-leads-panel" class="portal-card-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; text-align: left; margin-bottom: 1.5rem;">
                                 <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 0.95rem;">
                                     📋 Allocated Customer Inquiries
                                 </h4>
@@ -740,7 +740,7 @@
                             </div>
 
                             <!-- Live Inquiries Log Panel -->
-                            <div id="live-inquiries-log-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                            <div id="live-inquiries-log-panel" class="portal-card-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
                                 <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
                                     <h4 style="margin: 0; color: var(--color-sun-yellow); font-size: 1rem;">
                                         📥 Live District Inquiries Log
@@ -756,20 +756,20 @@
                             </div>
 
                             <!-- Reports & Conversion Analytics -->
-                            <div id="reports-analytics-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; text-align: left;">
+                            <div id="reports-analytics-panel" class="portal-card-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; text-align: left;">
                                 <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
                                     📊 Reports &amp; Lead Conversion Analytics
                                 </h4>
                                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 1rem;">
-                                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; text-align: center;">
+                                    <div class="portal-stat-box" style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; text-align: center;">
                                         <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Lead Conversion Rate</span>
                                         <div style="font-size: 1.6rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">78.5%</div>
                                     </div>
-                                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; text-align: center;">
+                                    <div class="portal-stat-box" style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; text-align: center;">
                                         <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Total kWp Quoted</span>
                                         <div style="font-size: 1.6rem; font-weight: 800; color: var(--color-sun-yellow); margin-top: 0.3rem;">145 kWp</div>
                                     </div>
-                                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; text-align: center;">
+                                    <div class="portal-stat-box" style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; text-align: center;">
                                         <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Subsidy Claims Settled</span>
                                         <div style="font-size: 1.6rem; font-weight: 800; color: #3b82f6; margin-top: 0.3rem;">₹48.2 L</div>
                                     </div>
@@ -780,7 +780,7 @@
 
                         <!-- TAB 3: Saved Quotes & History -->
                         <div id="partner-tab-saved-quotes" class="partner-tab-pane hidden">
-                            <div id="saved-quotes-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; text-align: left;">
+                            <div id="saved-quotes-panel" class="portal-card-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; text-align: left;">
                                 <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
                                     💾 Saved Customer Quotations &amp; Proposals
                                 </h4>
@@ -795,7 +795,7 @@
                         <!-- TAB 4: Solar Tools & Subsidy -->
                         <div id="partner-tab-calculators" class="partner-tab-pane hidden">
                             <!-- PM Surya Ghar Subsidy Calculator -->
-                            <div id="pm-surya-ghar-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                            <div id="pm-surya-ghar-panel" class="portal-card-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
                                 <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
                                     <h4 style="margin: 0; color: var(--color-sun-yellow); font-size: 1rem;">
                                         🏛️ PM Surya Ghar Muft Bijli Yojana (Central Subsidy Calculator)
@@ -803,17 +803,17 @@
                                     <a href="https://pmsuryaghar.gov.in" target="_blank" rel="noopener" class="cta-btn primary-btn" style="font-size:0.75rem; padding: 0.35rem 0.75rem;">Apply at pmsuryaghar.gov.in ↗</a>
                                 </div>
                                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
-                                    <div style="background: rgba(22, 163, 74, 0.1); border: 1px solid rgba(22, 163, 74, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
-                                        <span style="font-size: 0.72rem; color: #86efac; text-transform: uppercase;">1 kWp Rooftop System</span>
-                                        <div style="font-size: 1.5rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">₹30,000 Subsidy</div>
+                                    <div class="portal-sub-box" style="background: rgba(22, 163, 74, 0.1); border: 1px solid rgba(22, 163, 74, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
+                                        <span style="font-size: 0.72rem; color: #16a34a; font-weight: 700; text-transform: uppercase;">1 kWp Rooftop System</span>
+                                        <div style="font-size: 1.5rem; font-weight: 800; color: #16a34a; margin-top: 0.3rem;">₹30,000 Subsidy</div>
                                     </div>
-                                    <div style="background: rgba(22, 163, 74, 0.1); border: 1px solid rgba(22, 163, 74, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
-                                        <span style="font-size: 0.72rem; color: #86efac; text-transform: uppercase;">2 kWp Rooftop System</span>
-                                        <div style="font-size: 1.5rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">₹60,000 Subsidy</div>
+                                    <div class="portal-sub-box" style="background: rgba(22, 163, 74, 0.1); border: 1px solid rgba(22, 163, 74, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
+                                        <span style="font-size: 0.72rem; color: #16a34a; font-weight: 700; text-transform: uppercase;">2 kWp Rooftop System</span>
+                                        <div style="font-size: 1.5rem; font-weight: 800; color: #16a34a; margin-top: 0.3rem;">₹60,000 Subsidy</div>
                                     </div>
-                                    <div style="background: rgba(22, 163, 74, 0.15); border: 1px solid rgba(22, 163, 74, 0.5); border-radius: 10px; padding: 1rem; text-align: center;">
-                                        <span style="font-size: 0.72rem; color: #86efac; text-transform: uppercase;">3 kWp+ Maximum Cap</span>
-                                        <div style="font-size: 1.5rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">₹78,000 Subsidy</div>
+                                    <div class="portal-sub-box" style="background: rgba(22, 163, 74, 0.15); border: 1px solid rgba(22, 163, 74, 0.5); border-radius: 10px; padding: 1rem; text-align: center;">
+                                        <span style="font-size: 0.72rem; color: #16a34a; font-weight: 700; text-transform: uppercase;">3 kWp+ Maximum Cap</span>
+                                        <div style="font-size: 1.5rem; font-weight: 800; color: #16a34a; margin-top: 0.3rem;">₹78,000 Subsidy</div>
                                     </div>
                                 </div>
                                 <div style="font-size: 0.78rem; color: var(--color-text-muted); line-height: 1.5;">
@@ -822,7 +822,7 @@
                             </div>
 
                             <!-- Solar Loan EMI Calculator -->
-                            <div id="solar-emi-calculator-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                            <div id="solar-emi-calculator-panel" class="portal-card-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
                                 <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
                                     💳 Solar Bank Loan &amp; Zero-Downpayment EMI Calculator
                                 </h4>
@@ -835,7 +835,7 @@
                                         <label style="font-size:0.75rem; color:var(--color-text-muted); display:block; margin-top:0.8rem; margin-bottom:0.3rem;">Tenure (Years): <strong id="emi-tenure-val" style="color:var(--color-sun-yellow);">5 Years</strong></label>
                                         <input type="range" id="emi-tenure-range" min="1" max="7" step="1" value="5" oninput="calculateSolarEmi()" style="width:100%;">
                                     </div>
-                                    <div style="background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; text-align: center;">
+                                    <div class="portal-stat-box" style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; text-align: center;">
                                         <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Estimated Monthly Loan EMI</span>
                                         <div id="calculated-monthly-emi" style="font-size: 1.8rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">₹3,663 / mo</div>
                                         <span style="font-size: 0.7rem; color: var(--color-sun-yellow); display: block; margin-top: 0.4rem;">💡 Offsets monthly KSEB bill instantly!</span>
@@ -844,16 +844,16 @@
                             </div>
 
                             <!-- 3D Roof Area & Panel Estimator -->
-                            <div id="rooftop-estimator-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                            <div id="rooftop-estimator-panel" class="portal-card-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
                                 <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
                                     📐 3D Rooftop Solar Capacity &amp; Panel Estimator
                                 </h4>
                                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; align-items: center; margin-top: 1rem;">
                                     <div>
                                         <label style="font-size:0.75rem; color:var(--color-text-muted); display:block; margin-bottom:0.3rem;">Shade-Free Roof Area (sq. ft.):</label>
-                                        <input type="number" id="roof-area-input" value="300" placeholder="e.g. 300" oninput="calculateRoofCapacity()" style="width:100%; padding:0.4rem 0.6rem; border-radius:6px; background:var(--color-bg); border:1px solid var(--color-border); color:var(--color-text);">
+                                        <input type="number" id="roof-area-input" value="300" placeholder="e.g. 300" oninput="calculateRoofCapacity()" style="width:100%; padding:0.5rem 0.6rem; border-radius:6px;">
                                     </div>
-                                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; text-align: center;">
+                                    <div class="portal-stat-box" style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; text-align: center;">
                                         <span style="font-size: 0.72rem; color: var(--color-text-muted); text-transform: uppercase;">Max Solar Capacity</span>
                                         <div id="roof-kwp-res" style="font-size: 1.5rem; font-weight: 800; color: var(--color-sun-yellow); margin-top: 0.2rem;">3.0 kWp</div>
                                         <span id="roof-panels-count" style="font-size: 0.72rem; color: #3b82f6; display: block; margin-top: 0.2rem;">6 Panels (550W TOPCon Mono-PERC)</span>
@@ -862,22 +862,22 @@
                             </div>
 
                             <!-- Carbon Offset Counter -->
-                            <div id="carbon-offset-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; text-align: left;">
+                            <div id="carbon-offset-panel" class="portal-card-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; text-align: left;">
                                 <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
                                     🌿 Kerala Green Energy &amp; Carbon Offset Impact Counter
                                 </h4>
                                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 1rem;">
-                                    <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
-                                        <span style="font-size: 0.72rem; color: #86efac; text-transform: uppercase;">Green Power Generated</span>
-                                        <div style="font-size: 1.6rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">1.85 GWh</div>
+                                    <div class="portal-stat-box" style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
+                                        <span style="font-size: 0.72rem; color: #16a34a; font-weight: 700; text-transform: uppercase;">Green Power Generated</span>
+                                        <div style="font-size: 1.6rem; font-weight: 800; color: #16a34a; margin-top: 0.3rem;">1.85 GWh</div>
                                     </div>
-                                    <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
-                                        <span style="font-size: 0.72rem; color: #86efac; text-transform: uppercase;">CO₂ Avoided</span>
-                                        <div style="font-size: 1.6rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">1,450 MT</div>
+                                    <div class="portal-stat-box" style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
+                                        <span style="font-size: 0.72rem; color: #16a34a; font-weight: 700; text-transform: uppercase;">CO₂ Avoided</span>
+                                        <div style="font-size: 1.6rem; font-weight: 800; color: #16a34a; margin-top: 0.3rem;">1,450 MT</div>
                                     </div>
-                                    <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
-                                        <span style="font-size: 0.72rem; color: #86efac; text-transform: uppercase;">Trees Equivalent</span>
-                                        <div style="font-size: 1.6rem; font-weight: 800; color: #22c55e; margin-top: 0.3rem;">68,000 🌲</div>
+                                    <div class="portal-stat-box" style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
+                                        <span style="font-size: 0.72rem; color: #16a34a; font-weight: 700; text-transform: uppercase;">Trees Equivalent</span>
+                                        <div style="font-size: 1.6rem; font-weight: 800; color: #16a34a; margin-top: 0.3rem;">68,000 🌲</div>
                                     </div>
                                 </div>
                             </div>
@@ -887,12 +887,12 @@
                         <!-- TAB 5: KSEB Feasibility & Net-Metering -->
                         <div id="partner-tab-kseb" class="partner-tab-pane hidden">
                             <!-- Feasibility & KSEB Verification -->
-                            <div id="feasibility-check-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                            <div id="feasibility-check-panel" class="portal-card-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
                                 <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 0.95rem;">
                                     ✅ Feasibility &amp; KSEB Section Verification
                                 </h4>
                                 <p style="font-size: 0.74rem; color: var(--color-text-muted); margin-bottom: 0.8rem; line-height: 1.45;">Verify KSEB section offices &amp; perform feasibility checks for new solar installations.</p>
-                                <div style="background: var(--color-bg-alt); padding: 0.9rem; border-radius: 8px; text-align: center;">
+                                <div class="portal-sub-box" style="background: var(--color-bg-alt); padding: 0.9rem; border-radius: 8px; text-align: center; border: 1px solid var(--color-border);">
                                     <span style="display:block; font-size: 0.82rem; font-weight:600; color:var(--color-text); margin-bottom: 0.5rem;">KSEB Online Section Self-Services Portal</span>
                                     <a href="https://wss.kseb.in/selfservices/reCap" target="_blank" rel="noopener" class="cta-btn primary-btn" style="display:inline-block; font-size:0.78rem; padding: 0.45rem 0.85rem; text-decoration:none;">
                                         Verify at wss.kseb.in ↗
@@ -901,17 +901,17 @@
                             </div>
 
                             <!-- KSEB Transformer Tracker -->
-                            <div id="kseb-tracker-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                            <div id="kseb-tracker-panel" class="portal-card-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
                                 <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
                                     ⚡ KSEB Transformer &amp; Net-Metering Tracker
                                 </h4>
                                 <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 1rem;">Verify transformer capacity allocations and KSEB section approval requirements across Kerala.</p>
                                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-                                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem;">
+                                    <div class="portal-sub-box" style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem;">
                                         <strong style="color: var(--color-text); font-size: 0.85rem; display: block; margin-bottom: 0.3rem;">LT Feasibility (Up to 10 kWp)</strong>
                                         <span style="font-size: 0.75rem; color: var(--color-text-muted);">Self-declaration under PM Surya Ghar. No transformer capacity blocking required.</span>
                                     </div>
-                                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem;">
+                                    <div class="portal-sub-box" style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem;">
                                         <strong style="color: var(--color-text); font-size: 0.85rem; display: block; margin-bottom: 0.3rem;">HT Commercial (Above 10 kWp)</strong>
                                         <span style="font-size: 0.75rem; color: var(--color-text-muted);">Requires Assistant Executive Engineer (AEE) Section Office Feasibility Certificate.</span>
                                     </div>
@@ -919,7 +919,7 @@
                             </div>
 
                             <!-- KSEB Field Engineer Checklist -->
-                            <div id="kseb-checklist-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; text-align: left;">
+                            <div id="kseb-checklist-panel" class="portal-card-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; text-align: left;">
                                 <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
                                     ⚙️ KSEB Field Engineer Technical Inspection Checklist
                                 </h4>
@@ -944,24 +944,24 @@
                         <!-- TAB 6: Resources & Technical Locker -->
                         <div id="partner-tab-resources" class="partner-tab-pane hidden">
                             <!-- Official Technical Resource Locker -->
-                            <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid var(--color-border); border-radius: 14px; padding: 1.25rem; margin-bottom: 1.5rem;">
+                            <div class="portal-card-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 14px; padding: 1.25rem; margin-bottom: 1.5rem;">
                                 <h4 style="margin: 0 0 0.6rem 0; font-size: 0.95rem; color: var(--color-sun-yellow); display: flex; align-items: center; gap: 0.4rem;">
                                     📂 Partner Technical Downloads &amp; Resource Locker
                                 </h4>
                                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem;">
-                                    <a href="https://pmsuryaghar.gov.in" target="_blank" rel="noopener" style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); padding: 0.65rem 0.9rem; border-radius: 10px; color: var(--color-text); text-decoration: none; font-size: 0.78rem; display: flex; align-items: center; justify-content: space-between;">
+                                    <a href="https://pmsuryaghar.gov.in" target="_blank" rel="noopener" class="portal-sub-box" style="background: var(--color-bg-alt); border: 1px solid var(--color-border); padding: 0.65rem 0.9rem; border-radius: 10px; color: var(--color-text); text-decoration: none; font-size: 0.78rem; display: flex; align-items: center; justify-content: space-between;">
                                         <span>🏛️ PM Surya Ghar Portal</span>
                                         <span style="color: var(--color-sun-yellow);">↗</span>
                                     </a>
-                                    <a href="https://www.kseb.in/images/soura/Soura_Phase_II_Guidelines.pdf" target="_blank" rel="noopener" style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); padding: 0.65rem 0.9rem; border-radius: 10px; color: var(--color-text); text-decoration: none; font-size: 0.78rem; display: flex; align-items: center; justify-content: space-between;">
+                                    <a href="https://www.kseb.in/images/soura/Soura_Phase_II_Guidelines.pdf" target="_blank" rel="noopener" class="portal-sub-box" style="background: var(--color-bg-alt); border: 1px solid var(--color-border); padding: 0.65rem 0.9rem; border-radius: 10px; color: var(--color-text); text-decoration: none; font-size: 0.78rem; display: flex; align-items: center; justify-content: space-between;">
                                         <span>⚡ KSEB Soura Guidelines (PDF)</span>
                                         <span style="color: var(--color-sun-yellow);">↓</span>
                                     </a>
-                                    <a href="javascript:void(0)" onclick="downloadProformaTemplate()" style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); padding: 0.65rem 0.9rem; border-radius: 10px; color: var(--color-text); text-decoration: none; font-size: 0.78rem; display: flex; align-items: center; justify-content: space-between;">
+                                    <a href="javascript:void(0)" onclick="downloadProformaTemplate()" class="portal-sub-box" style="background: var(--color-bg-alt); border: 1px solid var(--color-border); padding: 0.65rem 0.9rem; border-radius: 10px; color: var(--color-text); text-decoration: none; font-size: 0.78rem; display: flex; align-items: center; justify-content: space-between;">
                                         <span>📊 Proforma Invoice Excel (XLSX)</span>
                                         <span style="color: var(--color-sun-yellow);">↓</span>
                                     </a>
-                                    <a href="javascript:void(0)" onclick="showChecklistModal()" style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); padding: 0.65rem 0.9rem; border-radius: 10px; color: var(--color-text); text-decoration: none; font-size: 0.78rem; display: flex; align-items: center; justify-content: space-between;">
+                                    <a href="javascript:void(0)" onclick="showChecklistModal()" class="portal-sub-box" style="background: var(--color-bg-alt); border: 1px solid var(--color-border); padding: 0.65rem 0.9rem; border-radius: 10px; color: var(--color-text); text-decoration: none; font-size: 0.78rem; display: flex; align-items: center; justify-content: space-between;">
                                         <span>🛡️ Net Metering Checklist</span>
                                         <span style="color: var(--color-sun-yellow);">↗</span>
                                     </a>
@@ -969,16 +969,16 @@
                             </div>
 
                             <!-- Tier-1 Equipment Brand Matrix -->
-                            <div id="equipment-matrix-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                            <div id="equipment-matrix-panel" class="portal-card-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
                                 <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
                                     🏷️ Tier-1 Equipment Brand Matrix
                                 </h4>
                                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
-                                    <div style="background: rgba(255,255,255,0.03); border:1px solid var(--color-border); border-radius:10px; padding:0.8rem;">
+                                    <div class="portal-sub-box" style="background: var(--color-bg-alt); border:1px solid var(--color-border); border-radius:10px; padding:0.8rem;">
                                         <strong style="color:var(--color-sun-yellow); font-size:0.85rem;">Solar Panels (25-Yr Warranty)</strong>
                                         <p style="font-size:0.75rem; color:var(--color-text-muted); margin-top:0.4rem;">Waaree, Adani, Emmvee (550W–610W N-Type TOPCon DCR Modules)</p>
                                     </div>
-                                    <div style="background: rgba(255,255,255,0.03); border:1px solid var(--color-border); border-radius:10px; padding:0.8rem;">
+                                    <div class="portal-sub-box" style="background: var(--color-bg-alt); border:1px solid var(--color-border); border-radius:10px; padding:0.8rem;">
                                         <strong style="color:var(--color-sun-yellow); font-size:0.85rem;">On-Grid Inverters (10-Yr Warranty)</strong>
                                         <p style="font-size:0.75rem; color:var(--color-text-muted); margin-top:0.4rem;">Growatt, Solis, Deye, Enphase Microinverters</p>
                                     </div>
@@ -986,7 +986,7 @@
                             </div>
 
                             <!-- 25-Year Warranty Generator -->
-                            <div id="warranty-generator-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                            <div id="warranty-generator-panel" class="portal-card-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
                                 <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
                                     <h4 style="margin: 0; color: var(--color-sun-yellow); font-size: 1rem;">
                                         📜 25-Year Warranty &amp; Commissioning Certificate Generator
@@ -997,7 +997,7 @@
                             </div>
 
                             <!-- Customer AMC Maintenance Tracker -->
-                            <div id="amc-service-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                            <div id="amc-service-panel" class="portal-card-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
                                 <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
                                     🛠️ Customer AMC &amp; Solar Panel Maintenance Tracker
                                 </h4>
@@ -1009,7 +1009,7 @@
                             </div>
 
                             <!-- District Partner Directory -->
-                            <div id="district-partners-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                            <div id="district-partners-panel" class="portal-card-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
                                 <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
                                     <h4 style="margin: 0; color: var(--color-sun-yellow); font-size: 1rem;">
                                         📍 Kerala 14 Districts Partner Contact Directory
@@ -1028,7 +1028,7 @@
                             <div class="tech-settings-box">
                                 <h4 style="font-family: var(--font-heading); font-size: 0.9rem; margin-bottom: 0.6rem; color: var(--color-sun-yellow);">🏷️ Official Plant Pricing Rates &amp; Structure Add-On Rules</h4>
                                 
-                                <div style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 10px; padding: 0.9rem; margin-bottom: 0.8rem; font-size: 0.78rem;">
+                                <div class="portal-sub-box" style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 10px; padding: 0.9rem; margin-bottom: 0.8rem; font-size: 0.78rem;">
                                     <h5 style="color: var(--color-sun-yellow); margin-top: 0; margin-bottom: 0.5rem; font-size: 0.82rem;">Official Base Rates (Flat Roof DCR)</h5>
                                     <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.76rem;">
                                         <tr style="border-bottom: 1px solid var(--color-border);">
@@ -1095,7 +1095,7 @@
                                     <p style="margin: 0.6rem 0 0 0; font-size: 0.72rem; color: var(--color-sun-yellow); font-style: italic;">📌 Note: Prices may vary depending on the market demand and availability of solar panels and inverters.</p>
                                 </div>
 
-                                <div style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 10px; padding: 0.9rem; font-size: 0.76rem; line-height: 1.45;">
+                                <div class="portal-sub-box" style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 10px; padding: 0.9rem; font-size: 0.76rem; line-height: 1.45;">
                                     <h5 style="color: var(--color-sun-yellow); margin-top: 0; margin-bottom: 0.4rem; font-size: 0.82rem;">Roof Structure &amp; Floor Rules</h5>
                                     <ul style="padding-left: 1rem; margin: 0; display: flex; flex-direction: column; gap: 0.3rem; color: var(--color-text-muted);">
                                         <li>• <strong>Flat Roof:</strong> 1 &amp; 2 Storey included. Extra ₹5,000/floor for 3rd floor &amp; above.</li>
@@ -1112,7 +1112,7 @@
 
                         <!-- TAB 7: Account Security & PIN -->
                         <div id="partner-tab-security" class="partner-tab-pane hidden">
-                            <div id="dashboard-change-pin-panel" style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; text-align: left; max-width: 450px; margin: 0 auto;">
+                            <div id="dashboard-change-pin-panel" class="portal-card-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; text-align: left; max-width: 450px; margin: 0 auto;">
                                 <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
                                     🔒 Change Security PIN
                                 </h4>

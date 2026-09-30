@@ -3227,7 +3227,14 @@ form {
 }
 
 .login-wrapper.dashboard-active {
-    max-width: 1100px;
+    max-width: 1280px;
+    width: 100%;
+}
+
+.login-wrapper.dashboard-active .login-card {
+    padding: 0;
+    border-radius: 16px;
+    overflow: hidden;
 }
 
 .back-home-link {
@@ -5286,76 +5293,275 @@ html, body {
     padding: 1.75rem 2.25rem;
     overflow-y: auto;
     position: relative;
-    background-image: linear-gradient(180deg, rgba(212, 215, 221, 0.84) 0%, rgba(212, 215, 221, 0.94) 100%), url('assets/hero.jpg');
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    background-attachment: fixed;
+    background-color: #f1f5f9;
+    color: #0f172a;
+    width: 100%;
+}
+
+.light-theme .enterprise-main-canvas {
+    background-color: #f1f5f9 !important;
+    background-image: none !important;
+    color: #0f172a !important;
 }
 
 .dark-theme .enterprise-main-canvas {
-    background-image: linear-gradient(180deg, rgba(22, 25, 32, 0.84) 0%, rgba(15, 18, 24, 0.93) 100%), url('assets/hero.jpg');
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    background-attachment: fixed;
+    background-color: #0b1329 !important;
+    background-image: radial-gradient(circle at top right, #111d3d 0%, #070d19 100%) !important;
+    color: #f8fafc !important;
 }
 
 .dashboard-overview-title {
     font-size: 1.65rem;
     font-weight: 800;
-    color: #111827;
+    color: #0f172a;
     margin: 0 0 0.15rem 0;
     letter-spacing: -0.4px;
     font-family: var(--font-heading);
 }
 
 .dark-theme .dashboard-overview-title {
-    color: #ffffff;
+    color: #ffffff !important;
 }
 
 .dashboard-date-subtitle {
     font-size: 0.84rem;
-    color: #4b5563;
+    color: #475569;
     margin-bottom: 1.5rem;
     font-weight: 600;
 }
 
 .dark-theme .dashboard-date-subtitle {
-    color: #94a3b8;
+    color: #94a3b8 !important;
 }
 
-.quick-actions-red-label {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #dc2626;
-    margin-bottom: 0.85rem;
-    text-transform: capitalize;
+/* ==========================================================================
+   PORTAL DASHBOARD HIGH-CONTRAST & READABILITY SUITE (PARTNER & STAFF)
+   ========================================================================== */
+
+/* 1. Portal Cards, Panels & Settings Boxes in Light Theme */
+.light-theme .portal-card-box,
+.light-theme .tech-settings-box,
+.light-theme #partner-overview-banner,
+.light-theme #staff-role-workspace-banner,
+.light-theme #admin-target-tracker-card,
+.light-theme #quotation-form-section,
+.light-theme #allocated-leads-panel,
+.light-theme #live-inquiries-log-panel,
+.light-theme #live-inquiries-log-section,
+.light-theme #global-saved-quotes-section,
+.light-theme #reports-analytics-panel,
+.light-theme #saved-quotes-panel,
+.light-theme #pm-surya-ghar-panel,
+.light-theme #solar-emi-calculator-panel,
+.light-theme #rooftop-estimator-panel,
+.light-theme #carbon-offset-panel,
+.light-theme #feasibility-check-panel,
+.light-theme #kseb-tracker-panel,
+.light-theme #kseb-checklist-panel,
+.light-theme #equipment-matrix-panel,
+.light-theme #warranty-generator-panel,
+.light-theme #amc-service-panel,
+.light-theme #district-partners-panel,
+.light-theme #dashboard-change-pin-panel,
+.light-theme #admin-management-panel,
+.light-theme .partner-tab-pane > div,
+.light-theme .staff-tab-pane > div {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06) !important;
+    border-radius: 14px !important;
 }
 
-/* Quick Action Tiles Grid (Exact Airtel i360 6-Column Grid Layout) */
-.quick-actions-tile-grid {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 0.9rem;
-    margin-bottom: 2rem;
+/* 2. Portal Cards, Panels & Settings Boxes in Dark Theme */
+.dark-theme .portal-card-box,
+.dark-theme .tech-settings-box,
+.dark-theme #partner-overview-banner,
+.dark-theme #staff-role-workspace-banner,
+.dark-theme #admin-target-tracker-card,
+.dark-theme #quotation-form-section,
+.dark-theme #allocated-leads-panel,
+.dark-theme #live-inquiries-log-panel,
+.dark-theme #live-inquiries-log-section,
+.dark-theme #global-saved-quotes-section,
+.dark-theme #reports-analytics-panel,
+.dark-theme #saved-quotes-panel,
+.dark-theme #pm-surya-ghar-panel,
+.dark-theme #solar-emi-calculator-panel,
+.dark-theme #rooftop-estimator-panel,
+.dark-theme #carbon-offset-panel,
+.dark-theme #feasibility-check-panel,
+.dark-theme #kseb-tracker-panel,
+.dark-theme #kseb-checklist-panel,
+.dark-theme #equipment-matrix-panel,
+.dark-theme #warranty-generator-panel,
+.dark-theme #amc-service-panel,
+.dark-theme #district-partners-panel,
+.dark-theme #dashboard-change-pin-panel,
+.dark-theme #admin-management-panel,
+.dark-theme .partner-tab-pane > div,
+.dark-theme .staff-tab-pane > div {
+    background: #131d31 !important;
+    color: #f8fafc !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+    border-radius: 14px !important;
 }
 
-@media (max-width: 1200px) {
-    .quick-actions-tile-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
+/* 3. Sub-cards, Nested Boxes & Stat Boxes */
+.light-theme .portal-sub-box,
+.light-theme .portal-stat-box,
+.light-theme .partner-tab-pane div[style*="background: rgba(0"],
+.light-theme .partner-tab-pane div[style*="background:rgba(0"],
+.light-theme .partner-tab-pane div[style*="background: rgba(255, 255, 255, 0.03)"],
+.light-theme .partner-tab-pane div[style*="background:rgba(255,255,255,0.03)"],
+.light-theme .staff-tab-pane div[style*="background: rgba(0"],
+.light-theme .staff-tab-pane div[style*="background:rgba(0"],
+.light-theme .staff-tab-pane div[style*="background: rgba(255, 255, 255, 0.03)"],
+.light-theme .staff-tab-pane div[style*="background:rgba(255,255,255,0.03)"] {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #0f172a !important;
 }
 
-@media (max-width: 768px) {
-    .quick-actions-tile-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+.dark-theme .portal-sub-box,
+.dark-theme .portal-stat-box,
+.dark-theme .partner-tab-pane div[style*="background: rgba(0"],
+.dark-theme .partner-tab-pane div[style*="background:rgba(0"],
+.dark-theme .partner-tab-pane div[style*="background: rgba(255, 255, 255, 0.03)"],
+.dark-theme .partner-tab-pane div[style*="background:rgba(255,255,255,0.03)"],
+.dark-theme .staff-tab-pane div[style*="background: rgba(0"],
+.dark-theme .staff-tab-pane div[style*="background:rgba(0"],
+.dark-theme .staff-tab-pane div[style*="background: rgba(255, 255, 255, 0.03)"],
+.dark-theme .staff-tab-pane div[style*="background:rgba(255,255,255,0.03)"] {
+    background: #0c1424 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #f8fafc !important;
+}
+
+/* 4. Inputs, Selects and Form Elements inside Portal */
+.light-theme #dashboard-view input,
+.light-theme #dashboard-view select,
+.light-theme #dashboard-view textarea {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 1.5px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+}
+
+.light-theme #dashboard-view input:focus,
+.light-theme #dashboard-view select:focus,
+.light-theme #dashboard-view textarea:focus {
+    border-color: #d97706 !important;
+    box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.18) !important;
+    outline: none !important;
+}
+
+.dark-theme #dashboard-view input,
+.dark-theme #dashboard-view select,
+.dark-theme #dashboard-view textarea {
+    background: #0a101e !important;
+    color: #ffffff !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.18) !important;
+    border-radius: 8px !important;
+}
+
+.dark-theme #dashboard-view input:focus,
+.dark-theme #dashboard-view select:focus,
+.dark-theme #dashboard-view textarea:focus {
+    border-color: var(--color-sun-yellow) !important;
+    box-shadow: 0 0 0 3px rgba(255, 183, 3, 0.25) !important;
+    outline: none !important;
+}
+
+/* 5. High Contrast Tables in Light & Dark Mode */
+.light-theme #dashboard-view table {
+    color: #0f172a !important;
+}
+
+.light-theme #dashboard-view th {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    border-bottom: 2px solid #cbd5e1 !important;
+    font-weight: 700 !important;
+}
+
+.light-theme #dashboard-view td {
+    color: #1e293b !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+}
+
+.dark-theme #dashboard-view table {
+    color: #ffffff !important;
+}
+
+.dark-theme #dashboard-view th {
+    background: #1e293b !important;
+    color: #ffffff !important;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.15) !important;
+    font-weight: 700 !important;
+}
+
+.dark-theme #dashboard-view td {
+    color: #cbd5e1 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* 6. Partner & Staff Portal Action Tiles */
+.light-theme .action-tile-card {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08) !important;
+}
+
+.light-theme .action-tile-card:hover {
+    background: #f8fafc !important;
+    border-color: #dc2626 !important;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.14) !important;
+}
+
+.light-theme .action-tile-icon-box {
+    border: 1.5px solid #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+.light-theme .action-tile-card:hover .action-tile-icon-box {
+    border-color: #dc2626 !important;
+    background: rgba(220, 38, 38, 0.08) !important;
+    color: #dc2626 !important;
+}
+
+.light-theme .action-tile-label {
+    color: #0f172a !important;
+}
+
+.dark-theme .action-tile-card {
+    background: #1c1e24;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+}
+
+.dark-theme .action-tile-card:hover {
+    background: #252830;
+    border-color: #dc2626;
+}
+
+.dark-theme .action-tile-icon-box {
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    color: #ffffff;
+}
+
+.dark-theme .action-tile-card:hover .action-tile-icon-box {
+    border-color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.dark-theme .action-tile-label {
+    color: #ffffff;
 }
 
 .action-tile-card {
-    background: #1c1e24;
-    border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 8px;
     padding: 1.1rem 0.6rem;
     text-align: center;
@@ -5373,9 +5579,6 @@ html, body {
 
 .action-tile-card:hover {
     transform: translateY(-3px);
-    background: #252830;
-    border-color: #dc2626;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
 }
 
 .action-tile-icon-box {
@@ -5383,26 +5586,17 @@ html, body {
     height: 40px;
     border-radius: 8px;
     background: transparent;
-    border: 1.5px solid rgba(255, 255, 255, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.25rem;
-    color: #ffffff;
     margin-bottom: 0.6rem;
     transition: all 0.2s ease;
-}
-
-.action-tile-card:hover .action-tile-icon-box {
-    border-color: #ffffff;
-    background: rgba(255, 255, 255, 0.1);
-    transform: scale(1.05);
 }
 
 .action-tile-label {
     font-size: 0.74rem;
     font-weight: 700;
-    color: #ffffff;
     line-height: 1.25;
     word-break: break-word;
     text-align: center;
@@ -5420,7 +5614,7 @@ html, body {
     border-radius: 8px;
 }
 
-/* 8. Partner Portal & Login Mobile Adjustments */
+/* 7. Partner Portal & Login Mobile Adjustments */
 @media (max-width: 768px) {
     .enterprise-container {
         flex-direction: column;
