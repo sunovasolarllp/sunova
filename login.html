@@ -1457,12 +1457,14 @@
                 }
                 if (btn) {
                     if (t === tabId) {
+                        btn.classList.add('active');
                         btn.style.background = 'var(--color-sun-yellow)';
                         btn.style.color = '#0d1321';
                         btn.style.borderColor = 'var(--color-sun-yellow)';
                         btn.style.fontWeight = '800';
                     } else {
-                        btn.style.background = 'rgba(255,255,255,0.06)';
+                        btn.classList.remove('active');
+                        btn.style.background = 'var(--color-surface)';
                         btn.style.color = 'var(--color-text)';
                         btn.style.borderColor = 'var(--color-border)';
                         btn.style.fontWeight = '700';

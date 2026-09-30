@@ -5507,7 +5507,57 @@ html, body {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
-/* 6. Partner & Staff Portal Action Tiles */
+/* 6. Partner & Staff Navigation Tabs High-Contrast */
+.partner-tab-btn,
+.staff-tab-btn {
+    transition: all 0.2s ease !important;
+}
+
+.light-theme .partner-tab-btn,
+.light-theme .staff-tab-btn {
+    background: #ffffff !important;
+    color: #1e293b !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+.light-theme .partner-tab-btn:hover,
+.light-theme .staff-tab-btn:hover {
+    background: #f8fafc !important;
+    border-color: #d97706 !important;
+}
+
+.light-theme .partner-tab-btn.active,
+.light-theme .staff-tab-btn.active {
+    background: #f59e0b !important;
+    color: #0d1321 !important;
+    border-color: #d97706 !important;
+    font-weight: 800 !important;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3) !important;
+}
+
+.dark-theme .partner-tab-btn,
+.dark-theme .staff-tab-btn {
+    background: #131d31 !important;
+    color: #f8fafc !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+.dark-theme .partner-tab-btn:hover,
+.dark-theme .staff-tab-btn:hover {
+    background: #1c2a44 !important;
+    border-color: var(--color-sun-yellow) !important;
+}
+
+.dark-theme .partner-tab-btn.active,
+.dark-theme .staff-tab-btn.active {
+    background: var(--color-sun-yellow) !important;
+    color: #0d1321 !important;
+    border-color: var(--color-sun-yellow) !important;
+    font-weight: 800 !important;
+    box-shadow: 0 2px 10px rgba(255, 183, 3, 0.35) !important;
+}
+
+/* 7. Partner & Staff Portal Action Tiles */
 .light-theme .action-tile-card {
     background: #ffffff !important;
     border: 1px solid #cbd5e1 !important;
