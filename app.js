@@ -659,7 +659,7 @@ function performCalculationsDirect(capacity, units, skipSyncForm = false, syncBi
         if (capacity === 3.0) {
             batteryCost = is3Phase ? 175000 : 145000;
         } else if (capacity === 5.0) {
-            batteryCost = is3Phase ? 230000 : 190000;
+            batteryCost = is3Phase ? 230000 : 160000;
         } else if (capacity === 10.0) {
             batteryCost = 310000;
         } else {
@@ -7534,7 +7534,7 @@ function updateInstantQuotationCalculations() {
         else if (inv === '3phase_ongrid') base += 18000;
         else if (inv === 'hybrid_battery') {
             if (cap === 3) base = 340000;
-            else if (cap === 5) base = (inv === '3phase_ongrid' || inv === 'hybrid_battery_3ph') ? 540000 : 480000;
+            else if (cap === 5) base = (inv === '3phase_ongrid' || inv === 'hybrid_battery_3ph') ? 540000 : 450000;
             else if (cap === 10) base = 895000;
             else base += Math.round(cap * 32000);
         }
