@@ -6470,3 +6470,179 @@ html, body {
     color: #d97706;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
+
+/* ==========================================================================
+   ENTERPRISE COMPACT SIZE & HIGH-DENSITY SCALING SUITE
+   ========================================================================== */
+
+/* 1. Header & Navigation Scaling */
+.enterprise-navbar {
+    height: 46px !important;
+    padding: 0 1rem !important;
+}
+
+.enterprise-logo {
+    height: 24px !important;
+}
+
+.enterprise-title {
+    font-size: 0.92rem !important;
+}
+
+.enterprise-nav-btn {
+    padding: 0.3rem 0.65rem !important;
+    font-size: 0.74rem !important;
+    border-radius: 6px !important;
+}
+
+.enterprise-container {
+    margin-top: 46px !important;
+    min-height: calc(100vh - 46px) !important;
+}
+
+.enterprise-main-canvas {
+    padding: 0.9rem 1.25rem !important;
+}
+
+/* 2. Titles & Subtitles */
+.dashboard-overview-title {
+    font-size: 1.15rem !important;
+    margin: 0 0 0.1rem 0 !important;
+}
+
+.dashboard-date-subtitle {
+    font-size: 0.72rem !important;
+    margin-bottom: 0.75rem !important;
+}
+
+/* 3. Partner & Staff Cards / Banners */
+#dealer-profile-details,
+#partner-overview-banner,
+#staff-role-workspace-banner,
+.portal-card-box,
+.tech-settings-box {
+    padding: 0.8rem 1rem !important;
+    margin-bottom: 0.85rem !important;
+    border-radius: 10px !important;
+}
+
+#partner-welcome-header,
+#staff-role-title {
+    font-size: 1.05rem !important;
+}
+
+.portal-card-box h4,
+.tech-settings-box h4 {
+    font-size: 0.9rem !important;
+    margin-bottom: 0.35rem !important;
+}
+
+/* 4. Stat Boxes & Metrics Numbers */
+.portal-stat-box {
+    padding: 0.6rem 0.8rem !important;
+    border-radius: 8px !important;
+}
+
+.portal-stat-box span {
+    font-size: 0.68rem !important;
+}
+
+#partner-active-leads,
+#partner-commission-earned,
+#inquiry-count,
+#saved-quotes-count,
+#calculated-monthly-emi {
+    font-size: 1.35rem !important;
+}
+
+/* 5. Navigation Tab Buttons */
+.partner-nav-tabs,
+.staff-nav-tabs {
+    gap: 0.35rem !important;
+    padding-bottom: 0.35rem !important;
+    margin-bottom: 0.85rem !important;
+}
+
+.partner-tab-btn,
+.staff-tab-btn {
+    padding: 0.38rem 0.75rem !important;
+    font-size: 0.76rem !important;
+    border-radius: 7px !important;
+}
+
+/* 6. Form Inputs, Selects & Labels */
+.form-group {
+    margin-bottom: 0.55rem !important;
+}
+
+.form-group label {
+    font-size: 0.72rem !important;
+    margin-bottom: 0.2rem !important;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea,
+input[type="text"],
+input[type="tel"],
+input[type="number"],
+input[type="password"],
+select {
+    padding: 0.42rem 0.6rem !important;
+    font-size: 0.78rem !important;
+    border-radius: 6px !important;
+}
+
+.cta-btn,
+button.cta-btn,
+a.cta-btn {
+    padding: 0.45rem 0.85rem !important;
+    font-size: 0.78rem !important;
+    border-radius: 6px !important;
+}
+
+/* 7. Login Cards Compact Size */
+.login-card {
+    max-width: 380px !important;
+    padding: 1.4rem 1.3rem !important;
+    border-radius: 14px !important;
+}
+
+.portal-logo {
+    height: 48px !important;
+    width: auto !important;
+    margin-bottom: 0.65rem !important;
+}
+
+.portal-header h2 {
+    font-size: 1.25rem !important;
+}
+
+.portal-header p {
+    font-size: 0.74rem !important;
+    line-height: 1.4 !important;
+    margin-top: 0.25rem !important;
+}
+
+.portal-role-switch {
+    margin-bottom: 0.9rem !important;
+    padding: 0.25rem !important;
+}
+
+.portal-role-switch button,
+.portal-role-switch a {
+    padding: 0.45rem 0.5rem !important;
+    font-size: 0.78rem !important;
+}
+
+/* 8. Tables, Grids & Proposal Spacing */
+table th, table td {
+    padding: 0.35rem 0.5rem !important;
+    font-size: 0.76rem !important;
+}
+
+.quote-grid-3, .quote-grid-4 {
+    gap: 0.55rem !important;
+    margin-bottom: 0.55rem !important;
+}
+
