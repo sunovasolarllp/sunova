@@ -850,34 +850,65 @@
                                         <input type="text" id="doc-remarks" placeholder="e.g. 3.3kW DCR Bifacial panels installed, D-fuse &amp; 4-pole isolator mounted. KSEB net meter pending." style="width: 100%; box-sizing: border-box; background: var(--color-bg-alt); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.55rem 0.8rem; border-radius: 8px; font-size: 0.82rem;">
                                     </div>
 
-                                    <!-- Drag & Drop File Upload Box (Span full width) -->
+                                    <!-- Drag & Drop Multi-File Upload Box (Span full width) -->
                                     <div style="grid-column: 1 / -1;">
-                                        <label style="font-size: 0.76rem; font-weight: 700; color: var(--color-text); display: block; margin-bottom: 0.35rem;">Attach Document File (PDF, JPG, PNG, WEBP - Max 10MB) *</label>
-                                        <div id="doc-drop-zone" ondragover="handleDocDragOver(event)" ondragleave="handleDocDragLeave(event)" ondrop="handleDocDrop(event)" onclick="document.getElementById('doc-file-input').click()" style="border: 2px dashed var(--color-border); border-radius: 12px; padding: 1.5rem; text-align: center; background: var(--color-bg-alt); cursor: pointer; transition: all 0.2s ease;">
-                                            <input type="file" id="doc-file-input" onchange="handleDocFileSelect(event)" accept=".pdf,.jpg,.jpeg,.png,.webp,.docx,.zip" style="display: none;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem; flex-wrap: wrap; gap: 0.4rem;">
+                                            <label style="font-size: 0.76rem; font-weight: 700; color: var(--color-text); margin: 0;">
+                                                Attach Documents (Select Multiple Files: PDF, JPG, PNG, WEBP - Max 10MB each) *
+                                            </label>
+                                            <span style="font-size: 0.72rem; color: #10b981; font-weight: 800; background: rgba(16, 185, 129, 0.12); border: 1px solid #10b981; padding: 2px 8px; border-radius: 12px;">
+                                                ⚡ Multi-File 1-Click Upload Supported
+                                            </span>
+                                        </div>
+
+                                        <div id="doc-drop-zone" ondragover="handleDocDragOver(event)" ondragleave="handleDocDragLeave(event)" ondrop="handleDocDrop(event)" onclick="triggerDocFileInput(event)" style="border: 2px dashed var(--color-border); border-radius: 12px; padding: 1.35rem 1rem; text-align: center; background: var(--color-bg-alt); cursor: pointer; transition: all 0.2s ease;">
+                                            <input type="file" id="doc-file-input" multiple onchange="handleDocFileSelect(event)" accept=".pdf,.jpg,.jpeg,.png,.webp,.docx,.zip" style="display: none;">
                                             <div id="doc-upload-prompt">
-                                                <span style="font-size: 2.2rem; display: block; margin-bottom: 0.4rem;">📁</span>
-                                                <p style="margin: 0; font-size: 0.84rem; font-weight: 700; color: var(--color-text);">Click to browse or Drag &amp; Drop installation document here</p>
-                                                <p style="margin: 0.25rem 0 0 0; font-size: 0.72rem; color: var(--color-text-muted);">Supported formats: PDF, JPG, PNG, WEBP, ZIP (Max: 10MB)</p>
+                                                <span style="font-size: 2.2rem; display: block; margin-bottom: 0.35rem;">📁</span>
+                                                <p style="margin: 0; font-size: 0.86rem; font-weight: 800; color: var(--color-text);">Click to browse or Drag &amp; Drop multiple installation files here</p>
+                                                <p style="margin: 0.25rem 0 0 0; font-size: 0.72rem; color: var(--color-text-muted);">Select all KYC, bills, photos, passbooks &amp; test reports together in 1 selection (PDF, JPG, PNG, WEBP)</p>
                                             </div>
-                                            <div id="doc-file-selected-card" style="display: none; align-items: center; justify-content: space-between; background: var(--color-surface); border: 1px solid var(--color-sun-yellow); border-radius: 8px; padding: 0.6rem 1rem; max-width: 500px; margin: 0 auto; text-align: left;">
-                                                <div style="display: flex; align-items: center; gap: 0.75rem; overflow: hidden;">
-                                                    <span id="doc-file-icon" style="font-size: 1.4rem;">📄</span>
-                                                    <div style="overflow: hidden;">
-                                                        <div id="doc-file-name" style="font-size: 0.82rem; font-weight: 700; color: var(--color-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">filename.pdf</div>
-                                                        <div id="doc-file-size" style="font-size: 0.7rem; color: var(--color-text-muted);">0 KB</div>
-                                                    </div>
+                                        </div>
+
+                                        <!-- Multi-File Staging Queue Container (Shows when 1 or more files are selected) -->
+                                        <div id="doc-multi-file-queue" style="display: none; margin-top: 0.85rem; background: var(--color-surface); border: 1.5px solid var(--color-sun-yellow); border-radius: 12px; padding: 1rem;">
+                                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+                                                <div style="display: flex; align-items: center; gap: 0.4rem;">
+                                                    <span style="font-size: 1.1rem;">📦</span>
+                                                    <strong style="font-size: 0.84rem; color: var(--color-text);">Staged Documents for 1-Click Upload:</strong>
+                                                    <span id="doc-staged-count-badge" style="background: var(--color-sun-yellow); color: #0d1321; font-size: 0.72rem; font-weight: 800; padding: 0.15rem 0.5rem; border-radius: 10px;">0 Files</span>
+                                                    <span id="doc-staged-total-size" style="font-size: 0.72rem; color: var(--color-text-muted);">(0 KB)</span>
                                                 </div>
-                                                <button type="button" onclick="removeSelectedDocFile(event)" style="background: none; border: none; color: #ef4444; font-size: 1.1rem; cursor: pointer; padding: 0.2rem 0.5rem;" title="Remove file">✕</button>
+                                                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                                    <button type="button" onclick="triggerDocFileInput(event)" style="background: rgba(255, 183, 3, 0.15); border: 1px solid var(--color-sun-yellow); color: var(--color-sun-yellow); font-size: 0.74rem; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.3rem;">
+                                                        ➕ Add More Files
+                                                    </button>
+                                                    <button type="button" onclick="clearAllStagedFiles(event)" style="background: rgba(239, 68, 68, 0.12); border: 1px solid #ef4444; color: #ef4444; font-size: 0.74rem; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.3rem;">
+                                                        🗑️ Clear Queue
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <!-- Scrollable Staged Files List with Per-File Category Selector -->
+                                            <div id="doc-staged-files-list" style="display: flex; flex-direction: column; gap: 0.6rem; max-height: 290px; overflow-y: auto; padding-right: 0.25rem;">
+                                                <!-- Populated dynamically -->
                                             </div>
                                         </div>
                                     </div>
 
                                     <!-- Submit Action Bar -->
-                                    <div style="grid-column: 1 / -1; display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: center; justify-content: flex-end; margin-top: 0.5rem;">
-                                        <button type="submit" id="btn-save-doc" class="cta-btn primary-btn" style="padding: 0.6rem 1.4rem; font-size: 0.85rem; font-weight: 800; display: inline-flex; align-items: center; gap: 0.4rem;">
-                                            📤 Upload &amp; Register Document
-                                        </button>
+                                    <div style="grid-column: 1 / -1; display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: center; justify-content: space-between; margin-top: 0.5rem; border-top: 1px solid var(--color-border); padding-top: 0.75rem;">
+                                        <div id="doc-upload-progress-text" style="font-size: 0.78rem; font-weight: 700; color: var(--color-sun-yellow); display: none;">
+                                            ⏳ Processing and registering documents batch...
+                                        </div>
+                                        <div style="display: flex; gap: 0.6rem; margin-left: auto;">
+                                            <button type="button" onclick="clearDocUploadForm()" style="background: rgba(255,255,255,0.06); border: 1px solid var(--color-border); color: var(--color-text); font-size: 0.82rem; font-weight: 600; padding: 0.6rem 1.1rem; border-radius: 8px; cursor: pointer;">
+                                                Cancel
+                                            </button>
+                                            <button type="submit" id="btn-save-doc" class="cta-btn primary-btn" style="padding: 0.6rem 1.6rem; font-size: 0.86rem; font-weight: 800; display: inline-flex; align-items: center; gap: 0.4rem;">
+                                                📤 Upload All Documents in 1 Click
+                                            </button>
+                                        </div>
                                     </div>
                                 </form>
 
@@ -2478,9 +2509,18 @@
         }
 
         // ==========================================
-        // 📤 SOLAR INSTALLATION DOCUMENTS ENGINE
+        // 📤 SOLAR MULTI-DOCUMENT BATCH ENGINE
         // ==========================================
-        let selectedDocFile = null;
+        let stagedDocFiles = [];
+
+        function triggerDocFileInput(e) {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            const input = document.getElementById('doc-file-input');
+            if (input) input.click();
+        }
 
         function handleDocDragOver(e) {
             e.preventDefault();
@@ -2511,54 +2551,207 @@
                 zone.style.background = 'var(--color-bg-alt)';
             }
             if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-                processSelectedDocFile(e.dataTransfer.files[0]);
+                addFilesToStagingQueue(Array.from(e.dataTransfer.files));
             }
         }
 
         function handleDocFileSelect(e) {
             if (e.target && e.target.files && e.target.files.length > 0) {
-                processSelectedDocFile(e.target.files[0]);
+                addFilesToStagingQueue(Array.from(e.target.files));
+                e.target.value = ''; // Reset input to allow re-selection if needed
             }
         }
 
-        function processSelectedDocFile(file) {
-            if (!file) return;
-            if (file.size > 10 * 1024 * 1024) {
-                alert('File size exceeds the 10MB limit. Please upload a smaller file or compressed PDF/Image.');
+        function autoDetectDocCategory(fileName, defaultCat) {
+            const name = (fileName || '').toLowerCase();
+            if (name.includes('aadhaar') || name.includes('aadhar') || name.includes('kyc') || name.includes('id_proof')) {
+                return 'Aadhaar Card Copy (KYC Proof)';
+            }
+            if (name.includes('bill') || name.includes('kseb') || name.includes('eb_') || name.includes('elec')) {
+                return 'Latest KSEB Electricity Bill';
+            }
+            if (name.includes('bank') || name.includes('passbook') || name.includes('cheque') || name.includes('dbt')) {
+                return 'Bank Passbook / Cancelled Cheque';
+            }
+            if (name.includes('roof') || name.includes('photo') || name.includes('site') || name.includes('image') || name.includes('img') || name.includes('panel_pic') || name.includes('terrace')) {
+                return 'Geo-Tagged Rooftop Photos (Pre/Post Install)';
+            }
+            if (name.includes('serial') || name.includes('sr_no') || name.includes('srno') || name.includes('module_serial') || name.includes('inverter_serial')) {
+                return 'Inverter & Module Serial Number Sheet';
+            }
+            if (name.includes('almm') || name.includes('dcr') || name.includes('dcr_cert')) {
+                return 'Solar PV Module ALMM & DCR Certificate';
+            }
+            if (name.includes('feasibility') || name.includes('clearance') || name.includes('agreement') || name.includes('soura')) {
+                return 'KSEB Net Metering Feasibility Clearance';
+            }
+            if (name.includes('earth') || name.includes('commission') || name.includes('test_report') || name.includes('megger')) {
+                return 'Earthing Resistance & Commissioning Certificate';
+            }
+            if (name.includes('lightning') || name.includes('spd') || name.includes('arrester')) {
+                return 'Lightning Protection & Surge Arrester Test Report';
+            }
+            if (name.includes('tax') || name.includes('possession') || name.includes('land') || name.includes('building_tax')) {
+                return 'Building Tax / Land Tax Receipt / Possession Certificate';
+            }
+            if (name.includes('ceig') || name.includes('inspectorate')) {
+                return 'Electrical Inspectorate (CEIG) Safety Clearance';
+            }
+            if (name.includes('meter') || name.includes('tmr') || name.includes('calibration')) {
+                return 'KSEB Bi-directional Net Meter Test Report';
+            }
+            if (name.includes('sld') || name.includes('diagram') || name.includes('layout') || name.includes('drawing')) {
+                return 'Single Line Diagram (SLD) & Structural Layout';
+            }
+            if (name.includes('invoice') || name.includes('challan') || name.includes('gst')) {
+                return 'GST Commercial Invoice & Delivery Challan';
+            }
+            if (name.includes('jir') || name.includes('joint') || name.includes('form_b') || name.includes('form_c')) {
+                return 'KSEB Joint Inspection Report (JIR / Form B/C)';
+            }
+            if (name.includes('loan') || name.includes('bank_loan') || name.includes('sanction')) {
+                return 'Bank Solar Loan Sanction Letter / NOC';
+            }
+            if (name.includes('noc') || name.includes('association') || name.includes('rwa')) {
+                return 'Co-owner / Apartment / RWA NOC Letter';
+            }
+            if (name.includes('application') || name.includes('pm_surya') || name.includes('pmsuryaghar')) {
+                return 'PM Surya Ghar National Portal Application Slip';
+            }
+            if (name.includes('warranty') || name.includes('datasheet')) {
+                return 'Manufacturer Warranty Cards & Datasheets';
+            }
+            return defaultCat || 'Aadhaar Card Copy (KYC Proof)';
+        }
+
+        function addFilesToStagingQueue(files) {
+            if (!files || files.length === 0) return;
+            const globalSelectedCat = (document.getElementById('doc-type')?.value || 'Aadhaar Card Copy (KYC Proof)');
+            let addedCount = 0;
+            let oversizedCount = 0;
+
+            files.forEach(file => {
+                if (file.size > 10 * 1024 * 1024) {
+                    oversizedCount++;
+                    return;
+                }
+                const detectedCat = autoDetectDocCategory(file.name, globalSelectedCat);
+                const fileId = 'STAGE_' + Date.now().toString(36) + '_' + Math.random().toString(36).substr(2, 5);
+                stagedDocFiles.push({
+                    id: fileId,
+                    file: file,
+                    docType: detectedCat,
+                    remarks: ''
+                });
+                addedCount++;
+            });
+
+            if (oversizedCount > 0) {
+                alert(`⚠️ ${oversizedCount} file(s) exceeded the 10MB size limit and were skipped.`);
+            }
+
+            renderStagedFilesQueue();
+            if (addedCount > 0) {
+                showPortalToast(`📁 ${addedCount} document(s) added to staging queue.`);
+            }
+        }
+
+        function removeStagedFile(fileId, e) {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            stagedDocFiles = stagedDocFiles.filter(f => f.id !== fileId);
+            renderStagedFilesQueue();
+        }
+
+        function clearAllStagedFiles(e) {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            stagedDocFiles = [];
+            renderStagedFilesQueue();
+        }
+
+        function updateStagedFileType(fileId, newType) {
+            const item = stagedDocFiles.find(f => f.id === fileId);
+            if (item) item.docType = newType;
+        }
+
+        function updateStagedFileRemarks(fileId, newRemarks) {
+            const item = stagedDocFiles.find(f => f.id === fileId);
+            if (item) item.remarks = newRemarks;
+        }
+
+        function renderStagedFilesQueue() {
+            const queueEl = document.getElementById('doc-multi-file-queue');
+            const listEl = document.getElementById('doc-staged-files-list');
+            const countBadge = document.getElementById('doc-staged-count-badge');
+            const totalSizeEl = document.getElementById('doc-staged-total-size');
+            const submitBtn = document.getElementById('btn-save-doc');
+
+            if (!queueEl || !listEl) return;
+
+            if (stagedDocFiles.length === 0) {
+                queueEl.style.display = 'none';
+                if (submitBtn) {
+                    submitBtn.innerHTML = '📤 Upload All Documents in 1 Click';
+                }
                 return;
             }
-            selectedDocFile = file;
-            const promptEl = document.getElementById('doc-upload-prompt');
-            const cardEl = document.getElementById('doc-file-selected-card');
-            const nameEl = document.getElementById('doc-file-name');
-            const sizeEl = document.getElementById('doc-file-size');
-            const iconEl = document.getElementById('doc-file-icon');
 
-            if (promptEl) promptEl.style.display = 'none';
-            if (cardEl) cardEl.style.display = 'flex';
-            if (nameEl) nameEl.textContent = file.name;
-            if (sizeEl) sizeEl.textContent = formatDocBytes(file.size);
+            queueEl.style.display = 'block';
+            if (countBadge) countBadge.textContent = `${stagedDocFiles.length} File${stagedDocFiles.length > 1 ? 's' : ''}`;
 
-            if (iconEl) {
-                if (file.type && file.type.includes('pdf')) iconEl.textContent = '📑';
-                else if (file.type && file.type.includes('image')) iconEl.textContent = '🖼️';
-                else if (file.type && file.type.includes('zip')) iconEl.textContent = '📦';
-                else iconEl.textContent = '📄';
+            const totalBytes = stagedDocFiles.reduce((sum, item) => sum + (item.file?.size || 0), 0);
+            if (totalSizeEl) totalSizeEl.textContent = `(${formatDocBytes(totalBytes)})`;
+
+            if (submitBtn) {
+                submitBtn.innerHTML = `📤 Upload All (${stagedDocFiles.length} Documents) in 1 Click`;
             }
-        }
 
-        function removeSelectedDocFile(e) {
-            if (e) {
-                e.stopPropagation();
-                e.preventDefault();
+            // Get available categories for per-file dropdown
+            const docTypeSelect = document.getElementById('doc-type');
+            let categoriesHtml = '';
+            if (docTypeSelect) {
+                categoriesHtml = docTypeSelect.innerHTML;
             }
-            selectedDocFile = null;
-            const fileInput = document.getElementById('doc-file-input');
-            if (fileInput) fileInput.value = '';
-            const promptEl = document.getElementById('doc-upload-prompt');
-            const cardEl = document.getElementById('doc-file-selected-card');
-            if (promptEl) promptEl.style.display = 'block';
-            if (cardEl) cardEl.style.display = 'none';
+
+            listEl.innerHTML = stagedDocFiles.map((item, idx) => {
+                const file = item.file;
+                const isPdf = (file.type && file.type.includes('pdf')) || file.name.toLowerCase().endsWith('.pdf');
+                const isImg = (file.type && file.type.includes('image')) || /\.(jpg|jpeg|png|webp|gif)$/i.test(file.name);
+                const fileIcon = isPdf ? '📑' : (isImg ? '🖼️' : '📄');
+
+                return `
+                <div style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; padding: 0.65rem 0.85rem; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap;">
+                    <div style="display: flex; align-items: center; gap: 0.6rem; min-width: 220px; flex: 1;">
+                        <span style="font-size: 1.3rem;">${fileIcon}</span>
+                        <div style="overflow: hidden;">
+                            <div style="font-size: 0.82rem; font-weight: 700; color: var(--color-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 280px;" title="${escapeHtml(file.name)}">
+                                ${idx + 1}. ${escapeHtml(file.name)}
+                            </div>
+                            <div style="font-size: 0.7rem; color: var(--color-text-muted);">
+                                ${formatDocBytes(file.size)} • ${file.type || 'Document'}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; flex: 1.5; justify-content: flex-end;">
+                        <div style="min-width: 200px; flex: 1;">
+                            <select onchange="updateStagedFileType('${item.id}', this.value)" style="width: 100%; box-sizing: border-box; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.35rem 0.6rem; border-radius: 6px; font-size: 0.76rem; font-weight: 600;">
+                                ${categoriesHtml.replace(`value="${item.docType}"`, `value="${item.docType}" selected`)}
+                            </select>
+                        </div>
+                        <input type="text" placeholder="Note (optional)" value="${escapeHtml(item.remarks || '')}" oninput="updateStagedFileRemarks('${item.id}', this.value)" style="max-width: 140px; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.35rem 0.5rem; border-radius: 6px; font-size: 0.74rem;">
+                        <button type="button" onclick="removeStagedFile('${item.id}', event)" style="background: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444; color: #ef4444; border-radius: 6px; padding: 0.3rem 0.55rem; font-size: 0.76rem; font-weight: 800; cursor: pointer;" title="Remove this file">
+                            ✕
+                        </button>
+                    </div>
+                </div>
+                `;
+            }).join('');
         }
 
         function clearDocUploadForm() {
@@ -2566,7 +2759,8 @@
             if (form) form.reset();
             const autoSelect = document.getElementById('doc-autofill-lead-select');
             if (autoSelect) autoSelect.value = '';
-            removeSelectedDocFile();
+            stagedDocFiles = [];
+            renderStagedFilesQueue();
         }
 
         function autoFillDocFieldsFromLead(leadJsonString) {
@@ -2590,7 +2784,7 @@
         }
 
         function formatDocBytes(bytes, decimals = 1) {
-            if (bytes === 0) return '0 Bytes';
+            if (!bytes || bytes === 0) return '0 Bytes';
             const k = 1024;
             const dm = decimals < 0 ? 0 : decimals;
             const sizes = ['Bytes', 'KB', 'MB', 'GB'];
@@ -2598,7 +2792,16 @@
             return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
         }
 
-        function handleSaveInstallationDoc(e) {
+        function readFileAsDataUrl(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = () => reject(new Error(`Failed to read file ${file.name}`));
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function handleSaveInstallationDoc(e) {
             e.preventDefault();
             const dealerCode = localStorage.getItem('partner_code') || 'DIRECT';
             const name = (document.getElementById('doc-cust-name')?.value || '').trim();
@@ -2606,89 +2809,113 @@
             const consumerNo = (document.getElementById('doc-consumer-no')?.value || '').trim();
             const ksebSection = (document.getElementById('doc-kseb-section')?.value || '').trim();
             const capacity = (document.getElementById('doc-capacity')?.value || '3.0').trim();
-            const docType = (document.getElementById('doc-type')?.value || 'Aadhaar Card Copy (KYC Proof)').trim();
-            const remarks = (document.getElementById('doc-remarks')?.value || '').trim();
+            const globalRemarks = (document.getElementById('doc-remarks')?.value || '').trim();
 
             if (!name || !phone || !consumerNo || !ksebSection) {
                 alert('Please fill in all mandatory customer & KSEB fields (*)');
                 return;
             }
 
-            if (!selectedDocFile) {
-                alert('Please select or drop a document file to upload.');
+            if (stagedDocFiles.length === 0) {
+                alert('Please select or drag & drop at least one document file to upload.');
                 return;
             }
 
             const btn = document.getElementById('btn-save-doc');
+            const progressEl = document.getElementById('doc-upload-progress-text');
+
             if (btn) {
                 btn.disabled = true;
-                btn.textContent = '⏳ Encoding & Uploading...';
+                btn.textContent = `⏳ Uploading ${stagedDocFiles.length} file(s)...`;
+            }
+            if (progressEl) {
+                progressEl.style.display = 'block';
+                progressEl.textContent = `⏳ Reading & Encoding ${stagedDocFiles.length} document(s)...`;
             }
 
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                const fileDataUrl = evt.target.result;
-                const docId = 'DOC-' + Date.now().toString(36).toUpperCase() + '-' + Math.floor(Math.random()*1000);
-                const newDoc = {
-                    id: docId,
-                    dealerCode: dealerCode,
-                    customerName: name,
-                    customerPhone: phone,
-                    consumerNo: consumerNo,
-                    ksebSection: ksebSection,
-                    capacity: capacity,
-                    docType: docType,
-                    remarks: remarks,
-                    fileName: selectedDocFile.name,
-                    fileSize: selectedDocFile.size,
-                    fileType: selectedDocFile.type,
-                    fileData: fileDataUrl,
-                    status: 'Uploaded (Pending KSEB Verification)',
-                    createdAt: new Date().toISOString()
-                };
-
+            try {
                 const storageKey = 'partner_installation_docs_' + dealerCode;
                 let existingDocs = [];
                 try {
                     existingDocs = JSON.parse(localStorage.getItem(storageKey) || '[]');
                 } catch(err) { existingDocs = []; }
 
-                existingDocs.unshift(newDoc);
+                let globalDocs = [];
+                try {
+                    globalDocs = JSON.parse(localStorage.getItem('global_installation_docs') || '[]');
+                } catch(e) { globalDocs = []; }
 
+                let successfulUploads = 0;
+
+                for (let i = 0; i < stagedDocFiles.length; i++) {
+                    const staged = stagedDocFiles[i];
+                    if (progressEl) {
+                        progressEl.textContent = `⏳ Processing (${i + 1}/${stagedDocFiles.length}): ${staged.file.name}...`;
+                    }
+
+                    const fileDataUrl = await readFileAsDataUrl(staged.file);
+                    const docId = 'DOC-' + Date.now().toString(36).toUpperCase() + '-' + Math.floor(Math.random()*10000);
+                    const docNotes = staged.remarks ? (globalRemarks ? `${globalRemarks} (${staged.remarks})` : staged.remarks) : globalRemarks;
+
+                    const newDoc = {
+                        id: docId,
+                        dealerCode: dealerCode,
+                        customerName: name,
+                        customerPhone: phone,
+                        consumerNo: consumerNo,
+                        ksebSection: ksebSection,
+                        capacity: capacity,
+                        docType: staged.docType || 'Other Project Document / Technical Attachment',
+                        remarks: docNotes,
+                        fileName: staged.file.name,
+                        fileSize: staged.file.size,
+                        fileType: staged.file.type,
+                        fileData: fileDataUrl,
+                        status: 'Uploaded (Pending KSEB Verification)',
+                        createdAt: new Date().toISOString()
+                    };
+
+                    existingDocs.unshift(newDoc);
+                    globalDocs.unshift(newDoc);
+                    successfulUploads++;
+                }
+
+                // Save to localStorage with safety fallback if quota reached
                 try {
                     localStorage.setItem(storageKey, JSON.stringify(existingDocs));
                 } catch(storageErr) {
-                    console.warn('LocalStorage size limit, trimming payload', storageErr);
-                    newDoc.fileData = fileDataUrl.substring(0, 40000);
+                    console.warn('LocalStorage limit reached, storing trimmed tokens', storageErr);
+                    existingDocs.forEach(d => {
+                        if (d.fileData && d.fileData.length > 50000) d.fileData = d.fileData.substring(0, 50000);
+                    });
                     localStorage.setItem(storageKey, JSON.stringify(existingDocs));
                 }
 
-                // Also save to global docs for staff verification
                 try {
-                    let globalDocs = JSON.parse(localStorage.getItem('global_installation_docs') || '[]');
-                    globalDocs.unshift(newDoc);
-                    localStorage.setItem('global_installation_docs', JSON.stringify(globalDocs.slice(0, 100)));
+                    localStorage.setItem('global_installation_docs', JSON.stringify(globalDocs.slice(0, 150)));
                 } catch(e) {}
 
                 if (btn) {
                     btn.disabled = false;
-                    btn.innerHTML = '📤 Upload &amp; Register Document';
+                    btn.innerHTML = '📤 Upload All Documents in 1 Click';
+                }
+                if (progressEl) {
+                    progressEl.style.display = 'none';
                 }
 
                 clearDocUploadForm();
                 renderInstallationDocs();
-                showPortalToast(`✅ Document "${docType}" successfully uploaded for ${name}!`);
-            };
+                showPortalToast(`🎉 1-Click Upload Success! ${successfulUploads} document(s) uploaded for ${name}!`);
 
-            reader.onerror = function() {
-                alert('Failed to read document file. Please try again.');
+            } catch(uploadErr) {
+                console.error('[Upload Batch Error]', uploadErr);
+                alert('Error uploading document batch: ' + uploadErr.message);
                 if (btn) {
                     btn.disabled = false;
-                    btn.innerHTML = '📤 Upload &amp; Register Document';
+                    btn.innerHTML = '📤 Upload All Documents in 1 Click';
                 }
-            };
-
-            reader.readAsDataURL(selectedDocFile);
+                if (progressEl) progressEl.style.display = 'none';
+            }
         }
 
         function renderInstallationDocs(searchQuery = '', catFilter = '') {
