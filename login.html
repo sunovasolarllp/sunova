@@ -23,9 +23,9 @@
 <body class="light-theme login-page-body">
     <script>
         (function() {
-            localStorage.setItem('theme', 'light-theme');
             document.body.classList.remove('dark-theme');
             document.body.classList.add('light-theme');
+            localStorage.setItem('theme', 'light-theme');
         })();
     </script>
     <div class="login-wrapper">
@@ -44,9 +44,9 @@
                 <button type="button" id="role-btn-staff" onclick="switchLoginRole('staff')" style="flex: 1; padding: 0.6rem 0.5rem; border: none; border-radius: 8px; font-weight: 700; font-size: 0.84rem; cursor: pointer; transition: all 0.2s; background: var(--color-sun-yellow); color: #0d1321;">
                     🔒 Staff Login
                 </button>
-                <button type="button" id="role-btn-partner" onclick="switchLoginRole('partner')" style="flex: 1; padding: 0.6rem 0.5rem; border: none; border-radius: 8px; font-weight: 700; font-size: 0.84rem; cursor: pointer; transition: all 0.2s; background: transparent; color: var(--color-text-muted);">
+                <a href="partner-portal.html" id="role-btn-partner" style="flex: 1; padding: 0.6rem 0.5rem; border: none; border-radius: 8px; font-weight: 700; font-size: 0.84rem; cursor: pointer; transition: all 0.2s; background: transparent; color: var(--color-text-muted); text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center;">
                     🤝 Partner Login
-                </button>
+                </a>
             </div>
 
             <div class="portal-header text-center" style="display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 1.5rem;">
