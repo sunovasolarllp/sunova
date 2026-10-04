@@ -809,14 +809,38 @@
                                     <div>
                                         <label for="doc-type" style="font-size: 0.76rem; font-weight: 700; color: var(--color-text); display: block; margin-bottom: 0.35rem;">Document Category *</label>
                                         <select id="doc-type" required style="width: 100%; box-sizing: border-box; background: var(--color-bg-alt); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.55rem 0.8rem; border-radius: 8px; font-size: 0.82rem;">
-                                            <option value="Aadhaar Card Copy (KYC Proof)">🪪 Customer Aadhaar Card (KYC Proof)</option>
-                                            <option value="Latest KSEB Electricity Bill">⚡ Latest KSEB Electricity Bill (Proof of Consumer No)</option>
-                                            <option value="Bank Passbook / Cancelled Cheque">🏦 Bank Passbook / Cancelled Cheque (DBT Subsidy)</option>
-                                            <option value="Geo-Tagged Rooftop Photos (Pre/Post Install)">📸 Geo-Tagged Rooftop Photos (Pre/Post Install)</option>
-                                            <option value="Inverter & Module Serial Number Sheet">🏷️ Inverter &amp; Solar Modules Serial Number Sheet</option>
-                                            <option value="KSEB Net Metering Feasibility Clearance">📋 KSEB Feasibility Clearance &amp; Agreement</option>
-                                            <option value="Earthing Resistance & Commissioning Certificate">📑 Earthing (< 5Ω) &amp; Commissioning Certificate</option>
-                                            <option value="Safety Inspection & Handover Slip">📦 Safety Inspection, Dispatch &amp; Handover Slip</option>
+                                            <optgroup label="1. Customer KYC &amp; Premise Documents">
+                                                <option value="Aadhaar Card Copy (KYC Proof)">🪪 Customer Aadhaar Card (KYC Proof)</option>
+                                                <option value="Latest KSEB Electricity Bill">⚡ Latest KSEB Electricity Bill (Proof of Consumer No)</option>
+                                                <option value="Bank Passbook / Cancelled Cheque">🏦 Bank Passbook / Cancelled Cheque (DBT Subsidy)</option>
+                                                <option value="Building Tax / Land Tax Receipt / Possession Certificate">📜 Building Tax / Land Tax / Ownership Certificate</option>
+                                                <option value="Co-owner / Apartment / RWA NOC Letter">🏢 Co-owner / Apartment / RWA NOC Letter</option>
+                                            </optgroup>
+                                            <optgroup label="2. PM Surya Ghar &amp; KSEB Approvals">
+                                                <option value="PM Surya Ghar National Portal Application Slip">🏛️ PM Surya Ghar National Portal Application Slip</option>
+                                                <option value="KSEB Net Metering Feasibility Clearance">📋 KSEB Feasibility Clearance &amp; Agreement</option>
+                                                <option value="Connected Load Enhancement / Phase Conversion Order">⚡ Connected Load Enhancement / Phase Conversion Order</option>
+                                                <option value="Electrical Inspectorate (CEIG) Safety Clearance">🔌 Electrical Inspectorate (CEIG) Safety Clearance (&gt;10kW)</option>
+                                            </optgroup>
+                                            <optgroup label="3. Equipment Serials, DCR &amp; Warranties">
+                                                <option value="Inverter & Module Serial Number Sheet">🏷️ Inverter &amp; Solar Modules Serial Number Sheet</option>
+                                                <option value="Solar PV Module ALMM & DCR Certificate">📑 Solar PV Module ALMM &amp; DCR Certificate</option>
+                                                <option value="Manufacturer Warranty Cards & Datasheets">🛡️ Inverter &amp; Module Warranty Cards / Datasheets</option>
+                                                <option value="KSEB Bi-directional Net Meter Test Report">⚡ KSEB Net Meter Lab Test &amp; Calibration Report</option>
+                                            </optgroup>
+                                            <optgroup label="4. Site Survey, Photos &amp; Technical Safety">
+                                                <option value="Geo-Tagged Rooftop Photos (Pre/Post Install)">📸 Geo-Tagged Rooftop Photos (Pre/Post Install)</option>
+                                                <option value="Earthing Resistance & Commissioning Certificate">📑 Earthing (&lt; 5Ω) &amp; Commissioning Certificate</option>
+                                                <option value="Lightning Protection & Surge Arrester Test Report">⚡ Lightning Protection &amp; Surge Arrester Test Report</option>
+                                                <option value="Single Line Diagram (SLD) & Structural Layout">📐 Single Line Diagram (SLD) &amp; Structural Drawing</option>
+                                            </optgroup>
+                                            <optgroup label="5. Billing, Handover &amp; Bank Finance">
+                                                <option value="GST Commercial Invoice & Delivery Challan">🧾 GST Commercial Invoice &amp; Delivery Challan</option>
+                                                <option value="KSEB Joint Inspection Report (JIR / Form B/C)">🤝 KSEB Joint Inspection Report (JIR / Form B/C)</option>
+                                                <option value="Bank Solar Loan Sanction Letter / NOC">🏦 Bank Solar Loan Sanction Letter / NOC</option>
+                                                <option value="Safety Inspection & Handover Slip">📦 Safety Inspection, Dispatch &amp; Handover Slip</option>
+                                                <option value="Other Project Document / Technical Attachment">📁 Other Project Document / Technical Attachment</option>
+                                            </optgroup>
                                         </select>
                                     </div>
 
@@ -862,11 +886,13 @@
                                     <div style="font-size: 0.82rem; font-weight: 800; color: var(--color-sun-yellow); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
                                         📌 PM Surya Ghar &amp; KSEB Soura Mandatory Upload Checklist:
                                     </div>
-                                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; font-size: 0.74rem; color: var(--color-text);">
-                                        <div style="display: flex; gap: 0.4rem;"><span style="color: #10b981; font-weight: 800;">✓</span> <span><strong>Aadhaar KYC:</strong> Name must match KSEB Consumer records exactly.</span></div>
-                                        <div style="display: flex; gap: 0.4rem;"><span style="color: #10b981; font-weight: 800;">✓</span> <span><strong>Bank Details:</strong> Clear passbook/cheque with IFSC for direct DBT subsidy.</span></div>
-                                        <div style="display: flex; gap: 0.4rem;"><span style="color: #10b981; font-weight: 800;">✓</span> <span><strong>Geo-Tagged Photos:</strong> Inverter &amp; Panels visible with GPS location &amp; date stamp.</span></div>
-                                        <div style="display: flex; gap: 0.4rem;"><span style="color: #10b981; font-weight: 800;">✓</span> <span><strong>Earthing Test:</strong> Pit resistance measured &lt; 5 Ohms with separate AC/DC/LA pits.</span></div>
+                                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; font-size: 0.74rem; color: var(--color-text);">
+                                        <div style="display: flex; gap: 0.4rem;"><span style="color: #10b981; font-weight: 800;">✓</span> <span><strong>1. KYC &amp; Bank DBT:</strong> Aadhaar &amp; Bank passbook name match KSEB Consumer.</span></div>
+                                        <div style="display: flex; gap: 0.4rem;"><span style="color: #10b981; font-weight: 800;">✓</span> <span><strong>2. Premise Proof:</strong> Building Tax or NOC if consumer record differs.</span></div>
+                                        <div style="display: flex; gap: 0.4rem;"><span style="color: #10b981; font-weight: 800;">✓</span> <span><strong>3. ALMM / DCR Proof:</strong> DCR Module Serials matching National Portal specs.</span></div>
+                                        <div style="display: flex; gap: 0.4rem;"><span style="color: #10b981; font-weight: 800;">✓</span> <span><strong>4. Geo-Tagged Photos:</strong> Inverter &amp; array with GPS location &amp; date stamp.</span></div>
+                                        <div style="display: flex; gap: 0.4rem;"><span style="color: #10b981; font-weight: 800;">✓</span> <span><strong>5. Earthing &amp; Safety:</strong> Pit resistance measured &lt; 5Ω with LA Surge protection.</span></div>
+                                        <div style="display: flex; gap: 0.4rem;"><span style="color: #10b981; font-weight: 800;">✓</span> <span><strong>6. GST &amp; Handover:</strong> Tax Invoice &amp; KSEB Joint Inspection Report (JIR).</span></div>
                                     </div>
                                 </div>
 
@@ -883,12 +909,26 @@
                                                 <option value="">All Categories</option>
                                                 <option value="Aadhaar Card Copy (KYC Proof)">Aadhaar KYC</option>
                                                 <option value="Latest KSEB Electricity Bill">KSEB Bill</option>
-                                                <option value="Bank Passbook / Cancelled Cheque">Bank Passbook</option>
-                                                <option value="Geo-Tagged Rooftop Photos (Pre/Post Install)">Rooftop Photos</option>
-                                                <option value="Inverter & Module Serial Number Sheet">Serials Sheet</option>
+                                                <option value="Bank Passbook / Cancelled Cheque">Bank Passbook (DBT)</option>
+                                                <option value="Building Tax / Land Tax Receipt / Possession Certificate">Building / Land Tax</option>
+                                                <option value="Co-owner / Apartment / RWA NOC Letter">RWA / Co-owner NOC</option>
+                                                <option value="PM Surya Ghar National Portal Application Slip">PM Surya Ghar Form</option>
                                                 <option value="KSEB Net Metering Feasibility Clearance">KSEB Feasibility</option>
-                                                <option value="Earthing Resistance & Commissioning Certificate">Commissioning Cert</option>
+                                                <option value="Connected Load Enhancement / Phase Conversion Order">Load Enhancement</option>
+                                                <option value="Electrical Inspectorate (CEIG) Safety Clearance">CEIG Clearance</option>
+                                                <option value="Inverter & Module Serial Number Sheet">Serials Sheet</option>
+                                                <option value="Solar PV Module ALMM & DCR Certificate">ALMM &amp; DCR Cert</option>
+                                                <option value="Manufacturer Warranty Cards & Datasheets">Warranty Cards</option>
+                                                <option value="KSEB Bi-directional Net Meter Test Report">Net Meter Test Report</option>
+                                                <option value="Geo-Tagged Rooftop Photos (Pre/Post Install)">Rooftop Photos</option>
+                                                <option value="Earthing Resistance & Commissioning Certificate">Earthing &amp; Commissioning</option>
+                                                <option value="Lightning Protection & Surge Arrester Test Report">Lightning Protection</option>
+                                                <option value="Single Line Diagram (SLD) & Structural Layout">SLD &amp; Drawings</option>
+                                                <option value="GST Commercial Invoice & Delivery Challan">GST Invoice &amp; Challan</option>
+                                                <option value="KSEB Joint Inspection Report (JIR / Form B/C)">Joint Inspection (JIR)</option>
+                                                <option value="Bank Solar Loan Sanction Letter / NOC">Bank Loan Sanction</option>
                                                 <option value="Safety Inspection & Handover Slip">Safety &amp; Handover</option>
+                                                <option value="Other Project Document / Technical Attachment">Other Documents</option>
                                             </select>
                                         </div>
                                     </div>
