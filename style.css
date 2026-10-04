@@ -6657,24 +6657,81 @@ html, body {
     box-sizing: border-box !important;
 }
 
-/* Enterprise Layout Auto-Fitting */
-.login-wrapper {
+/* Enterprise Layout Auto-Fitting & Full View After Login */
+.login-wrapper:not(.dashboard-active) {
+    width: 100% !important;
+    max-width: 480px !important;
+    margin: 2rem auto !important;
+    padding: 1rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.25rem !important;
+    box-sizing: border-box !important;
+}
+
+.login-wrapper:not(.dashboard-active) .login-card {
+    padding: 2.5rem 2rem !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Logged-in State: 100% Full Viewport Edge-to-Edge */
+.login-wrapper.dashboard-active {
     width: 100% !important;
     max-width: 100% !important;
+    min-height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+    background: var(--color-bg) !important;
     overflow-x: hidden !important;
+    box-sizing: border-box !important;
+}
+
+.login-wrapper.dashboard-active .back-home-link,
+.login-wrapper.dashboard-active > .back-home-link,
+.login-wrapper.dashboard-active .portal-header,
+.login-wrapper.dashboard-active .portal-role-switch {
+    display: none !important;
+}
+
+.login-wrapper.dashboard-active #portal-card,
+.login-wrapper.dashboard-active .login-card,
+.login-wrapper.dashboard-active .glass-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+.login-wrapper.dashboard-active #dashboard-view {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.enterprise-navbar {
+    width: 100% !important;
+    max-width: 100% !important;
     box-sizing: border-box !important;
 }
 
 .enterprise-container {
     width: 100% !important;
     max-width: 100% !important;
-    overflow-x: hidden !important;
     box-sizing: border-box !important;
 }
 
 .enterprise-main-canvas {
     width: 100% !important;
-    max-width: 1200px !important;
+    max-width: 1360px !important;
     margin: 0 auto !important;
     box-sizing: border-box !important;
     overflow-x: hidden !important;
