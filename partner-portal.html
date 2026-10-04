@@ -2511,6 +2511,70 @@
         // ==========================================
         // 📤 SOLAR MULTI-DOCUMENT BATCH ENGINE
         // ==========================================
+        function escapeHtml(str) {
+            if (str === null || str === undefined) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        // Lightweight IndexedDB Store for High-Res Docs & Large PDFs
+        const DocDB = {
+            db: null,
+            init: function() {
+                return new Promise((resolve) => {
+                    if (this.db) return resolve(this.db);
+                    try {
+                        const req = indexedDB.open('SunovaSolarDocDB', 1);
+                        req.onupgradeneeded = function(e) {
+                            const db = e.target.result;
+                            if (!db.objectStoreNames.contains('documents')) {
+                                db.createObjectStore('documents', { keyPath: 'id' });
+                            }
+                        };
+                        req.onsuccess = (e) => {
+                            this.db = e.target.result;
+                            resolve(this.db);
+                        };
+                        req.onerror = () => resolve(null);
+                    } catch(err) {
+                        resolve(null);
+                    }
+                });
+            },
+            saveDoc: async function(doc) {
+                try {
+                    const db = await this.init();
+                    if (!db) return;
+                    const tx = db.transaction('documents', 'readwrite');
+                    tx.objectStore('documents').put(doc);
+                } catch(e) { console.warn('DocDB save skipped', e); }
+            },
+            getDoc: async function(id) {
+                try {
+                    const db = await this.init();
+                    if (!db) return null;
+                    return new Promise((resolve) => {
+                        const tx = db.transaction('documents', 'readonly');
+                        const req = tx.objectStore('documents').get(id);
+                        req.onsuccess = () => resolve(req.result);
+                        req.onerror = () => resolve(null);
+                    });
+                } catch(e) { return null; }
+            },
+            deleteDoc: async function(id) {
+                try {
+                    const db = await this.init();
+                    if (!db) return;
+                    const tx = db.transaction('documents', 'readwrite');
+                    tx.objectStore('documents').delete(id);
+                } catch(e) {}
+            }
+        };
+
         let stagedDocFiles = [];
 
         function triggerDocFileInput(e) {
@@ -2854,7 +2918,7 @@
                     }
 
                     const fileDataUrl = await readFileAsDataUrl(staged.file);
-                    const docId = 'DOC-' + Date.now().toString(36).toUpperCase() + '-' + Math.floor(Math.random()*10000);
+                    const docId = 'DOC-' + Date.now().toString(36).toUpperCase() + '-' + Math.floor(Math.random()*10000) + '_' + i;
                     const docNotes = staged.remarks ? (globalRemarks ? `${globalRemarks} (${staged.remarks})` : staged.remarks) : globalRemarks;
 
                     const newDoc = {
@@ -2875,6 +2939,9 @@
                         createdAt: new Date().toISOString()
                     };
 
+                    // Save full document to IndexedDB for high-res retention
+                    await DocDB.saveDoc(newDoc);
+
                     existingDocs.unshift(newDoc);
                     globalDocs.unshift(newDoc);
                     successfulUploads++;
@@ -2884,11 +2951,11 @@
                 try {
                     localStorage.setItem(storageKey, JSON.stringify(existingDocs));
                 } catch(storageErr) {
-                    console.warn('LocalStorage limit reached, storing trimmed tokens', storageErr);
-                    existingDocs.forEach(d => {
-                        if (d.fileData && d.fileData.length > 50000) d.fileData = d.fileData.substring(0, 50000);
-                    });
-                    localStorage.setItem(storageKey, JSON.stringify(existingDocs));
+                    console.warn('LocalStorage limit reached, storing trimmed tokens in localStorage', storageErr);
+                    const trimmedDocs = existingDocs.map(d => Object.assign({}, d, { fileData: d.fileData ? d.fileData.substring(0, 10000) : '' }));
+                    try {
+                        localStorage.setItem(storageKey, JSON.stringify(trimmedDocs));
+                    } catch(e2) {}
                 }
 
                 try {
@@ -2918,13 +2985,52 @@
             }
         }
 
-        function renderInstallationDocs(searchQuery = '', catFilter = '') {
+        function getAllPartnerInstallationDocs() {
             const dealerCode = localStorage.getItem('partner_code') || 'DIRECT';
-            const storageKey = 'partner_installation_docs_' + dealerCode;
             let docs = [];
+
+            // 1. Direct partner key
             try {
-                docs = JSON.parse(localStorage.getItem(storageKey) || '[]');
-            } catch(e) { docs = []; }
+                const p = JSON.parse(localStorage.getItem('partner_installation_docs_' + dealerCode) || '[]');
+                if (Array.isArray(p)) docs = docs.concat(p);
+            } catch(e) {}
+
+            // 2. Global docs
+            try {
+                const g = JSON.parse(localStorage.getItem('global_installation_docs') || '[]');
+                if (Array.isArray(g)) {
+                    g.forEach(gd => {
+                        if (!docs.some(d => d.id === gd.id)) {
+                            if (!gd.dealerCode || gd.dealerCode === dealerCode || dealerCode === 'DIRECT' || dealerCode === 'SUNOVA') {
+                                docs.push(gd);
+                            }
+                        }
+                    });
+                }
+            } catch(e) {}
+
+            // 3. Scan other partner_installation_docs_ keys if still empty
+            if (docs.length === 0) {
+                for (let i = 0; i < localStorage.length; i++) {
+                    const k = localStorage.key(i);
+                    if (k && k.startsWith('partner_installation_docs_')) {
+                        try {
+                            const found = JSON.parse(localStorage.getItem(k) || '[]');
+                            if (Array.isArray(found)) {
+                                found.forEach(fd => {
+                                    if (!docs.some(d => d.id === fd.id)) docs.push(fd);
+                                });
+                            }
+                        } catch(e) {}
+                    }
+                }
+            }
+
+            return docs;
+        }
+
+        function renderInstallationDocs(searchQuery = '', catFilter = '') {
+            const docs = getAllPartnerInstallationDocs();
 
             // Update badge counts
             const badgeTab = document.getElementById('tab-badge-docs');
@@ -2963,8 +3069,8 @@
                 const dateStr = new Date(doc.createdAt).toLocaleDateString('en-IN', {
                     day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
                 });
-                const isPdf = doc.fileType && doc.fileType.includes('pdf');
-                const isImg = doc.fileType && doc.fileType.includes('image');
+                const isPdf = (doc.fileType && doc.fileType.includes('pdf')) || (doc.fileName && doc.fileName.toLowerCase().endsWith('.pdf'));
+                const isImg = (doc.fileType && doc.fileType.includes('image')) || (doc.fileName && /\.(jpg|jpeg|png|webp|gif)$/i.test(doc.fileName));
                 const fileIcon = isPdf ? '📑' : (isImg ? '🖼️' : '📄');
 
                 return `
@@ -3018,18 +3124,18 @@
             renderInstallationDocs(search, cat);
         }
 
-        function getDocById(docId) {
-            const dealerCode = localStorage.getItem('partner_code') || 'DIRECT';
-            const storageKey = 'partner_installation_docs_' + dealerCode;
-            let docs = [];
-            try {
-                docs = JSON.parse(localStorage.getItem(storageKey) || '[]');
-            } catch(e) { docs = []; }
-            return docs.find(d => d.id === docId);
+        async function getDocById(docId) {
+            const docs = getAllPartnerInstallationDocs();
+            let doc = docs.find(d => d.id === docId);
+            if (!doc || !doc.fileData || doc.fileData.length < 500) {
+                const idbDoc = await DocDB.getDoc(docId);
+                if (idbDoc) return idbDoc;
+            }
+            return doc;
         }
 
-        function previewInstallationDoc(docId) {
-            const doc = getDocById(docId);
+        async function previewInstallationDoc(docId) {
+            const doc = await getDocById(docId);
             if (!doc) {
                 alert('Document not found.');
                 return;
@@ -3074,8 +3180,8 @@
             if (modal) modal.style.display = 'none';
         }
 
-        function downloadInstallationDoc(docId) {
-            const doc = getDocById(docId);
+        async function downloadInstallationDoc(docId) {
+            const doc = await getDocById(docId);
             if (!doc || !doc.fileData) {
                 alert('Document file data not available for download.');
                 return;
@@ -3088,8 +3194,8 @@
             document.body.removeChild(a);
         }
 
-        function shareDocOnWhatsApp(docId) {
-            const doc = getDocById(docId);
+        async function shareDocOnWhatsApp(docId) {
+            const doc = await getDocById(docId);
             if (!doc) return;
             const dealerCode = localStorage.getItem('partner_code') || 'Channel Partner';
             const msg = `*☀️ SUNOVA SOLAR - INSTALLATION DOCUMENT UPLOAD*
@@ -3110,7 +3216,7 @@ Please verify and process for PM Surya Ghar / KSEB Net-Metering synchronization.
             window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        function deleteInstallationDoc(docId) {
+        async function deleteInstallationDoc(docId) {
             if (!confirm('Are you sure you want to delete this installation document? This cannot be undone.')) {
                 return;
             }
@@ -3122,7 +3228,9 @@ Please verify and process for PM Surya Ghar / KSEB Net-Metering synchronization.
             } catch(e) { docs = []; }
 
             docs = docs.filter(d => d.id !== docId);
-            localStorage.setItem(storageKey, JSON.stringify(docs));
+            try {
+                localStorage.setItem(storageKey, JSON.stringify(docs));
+            } catch(e) {}
 
             // Also remove from global docs
             try {
@@ -3130,6 +3238,9 @@ Please verify and process for PM Surya Ghar / KSEB Net-Metering synchronization.
                 globalDocs = globalDocs.filter(d => d.id !== docId);
                 localStorage.setItem('global_installation_docs', JSON.stringify(globalDocs));
             } catch(e) {}
+
+            // Remove from DocDB
+            await DocDB.deleteDoc(docId);
 
             renderInstallationDocs();
             showPortalToast('🗑️ Document deleted successfully.');
