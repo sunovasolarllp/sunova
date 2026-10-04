@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Installation Tracker | Partner Portal | SUNOVA SOLAR</title>
+    <!-- PWA & Mobile Web App Meta Tags -->
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="assets/logo.jpg">
+    <link rel="apple-touch-icon" href="assets/logo.jpg">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css?v=9.9">
+    <style>
+        .tracker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 1.5rem;
+        }
+        .tracker-metric-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .tracker-metric-val {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--color-sun-yellow);
+            margin-top: 0.25rem;
+        }
+        .tracker-toolbar {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .tracker-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+            font-size: 0.82rem;
+        }
+        .tracker-table th, .tracker-table td {
+            text-align: left;
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--color-border);
+        }
+        .tracker-table th {
+            color: var(--color-text-muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.72rem;
+            background: var(--color-bg-alt);
+        }
+        .tracker-pill {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            background: rgba(99, 102, 241, 0.15);
+            color: #818cf8;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+        .tracker-pill.green {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        .tracker-pill.amber {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        .tracker-pill.blue {
+            background: rgba(59, 130, 246, 0.15);
+            color: #3b82f6;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        .tracker-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.82);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+        .tracker-modal-overlay.open {
+            display: flex;
+        }
+        .tracker-modal-box {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            max-width: 820px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 1.5rem;
+            color: var(--color-text);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+        .tracker-formgrid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 1rem;
+            margin-bottom: 1.2rem;
+        }
+        .tracker-formgrid .full {
+            grid-column: 1 / -1;
+        }
+        .tracker-checkgrid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-top: 0.5rem;
+            margin-bottom: 1.2rem;
+        }
+        .tracker-check {
+            padding: 8px 10px;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            background: var(--color-bg-alt);
+            font-size: 0.78rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .tracker-formgrid, .tracker-checkgrid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="light-theme">
+
+    <div class="login-wrapper dashboard-active" style="display: block; min-height: 100vh; padding: 0; background: var(--color-bg);">
+
+        <!-- Dashboard View Container -->
+        <div id="dashboard-view" style="width: 100%; margin: 0; padding: 0;">
+            
+            <!-- Top Navbar Bar -->
+            <div class="enterprise-navbar">
+                <div class="enterprise-brand">
+                    <img src="assets/logo.jpg" alt="SUNOVA Logo" class="enterprise-logo">
+                    <h1 class="enterprise-title">SUNOVA SOLAR</h1>
+                </div>
+
+                <div class="enterprise-user-area" style="display: flex; align-items: center; gap: 0.6rem;">
+                    <a href="index.html" class="enterprise-nav-btn" style="width: auto; padding: 0.4rem 0.85rem; text-decoration: none; font-size: 0.8rem; font-weight: 700; display: inline-flex; gap: 0.35rem;">
+                        <span>🏠</span> Back to Website
+                    </a>
+                    <button type="button" onclick="logoutPartner()" class="enterprise-nav-btn" style="width: auto; padding: 0.4rem 0.9rem; background: rgba(220,38,38,0.15) !important; border: 1px solid rgba(220,38,38,0.3) !important; color: #ef4444 !important; font-weight: 700; font-size: 0.8rem; cursor: pointer;" title="Sign Out">Sign Out</button>
+                </div>
+            </div>
+
+            <!-- Main Layout Container -->
+            <div class="enterprise-container">
+                <div class="enterprise-main-canvas">
+                    <h2 class="dashboard-overview-title">Partner Workspace</h2>
+                    <div class="dashboard-date-subtitle" id="live-dashboard-date">Today is Friday, 14 August 2026</div>
+
+                    <!-- Partner Territory & Metrics Card -->
+                    <div id="dealer-profile-details" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.2rem; margin-bottom: 1.5rem; font-size: 0.84rem; line-height: 1.6;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.8rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+                            <div>
+                                <div style="font-size: 0.76rem; text-transform: uppercase; color: var(--color-text-muted); font-weight: 700;">Partner Portal Account</div>
+                                <h3 style="margin: 0.15rem 0 0 0; font-size: 1.25rem; color: var(--color-sun-yellow); font-family: var(--font-heading); display: flex; align-items: center; gap: 0.5rem;" id="partner-welcome-header">
+                                    Welcome, Partner
+                                </h3>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.6rem;">
+                                <span id="partner-territory-pill" style="background: #10b981; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700;">🌟 Authorized Channel Partner</span>
+                                <span id="partner-district-badge" style="background: rgba(255, 183, 3, 0.15); border: 1px solid var(--color-sun-yellow); color: var(--color-sun-yellow); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700;">Kerala</span>
+                            </div>
+                        </div>
+
+                        <!-- Partner Stats Grid -->
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                            <div class="portal-stat-box" style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 12px; padding: 1.1rem; text-align: center;">
+                                <span style="font-size: 0.76rem; color: var(--color-text-muted); text-transform: uppercase; font-weight: 700;">📥 Active District Leads</span>
+                                <div id="partner-active-leads" style="font-size: 1.8rem; font-weight: 800; color: var(--color-sun-yellow); margin-top: 0.25rem;">0</div>
+                            </div>
+                            <div class="portal-stat-box" style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 12px; padding: 1.1rem; text-align: center;">
+                                <span style="font-size: 0.76rem; color: var(--color-text-muted); text-transform: uppercase; font-weight: 700;">💰 Commission Balance</span>
+                                <div id="partner-commission-earned" style="font-size: 1.8rem; font-weight: 800; color: #10b981; margin-top: 0.25rem;">₹0</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 8-Tab Navigation Bar -->
+                                            <div class="partner-nav-tabs" style="display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1.5px solid var(--color-border); scrollbar-width: thin;">
+                            <a href="partner-portal.html" class="partner-tab-btn" id="tab-btn-quote-generator" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; text-decoration: none;">
+                                ⚡ Quotation Generator
+                            </a>
+                            <a href="leads.html" class="partner-tab-btn" id="tab-btn-leads" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; text-decoration: none;">
+                                📥 Leads &amp; Inquiries (<span id="tab-badge-allocated">0</span>)
+                            </a>
+                            <a href="saved-quotes.html" class="partner-tab-btn" id="tab-btn-saved-quotes" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; text-decoration: none;">
+                                💾 Saved Quotes (<span id="tab-badge-saved">0</span>)
+                            </a>
+                            <a href="installation-tracker.html" class="partner-tab-btn active" id="tab-btn-tracker" style="background: var(--color-sun-yellow); color: #0d1321; border: 1px solid var(--color-sun-yellow); font-weight: 800; padding: 0.6rem 1.1rem; border-radius: 10px; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; text-decoration: none;">
+                                🛠️ Installation Tracker (<span id="tab-badge-tracker">0</span>)
+                            </a>
+                            <a href="solar-tools.html" class="partner-tab-btn" id="tab-btn-calculators" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; text-decoration: none;">
+                                🧮 Solar Tools &amp; Subsidy
+                            </a>
+                            <a href="kseb-feasibility.html" class="partner-tab-btn" id="tab-btn-kseb" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; text-decoration: none;">
+                                ⚡ KSEB Feasibility
+                            </a>
+                            <a href="tech-locker.html" class="partner-tab-btn" id="tab-btn-resources" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; text-decoration: none;">
+                                📂 Tech Locker &amp; Warranty
+                            </a>
+                            <a href="partner-security.html" class="partner-tab-btn" id="tab-btn-security" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; text-decoration: none;">
+                                🔒 Security &amp; PIN
+                            </a>
+                        </div>
+
+                    <!-- Page Content: Installation & Project Tracker -->
+                    <div id="partner-tab-tracker" class="partner-tab-pane">
+                        
+                        <!-- 5 Key Project Metrics Cards -->
+                        <div class="tracker-grid" id="metrics"></div>
+
+                        <!-- Action Toolbar -->
+                        <div class="tracker-toolbar">
+                            <button type="button" class="cta-btn primary-btn" onclick="openModal()" style="font-size: 0.82rem; padding: 0.55rem 1rem; border-radius: 8px;">
+                                ➕ New Solar Project
+                            </button>
+                            <button type="button" class="cta-btn secondary-btn" onclick="exportCSV()" style="font-size: 0.82rem; padding: 0.55rem 1rem; border-radius: 8px;">
+                                📊 Export Projects CSV
+                            </button>
+                            <input id="search" placeholder="🔍 Search customer, mobile, consumer no..." oninput="renderProjects()" style="max-width: 320px; padding: 0.55rem 0.8rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                        </div>
+
+                        <!-- Projects Table Card -->
+                        <div class="portal-card-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 14px; padding: 1.25rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.6rem; margin-bottom: 0.9rem;">
+                                <h4 style="margin: 0; font-size: 0.95rem; color: var(--color-sun-yellow); display: flex; align-items: center; gap: 0.4rem; font-family: var(--font-heading);">
+                                    🛠️ Active Installation &amp; Commissioning Projects
+                                </h4>
+                                <span style="font-size: 0.72rem; color: var(--color-text-muted);">Real-time site milestones, payment tracking &amp; MNRE documentation</span>
+                            </div>
+
+                            <div class="tablewrap" style="overflow-x: auto;">
+                                <table class="tracker-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Customer Details</th>
+                                            <th>System</th>
+                                            <th>Project Stage</th>
+                                            <th>Technician</th>
+                                            <th>Payment Status</th>
+                                            <th>MNRE Documents</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="rows"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Footer Actions -->
+                    <div class="dashboard-footer-actions" style="margin-top: 1.5rem; border-top: 1px solid var(--color-border); padding-top: 1.5rem;">
+                        <button onclick="logoutPartner()" class="logout-btn">Sign Out</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Create & Edit Modal -->
+    <div class="tracker-modal-overlay" id="modal">
+        <div class="tracker-modal-box">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.8rem; margin-bottom: 1rem;">
+                <h3 id="modalTitle" style="margin: 0; color: var(--color-sun-yellow); font-family: var(--font-heading); font-size: 1.15rem;">New Solar Project</h3>
+                <button onclick="closeModal()" style="background: none; border: none; color: var(--color-text-muted); font-size: 1.5rem; cursor: pointer; line-height: 1;">&times;</button>
+            </div>
+            
+            <div class="tracker-formgrid">
+                <div class="form-group" style="margin: 0;">
+                    <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Customer Name</label>
+                    <input id="proj-name" placeholder="e.g. Radhakrishnan Nair" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                </div>
+                <div class="form-group" style="margin: 0;">
+                    <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Mobile Number</label>
+                    <input id="proj-mobile" placeholder="10-digit mobile number" maxlength="10" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                </div>
+                <div class="form-group" style="margin: 0;">
+                    <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">KSEB Consumer Number</label>
+                    <input id="proj-consumer" placeholder="13-digit Consumer No." style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                </div>
+                <div class="form-group" style="margin: 0;">
+                    <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">DISCOM / Utility</label>
+                    <select id="proj-discom" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                        <option value="KSEB" selected>KSEB (Kerala State Electricity Board)</option>
+                        <option value="Other">Other Utility</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin: 0;">
+                    <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">System Capacity</label>
+                    <select id="proj-capacity" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                        <option value="1 kW">1 kW</option>
+                        <option value="2 kW">2 kW</option>
+                        <option value="3 kW" selected>3 kW</option>
+                        <option value="4 kW">4 kW</option>
+                        <option value="5 kW">5 kW</option>
+                        <option value="10 kW+">10 kW+</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin: 0;">
+                    <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Project Total Value (₹)</label>
+                    <input id="proj-value" type="number" placeholder="e.g. 210000" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                </div>
+                <div class="form-group" style="margin: 0;">
+                    <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Advance Received (₹)</label>
+                    <input id="proj-advance" type="number" placeholder="e.g. 100000" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                </div>
+                <div class="form-group" style="margin: 0;">
+                    <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Field Engineer / Technician</label>
+                    <input id="proj-tech" placeholder="e.g. Technician Jobi / Sunova Team" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                </div>
+                <div class="full form-group" style="margin: 0;">
+                    <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">Installation Site Address</label>
+                    <textarea id="proj-address" rows="2" placeholder="House / Building address, location, district" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem; resize: vertical;"></textarea>
+                </div>
+                <div class="full form-group" style="margin: 0;">
+                    <label style="font-size: 0.76rem; color: var(--color-sun-yellow); margin-bottom: 0.3rem; display: block; font-weight: 700;">Project Milestone Stage</label>
+                    <select id="proj-stage" style="width: 100%; padding: 0.55rem; background: rgba(255, 183, 3, 0.1); border: 1px solid var(--color-sun-yellow); border-radius: 8px; color: var(--color-text); font-size: 0.82rem; font-weight: 700;">
+                        <option value="Lead">1. Lead Inquired</option>
+                        <option value="Site Survey">2. Site Survey Conducted</option>
+                        <option value="Quotation">3. Quotation Generated</option>
+                        <option value="Customer Approval">4. Customer Approval Received</option>
+                        <option value="Advance Received">5. Advance Received</option>
+                        <option value="Documents">6. Documents Collected</option>
+                        <option value="Procurement">7. Material Procurement</option>
+                        <option value="Installation">8. Rooftop Installation in Progress</option>
+                        <option value="Testing & Commissioning">9. Testing &amp; Commissioning</option>
+                        <option value="DISCOM">10. KSEB Verification &amp; Inspection</option>
+                        <option value="Net Meter">11. Net Meter Installed</option>
+                        <option value="Subsidy">12. PM Surya Ghar Subsidy Applied</option>
+                        <option value="Handover">13. Plant Handover to Client</option>
+                        <option value="AMC">14. Active AMC Maintenance</option>
+                        <option value="Completed">15. Project Completed</option>
+                    </select>
+                </div>
+            </div>
+
+            <h4 style="margin: 1rem 0 0.4rem 0; color: var(--color-sun-yellow); font-size: 0.9rem;">📋 MNRE / Project Documents Verification</h4>
+            <div class="tracker-checkgrid" id="checks"></div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 1.5rem; border-top: 1px solid var(--color-border); padding-top: 1rem;">
+                <button type="button" class="cta-btn secondary-btn" onclick="closeModal()" style="font-size: 0.82rem; padding: 0.5rem 1.1rem; border-radius: 6px;">
+                    Cancel
+                </button>
+                <button type="button" class="cta-btn primary-btn" onclick="saveProject()" style="font-size: 0.82rem; padding: 0.5rem 1.2rem; border-radius: 6px;">
+                    💾 Save Project
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        const docs = [
+            'ID / Aadhaar',
+            'PAN',
+            'Latest Electricity Bill',
+            'Bank Details',
+            'Site Survey Report',
+            'Quotation',
+            'Customer Agreement',
+            'Installation Photos',
+            'Panel Serial Numbers',
+            'Inverter Serial Number',
+            'Warranty Documents',
+            'DISCOM Application',
+            'Net Meter Documents',
+            'Commissioning Report',
+            'Subsidy Documents',
+            'Handover Certificate'
+        ];
+
+        let projects = JSON.parse(localStorage.getItem('sunova_projects') || '[]');
+        let editId = null;
+
+        const DEALERS = [
+            { code: "KNR-JOBI", name: "Jobi Sebastian", area: "Kannur", district: "Kannur", phone: "8590085865" },
+            { code: "TVM-BENJ", name: "Benjose FG", area: "Balaramapuram", district: "Thiruvananthapuram", phone: "9037273767" },
+            { code: "TVM-ANAN", name: "Anand Sreedhar", area: "Neyyattinkara", district: "Thiruvananthapuram", phone: "7994430742" },
+            { code: "KLA-VARG", name: "Varghese Nellimoottil", area: "Ayoor", district: "Kollam", phone: "9020202222" },
+            { code: "KLA-NIYA", name: "Niyas K", area: "Karunagappally", district: "Kollam", phone: "9656366068" },
+            { code: "KLA-UDAY", name: "Udayabhanu J", area: "Kadappakkada", district: "Kollam", phone: "9349136882" },
+            { code: "KLA-RAJE", name: "Rajeev R", area: "Punalur", district: "Kollam", phone: "9567970077" },
+            { code: "KLA-RATH", name: "Rathil Kumar", area: "Sasthamkotta", district: "Kollam", phone: "7907878797" },
+            { code: "PTA-SREE", name: "Sreejith TR", area: "Mallappally", district: "Pathanamthitta", phone: "9947030669" },
+            { code: "PTA-JIJU", name: "Jijukumar MC", area: "Pandalam", district: "Pathanamthitta", phone: "9388133400" },
+            { code: "PTA-PKPR", name: "PK Prasannakumar", area: "Pathanamthitta", district: "Pathanamthitta", phone: "7034023301" },
+            { code: "PTA-BIJU", name: "Bijumon J", area: "Ranni", district: "Pathanamthitta", phone: "9995990372" },
+            { code: "ALP-SHIN", name: "Shinas Shamsudeen", area: "Alappuzha", district: "Alappuzha", phone: "9995550888" },
+            { code: "ALP-NISS", name: "Nissar Hameed", area: "Kayamkulam", district: "Alappuzha", phone: "9895497090" },
+            { code: "ALP-RENJ", name: "Renjith PS", area: "Mavelikkara", district: "Alappuzha", phone: "9447866958" },
+            { code: "ALP-BAIJ", name: "Baiju Sasidharan", area: "Vallikunnam", district: "Alappuzha", phone: "9747186818" },
+            { code: "KTM-SALY", name: "Saly Sainudeen", area: "Erattupetta", district: "Kottayam", phone: "9446200616" },
+            { code: "KTM-ANIS", name: "Anish Kumar", area: "Kallara", district: "Kottayam", phone: "9387220162" },
+            { code: "KTM-SANI", name: "Sanil Kumar", area: "Kottayam", district: "Kottayam", phone: "9061189784" },
+            { code: "IDK-OUSE", name: "Ouseph KA", area: "Moolamattom", district: "Idukki", phone: "9495737628" },
+            { code: "IDK-MGAJ", name: "MG Ajay", area: "Thodupuzha", district: "Idukki", phone: "9447254142" },
+            { code: "EKM-SHIY", name: "Shiyas Rasheed", area: "Edappally", district: "Ernakulam", phone: "9847859859" },
+            { code: "EKM-BHAV", name: "Bhavya M", area: "Kalamassery", district: "Ernakulam", phone: "8301026309" },
+            { code: "EKM-JIBI", name: "Jibin George", area: "Thripunithura", district: "Ernakulam", phone: "9995996240" },
+            { code: "TCR-JAIS", name: "Jaison Jose Meleth", area: "Ayyanthole", district: "Thrissur", phone: "9995601923" },
+            { code: "TCR-COAT", name: "Coats Thekkan", area: "Chalakudy", district: "Thrissur", phone: "8129119222" },
+            { code: "TCR-JISO", name: "Jison George", area: "Chelakkara", district: "Thrissur", phone: "9746666535" },
+            { code: "TCR-SINI", name: "Sinish KM", area: "Kodakara", district: "Thrissur", phone: "9946101892" },
+            { code: "TCR-BINU", name: "Binu Yacob", area: "Pazhayannur", district: "Thrissur", phone: "9946033807" },
+            { code: "TCR-JITH", name: "Jithesh Tharayil", area: "Ramavarmapuram", district: "Thrissur", phone: "7356347700" },
+            { code: "TCR-AKAN", name: "AK Anil", area: "Valappad", district: "Thrissur", phone: "9746891854" },
+            { code: "PKD-SUHA", name: "Suhaib S", area: "Alathur", district: "Palakkad", phone: "9988553585" },
+            { code: "PKD-PRAM", name: "Pramod", area: "Chittur", district: "Palakkad", phone: "9746611002" },
+            { code: "PKD-BIJO", name: "Bijo Varghese", area: "Elappully", district: "Palakkad", phone: "9388883222" },
+            { code: "PKD-ANAN", name: "Anand P", area: "Koduvayur", district: "Palakkad", phone: "9349811101" },
+            { code: "MPM-NASS", name: "Nassarudheen E", area: "Edakkara", district: "Malappuram", phone: "9946139955" },
+            { code: "MPM-FAIS", name: "Faisal K", area: "Manjeri", district: "Malappuram", phone: "7994035923" },
+            { code: "MPM-RAVI", name: "Ravindran K", area: "Tirur", district: "Malappuram", phone: "9961476748" },
+            { code: "KKD-RAJA", name: "Rajan Madavoor", area: "Koduvally", district: "Kozhikode", phone: "9497345868" },
+            { code: "KKD-YOOS", name: "Yoosaf NV", area: "Perambra", district: "Kozhikode", phone: "9539724724" },
+            { code: "KKD-SAFE", name: "Safeer", area: "Vadakara", district: "Kozhikode", phone: "9995330555" },
+            { code: "KKD-RAHU", name: "Rahul RN", area: "Vadakara", district: "Kozhikode", phone: "9645464733" },
+            { code: "WYD-SINI", name: "Sinil Chacko K", area: "Mananthavady", district: "Wayanad", phone: "8921794334" },
+            { code: "KNR-JOBI", name: "Jobi Sebastian", area: "Kannur", district: "Kannur", phone: "8590085865" },
+            { code: "KNR-ACFA", name: "AC Faisal", area: "Irikkoor", district: "Kannur", phone: "9656069964" },
+            { code: "KNR-NOUS", name: "Noushad T", area: "Mattannur", district: "Kannur", phone: "9847761018" },
+            { code: "KNR-SURI", name: "Suriya Subash", area: "Panoor", district: "Kannur", phone: "9946809010" },
+            { code: "KNR-NISH", name: "Nishad NK", area: "Thalassery", district: "Kannur", phone: "9562028244" },
+            { code: "KNR-KASO", name: "KA Soju", area: "Taliparamba", district: "Kannur", phone: "9447548430" },
+            { code: "KSD-PRAD", name: "Pradeep K", area: "Badiadka", district: "Kasaragod", phone: "9744880900" },
+            { code: "KSD-SURE", name: "Suresh Kumar", area: "Panathur", district: "Kasaragod", phone: "9946960604" }
+        ];
+
+        let activeDealer = null;
+
+        function seedProjects() {
+            if (projects.length) return;
+            projects = [
+                {
+                    id: 1728001001,
+                    name: 'Radhakrishnan Nair',
+                    mobile: '9876543210',
+                    consumer: '1356098234512',
+                    discom: 'KSEB',
+                    capacity: '3 kW',
+                    value: 210000,
+                    advance: 120000,
+                    tech: 'Sunova Ernakulam Team',
+                    address: 'Near Temple, Aluva, Ernakulam',
+                    stage: 'Installation',
+                    docs: {
+                        'ID / Aadhaar': 1,
+                        'PAN': 1,
+                        'Latest Electricity Bill': 1,
+                        'Bank Details': 1,
+                        'Site Survey Report': 1,
+                        'Quotation': 1,
+                        'Customer Agreement': 1,
+                        'Installation Photos': 1,
+                        'Panel Serial Numbers': 1,
+                        'Inverter Serial Number': 0,
+                        'Warranty Documents': 0,
+                        'DISCOM Application': 1,
+                        'Net Meter Documents': 0,
+                        'Commissioning Report': 0,
+                        'Subsidy Documents': 0,
+                        'Handover Certificate': 0
+                    }
+                },
+                {
+                    id: 1728001002,
+                    name: 'Sujith Kumar',
+                    mobile: '9447123456',
+                    consumer: '1245098765432',
+                    discom: 'KSEB',
+                    capacity: '5 kW',
+                    value: 320000,
+                    advance: 320000,
+                    tech: 'Jobi Sebastian',
+                    address: 'Civil Station Road, Kannur',
+                    stage: 'Completed',
+                    docs: {
+                        'ID / Aadhaar': 1,
+                        'PAN': 1,
+                        'Latest Electricity Bill': 1,
+                        'Bank Details': 1,
+                        'Site Survey Report': 1,
+                        'Quotation': 1,
+                        'Customer Agreement': 1,
+                        'Installation Photos': 1,
+                        'Panel Serial Numbers': 1,
+                        'Inverter Serial Number': 1,
+                        'Warranty Documents': 1,
+                        'DISCOM Application': 1,
+                        'Net Meter Documents': 1,
+                        'Commissioning Report': 1,
+                        'Subsidy Documents': 1,
+                        'Handover Certificate': 1
+                    }
+                }
+            ];
+            saveProjectsToStorage();
+        }
+
+        function saveProjectsToStorage() {
+            localStorage.setItem('sunova_projects', JSON.stringify(projects));
+            const badge = document.getElementById('tab-badge-tracker');
+            if (badge) badge.textContent = projects.length;
+        }
+
+        function renderProjects() {
+            const q = (document.getElementById('search')?.value || '').toLowerCase();
+            const list = projects.filter(p => JSON.stringify(p).toLowerCase().includes(q));
+            
+            const counts = {
+                total: projects.length,
+                installation: projects.filter(p => p.stage === 'Installation').length,
+                pending: projects.filter(p => !['Completed', 'AMC'].includes(p.stage)).length,
+                completed: projects.filter(p => p.stage === 'Completed').length,
+                payment: projects.reduce((s, p) => s + Math.max(0, (+p.value || 0) - (+p.advance || 0)), 0)
+            };
+
+            const metricsContainer = document.getElementById('metrics');
+            if (metricsContainer) {
+                metricsContainer.innerHTML = `
+                    <div class="tracker-metric-card">
+                        <div style="color: var(--color-text-muted); font-size: 0.74rem; font-weight: 700; text-transform: uppercase;">Total Projects</div>
+                        <div class="tracker-metric-val" style="color: var(--color-sun-yellow);">${counts.total}</div>
+                    </div>
+                    <div class="tracker-metric-card">
+                        <div style="color: var(--color-text-muted); font-size: 0.74rem; font-weight: 700; text-transform: uppercase;">In Installation</div>
+                        <div class="tracker-metric-val" style="color: #f59e0b;">${counts.installation}</div>
+                    </div>
+                    <div class="tracker-metric-card">
+                        <div style="color: var(--color-text-muted); font-size: 0.74rem; font-weight: 700; text-transform: uppercase;">Active / Pending</div>
+                        <div class="tracker-metric-val" style="color: #3b82f6;">${counts.pending}</div>
+                    </div>
+                    <div class="tracker-metric-card">
+                        <div style="color: var(--color-text-muted); font-size: 0.74rem; font-weight: 700; text-transform: uppercase;">Commissioned</div>
+                        <div class="tracker-metric-val" style="color: #10b981;">${counts.completed}</div>
+                    </div>
+                    <div class="tracker-metric-card">
+                        <div style="color: var(--color-text-muted); font-size: 0.74rem; font-weight: 700; text-transform: uppercase;">Balance Due</div>
+                        <div class="tracker-metric-val" style="color: #ef4444; font-size: 1.35rem;">₹${counts.payment.toLocaleString('en-IN')}</div>
+                    </div>
+                `;
+            }
+
+            const rowsContainer = document.getElementById('rows');
+            if (rowsContainer) {
+                rowsContainer.innerHTML = list.length ? list.map(p => {
+                    const done = Object.values(p.docs || {}).filter(Boolean).length;
+                    const cls = p.stage === 'Completed' ? 'green' : (p.stage === 'Installation' ? 'amber' : 'blue');
+                    const due = Math.max(0, (+p.value || 0) - (+p.advance || 0));
+                    
+                    return `
+                        <tr>
+                            <td>
+                                <strong style="color: var(--color-text); font-size: 0.86rem;">${esc(p.name)}</strong><br>
+                                <span style="color: var(--color-text-muted); font-size: 0.74rem;">📞 ${esc(p.mobile || '-')} &bull; KSEB: ${esc(p.consumer || '-')}</span>
+                            </td>
+                            <td><span style="font-weight: 700; color: var(--color-sun-yellow);">${p.capacity}</span></td>
+                            <td><span class="tracker-pill ${cls}">${p.stage}</span></td>
+                            <td><span style="color: var(--color-text);">${esc(p.tech || '-')}</span></td>
+                            <td>
+                                <span style="font-weight: 700; color: ${due === 0 ? '#10b981' : '#ef4444'};">
+                                    ${due === 0 ? '✅ Paid in Full' : '₹' + due.toLocaleString('en-IN') + ' due'}
+                                </span>
+                            </td>
+                            <td>
+                                <span style="font-weight: 700; color: ${done === docs.length ? '#10b981' : 'var(--color-sun-yellow)'};">
+                                    ${done}/${docs.length} Verified
+                                </span>
+                            </td>
+                            <td>
+                                <button type="button" class="cta-btn secondary-btn" onclick="editProject(${p.id})" style="padding: 0.35rem 0.75rem; font-size: 0.74rem; border-radius: 6px;">
+                                    ✏️ Open / Edit
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('') : `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 2.5rem; color: var(--color-text-muted);">
+                            📭 No solar projects found matching your search. Click <strong>"➕ New Solar Project"</strong> to add one.
+                        </td>
+                    </tr>
+                `;
+            }
+
+            const badge = document.getElementById('tab-badge-tracker');
+            if (badge) badge.textContent = projects.length;
+        }
+
+        function esc(s) {
+            return String(s ?? '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+        }
+
+        function openModal(p = null) {
+            editId = p?.id || null;
+            document.getElementById('modalTitle').textContent = p ? '✏️ Edit Solar Installation Project' : '➕ New Solar Installation Project';
+            
+            document.getElementById('proj-name').value = p?.name || '';
+            document.getElementById('proj-mobile').value = p?.mobile || '';
+            document.getElementById('proj-consumer').value = p?.consumer || '';
+            document.getElementById('proj-discom').value = p?.discom || 'KSEB';
+            document.getElementById('proj-capacity').value = p?.capacity || '3 kW';
+            document.getElementById('proj-value').value = p?.value || '';
+            document.getElementById('proj-advance').value = p?.advance || '';
+            document.getElementById('proj-tech').value = p?.tech || (activeDealer ? activeDealer.name : '');
+            document.getElementById('proj-address').value = p?.address || '';
+            document.getElementById('proj-stage').value = p?.stage || 'Lead';
+            
+            document.getElementById('checks').innerHTML = docs.map(d => {
+                const checked = p?.docs?.[d] ? 'checked' : '';
+                const safeId = 'doc_' + btoa(unescape(encodeURIComponent(d))).replace(/=/g, '');
+                return `
+                    <label class="tracker-check">
+                        <input type="checkbox" id="${safeId}" ${checked} style="cursor: pointer;">
+                        <span>${d}</span>
+                    </label>
+                `;
+            }).join('');
+            
+            document.getElementById('modal').classList.add('open');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('open');
+        }
+
+        function saveProject() {
+            const name = document.getElementById('proj-name').value.trim();
+            const mobile = document.getElementById('proj-mobile').value.trim();
+            const consumer = document.getElementById('proj-consumer').value.trim();
+            const discom = document.getElementById('proj-discom').value;
+            const capacity = document.getElementById('proj-capacity').value;
+            const value = parseFloat(document.getElementById('proj-value').value) || 0;
+            const advance = parseFloat(document.getElementById('proj-advance').value) || 0;
+            const tech = document.getElementById('proj-tech').value.trim();
+            const address = document.getElementById('proj-address').value.trim();
+            const stage = document.getElementById('proj-stage').value;
+
+            if (!name) {
+                alert('Please enter the customer name.');
+                return;
+            }
+
+            const docsObj = {};
+            docs.forEach(d => {
+                const safeId = 'doc_' + btoa(unescape(encodeURIComponent(d))).replace(/=/g, '');
+                const chk = document.getElementById(safeId);
+                docsObj[d] = chk ? (chk.checked ? 1 : 0) : 0;
+            });
+
+            const obj = {
+                id: editId || Date.now(),
+                name,
+                mobile,
+                consumer,
+                discom,
+                capacity,
+                value,
+                advance,
+                tech,
+                address,
+                stage,
+                docs: docsObj
+            };
+
+            const idx = projects.findIndex(x => x.id === obj.id);
+            if (idx >= 0) {
+                projects[idx] = obj;
+            } else {
+                projects.unshift(obj);
+            }
+
+            saveProjectsToStorage();
+            closeModal();
+            renderProjects();
+        }
+
+        function editProject(id) {
+            const p = projects.find(item => item.id === id);
+            if (p) openModal(p);
+        }
+
+        function exportCSV() {
+            const head = ['Customer Name', 'Mobile Number', 'Consumer No', 'DISCOM', 'Capacity', 'Project Value (INR)', 'Advance (INR)', 'Balance Due (INR)', 'Technician', 'Project Stage', 'Address'];
+            const lines = [
+                head,
+                ...projects.map(p => [
+                    p.name,
+                    p.mobile,
+                    p.consumer,
+                    p.discom,
+                    p.capacity,
+                    p.value,
+                    p.advance,
+                    Math.max(0, (+p.value || 0) - (+p.advance || 0)),
+                    p.tech,
+                    p.stage,
+                    p.address
+                ])
+            ].map(row => row.map(x => '"' + String(x ?? '').replace(/"/g, '""') + '"').join(','));
+
+            const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `sunova-solar-installation-tracker-${new Date().toISOString().slice(0,10)}.csv`;
+            link.click();
+        }
+
+        function initPartnerHeader() {
+            let dealerCode = localStorage.getItem('partner_code');
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('demo') === 'true') {
+                dealerCode = localStorage.getItem('sunova_partner_code') || 'DEMO-DEALER';
+                localStorage.setItem('partner_code', dealerCode);
+            }
+
+            if (!dealerCode) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            let dealer = DEALERS.find(d => d.code === dealerCode);
+            if (!dealer) {
+                dealer = {
+                    code: dealerCode,
+                    name: localStorage.getItem('sunova_partner_name') || 'Authorized Partner',
+                    area: localStorage.getItem('sunova_partner_area') || 'Kerala',
+                    district: localStorage.getItem('sunova_partner_district') || 'Ernakulam',
+                    phone: localStorage.getItem('sunova_partner_phone') || '9072522277'
+                };
+            }
+            activeDealer = dealer;
+
+            const welcomeHeader = document.getElementById('partner-welcome-header');
+            if (welcomeHeader) welcomeHeader.textContent = `Welcome, ${dealer.name}`;
+            const distBadge = document.getElementById('partner-district-badge');
+            if (distBadge) distBadge.textContent = `${dealer.district} (${dealer.area})`;
+
+            // Load counts
+            loadInquiries(function(inquiries) {
+                const dealerLeads = inquiries.filter(lead => lead.partnerCode === dealerCode || lead.district === dealer.district);
+                const activeLeadsCount = dealerLeads.filter(lead => lead.status !== 'Completed').length;
+                const completedLeads = dealerLeads.filter(lead => lead.status === 'Completed');
+                const totalCommission = completedLeads.reduce((sum, lead) => sum + (parseFloat(lead.commission) || 0), 0);
+
+                const activeLeadsEl = document.getElementById('partner-active-leads');
+                if (activeLeadsEl) activeLeadsEl.textContent = activeLeadsCount;
+                const commEarnedEl = document.getElementById('partner-commission-earned');
+                if (commEarnedEl) commEarnedEl.textContent = `₹${totalCommission.toLocaleString('en-IN')}`;
+
+                const tabBadge = document.getElementById('tab-badge-allocated');
+                if (tabBadge) tabBadge.textContent = activeLeadsCount;
+
+                // Update saved quotes count badge
+                const savedQuotesKey = 'saved_quotes_' + dealerCode;
+                const savedQuotes = JSON.parse(localStorage.getItem(savedQuotesKey) || '[]');
+                const tabSavedBadge = document.getElementById('tab-badge-saved');
+                if (tabSavedBadge) tabSavedBadge.textContent = savedQuotes.length;
+
+                // Tracker badge
+                const projectsList = JSON.parse(localStorage.getItem('sunova_projects') || '[]');
+                const trackerBadge = document.getElementById('tab-badge-tracker');
+                if (trackerBadge) trackerBadge.textContent = projectsList.length;
+
+
+                // Tracker badge
+                const trackerBadge = document.getElementById('tab-badge-tracker');
+                if (trackerBadge) trackerBadge.textContent = projects.length;
+            });
+        }
+
+        function loadInquiries(callback) {
+            fetch('proxy.php?action=get_inquiries')
+            .then(res => res.ok ? res.json() : [])
+            .then(data => {
+                let inquiries = Array.isArray(data) ? data : [];
+                const localInquiries = JSON.parse(localStorage.getItem('sunova_inquiries') || '[]');
+                if (localInquiries.length > 0) {
+                    const merged = [...inquiries];
+                    localInquiries.forEach(localItem => {
+                        if (!merged.some(remoteItem => (remoteItem.uid && remoteItem.uid === localItem.uid) || (remoteItem.timestamp === localItem.timestamp && remoteItem.phone === localItem.phone))) {
+                            merged.push(localItem);
+                        }
+                    });
+                    inquiries = merged;
+                }
+                if (callback) callback(inquiries);
+            })
+            .catch(() => {
+                const localInquiries = JSON.parse(localStorage.getItem('sunova_inquiries') || '[]');
+                if (callback) callback(localInquiries);
+            });
+        }
+
+        function updateLiveDate() {
+            const dateEl = document.getElementById('live-dashboard-date');
+            if (dateEl) {
+                const now = new Date();
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                dateEl.textContent = `Today is ${now.toLocaleDateString('en-GB', options)}`;
+            }
+        }
+
+        function logoutPartner() {
+            localStorage.removeItem('partner_code');
+            window.location.href = 'login.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateLiveDate();
+            seedProjects();
+            initPartnerHeader();
+            renderProjects();
+        });
+    </script>
+</body>
+</html>

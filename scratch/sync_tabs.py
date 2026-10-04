@@ -6,6 +6,7 @@ files = [
     'quotation-generator.html',
     'leads.html',
     'saved-quotes.html',
+    'installation-tracker.html',
     'solar-tools.html',
     'kseb-feasibility.html',
     'tech-locker.html',
