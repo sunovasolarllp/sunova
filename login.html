@@ -162,6 +162,9 @@
                             <button type="button" class="staff-tab-btn" onclick="switchStaffPortalTab('quotes')" id="staff-tab-btn-quotes" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
                                 💾 Global Quotes (<span id="staff-tab-badge-quotes">0</span>)
                             </button>
+                            <button type="button" class="staff-tab-btn" onclick="switchStaffPortalTab('docs')" id="staff-tab-btn-docs" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
+                                📤 Installation Docs (<span id="staff-tab-badge-docs">0</span>)
+                            </button>
                             <button type="button" class="staff-tab-btn" onclick="switchStaffPortalTab('management')" id="staff-tab-btn-management" style="display: none; background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; align-items: center; gap: 0.4rem; white-space: nowrap;">
                                 👑 Partner &amp; Staff Admin
                             </button>
@@ -212,6 +215,25 @@
                             </div>
                         </div>
                         <!-- End Tab 3: Quotes -->
+
+                        <!-- TAB: Global Installation Documents & KSEB Verification -->
+                        <div id="staff-tab-docs" class="staff-tab-pane hidden">
+                            <div id="staff-docs-section" class="tech-settings-box portal-card-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 14px; padding: 1.25rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
+                                    <h4 style="margin: 0; display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; color: var(--color-sun-yellow);">
+                                        📤 Project Installation Documents &amp; KSEB Verification
+                                        <span id="staff-docs-count" style="background: var(--color-sun-yellow); color: #0d1321; font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 10px; font-weight: 700;">0</span>
+                                    </h4>
+                                    <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                                        <input type="text" id="staff-doc-search" oninput="renderStaffInstallationDocs()" placeholder="🔍 Search customer / consumer no..." style="background: var(--color-bg-alt); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.35rem 0.7rem; border-radius: 6px; font-size: 0.76rem; min-width: 190px;">
+                                    </div>
+                                </div>
+                                <div id="staff-docs-container" style="max-height: 480px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.8rem;">
+                                    <p style="font-size: 0.8rem; color: var(--color-text-muted); text-align: center; padding: 1rem 0;">No installation documents uploaded by partners yet.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Tab: Installation Docs -->
 
                         <!-- TAB 4: Master Admin Management Panel -->
                         <div id="staff-tab-management" class="staff-tab-pane hidden">
@@ -1370,6 +1392,7 @@
             // Load and render dynamic inquiries list
             renderInquiries();
             renderStaffSavedQuotes();
+            renderStaffInstallationDocs();
 
             // Set default tab to Customer Inquiries
             switchStaffPortalTab('leads');
@@ -1384,7 +1407,7 @@
                 tabId = 'leads';
             }
 
-            const tabs = ['leads', 'quotes', 'management', 'security'];
+            const tabs = ['leads', 'quotes', 'docs', 'management', 'security'];
             tabs.forEach(t => {
                 const pane = document.getElementById('staff-tab-' + t);
                 const btn = document.getElementById('staff-tab-btn-' + t);
@@ -1418,10 +1441,180 @@
                 renderInquiries();
             } else if (tabId === 'quotes') {
                 renderStaffSavedQuotes();
+            } else if (tabId === 'docs') {
+                renderStaffInstallationDocs();
             } else if (tabId === 'management') {
                 renderAdminPartnersTable();
                 renderAdminStaffTable();
             }
+        }
+
+        function renderStaffInstallationDocs() {
+            let docs = [];
+            try {
+                docs = JSON.parse(localStorage.getItem('global_installation_docs') || '[]');
+            } catch(e) { docs = []; }
+
+            // If global docs empty, scan through all localStorage keys for partner docs
+            if (docs.length === 0) {
+                for (let i = 0; i < localStorage.length; i++) {
+                    const k = localStorage.key(i);
+                    if (k && k.startsWith('partner_installation_docs_')) {
+                        try {
+                            const pDocs = JSON.parse(localStorage.getItem(k) || '[]');
+                            docs = docs.concat(pDocs);
+                        } catch(e) {}
+                    }
+                }
+            }
+
+            // Update badge counts
+            const badge = document.getElementById('staff-tab-badge-docs');
+            if (badge) badge.textContent = docs.length;
+            const countEl = document.getElementById('staff-docs-count');
+            if (countEl) countEl.textContent = docs.length;
+
+            const container = document.getElementById('staff-docs-container');
+            if (!container) return;
+
+            const q = (document.getElementById('staff-doc-search')?.value || '').toLowerCase().trim();
+            let filtered = docs;
+            if (q) {
+                filtered = filtered.filter(d => 
+                    (d.customerName && d.customerName.toLowerCase().includes(q)) ||
+                    (d.consumerNo && d.consumerNo.toLowerCase().includes(q)) ||
+                    (d.customerPhone && d.customerPhone.includes(q)) ||
+                    (d.dealerCode && d.dealerCode.toLowerCase().includes(q)) ||
+                    (d.docType && d.docType.toLowerCase().includes(q))
+                );
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<p style="font-size: 0.8rem; color: var(--color-text-muted); text-align: center; padding: 1.5rem 0;">No installation documents found ${q ? 'matching your search criteria' : ''}.</p>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(doc => {
+                const dateStr = new Date(doc.createdAt).toLocaleDateString('en-IN', {
+                    day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                });
+                const isPdf = doc.fileType && doc.fileType.includes('pdf');
+                const isImg = doc.fileType && doc.fileType.includes('image');
+                const fileIcon = isPdf ? '📑' : (isImg ? '🖼️' : '📄');
+
+                return `
+                <div class="portal-card-box" style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; display: flex; flex-direction: column; gap: 0.6rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.6rem; flex-wrap: wrap;">
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.2rem;">
+                                <span style="font-size: 1.1rem;">${fileIcon}</span>
+                                <h5 style="margin: 0; font-size: 0.92rem; color: var(--color-text); font-weight: 800;">${escapeHtml(doc.docType)}</h5>
+                                <span style="background: rgba(255, 183, 3, 0.15); border: 1px solid var(--color-sun-yellow); color: var(--color-sun-yellow); font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 12px;">
+                                    ${escapeHtml(doc.status || 'Uploaded')}
+                                </span>
+                                <span style="background: rgba(59, 130, 246, 0.15); border: 1px solid #3b82f6; color: #3b82f6; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 12px;">
+                                    Partner: ${escapeHtml(doc.dealerCode || 'DIRECT')}
+                                </span>
+                            </div>
+                            <div style="font-size: 0.78rem; color: var(--color-text); font-weight: 600;">
+                                👤 <strong>${escapeHtml(doc.customerName)}</strong> (${escapeHtml(doc.customerPhone)}) • ⚡ Consumer No: <code style="background: var(--color-surface); padding: 0.1rem 0.35rem; border-radius: 4px; color: var(--color-sun-yellow);">${escapeHtml(doc.consumerNo)}</code>
+                            </div>
+                            <div style="font-size: 0.72rem; color: var(--color-text-muted); margin-top: 0.2rem;">
+                                🏢 Section: ${escapeHtml(doc.ksebSection)} • ⚡ ${escapeHtml(doc.capacity)} kWp • 📅 Uploaded: ${dateStr}
+                            </div>
+                            ${doc.remarks ? `<div style="font-size: 0.72rem; color: var(--color-text); background: var(--color-surface); padding: 0.3rem 0.6rem; border-radius: 6px; margin-top: 0.35rem; border-left: 3px solid var(--color-sun-yellow);">💬 Note: ${escapeHtml(doc.remarks)}</div>` : ''}
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 0.72rem; font-weight: 700; color: var(--color-text);">${escapeHtml(doc.fileName)}</div>
+                            <div style="font-size: 0.68rem; color: var(--color-text-muted);">${formatStaffDocBytes(doc.fileSize)}</div>
+                        </div>
+                    </div>
+
+                    <!-- Staff Action Bar -->
+                    <div style="display: flex; gap: 0.5rem; align-items: center; justify-content: flex-end; flex-wrap: wrap; border-top: 1px solid var(--color-border); padding-top: 0.5rem; margin-top: 0.2rem;">
+                        <button type="button" onclick="updateDocStatusStaff('${doc.id}', 'KSEB Verified & Approved')" style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; color: #10b981; font-size: 0.74rem; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px; cursor: pointer;">
+                            ✅ Mark Verified &amp; Approved
+                        </button>
+                        <button type="button" onclick="updateDocStatusStaff('${doc.id}', 'Under KSEB Inspection')" style="background: rgba(255, 183, 3, 0.15); border: 1px solid var(--color-sun-yellow); color: var(--color-sun-yellow); font-size: 0.74rem; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px; cursor: pointer;">
+                            ⏳ Under KSEB Inspection
+                        </button>
+                        <button type="button" onclick="downloadStaffDoc('${doc.id}')" style="background: rgba(37, 99, 235, 0.15); border: 1px solid #2563eb; color: #2563eb; font-size: 0.74rem; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px; cursor: pointer;">
+                            📥 Download File
+                        </button>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        function formatStaffDocBytes(bytes, decimals = 1) {
+            if (!bytes || bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+
+        function updateDocStatusStaff(docId, newStatus) {
+            let globalDocs = [];
+            try {
+                globalDocs = JSON.parse(localStorage.getItem('global_installation_docs') || '[]');
+            } catch(e) {}
+            const doc = globalDocs.find(d => d.id === docId);
+            if (doc) {
+                doc.status = newStatus;
+                localStorage.setItem('global_installation_docs', JSON.stringify(globalDocs));
+                
+                // Also update partner's local key
+                if (doc.dealerCode) {
+                    const pKey = 'partner_installation_docs_' + doc.dealerCode;
+                    try {
+                        let pDocs = JSON.parse(localStorage.getItem(pKey) || '[]');
+                        const target = pDocs.find(d => d.id === docId);
+                        if (target) {
+                            target.status = newStatus;
+                            localStorage.setItem(pKey, JSON.stringify(pDocs));
+                        }
+                    } catch(e) {}
+                }
+            }
+            renderStaffInstallationDocs();
+            alert(`Document status updated to: ${newStatus}`);
+        }
+
+        function downloadStaffDoc(docId) {
+            let globalDocs = [];
+            try {
+                globalDocs = JSON.parse(localStorage.getItem('global_installation_docs') || '[]');
+            } catch(e) {}
+            let doc = globalDocs.find(d => d.id === docId);
+            if (!doc || !doc.fileData) {
+                // Search in partner keys
+                for (let i = 0; i < localStorage.length; i++) {
+                    const k = localStorage.key(i);
+                    if (k && k.startsWith('partner_installation_docs_')) {
+                        try {
+                            const pDocs = JSON.parse(localStorage.getItem(k) || '[]');
+                            const found = pDocs.find(d => d.id === docId);
+                            if (found && found.fileData) {
+                                doc = found;
+                                break;
+                            }
+                        } catch(e) {}
+                    }
+                }
+            }
+            if (!doc || !doc.fileData) {
+                alert('Document file data not available.');
+                return;
+            }
+            const a = document.createElement('a');
+            a.href = doc.fileData;
+            a.download = doc.fileName || `Sunova_${doc.docType.replace(/\s+/g, '_')}_${doc.consumerNo}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         }
 
         function handleStaffPasswordChange(e) {

@@ -9,7 +9,8 @@ files = [
     'solar-tools.html',
     'kseb-feasibility.html',
     'tech-locker.html',
-    'partner-security.html'
+    'partner-security.html',
+    'login.html'
 ]
 
 src_dir = r"C:\Users\a1ypwgg0\OneDrive - Airtelworld\Documents\GitHub\sunova"
