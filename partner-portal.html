@@ -455,27 +455,27 @@
 
                         <!-- 2. Partner Workspace Navigation Tabs Bar -->
                         <div class="partner-nav-tabs" style="display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1.5px solid var(--color-border); scrollbar-width: thin;">
-                            <a href="partner-portal.html" class="partner-tab-btn active" id="tab-btn-quote-generator" style="background: var(--color-sun-yellow); color: #0d1321; border: 1px solid var(--color-sun-yellow); font-weight: 800; padding: 0.6rem 1.1rem; border-radius: 10px; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; text-decoration: none;">
+                            <button type="button" class="partner-tab-btn active" onclick="switchPartnerPortalTab('quote-generator')" id="tab-btn-quote-generator" style="background: var(--color-sun-yellow); color: #0d1321; border: 1px solid var(--color-sun-yellow); font-weight: 800; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
                                 ⚡ Quotation Generator
-                            </a>
-                            <a href="leads.html" class="partner-tab-btn" id="tab-btn-leads" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; text-decoration: none;">
+                            </button>
+                            <button type="button" class="partner-tab-btn" onclick="switchPartnerPortalTab('leads')" id="tab-btn-leads" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
                                 📥 Leads &amp; Inquiries (<span id="tab-badge-allocated">0</span>)
-                            </a>
-                            <a href="saved-quotes.html" class="partner-tab-btn" id="tab-btn-saved-quotes" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; text-decoration: none;">
+                            </button>
+                            <button type="button" class="partner-tab-btn" onclick="switchPartnerPortalTab('saved-quotes')" id="tab-btn-saved-quotes" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
                                 💾 Saved Quotes (<span id="tab-badge-saved">0</span>)
-                            </a>
-                            <a href="solar-tools.html" class="partner-tab-btn" id="tab-btn-calculators" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; text-decoration: none;">
+                            </button>
+                            <button type="button" class="partner-tab-btn" onclick="switchPartnerPortalTab('calculators')" id="tab-btn-calculators" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
                                 🧮 Solar Tools &amp; Subsidy
-                            </a>
-                            <a href="kseb-feasibility.html" class="partner-tab-btn" id="tab-btn-kseb" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; text-decoration: none;">
+                            </button>
+                            <button type="button" class="partner-tab-btn" onclick="switchPartnerPortalTab('kseb')" id="tab-btn-kseb" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
                                 ⚡ KSEB Feasibility
-                            </a>
-                            <a href="tech-locker.html" class="partner-tab-btn" id="tab-btn-resources" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; text-decoration: none;">
+                            </button>
+                            <button type="button" class="partner-tab-btn" onclick="switchPartnerPortalTab('resources')" id="tab-btn-resources" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
                                 📂 Tech Locker &amp; Warranty
-                            </a>
-                            <a href="partner-security.html" class="partner-tab-btn" id="tab-btn-security" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; text-decoration: none;">
+                            </button>
+                            <button type="button" class="partner-tab-btn" onclick="switchPartnerPortalTab('security')" id="tab-btn-security" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
                                 🔒 Security &amp; PIN
-                            </a>
+                            </button>
                         </div>
 
                         <!-- TAB 1: Quotation Generator (Default Active Tab) -->
