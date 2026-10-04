@@ -6835,30 +6835,208 @@ table {
     box-sizing: border-box !important;
 }
 
-/* Mobile & Tablet Specific Containment (< 768px) */
+/* ==========================================================================
+   COMPREHENSIVE WEB & MOBILE COMPATIBILITY SUITE (iOS, Android, Tablets, Desktop)
+   ========================================================================== */
+
+/* Universal Containment & Touch Target Optimization */
+.partner-nav-tabs,
+.staff-nav-tabs {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: var(--color-sun-yellow) transparent !important;
+    gap: 0.45rem !important;
+    padding-bottom: 0.6rem !important;
+    margin-bottom: 1.25rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.partner-nav-tabs::-webkit-scrollbar,
+.staff-nav-tabs::-webkit-scrollbar {
+    height: 4px;
+}
+
+.partner-nav-tabs::-webkit-scrollbar-thumb,
+.staff-nav-tabs::-webkit-scrollbar-thumb {
+    background: var(--color-sun-yellow);
+    border-radius: 4px;
+}
+
+.partner-tab-btn,
+.staff-tab-btn {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+    padding: 0.55rem 0.95rem !important;
+    font-size: 0.82rem !important;
+    border-radius: 10px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.4rem !important;
+    touch-action: manipulation !important;
+    user-select: none !important;
+    transition: all 0.2s ease !important;
+}
+
+/* Responsive Table Wrapper */
+.table-responsive,
+.portal-table-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    margin-bottom: 1rem !important;
+}
+
+/* Mobile & Tablet Specific (< 768px) */
 @media (max-width: 768px) {
-    .enterprise-main-canvas {
-        padding: 0.6rem 0.75rem !important;
+    html, body {
+        font-size: 14px !important;
     }
 
+    /* Prevent iOS Safari auto-zoom on input focus */
+    input, select, textarea {
+        font-size: 16px !important;
+    }
+
+    .enterprise-navbar {
+        height: 50px !important;
+        padding: 0 0.75rem !important;
+    }
+
+    .enterprise-brand {
+        gap: 0.4rem !important;
+    }
+
+    .enterprise-logo {
+        height: 22px !important;
+    }
+
+    .enterprise-title {
+        font-size: 0.84rem !important;
+    }
+
+    .enterprise-nav-btn {
+        padding: 0.35rem 0.6rem !important;
+        font-size: 0.72rem !important;
+    }
+
+    .enterprise-container {
+        margin-top: 50px !important;
+        padding: 0.8rem 0.5rem !important;
+        min-height: calc(100dvh - 50px) !important;
+    }
+
+    .enterprise-main-canvas {
+        padding: 0.5rem 0.4rem !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .dashboard-overview-title {
+        font-size: 1.15rem !important;
+    }
+
+    .dashboard-date-subtitle {
+        font-size: 0.72rem !important;
+        margin-bottom: 1rem !important;
+    }
+
+    /* Grids: Stack vertically on mobile */
     .quote-grid-4,
-    .quote-grid-3 {
+    .quote-grid-3,
+    .quote-grid-2 {
         grid-template-columns: 1fr !important;
+        gap: 0.65rem !important;
+    }
+
+    /* Metric cards: 2 columns on mobile */
+    #dealer-profile-details > div:last-child,
+    #partner-overview-banner > div:last-child {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 0.6rem !important;
+    }
+
+    .portal-stat-box {
+        padding: 0.8rem 0.6rem !important;
+    }
+
+    .portal-stat-box div[style*="font-size: 1.8rem"],
+    .portal-stat-box div[style*="font-size: 1.6rem"] {
+        font-size: 1.35rem !important;
+    }
+
+    /* Compact Tabs on Mobile */
+    .partner-tab-btn,
+    .staff-tab-btn {
+        font-size: 0.74rem !important;
+        padding: 0.45rem 0.75rem !important;
+        border-radius: 8px !important;
+    }
+
+    /* Login Card: Full responsive width on mobile */
+    .login-wrapper:not(.dashboard-active) {
+        margin: 1rem auto !important;
+        padding: 0.75rem !important;
+        max-width: 100% !important;
+    }
+
+    .login-wrapper:not(.dashboard-active) .login-card {
+        padding: 1.75rem 1.25rem !important;
+        border-radius: 12px !important;
+    }
+
+    /* Modal dialogs on mobile */
+    #quote-modal-overlay,
+    #checklist-modal-overlay {
+        padding: 0.4rem !important;
+        align-items: flex-start !important;
+    }
+
+    #printable-quote-content {
+        padding: 1rem 0.6rem !important;
+        border-radius: 8px !important;
+        width: 100% !important;
+    }
+
+    #printable-quote-content .no-print {
+        padding: 0.6rem 0.5rem !important;
+        margin: -1rem -0.6rem 1rem -0.6rem !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
         gap: 0.5rem !important;
+    }
+
+    #printable-quote-content .no-print > div {
+        justify-content: center !important;
+        width: 100% !important;
+    }
+
+    #printable-quote-content .no-print button {
+        flex: 1 1 auto !important;
+        padding: 0.55rem 0.75rem !important;
+        font-size: 0.78rem !important;
+    }
+}
+
+/* Extra Small Phones (< 400px) */
+@media (max-width: 400px) {
+    .enterprise-title {
+        display: none !important;
+    }
+
+    #dealer-profile-details > div:last-child,
+    #partner-overview-banner > div:last-child {
+        grid-template-columns: 1fr !important;
     }
 
     .partner-tab-btn,
     .staff-tab-btn {
-        font-size: 0.72rem !important;
-        padding: 0.35rem 0.55rem !important;
-    }
-
-    #dealer-profile-details > div,
-    #partner-overview-banner > div,
-    #staff-role-workspace-banner > div {
-        flex-direction: column !important;
-        align-items: flex-start !important;
-        gap: 0.4rem !important;
+        font-size: 0.7rem !important;
+        padding: 0.4rem 0.65rem !important;
     }
 }
 
