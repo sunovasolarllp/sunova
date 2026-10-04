@@ -750,7 +750,7 @@
                                             📤 Solar Installation Documents &amp; KSEB Verification Hub
                                         </h4>
                                         <p style="font-size: 0.74rem; color: var(--color-text-muted); margin: 0.25rem 0 0 0;">
-                                            Upload KYC, KSEB electricity bills, bank passbook, rooftop photos, and inverter serials for PM Surya Ghar subsidy disbursement and KSEB net-metering clearance.
+                                            Upload documents directly beside each checklist requirement for PM Surya Ghar subsidy disbursement and KSEB net-metering synchronization.
                                         </p>
                                     </div>
                                     <span style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; color: #10b981; padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700;">
@@ -758,207 +758,122 @@
                                     </span>
                                 </div>
 
-                                <!-- 1-Click Lead Auto-Fill Bar -->
-                                <div style="background: var(--color-bg-alt); border: 1px dashed var(--color-border); border-radius: 10px; padding: 0.85rem; margin-bottom: 1.25rem;">
-                                    <label style="font-size: 0.76rem; font-weight: 700; color: var(--color-text); display: block; margin-bottom: 0.35rem;">
-                                        ⚡ Auto-Fill Customer Details from Allocated Leads:
-                                    </label>
-                                    <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
-                                        <select id="doc-autofill-lead-select" onchange="autoFillDocFieldsFromLead(this.value)" style="flex: 1; min-width: 240px; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.55rem 0.8rem; border-radius: 8px; font-size: 0.82rem;">
-                                            <option value="">-- Select Allocated Customer Lead to Auto-Fill --</option>
+                                <!-- 1-Click Lead Auto-Fill & Customer Context Header -->
+                                <div style="background: var(--color-bg-alt); border: 1.5px solid var(--color-border); border-radius: 12px; padding: 1rem; margin-bottom: 1.25rem;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+                                        <label style="font-size: 0.78rem; font-weight: 800; color: var(--color-sun-yellow); display: flex; align-items: center; gap: 0.4rem;">
+                                            👤 Active Customer &amp; Installation Premise Details:
+                                        </label>
+                                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                            <button type="button" onclick="clearDocUploadForm()" style="background: rgba(255,255,255,0.08); border: 1px solid var(--color-border); color: var(--color-text); font-size: 0.74rem; font-weight: 600; padding: 0.35rem 0.75rem; border-radius: 6px; cursor: pointer;">
+                                                🔄 Switch / New Customer
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div style="display: flex; gap: 0.6rem; margin-bottom: 0.85rem; flex-wrap: wrap;">
+                                        <select id="doc-autofill-lead-select" onchange="autoFillDocFieldsFromLead(this.value)" style="flex: 1; min-width: 240px; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.55rem 0.8rem; border-radius: 8px; font-size: 0.82rem; font-weight: 600;">
+                                            <option value="">-- Auto-Fill from Allocated Customer Leads --</option>
                                         </select>
-                                        <button type="button" onclick="clearDocUploadForm()" style="background: rgba(255,255,255,0.08); border: 1px solid var(--color-border); color: var(--color-text); font-size: 0.78rem; font-weight: 600; padding: 0.55rem 0.9rem; border-radius: 8px; cursor: pointer;">
-                                            🔄 Reset Form
+                                    </div>
+
+                                    <!-- Customer Profile Fields Grid -->
+                                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+                                        <div>
+                                            <label for="doc-cust-name" style="font-size: 0.72rem; font-weight: 700; color: var(--color-text); display: block; margin-bottom: 0.25rem;">Customer Name *</label>
+                                            <input type="text" id="doc-cust-name" oninput="renderDocChecklistSlots()" required placeholder="e.g. Rajesh Kumar" style="width: 100%; box-sizing: border-box; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.45rem 0.7rem; border-radius: 6px; font-size: 0.8rem;">
+                                        </div>
+                                        <div>
+                                            <label for="doc-cust-phone" style="font-size: 0.72rem; font-weight: 700; color: var(--color-text); display: block; margin-bottom: 0.25rem;">Customer Phone / WhatsApp *</label>
+                                            <input type="tel" id="doc-cust-phone" oninput="renderDocChecklistSlots()" required placeholder="e.g. 9847012345" style="width: 100%; box-sizing: border-box; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.45rem 0.7rem; border-radius: 6px; font-size: 0.8rem;">
+                                        </div>
+                                        <div>
+                                            <label for="doc-consumer-no" style="font-size: 0.72rem; font-weight: 700; color: var(--color-text); display: block; margin-bottom: 0.25rem;">KSEB 13-Digit Consumer No. *</label>
+                                            <input type="text" id="doc-consumer-no" oninput="renderDocChecklistSlots()" required maxlength="13" placeholder="e.g. 1155667788990" style="width: 100%; box-sizing: border-box; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.45rem 0.7rem; border-radius: 6px; font-size: 0.8rem; font-family: monospace;">
+                                        </div>
+                                        <div>
+                                            <label for="doc-kseb-section" style="font-size: 0.72rem; font-weight: 700; color: var(--color-text); display: block; margin-bottom: 0.25rem;">KSEB Electrical Section *</label>
+                                            <input type="text" id="doc-kseb-section" required placeholder="e.g. Palakkad Town" style="width: 100%; box-sizing: border-box; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.45rem 0.7rem; border-radius: 6px; font-size: 0.8rem;">
+                                        </div>
+                                        <div>
+                                            <label for="doc-capacity" style="font-size: 0.72rem; font-weight: 700; color: var(--color-text); display: block; margin-bottom: 0.25rem;">Plant Capacity (kWp)</label>
+                                            <input type="number" id="doc-capacity" step="0.1" min="1" max="100" placeholder="e.g. 3.0" value="3.0" style="width: 100%; box-sizing: border-box; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.45rem 0.7rem; border-radius: 6px; font-size: 0.8rem;">
+                                        </div>
+                                    </div>
+
+                                    <!-- Live Mandatory Completion Progress Meter -->
+                                    <div style="margin-top: 0.85rem; border-top: 1px dashed var(--color-border); padding-top: 0.75rem;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem; font-size: 0.74rem; font-weight: 700;">
+                                            <span style="color: var(--color-text); display: flex; align-items: center; gap: 0.35rem;">
+                                                📋 <span id="doc-progress-label">Mandatory Documents Completion:</span>
+                                            </span>
+                                            <span id="doc-progress-count" style="color: var(--color-sun-yellow);">0 / 8 Mandatory Uploaded (0%)</span>
+                                        </div>
+                                        <div style="width: 100%; height: 8px; background: rgba(255,255,255,0.08); border-radius: 10px; overflow: hidden; position: relative;">
+                                            <div id="doc-progress-bar-fill" style="width: 0%; height: 100%; background: linear-gradient(90deg, var(--color-sun-yellow), #10b981); transition: width 0.3s ease; border-radius: 10px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Optional Quick Multi-File Batch Dropzone Accordion -->
+                                <div style="background: rgba(255, 183, 3, 0.04); border: 1px dashed rgba(255, 183, 3, 0.35); border-radius: 10px; padding: 0.75rem 1rem; margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.6rem;">
+                                    <div>
+                                        <div style="font-size: 0.8rem; font-weight: 800; color: var(--color-sun-yellow); display: flex; align-items: center; gap: 0.35rem;">
+                                            ⚡ Quick Multi-File Auto-Detect
+                                        </div>
+                                        <div style="font-size: 0.72rem; color: var(--color-text-muted);">
+                                            Have all files in one folder? Drop them together to auto-populate the document slots below.
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <input type="file" id="batch-doc-file-input" multiple onchange="handleBatchFileSelect(event)" accept=".pdf,.jpg,.jpeg,.png,.webp,.docx" style="display: none;">
+                                        <button type="button" onclick="document.getElementById('batch-doc-file-input').click()" style="background: rgba(255, 183, 3, 0.15); border: 1px solid var(--color-sun-yellow); color: var(--color-sun-yellow); font-size: 0.76rem; font-weight: 700; padding: 0.4rem 0.9rem; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem;">
+                                            📁 Browse Multiple Files
                                         </button>
                                     </div>
                                 </div>
 
-                                <!-- Document Upload Form -->
-                                <form id="partner-doc-upload-form" onsubmit="handleSaveInstallationDoc(event)" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
-                                    <!-- Customer Name -->
-                                    <div>
-                                        <label for="doc-cust-name" style="font-size: 0.76rem; font-weight: 700; color: var(--color-text); display: block; margin-bottom: 0.35rem;">Customer Name *</label>
-                                        <input type="text" id="doc-cust-name" required placeholder="e.g. Rajesh Kumar" style="width: 100%; box-sizing: border-box; background: var(--color-bg-alt); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.55rem 0.8rem; border-radius: 8px; font-size: 0.82rem;">
+                                <!-- 🎯 Per-Document Interactive Checklist & Direct Upload Slots -->
+                                <div style="margin-bottom: 1.5rem;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.4rem;">
+                                        <h5 style="margin: 0; font-size: 0.92rem; color: var(--color-text); font-weight: 800; display: flex; align-items: center; gap: 0.4rem;">
+                                            📑 Document Checklist &amp; Direct Upload Slots
+                                        </h5>
+                                        <span style="font-size: 0.72rem; color: var(--color-text-muted);">Click <strong>Upload</strong> next to each item to attach and verify instantly</span>
                                     </div>
 
-                                    <!-- Customer Phone / WhatsApp -->
-                                    <div>
-                                        <label for="doc-cust-phone" style="font-size: 0.76rem; font-weight: 700; color: var(--color-text); display: block; margin-bottom: 0.35rem;">Customer Phone / WhatsApp *</label>
-                                        <input type="tel" id="doc-cust-phone" required placeholder="e.g. 9847012345" style="width: 100%; box-sizing: border-box; background: var(--color-bg-alt); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.55rem 0.8rem; border-radius: 8px; font-size: 0.82rem;">
-                                    </div>
-
-                                    <!-- KSEB Consumer Number -->
-                                    <div>
-                                        <label for="doc-consumer-no" style="font-size: 0.76rem; font-weight: 700; color: var(--color-text); display: block; margin-bottom: 0.35rem;">KSEB 13-Digit Consumer No. *</label>
-                                        <input type="text" id="doc-consumer-no" required maxlength="13" placeholder="e.g. 1155667788990" style="width: 100%; box-sizing: border-box; background: var(--color-bg-alt); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.55rem 0.8rem; border-radius: 8px; font-size: 0.82rem; font-family: monospace;">
-                                    </div>
-
-                                    <!-- KSEB Electrical Section & District -->
-                                    <div>
-                                        <label for="doc-kseb-section" style="font-size: 0.76rem; font-weight: 700; color: var(--color-text); display: block; margin-bottom: 0.35rem;">KSEB Section / District *</label>
-                                        <input type="text" id="doc-kseb-section" required placeholder="e.g. Palakkad Town / Palakkad" style="width: 100%; box-sizing: border-box; background: var(--color-bg-alt); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.55rem 0.8rem; border-radius: 8px; font-size: 0.82rem;">
-                                    </div>
-
-                                    <!-- Solar Plant Capacity -->
-                                    <div>
-                                        <label for="doc-capacity" style="font-size: 0.76rem; font-weight: 700; color: var(--color-text); display: block; margin-bottom: 0.35rem;">Sanctioned Plant Capacity (kWp)</label>
-                                        <input type="number" id="doc-capacity" step="0.1" min="1" max="100" placeholder="e.g. 3.0" value="3.0" style="width: 100%; box-sizing: border-box; background: var(--color-bg-alt); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.55rem 0.8rem; border-radius: 8px; font-size: 0.82rem;">
-                                    </div>
-
-                                    <!-- Document Category / Type -->
-                                    <div>
-                                        <label for="doc-type" style="font-size: 0.76rem; font-weight: 700; color: var(--color-text); display: block; margin-bottom: 0.35rem;">Document Category *</label>
-                                        <select id="doc-type" required style="width: 100%; box-sizing: border-box; background: var(--color-bg-alt); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.55rem 0.8rem; border-radius: 8px; font-size: 0.82rem;">
-                                            <optgroup label="1. Customer KYC &amp; Premise Documents">
-                                                <option value="Aadhaar Card Copy (KYC Proof)">🪪 Customer Aadhaar Card (KYC Proof)</option>
-                                                <option value="Latest KSEB Electricity Bill">⚡ Latest KSEB Electricity Bill (Proof of Consumer No)</option>
-                                                <option value="Bank Passbook / Cancelled Cheque">🏦 Bank Passbook / Cancelled Cheque (DBT Subsidy)</option>
-                                                <option value="Building Tax / Land Tax Receipt / Possession Certificate">📜 Building Tax / Land Tax / Ownership Certificate</option>
-                                                <option value="Co-owner / Apartment / RWA NOC Letter">🏢 Co-owner / Apartment / RWA NOC Letter</option>
-                                            </optgroup>
-                                            <optgroup label="2. PM Surya Ghar &amp; KSEB Approvals">
-                                                <option value="PM Surya Ghar National Portal Application Slip">🏛️ PM Surya Ghar National Portal Application Slip</option>
-                                                <option value="KSEB Net Metering Feasibility Clearance">📋 KSEB Feasibility Clearance &amp; Agreement</option>
-                                                <option value="Connected Load Enhancement / Phase Conversion Order">⚡ Connected Load Enhancement / Phase Conversion Order</option>
-                                                <option value="Electrical Inspectorate (CEIG) Safety Clearance">🔌 Electrical Inspectorate (CEIG) Safety Clearance (&gt;10kW)</option>
-                                            </optgroup>
-                                            <optgroup label="3. Equipment Serials, DCR &amp; Warranties">
-                                                <option value="Inverter & Module Serial Number Sheet">🏷️ Inverter &amp; Solar Modules Serial Number Sheet</option>
-                                                <option value="Solar PV Module ALMM & DCR Certificate">📑 Solar PV Module ALMM &amp; DCR Certificate</option>
-                                                <option value="Manufacturer Warranty Cards & Datasheets">🛡️ Inverter &amp; Module Warranty Cards / Datasheets</option>
-                                                <option value="KSEB Bi-directional Net Meter Test Report">⚡ KSEB Net Meter Lab Test &amp; Calibration Report</option>
-                                            </optgroup>
-                                            <optgroup label="4. Site Survey, Photos &amp; Technical Safety">
-                                                <option value="Geo-Tagged Rooftop Photos (Pre/Post Install)">📸 Geo-Tagged Rooftop Photos (Pre/Post Install)</option>
-                                                <option value="Earthing Resistance & Commissioning Certificate">📑 Earthing (&lt; 5Ω) &amp; Commissioning Certificate</option>
-                                                <option value="Lightning Protection & Surge Arrester Test Report">⚡ Lightning Protection &amp; Surge Arrester Test Report</option>
-                                                <option value="Single Line Diagram (SLD) & Structural Layout">📐 Single Line Diagram (SLD) &amp; Structural Drawing</option>
-                                            </optgroup>
-                                            <optgroup label="5. Billing, Handover &amp; Bank Finance">
-                                                <option value="GST Commercial Invoice & Delivery Challan">🧾 GST Commercial Invoice &amp; Delivery Challan</option>
-                                                <option value="KSEB Joint Inspection Report (JIR / Form B/C)">🤝 KSEB Joint Inspection Report (JIR / Form B/C)</option>
-                                                <option value="Bank Solar Loan Sanction Letter / NOC">🏦 Bank Solar Loan Sanction Letter / NOC</option>
-                                                <option value="Safety Inspection & Handover Slip">📦 Safety Inspection, Dispatch &amp; Handover Slip</option>
-                                                <option value="Other Project Document / Technical Attachment">📁 Other Project Document / Technical Attachment</option>
-                                            </optgroup>
-                                        </select>
-                                    </div>
-
-                                    <!-- Remarks / Technical Notes (Span full width) -->
-                                    <div style="grid-column: 1 / -1;">
-                                        <label for="doc-remarks" style="font-size: 0.76rem; font-weight: 700; color: var(--color-text); display: block; margin-bottom: 0.35rem;">Installation Notes / Remarks (Optional)</label>
-                                        <input type="text" id="doc-remarks" placeholder="e.g. 3.3kW DCR Bifacial panels installed, D-fuse &amp; 4-pole isolator mounted. KSEB net meter pending." style="width: 100%; box-sizing: border-box; background: var(--color-bg-alt); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.55rem 0.8rem; border-radius: 8px; font-size: 0.82rem;">
-                                    </div>
-
-                                    <!-- Drag & Drop Multi-File Upload Box (Span full width) -->
-                                    <div style="grid-column: 1 / -1;">
-                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem; flex-wrap: wrap; gap: 0.4rem;">
-                                            <label style="font-size: 0.76rem; font-weight: 700; color: var(--color-text); margin: 0;">
-                                                Attach Documents (Select Multiple Files: PDF, JPG, PNG, WEBP - Max 10MB each) *
-                                            </label>
-                                            <span style="font-size: 0.72rem; color: #10b981; font-weight: 800; background: rgba(16, 185, 129, 0.12); border: 1px solid #10b981; padding: 2px 8px; border-radius: 12px;">
-                                                ⚡ Multi-File 1-Click Upload Supported
-                                            </span>
-                                        </div>
-
-                                        <div id="doc-drop-zone" ondragover="handleDocDragOver(event)" ondragleave="handleDocDragLeave(event)" ondrop="handleDocDrop(event)" onclick="triggerDocFileInput(event)" style="border: 2px dashed var(--color-border); border-radius: 12px; padding: 1.35rem 1rem; text-align: center; background: var(--color-bg-alt); cursor: pointer; transition: all 0.2s ease;">
-                                            <input type="file" id="doc-file-input" multiple onchange="handleDocFileSelect(event)" accept=".pdf,.jpg,.jpeg,.png,.webp,.docx,.zip" style="display: none;">
-                                            <div id="doc-upload-prompt">
-                                                <span style="font-size: 2.2rem; display: block; margin-bottom: 0.35rem;">📁</span>
-                                                <p style="margin: 0; font-size: 0.86rem; font-weight: 800; color: var(--color-text);">Click to browse or Drag &amp; Drop multiple installation files here</p>
-                                                <p style="margin: 0.25rem 0 0 0; font-size: 0.72rem; color: var(--color-text-muted);">Select all KYC, bills, photos, passbooks &amp; test reports together in 1 selection (PDF, JPG, PNG, WEBP)</p>
-                                            </div>
-                                        </div>
-
-                                        <!-- Multi-File Staging Queue Container (Shows when 1 or more files are selected) -->
-                                        <div id="doc-multi-file-queue" style="display: none; margin-top: 0.85rem; background: var(--color-surface); border: 1.5px solid var(--color-sun-yellow); border-radius: 12px; padding: 1rem;">
-                                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
-                                                <div style="display: flex; align-items: center; gap: 0.4rem;">
-                                                    <span style="font-size: 1.1rem;">📦</span>
-                                                    <strong style="font-size: 0.84rem; color: var(--color-text);">Staged Documents for 1-Click Upload:</strong>
-                                                    <span id="doc-staged-count-badge" style="background: var(--color-sun-yellow); color: #0d1321; font-size: 0.72rem; font-weight: 800; padding: 0.15rem 0.5rem; border-radius: 10px;">0 Files</span>
-                                                    <span id="doc-staged-total-size" style="font-size: 0.72rem; color: var(--color-text-muted);">(0 KB)</span>
-                                                </div>
-                                                <div style="display: flex; gap: 0.5rem; align-items: center;">
-                                                    <button type="button" onclick="triggerDocFileInput(event)" style="background: rgba(255, 183, 3, 0.15); border: 1px solid var(--color-sun-yellow); color: var(--color-sun-yellow); font-size: 0.74rem; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.3rem;">
-                                                        ➕ Add More Files
-                                                    </button>
-                                                    <button type="button" onclick="clearAllStagedFiles(event)" style="background: rgba(239, 68, 68, 0.12); border: 1px solid #ef4444; color: #ef4444; font-size: 0.74rem; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.3rem;">
-                                                        🗑️ Clear Queue
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                            <!-- Scrollable Staged Files List with Per-File Category Selector -->
-                                            <div id="doc-staged-files-list" style="display: flex; flex-direction: column; gap: 0.6rem; max-height: 290px; overflow-y: auto; padding-right: 0.25rem;">
-                                                <!-- Populated dynamically -->
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Submit Action Bar -->
-                                    <div style="grid-column: 1 / -1; display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: center; justify-content: space-between; margin-top: 0.5rem; border-top: 1px solid var(--color-border); padding-top: 0.75rem;">
-                                        <div id="doc-upload-progress-text" style="font-size: 0.78rem; font-weight: 700; color: var(--color-sun-yellow); display: none;">
-                                            ⏳ Processing and registering documents batch...
-                                        </div>
-                                        <div style="display: flex; gap: 0.6rem; margin-left: auto;">
-                                            <button type="button" onclick="clearDocUploadForm()" style="background: rgba(255,255,255,0.06); border: 1px solid var(--color-border); color: var(--color-text); font-size: 0.82rem; font-weight: 600; padding: 0.6rem 1.1rem; border-radius: 8px; cursor: pointer;">
-                                                Cancel
-                                            </button>
-                                            <button type="submit" id="btn-save-doc" class="cta-btn primary-btn" style="padding: 0.6rem 1.6rem; font-size: 0.86rem; font-weight: 800; display: inline-flex; align-items: center; gap: 0.4rem;">
-                                                📤 Upload All Documents in 1 Click
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-
-                                <!-- KSEB & PM Surya Ghar Documentation Standards Card -->
-                                <div style="background: rgba(255, 183, 3, 0.05); border: 1px solid rgba(255, 183, 3, 0.25); border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
-                                    <div style="font-size: 0.82rem; font-weight: 800; color: var(--color-sun-yellow); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
-                                        📌 PM Surya Ghar &amp; KSEB Soura Mandatory Upload Checklist:
-                                    </div>
-                                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; font-size: 0.74rem; color: var(--color-text);">
-                                        <div style="display: flex; gap: 0.4rem;"><span style="color: #10b981; font-weight: 800;">✓</span> <span><strong>1. KYC &amp; Bank DBT:</strong> Aadhaar &amp; Bank passbook name match KSEB Consumer.</span></div>
-                                        <div style="display: flex; gap: 0.4rem;"><span style="color: #10b981; font-weight: 800;">✓</span> <span><strong>2. Premise Proof:</strong> Building Tax or NOC if consumer record differs.</span></div>
-                                        <div style="display: flex; gap: 0.4rem;"><span style="color: #10b981; font-weight: 800;">✓</span> <span><strong>3. ALMM / DCR Proof:</strong> DCR Module Serials matching National Portal specs.</span></div>
-                                        <div style="display: flex; gap: 0.4rem;"><span style="color: #10b981; font-weight: 800;">✓</span> <span><strong>4. Geo-Tagged Photos:</strong> Inverter &amp; array with GPS location &amp; date stamp.</span></div>
-                                        <div style="display: flex; gap: 0.4rem;"><span style="color: #10b981; font-weight: 800;">✓</span> <span><strong>5. Earthing &amp; Safety:</strong> Pit resistance measured &lt; 5Ω with LA Surge protection.</span></div>
-                                        <div style="display: flex; gap: 0.4rem;"><span style="color: #10b981; font-weight: 800;">✓</span> <span><strong>6. GST &amp; Handover:</strong> Tax Invoice &amp; KSEB Joint Inspection Report (JIR).</span></div>
+                                    <!-- Slots Grid / List Container -->
+                                    <div id="doc-checklist-slots-container" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                        <!-- Rendered dynamically by renderDocChecklistSlots() -->
                                     </div>
                                 </div>
 
-                                <!-- Uploaded Documents Repository -->
-                                <div style="border-top: 1px solid var(--color-border); padding-top: 1rem;">
+                                <!-- Uploaded Documents Repository & History -->
+                                <div style="border-top: 1px solid var(--color-border); padding-top: 1.25rem;">
                                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; flex-wrap: wrap; gap: 0.6rem;">
                                         <h4 style="margin: 0; color: var(--color-text); font-size: 0.95rem; display: flex; align-items: center; gap: 0.4rem;">
-                                            📂 Registered Installation Documents
+                                            📂 All Registered Installation Documents
                                             <span id="doc-records-count" style="background: var(--color-sun-yellow); color: #0d1321; font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 10px; font-weight: 700;">0</span>
                                         </h4>
                                         <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                                            <input type="text" id="doc-search-input" oninput="filterInstallationDocs()" placeholder="🔍 Search by name / consumer no..." style="background: var(--color-bg-alt); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.4rem 0.7rem; border-radius: 6px; font-size: 0.76rem; min-width: 180px;">
+                                            <input type="text" id="doc-search-input" oninput="filterInstallationDocs()" placeholder="🔍 Search customer / consumer no..." style="background: var(--color-bg-alt); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.4rem 0.7rem; border-radius: 6px; font-size: 0.76rem; min-width: 180px;">
                                             <select id="doc-filter-type" onchange="filterInstallationDocs()" style="background: var(--color-bg-alt); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.4rem 0.7rem; border-radius: 6px; font-size: 0.76rem;">
                                                 <option value="">All Categories</option>
                                                 <option value="Aadhaar Card Copy (KYC Proof)">Aadhaar KYC</option>
                                                 <option value="Latest KSEB Electricity Bill">KSEB Bill</option>
                                                 <option value="Bank Passbook / Cancelled Cheque">Bank Passbook (DBT)</option>
-                                                <option value="Building Tax / Land Tax Receipt / Possession Certificate">Building / Land Tax</option>
-                                                <option value="Co-owner / Apartment / RWA NOC Letter">RWA / Co-owner NOC</option>
-                                                <option value="PM Surya Ghar National Portal Application Slip">PM Surya Ghar Form</option>
-                                                <option value="KSEB Net Metering Feasibility Clearance">KSEB Feasibility</option>
-                                                <option value="Connected Load Enhancement / Phase Conversion Order">Load Enhancement</option>
-                                                <option value="Electrical Inspectorate (CEIG) Safety Clearance">CEIG Clearance</option>
-                                                <option value="Inverter & Module Serial Number Sheet">Serials Sheet</option>
-                                                <option value="Solar PV Module ALMM & DCR Certificate">ALMM &amp; DCR Cert</option>
-                                                <option value="Manufacturer Warranty Cards & Datasheets">Warranty Cards</option>
-                                                <option value="KSEB Bi-directional Net Meter Test Report">Net Meter Test Report</option>
                                                 <option value="Geo-Tagged Rooftop Photos (Pre/Post Install)">Rooftop Photos</option>
-                                                <option value="Earthing Resistance & Commissioning Certificate">Earthing &amp; Commissioning</option>
-                                                <option value="Lightning Protection & Surge Arrester Test Report">Lightning Protection</option>
-                                                <option value="Single Line Diagram (SLD) & Structural Layout">SLD &amp; Drawings</option>
-                                                <option value="GST Commercial Invoice & Delivery Challan">GST Invoice &amp; Challan</option>
+                                                <option value="Inverter & Module Serial Number Sheet">Serials Sheet</option>
+                                                <option value="KSEB Net Metering Feasibility Clearance">KSEB Feasibility</option>
+                                                <option value="Earthing Resistance & Commissioning Certificate">Earthing (<5Ω)</option>
+                                                <option value="Safety Inspection & Handover Slip">Handover Slip</option>
+                                                <option value="Building Tax / Land Tax Receipt / Possession Certificate">Building / Land Tax</option>
+                                                <option value="PM Surya Ghar National Portal Application Slip">PM Surya Ghar Form</option>
+                                                <option value="Solar PV Module ALMM & DCR Certificate">ALMM &amp; DCR</option>
+                                                <option value="Single Line Diagram (SLD) & Structural Layout">SLD &amp; Layout</option>
+                                                <option value="Electrical Inspectorate (CEIG) Safety Clearance">CEIG Safety Clearance</option>
+                                                <option value="GST Commercial Invoice & Delivery Challan">GST Invoice</option>
                                                 <option value="KSEB Joint Inspection Report (JIR / Form B/C)">Joint Inspection (JIR)</option>
-                                                <option value="Bank Solar Loan Sanction Letter / NOC">Bank Loan Sanction</option>
-                                                <option value="Safety Inspection & Handover Slip">Safety &amp; Handover</option>
                                                 <option value="Other Project Document / Technical Attachment">Other Documents</option>
                                             </select>
                                         </div>
@@ -971,7 +886,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- End Tab: Solar Installation Documents Upload -->
+                        <!-- End Tab 4: Installation Docs -->
 
                         <!-- TAB 5: Solar Tools & Subsidy -->
                         <div id="partner-tab-calculators" class="partner-tab-pane hidden">
@@ -2575,61 +2490,158 @@
             }
         };
 
-        let stagedDocFiles = [];
-
-        function triggerDocFileInput(e) {
-            if (e) {
-                e.preventDefault();
-                e.stopPropagation();
+        // 📑 Master Solar Installation Document Checklist Slots
+        const INSTALLATION_DOC_SLOTS = [
+            {
+                id: 'aadhaar',
+                title: 'Customer Aadhaar Card Copy (KYC Proof)',
+                shortName: 'Aadhaar Card',
+                icon: '🪪',
+                category: '1. Customer KYC & Premise Documents',
+                desc: 'Front & Back copy for PM Surya Ghar portal KYC verification',
+                mandatory: true
+            },
+            {
+                id: 'kseb_bill',
+                title: 'Latest KSEB Electricity Bill',
+                shortName: 'Electricity Bill',
+                icon: '⚡',
+                category: '1. Customer KYC & Premise Documents',
+                desc: 'Recent bill copy confirming 13-digit consumer number & section',
+                mandatory: true
+            },
+            {
+                id: 'bank_passbook',
+                title: 'Bank Passbook / Cancelled Cheque',
+                shortName: 'Bank Passbook (DBT)',
+                icon: '🏦',
+                category: '1. Customer KYC & Premise Documents',
+                desc: 'Account holder name & IFSC for direct government DBT subsidy credit',
+                mandatory: true
+            },
+            {
+                id: 'rooftop_photos',
+                title: 'Geo-Tagged Rooftop Photos (Pre/Post Install)',
+                shortName: 'Geo-Tagged Photos',
+                icon: '📸',
+                category: '2. Site Survey, Photos & Technical Safety',
+                desc: 'GPS-tagged photos of rooftop module array, inverter mounting & earthing pits',
+                mandatory: true
+            },
+            {
+                id: 'serials_sheet',
+                title: 'Inverter & Module Serial Number Sheet',
+                shortName: 'Serials Sheet',
+                icon: '🏷️',
+                category: '3. Equipment Serials, DCR & Warranties',
+                desc: 'Serial barcode list for all PV modules and inverter matching National Portal',
+                mandatory: true
+            },
+            {
+                id: 'kseb_feasibility',
+                title: 'KSEB Net Metering Feasibility Clearance',
+                shortName: 'KSEB Feasibility',
+                icon: '📋',
+                category: '4. PM Surya Ghar & KSEB Approvals',
+                desc: 'Signed KSEB Electrical Section feasibility clearance & net-metering agreement',
+                mandatory: true
+            },
+            {
+                id: 'earthing_cert',
+                title: 'Earthing Resistance & Commissioning Certificate',
+                shortName: 'Earthing Certificate (<5Ω)',
+                icon: '📑',
+                category: '2. Site Survey, Photos & Technical Safety',
+                desc: 'Site testing certificate confirming earthing pit resistance < 5Ω and surge protection',
+                mandatory: true
+            },
+            {
+                id: 'handover_slip',
+                title: 'Safety Inspection & Handover Slip',
+                shortName: 'Handover Slip',
+                icon: '📦',
+                category: '5. Billing, Handover & Bank Finance',
+                desc: 'Final commissioning verification, user manual & customer handover acknowledgment',
+                mandatory: true
+            },
+            {
+                id: 'building_tax',
+                title: 'Building Tax / Land Tax Receipt / Possession Certificate',
+                shortName: 'Building / Land Tax',
+                icon: '📜',
+                category: '1. Customer KYC & Premise Documents',
+                desc: 'Local body ownership proof (required if electricity bill name differs from applicant)',
+                mandatory: false
+            },
+            {
+                id: 'pm_surya_slip',
+                title: 'PM Surya Ghar National Portal Application Slip',
+                shortName: 'PM Surya Ghar Slip',
+                icon: '🏛️',
+                category: '4. PM Surya Ghar & KSEB Approvals',
+                desc: 'Official acknowledgement receipt generated from pmsuryaghar.gov.in application',
+                mandatory: false
+            },
+            {
+                id: 'almm_dcr',
+                title: 'Solar PV Module ALMM & DCR Certificate',
+                shortName: 'ALMM & DCR Cert',
+                icon: '📑',
+                category: '3. Equipment Serials, DCR & Warranties',
+                desc: 'Domestic Content Requirement (DCR) and MNRE ALMM manufacturer certificate',
+                mandatory: false
+            },
+            {
+                id: 'sld_drawing',
+                title: 'Single Line Diagram (SLD) & Structural Layout',
+                shortName: 'SLD & Layout Drawing',
+                icon: '📐',
+                category: '2. Site Survey, Photos & Technical Safety',
+                desc: 'Electrical schematic showing DCDB, ACDB, Solar Inverter, SPD & Net Metering',
+                mandatory: false
+            },
+            {
+                id: 'ceig_clearance',
+                title: 'Electrical Inspectorate (CEIG) Safety Clearance',
+                shortName: 'CEIG Safety Clearance',
+                icon: '🔌',
+                category: '4. PM Surya Ghar & KSEB Approvals',
+                desc: 'Chief Electrical Inspectorate safety sanction (mandatory for >10 kWp systems)',
+                mandatory: false
+            },
+            {
+                id: 'kseb_jir',
+                title: 'KSEB Joint Inspection Report (JIR / Form B/C)',
+                shortName: 'Joint Inspection (JIR)',
+                icon: '🤝',
+                category: '5. Billing, Handover & Bank Finance',
+                desc: 'Joint inspection report signed by KSEB Assistant Engineer & Sunova Installer',
+                mandatory: false
+            },
+            {
+                id: 'gst_invoice',
+                title: 'GST Commercial Invoice & Delivery Challan',
+                shortName: 'GST Invoice & Challan',
+                icon: '🧾',
+                category: '5. Billing, Handover & Bank Finance',
+                desc: 'Official commercial GST tax invoice for subsidy claim submission',
+                mandatory: false
+            },
+            {
+                id: 'other_doc',
+                title: 'Other Project Document / Technical Attachment',
+                shortName: 'Other Attachment',
+                icon: '📁',
+                category: '5. Billing, Handover & Bank Finance',
+                desc: 'Warranty cards, test reports, structural engineer certificate, or bank solar loan NOC',
+                mandatory: false
             }
-            const input = document.getElementById('doc-file-input');
-            if (input) input.click();
-        }
-
-        function handleDocDragOver(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            const zone = document.getElementById('doc-drop-zone');
-            if (zone) {
-                zone.style.borderColor = 'var(--color-sun-yellow)';
-                zone.style.background = 'rgba(255, 183, 3, 0.08)';
-            }
-        }
-
-        function handleDocDragLeave(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            const zone = document.getElementById('doc-drop-zone');
-            if (zone) {
-                zone.style.borderColor = 'var(--color-border)';
-                zone.style.background = 'var(--color-bg-alt)';
-            }
-        }
-
-        function handleDocDrop(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            const zone = document.getElementById('doc-drop-zone');
-            if (zone) {
-                zone.style.borderColor = 'var(--color-border)';
-                zone.style.background = 'var(--color-bg-alt)';
-            }
-            if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-                addFilesToStagingQueue(Array.from(e.dataTransfer.files));
-            }
-        }
-
-        function handleDocFileSelect(e) {
-            if (e.target && e.target.files && e.target.files.length > 0) {
-                addFilesToStagingQueue(Array.from(e.target.files));
-                e.target.value = ''; // Reset input to allow re-selection if needed
-            }
-        }
+        ];
 
         function autoDetectDocCategory(fileName, defaultCat) {
             const name = (fileName || '').toLowerCase();
             if (name.includes('aadhaar') || name.includes('aadhar') || name.includes('kyc') || name.includes('id_proof')) {
-                return 'Aadhaar Card Copy (KYC Proof)';
+                return 'Customer Aadhaar Card Copy (KYC Proof)';
             }
             if (name.includes('bill') || name.includes('kseb') || name.includes('eb_') || name.includes('elec')) {
                 return 'Latest KSEB Electricity Bill';
@@ -2652,17 +2664,14 @@
             if (name.includes('earth') || name.includes('commission') || name.includes('test_report') || name.includes('megger')) {
                 return 'Earthing Resistance & Commissioning Certificate';
             }
-            if (name.includes('lightning') || name.includes('spd') || name.includes('arrester')) {
-                return 'Lightning Protection & Surge Arrester Test Report';
+            if (name.includes('handover') || name.includes('dispatch') || name.includes('inspection')) {
+                return 'Safety Inspection & Handover Slip';
             }
             if (name.includes('tax') || name.includes('possession') || name.includes('land') || name.includes('building_tax')) {
                 return 'Building Tax / Land Tax Receipt / Possession Certificate';
             }
             if (name.includes('ceig') || name.includes('inspectorate')) {
                 return 'Electrical Inspectorate (CEIG) Safety Clearance';
-            }
-            if (name.includes('meter') || name.includes('tmr') || name.includes('calibration')) {
-                return 'KSEB Bi-directional Net Meter Test Report';
             }
             if (name.includes('sld') || name.includes('diagram') || name.includes('layout') || name.includes('drawing')) {
                 return 'Single Line Diagram (SLD) & Structural Layout';
@@ -2673,178 +2682,10 @@
             if (name.includes('jir') || name.includes('joint') || name.includes('form_b') || name.includes('form_c')) {
                 return 'KSEB Joint Inspection Report (JIR / Form B/C)';
             }
-            if (name.includes('loan') || name.includes('bank_loan') || name.includes('sanction')) {
-                return 'Bank Solar Loan Sanction Letter / NOC';
-            }
-            if (name.includes('noc') || name.includes('association') || name.includes('rwa')) {
-                return 'Co-owner / Apartment / RWA NOC Letter';
-            }
             if (name.includes('application') || name.includes('pm_surya') || name.includes('pmsuryaghar')) {
                 return 'PM Surya Ghar National Portal Application Slip';
             }
-            if (name.includes('warranty') || name.includes('datasheet')) {
-                return 'Manufacturer Warranty Cards & Datasheets';
-            }
-            return defaultCat || 'Aadhaar Card Copy (KYC Proof)';
-        }
-
-        function addFilesToStagingQueue(files) {
-            if (!files || files.length === 0) return;
-            const globalSelectedCat = (document.getElementById('doc-type')?.value || 'Aadhaar Card Copy (KYC Proof)');
-            let addedCount = 0;
-            let oversizedCount = 0;
-
-            files.forEach(file => {
-                if (file.size > 10 * 1024 * 1024) {
-                    oversizedCount++;
-                    return;
-                }
-                const detectedCat = autoDetectDocCategory(file.name, globalSelectedCat);
-                const fileId = 'STAGE_' + Date.now().toString(36) + '_' + Math.random().toString(36).substr(2, 5);
-                stagedDocFiles.push({
-                    id: fileId,
-                    file: file,
-                    docType: detectedCat,
-                    remarks: ''
-                });
-                addedCount++;
-            });
-
-            if (oversizedCount > 0) {
-                alert(`⚠️ ${oversizedCount} file(s) exceeded the 10MB size limit and were skipped.`);
-            }
-
-            renderStagedFilesQueue();
-            if (addedCount > 0) {
-                showPortalToast(`📁 ${addedCount} document(s) added to staging queue.`);
-            }
-        }
-
-        function removeStagedFile(fileId, e) {
-            if (e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-            stagedDocFiles = stagedDocFiles.filter(f => f.id !== fileId);
-            renderStagedFilesQueue();
-        }
-
-        function clearAllStagedFiles(e) {
-            if (e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-            stagedDocFiles = [];
-            renderStagedFilesQueue();
-        }
-
-        function updateStagedFileType(fileId, newType) {
-            const item = stagedDocFiles.find(f => f.id === fileId);
-            if (item) item.docType = newType;
-        }
-
-        function updateStagedFileRemarks(fileId, newRemarks) {
-            const item = stagedDocFiles.find(f => f.id === fileId);
-            if (item) item.remarks = newRemarks;
-        }
-
-        function renderStagedFilesQueue() {
-            const queueEl = document.getElementById('doc-multi-file-queue');
-            const listEl = document.getElementById('doc-staged-files-list');
-            const countBadge = document.getElementById('doc-staged-count-badge');
-            const totalSizeEl = document.getElementById('doc-staged-total-size');
-            const submitBtn = document.getElementById('btn-save-doc');
-
-            if (!queueEl || !listEl) return;
-
-            if (stagedDocFiles.length === 0) {
-                queueEl.style.display = 'none';
-                if (submitBtn) {
-                    submitBtn.innerHTML = '📤 Upload All Documents in 1 Click';
-                }
-                return;
-            }
-
-            queueEl.style.display = 'block';
-            if (countBadge) countBadge.textContent = `${stagedDocFiles.length} File${stagedDocFiles.length > 1 ? 's' : ''}`;
-
-            const totalBytes = stagedDocFiles.reduce((sum, item) => sum + (item.file?.size || 0), 0);
-            if (totalSizeEl) totalSizeEl.textContent = `(${formatDocBytes(totalBytes)})`;
-
-            if (submitBtn) {
-                submitBtn.innerHTML = `📤 Upload All (${stagedDocFiles.length} Documents) in 1 Click`;
-            }
-
-            // Get available categories for per-file dropdown
-            const docTypeSelect = document.getElementById('doc-type');
-            let categoriesHtml = '';
-            if (docTypeSelect) {
-                categoriesHtml = docTypeSelect.innerHTML;
-            }
-
-            listEl.innerHTML = stagedDocFiles.map((item, idx) => {
-                const file = item.file;
-                const isPdf = (file.type && file.type.includes('pdf')) || file.name.toLowerCase().endsWith('.pdf');
-                const isImg = (file.type && file.type.includes('image')) || /\.(jpg|jpeg|png|webp|gif)$/i.test(file.name);
-                const fileIcon = isPdf ? '📑' : (isImg ? '🖼️' : '📄');
-
-                return `
-                <div style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; padding: 0.65rem 0.85rem; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap;">
-                    <div style="display: flex; align-items: center; gap: 0.6rem; min-width: 220px; flex: 1;">
-                        <span style="font-size: 1.3rem;">${fileIcon}</span>
-                        <div style="overflow: hidden;">
-                            <div style="font-size: 0.82rem; font-weight: 700; color: var(--color-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 280px;" title="${escapeHtml(file.name)}">
-                                ${idx + 1}. ${escapeHtml(file.name)}
-                            </div>
-                            <div style="font-size: 0.7rem; color: var(--color-text-muted);">
-                                ${formatDocBytes(file.size)} • ${file.type || 'Document'}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; flex: 1.5; justify-content: flex-end;">
-                        <div style="min-width: 200px; flex: 1;">
-                            <select onchange="updateStagedFileType('${item.id}', this.value)" style="width: 100%; box-sizing: border-box; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.35rem 0.6rem; border-radius: 6px; font-size: 0.76rem; font-weight: 600;">
-                                ${categoriesHtml.replace(`value="${item.docType}"`, `value="${item.docType}" selected`)}
-                            </select>
-                        </div>
-                        <input type="text" placeholder="Note (optional)" value="${escapeHtml(item.remarks || '')}" oninput="updateStagedFileRemarks('${item.id}', this.value)" style="max-width: 140px; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.35rem 0.5rem; border-radius: 6px; font-size: 0.74rem;">
-                        <button type="button" onclick="removeStagedFile('${item.id}', event)" style="background: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444; color: #ef4444; border-radius: 6px; padding: 0.3rem 0.55rem; font-size: 0.76rem; font-weight: 800; cursor: pointer;" title="Remove this file">
-                            ✕
-                        </button>
-                    </div>
-                </div>
-                `;
-            }).join('');
-        }
-
-        function clearDocUploadForm() {
-            const form = document.getElementById('partner-doc-upload-form');
-            if (form) form.reset();
-            const autoSelect = document.getElementById('doc-autofill-lead-select');
-            if (autoSelect) autoSelect.value = '';
-            stagedDocFiles = [];
-            renderStagedFilesQueue();
-        }
-
-        function autoFillDocFieldsFromLead(leadJsonString) {
-            if (!leadJsonString) return;
-            try {
-                const lead = JSON.parse(decodeURIComponent(leadJsonString));
-                if (document.getElementById('doc-cust-name')) document.getElementById('doc-cust-name').value = lead.name || '';
-                if (document.getElementById('doc-cust-phone')) document.getElementById('doc-cust-phone').value = lead.phone || '';
-                if (document.getElementById('doc-capacity')) document.getElementById('doc-capacity').value = lead.capacity || '3.0';
-                if (document.getElementById('doc-kseb-section')) {
-                    const sec = lead.section || lead.ksebSection || lead.district || '';
-                    document.getElementById('doc-kseb-section').value = sec;
-                }
-                if (document.getElementById('doc-consumer-no') && lead.consumerNo) {
-                    document.getElementById('doc-consumer-no').value = lead.consumerNo;
-                }
-                showPortalToast(`⚡ Auto-filled details for ${lead.name}`);
-            } catch (e) {
-                console.error('Lead parse error:', e);
-            }
+            return defaultCat || 'Other Project Document / Technical Attachment';
         }
 
         function formatDocBytes(bytes, decimals = 1) {
@@ -2865,123 +2706,334 @@
             });
         }
 
-        async function handleSaveInstallationDoc(e) {
-            e.preventDefault();
-            const dealerCode = localStorage.getItem('partner_code') || 'DIRECT';
+        function triggerSlotUpload(slotInputId) {
+            const input = document.getElementById(slotInputId);
+            if (!input) return;
+
             const name = (document.getElementById('doc-cust-name')?.value || '').trim();
-            const phone = (document.getElementById('doc-cust-phone')?.value || '').trim();
             const consumerNo = (document.getElementById('doc-consumer-no')?.value || '').trim();
-            const ksebSection = (document.getElementById('doc-kseb-section')?.value || '').trim();
-            const capacity = (document.getElementById('doc-capacity')?.value || '3.0').trim();
-            const globalRemarks = (document.getElementById('doc-remarks')?.value || '').trim();
 
-            if (!name || !phone || !consumerNo || !ksebSection) {
-                alert('Please fill in all mandatory customer & KSEB fields (*)');
+            if (!name && !consumerNo) {
+                const nameEl = document.getElementById('doc-cust-name');
+                if (nameEl) {
+                    nameEl.focus();
+                    nameEl.style.borderColor = 'var(--color-sun-yellow)';
+                }
+                showPortalToast('ℹ️ Tip: Enter Customer Name / Consumer No above to organize documents properly.');
+            }
+
+            input.click();
+        }
+
+        async function handleSingleSlotUpload(event, slotTitle, slotId) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+
+            if (file.size > 15 * 1024 * 1024) {
+                alert('⚠️ File size exceeds 15MB limit. Please upload a smaller compressed PDF or image.');
+                event.target.value = '';
                 return;
             }
 
-            if (stagedDocFiles.length === 0) {
-                alert('Please select or drag & drop at least one document file to upload.');
-                return;
-            }
+            const dealerCode = localStorage.getItem('partner_code') || 'DIRECT';
+            let name = (document.getElementById('doc-cust-name')?.value || '').trim();
+            let phone = (document.getElementById('doc-cust-phone')?.value || '').trim();
+            let consumerNo = (document.getElementById('doc-consumer-no')?.value || '').trim();
+            let ksebSection = (document.getElementById('doc-kseb-section')?.value || '').trim();
+            let capacity = (document.getElementById('doc-capacity')?.value || '3.0').trim();
 
-            const btn = document.getElementById('btn-save-doc');
-            const progressEl = document.getElementById('doc-upload-progress-text');
+            if (!name) name = 'Customer ' + (consumerNo || 'Direct');
+            if (!consumerNo) consumerNo = 'KSEB-' + Date.now().toString().slice(-6);
 
-            if (btn) {
-                btn.disabled = true;
-                btn.textContent = `⏳ Uploading ${stagedDocFiles.length} file(s)...`;
-            }
-            if (progressEl) {
-                progressEl.style.display = 'block';
-                progressEl.textContent = `⏳ Reading & Encoding ${stagedDocFiles.length} document(s)...`;
-            }
+            showPortalToast(`⏳ Uploading ${slotTitle}...`);
 
             try {
+                const fileDataUrl = await readFileAsDataUrl(file);
+                const docId = 'DOC-' + Date.now().toString(36).toUpperCase() + '-' + Math.floor(Math.random()*10000);
+
+                const newDoc = {
+                    id: docId,
+                    slotId: slotId,
+                    dealerCode: dealerCode,
+                    customerName: name,
+                    customerPhone: phone,
+                    consumerNo: consumerNo,
+                    ksebSection: ksebSection || 'Kerala',
+                    capacity: capacity,
+                    docType: slotTitle,
+                    remarks: '',
+                    fileName: file.name,
+                    fileSize: file.size,
+                    fileType: file.type,
+                    fileData: fileDataUrl,
+                    status: 'Uploaded (Pending KSEB Verification)',
+                    createdAt: new Date().toISOString()
+                };
+
+                // Save full resolution document in IndexedDB
+                await DocDB.saveDoc(newDoc);
+
+                // Save to localStorage
                 const storageKey = 'partner_installation_docs_' + dealerCode;
                 let existingDocs = [];
                 try {
                     existingDocs = JSON.parse(localStorage.getItem(storageKey) || '[]');
-                } catch(err) { existingDocs = []; }
+                } catch(e) { existingDocs = []; }
 
                 let globalDocs = [];
                 try {
                     globalDocs = JSON.parse(localStorage.getItem('global_installation_docs') || '[]');
                 } catch(e) { globalDocs = []; }
 
-                let successfulUploads = 0;
+                // Replace previous copy of this slot if it exists for this consumer
+                existingDocs = existingDocs.filter(d => !(d.consumerNo === consumerNo && d.docType === slotTitle));
+                globalDocs = globalDocs.filter(d => !(d.consumerNo === consumerNo && d.docType === slotTitle));
 
-                for (let i = 0; i < stagedDocFiles.length; i++) {
-                    const staged = stagedDocFiles[i];
-                    if (progressEl) {
-                        progressEl.textContent = `⏳ Processing (${i + 1}/${stagedDocFiles.length}): ${staged.file.name}...`;
-                    }
+                existingDocs.unshift(newDoc);
+                globalDocs.unshift(newDoc);
 
-                    const fileDataUrl = await readFileAsDataUrl(staged.file);
-                    const docId = 'DOC-' + Date.now().toString(36).toUpperCase() + '-' + Math.floor(Math.random()*10000) + '_' + i;
-                    const docNotes = staged.remarks ? (globalRemarks ? `${globalRemarks} (${staged.remarks})` : staged.remarks) : globalRemarks;
-
-                    const newDoc = {
-                        id: docId,
-                        dealerCode: dealerCode,
-                        customerName: name,
-                        customerPhone: phone,
-                        consumerNo: consumerNo,
-                        ksebSection: ksebSection,
-                        capacity: capacity,
-                        docType: staged.docType || 'Other Project Document / Technical Attachment',
-                        remarks: docNotes,
-                        fileName: staged.file.name,
-                        fileSize: staged.file.size,
-                        fileType: staged.file.type,
-                        fileData: fileDataUrl,
-                        status: 'Uploaded (Pending KSEB Verification)',
-                        createdAt: new Date().toISOString()
-                    };
-
-                    // Save full document to IndexedDB for high-res retention
-                    await DocDB.saveDoc(newDoc);
-
-                    existingDocs.unshift(newDoc);
-                    globalDocs.unshift(newDoc);
-                    successfulUploads++;
-                }
-
-                // Save to localStorage with safety fallback if quota reached
                 try {
                     localStorage.setItem(storageKey, JSON.stringify(existingDocs));
-                } catch(storageErr) {
-                    console.warn('LocalStorage limit reached, storing trimmed tokens in localStorage', storageErr);
-                    const trimmedDocs = existingDocs.map(d => Object.assign({}, d, { fileData: d.fileData ? d.fileData.substring(0, 10000) : '' }));
-                    try {
-                        localStorage.setItem(storageKey, JSON.stringify(trimmedDocs));
-                    } catch(e2) {}
+                } catch(err) {
+                    const trimmed = existingDocs.map(d => Object.assign({}, d, { fileData: d.fileData ? d.fileData.substring(0, 10000) : '' }));
+                    try { localStorage.setItem(storageKey, JSON.stringify(trimmed)); } catch(e2) {}
                 }
 
                 try {
                     localStorage.setItem('global_installation_docs', JSON.stringify(globalDocs.slice(0, 150)));
                 } catch(e) {}
 
-                if (btn) {
-                    btn.disabled = false;
-                    btn.innerHTML = '📤 Upload All Documents in 1 Click';
-                }
-                if (progressEl) {
-                    progressEl.style.display = 'none';
-                }
-
-                clearDocUploadForm();
+                event.target.value = '';
+                renderDocChecklistSlots();
                 renderInstallationDocs();
-                showPortalToast(`🎉 1-Click Upload Success! ${successfulUploads} document(s) uploaded for ${name}!`);
+                showPortalToast(`🎉 ${slotTitle} uploaded successfully for ${name}!`);
 
             } catch(uploadErr) {
-                console.error('[Upload Batch Error]', uploadErr);
-                alert('Error uploading document batch: ' + uploadErr.message);
-                if (btn) {
-                    btn.disabled = false;
-                    btn.innerHTML = '📤 Upload All Documents in 1 Click';
+                console.error('[Slot Upload Error]', uploadErr);
+                alert('Upload error: ' + uploadErr.message);
+            }
+        }
+
+        async function handleBatchFileSelect(event) {
+            const files = Array.from(event.target.files || []);
+            if (files.length === 0) return;
+
+            const dealerCode = localStorage.getItem('partner_code') || 'DIRECT';
+            let name = (document.getElementById('doc-cust-name')?.value || '').trim();
+            let phone = (document.getElementById('doc-cust-phone')?.value || '').trim();
+            let consumerNo = (document.getElementById('doc-consumer-no')?.value || '').trim();
+            let ksebSection = (document.getElementById('doc-kseb-section')?.value || '').trim();
+            let capacity = (document.getElementById('doc-capacity')?.value || '3.0').trim();
+
+            if (!name) name = 'Customer ' + (consumerNo || 'Direct');
+            if (!consumerNo) consumerNo = 'KSEB-' + Date.now().toString().slice(-6);
+
+            showPortalToast(`⏳ Processing ${files.length} document(s)...`);
+            let count = 0;
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (file.size > 15 * 1024 * 1024) continue;
+
+                const detectedCat = autoDetectDocCategory(file.name);
+                const fileDataUrl = await readFileAsDataUrl(file);
+                const docId = 'DOC-' + Date.now().toString(36).toUpperCase() + '-' + Math.floor(Math.random()*10000) + '_' + i;
+
+                const newDoc = {
+                    id: docId,
+                    dealerCode: dealerCode,
+                    customerName: name,
+                    customerPhone: phone,
+                    consumerNo: consumerNo,
+                    ksebSection: ksebSection || 'Kerala',
+                    capacity: capacity,
+                    docType: detectedCat,
+                    remarks: '',
+                    fileName: file.name,
+                    fileSize: file.size,
+                    fileType: file.type,
+                    fileData: fileDataUrl,
+                    status: 'Uploaded (Pending KSEB Verification)',
+                    createdAt: new Date().toISOString()
+                };
+
+                await DocDB.saveDoc(newDoc);
+
+                const storageKey = 'partner_installation_docs_' + dealerCode;
+                let existingDocs = [];
+                try { existingDocs = JSON.parse(localStorage.getItem(storageKey) || '[]'); } catch(e) {}
+                let globalDocs = [];
+                try { globalDocs = JSON.parse(localStorage.getItem('global_installation_docs') || '[]'); } catch(e) {}
+
+                existingDocs = existingDocs.filter(d => !(d.consumerNo === consumerNo && d.docType === detectedCat));
+                globalDocs = globalDocs.filter(d => !(d.consumerNo === consumerNo && d.docType === detectedCat));
+
+                existingDocs.unshift(newDoc);
+                globalDocs.unshift(newDoc);
+
+                try { localStorage.setItem(storageKey, JSON.stringify(existingDocs)); } catch(e) {}
+                try { localStorage.setItem('global_installation_docs', JSON.stringify(globalDocs.slice(0, 150))); } catch(e) {}
+                count++;
+            }
+
+            event.target.value = '';
+            renderDocChecklistSlots();
+            renderInstallationDocs();
+            showPortalToast(`🎉 ${count} document(s) uploaded and auto-slotted!`);
+        }
+
+        function renderDocChecklistSlots() {
+            const container = document.getElementById('doc-checklist-slots-container');
+            if (!container) return;
+
+            const name = (document.getElementById('doc-cust-name')?.value || '').trim().toLowerCase();
+            const consumerNo = (document.getElementById('doc-consumer-no')?.value || '').trim();
+
+            const allDocs = getAllPartnerInstallationDocs();
+            
+            // Filter docs relevant to the current customer/consumer if specified, else match latest
+            let currentCustomerDocs = [];
+            if (consumerNo || name) {
+                currentCustomerDocs = allDocs.filter(d => 
+                    (consumerNo && d.consumerNo === consumerNo) ||
+                    (name && d.customerName && d.customerName.toLowerCase() === name)
+                );
+            }
+
+            let mandatoryUploaded = 0;
+            const mandatoryTotal = INSTALLATION_DOC_SLOTS.filter(s => s.mandatory).length;
+
+            const slotsHtml = INSTALLATION_DOC_SLOTS.map((slot, idx) => {
+                // Check if this slot document has been uploaded for current customer
+                const doc = currentCustomerDocs.find(d => 
+                    d.docType === slot.title || 
+                    d.docType.toLowerCase() === slot.title.toLowerCase() ||
+                    d.docType.toLowerCase().includes(slot.shortName.toLowerCase()) ||
+                    (slot.id === 'aadhaar' && d.docType.includes('Aadhaar')) ||
+                    (slot.id === 'kseb_bill' && (d.docType.includes('Electricity Bill') || d.docType.includes('KSEB Bill'))) ||
+                    (slot.id === 'bank_passbook' && (d.docType.includes('Passbook') || d.docType.includes('Cheque'))) ||
+                    (slot.id === 'rooftop_photos' && d.docType.includes('Rooftop')) ||
+                    (slot.id === 'serials_sheet' && d.docType.includes('Serial')) ||
+                    (slot.id === 'kseb_feasibility' && d.docType.includes('Feasibility')) ||
+                    (slot.id === 'earthing_cert' && d.docType.includes('Earthing')) ||
+                    (slot.id === 'handover_slip' && d.docType.includes('Handover'))
+                );
+
+                const isUploaded = !!doc;
+                if (isUploaded && slot.mandatory) mandatoryUploaded++;
+
+                const slotInputId = `slot-file-input-${slot.id}`;
+
+                return `
+                <div class="portal-card-box" style="background: ${isUploaded ? 'rgba(16, 185, 129, 0.05)' : 'var(--color-bg-alt)'}; border: 1.5px solid ${isUploaded ? '#10b981' : 'var(--color-border)'}; border-radius: 12px; padding: 0.9rem 1.1rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; transition: all 0.2s ease;">
+                    <!-- Left: Icon & Document Details -->
+                    <div style="display: flex; align-items: center; gap: 0.75rem; flex: 1.2; min-width: 260px;">
+                        <span style="font-size: 1.6rem; min-width: 32px; text-align: center;">${slot.icon}</span>
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap;">
+                                <h5 style="margin: 0; font-size: 0.88rem; color: var(--color-text); font-weight: 800;">
+                                    ${escapeHtml(slot.title)}
+                                </h5>
+                                <span style="font-size: 0.68rem; font-weight: 800; padding: 0.12rem 0.45rem; border-radius: 10px; ${slot.mandatory ? 'background: rgba(255, 183, 3, 0.15); border: 1px solid var(--color-sun-yellow); color: var(--color-sun-yellow);' : 'background: rgba(255,255,255,0.06); border: 1px solid var(--color-border); color: var(--color-text-muted);'}">
+                                    ${slot.mandatory ? '★ Mandatory' : 'Optional'}
+                                </span>
+                            </div>
+                            <div style="font-size: 0.72rem; color: var(--color-text-muted); margin-top: 0.2rem; line-height: 1.35;">
+                                ${escapeHtml(slot.desc)}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Direct Upload / File Info & Actions Slot -->
+                    <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; justify-content: flex-end; flex: 1; min-width: 250px;">
+                        <input type="file" id="${slotInputId}" onchange="handleSingleSlotUpload(event, '${escapeHtml(slot.title)}', '${slot.id}')" accept=".pdf,.jpg,.jpeg,.png,.webp,.docx" style="display: none;">
+
+                        ${isUploaded ? `
+                            <!-- Uploaded State -->
+                            <div style="display: flex; flex-direction: column; align-items: flex-end; text-align: right; margin-right: 0.3rem;">
+                                <span style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; color: #10b981; font-size: 0.72rem; font-weight: 800; padding: 0.15rem 0.55rem; border-radius: 12px; display: inline-flex; align-items: center; gap: 0.25rem;">
+                                    ✅ Uploaded
+                                </span>
+                                <div style="font-size: 0.72rem; font-weight: 700; color: var(--color-text); max-width: 170px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${escapeHtml(doc.fileName)}">
+                                    ${escapeHtml(doc.fileName)}
+                                </div>
+                                <div style="font-size: 0.68rem; color: var(--color-text-muted);">
+                                    ${formatDocBytes(doc.fileSize)}
+                                </div>
+                            </div>
+
+                            <div style="display: flex; gap: 0.4rem; align-items: center;">
+                                <button type="button" onclick="previewInstallationDoc('${doc.id}')" style="background: rgba(37, 99, 235, 0.15); border: 1px solid #2563eb; color: #2563eb; font-size: 0.74rem; font-weight: 700; padding: 0.35rem 0.65rem; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.25rem;" title="Preview Document">
+                                    👁️ View
+                                </button>
+                                <button type="button" onclick="downloadInstallationDoc('${doc.id}')" style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; color: #10b981; font-size: 0.74rem; font-weight: 700; padding: 0.35rem 0.65rem; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.25rem;" title="Download File">
+                                    📥
+                                </button>
+                                <button type="button" onclick="triggerSlotUpload('${slotInputId}')" style="background: rgba(255, 183, 3, 0.15); border: 1px solid var(--color-sun-yellow); color: var(--color-sun-yellow); font-size: 0.74rem; font-weight: 700; padding: 0.35rem 0.65rem; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.25rem;" title="Re-upload / Replace File">
+                                    🔄
+                                </button>
+                                <button type="button" onclick="deleteInstallationDoc('${doc.id}')" style="background: rgba(239, 68, 68, 0.12); border: 1px solid #ef4444; color: #ef4444; font-size: 0.74rem; font-weight: 700; padding: 0.35rem 0.55rem; border-radius: 6px; cursor: pointer;" title="Delete Document">
+                                    🗑️
+                                </button>
+                            </div>
+                        ` : `
+                            <!-- Pending State -->
+                            <span style="font-size: 0.72rem; color: var(--color-text-muted); font-weight: 600; margin-right: 0.4rem;">
+                                ⚪ Not Uploaded
+                            </span>
+                            <button type="button" onclick="triggerSlotUpload('${slotInputId}')" style="background: var(--color-sun-yellow); color: #0d1321; border: none; font-size: 0.78rem; font-weight: 800; padding: 0.45rem 1rem; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: transform 0.1s ease; box-shadow: 0 2px 8px rgba(255, 183, 3, 0.25);">
+                                📤 Upload ${escapeHtml(slot.shortName)}
+                            </button>
+                        `}
+                    </div>
+                </div>
+                `;
+            }).join('');
+
+            container.innerHTML = slotsHtml;
+
+            // Update Progress Bar
+            const percent = Math.round((mandatoryUploaded / mandatoryTotal) * 100);
+            const progressCountEl = document.getElementById('doc-progress-count');
+            const progressFillEl = document.getElementById('doc-progress-bar-fill');
+            if (progressCountEl) {
+                progressCountEl.textContent = `${mandatoryUploaded} / ${mandatoryTotal} Mandatory Uploaded (${percent}%)`;
+                progressCountEl.style.color = percent === 100 ? '#10b981' : 'var(--color-sun-yellow)';
+            }
+            if (progressFillEl) {
+                progressFillEl.style.width = `${percent}%`;
+            }
+        }
+
+        function clearDocUploadForm() {
+            if (document.getElementById('doc-cust-name')) document.getElementById('doc-cust-name').value = '';
+            if (document.getElementById('doc-cust-phone')) document.getElementById('doc-cust-phone').value = '';
+            if (document.getElementById('doc-consumer-no')) document.getElementById('doc-consumer-no').value = '';
+            if (document.getElementById('doc-kseb-section')) document.getElementById('doc-kseb-section').value = '';
+            if (document.getElementById('doc-capacity')) document.getElementById('doc-capacity').value = '3.0';
+            const autoSelect = document.getElementById('doc-autofill-lead-select');
+            if (autoSelect) autoSelect.value = '';
+            renderDocChecklistSlots();
+        }
+
+        function autoFillDocFieldsFromLead(leadJsonString) {
+            if (!leadJsonString) return;
+            try {
+                const lead = JSON.parse(decodeURIComponent(leadJsonString));
+                if (document.getElementById('doc-cust-name')) document.getElementById('doc-cust-name').value = lead.name || '';
+                if (document.getElementById('doc-cust-phone')) document.getElementById('doc-cust-phone').value = lead.phone || '';
+                if (document.getElementById('doc-capacity')) document.getElementById('doc-capacity').value = lead.capacity || '3.0';
+                if (document.getElementById('doc-kseb-section')) {
+                    const sec = lead.section || lead.ksebSection || lead.district || '';
+                    document.getElementById('doc-kseb-section').value = sec;
                 }
-                if (progressEl) progressEl.style.display = 'none';
+                if (document.getElementById('doc-consumer-no') && lead.consumerNo) {
+                    document.getElementById('doc-consumer-no').value = lead.consumerNo;
+                }
+                renderDocChecklistSlots();
+                showPortalToast(`⚡ Auto-filled details for ${lead.name}`);
+            } catch (e) {
+                console.error('Lead parse error:', e);
             }
         }
 
@@ -3242,6 +3294,7 @@ Please verify and process for PM Surya Ghar / KSEB Net-Metering synchronization.
             // Remove from DocDB
             await DocDB.deleteDoc(docId);
 
+            renderDocChecklistSlots();
             renderInstallationDocs();
             showPortalToast('🗑️ Document deleted successfully.');
         }
@@ -4464,6 +4517,7 @@ const goodsGstVal = Math.round(goodsTaxable * 0.12);
             } else if (tabId === 'saved-quotes') {
                 renderSavedQuotes();
             } else if (tabId === 'docs-upload') {
+                renderDocChecklistSlots();
                 renderInstallationDocs();
             } else if (tabId === 'resources') {
                 renderDistrictPartners(activeDistrictFilter || 'All');
