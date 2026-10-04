@@ -6658,9 +6658,17 @@ html, body {
 }
 
 /* Enterprise Layout Auto-Fitting */
-.login-wrapper {
+.login-wrapper:not(.dashboard-active) {
     width: 100% !important;
-    max-width: 100% !important;
+    max-width: 480px !important;
+    margin: 0 auto !important;
+    box-sizing: border-box !important;
+}
+
+.login-wrapper.dashboard-active {
+    width: 100% !important;
+    max-width: 1280px !important;
+    margin: 0 auto !important;
     overflow-x: hidden !important;
     box-sizing: border-box !important;
 }
