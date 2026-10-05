@@ -45,7 +45,7 @@
             <nav class="nav-menu" id="nav-menu">
                 <a href="#hero" class="nav-link active" id="link-hero">Home</a>
                 <a href="#services" class="nav-link" id="link-services">Services</a>
-                <a href="#calculator" class="nav-link" id="link-calculator">Calculator</a>
+                <!-- <a href="#calculator" class="nav-link" id="link-calculator" style="display: none;">Calculator</a> -->
                 <a href="#gallery" class="nav-link" id="link-gallery">Gallery</a>
                 <a href="#contact" class="nav-link" id="link-contact">Contact</a>
             </nav>
@@ -147,7 +147,7 @@
                     <p class="hero-desc-text">Experience true energy freedom and zero bill anxiety. Join over 1,500+ happy families across Kerala who enjoy clean, sustainable rooftop solar power, direct government subsidies (up to ₹78,000), and 25 years of warm local care.</p>
                 </div>
                 <div class="hero-buttons" style="margin-bottom: 1.5rem;">
-                    <a href="#calculator" class="cta-btn primary-btn" id="btn-hero-calc">Calculate Savings</a>
+                    <a href="#contact-form-container" onclick="if(typeof scrollToContactForm==='function'){ scrollToContactForm(); }" class="cta-btn primary-btn" id="btn-hero-calc">⚡ Get Free Quotation</a>
                     <a href="#contact-form-container" onclick="if(typeof scrollToContactForm==='function'){ scrollToContactForm(); }" class="cta-btn green-btn" id="btn-hero-contact">Get Free Quotation</a>
                 </div>
                 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; font-size: 0.86rem; font-weight: 600; color: var(--color-text-muted); margin-top: 0.5rem;">
@@ -891,17 +891,17 @@
         </div>
     </section>
 
-    <!-- Solar Savings Calculator Section -->
-    <section class="calculator-section" id="calculator">
+    <!-- Solar Savings Calculator Section (Hidden from Public View) -->
+    <div id="calculator" style="display: none !important;">
         <div class="container">
-            <div class="section-header scroll-reveal">
+            <div class="section-header">
                 <span class="sub-title">SOLAR SIZING CALCULATOR</span>
                 <h2 class="section-title">Estimate Your System &amp; Savings</h2>
                 <div class="title-line"></div>
                 <p class="section-desc">Instantly compute your recommended solar plant size, initial investment, potential subsidies, monthly savings, and payback period under Kerala conditions.</p>
             </div>
             
-            <div class="calc-wrapper scroll-reveal-up">
+            <div class="calc-wrapper">
                 <!-- Inputs Column -->
                 <div class="calc-inputs-panel">
                     <div class="calc-banner">
@@ -1075,9 +1075,13 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <!-- CONTACT & FEASIBILITY HUB: KSEB Feasibility Application & Site Survey Form -->
-            <div class="contact-form-wrapper" id="contact" style="max-width: 850px; margin: 2.5rem auto 0; display: flex; flex-direction: column;">
+    <!-- CONTACT & FEASIBILITY HUB: KSEB Feasibility Application & Site Survey Section -->
+    <section class="contact-section" id="contact" style="padding: 4rem 0; background: var(--color-bg);">
+        <div class="container">
+            <div class="contact-form-wrapper" style="max-width: 850px; margin: 0 auto; display: flex; flex-direction: column;">
                 
                 <!-- KSEB Feasibility Application & Site Survey Form -->
                 <div class="contact-card static-form-card" id="contact-form-container" style="padding: 2.25rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 16px; box-shadow: 0 4px 20px var(--color-shadow); transform: none !important; transition: none !important; animation: none !important;">
@@ -2521,7 +2525,7 @@
                 <h4>Quick Navigation</h4>
                 <a href="#hero">Home Page</a>
                 <a href="#services">Our Services</a>
-                <a href="#calculator">Solar Calculator</a>
+                <a href="#contact">KSEB Feasibility Check</a>
                 <a href="#gallery">Gallery</a>
                 <a href="#offices">Offices &amp; Locations</a>
                 <a href="https://mail.hostinger.com/" target="_blank">✉️ Sunova Mail</a>
