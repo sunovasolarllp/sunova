@@ -5364,8 +5364,8 @@ function handleFormSubmit(event) {
     
     // New Extended Form Fields
     const roofType = document.getElementById('form-roof-type') ? document.getElementById('form-roof-type').value : 'Flat Concrete Rooftop';
-    const panelBrand = document.getElementById('form-panel-brand') ? document.getElementById('form-panel-brand').value : 'Sunova Recommended';
-    const inverterBrand = document.getElementById('form-inverter-brand') ? document.getElementById('form-inverter-brand').value : 'Sunova Recommended';
+    const panelBrand = document.getElementById('form-panel-brand') ? document.getElementById('form-panel-brand').value : 'Emmvee TOPCon 560W';
+    const inverterBrand = document.getElementById('form-inverter-brand') ? document.getElementById('form-inverter-brand').value : 'Eastman Smart Inverter';
     const ksebBill = document.getElementById('form-kseb-bill') ? document.getElementById('form-kseb-bill').value : '₹2,000 – ₹5,000';
     const consumerNo = document.getElementById('form-consumer-no') ? document.getElementById('form-consumer-no').value.trim() : '';
     const contactPref = document.getElementById('form-contact-pref') ? document.getElementById('form-contact-pref').value : 'WhatsApp & Call';
@@ -5640,8 +5640,8 @@ function handleFormSubmit(event) {
     document.getElementById('form-district').value = 'Alappuzha';
     handleDistrictChange('Alappuzha');
     document.getElementById('form-system-model').value = 'ongrid';
-    if (document.getElementById('form-panel-brand')) document.getElementById('form-panel-brand').value = 'Sunova Recommended';
-    if (document.getElementById('form-inverter-brand')) document.getElementById('form-inverter-brand').value = 'Sunova Recommended';
+    if (document.getElementById('form-panel-brand')) document.getElementById('form-panel-brand').value = 'Emmvee TOPCon 560W';
+    if (document.getElementById('form-inverter-brand')) document.getElementById('form-inverter-brand').value = 'Eastman Smart Inverter';
     setSystemType('ongrid');
     document.getElementById('form-loan').checked = false;
     const loanDocsBox = document.getElementById('loan-docs-box');
