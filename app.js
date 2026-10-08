@@ -5640,6 +5640,8 @@ function handleFormSubmit(event) {
     document.getElementById('form-district').value = 'Alappuzha';
     handleDistrictChange('Alappuzha');
     document.getElementById('form-system-model').value = 'ongrid';
+    if (document.getElementById('form-panel-brand')) document.getElementById('form-panel-brand').value = 'Sunova Recommended';
+    if (document.getElementById('form-inverter-brand')) document.getElementById('form-inverter-brand').value = 'Sunova Recommended';
     setSystemType('ongrid');
     document.getElementById('form-loan').checked = false;
     const loanDocsBox = document.getElementById('loan-docs-box');
