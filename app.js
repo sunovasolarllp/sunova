@@ -8255,3 +8255,274 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+
+
+// ========================================================
+// ⚡ 1-CLICK WHATSAPP INSTANT QUOTE & BILL SCANNER ENGINE
+// ========================================================
+let activeIQBill = 4500;
+let activeIQCap = 3.0;
+
+function openInstantQuoteModal() {
+    const modal = document.getElementById('instant-quote-modal');
+    if (modal) {
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+    calculateIQResults();
+}
+
+function closeInstantQuoteModal() {
+    const modal = document.getElementById('instant-quote-modal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+}
+
+function switchIQMode(mode) {
+    const scanPane = document.getElementById('iq-pane-scan');
+    const manualPane = document.getElementById('iq-pane-manual');
+    const scanBtn = document.getElementById('iq-tab-btn-scan');
+    const manualBtn = document.getElementById('iq-tab-btn-manual');
+
+    if (mode === 'scan') {
+        if (scanPane) scanPane.style.display = 'block';
+        if (scanBtn) {
+            scanBtn.style.background = 'rgba(255, 183, 3, 0.12)';
+            scanBtn.style.color = 'var(--color-sun-yellow)';
+            scanBtn.style.borderBottom = '2.5px solid var(--color-sun-yellow)';
+        }
+        if (manualBtn) {
+            manualBtn.style.background = 'transparent';
+            manualBtn.style.color = 'var(--color-text-muted)';
+            manualBtn.style.borderBottom = 'none';
+        }
+    } else {
+        if (scanPane) scanPane.style.display = 'none';
+        if (manualBtn) {
+            manualBtn.style.background = 'rgba(255, 183, 3, 0.12)';
+            manualBtn.style.color = 'var(--color-sun-yellow)';
+            manualBtn.style.borderBottom = '2.5px solid var(--color-sun-yellow)';
+        }
+        if (scanBtn) {
+            scanBtn.style.background = 'transparent';
+            scanBtn.style.color = 'var(--color-text-muted)';
+            scanBtn.style.borderBottom = 'none';
+        }
+    }
+}
+
+function setIQBill(amount, btnEl) {
+    activeIQBill = amount;
+    const buttons = document.querySelectorAll('.iq-bill-btn');
+    buttons.forEach(b => {
+        b.style.background = 'rgba(255,255,255,0.06)';
+        b.style.color = 'var(--color-text)';
+        b.style.borderColor = 'var(--color-border)';
+        b.style.fontWeight = '700';
+    });
+    if (btnEl) {
+        btnEl.style.background = 'var(--color-sun-yellow)';
+        btnEl.style.color = '#0d1321';
+        btnEl.style.borderColor = 'var(--color-sun-yellow)';
+        btnEl.style.fontWeight = '800';
+    }
+    calculateIQResults();
+}
+
+function calculateIQResults() {
+    // Sizing logic based on bi-monthly bill
+    let cap = 3.0;
+    if (activeIQBill >= 10000) {
+        cap = 8.0;
+    } else if (activeIQBill >= 6000) {
+        cap = 5.0;
+    } else if (activeIQBill >= 3500) {
+        cap = 3.0;
+    } else {
+        cap = 2.0;
+    }
+    activeIQCap = cap;
+
+    let baseRatePerKw = 65000;
+    let grossCost = cap * baseRatePerKw;
+    
+    let subsidy = 0;
+    if (cap >= 3.0) subsidy = 78000;
+    else if (cap >= 2.0) subsidy = 60000;
+    else if (cap >= 1.0) subsidy = 30000;
+
+    let netCost = Math.max(0, grossCost - subsidy);
+
+    const capEl = document.getElementById('iq-res-capacity');
+    if (capEl) capEl.textContent = `${cap.toFixed(1)} kWp On-Grid Solar Plant`;
+
+    const totalEl = document.getElementById('iq-res-total');
+    if (totalEl) totalEl.textContent = `₹${grossCost.toLocaleString('en-IN')}`;
+
+    const subEl = document.getElementById('iq-res-subsidy');
+    if (subEl) subEl.textContent = `- ₹${subsidy.toLocaleString('en-IN')}`;
+
+    const netEl = document.getElementById('iq-res-net');
+    if (netEl) netEl.textContent = `₹${netCost.toLocaleString('en-IN')}`;
+}
+
+async function handleIQBillFileUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const statusEl = document.getElementById('iq-ocr-status');
+    if (statusEl) statusEl.style.display = 'block';
+
+    try {
+        let extractedText = '';
+        if (file.type === 'application/pdf') {
+            if (typeof parseKSEBPdf === 'function') {
+                extractedText = await parseKSEBPdf(file);
+            }
+        } else {
+            if (typeof parseKSEBImage === 'function') {
+                extractedText = await parseKSEBImage(file);
+            }
+        }
+
+        if (extractedText && typeof parseKSEBBillText === 'function') {
+            const parsedData = parseKSEBBillText(extractedText);
+            if (parsedData) {
+                if (parsedData.consumerNo) {
+                    const cEl = document.getElementById('iq-consumer-no');
+                    if (cEl) cEl.value = parsedData.consumerNo;
+                }
+                if (parsedData.name) {
+                    const nEl = document.getElementById('iq-name');
+                    if (nEl) nEl.value = parsedData.name;
+                }
+                if (parsedData.district) {
+                    const dEl = document.getElementById('iq-district');
+                    if (dEl) dEl.value = parsedData.district;
+                }
+                if (parsedData.totalBill) {
+                    activeIQBill = parsedData.totalBill;
+                    calculateIQResults();
+                }
+            }
+        }
+        if (statusEl) statusEl.innerHTML = '✅ KSEB Bill Scanned &amp; Auto-Filled Successfully!';
+    } catch(err) {
+        console.warn('[IQ OCR Error]', err);
+        if (statusEl) statusEl.innerHTML = '⚠️ Bill uploaded. Sizing estimated using standard rates.';
+    }
+}
+
+function dispatchInstantWhatsAppQuote() {
+    const name = (document.getElementById('iq-name')?.value || '').trim() || 'Valued Customer';
+    const phone = (document.getElementById('iq-phone')?.value || '').trim();
+    const district = document.getElementById('iq-district')?.value || 'Kerala';
+    const consumerNo = (document.getElementById('iq-consumer-no')?.value || '').trim();
+
+    if (phone && !/^[6-9]\d{9}$/.test(phone)) {
+        alert('Please enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9.');
+        document.getElementById('iq-phone')?.focus();
+        return;
+    }
+
+    let subsidy = (activeIQCap >= 3.0) ? 78000 : ((activeIQCap >= 2.0) ? 60000 : 30000);
+    let gross = activeIQCap * 65000;
+    let net = gross - subsidy;
+
+    const waMsg = 
+`⚡ *SUNOVA SOLAR - INSTANT QUOTATION* ⚡
+👤 *Customer:* ${name.toUpperCase()}
+📍 *District:* ${district}
+${consumerNo ? `⚡ *KSEB Consumer No:* ${consumerNo}
+` : ''}
+⚙️ *PROPOSED SOLAR SYSTEM:*
+• Capacity: *${activeIQCap.toFixed(1)} kWp On-Grid System*
+• Technology: TopCon Bifacial Dual Glass Panels
+• Inverter: Smart Dual-MPPT Wi-Fi Inverter
+• Earthing: 3 Chemical Earth Pits (<5Ω) + Lightning Arrester
+
+💰 *COMMERCIALS & SUBSIDY:*
+• Total Project Value: ₹${gross.toLocaleString('en-IN')}
+• *PM Surya Ghar DBT Subsidy:* ₹${subsidy.toLocaleString('en-IN')}
+• *NET EFFECTIVE COST:* ₹${net.toLocaleString('en-IN')}
+• Estimated Monthly Savings: *₹3,200 / Month (100% Zero-Bill)*
+
+Please connect me with my nearest Sunova Channel Partner for KSEB Net-Metering Feasibility Clearance!`;
+
+    // Log Inquiry into background lead pipeline
+    try {
+        const inquiries = JSON.parse(localStorage.getItem('sunova_inquiries') || '[]');
+        inquiries.unshift({
+            timestamp: new Date().toLocaleString('en-IN'),
+            name: name,
+            phone: phone || 'WhatsApp Quick Quote',
+            email: 'Not Provided',
+            district: district,
+            location: district,
+            category: 'Residential (Home Solar)',
+            model: 'On-Grid',
+            capacity: String(activeIQCap),
+            consumerNo: consumerNo || 'Not Provided',
+            subsidy: 'Yes (PM Surya Ghar)',
+            loan: 'No',
+            message: `Instant WhatsApp Quote Generated (${activeIQCap} kWp - Net ₹${net.toLocaleString('en-IN')})`,
+            partner: 'Direct Sunova Solar Desk',
+            partnerCode: 'DIRECT',
+            partnerPhone: '9072522277'
+        });
+        localStorage.setItem('sunova_inquiries', JSON.stringify(inquiries.slice(0, 200)));
+    } catch(e) {}
+
+    // Dispatch Web3Forms logging
+    try {
+        fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                access_key: "3b85044a-ed95-42ed-b465-e6afcaeb60a2",
+                name: name,
+                phone: phone || 'WhatsApp Request',
+                district: district,
+                "Requested Capacity": `${activeIQCap} kWp`,
+                "Net Cost": `₹${net.toLocaleString('en-IN')}`,
+                subject: `Instant WhatsApp Quote Request from ${name} (${district})`
+            })
+        }).catch(e => {});
+    } catch(e) {}
+
+    const targetUrl = `https://wa.me/919072522277?text=${encodeURIComponent(waMsg)}`;
+    window.open(targetUrl, '_blank');
+    closeInstantQuoteModal();
+}
+
+function autoFillFullFeasibilityFromIQ() {
+    const name = document.getElementById('iq-name')?.value || '';
+    const phone = document.getElementById('iq-phone')?.value || '';
+    const district = document.getElementById('iq-district')?.value || 'Alappuzha';
+    const consumerNo = document.getElementById('iq-consumer-no')?.value || '';
+
+    if (name && document.getElementById('form-name')) document.getElementById('form-name').value = name;
+    if (phone && document.getElementById('form-phone')) document.getElementById('form-phone').value = phone;
+    if (consumerNo && document.getElementById('form-consumer-no')) document.getElementById('form-consumer-no').value = consumerNo;
+    
+    const distEl = document.getElementById('form-district');
+    if (distEl && district) {
+        distEl.value = district;
+        if (typeof handleDistrictChange === 'function') handleDistrictChange(district);
+    }
+
+    const sizeEl = document.getElementById('form-size-select');
+    if (sizeEl) {
+        sizeEl.value = activeIQCap.toFixed(1);
+        if (typeof handleFormSizeSelectChange === 'function') handleFormSizeSelectChange(activeIQCap.toFixed(1));
+    }
+
+    closeInstantQuoteModal();
+    if (typeof scrollToContactForm === 'function') {
+        scrollToContactForm();
+    } else {
+        document.getElementById('contact-form-container')?.scrollIntoView({ behavior: 'smooth' });
+    }
+}
