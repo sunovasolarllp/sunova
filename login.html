@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Subdomain Auto-Router for partner.sunovasolar.in -->
+    <script>
+        (function() {
+            var host = window.location.hostname.toLowerCase();
+            var urlParams = new URLSearchParams(window.location.search);
+            // If on partner.sunovasolar.in and not explicitly asking for staff, route to partner portal
+            if ((host === 'partner.sunovasolar.in' || host.startsWith('partner.')) && urlParams.get('role') !== 'staff') {
+                window.location.replace('partner-portal.html' + window.location.search + window.location.hash);
+            }
+        })();
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Staff Portal | SUNOVA SOLAR LLP</title>
@@ -45,7 +56,7 @@
                     🔒 Staff Login
                 </button>
                 <a href="partner-portal.html" id="role-btn-partner" style="flex: 1; padding: 0.6rem 0.5rem; border: none; border-radius: 8px; font-weight: 700; font-size: 0.84rem; cursor: pointer; transition: all 0.2s; background: transparent; color: var(--color-text-muted); text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center;">
-                    🤝 Partner Login
+                    🤝 Partner Login (partner.sunovasolar.in)
                 </a>
             </div>
 
@@ -2903,6 +2914,17 @@
             frameDoc.write(`<!DOCTYPE html>
 <html>
 <head>
+    <!-- Subdomain Auto-Router for partner.sunovasolar.in -->
+    <script>
+        (function() {
+            var host = window.location.hostname.toLowerCase();
+            var urlParams = new URLSearchParams(window.location.search);
+            // If on partner.sunovasolar.in and not explicitly asking for staff, route to partner portal
+            if ((host === 'partner.sunovasolar.in' || host.startsWith('partner.')) && urlParams.get('role') !== 'staff') {
+                window.location.replace('partner-portal.html' + window.location.search + window.location.hash);
+            }
+        })();
+    </script>
     <meta charset="UTF-8">
     <title>SUNOVA SOLAR Proposal</title>
     <style>
@@ -4137,6 +4159,17 @@ function printJCRDocument() {
         <!DOCTYPE html>
         <html>
         <head>
+    <!-- Subdomain Auto-Router for partner.sunovasolar.in -->
+    <script>
+        (function() {
+            var host = window.location.hostname.toLowerCase();
+            var urlParams = new URLSearchParams(window.location.search);
+            // If on partner.sunovasolar.in and not explicitly asking for staff, route to partner portal
+            if ((host === 'partner.sunovasolar.in' || host.startsWith('partner.')) && urlParams.get('role') !== 'staff') {
+                window.location.replace('partner-portal.html' + window.location.search + window.location.hash);
+            }
+        })();
+    </script>
             <title>Joint Commissioning Report - ${wo.woNumber}</title>
             <style>
                 body { font-family: 'Segoe UI', Arial, sans-serif; color: #1e293b; padding: 25px; margin: 0; }
@@ -4451,6 +4484,17 @@ function printCurrentKSEBDoc() {
         <!DOCTYPE html>
         <html>
         <head>
+    <!-- Subdomain Auto-Router for partner.sunovasolar.in -->
+    <script>
+        (function() {
+            var host = window.location.hostname.toLowerCase();
+            var urlParams = new URLSearchParams(window.location.search);
+            // If on partner.sunovasolar.in and not explicitly asking for staff, route to partner portal
+            if ((host === 'partner.sunovasolar.in' || host.startsWith('partner.')) && urlParams.get('role') !== 'staff') {
+                window.location.replace('partner-portal.html' + window.location.search + window.location.hash);
+            }
+        })();
+    </script>
             <title>KSEB / MNRE Document - ${activeKSEBWO.woNumber}</title>
             <style>
                 body { font-family: 'Segoe UI', Arial, sans-serif; color: #1e293b; padding: 30px; margin: 0; }
@@ -4638,6 +4682,17 @@ function printPaymentInvoice() {
         <!DOCTYPE html>
         <html>
         <head>
+    <!-- Subdomain Auto-Router for partner.sunovasolar.in -->
+    <script>
+        (function() {
+            var host = window.location.hostname.toLowerCase();
+            var urlParams = new URLSearchParams(window.location.search);
+            // If on partner.sunovasolar.in and not explicitly asking for staff, route to partner portal
+            if ((host === 'partner.sunovasolar.in' || host.startsWith('partner.')) && urlParams.get('role') !== 'staff') {
+                window.location.replace('partner-portal.html' + window.location.search + window.location.hash);
+            }
+        })();
+    </script>
             <title>Payment Demand Invoice - ${wo.woNumber}</title>
             <style>
                 body { font-family: 'Segoe UI', Arial, sans-serif; color: #1e293b; padding: 30px; margin: 0; }
