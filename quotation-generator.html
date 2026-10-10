@@ -3928,7 +3928,7 @@ Please verify and process for PM Surya Ghar / KSEB Net-Metering synchronization.
                 console.log('[Sunova] Connected via official Partner Subdomain: partner.sunovasolar.in');
             }
         })();
-    </script>
+    <\/script>
     <meta charset="UTF-8">
     <title>${currentQuoteData ? currentQuoteData.quoteNo : 'SUNOVA SOLAR Proposal'}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -3971,395 +3971,7 @@ Please verify and process for PM Surya Ghar / KSEB Net-Metering synchronization.
 <body>
     ${htmlContent}
 
-    <!-- ==================================================== -->
-    <!-- 🖨️ PRINTABLE SOLAR EPC WORK ORDER LETTERHEAD MODAL -->
-    <!-- ==================================================== -->
-    <div id="wo-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 999999; overflow-y: auto; padding: 20px 10px; box-sizing: border-box;">
-        <div style="max-width: 860px; margin: 0 auto; background: #ffffff; color: #1e293b; border-radius: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); overflow: hidden; position: relative;">
-            
-            <!-- Modal Actions Bar (Hidden during Print) -->
-            <div class="no-print" style="background: #0f172a; color: #ffffff; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eab308;">
-                <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.95rem;">
-                    <span>🛠️</span> Official Solar EPC Work Order Preview
-                </div>
-                <div style="display: flex; gap: 10px; align-items: center;">
-                    <button onclick="printWODocument()" style="background: #eab308; color: #0f172a; border: none; font-weight: 800; padding: 6px 16px; border-radius: 6px; cursor: pointer; font-size: 0.82rem; display: flex; align-items: center; gap: 5px;">
-                        🖨️ Print / Save PDF
-                    </button>
-                    <button onclick="whatsappActiveWorkOrder()" style="background: #25d366; color: #ffffff; border: none; font-weight: 700; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 0.82rem; display: flex; align-items: center; gap: 5px;">
-                        💬 WhatsApp
-                    </button>
-                    <button onclick="closeWOModal()" style="background: rgba(255,255,255,0.15); color: #ffffff; border: none; font-weight: 700; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center;">
-                        ✕
-                    </button>
-                </div>
-            </div>
-
-            <!-- Printable Document Body -->
-            <div id="wo-printable-area" style="padding: 35px 40px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.45; font-size: 13px; color: #1e293b;">
-                <!-- Populated dynamically via viewWorkOrder() -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Print Media Styling for Work Order -->
-    <style>
-        @media print {
-            body * {
-                visibility: hidden !important;
-            }
-            #wo-modal-overlay, #wo-modal-overlay * {
-                visibility: visible !important;
-            }
-            #wo-modal-overlay {
-                position: absolute !important;
-                left: 0 !important;
-                top: 0 !important;
-                width: 100% !important;
-                height: auto !important;
-                background: #ffffff !important;
-                padding: 0 !important;
-                margin: 0 !important;
-                display: block !important;
-            }
-            #wo-modal-overlay > div {
-                box-shadow: none !important;
-                border-radius: 0 !important;
-                max-width: 100% !important;
-                margin: 0 !important;
-                padding: 0 !important;
-            }
-            .no-print {
-                display: none !important;
-            }
-            #wo-printable-area {
-                padding: 20px 25px !important;
-            }
-        }
-    </style>
-
-
-<!-- ========================================== -->
-<!-- FEATURE 2: DIGITAL JCR COMMISSIONING MODAL -->
-<!-- ========================================== -->
-<div id="jcr-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 999999; overflow-y: auto; padding: 20px 10px; box-sizing: border-box; backdrop-filter: blur(8px);">
-    <div style="max-width: 820px; margin: 20px auto; background: var(--color-surface, #1e293b); color: var(--color-text, #ffffff); border: 1.5px solid var(--color-sun-yellow, #ffb703); border-radius: 18px; box-shadow: 0 25px 60px rgba(0,0,0,0.6); overflow: hidden; position: relative;">
-        
-        <!-- Header -->
-        <div style="background: linear-gradient(135deg, rgba(255, 183, 3, 0.18) 0%, rgba(16, 185, 129, 0.18) 100%); border-bottom: 1px solid var(--color-border, rgba(255,255,255,0.1)); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
-            <div>
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <span style="background: #10b981; color: #000; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 20px;">☀️ HANDOVER PROTOCOL</span>
-                    <span id="jcr-modal-wo-pill" style="font-family: monospace; font-weight: 800; color: var(--color-sun-yellow, #ffb703); font-size: 0.85rem;">WO: --</span>
-                </div>
-                <h4 style="margin: 0.35rem 0 0 0; font-size: 1.25rem; font-weight: 800;">📋 Joint Commissioning Report (JCR)</h4>
-            </div>
-            <button type="button" onclick="closeJCRModal()" style="background: rgba(255,255,255,0.1); border: 1px solid var(--color-border, rgba(255,255,255,0.2)); color: var(--color-text, #fff); font-size: 1.25rem; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
-        </div>
-
-        <form id="jcr-form" onsubmit="handleJCRSubmit(event)" style="padding: 1.5rem;">
-            <!-- Hidden inputs -->
-            <input type="hidden" id="jcr-wo-number" name="woNumber">
-            
-            <!-- Project / Consumer Info Ribbon -->
-            <div style="background: var(--color-bg-alt, #0f172a); border: 1px solid var(--color-border, rgba(255,255,255,0.1)); border-radius: 10px; padding: 1rem; margin-bottom: 1.25rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; font-size: 0.82rem;">
-                <div>
-                    <span style="color: var(--color-text-muted, #94a3b8); display: block;">Consumer Name & Phone:</span>
-                    <strong id="jcr-disp-name" style="color: #fff;">--</strong>
-                </div>
-                <div>
-                    <span style="color: var(--color-text-muted, #94a3b8); display: block;">Site Address & KSEB:</span>
-                    <strong id="jcr-disp-site" style="color: #fff;">--</strong>
-                </div>
-                <div>
-                    <span style="color: var(--color-text-muted, #94a3b8); display: block;">Plant Capacity & Topology:</span>
-                    <strong id="jcr-disp-capacity" style="color: var(--color-sun-yellow, #ffb703);">--</strong>
-                </div>
-                <div>
-                    <span style="color: var(--color-text-muted, #94a3b8); display: block;">Assigned Engineer:</span>
-                    <strong id="jcr-disp-engineer" style="color: #38bdf8;">--</strong>
-                </div>
-            </div>
-
-            <!-- Technical Commissioning Parameters -->
-            <h5 style="margin: 0 0 0.75rem 0; font-size: 0.95rem; font-weight: 800; color: var(--color-sun-yellow, #ffb703); display: flex; align-items: center; gap: 0.4rem;">
-                ⚡ Equipment Serials & Grid Synchronization Values
-            </h5>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.85rem; margin-bottom: 1.25rem;">
-                <div>
-                    <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem;">Inverter Serial No. <span style="color:#ef4444;">*</span></label>
-                    <input type="text" id="jcr-inverter-sn" required placeholder="e.g. DNP2409018472" style="width: 100%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.82rem; font-family: monospace;">
-                </div>
-                <div>
-                    <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem;">Net Meter Serial No. <span style="color:#ef4444;">*</span></label>
-                    <input type="text" id="jcr-netmeter-sn" required placeholder="e.g. KSEB-NM-90214" style="width: 100%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.82rem; font-family: monospace;">
-                </div>
-                <div>
-                    <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem;">Solar Gen Meter Serial No.</label>
-                    <input type="text" id="jcr-genmeter-sn" placeholder="e.g. SGM-88203" style="width: 100%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.82rem; font-family: monospace;">
-                </div>
-                <div>
-                    <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem;">Lightning Earth Pit (&Omega;) <span style="color:#ef4444;">*</span></label>
-                    <input type="number" step="0.01" id="jcr-earth-la" required placeholder="< 5.0 &Omega; (e.g. 1.8)" oninput="checkEarthResistance(this)" style="width: 100%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.82rem;">
-                </div>
-                <div>
-                    <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem;">Inverter/AC Earth Pit (&Omega;) <span style="color:#ef4444;">*</span></label>
-                    <input type="number" step="0.01" id="jcr-earth-body" required placeholder="< 5.0 &Omega; (e.g. 2.1)" oninput="checkEarthResistance(this)" style="width: 100%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.82rem;">
-                </div>
-                <div>
-                    <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem;">Grid Voltage (V AC) / Freq (Hz)</label>
-                    <div style="display: flex; gap: 0.4rem;">
-                        <input type="text" id="jcr-grid-voltage" placeholder="234 V" style="width: 50%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.5rem 0.6rem; border-radius: 6px; font-size: 0.82rem;">
-                        <input type="text" id="jcr-grid-freq" placeholder="50.0 Hz" style="width: 50%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.5rem 0.6rem; border-radius: 6px; font-size: 0.82rem;">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Quality & Safety Checkpoints -->
-            <h5 style="margin: 0 0 0.6rem 0; font-size: 0.95rem; font-weight: 800; color: #10b981; display: flex; align-items: center; gap: 0.4rem;">
-                🛡️ Site Inspection & Handover Checklist
-            </h5>
-            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--color-border, rgba(255,255,255,0.08)); border-radius: 8px; padding: 0.85rem; margin-bottom: 1.25rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.5rem; font-size: 0.78rem;">
-                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                    <input type="checkbox" id="chk-jcr-struct" checked style="accent-color: #10b981;"> Structure GI/Aluminium anchor fasteners torque tested
-                </label>
-                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                    <input type="checkbox" id="chk-jcr-spd" checked style="accent-color: #10b981;"> Type-2 AC & DC Surge Protection Devices active
-                </label>
-                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                    <input type="checkbox" id="chk-jcr-app" checked style="accent-color: #10b981;"> Wi-Fi Inverter App configured on client smartphone
-                </label>
-                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                    <input type="checkbox" id="chk-jcr-labels" checked style="accent-color: #10b981;"> Solar DC/AC Warning Caution labels affixed
-                </label>
-                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                    <input type="checkbox" id="chk-jcr-kseb" checked style="accent-color: #10b981;"> Bi-directional Net Meter sync & import/export tested
-                </label>
-                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                    <input type="checkbox" id="chk-jcr-clean" checked style="accent-color: #10b981;"> Customer trained on module cleaning & maintenance
-                </label>
-            </div>
-
-            <!-- Dual Digital Signatures -->
-            <h5 style="margin: 0 0 0.6rem 0; font-size: 0.95rem; font-weight: 800; color: var(--color-sun-yellow, #ffb703);">
-                ✍️ Dual Digital Signatures (Touch / Stylus / Mouse)
-            </h5>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
-                
-                <!-- Engineer Signature Box -->
-                <div style="background: var(--color-bg-alt, #0f172a); border: 1px solid var(--color-border, #334155); border-radius: 10px; padding: 0.75rem;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-                        <span style="font-size: 0.76rem; font-weight: 700; color: #38bdf8;">👷 Project Engineer Signature</span>
-                        <button type="button" onclick="clearSignature('sig-engineer')" style="background: none; border: none; color: #ef4444; font-size: 0.7rem; cursor: pointer; font-weight: 600;">Clear ↺</button>
-                    </div>
-                    <canvas id="sig-engineer-canvas" width="320" height="120" style="width: 100%; height: 110px; background: #ffffff; border-radius: 6px; cursor: crosshair; touch-action: none;"></canvas>
-                    <input type="text" id="jcr-engineer-name-sign" placeholder="Engineer Full Name" style="width: 100%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.4rem 0.6rem; border-radius: 6px; font-size: 0.78rem; margin-top: 0.4rem;">
-                </div>
-
-                <!-- Customer Signature Box -->
-                <div style="background: var(--color-bg-alt, #0f172a); border: 1px solid var(--color-border, #334155); border-radius: 10px; padding: 0.75rem;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-                        <span style="font-size: 0.76rem; font-weight: 700; color: #10b981;">👤 Customer / Signatory Acceptance</span>
-                        <button type="button" onclick="clearSignature('sig-customer')" style="background: none; border: none; color: #ef4444; font-size: 0.7rem; cursor: pointer; font-weight: 600;">Clear ↺</button>
-                    </div>
-                    <canvas id="sig-customer-canvas" width="320" height="120" style="width: 100%; height: 110px; background: #ffffff; border-radius: 6px; cursor: crosshair; touch-action: none;"></canvas>
-                    <input type="text" id="jcr-customer-name-sign" placeholder="Customer Full Name" style="width: 100%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.4rem 0.6rem; border-radius: 6px; font-size: 0.78rem; margin-top: 0.4rem;">
-                </div>
-            </div>
-
-            <!-- Modal Action Buttons -->
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; border-top: 1px solid var(--color-border, rgba(255,255,255,0.1)); padding-top: 1rem;">
-                <button type="button" onclick="closeJCRModal()" style="background: rgba(255,255,255,0.06); border: 1px solid var(--color-border, #334155); color: var(--color-text, #fff); padding: 0.65rem 1.25rem; border-radius: 8px; font-size: 0.85rem; cursor: pointer; font-weight: 600;">
-                    Close
-                </button>
-                <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
-                    <button type="button" onclick="printJCRDocument()" style="background: rgba(255, 183, 3, 0.15); border: 1.5px solid var(--color-sun-yellow, #ffb703); color: var(--color-sun-yellow, #ffb703); padding: 0.65rem 1.25rem; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
-                        🖨️ Print / Save JCR PDF
-                    </button>
-                    <button type="button" onclick="whatsappJCRCertificate()" style="background: rgba(37, 211, 102, 0.15); border: 1.5px solid #25d366; color: #25d366; padding: 0.65rem 1.25rem; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
-                        💬 WhatsApp Handover Certificate
-                    </button>
-                    <button type="submit" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; border: none; padding: 0.65rem 1.5rem; border-radius: 8px; font-size: 0.85rem; font-weight: 800; cursor: pointer; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);">
-                        ✅ Save &amp; Mark Commissioned
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- ========================================== -->
-<!-- FEATURE 3: KSEB & SUBSIDY DOCS GENERATOR   -->
-<!-- ========================================== -->
-<div id="kseb-docs-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 999999; overflow-y: auto; padding: 20px 10px; box-sizing: border-box; backdrop-filter: blur(8px);">
-    <div style="max-width: 860px; margin: 20px auto; background: var(--color-surface, #1e293b); color: var(--color-text, #ffffff); border: 1.5px solid #38bdf8; border-radius: 18px; box-shadow: 0 25px 60px rgba(0,0,0,0.6); overflow: hidden; position: relative;">
-        
-        <!-- Header -->
-        <div style="background: linear-gradient(135deg, rgba(56, 189, 248, 0.2) 0%, rgba(255, 183, 3, 0.15) 100%); border-bottom: 1px solid var(--color-border, rgba(255,255,255,0.1)); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
-            <div>
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <span style="background: #38bdf8; color: #000; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 20px;">⚡ KSEB &amp; MNRE COMPLIANCE</span>
-                    <span id="kseb-modal-wo-pill" style="font-family: monospace; font-weight: 800; color: #38bdf8; font-size: 0.85rem;">WO: --</span>
-                </div>
-                <h4 style="margin: 0.35rem 0 0 0; font-size: 1.25rem; font-weight: 800;">📑 1-Click Net-Metering &amp; PM Surya Ghar Docs</h4>
-            </div>
-            <button type="button" onclick="closeKSEBDocsModal()" style="background: rgba(255,255,255,0.1); border: 1px solid var(--color-border, rgba(255,255,255,0.2)); color: var(--color-text, #fff); font-size: 1.25rem; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
-        </div>
-
-        <div style="padding: 1.5rem;">
-            <!-- Doc Selector Tabs -->
-            <div style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem; overflow-x: auto; padding-bottom: 0.25rem;">
-                <button type="button" onclick="switchKSEBDocTab('annex1')" id="btn-kseb-tab-annex1" style="background: #38bdf8; color: #000; font-weight: 800; font-size: 0.8rem; padding: 0.5rem 1rem; border-radius: 8px; border: none; cursor: pointer;">
-                    📄 KSEB Annexure 1 (Feasibility)
-                </button>
-                <button type="button" onclick="switchKSEBDocTab('annex2')" id="btn-kseb-tab-annex2" style="background: rgba(255,255,255,0.06); color: var(--color-text, #fff); font-weight: 700; font-size: 0.8rem; padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--color-border, #334155); cursor: pointer;">
-                    📜 KSEB Annexure 2 (Agreement)
-                </button>
-                <button type="button" onclick="switchKSEBDocTab('dcr')" id="btn-kseb-tab-dcr" style="background: rgba(255,255,255,0.06); color: var(--color-text, #fff); font-weight: 700; font-size: 0.8rem; padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--color-border, #334155); cursor: pointer;">
-                    🏛️ PM Surya Ghar DCR &amp; Completion
-                </button>
-                <button type="button" onclick="switchKSEBDocTab('survey')" id="btn-kseb-tab-survey" style="background: rgba(255,255,255,0.06); color: var(--color-text, #fff); font-weight: 700; font-size: 0.8rem; padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--color-border, #334155); cursor: pointer;">
-                    📐 Site Feasibility Summary
-                </button>
-            </div>
-
-            <!-- Dynamic Form Render Container (A4 preview style) -->
-            <div id="kseb-doc-preview-pane" style="background: #ffffff; color: #1e293b; border-radius: 12px; padding: 2rem; max-height: 480px; overflow-y: auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);">
-                <!-- Content will be injected via JS -->
-            </div>
-
-            <!-- Modal Action Buttons -->
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; border-top: 1px solid var(--color-border, rgba(255,255,255,0.1)); padding-top: 1.25rem; margin-top: 1.25rem;">
-                <button type="button" onclick="closeKSEBDocsModal()" style="background: rgba(255,255,255,0.06); border: 1px solid var(--color-border, #334155); color: var(--color-text, #fff); padding: 0.65rem 1.25rem; border-radius: 8px; font-size: 0.85rem; cursor: pointer; font-weight: 600;">
-                    Close
-                </button>
-                <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
-                    <button type="button" onclick="printCurrentKSEBDoc()" style="background: #38bdf8; color: #000; padding: 0.65rem 1.5rem; border-radius: 8px; font-size: 0.85rem; font-weight: 800; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
-                        🖨️ Print / Export Official Form
-                    </button>
-                    <button type="button" onclick="whatsappKSEBDoc()" style="background: rgba(37, 211, 102, 0.15); border: 1.5px solid #25d366; color: #25d366; padding: 0.65rem 1.25rem; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
-                        💬 WhatsApp Document Link
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- ========================================== -->
-<!-- FEATURE 4: DYNAMIC UPI QR & MILESTONE PAY  -->
-<!-- ========================================== -->
-<div id="upi-payment-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 999999; overflow-y: auto; padding: 20px 10px; box-sizing: border-box; backdrop-filter: blur(8px);">
-    <div style="max-width: 780px; margin: 20px auto; background: var(--color-surface, #1e293b); color: var(--color-text, #ffffff); border: 1.5px solid #10b981; border-radius: 18px; box-shadow: 0 25px 60px rgba(0,0,0,0.6); overflow: hidden; position: relative;">
-        
-        <!-- Header -->
-        <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(255, 183, 3, 0.15) 100%); border-bottom: 1px solid var(--color-border, rgba(255,255,255,0.1)); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
-            <div>
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <span style="background: #10b981; color: #000; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 20px;">💳 NPCI ZERO-FEE UPI ENGINE</span>
-                    <span id="upi-modal-wo-pill" style="font-family: monospace; font-weight: 800; color: #10b981; font-size: 0.85rem;">WO: --</span>
-                </div>
-                <h4 style="margin: 0.35rem 0 0 0; font-size: 1.25rem; font-weight: 800;">Milestone Payment UPI QR &amp; WhatsApp Notice</h4>
-            </div>
-            <button type="button" onclick="closeUPIPayModal()" style="background: rgba(255,255,255,0.1); border: 1px solid var(--color-border, rgba(255,255,255,0.2)); color: var(--color-text, #fff); font-size: 1.25rem; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
-        </div>
-
-        <div style="padding: 1.5rem;">
-            <!-- Project Value Strip -->
-            <div style="background: var(--color-bg-alt, #0f172a); border: 1px solid var(--color-border, rgba(255,255,255,0.1)); border-radius: 10px; padding: 1rem; margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
-                <div>
-                    <div style="font-size: 0.75rem; color: var(--color-text-muted, #94a3b8);">Customer:</div>
-                    <strong id="upi-disp-customer" style="font-size: 1rem; color: #fff;">--</strong>
-                    <div id="upi-disp-phone" style="font-size: 0.75rem; color: var(--color-text-muted, #94a3b8);">--</div>
-                </div>
-                <div style="text-align: right;">
-                    <div style="font-size: 0.75rem; color: var(--color-text-muted, #94a3b8);">Total Project Value:</div>
-                    <strong id="upi-disp-total-val" style="font-size: 1.25rem; color: var(--color-sun-yellow, #ffb703);">₹0</strong>
-                </div>
-            </div>
-
-            <!-- Milestone Presets -->
-            <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--color-text-muted, #94a3b8);">
-                🎯 Select Payment Stage / Milestone:
-            </label>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.6rem; margin-bottom: 1.25rem;">
-                <button type="button" onclick="selectUPIMilestone('advance')" id="btn-ms-advance" style="background: rgba(255, 183, 3, 0.15); border: 1.5px solid var(--color-sun-yellow, #ffb703); color: var(--color-sun-yellow, #ffb703); padding: 0.6rem; border-radius: 8px; text-align: left; cursor: pointer;">
-                    <div style="font-weight: 800; font-size: 0.85rem;">1️⃣ 10% Advance</div>
-                    <div id="upi-val-advance" style="font-size: 0.76rem; margin-top: 0.2rem;">₹0 (Booking)</div>
-                </button>
-                <button type="button" onclick="selectUPIMilestone('dispatch')" id="btn-ms-dispatch" style="background: rgba(255,255,255,0.04); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.6rem; border-radius: 8px; text-align: left; cursor: pointer;">
-                    <div style="font-weight: 800; font-size: 0.85rem;">2️⃣ 70% Material</div>
-                    <div id="upi-val-dispatch" style="font-size: 0.76rem; margin-top: 0.2rem;">₹0 (Dispatch)</div>
-                </button>
-                <button type="button" onclick="selectUPIMilestone('handover')" id="btn-ms-handover" style="background: rgba(255,255,255,0.04); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.6rem; border-radius: 8px; text-align: left; cursor: pointer;">
-                    <div style="font-weight: 800; font-size: 0.85rem;">3️⃣ 20% Net Meter</div>
-                    <div id="upi-val-handover" style="font-size: 0.76rem; margin-top: 0.2rem;">₹0 (Final Handover)</div>
-                </button>
-                <button type="button" onclick="selectUPIMilestone('custom')" id="btn-ms-custom" style="background: rgba(255,255,255,0.04); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.6rem; border-radius: 8px; text-align: left; cursor: pointer;">
-                    <div style="font-weight: 800; font-size: 0.85rem;">✏️ Custom Amount</div>
-                    <div style="font-size: 0.76rem; margin-top: 0.2rem;">Manual Entry</div>
-                </button>
-            </div>
-
-            <!-- Amount Input & Note -->
-            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 0.85rem; margin-bottom: 1.25rem;">
-                <div>
-                    <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem;">Demand Amount (₹) <span style="color:#ef4444;">*</span></label>
-                    <input type="number" id="upi-input-amount" oninput="recalcUPIQr()" style="width: 100%; background: var(--color-bg, #0d1321); border: 1.5px solid #10b981; color: #10b981; font-weight: 800; font-size: 1.1rem; padding: 0.5rem 0.75rem; border-radius: 6px;">
-                </div>
-                <div>
-                    <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem;">Transaction Note / Purpose</label>
-                    <input type="text" id="upi-input-note" oninput="recalcUPIQr()" placeholder="e.g. WO-2026-0042 10% Advance Token" style="width: 100%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.55rem 0.75rem; border-radius: 6px; font-size: 0.82rem;">
-                </div>
-            </div>
-
-            <!-- Dynamic QR Code & Payment Card Box -->
-            <div style="background: #ffffff; color: #0f172a; border-radius: 12px; padding: 1.25rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.25rem; box-shadow: 0 10px 25px rgba(0,0,0,0.25);">
-                <div style="text-align: center; background: #f8fafc; padding: 0.75rem; border-radius: 10px; border: 1px solid #e2e8f0;">
-                    <img id="upi-qr-image" src="" alt="Sunova UPI QR" style="width: 180px; height: 180px; display: block; margin: 0 auto; border-radius: 6px;">
-                    <div style="font-size: 0.7rem; color: #64748b; font-weight: 700; margin-top: 0.4rem;">📱 Scan with any UPI App</div>
-                </div>
-
-                <div style="flex: 1; min-width: 240px;">
-                    <div style="font-size: 0.72rem; text-transform: uppercase; font-weight: 800; color: #059669; letter-spacing: 0.05em;">Verified Merchant Account</div>
-                    <h4 style="margin: 0.2rem 0; font-size: 1.2rem; color: #0f172a; font-weight: 800;">Sunova Solar LLP</h4>
-                    <div style="font-size: 0.82rem; color: #475569; font-family: monospace; background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 4px; display: inline-block; margin-bottom: 0.5rem;">
-                        sunovasolarllp@okhdfcbank
-                    </div>
-                    <div style="font-size: 0.8rem; color: #334155; line-height: 1.4;">
-                        Bank: <strong>HDFC Bank Ltd</strong><br>
-                        IFSC: <strong>HDFC0001245</strong> | Account: <strong>50200084729103</strong>
-                    </div>
-                    <div style="margin-top: 0.75rem; display: flex; gap: 0.4rem; flex-wrap: wrap;">
-                        <span style="background: #e0f2fe; color: #0369a1; font-size: 0.68rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px;">GPay</span>
-                        <span style="background: #f3e8ff; color: #7e22ce; font-size: 0.68rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px;">PhonePe</span>
-                        <span style="background: #e0f7fa; color: #00838f; font-size: 0.68rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px;">Paytm</span>
-                        <span style="background: #fef3c7; color: #92400e; font-size: 0.68rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px;">BHIM UPI</span>
-                        <span style="background: #dcfce7; color: #166534; font-size: 0.68rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px;">Cred</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modal Action Buttons -->
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; border-top: 1px solid var(--color-border, rgba(255,255,255,0.1)); padding-top: 1.25rem; margin-top: 1.25rem;">
-                <button type="button" onclick="closeUPIPayModal()" style="background: rgba(255,255,255,0.06); border: 1px solid var(--color-border, #334155); color: var(--color-text, #fff); padding: 0.65rem 1.25rem; border-radius: 8px; font-size: 0.85rem; cursor: pointer; font-weight: 600;">
-                    Close
-                </button>
-                <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
-                    <button type="button" onclick="copyUPILink()" style="background: rgba(255,255,255,0.1); border: 1px solid var(--color-border, #334155); color: var(--color-text, #fff); padding: 0.65rem 1.1rem; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer;">
-                        📋 Copy Link
-                    </button>
-                    <button type="button" onclick="printPaymentInvoice()" style="background: rgba(255, 183, 3, 0.15); border: 1.5px solid var(--color-sun-yellow, #ffb703); color: var(--color-sun-yellow, #ffb703); padding: 0.65rem 1.1rem; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer;">
-                        🧾 Print Invoice / Receipt
-                    </button>
-                    <button type="button" onclick="whatsappPaymentNotice()" style="background: #25d366; color: #000; padding: 0.65rem 1.4rem; border-radius: 8px; font-size: 0.85rem; font-weight: 800; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);">
-                        💬 Send WhatsApp Payment Reminder
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+    
 
 </body>
 </html>`);
@@ -6974,7 +6586,7 @@ function printJCRDocument() {
                 console.log('[Sunova] Connected via official Partner Subdomain: partner.sunovasolar.in');
             }
         })();
-    </script>
+    <\/script>
             <title>Joint Commissioning Report - ${wo.woNumber}</title>
             <style>
                 body { font-family: 'Segoe UI', Arial, sans-serif; color: #1e293b; padding: 25px; margin: 0; }
@@ -7298,7 +6910,7 @@ function printCurrentKSEBDoc() {
                 console.log('[Sunova] Connected via official Partner Subdomain: partner.sunovasolar.in');
             }
         })();
-    </script>
+    <\/script>
             <title>KSEB / MNRE Document - ${activeKSEBWO.woNumber}</title>
             <style>
                 body { font-family: 'Segoe UI', Arial, sans-serif; color: #1e293b; padding: 30px; margin: 0; }
@@ -7495,7 +7107,7 @@ function printPaymentInvoice() {
                 console.log('[Sunova] Connected via official Partner Subdomain: partner.sunovasolar.in');
             }
         })();
-    </script>
+    <\/script>
             <title>Payment Demand Invoice - ${wo.woNumber}</title>
             <style>
                 body { font-family: 'Segoe UI', Arial, sans-serif; color: #1e293b; padding: 30px; margin: 0; }
@@ -7570,6 +7182,46 @@ function printPaymentInvoice() {
         </html>
     `);
     win.document.close();
+}
+
+
+
+function syncMailboxLeads() {
+    alert("🔄 Syncing latest district inquiries from Sunova Mailbox & Web3Forms...");
+    try {
+        if (typeof renderStaffInquiries === 'function') renderStaffInquiries();
+        if (typeof renderPartnerLeads === 'function') renderPartnerLeads();
+    } catch(e) {}
+}
+
+function exportInquiriesToCSV() {
+    const raw = localStorage.getItem('sunova_inquiries') || '[]';
+    let list = [];
+    try { list = JSON.parse(raw); } catch(e) {}
+    if (!list.length) {
+        alert("No leads found to export.");
+        return;
+    }
+    const headers = ["Timestamp", "Name", "Phone", "District", "Location", "Category", "Capacity", "ConsumerNo", "Message"];
+    const rows = list.map(i => [
+        `"${i.timestamp || ''}"`,
+        `"${(i.name || '').replace(/"/g, '""')}"`,
+        `"${i.phone || ''}"`,
+        `"${i.district || ''}"`,
+        `"${(i.location || '').replace(/"/g, '""')}"`,
+        `"${i.category || ''}"`,
+        `"${i.capacity || ''}"`,
+        `"${i.consumerNo || ''}"`,
+        `"${(i.message || '').replace(/"/g, '""')}"`
+    ].join(","));
+    const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows].join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `Sunova_Solar_Leads_${new Date().toISOString().slice(0,10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
 
 </script>

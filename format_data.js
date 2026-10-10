@@ -51,11 +51,11 @@ const data = `1	KNR-JOBI	JOBI SEBASTIAN	KANNUR	KANNUR	8590085856
 49	KSD-PRAD	PRADEEP K	BADIADUKA	KASARAGOD	9744880900
 50	KSD-SURE	SURESH KUMAR	PANATHUR	KASARAGOD	9946960604`;
 
-const dealers = data.split('\\n').map(line => {
+const dealers = data.split('\n').map(line => {
     const parts = line.split('\\t');
     const district = parts[4].trim();
     const formattedDistrict = district.charAt(0) + district.slice(1).toLowerCase();
-    return \`            { code: "\${parts[1].trim()}", name: "\${parts[2].trim()}", area: "\${parts[3].trim()}", district: "\${formattedDistrict}", phone: "\${parts[5].trim()}" }\`;
+    return `            { code: "${parts[1].trim()}", name: "${parts[2].trim()}", area: "${parts[3].trim()}", district: "${formattedDistrict}", phone: "${parts[5].trim()}" }`;
 });
 
-fs.writeFileSync("C:/Users/a1ypwgg0/.gemini/antigravity/scratch/sunova-solar-website/replacement.txt", dealers.join(',\\n'));
+fs.writeFileSync("C:/Users/a1ypwgg0/.gemini/antigravity/scratch/sunova-solar-website/replacement.txt", dealers.join(',\n'));
