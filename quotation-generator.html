@@ -524,7 +524,8 @@
                             </div>
                             <div class="form-group" style="margin-bottom: 0;">
                                 <label style="font-size: 0.76rem; color: var(--color-text); margin-bottom: 0.3rem; display: block; font-weight: 600;">KSEB Consumer No. (Optional)</label>
-                                <input type="text" id="quote-consumer-no" placeholder="13-digit Consumer No." maxlength="20" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem;">
+                                <input type="text" id="quote-consumer-no" placeholder="13-digit Consumer No." maxlength="13" oninput="this.value = this.value.replace(/[^0-9]/g, ''); handleQuoteConsumerNoInput(this.value);" style="width: 100%; padding: 0.55rem; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); font-size: 0.82rem; font-family: monospace;">
+                                <div id="quote-consumer-no-feedback" style="font-size: 0.68rem; color: #10b981; font-weight: 600; margin-top: 0.2rem; min-height: 0.9rem; display: none;"></div>
                             </div>
                         </div>
                         <div class="quote-grid-3" style="display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
@@ -840,7 +841,8 @@
                                             </div>
                                             <div>
                                                 <label style="font-size: 0.72rem; font-weight: 700; color: var(--color-text); display: block; margin-bottom: 0.25rem;">KSEB 13-Digit Consumer No. *</label>
-                                                <input type="text" id="wo-consumer-no" required maxlength="13" placeholder="13-digit Consumer No." pattern="^\d{13}$" oninput="this.value = this.value.replace(/[^0-9]/g, '')" title="13-digit KSEB Consumer Number" style="width: 100%; box-sizing: border-box; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.45rem 0.7rem; border-radius: 6px; font-size: 0.8rem; font-family: monospace;">
+                                                <input type="text" id="wo-consumer-no" required maxlength="13" placeholder="13-digit Consumer No." pattern="^\d{13}$" oninput="this.value = this.value.replace(/[^0-9]/g, ''); handleWOConsumerNoInput(this.value);" title="13-digit KSEB Consumer Number" style="width: 100%; box-sizing: border-box; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.45rem 0.7rem; border-radius: 6px; font-size: 0.8rem; font-family: monospace;">
+                                                <div id="wo-consumer-no-feedback" style="font-size: 0.68rem; color: #10b981; font-weight: 600; margin-top: 0.2rem; min-height: 0.9rem; display: none;"></div>
                                             </div>
                                             <div>
                                                 <label style="font-size: 0.72rem; font-weight: 700; color: var(--color-text); display: block; margin-bottom: 0.25rem;">Sanctioned Connected Load (kW)</label>
@@ -1151,7 +1153,8 @@
                                         </div>
                                         <div>
                                             <label for="doc-consumer-no" style="font-size: 0.72rem; font-weight: 700; color: var(--color-text); display: block; margin-bottom: 0.25rem;">KSEB 13-Digit Consumer No. *</label>
-                                            <input type="text" id="doc-consumer-no" oninput="renderDocChecklistSlots()" required maxlength="13" placeholder="e.g. 1155667788990" style="width: 100%; box-sizing: border-box; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.45rem 0.7rem; border-radius: 6px; font-size: 0.8rem; font-family: monospace;">
+                                            <input type="text" id="doc-consumer-no" oninput="this.value = this.value.replace(/[^0-9]/g, ''); renderDocChecklistSlots(); handleDocConsumerNoInput(this.value);" required maxlength="13" placeholder="e.g. 1155667788990" style="width: 100%; box-sizing: border-box; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.45rem 0.7rem; border-radius: 6px; font-size: 0.8rem; font-family: monospace;">
+                                            <div id="doc-consumer-no-feedback" style="font-size: 0.68rem; color: #10b981; font-weight: 600; margin-top: 0.2rem; min-height: 0.9rem; display: none;"></div>
                                         </div>
                                         <div>
                                             <label for="doc-kseb-section" style="font-size: 0.72rem; font-weight: 700; color: var(--color-text); display: block; margin-bottom: 0.25rem;">KSEB Electrical Section *</label>
@@ -1688,6 +1691,121 @@
             "Kannur": {"Alakkode":6648,"Azheekode":6662,"Burnasseri":6655,"Chakkarakallu":6660,"Chalode":6661,"Chapparappadavu":6745,"Chemperi":6721,"Cherukunnu":6664,"Cherupuzha":6816,"Chokli":6671,"Chovva":6657,"Dharmadom":6677,"Dharmassala":6646,"Eaichur":6659,"Edoor":6722,"Irikkur":6649,"Iritty":6674,"Kadachira":6658,"Kakkayangad":6787,"Kannur":6654,"Karimbam":6645,"Karivellur":6651,"Karthikapuram":6799,"Kathiroor":6682,"Kelakom":6759,"Kodiyeri":6670,"Kolachery":6666,"Kolayad":6758,"Koothuparamba":6680,"Kunhimangalam":6639,"Madai":6643,"Mathamangalam":6641,"Mattannur":6675,"Mayyil":6667,"Padiyottuchal":6652,"Pallikunnu":6653,"Panoor":6672,"Pappinisseri":6663,"Parad":6673,"Pariyaram Kannur":6760,"Pattiyam":6681,"Payyangadi":6642,"Payyanur":6638,"Payyavur":6775,"Peralassery":6790,"Peringathur":6817,"Pinarayi":6679,"Ramanthali":6640,"Sivapuram":6776,"Sreekantapuram":6647,"Thalassery North":6669,"Thalassery South":6668,"Thaliparamba":6644,"Thayyil":6656,"Thondiyil":6676,"Ulikkal":6761,"Valapattanam":6665,"Vallithode":6813,"Vellur":6650,"Vengad":6678},
             "Kasaragod": {"Badiadka":6690,"Balamthode":6773,"Bhimanadi":6697,"Chattanchal":6772,"Cherkala":6689,"Cherupuzha":6816,"Chittari":6695,"Choyamkode":6750,"Kanhangad":6694,"Karivellur":6651,"Kasargode":6688,"Kayyur":6699,"Kumbala":6687,"Kuttikole":6693,"Manjeswar":6684,"Mavungal":6701,"Mulleria":6691,"Nallompuzha":6749,"Neeleswar":6696,"Nellikunnu":6686,"Padanna":6723,"Padannakkad":6804,"Paivalika":6757,"Periya Bazar":6774,"Perla":6800,"Pilicode":6698,"Rajapuram":6702,"Seethangoli":6818,"Thrikaripur":6700,"Udma":6692,"Uppala":6683,"Vellur":6650,"Vorkady":6685}
         };
+
+        // Auto-populate KSEB Section and District from 13-digit Consumer No
+        function lookupKSEBSectionByConsumerNo(consumerNo) {
+            if (!consumerNo) return null;
+            const clean = consumerNo.toString().replace(/[^0-9]/g, '');
+            if (clean.length < 4) return null;
+
+            const candidateCodes = [];
+            // Priority 1: Standard 13-digit with 2-digit circle prefix (e.g. 115546... -> 5546)
+            if (clean.length >= 6) candidateCodes.push(parseInt(clean.slice(2, 6), 10));
+            // Priority 2: Leading 4 digits (e.g. 5546...)
+            if (clean.length >= 4) candidateCodes.push(parseInt(clean.slice(0, 4), 10));
+            // Priority 3: 1-digit prefix (e.g. 15546... -> 5546)
+            if (clean.length >= 5) candidateCodes.push(parseInt(clean.slice(1, 5), 10));
+            // Priority 4: 3-digit prefix (e.g. 1115546... -> 5546)
+            if (clean.length >= 7) candidateCodes.push(parseInt(clean.slice(3, 7), 10));
+
+            if (typeof KSEB_SECTIONS === 'undefined') return null;
+
+            for (const code of candidateCodes) {
+                if (!code || isNaN(code)) continue;
+                for (const [distName, sections] of Object.entries(KSEB_SECTIONS)) {
+                    for (const [secName, secCode] of Object.entries(sections)) {
+                        if (secCode === code) {
+                            return { district: distName, section: secName, code: secCode };
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        function handleWOConsumerNoInput(val) {
+            const feedbackEl = document.getElementById('wo-consumer-no-feedback');
+            const match = lookupKSEBSectionByConsumerNo(val);
+            if (match) {
+                const distEl = document.getElementById('wo-district');
+                const secEl = document.getElementById('wo-kseb-section');
+                if (distEl) {
+                    distEl.value = match.district;
+                    if (typeof populateWOKSEBSections === 'function') {
+                        populateWOKSEBSections(match.district);
+                    }
+                }
+                if (secEl) {
+                    secEl.value = match.section;
+                }
+                if (feedbackEl) {
+                    feedbackEl.innerHTML = `✓ Auto-detected: <strong>${match.section}</strong> Section (${match.district} - Code: ${match.code})`;
+                    feedbackEl.style.color = '#10b981';
+                    feedbackEl.style.display = 'block';
+                }
+            } else {
+                if (feedbackEl) {
+                    if (val && val.length >= 4) {
+                        feedbackEl.innerHTML = `<span style="color: #94a3b8;">Searching section office codes...</span>`;
+                        feedbackEl.style.display = 'block';
+                    } else {
+                        feedbackEl.style.display = 'none';
+                    }
+                }
+            }
+        }
+
+        function handleQuoteConsumerNoInput(val) {
+            const feedbackEl = document.getElementById('quote-consumer-no-feedback');
+            const match = lookupKSEBSectionByConsumerNo(val);
+            if (match) {
+                const distEl = document.getElementById('quote-district');
+                const secEl = document.getElementById('quote-kseb-section');
+                if (distEl) {
+                    distEl.value = match.district;
+                    if (typeof populateKSEBSections === 'function') {
+                        populateKSEBSections(match.district);
+                    }
+                }
+                if (secEl) {
+                    secEl.value = match.section;
+                }
+                if (feedbackEl) {
+                    feedbackEl.innerHTML = `✓ Auto-detected: <strong>${match.section}</strong> Section (${match.district})`;
+                    feedbackEl.style.color = '#10b981';
+                    feedbackEl.style.display = 'block';
+                }
+            } else {
+                if (feedbackEl) {
+                    if (val && val.length >= 4) {
+                        feedbackEl.innerHTML = `<span style="color: #94a3b8;">Searching section office codes...</span>`;
+                        feedbackEl.style.display = 'block';
+                    } else {
+                        feedbackEl.style.display = 'none';
+                    }
+                }
+            }
+        }
+
+        function handleDocConsumerNoInput(val) {
+            const feedbackEl = document.getElementById('doc-consumer-no-feedback');
+            const match = lookupKSEBSectionByConsumerNo(val);
+            if (match) {
+                const secEl = document.getElementById('doc-kseb-section');
+                if (secEl) {
+                    secEl.value = `${match.section} (${match.district})`;
+                }
+                if (feedbackEl) {
+                    feedbackEl.innerHTML = `✓ Auto-detected: <strong>${match.section}</strong> Section (${match.district})`;
+                    feedbackEl.style.color = '#10b981';
+                    feedbackEl.style.display = 'block';
+                }
+            } else {
+                if (feedbackEl) {
+                    feedbackEl.style.display = 'none';
+                }
+            }
+        }
 
         // --- IDLE TIMEOUT SYSTEM (15 MINUTES) ---
         const IDLE_TIMEOUT_MS = 15 * 60 * 1000;
