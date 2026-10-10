@@ -3471,6 +3471,54 @@
         // ==========================================
         let activeViewingStaffWO = null;
 
+        
+        function getNextSerializedWONumber() {
+            const year = new Date().getFullYear();
+            const prefix = `WO-SUN-${year}-`;
+            
+            let allWOs = [];
+            try {
+                const globalWOs = JSON.parse(localStorage.getItem('global_work_orders') || '[]');
+                if (Array.isArray(globalWOs)) allWOs = allWOs.concat(globalWOs);
+            } catch(e) {}
+            
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith('partner_work_orders_')) {
+                    try {
+                        const pWOs = JSON.parse(localStorage.getItem(key) || '[]');
+                        if (Array.isArray(pWOs)) allWOs = allWOs.concat(pWOs);
+                    } catch(e) {}
+                }
+            }
+            
+            let maxSerial = 0;
+            const serialRegex = new RegExp(`^WO-SUN-${year}-(\\d+)$`);
+            allWOs.forEach(w => {
+                const woNum = (w.woNumber || w.id || '').trim();
+                const match = woNum.match(serialRegex);
+                if (match) {
+                    const num = parseInt(match[1], 10);
+                    if (!isNaN(num) && num > maxSerial) {
+                        maxSerial = num;
+                    }
+                }
+            });
+
+            const storedCounter = parseInt(localStorage.getItem('sunova_wo_last_serial_' + year) || '0', 10);
+            if (!isNaN(storedCounter) && storedCounter > maxSerial) {
+                maxSerial = storedCounter;
+            }
+
+            const nextSerial = maxSerial + 1;
+            const padded = String(nextSerial).padStart(4, '0');
+            return `${prefix}${padded}`;
+        }
+
+        function generateWONumber() {
+            return getNextSerializedWONumber();
+        }
+
         function getGlobalWorkOrders() {
             try {
                 return JSON.parse(localStorage.getItem('global_work_orders') || '[]');

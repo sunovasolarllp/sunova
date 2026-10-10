@@ -5778,16 +5778,14 @@ const goodsGstVal = Math.round(goodsTaxable * 0.12);
             }
             
             let maxSerial = 0;
-            const serialRegex = new RegExp(`^WO-SUN-${year}-(\\d{4,})$`);
+            const serialRegex = new RegExp(`^WO-SUN-${year}-(\d+)$`);
             allWOs.forEach(w => {
                 const woNum = (w.woNumber || w.id || '').trim();
                 const match = woNum.match(serialRegex);
                 if (match) {
                     const num = parseInt(match[1], 10);
-                    // Filter out legacy random numbers (> 5000 unless tracked in counter)
-                    const trackedCounter = parseInt(localStorage.getItem('sunova_wo_last_serial_' + year) || '0', 10);
-                    if (num <= trackedCounter || num < 1000) {
-                        if (num > maxSerial) maxSerial = num;
+                    if (!isNaN(num) && num > maxSerial) {
+                        maxSerial = num;
                     }
                 }
             });
