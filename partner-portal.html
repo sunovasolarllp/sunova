@@ -921,7 +921,11 @@
                                         <div style="display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem;">
                                             <div>
                                                 <label style="font-size: 0.72rem; font-weight: 700; color: var(--color-text); display: block; margin-bottom: 0.25rem;">Solar PV Modules (Make &amp; Technology)</label>
-                                                <input type="text" id="wo-module-make" value="Sunova High-Efficiency TopCon Bifacial Dual Glass (DCR ALMM)" style="width: 100%; box-sizing: border-box; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.45rem 0.7rem; border-radius: 6px; font-size: 0.8rem;">
+                                                <select id="wo-module-make" style="width: 100%; box-sizing: border-box; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.45rem 0.7rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600;">
+                                                    <option value="Emmvee" selected>Emmvee</option>
+                                                    <option value="Adani">Adani</option>
+                                                    <option value="Waaree">Waaree</option>
+                                                </select>
                                             </div>
                                             <div>
                                                 <label style="font-size: 0.72rem; font-weight: 700; color: var(--color-text); display: block; margin-bottom: 0.25rem;">Module Wattage (Wp)</label>
@@ -940,7 +944,10 @@
                                         <div style="display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem;">
                                             <div>
                                                 <label style="font-size: 0.72rem; font-weight: 700; color: var(--color-text); display: block; margin-bottom: 0.25rem;">Solar Grid Inverter (Make &amp; Model)</label>
-                                                <input type="text" id="wo-inverter-make" value="Sunova Dual-MPPT Smart Grid-Tie Inverter (IP65 Wi-Fi)" style="width: 100%; box-sizing: border-box; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.45rem 0.7rem; border-radius: 6px; font-size: 0.8rem;">
+                                                <select id="wo-inverter-make" style="width: 100%; box-sizing: border-box; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); padding: 0.45rem 0.7rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600;">
+                                                    <option value="Eastman" selected>Eastman</option>
+                                                    <option value="Deye">Deye</option>
+                                                </select>
                                             </div>
                                             <div>
                                                 <label style="font-size: 0.72rem; font-weight: 700; color: var(--color-text); display: block; margin-bottom: 0.25rem;">Inverter Capacity (kW)</label>
@@ -5459,9 +5466,9 @@ const goodsGstVal = Math.round(goodsTaxable * 0.12);
             document.getElementById('wo-topology').value = 'On-Grid Net Metered';
             document.getElementById('wo-phase').value = 'Single Phase 230V';
             document.getElementById('wo-structure-type').value = 'Elevated High-Rise HDGI';
-            document.getElementById('wo-module-make').value = 'Sunova High-Efficiency TopCon Bifacial Dual Glass (DCR ALMM)';
+            document.getElementById('wo-module-make').value = 'Emmvee';
             document.getElementById('wo-module-watt').value = '550';
-            document.getElementById('wo-inverter-make').value = 'Sunova Dual-MPPT Smart Grid-Tie Inverter (IP65 Wi-Fi)';
+            document.getElementById('wo-inverter-make').value = 'Eastman';
             document.getElementById('wo-inverter-cap').value = '3.0';
 
             document.getElementById('wo-assigned-engineer').value = 'Sujith M. (Lead Solar Technician - 9847123456)';
