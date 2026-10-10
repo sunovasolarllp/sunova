@@ -388,6 +388,20 @@
                         Sign In to Partner Dashboard
                     </button>
                 </form>
+
+                <!-- Android App Quick Launcher / Download Card -->
+                <div class="android-app-badge-box" style="margin-top: 1.25rem; background: rgba(16, 185, 129, 0.08); border: 1px dashed #10b981; border-radius: 12px; padding: 0.85rem 1rem; text-align: center;">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.35rem;">
+                        <span style="font-size: 1.2rem;">📱</span>
+                        <strong style="color: #10b981; font-size: 0.82rem;">Sunova Mobile Operations App</strong>
+                    </div>
+                    <p style="margin: 0 0 0.5rem 0; font-size: 0.72rem; color: var(--color-text-muted); line-height: 1.4;">
+                        Unified Android App for Channel Partners &amp; Staff with offline site surveys, camera uploads &amp; 1-click prints.
+                    </p>
+                    <a href="android/" style="display: inline-flex; align-items: center; gap: 0.35rem; background: #10b981; color: #000000; font-weight: 800; font-size: 0.76rem; padding: 0.4rem 0.9rem; border-radius: 20px; text-decoration: none;">
+                        ⚡ Open / Install Android App
+                    </a>
+                </div>
             </div>
 
             <!-- Must Change PIN View (Initially Hidden) -->
@@ -7453,14 +7467,22 @@ function exportInquiriesToCSV() {
     <!-- Document Preview Modal Overlay -->
     <div id="doc-preview-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 25000; align-items: center; justify-content: center; padding: 1rem; backdrop-filter: blur(4px);">
         <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 14px; max-width: 850px; width: 100%; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.5);">
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.9rem 1.2rem; border-bottom: 1px solid var(--color-border); background: var(--color-bg-alt); flex-wrap: wrap; gap: 0.5rem;">
-                <div>
-                    <h4 id="doc-preview-title" style="margin: 0; font-size: 0.95rem; color: var(--color-sun-yellow); font-family: var(--font-heading);">Document Preview</h4>
-                    <p id="doc-preview-subtitle" style="margin: 0.2rem 0 0 0; font-size: 0.72rem; color: var(--color-text-muted);"></p>
+            <div class="no-print" style="display: flex; justify-content: space-between; align-items: center; padding: 0.9rem 1.2rem; border-bottom: 2px solid var(--color-sun-yellow); background: #0f172a; flex-wrap: wrap; gap: 0.5rem;">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <button type="button" onclick="closeDocPreviewModal()" style="background: rgba(255, 255, 255, 0.12); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 8px; padding: 0.45rem 0.95rem; font-weight: 800; font-size: 0.84rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem;">
+                        <span style="font-size: 1.05rem; font-weight: 900; line-height: 1;">&larr;</span> Back
+                    </button>
+                    <div>
+                        <h4 id="doc-preview-title" style="margin: 0; font-size: 0.95rem; color: var(--color-sun-yellow); font-family: var(--font-heading);">Document Preview</h4>
+                        <p id="doc-preview-subtitle" style="margin: 0.2rem 0 0 0; font-size: 0.72rem; color: var(--color-text-muted);"></p>
+                    </div>
                 </div>
                 <div style="display: flex; gap: 0.5rem; align-items: center;">
-                    <button id="doc-preview-download-btn" type="button" class="cta-btn primary-btn" style="font-size: 0.75rem; padding: 0.35rem 0.75rem; cursor: pointer;">📥 Download</button>
-                    <button type="button" onclick="closeDocPreviewModal()" style="background: none; border: none; color: var(--color-text); font-size: 1.3rem; cursor: pointer; padding: 0.2rem 0.5rem;" title="Close">✕</button>
+                    <button type="button" onclick="window.print()" style="background: #eab308; color: #0f172a; border: none; border-radius: 6px; font-size: 0.78rem; font-weight: 800; padding: 0.45rem 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.3rem;">
+                        🖨️ Print
+                    </button>
+                    <button id="doc-preview-download-btn" type="button" class="cta-btn primary-btn" style="font-size: 0.78rem; padding: 0.45rem 0.85rem; cursor: pointer;">📥 Download</button>
+                    <button type="button" onclick="closeDocPreviewModal()" style="background: #ef4444; color: #ffffff; border: none; border-radius: 6px; font-size: 0.78rem; font-weight: 800; padding: 0.45rem 0.85rem; cursor: pointer;" title="Close">✕ Close</button>
                 </div>
             </div>
             <div id="doc-preview-body" style="padding: 1rem; overflow: auto; display: flex; align-items: center; justify-content: center; min-height: 320px; max-height: calc(90vh - 120px); background: #0b1120;">
@@ -7570,16 +7592,34 @@ function exportInquiriesToCSV() {
 <div id="jcr-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 999999; overflow-y: auto; padding: 20px 10px; box-sizing: border-box; backdrop-filter: blur(8px);">
     <div style="max-width: 820px; margin: 20px auto; background: var(--color-surface, #1e293b); color: var(--color-text, #ffffff); border: 1.5px solid var(--color-sun-yellow, #ffb703); border-radius: 18px; box-shadow: 0 25px 60px rgba(0,0,0,0.6); overflow: hidden; position: relative;">
         
-        <!-- Header -->
-        <div style="background: linear-gradient(135deg, rgba(255, 183, 3, 0.18) 0%, rgba(16, 185, 129, 0.18) 100%); border-bottom: 1px solid var(--color-border, rgba(255,255,255,0.1)); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
-            <div>
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <span style="background: #10b981; color: #000; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 20px;">☀️ HANDOVER PROTOCOL</span>
-                    <span id="jcr-modal-wo-pill" style="font-family: monospace; font-weight: 800; color: var(--color-sun-yellow, #ffb703); font-size: 0.85rem;">WO: --</span>
+        <!-- STICKY Top Action Bar (Hidden during Print) -->
+        <div class="no-print" style="position: sticky; top: 0; z-index: 1000; background: #0f172a; border-bottom: 3px solid #10b981; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.6rem; box-shadow: 0 4px 14px rgba(0,0,0,0.3);">
+            <!-- Left: 1-Click Back Button -->
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <button type="button" onclick="closeJCRModal()" style="background: rgba(255,255,255,0.12); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); border-radius: 8px; padding: 0.55rem 1.1rem; font-weight: 800; font-size: 0.86rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.22)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'" title="Back to dashboard">
+                    <span style="font-size: 1.1rem; font-weight: 900; line-height: 1;">&larr;</span> Back
+                </button>
+                <div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="background: #10b981; color: #000; font-size: 0.7rem; font-weight: 800; padding: 0.15rem 0.55rem; border-radius: 20px;">☀️ HANDOVER PROTOCOL</span>
+                        <span id="jcr-modal-wo-pill" style="font-family: monospace; font-weight: 800; color: var(--color-sun-yellow, #ffb703); font-size: 0.82rem;">WO: --</span>
+                    </div>
+                    <h4 style="margin: 0.2rem 0 0 0; font-size: 1.05rem; font-weight: 800; color: #fff;">📋 Joint Commissioning Report (JCR)</h4>
                 </div>
-                <h4 style="margin: 0.35rem 0 0 0; font-size: 1.25rem; font-weight: 800;">📋 Joint Commissioning Report (JCR)</h4>
             </div>
-            <button type="button" onclick="closeJCRModal()" style="background: rgba(255,255,255,0.1); border: 1px solid var(--color-border, rgba(255,255,255,0.2)); color: var(--color-text, #fff); font-size: 1.25rem; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
+
+            <!-- Right: 1-Click Print, WhatsApp, Close Buttons -->
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
+                <button type="button" onclick="printJCRDocument()" style="background: #10b981; color: #000000; border: none; font-weight: 800; padding: 0.55rem 1.15rem; border-radius: 8px; cursor: pointer; font-size: 0.84rem; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);" title="Print or Save JCR as PDF">
+                    🖨️ 1-Click Print
+                </button>
+                <button type="button" onclick="whatsappJCRCertificate()" style="background: #25d366; color: #ffffff; border: none; font-weight: 700; padding: 0.55rem 0.95rem; border-radius: 8px; cursor: pointer; font-size: 0.84rem; display: inline-flex; align-items: center; gap: 0.4rem;" title="Share Certificate via WhatsApp">
+                    💬 WhatsApp
+                </button>
+                <button type="button" onclick="closeJCRModal()" style="background: #ef4444; color: #ffffff; border: none; font-weight: 800; padding: 0.55rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.84rem; display: inline-flex; align-items: center; gap: 0.35rem; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35);" title="Close Preview">
+                    ✕ Close
+                </button>
+            </div>
         </div>
 
         <form id="jcr-form" onsubmit="handleJCRSubmit(event)" style="padding: 1.5rem;">
@@ -7692,20 +7732,23 @@ function exportInquiriesToCSV() {
                 </div>
             </div>
 
-            <!-- Modal Action Buttons -->
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; border-top: 1px solid var(--color-border, rgba(255,255,255,0.1)); padding-top: 1rem;">
-                <button type="button" onclick="closeJCRModal()" style="background: rgba(255,255,255,0.06); border: 1px solid var(--color-border, #334155); color: var(--color-text, #fff); padding: 0.65rem 1.25rem; border-radius: 8px; font-size: 0.85rem; cursor: pointer; font-weight: 600;">
-                    Close
+            <!-- Bottom Action Bar (Hidden during Print) -->
+            <div class="no-print" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; border-top: 1px solid var(--color-border, rgba(255,255,255,0.1)); padding-top: 1.2rem; margin-top: 1rem;">
+                <button type="button" onclick="closeJCRModal()" style="background: rgba(255,255,255,0.1); border: 1px solid var(--color-border, #334155); color: #ffffff; padding: 0.65rem 1.35rem; border-radius: 8px; font-size: 0.86rem; cursor: pointer; font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem;">
+                    <span style="font-size: 1.1rem; font-weight: 900; line-height: 1;">&larr;</span> Back to Dashboard
                 </button>
                 <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
-                    <button type="button" onclick="printJCRDocument()" style="background: rgba(255, 183, 3, 0.15); border: 1.5px solid var(--color-sun-yellow, #ffb703); color: var(--color-sun-yellow, #ffb703); padding: 0.65rem 1.25rem; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+                    <button type="button" onclick="printJCRDocument()" style="background: #10b981; color: #000000; border: none; padding: 0.65rem 1.35rem; border-radius: 8px; font-size: 0.86rem; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35);">
                         🖨️ Print / Save JCR PDF
                     </button>
-                    <button type="button" onclick="whatsappJCRCertificate()" style="background: rgba(37, 211, 102, 0.15); border: 1.5px solid #25d366; color: #25d366; padding: 0.65rem 1.25rem; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
-                        💬 WhatsApp Handover Certificate
+                    <button type="button" onclick="whatsappJCRCertificate()" style="background: rgba(37, 211, 102, 0.18); border: 1.5px solid #25d366; color: #25d366; padding: 0.65rem 1.25rem; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+                        💬 WhatsApp Certificate
                     </button>
-                    <button type="submit" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; border: none; padding: 0.65rem 1.5rem; border-radius: 8px; font-size: 0.85rem; font-weight: 800; cursor: pointer; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);">
+                    <button type="submit" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; border: none; padding: 0.65rem 1.5rem; border-radius: 8px; font-size: 0.86rem; font-weight: 800; cursor: pointer; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);">
                         ✅ Save &amp; Mark Commissioned
+                    </button>
+                    <button type="button" onclick="closeJCRModal()" style="background: #ef4444; color: #ffffff; border: none; padding: 0.65rem 1.2rem; border-radius: 8px; font-size: 0.86rem; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35);">
+                        ✕ Close Preview
                     </button>
                 </div>
             </div>
@@ -7719,16 +7762,34 @@ function exportInquiriesToCSV() {
 <div id="kseb-docs-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 999999; overflow-y: auto; padding: 20px 10px; box-sizing: border-box; backdrop-filter: blur(8px);">
     <div style="max-width: 860px; margin: 20px auto; background: var(--color-surface, #1e293b); color: var(--color-text, #ffffff); border: 1.5px solid #38bdf8; border-radius: 18px; box-shadow: 0 25px 60px rgba(0,0,0,0.6); overflow: hidden; position: relative;">
         
-        <!-- Header -->
-        <div style="background: linear-gradient(135deg, rgba(56, 189, 248, 0.2) 0%, rgba(255, 183, 3, 0.15) 100%); border-bottom: 1px solid var(--color-border, rgba(255,255,255,0.1)); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
-            <div>
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <span style="background: #38bdf8; color: #000; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 20px;">⚡ KSEB &amp; MNRE COMPLIANCE</span>
-                    <span id="kseb-modal-wo-pill" style="font-family: monospace; font-weight: 800; color: #38bdf8; font-size: 0.85rem;">WO: --</span>
+        <!-- STICKY Top Action Bar (Hidden during Print) -->
+        <div class="no-print" style="position: sticky; top: 0; z-index: 1000; background: #0f172a; border-bottom: 3px solid #38bdf8; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.6rem; box-shadow: 0 4px 14px rgba(0,0,0,0.3);">
+            <!-- Left: 1-Click Back Button -->
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <button type="button" onclick="closeKSEBDocsModal()" style="background: rgba(255,255,255,0.12); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); border-radius: 8px; padding: 0.55rem 1.1rem; font-weight: 800; font-size: 0.86rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.22)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'" title="Back to dashboard">
+                    <span style="font-size: 1.1rem; font-weight: 900; line-height: 1;">&larr;</span> Back
+                </button>
+                <div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="background: #38bdf8; color: #000; font-size: 0.7rem; font-weight: 800; padding: 0.15rem 0.55rem; border-radius: 20px;">⚡ KSEB &amp; MNRE COMPLIANCE</span>
+                        <span id="kseb-modal-wo-pill" style="font-family: monospace; font-weight: 800; color: #38bdf8; font-size: 0.82rem;">WO: --</span>
+                    </div>
+                    <h4 style="margin: 0.2rem 0 0 0; font-size: 1.05rem; font-weight: 800; color: #fff;">📑 KSEB &amp; PM Surya Ghar Official Forms</h4>
                 </div>
-                <h4 style="margin: 0.35rem 0 0 0; font-size: 1.25rem; font-weight: 800;">📑 1-Click Net-Metering &amp; PM Surya Ghar Docs</h4>
             </div>
-            <button type="button" onclick="closeKSEBDocsModal()" style="background: rgba(255,255,255,0.1); border: 1px solid var(--color-border, rgba(255,255,255,0.2)); color: var(--color-text, #fff); font-size: 1.25rem; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
+
+            <!-- Right: 1-Click Print, WhatsApp, Close Buttons -->
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
+                <button type="button" onclick="printCurrentKSEBDoc()" style="background: #38bdf8; color: #000000; border: none; font-weight: 800; padding: 0.55rem 1.15rem; border-radius: 8px; cursor: pointer; font-size: 0.84rem; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 8px rgba(56, 189, 248, 0.4);" title="Print or Save Form as PDF">
+                    🖨️ 1-Click Print Form
+                </button>
+                <button type="button" onclick="whatsappKSEBDoc()" style="background: #25d366; color: #ffffff; border: none; font-weight: 700; padding: 0.55rem 0.95rem; border-radius: 8px; cursor: pointer; font-size: 0.84rem; display: inline-flex; align-items: center; gap: 0.4rem;" title="Share Form via WhatsApp">
+                    💬 WhatsApp
+                </button>
+                <button type="button" onclick="closeKSEBDocsModal()" style="background: #ef4444; color: #ffffff; border: none; font-weight: 800; padding: 0.55rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.84rem; display: inline-flex; align-items: center; gap: 0.35rem; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35);" title="Close Preview">
+                    ✕ Close
+                </button>
+            </div>
         </div>
 
         <div style="padding: 1.5rem;">
@@ -7753,17 +7814,20 @@ function exportInquiriesToCSV() {
                 <!-- Content will be injected via JS -->
             </div>
 
-            <!-- Modal Action Buttons -->
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; border-top: 1px solid var(--color-border, rgba(255,255,255,0.1)); padding-top: 1.25rem; margin-top: 1.25rem;">
-                <button type="button" onclick="closeKSEBDocsModal()" style="background: rgba(255,255,255,0.06); border: 1px solid var(--color-border, #334155); color: var(--color-text, #fff); padding: 0.65rem 1.25rem; border-radius: 8px; font-size: 0.85rem; cursor: pointer; font-weight: 600;">
-                    Close
+            <!-- Bottom Action Bar (Hidden during Print) -->
+            <div class="no-print" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; border-top: 1px solid var(--color-border, rgba(255,255,255,0.1)); padding-top: 1.2rem; margin-top: 1.25rem;">
+                <button type="button" onclick="closeKSEBDocsModal()" style="background: rgba(255,255,255,0.1); border: 1px solid var(--color-border, #334155); color: #ffffff; padding: 0.65rem 1.35rem; border-radius: 8px; font-size: 0.86rem; cursor: pointer; font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem;">
+                    <span style="font-size: 1.1rem; font-weight: 900; line-height: 1;">&larr;</span> Back to Dashboard
                 </button>
                 <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
-                    <button type="button" onclick="printCurrentKSEBDoc()" style="background: #38bdf8; color: #000; padding: 0.65rem 1.5rem; border-radius: 8px; font-size: 0.85rem; font-weight: 800; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+                    <button type="button" onclick="printCurrentKSEBDoc()" style="background: #38bdf8; color: #000000; padding: 0.65rem 1.4rem; border-radius: 8px; font-size: 0.86rem; font-weight: 800; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 8px rgba(56, 189, 248, 0.35);">
                         🖨️ Print / Export Official Form
                     </button>
-                    <button type="button" onclick="whatsappKSEBDoc()" style="background: rgba(37, 211, 102, 0.15); border: 1.5px solid #25d366; color: #25d366; padding: 0.65rem 1.25rem; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
-                        💬 WhatsApp Document Link
+                    <button type="button" onclick="whatsappKSEBDoc()" style="background: rgba(37, 211, 102, 0.18); border: 1.5px solid #25d366; color: #25d366; padding: 0.65rem 1.25rem; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+                        💬 WhatsApp Link
+                    </button>
+                    <button type="button" onclick="closeKSEBDocsModal()" style="background: #ef4444; color: #ffffff; border: none; padding: 0.65rem 1.2rem; border-radius: 8px; font-size: 0.86rem; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35);">
+                        ✕ Close Preview
                     </button>
                 </div>
             </div>
@@ -7777,16 +7841,34 @@ function exportInquiriesToCSV() {
 <div id="upi-payment-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 999999; overflow-y: auto; padding: 20px 10px; box-sizing: border-box; backdrop-filter: blur(8px);">
     <div style="max-width: 780px; margin: 20px auto; background: var(--color-surface, #1e293b); color: var(--color-text, #ffffff); border: 1.5px solid #10b981; border-radius: 18px; box-shadow: 0 25px 60px rgba(0,0,0,0.6); overflow: hidden; position: relative;">
         
-        <!-- Header -->
-        <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(255, 183, 3, 0.15) 100%); border-bottom: 1px solid var(--color-border, rgba(255,255,255,0.1)); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
-            <div>
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <span style="background: #10b981; color: #000; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 20px;">💳 NPCI ZERO-FEE UPI ENGINE</span>
-                    <span id="upi-modal-wo-pill" style="font-family: monospace; font-weight: 800; color: #10b981; font-size: 0.85rem;">WO: --</span>
+        <!-- STICKY Top Action Bar (Hidden during Print) -->
+        <div class="no-print" style="position: sticky; top: 0; z-index: 1000; background: #0f172a; border-bottom: 3px solid #10b981; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.6rem; box-shadow: 0 4px 14px rgba(0,0,0,0.3);">
+            <!-- Left: 1-Click Back Button -->
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <button type="button" onclick="closeUPIPayModal()" style="background: rgba(255,255,255,0.12); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); border-radius: 8px; padding: 0.55rem 1.1rem; font-weight: 800; font-size: 0.86rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.22)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'" title="Back to dashboard">
+                    <span style="font-size: 1.1rem; font-weight: 900; line-height: 1;">&larr;</span> Back
+                </button>
+                <div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="background: #10b981; color: #000; font-size: 0.7rem; font-weight: 800; padding: 0.15rem 0.55rem; border-radius: 20px;">💳 NPCI ZERO-FEE UPI ENGINE</span>
+                        <span id="upi-modal-wo-pill" style="font-family: monospace; font-weight: 800; color: #10b981; font-size: 0.82rem;">WO: --</span>
+                    </div>
+                    <h4 style="margin: 0.2rem 0 0 0; font-size: 1.05rem; font-weight: 800; color: #fff;">Milestone Payment UPI QR &amp; Invoice</h4>
                 </div>
-                <h4 style="margin: 0.35rem 0 0 0; font-size: 1.25rem; font-weight: 800;">Milestone Payment UPI QR &amp; WhatsApp Notice</h4>
             </div>
-            <button type="button" onclick="closeUPIPayModal()" style="background: rgba(255,255,255,0.1); border: 1px solid var(--color-border, rgba(255,255,255,0.2)); color: var(--color-text, #fff); font-size: 1.25rem; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
+
+            <!-- Right: 1-Click Print, WhatsApp, Close Buttons -->
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
+                <button type="button" onclick="window.print()" style="background: #10b981; color: #000000; border: none; font-weight: 800; padding: 0.55rem 1.15rem; border-radius: 8px; cursor: pointer; font-size: 0.84rem; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);" title="Print or Save QR Invoice as PDF">
+                    🖨️ 1-Click Print QR
+                </button>
+                <button type="button" onclick="whatsappPaymentNotice()" style="background: #25d366; color: #ffffff; border: none; font-weight: 700; padding: 0.55rem 0.95rem; border-radius: 8px; cursor: pointer; font-size: 0.84rem; display: inline-flex; align-items: center; gap: 0.4rem;" title="Send UPI Payment Request on WhatsApp">
+                    💬 WhatsApp
+                </button>
+                <button type="button" onclick="closeUPIPayModal()" style="background: #ef4444; color: #ffffff; border: none; font-weight: 800; padding: 0.55rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.84rem; display: inline-flex; align-items: center; gap: 0.35rem; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35);" title="Close Preview">
+                    ✕ Close
+                </button>
+            </div>
         </div>
 
         <div style="padding: 1.5rem;">

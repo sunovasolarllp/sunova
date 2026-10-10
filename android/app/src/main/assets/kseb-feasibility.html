@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KSEB Feasibility &amp; Net Metering | Partner Portal | SUNOVA SOLAR</title>
+    <!-- PWA & Mobile Web App Meta Tags -->
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="assets/logo.jpg">
+    <link rel="apple-touch-icon" href="assets/logo.jpg">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css?v=9.9">
+</head>
+<body class="light-theme">
+
+    <div class="login-wrapper dashboard-active" style="display: block; min-height: 100vh; padding: 0; background: var(--color-bg);">
+
+        <!-- Dashboard View Container -->
+        <div id="dashboard-view" style="width: 100%; margin: 0; padding: 0;">
+            
+            <!-- Top Navbar Bar -->
+            <div class="enterprise-navbar">
+                <div class="enterprise-brand">
+                    <img src="assets/logo.jpg" alt="SUNOVA Logo" class="enterprise-logo">
+                    <h1 class="enterprise-title">SUNOVA SOLAR</h1>
+                </div>
+
+                <div class="enterprise-user-area" style="display: flex; align-items: center; gap: 0.6rem;">
+                    <a href="index.html" class="enterprise-nav-btn" style="width: auto; padding: 0.4rem 0.85rem; text-decoration: none; font-size: 0.8rem; font-weight: 700; display: inline-flex; gap: 0.35rem;">
+                        <span>🏠</span> Back to Website
+                    </a>
+                    <button type="button" onclick="logoutPartner()" class="enterprise-nav-btn" style="width: auto; padding: 0.4rem 0.9rem; background: rgba(220,38,38,0.15) !important; border: 1px solid rgba(220,38,38,0.3) !important; color: #ef4444 !important; font-weight: 700; font-size: 0.8rem; cursor: pointer;" title="Sign Out">Sign Out</button>
+                </div>
+            </div>
+
+            <!-- Main Layout Container -->
+            <div class="enterprise-container">
+                <div class="enterprise-main-canvas">
+                    <h2 class="dashboard-overview-title">Partner Workspace</h2>
+                    <div class="dashboard-date-subtitle" id="live-dashboard-date">Today is Friday, 14 August 2026</div>
+
+                    <!-- Partner Territory & Metrics Card -->
+                    <div id="dealer-profile-details" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.2rem; margin-bottom: 1.5rem; font-size: 0.84rem; line-height: 1.6;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.8rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+                            <div>
+                                <div style="font-size: 0.76rem; text-transform: uppercase; color: var(--color-text-muted); font-weight: 700;">Partner Portal Account</div>
+                                <h3 style="margin: 0.15rem 0 0 0; font-size: 1.25rem; color: var(--color-sun-yellow); font-family: var(--font-heading); display: flex; align-items: center; gap: 0.5rem;" id="partner-welcome-header">
+                                    Welcome, Partner
+                                </h3>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.6rem;">
+                                <span id="partner-territory-pill" style="background: #10b981; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700;">🌟 Authorized Channel Partner</span>
+                                <span id="partner-district-badge" style="background: rgba(255, 183, 3, 0.15); border: 1px solid var(--color-sun-yellow); color: var(--color-sun-yellow); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700;">Kerala</span>
+                            </div>
+                        </div>
+
+                        <!-- Partner Stats Grid -->
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                            <div class="portal-stat-box" style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 12px; padding: 1.1rem; text-align: center;">
+                                <span style="font-size: 0.76rem; color: var(--color-text-muted); text-transform: uppercase; font-weight: 700;">🛠️ Create Work Order</span>
+                                <div id="partner-active-leads" style="font-size: 1.8rem; font-weight: 800; color: var(--color-sun-yellow); margin-top: 0.25rem;">0</div>
+                            </div>
+                            <div class="portal-stat-box" style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 12px; padding: 1.1rem; text-align: center;">
+                                <span style="font-size: 0.76rem; color: var(--color-text-muted); text-transform: uppercase; font-weight: 700;">💰 Commission Balance</span>
+                                <div id="partner-commission-earned" style="font-size: 1.8rem; font-weight: 800; color: #10b981; margin-top: 0.25rem;">₹0</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 7-Tab Navigation Bar -->
+                                            <div class="partner-nav-tabs" style="display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1.5px solid var(--color-border); scrollbar-width: thin;">
+                            <a href="partner-portal.html" class="partner-tab-btn" id="tab-btn-quote-generator" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; text-decoration: none;">
+                                ⚡ Quotation Generator
+                            </a>
+                            <a href="leads.html" class="partner-tab-btn" id="tab-btn-leads" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; text-decoration: none;">
+                                📥 Leads &amp; Inquiries (<span id="tab-badge-allocated">0</span>)
+                            </a>
+                            <a href="saved-quotes.html" class="partner-tab-btn" id="tab-btn-saved-quotes" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; text-decoration: none;">
+                                💾 Saved Quotes (<span id="tab-badge-saved">0</span>)
+                            </a>
+                            <a href="installation-tracker.html" class="partner-tab-btn" id="tab-btn-tracker" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; text-decoration: none;">
+                                🛠️ Installation Tracker (<span id="tab-badge-tracker">0</span>)
+                            </a>
+                            <a href="solar-tools.html" class="partner-tab-btn" id="tab-btn-calculators" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; text-decoration: none;">
+                                🧮 Solar Tools &amp; Subsidy
+                            </a>
+                            <a href="kseb-feasibility.html" class="partner-tab-btn active" id="tab-btn-kseb" style="background: var(--color-sun-yellow); color: #0d1321; border: 1px solid var(--color-sun-yellow); font-weight: 800; padding: 0.6rem 1.1rem; border-radius: 10px; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; text-decoration: none;">
+                                ⚡ KSEB Feasibility
+                            </a>
+                            <a href="tech-locker.html" class="partner-tab-btn" id="tab-btn-resources" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; text-decoration: none;">
+                                📂 Tech Locker &amp; Warranty
+                            </a>
+                            <a href="partner-security.html" class="partner-tab-btn" id="tab-btn-security" style="background: rgba(255,255,255,0.06); color: var(--color-text); border: 1px solid var(--color-border); font-weight: 700; padding: 0.6rem 1.1rem; border-radius: 10px; font-size: 0.84rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; text-decoration: none;">
+                                🔒 Security &amp; PIN
+                            </a>
+                        </div>
+
+                    <!-- Page Content: KSEB Feasibility & Net-Metering -->
+                    <div id="partner-tab-kseb" class="partner-tab-pane">
+                        <!-- Feasibility & KSEB Verification -->
+                        <div id="feasibility-check-panel" class="portal-card-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
+                                <h4 style="margin: 0; color: var(--color-sun-yellow); font-family: var(--font-heading); font-size: 1rem;">
+                                    ✅ Feasibility &amp; KSEB Section Verification
+                                </h4>
+                                <a href="wss_kseb.html" target="_blank" class="cta-btn secondary-btn" style="font-size:0.75rem; padding: 0.35rem 0.75rem; text-decoration: none;">Section Finder Helper ↗</a>
+                            </div>
+                            <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.5;">Verify KSEB section offices &amp; perform live feasibility checks for new solar installations.</p>
+                            <div class="portal-sub-box" style="background: var(--color-bg-alt); padding: 1.1rem; border-radius: 10px; text-align: center; border: 1px solid var(--color-border);">
+                                <span style="display:block; font-size: 0.88rem; font-weight:700; color:var(--color-text); margin-bottom: 0.5rem;">KSEB Online Section Self-Services Portal</span>
+                                <p style="font-size: 0.76rem; color: var(--color-text-muted); max-width: 500px; margin: 0 auto 0.8rem auto;">Access consumer account data, bill verification, connected load history, and submit online net-metering applications.</p>
+                                <a href="https://wss.kseb.in/selfservices/reCap" target="_blank" rel="noopener" class="cta-btn primary-btn" style="display:inline-block; font-size:0.82rem; padding: 0.5rem 1.2rem; text-decoration:none;">
+                                    Verify Consumer at wss.kseb.in ↗
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- KSEB Transformer Tracker -->
+                        <div id="kseb-tracker-panel" class="portal-card-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                            <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                                ⚡ KSEB Transformer &amp; Net-Metering Tracker
+                            </h4>
+                            <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 1rem;">Verify transformer capacity allocations and KSEB section approval requirements across Kerala.</p>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
+                                <div class="portal-sub-box" style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem;">
+                                    <strong style="color: var(--color-sun-yellow); font-size: 0.85rem; display: block; margin-bottom: 0.3rem;">LT Feasibility (Up to 10 kWp)</strong>
+                                    <span style="font-size: 0.76rem; color: var(--color-text-muted); line-height: 1.5; display: block;">Self-declaration under PM Surya Ghar Muft Bijli Yojana. No transformer capacity blocking required. Direct fast-track net-metering approval.</span>
+                                </div>
+                                <div class="portal-sub-box" style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem;">
+                                    <strong style="color: #3b82f6; font-size: 0.85rem; display: block; margin-bottom: 0.3rem;">HT Commercial (Above 10 kWp)</strong>
+                                    <span style="font-size: 0.76rem; color: var(--color-text-muted); line-height: 1.5; display: block;">Requires Assistant Executive Engineer (AEE) Section Office Feasibility Certificate, transformer load test, and solar SLD inspection approval.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- KSEB Field Engineer Checklist -->
+                        <div id="kseb-checklist-panel" class="portal-card-box" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 15px; padding: 1.25rem; text-align: left;">
+                            <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-sun-yellow); border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; font-family: var(--font-heading); font-size: 1rem;">
+                                ⚙️ KSEB Field Engineer Technical Inspection Checklist
+                            </h4>
+                            <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 1rem;">Ensure all items are verified prior to the Section Engineer's site inspection visit.</p>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.85rem;">
+                                <label style="font-size:0.8rem; color:var(--color-text); display:flex; align-items:center; gap:0.6rem; background: var(--color-bg-alt); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--color-border);">
+                                    <input type="checkbox" checked style="transform: scale(1.2);"> ⚡ Transformer Capacity Available (&lt; 80%)
+                                </label>
+                                <label style="font-size:0.8rem; color:var(--color-text); display:flex; align-items:center; gap:0.6rem; background: var(--color-bg-alt); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--color-border);">
+                                    <input type="checkbox" checked style="transform: scale(1.2);"> 🎯 Dual Earth Pit Resistance &lt; 5 Ω
+                                </label>
+                                <label style="font-size:0.8rem; color:var(--color-text); display:flex; align-items:center; gap:0.6rem; background: var(--color-bg-alt); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--color-border);">
+                                    <input type="checkbox" checked style="transform: scale(1.2);"> 🛡️ ACDB / DCDB Surge Protection (SPD)
+                                </label>
+                                <label style="font-size:0.8rem; color:var(--color-text); display:flex; align-items:center; gap:0.6rem; background: var(--color-bg-alt); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--color-border);">
+                                    <input type="checkbox" checked style="transform: scale(1.2);"> 🔄 Bi-Directional Net-Meter Test
+                                </label>
+                                <label style="font-size:0.8rem; color:var(--color-text); display:flex; align-items:center; gap:0.6rem; background: var(--color-bg-alt); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--color-border);">
+                                    <input type="checkbox" checked style="transform: scale(1.2);"> 📜 ALMM Approved PV Module Certificates
+                                </label>
+                                <label style="font-size:0.8rem; color:var(--color-text); display:flex; align-items:center; gap:0.6rem; background: var(--color-bg-alt); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--color-border);">
+                                    <input type="checkbox" checked style="transform: scale(1.2);"> 🔌 Inverter Anti-Islanding Trip Test
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer Actions -->
+                    <div class="dashboard-footer-actions" style="margin-top: 1.5rem; border-top: 1px solid var(--color-border); padding-top: 1.5rem;">
+                        <button onclick="logoutPartner()" class="logout-btn">Sign Out</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        const DEALERS = [
+            { code: "KNR-JOBI", name: "Jobi Sebastian", area: "Kannur", district: "Kannur", phone: "8590085865" },
+            { code: "TVM-BENJ", name: "Benjose FG", area: "Balaramapuram", district: "Thiruvananthapuram", phone: "9037273767" },
+            { code: "TVM-ANAN", name: "Anand Sreedhar", area: "Neyyattinkara", district: "Thiruvananthapuram", phone: "7994430742" },
+            { code: "KLA-VARG", name: "Varghese Nellimoottil", area: "Ayoor", district: "Kollam", phone: "9020202222" },
+            { code: "KLA-NIYA", name: "Niyas K", area: "Karunagappally", district: "Kollam", phone: "9656366068" },
+            { code: "KLA-UDAY", name: "Udayabhanu J", area: "Kadappakkada", district: "Kollam", phone: "9349136882" },
+            { code: "KLA-RAJE", name: "Rajeev R", area: "Punalur", district: "Kollam", phone: "9567970077" },
+            { code: "KLA-RATH", name: "Rathil Kumar", area: "Sasthamkotta", district: "Kollam", phone: "7907878797" },
+            { code: "PTA-SREE", name: "Sreejith TR", area: "Mallappally", district: "Pathanamthitta", phone: "9947030669" },
+            { code: "PTA-JIJU", name: "Jijukumar MC", area: "Pandalam", district: "Pathanamthitta", phone: "9388133400" },
+            { code: "PTA-PKPR", name: "PK Prasannakumar", area: "Pathanamthitta", district: "Pathanamthitta", phone: "7034023301" },
+            { code: "PTA-BIJU", name: "Bijumon J", area: "Ranni", district: "Pathanamthitta", phone: "9995990372" },
+            { code: "ALP-SHIN", name: "Shinas Shamsudeen", area: "Alappuzha", district: "Alappuzha", phone: "9995550888" },
+            { code: "ALP-NISS", name: "Nissar Hameed", area: "Kayamkulam", district: "Alappuzha", phone: "9895497090" },
+            { code: "ALP-RENJ", name: "Renjith PS", area: "Mavelikkara", district: "Alappuzha", phone: "9447866958" },
+            { code: "ALP-BAIJ", name: "Baiju Sasidharan", area: "Vallikunnam", district: "Alappuzha", phone: "9747186818" },
+            { code: "KTM-SALY", name: "Saly Sainudeen", area: "Erattupetta", district: "Kottayam", phone: "9446200616" },
+            { code: "KTM-ANIS", name: "Anish Kumar", area: "Kallara", district: "Kottayam", phone: "9387220162" },
+            { code: "KTM-SANI", name: "Sanil Kumar", area: "Kottayam", district: "Kottayam", phone: "9061189784" },
+            { code: "IDK-OUSE", name: "Ouseph KA", area: "Moolamattom", district: "Idukki", phone: "9495737628" },
+            { code: "IDK-MGAJ", name: "MG Ajay", area: "Thodupuzha", district: "Idukki", phone: "9447254142" },
+            { code: "EKM-SHIY", name: "Shiyas Rasheed", area: "Edappally", district: "Ernakulam", phone: "9847859859" },
+            { code: "EKM-BHAV", name: "Bhavya M", area: "Kalamassery", district: "Ernakulam", phone: "8301026309" },
+            { code: "EKM-JIBI", name: "Jibin George", area: "Thripunithura", district: "Ernakulam", phone: "9995996240" },
+            { code: "TCR-JAIS", name: "Jaison Jose Meleth", area: "Ayyanthole", district: "Thrissur", phone: "9995601923" },
+            { code: "TCR-COAT", name: "Coats Thekkan", area: "Chalakudy", district: "Thrissur", phone: "8129119222" },
+            { code: "TCR-JISO", name: "Jison George", area: "Chelakkara", district: "Thrissur", phone: "9746666535" },
+            { code: "TCR-SINI", name: "Sinish KM", area: "Kodakara", district: "Thrissur", phone: "9946101892" },
+            { code: "TCR-BINU", name: "Binu Yacob", area: "Pazhayannur", district: "Thrissur", phone: "9946033807" },
+            { code: "TCR-JITH", name: "Jithesh Tharayil", area: "Ramavarmapuram", district: "Thrissur", phone: "7356347700" },
+            { code: "TCR-AKAN", name: "AK Anil", area: "Valappad", district: "Thrissur", phone: "9746891854" },
+            { code: "PKD-SUHA", name: "Suhaib S", area: "Alathur", district: "Palakkad", phone: "9988553585" },
+            { code: "PKD-PRAM", name: "Pramod", area: "Chittur", district: "Palakkad", phone: "9746611002" },
+            { code: "PKD-BIJO", name: "Bijo Varghese", area: "Elappully", district: "Palakkad", phone: "9388883222" },
+            { code: "PKD-ANAN", name: "Anand P", area: "Koduvayur", district: "Palakkad", phone: "9349811101" },
+            { code: "MPM-NASS", name: "Nassarudheen E", area: "Edakkara", district: "Malappuram", phone: "9946139955" },
+            { code: "MPM-FAIS", name: "Faisal K", area: "Manjeri", district: "Malappuram", phone: "7994035923" },
+            { code: "MPM-RAVI", name: "Ravindran K", area: "Tirur", district: "Malappuram", phone: "9961476748" },
+            { code: "KKD-RAJA", name: "Rajan Madavoor", area: "Koduvally", district: "Kozhikode", phone: "9497345868" },
+            { code: "KKD-YOOS", name: "Yoosaf NV", area: "Perambra", district: "Kozhikode", phone: "9539724724" },
+            { code: "KKD-SAFE", name: "Safeer", area: "Vadakara", district: "Kozhikode", phone: "9995330555" },
+            { code: "KKD-RAHU", name: "Rahul RN", area: "Vadakara", district: "Kozhikode", phone: "9645464733" },
+            { code: "WYD-SINI", name: "Sinil Chacko K", area: "Mananthavady", district: "Wayanad", phone: "8921794334" },
+            { code: "KNR-JOBI", name: "Jobi Sebastian", area: "Kannur", district: "Kannur", phone: "8590085865" },
+            { code: "KNR-ACFA", name: "AC Faisal", area: "Irikkoor", district: "Kannur", phone: "9656069964" },
+            { code: "KNR-NOUS", name: "Noushad T", area: "Mattannur", district: "Kannur", phone: "9847761018" },
+            { code: "KNR-SURI", name: "Suriya Subash", area: "Panoor", district: "Kannur", phone: "9946809010" },
+            { code: "KNR-NISH", name: "Nishad NK", area: "Thalassery", district: "Kannur", phone: "9562028244" },
+            { code: "KNR-KASO", name: "KA Soju", area: "Taliparamba", district: "Kannur", phone: "9447548430" },
+            { code: "KSD-PRAD", name: "Pradeep K", area: "Badiadka", district: "Kasaragod", phone: "9744880900" },
+            { code: "KSD-SURE", name: "Suresh Kumar", area: "Panathur", district: "Kasaragod", phone: "9946960604" }
+        ];
+
+        let activeDealer = null;
+
+        function initPartnerHeader() {
+            let dealerCode = localStorage.getItem('partner_code');
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('demo') === 'true') {
+                dealerCode = localStorage.getItem('sunova_partner_code') || 'DEMO-DEALER';
+                localStorage.setItem('partner_code', dealerCode);
+            }
+
+            if (!dealerCode) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            let dealer = DEALERS.find(d => d.code === dealerCode);
+            if (!dealer) {
+                dealer = {
+                    code: dealerCode,
+                    name: localStorage.getItem('sunova_partner_name') || 'Authorized Partner',
+                    area: localStorage.getItem('sunova_partner_area') || 'Kerala',
+                    district: localStorage.getItem('sunova_partner_district') || 'Ernakulam',
+                    phone: localStorage.getItem('sunova_partner_phone') || '9072522277'
+                };
+            }
+            activeDealer = dealer;
+
+            const welcomeHeader = document.getElementById('partner-welcome-header');
+            if (welcomeHeader) welcomeHeader.textContent = `Welcome, ${dealer.name}`;
+            const distBadge = document.getElementById('partner-district-badge');
+            if (distBadge) distBadge.textContent = `${dealer.district} (${dealer.area})`;
+
+            // Load counts
+            loadInquiries(function(inquiries) {
+                const dealerLeads = inquiries.filter(lead => lead.partnerCode === dealerCode || lead.district === dealer.district);
+                const activeLeadsCount = dealerLeads.filter(lead => lead.status !== 'Completed').length;
+                const completedLeads = dealerLeads.filter(lead => lead.status === 'Completed');
+                const totalCommission = completedLeads.reduce((sum, lead) => sum + (parseFloat(lead.commission) || 0), 0);
+
+                const activeLeadsEl = document.getElementById('partner-active-leads');
+                if (activeLeadsEl) activeLeadsEl.textContent = activeLeadsCount;
+                const commEarnedEl = document.getElementById('partner-commission-earned');
+                if (commEarnedEl) commEarnedEl.textContent = `₹${totalCommission.toLocaleString('en-IN')}`;
+
+                const tabBadge = document.getElementById('tab-badge-allocated');
+                if (tabBadge) tabBadge.textContent = activeLeadsCount;
+
+                // Update saved quotes count badge
+                const savedQuotesKey = 'saved_quotes_' + dealerCode;
+                const savedQuotes = JSON.parse(localStorage.getItem(savedQuotesKey) || '[]');
+                const tabSavedBadge = document.getElementById('tab-badge-saved');
+                if (tabSavedBadge) tabSavedBadge.textContent = savedQuotes.length;
+
+                // Tracker badge
+                const projectsList = JSON.parse(localStorage.getItem('sunova_projects') || '[]');
+                const trackerBadge = document.getElementById('tab-badge-tracker');
+                if (trackerBadge) trackerBadge.textContent = projectsList.length;
+
+            });
+        }
+
+        function loadInquiries(callback) {
+            fetch('proxy.php?action=get_inquiries')
+            .then(res => res.ok ? res.json() : [])
+            .then(data => {
+                let inquiries = Array.isArray(data) ? data : [];
+                const localInquiries = JSON.parse(localStorage.getItem('sunova_inquiries') || '[]');
+                if (localInquiries.length > 0) {
+                    const merged = [...inquiries];
+                    localInquiries.forEach(localItem => {
+                        if (!merged.some(remoteItem => (remoteItem.uid && remoteItem.uid === localItem.uid) || (remoteItem.timestamp === localItem.timestamp && remoteItem.phone === localItem.phone))) {
+                            merged.push(localItem);
+                        }
+                    });
+                    inquiries = merged;
+                }
+                if (callback) callback(inquiries);
+            })
+            .catch(() => {
+                const localInquiries = JSON.parse(localStorage.getItem('sunova_inquiries') || '[]');
+                if (callback) callback(localInquiries);
+            });
+        }
+
+        function updateLiveDate() {
+            const dateEl = document.getElementById('live-dashboard-date');
+            if (dateEl) {
+                const now = new Date();
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                dateEl.textContent = `Today is ${now.toLocaleDateString('en-GB', options)}`;
+            }
+        }
+
+        function logoutPartner() {
+            localStorage.removeItem('partner_code');
+            window.location.href = 'login.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateLiveDate();
+            initPartnerHeader();
+        });
+    </script>
+</body>
+</html>

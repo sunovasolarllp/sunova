@@ -95,20 +95,6 @@
                         Sign In to Dashboard
                     </button>
                 </form>
-
-                <!-- Android App Quick Launcher / Download Card -->
-                <div class="android-app-badge-box" style="margin-top: 1.25rem; background: rgba(16, 185, 129, 0.08); border: 1px dashed #10b981; border-radius: 12px; padding: 0.85rem 1rem; text-align: center;">
-                    <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.35rem;">
-                        <span style="font-size: 1.2rem;">📱</span>
-                        <strong style="color: #10b981; font-size: 0.82rem;">Sunova Mobile Operations App</strong>
-                    </div>
-                    <p style="margin: 0 0 0.5rem 0; font-size: 0.72rem; color: var(--color-text-muted); line-height: 1.4;">
-                        Unified Android App for Channel Partners &amp; Staff with offline site surveys, camera uploads &amp; 1-click prints.
-                    </p>
-                    <a href="android/" style="display: inline-flex; align-items: center; gap: 0.35rem; background: #10b981; color: #000000; font-weight: 800; font-size: 0.76rem; padding: 0.4rem 0.9rem; border-radius: 20px; text-decoration: none;">
-                        ⚡ Open / Install Android App
-                    </a>
-                </div>
             </div>
 
             <!-- Password Reset View (Initially Hidden) -->
@@ -4798,7 +4784,7 @@ function scrollToSection(sectionId) {
                 <button type="button" onclick="window.print()" style="background: #10b981; color: #000000; border: none; font-weight: 800; padding: 0.55rem 1.15rem; border-radius: 8px; cursor: pointer; font-size: 0.84rem; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);" title="Print or Save QR Invoice as PDF">
                     🖨️ 1-Click Print QR
                 </button>
-                <button type="button" onclick="whatsappPaymentNotice()" style="background: #25d366; color: #ffffff; border: none; font-weight: 700; padding: 0.55rem 0.95rem; border-radius: 8px; cursor: pointer; font-size: 0.84rem; display: inline-flex; align-items: center; gap: 0.4rem;" title="Send UPI Payment Request on WhatsApp">
+                <button type="button" onclick="whatsappUPILink()" style="background: #25d366; color: #ffffff; border: none; font-weight: 700; padding: 0.55rem 0.95rem; border-radius: 8px; cursor: pointer; font-size: 0.84rem; display: inline-flex; align-items: center; gap: 0.4rem;" title="Send UPI Payment Request on WhatsApp">
                     💬 WhatsApp
                 </button>
                 <button type="button" onclick="closeUPIPayModal()" style="background: #ef4444; color: #ffffff; border: none; font-weight: 800; padding: 0.55rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.84rem; display: inline-flex; align-items: center; gap: 0.35rem; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35);" title="Close Preview">
