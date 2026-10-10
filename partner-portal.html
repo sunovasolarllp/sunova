@@ -2789,6 +2789,14 @@
             // Start idle timeout tracking for Partner Portal (15 mins)
             startIdleTimer('partner', () => logoutPartner('inactivity'));
             
+            // Ensure Work Order form is initialized with default WO Number
+            setTimeout(() => {
+                const woNumEl = document.getElementById('wo-number');
+                if (woNumEl && !woNumEl.value && typeof initNewWorkOrderForm === 'function') {
+                    initNewWorkOrderForm();
+                }
+            }, 100);
+            
             // Update portal headers
             const header = document.querySelector('.portal-header');
             header.querySelector('h2').textContent = 'Partner Dashboard';
@@ -5015,7 +5023,12 @@ const goodsGstVal = Math.round(goodsTaxable * 0.12);
             });
 
             if (tabId === 'work-order') {
-                populateWOAutoFillDropdowns();
+                const woNumInput = document.getElementById('wo-number');
+                if (!woNumInput || !woNumInput.value) {
+                    if (typeof initNewWorkOrderForm === 'function') initNewWorkOrderForm();
+                } else {
+                    populateWOAutoFillDropdowns();
+                }
                 renderWorkOrders();
             } else if (tabId === 'leads') {
                 renderAllocatedLeads();
@@ -5515,7 +5528,7 @@ const goodsGstVal = Math.round(goodsTaxable * 0.12);
             }
             
             let maxSerial = 0;
-            const serialRegex = new RegExp(`^WO-SUN-${year}-(\d+)$`);
+            const serialRegex = new RegExp('^WO-SUN-' + year + '-(\\d+)$');
             allWOs.forEach(w => {
                 const woNum = (w.woNumber || w.id || '').trim();
                 const match = woNum.match(serialRegex);
@@ -5918,6 +5931,19 @@ const custName = (document.getElementById('wo-cust-name')?.value || '').trim().t
             globalWOs = globalWOs.filter(w => w.woNumber !== woNumber && w.id !== woNumber);
             globalWOs.unshift(workOrder);
             localStorage.setItem('global_work_orders', JSON.stringify(globalWOs.slice(0, 300)));
+
+            // Update serialized last counter
+            const yearForSerial = new Date().getFullYear();
+            const sMatch = woNumber.match(new RegExp('^WO-SUN-' + yearForSerial + '-(\\d+)$'));
+            if (sMatch) {
+                const sNum = parseInt(sMatch[1], 10);
+                if (!isNaN(sNum)) {
+                    const prevCount = parseInt(localStorage.getItem('sunova_wo_last_serial_' + yearForSerial) || '0', 10);
+                    if (sNum > prevCount) {
+                        localStorage.setItem('sunova_wo_last_serial_' + yearForSerial, sNum.toString());
+                    }
+                }
+            }
 
             renderWorkOrders();
             showPortalToast(`🎉 Work Order ${woNumber} issued successfully!`);
@@ -7447,22 +7473,31 @@ function exportInquiriesToCSV() {
     <!-- 🖨️ PRINTABLE SOLAR EPC WORK ORDER LETTERHEAD MODAL -->
     <!-- ==================================================== -->
     <div id="wo-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 999999; overflow-y: auto; padding: 20px 10px; box-sizing: border-box;">
-        <div style="max-width: 860px; margin: 0 auto; background: #ffffff; color: #1e293b; border-radius: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); overflow: hidden; position: relative;">
+        <div style="max-width: 880px; margin: 0 auto; background: #ffffff; color: #1e293b; border-radius: 14px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6); overflow: hidden; position: relative;">
             
-            <!-- Modal Actions Bar (Hidden during Print) -->
-            <div class="no-print" style="background: #0f172a; color: #ffffff; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eab308;">
-                <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.95rem;">
-                    <span>🛠️</span> Official Solar EPC Work Order Preview
-                </div>
-                <div style="display: flex; gap: 10px; align-items: center;">
-                    <button onclick="printWODocument()" style="background: #eab308; color: #0f172a; border: none; font-weight: 800; padding: 6px 16px; border-radius: 6px; cursor: pointer; font-size: 0.82rem; display: flex; align-items: center; gap: 5px;">
-                        🖨️ Print / Save PDF
+            <!-- STICKY Floating Top Actions Bar (Hidden during Print) -->
+            <div class="no-print" style="position: sticky; top: 0; z-index: 1000; background: #0f172a; color: #ffffff; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #eab308; box-shadow: 0 4px 14px rgba(0,0,0,0.25); flex-wrap: wrap; gap: 0.6rem;">
+                <!-- Left: 1-Click Back to Dashboard -->
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <button type="button" onclick="closeWOModal()" style="background: rgba(255, 255, 255, 0.12); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 8px; padding: 0.55rem 1.1rem; font-weight: 800; font-size: 0.86rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.22)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'" title="Go back to partner dashboard">
+                        <span style="font-size: 1.1rem; font-weight: 900; line-height: 1;">&larr;</span> Back
                     </button>
-                    <button onclick="whatsappActiveWorkOrder()" style="background: #25d366; color: #ffffff; border: none; font-weight: 700; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 0.82rem; display: flex; align-items: center; gap: 5px;">
+                    <div style="display: flex; align-items: center; gap: 0.4rem;">
+                        <span style="font-size: 1.15rem;">🛠️</span>
+                        <h4 style="margin: 0; color: #ffffff; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1rem;">Official EPC Work Order Preview</h4>
+                    </div>
+                </div>
+
+                <!-- Right: 1-Click Print, WhatsApp, Close -->
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
+                    <button type="button" onclick="printWODocument()" style="background: #eab308; color: #0f172a; border: none; font-weight: 800; padding: 0.55rem 1.2rem; border-radius: 8px; cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 8px rgba(234, 179, 8, 0.4); transition: transform 0.15s;" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='none'" title="1-Click Print or Save as PDF">
+                        🖨️ 1-Click Print
+                    </button>
+                    <button type="button" onclick="whatsappActiveWorkOrder()" style="background: #25d366; color: #ffffff; border: none; font-weight: 700; padding: 0.55rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.4rem; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'" title="Share Work Order on WhatsApp">
                         💬 WhatsApp
                     </button>
-                    <button onclick="closeWOModal()" style="background: rgba(255,255,255,0.15); color: #ffffff; border: none; font-weight: 700; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center;">
-                        ✕
+                    <button type="button" onclick="closeWOModal()" style="background: #ef4444; color: #ffffff; border: none; font-weight: 800; padding: 0.55rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.35rem; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35); transition: opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'" title="Close Preview">
+                        ✕ Close
                     </button>
                 </div>
             </div>
@@ -7470,6 +7505,24 @@ function exportInquiriesToCSV() {
             <!-- Printable Document Body -->
             <div id="wo-printable-area" style="padding: 35px 40px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.45; font-size: 13px; color: #1e293b;">
                 <!-- Populated dynamically via viewWorkOrder() -->
+            </div>
+
+            <!-- Bottom Floating Action Bar (Hidden during Print) -->
+            <div class="no-print" style="margin: 0; padding: 1.25rem 2rem; background: #f8fafc; border-top: 2px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                <button type="button" onclick="closeWOModal()" style="background: #0f172a; color: #ffffff; border: none; border-radius: 8px; padding: 0.65rem 1.4rem; font-weight: 800; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.2);">
+                    <span style="font-size: 1.15rem; font-weight: 900; line-height: 1;">&larr;</span> Back to Dashboard
+                </button>
+                <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                    <button type="button" onclick="printWODocument()" style="background: #eab308; color: #0f172a; border: none; border-radius: 8px; padding: 0.65rem 1.4rem; font-weight: 800; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 8px rgba(234, 179, 8, 0.35);">
+                        🖨️ Print Work Order
+                    </button>
+                    <button type="button" onclick="whatsappActiveWorkOrder()" style="background: #25d366; color: #ffffff; border: none; border-radius: 8px; padding: 0.65rem 1.2rem; font-weight: 700; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+                        💬 WhatsApp
+                    </button>
+                    <button type="button" onclick="closeWOModal()" style="background: #ef4444; color: #ffffff; border: none; border-radius: 8px; padding: 0.65rem 1.2rem; font-weight: 800; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35);">
+                        ✕ Close Preview
+                    </button>
+                </div>
             </div>
         </div>
     </div>
