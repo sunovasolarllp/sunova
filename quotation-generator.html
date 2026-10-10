@@ -4015,6 +4015,329 @@ Please verify and process for PM Surya Ghar / KSEB Net-Metering synchronization.
         }
     </style>
 
+
+<!-- ========================================== -->
+<!-- FEATURE 2: DIGITAL JCR COMMISSIONING MODAL -->
+<!-- ========================================== -->
+<div id="jcr-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 999999; overflow-y: auto; padding: 20px 10px; box-sizing: border-box; backdrop-filter: blur(8px);">
+    <div style="max-width: 820px; margin: 20px auto; background: var(--color-surface, #1e293b); color: var(--color-text, #ffffff); border: 1.5px solid var(--color-sun-yellow, #ffb703); border-radius: 18px; box-shadow: 0 25px 60px rgba(0,0,0,0.6); overflow: hidden; position: relative;">
+        
+        <!-- Header -->
+        <div style="background: linear-gradient(135deg, rgba(255, 183, 3, 0.18) 0%, rgba(16, 185, 129, 0.18) 100%); border-bottom: 1px solid var(--color-border, rgba(255,255,255,0.1)); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="background: #10b981; color: #000; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 20px;">☀️ HANDOVER PROTOCOL</span>
+                    <span id="jcr-modal-wo-pill" style="font-family: monospace; font-weight: 800; color: var(--color-sun-yellow, #ffb703); font-size: 0.85rem;">WO: --</span>
+                </div>
+                <h4 style="margin: 0.35rem 0 0 0; font-size: 1.25rem; font-weight: 800;">📋 Joint Commissioning Report (JCR)</h4>
+            </div>
+            <button type="button" onclick="closeJCRModal()" style="background: rgba(255,255,255,0.1); border: 1px solid var(--color-border, rgba(255,255,255,0.2)); color: var(--color-text, #fff); font-size: 1.25rem; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
+        </div>
+
+        <form id="jcr-form" onsubmit="handleJCRSubmit(event)" style="padding: 1.5rem;">
+            <!-- Hidden inputs -->
+            <input type="hidden" id="jcr-wo-number" name="woNumber">
+            
+            <!-- Project / Consumer Info Ribbon -->
+            <div style="background: var(--color-bg-alt, #0f172a); border: 1px solid var(--color-border, rgba(255,255,255,0.1)); border-radius: 10px; padding: 1rem; margin-bottom: 1.25rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; font-size: 0.82rem;">
+                <div>
+                    <span style="color: var(--color-text-muted, #94a3b8); display: block;">Consumer Name & Phone:</span>
+                    <strong id="jcr-disp-name" style="color: #fff;">--</strong>
+                </div>
+                <div>
+                    <span style="color: var(--color-text-muted, #94a3b8); display: block;">Site Address & KSEB:</span>
+                    <strong id="jcr-disp-site" style="color: #fff;">--</strong>
+                </div>
+                <div>
+                    <span style="color: var(--color-text-muted, #94a3b8); display: block;">Plant Capacity & Topology:</span>
+                    <strong id="jcr-disp-capacity" style="color: var(--color-sun-yellow, #ffb703);">--</strong>
+                </div>
+                <div>
+                    <span style="color: var(--color-text-muted, #94a3b8); display: block;">Assigned Engineer:</span>
+                    <strong id="jcr-disp-engineer" style="color: #38bdf8;">--</strong>
+                </div>
+            </div>
+
+            <!-- Technical Commissioning Parameters -->
+            <h5 style="margin: 0 0 0.75rem 0; font-size: 0.95rem; font-weight: 800; color: var(--color-sun-yellow, #ffb703); display: flex; align-items: center; gap: 0.4rem;">
+                ⚡ Equipment Serials & Grid Synchronization Values
+            </h5>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.85rem; margin-bottom: 1.25rem;">
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem;">Inverter Serial No. <span style="color:#ef4444;">*</span></label>
+                    <input type="text" id="jcr-inverter-sn" required placeholder="e.g. DNP2409018472" style="width: 100%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.82rem; font-family: monospace;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem;">Net Meter Serial No. <span style="color:#ef4444;">*</span></label>
+                    <input type="text" id="jcr-netmeter-sn" required placeholder="e.g. KSEB-NM-90214" style="width: 100%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.82rem; font-family: monospace;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem;">Solar Gen Meter Serial No.</label>
+                    <input type="text" id="jcr-genmeter-sn" placeholder="e.g. SGM-88203" style="width: 100%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.82rem; font-family: monospace;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem;">Lightning Earth Pit (&Omega;) <span style="color:#ef4444;">*</span></label>
+                    <input type="number" step="0.01" id="jcr-earth-la" required placeholder="< 5.0 &Omega; (e.g. 1.8)" oninput="checkEarthResistance(this)" style="width: 100%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.82rem;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem;">Inverter/AC Earth Pit (&Omega;) <span style="color:#ef4444;">*</span></label>
+                    <input type="number" step="0.01" id="jcr-earth-body" required placeholder="< 5.0 &Omega; (e.g. 2.1)" oninput="checkEarthResistance(this)" style="width: 100%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.82rem;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem;">Grid Voltage (V AC) / Freq (Hz)</label>
+                    <div style="display: flex; gap: 0.4rem;">
+                        <input type="text" id="jcr-grid-voltage" placeholder="234 V" style="width: 50%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.5rem 0.6rem; border-radius: 6px; font-size: 0.82rem;">
+                        <input type="text" id="jcr-grid-freq" placeholder="50.0 Hz" style="width: 50%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.5rem 0.6rem; border-radius: 6px; font-size: 0.82rem;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quality & Safety Checkpoints -->
+            <h5 style="margin: 0 0 0.6rem 0; font-size: 0.95rem; font-weight: 800; color: #10b981; display: flex; align-items: center; gap: 0.4rem;">
+                🛡️ Site Inspection & Handover Checklist
+            </h5>
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--color-border, rgba(255,255,255,0.08)); border-radius: 8px; padding: 0.85rem; margin-bottom: 1.25rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.5rem; font-size: 0.78rem;">
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                    <input type="checkbox" id="chk-jcr-struct" checked style="accent-color: #10b981;"> Structure GI/Aluminium anchor fasteners torque tested
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                    <input type="checkbox" id="chk-jcr-spd" checked style="accent-color: #10b981;"> Type-2 AC & DC Surge Protection Devices active
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                    <input type="checkbox" id="chk-jcr-app" checked style="accent-color: #10b981;"> Wi-Fi Inverter App configured on client smartphone
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                    <input type="checkbox" id="chk-jcr-labels" checked style="accent-color: #10b981;"> Solar DC/AC Warning Caution labels affixed
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                    <input type="checkbox" id="chk-jcr-kseb" checked style="accent-color: #10b981;"> Bi-directional Net Meter sync & import/export tested
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                    <input type="checkbox" id="chk-jcr-clean" checked style="accent-color: #10b981;"> Customer trained on module cleaning & maintenance
+                </label>
+            </div>
+
+            <!-- Dual Digital Signatures -->
+            <h5 style="margin: 0 0 0.6rem 0; font-size: 0.95rem; font-weight: 800; color: var(--color-sun-yellow, #ffb703);">
+                ✍️ Dual Digital Signatures (Touch / Stylus / Mouse)
+            </h5>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                
+                <!-- Engineer Signature Box -->
+                <div style="background: var(--color-bg-alt, #0f172a); border: 1px solid var(--color-border, #334155); border-radius: 10px; padding: 0.75rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                        <span style="font-size: 0.76rem; font-weight: 700; color: #38bdf8;">👷 Project Engineer Signature</span>
+                        <button type="button" onclick="clearSignature('sig-engineer')" style="background: none; border: none; color: #ef4444; font-size: 0.7rem; cursor: pointer; font-weight: 600;">Clear ↺</button>
+                    </div>
+                    <canvas id="sig-engineer-canvas" width="320" height="120" style="width: 100%; height: 110px; background: #ffffff; border-radius: 6px; cursor: crosshair; touch-action: none;"></canvas>
+                    <input type="text" id="jcr-engineer-name-sign" placeholder="Engineer Full Name" style="width: 100%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.4rem 0.6rem; border-radius: 6px; font-size: 0.78rem; margin-top: 0.4rem;">
+                </div>
+
+                <!-- Customer Signature Box -->
+                <div style="background: var(--color-bg-alt, #0f172a); border: 1px solid var(--color-border, #334155); border-radius: 10px; padding: 0.75rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                        <span style="font-size: 0.76rem; font-weight: 700; color: #10b981;">👤 Customer / Signatory Acceptance</span>
+                        <button type="button" onclick="clearSignature('sig-customer')" style="background: none; border: none; color: #ef4444; font-size: 0.7rem; cursor: pointer; font-weight: 600;">Clear ↺</button>
+                    </div>
+                    <canvas id="sig-customer-canvas" width="320" height="120" style="width: 100%; height: 110px; background: #ffffff; border-radius: 6px; cursor: crosshair; touch-action: none;"></canvas>
+                    <input type="text" id="jcr-customer-name-sign" placeholder="Customer Full Name" style="width: 100%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.4rem 0.6rem; border-radius: 6px; font-size: 0.78rem; margin-top: 0.4rem;">
+                </div>
+            </div>
+
+            <!-- Modal Action Buttons -->
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; border-top: 1px solid var(--color-border, rgba(255,255,255,0.1)); padding-top: 1rem;">
+                <button type="button" onclick="closeJCRModal()" style="background: rgba(255,255,255,0.06); border: 1px solid var(--color-border, #334155); color: var(--color-text, #fff); padding: 0.65rem 1.25rem; border-radius: 8px; font-size: 0.85rem; cursor: pointer; font-weight: 600;">
+                    Close
+                </button>
+                <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                    <button type="button" onclick="printJCRDocument()" style="background: rgba(255, 183, 3, 0.15); border: 1.5px solid var(--color-sun-yellow, #ffb703); color: var(--color-sun-yellow, #ffb703); padding: 0.65rem 1.25rem; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+                        🖨️ Print / Save JCR PDF
+                    </button>
+                    <button type="button" onclick="whatsappJCRCertificate()" style="background: rgba(37, 211, 102, 0.15); border: 1.5px solid #25d366; color: #25d366; padding: 0.65rem 1.25rem; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+                        💬 WhatsApp Handover Certificate
+                    </button>
+                    <button type="submit" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; border: none; padding: 0.65rem 1.5rem; border-radius: 8px; font-size: 0.85rem; font-weight: 800; cursor: pointer; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);">
+                        ✅ Save &amp; Mark Commissioned
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- FEATURE 3: KSEB & SUBSIDY DOCS GENERATOR   -->
+<!-- ========================================== -->
+<div id="kseb-docs-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 999999; overflow-y: auto; padding: 20px 10px; box-sizing: border-box; backdrop-filter: blur(8px);">
+    <div style="max-width: 860px; margin: 20px auto; background: var(--color-surface, #1e293b); color: var(--color-text, #ffffff); border: 1.5px solid #38bdf8; border-radius: 18px; box-shadow: 0 25px 60px rgba(0,0,0,0.6); overflow: hidden; position: relative;">
+        
+        <!-- Header -->
+        <div style="background: linear-gradient(135deg, rgba(56, 189, 248, 0.2) 0%, rgba(255, 183, 3, 0.15) 100%); border-bottom: 1px solid var(--color-border, rgba(255,255,255,0.1)); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="background: #38bdf8; color: #000; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 20px;">⚡ KSEB &amp; MNRE COMPLIANCE</span>
+                    <span id="kseb-modal-wo-pill" style="font-family: monospace; font-weight: 800; color: #38bdf8; font-size: 0.85rem;">WO: --</span>
+                </div>
+                <h4 style="margin: 0.35rem 0 0 0; font-size: 1.25rem; font-weight: 800;">📑 1-Click Net-Metering &amp; PM Surya Ghar Docs</h4>
+            </div>
+            <button type="button" onclick="closeKSEBDocsModal()" style="background: rgba(255,255,255,0.1); border: 1px solid var(--color-border, rgba(255,255,255,0.2)); color: var(--color-text, #fff); font-size: 1.25rem; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
+        </div>
+
+        <div style="padding: 1.5rem;">
+            <!-- Doc Selector Tabs -->
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem; overflow-x: auto; padding-bottom: 0.25rem;">
+                <button type="button" onclick="switchKSEBDocTab('annex1')" id="btn-kseb-tab-annex1" style="background: #38bdf8; color: #000; font-weight: 800; font-size: 0.8rem; padding: 0.5rem 1rem; border-radius: 8px; border: none; cursor: pointer;">
+                    📄 KSEB Annexure 1 (Feasibility)
+                </button>
+                <button type="button" onclick="switchKSEBDocTab('annex2')" id="btn-kseb-tab-annex2" style="background: rgba(255,255,255,0.06); color: var(--color-text, #fff); font-weight: 700; font-size: 0.8rem; padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--color-border, #334155); cursor: pointer;">
+                    📜 KSEB Annexure 2 (Agreement)
+                </button>
+                <button type="button" onclick="switchKSEBDocTab('dcr')" id="btn-kseb-tab-dcr" style="background: rgba(255,255,255,0.06); color: var(--color-text, #fff); font-weight: 700; font-size: 0.8rem; padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--color-border, #334155); cursor: pointer;">
+                    🏛️ PM Surya Ghar DCR &amp; Completion
+                </button>
+                <button type="button" onclick="switchKSEBDocTab('survey')" id="btn-kseb-tab-survey" style="background: rgba(255,255,255,0.06); color: var(--color-text, #fff); font-weight: 700; font-size: 0.8rem; padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--color-border, #334155); cursor: pointer;">
+                    📐 Site Feasibility Summary
+                </button>
+            </div>
+
+            <!-- Dynamic Form Render Container (A4 preview style) -->
+            <div id="kseb-doc-preview-pane" style="background: #ffffff; color: #1e293b; border-radius: 12px; padding: 2rem; max-height: 480px; overflow-y: auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);">
+                <!-- Content will be injected via JS -->
+            </div>
+
+            <!-- Modal Action Buttons -->
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; border-top: 1px solid var(--color-border, rgba(255,255,255,0.1)); padding-top: 1.25rem; margin-top: 1.25rem;">
+                <button type="button" onclick="closeKSEBDocsModal()" style="background: rgba(255,255,255,0.06); border: 1px solid var(--color-border, #334155); color: var(--color-text, #fff); padding: 0.65rem 1.25rem; border-radius: 8px; font-size: 0.85rem; cursor: pointer; font-weight: 600;">
+                    Close
+                </button>
+                <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                    <button type="button" onclick="printCurrentKSEBDoc()" style="background: #38bdf8; color: #000; padding: 0.65rem 1.5rem; border-radius: 8px; font-size: 0.85rem; font-weight: 800; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+                        🖨️ Print / Export Official Form
+                    </button>
+                    <button type="button" onclick="whatsappKSEBDoc()" style="background: rgba(37, 211, 102, 0.15); border: 1.5px solid #25d366; color: #25d366; padding: 0.65rem 1.25rem; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+                        💬 WhatsApp Document Link
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- FEATURE 4: DYNAMIC UPI QR & MILESTONE PAY  -->
+<!-- ========================================== -->
+<div id="upi-payment-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 999999; overflow-y: auto; padding: 20px 10px; box-sizing: border-box; backdrop-filter: blur(8px);">
+    <div style="max-width: 780px; margin: 20px auto; background: var(--color-surface, #1e293b); color: var(--color-text, #ffffff); border: 1.5px solid #10b981; border-radius: 18px; box-shadow: 0 25px 60px rgba(0,0,0,0.6); overflow: hidden; position: relative;">
+        
+        <!-- Header -->
+        <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(255, 183, 3, 0.15) 100%); border-bottom: 1px solid var(--color-border, rgba(255,255,255,0.1)); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="background: #10b981; color: #000; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 20px;">💳 NPCI ZERO-FEE UPI ENGINE</span>
+                    <span id="upi-modal-wo-pill" style="font-family: monospace; font-weight: 800; color: #10b981; font-size: 0.85rem;">WO: --</span>
+                </div>
+                <h4 style="margin: 0.35rem 0 0 0; font-size: 1.25rem; font-weight: 800;">Milestone Payment UPI QR &amp; WhatsApp Notice</h4>
+            </div>
+            <button type="button" onclick="closeUPIPayModal()" style="background: rgba(255,255,255,0.1); border: 1px solid var(--color-border, rgba(255,255,255,0.2)); color: var(--color-text, #fff); font-size: 1.25rem; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
+        </div>
+
+        <div style="padding: 1.5rem;">
+            <!-- Project Value Strip -->
+            <div style="background: var(--color-bg-alt, #0f172a); border: 1px solid var(--color-border, rgba(255,255,255,0.1)); border-radius: 10px; padding: 1rem; margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+                <div>
+                    <div style="font-size: 0.75rem; color: var(--color-text-muted, #94a3b8);">Customer:</div>
+                    <strong id="upi-disp-customer" style="font-size: 1rem; color: #fff;">--</strong>
+                    <div id="upi-disp-phone" style="font-size: 0.75rem; color: var(--color-text-muted, #94a3b8);">--</div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.75rem; color: var(--color-text-muted, #94a3b8);">Total Project Value:</div>
+                    <strong id="upi-disp-total-val" style="font-size: 1.25rem; color: var(--color-sun-yellow, #ffb703);">₹0</strong>
+                </div>
+            </div>
+
+            <!-- Milestone Presets -->
+            <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--color-text-muted, #94a3b8);">
+                🎯 Select Payment Stage / Milestone:
+            </label>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.6rem; margin-bottom: 1.25rem;">
+                <button type="button" onclick="selectUPIMilestone('advance')" id="btn-ms-advance" style="background: rgba(255, 183, 3, 0.15); border: 1.5px solid var(--color-sun-yellow, #ffb703); color: var(--color-sun-yellow, #ffb703); padding: 0.6rem; border-radius: 8px; text-align: left; cursor: pointer;">
+                    <div style="font-weight: 800; font-size: 0.85rem;">1️⃣ 10% Advance</div>
+                    <div id="upi-val-advance" style="font-size: 0.76rem; margin-top: 0.2rem;">₹0 (Booking)</div>
+                </button>
+                <button type="button" onclick="selectUPIMilestone('dispatch')" id="btn-ms-dispatch" style="background: rgba(255,255,255,0.04); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.6rem; border-radius: 8px; text-align: left; cursor: pointer;">
+                    <div style="font-weight: 800; font-size: 0.85rem;">2️⃣ 70% Material</div>
+                    <div id="upi-val-dispatch" style="font-size: 0.76rem; margin-top: 0.2rem;">₹0 (Dispatch)</div>
+                </button>
+                <button type="button" onclick="selectUPIMilestone('handover')" id="btn-ms-handover" style="background: rgba(255,255,255,0.04); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.6rem; border-radius: 8px; text-align: left; cursor: pointer;">
+                    <div style="font-weight: 800; font-size: 0.85rem;">3️⃣ 20% Net Meter</div>
+                    <div id="upi-val-handover" style="font-size: 0.76rem; margin-top: 0.2rem;">₹0 (Final Handover)</div>
+                </button>
+                <button type="button" onclick="selectUPIMilestone('custom')" id="btn-ms-custom" style="background: rgba(255,255,255,0.04); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.6rem; border-radius: 8px; text-align: left; cursor: pointer;">
+                    <div style="font-weight: 800; font-size: 0.85rem;">✏️ Custom Amount</div>
+                    <div style="font-size: 0.76rem; margin-top: 0.2rem;">Manual Entry</div>
+                </button>
+            </div>
+
+            <!-- Amount Input & Note -->
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 0.85rem; margin-bottom: 1.25rem;">
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem;">Demand Amount (₹) <span style="color:#ef4444;">*</span></label>
+                    <input type="number" id="upi-input-amount" oninput="recalcUPIQr()" style="width: 100%; background: var(--color-bg, #0d1321); border: 1.5px solid #10b981; color: #10b981; font-weight: 800; font-size: 1.1rem; padding: 0.5rem 0.75rem; border-radius: 6px;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem;">Transaction Note / Purpose</label>
+                    <input type="text" id="upi-input-note" oninput="recalcUPIQr()" placeholder="e.g. WO-2026-0042 10% Advance Token" style="width: 100%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.55rem 0.75rem; border-radius: 6px; font-size: 0.82rem;">
+                </div>
+            </div>
+
+            <!-- Dynamic QR Code & Payment Card Box -->
+            <div style="background: #ffffff; color: #0f172a; border-radius: 12px; padding: 1.25rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.25rem; box-shadow: 0 10px 25px rgba(0,0,0,0.25);">
+                <div style="text-align: center; background: #f8fafc; padding: 0.75rem; border-radius: 10px; border: 1px solid #e2e8f0;">
+                    <img id="upi-qr-image" src="" alt="Sunova UPI QR" style="width: 180px; height: 180px; display: block; margin: 0 auto; border-radius: 6px;">
+                    <div style="font-size: 0.7rem; color: #64748b; font-weight: 700; margin-top: 0.4rem;">📱 Scan with any UPI App</div>
+                </div>
+
+                <div style="flex: 1; min-width: 240px;">
+                    <div style="font-size: 0.72rem; text-transform: uppercase; font-weight: 800; color: #059669; letter-spacing: 0.05em;">Verified Merchant Account</div>
+                    <h4 style="margin: 0.2rem 0; font-size: 1.2rem; color: #0f172a; font-weight: 800;">Sunova Solar LLP</h4>
+                    <div style="font-size: 0.82rem; color: #475569; font-family: monospace; background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 4px; display: inline-block; margin-bottom: 0.5rem;">
+                        sunovasolarllp@okhdfcbank
+                    </div>
+                    <div style="font-size: 0.8rem; color: #334155; line-height: 1.4;">
+                        Bank: <strong>HDFC Bank Ltd</strong><br>
+                        IFSC: <strong>HDFC0001245</strong> | Account: <strong>50200084729103</strong>
+                    </div>
+                    <div style="margin-top: 0.75rem; display: flex; gap: 0.4rem; flex-wrap: wrap;">
+                        <span style="background: #e0f2fe; color: #0369a1; font-size: 0.68rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px;">GPay</span>
+                        <span style="background: #f3e8ff; color: #7e22ce; font-size: 0.68rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px;">PhonePe</span>
+                        <span style="background: #e0f7fa; color: #00838f; font-size: 0.68rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px;">Paytm</span>
+                        <span style="background: #fef3c7; color: #92400e; font-size: 0.68rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px;">BHIM UPI</span>
+                        <span style="background: #dcfce7; color: #166534; font-size: 0.68rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px;">Cred</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Action Buttons -->
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; border-top: 1px solid var(--color-border, rgba(255,255,255,0.1)); padding-top: 1.25rem; margin-top: 1.25rem;">
+                <button type="button" onclick="closeUPIPayModal()" style="background: rgba(255,255,255,0.06); border: 1px solid var(--color-border, #334155); color: var(--color-text, #fff); padding: 0.65rem 1.25rem; border-radius: 8px; font-size: 0.85rem; cursor: pointer; font-weight: 600;">
+                    Close
+                </button>
+                <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                    <button type="button" onclick="copyUPILink()" style="background: rgba(255,255,255,0.1); border: 1px solid var(--color-border, #334155); color: var(--color-text, #fff); padding: 0.65rem 1.1rem; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer;">
+                        📋 Copy Link
+                    </button>
+                    <button type="button" onclick="printPaymentInvoice()" style="background: rgba(255, 183, 3, 0.15); border: 1.5px solid var(--color-sun-yellow, #ffb703); color: var(--color-sun-yellow, #ffb703); padding: 0.65rem 1.1rem; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer;">
+                        🧾 Print Invoice / Receipt
+                    </button>
+                    <button type="button" onclick="whatsappPaymentNotice()" style="background: #25d366; color: #000; padding: 0.65rem 1.4rem; border-radius: 8px; font-size: 0.85rem; font-weight: 800; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);">
+                        💬 Send WhatsApp Payment Reminder
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>`);
             frameDoc.close();
@@ -5971,8 +6294,17 @@ const custName = (document.getElementById('wo-cust-name')?.value || '').trim().t
                                     <option value="Draft" ${w.status === 'Draft' ? 'selected' : ''}>📝 Draft</option>
                                 </select>
 
-                                <button type="button" onclick="viewWorkOrder('${escapeHtml(w.woNumber)}')" style="background: rgba(255, 183, 3, 0.15); border: 1px solid var(--color-sun-yellow); color: var(--color-sun-yellow); font-size: 0.75rem; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.3rem;">
-                                    🖨️ View / Print
+                                <button type="button" onclick="viewWorkOrder('${escapeHtml(w.woNumber)}')" style="background: rgba(255, 183, 3, 0.15); border: 1px solid var(--color-sun-yellow); color: var(--color-sun-yellow); font-size: 0.75rem; font-weight: 700; padding: 0.35rem 0.65rem; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.25rem;">
+                                    🖨️ Print
+                                </button>
+                                <button type="button" onclick="openJCRModal('${escapeHtml(w.woNumber)}')" style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; color: #10b981; font-size: 0.75rem; font-weight: 700; padding: 0.35rem 0.65rem; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.25rem;">
+                                    📋 JCR Handover
+                                </button>
+                                <button type="button" onclick="openKSEBDocsModal('${escapeHtml(w.woNumber)}')" style="background: rgba(56, 189, 248, 0.15); border: 1px solid #38bdf8; color: #38bdf8; font-size: 0.75rem; font-weight: 700; padding: 0.35rem 0.65rem; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.25rem;">
+                                    📑 KSEB Docs
+                                </button>
+                                <button type="button" onclick="openUPIPayModal('${escapeHtml(w.woNumber)}')" style="background: rgba(234, 179, 8, 0.15); border: 1px solid #eab308; color: #eab308; font-size: 0.75rem; font-weight: 700; padding: 0.35rem 0.65rem; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.25rem;">
+                                    💳 UPI Pay
                                 </button>
                                 <button type="button" onclick="whatsappWorkOrder('${escapeHtml(w.woNumber)}')" style="background: rgba(37, 211, 102, 0.15); border: 1px solid #25d366; color: #25d366; font-size: 0.75rem; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.3rem;">
                                     💬 WhatsApp
@@ -6378,7 +6710,818 @@ _Issued by ${w.dealerName} | Sunova Solar LLP_`;
             initNewWorkOrderForm();
         });
 
-    </script>
+    
+
+/* ========================================================================= */
+/* FEATURE 2, 3, 4: JCR COMMISSIONING, KSEB DOCS & UPI PAYMENT JAVASCRIPT    */
+/* ========================================================================= */
+
+let activeJCRWO = null;
+let activeKSEBWO = null;
+let activeUPIWO = null;
+let currentKSEBTab = 'annex1';
+
+// Signature Canvas Handlers
+function setupSignaturePad(canvasId) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    ctx.strokeStyle = '#0f172a';
+    ctx.lineWidth = 2.5;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    function getPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        if (e.touches && e.touches.length > 0) {
+            return {
+                x: (e.touches[0].clientX - rect.left) * scaleX,
+                y: (e.touches[0].clientY - rect.top) * scaleY
+            };
+        }
+        return {
+            x: (e.clientX - rect.left) * scaleX,
+            y: (e.clientY - rect.top) * scaleY
+        };
+    }
+
+    function start(e) {
+        e.preventDefault();
+        isDrawing = true;
+        const p = getPos(e);
+        lastX = p.x;
+        lastY = p.y;
+    }
+
+    function move(e) {
+        if (!isDrawing) return;
+        e.preventDefault();
+        const p = getPos(e);
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(p.x, p.y);
+        ctx.stroke();
+        lastX = p.x;
+        lastY = p.y;
+    }
+
+    function stop(e) {
+        if (isDrawing) {
+            e.preventDefault();
+            isDrawing = false;
+        }
+    }
+
+    canvas.addEventListener('mousedown', start);
+    canvas.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', stop);
+
+    canvas.addEventListener('touchstart', start, { passive: false });
+    canvas.addEventListener('touchmove', move, { passive: false });
+    window.addEventListener('touchend', stop, { passive: false });
+}
+
+function clearSignature(type) {
+    const canvas = document.getElementById(type + '-canvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+}
+
+function checkEarthResistance(input) {
+    const val = parseFloat(input.value);
+    if (!isNaN(val) && val > 5.0) {
+        input.style.borderColor = '#ef4444';
+        input.style.color = '#ef4444';
+    } else {
+        input.style.borderColor = '#10b981';
+        input.style.color = '#fff';
+    }
+}
+
+// Find Work Order by ID across partner / global registers
+function lookupWorkOrder(woNumber) {
+    if (typeof getGlobalWorkOrders === 'function') {
+        const all = getGlobalWorkOrders();
+        const found = all.find(w => w.woNumber === woNumber);
+        if (found) return found;
+    }
+    if (typeof getPartnerWorkOrders === 'function') {
+        const dealerCode = localStorage.getItem('partner_code') || 'DIRECT';
+        const wos = getPartnerWorkOrders(dealerCode);
+        const found = wos.find(w => w.woNumber === woNumber);
+        if (found) return found;
+    }
+    // Search localStorage directly
+    try {
+        const raw = localStorage.getItem('sunova_work_orders') || '[]';
+        const arr = JSON.parse(raw);
+        const match = arr.find(w => w.woNumber === woNumber);
+        if (match) return match;
+    } catch(e){}
+    return null;
+}
+
+// -------------------------------------------------------------
+// FEATURE 2: JCR MODAL FUNCTIONS
+// -------------------------------------------------------------
+function openJCRModal(woNumber) {
+    const wo = lookupWorkOrder(woNumber);
+    if (!wo) {
+        alert('Work Order #' + woNumber + ' not found.');
+        return;
+    }
+    activeJCRWO = wo;
+
+    document.getElementById('jcr-wo-number').value = wo.woNumber;
+    document.getElementById('jcr-modal-wo-pill').textContent = 'WO: ' + wo.woNumber;
+    document.getElementById('jcr-disp-name').textContent = (wo.customerName || 'Customer') + ' (' + (wo.customerPhone || '--') + ')';
+    document.getElementById('jcr-disp-site').textContent = (wo.siteAddress || wo.district || '') + ' | ' + (wo.ksebSection || 'KSEB Section') + ' (Cons: ' + (wo.consumerNo || '--') + ')';
+    document.getElementById('jcr-disp-capacity').textContent = (wo.capacity || '3') + ' kWp (' + (wo.topology || 'On-Grid') + ') | ' + (wo.moduleQty || 'Modules');
+    document.getElementById('jcr-disp-engineer').textContent = wo.assignedEngineer || 'Field Engineer';
+
+    document.getElementById('jcr-engineer-name-sign').value = wo.assignedEngineer || '';
+    document.getElementById('jcr-customer-name-sign').value = wo.customerName || '';
+
+    // Load saved JCR if exists
+    try {
+        const savedJCRs = JSON.parse(localStorage.getItem('sunova_jcr_records') || '{}');
+        if (savedJCRs[wo.woNumber]) {
+            const r = savedJCRs[wo.woNumber];
+            document.getElementById('jcr-inverter-sn').value = r.inverterSN || '';
+            document.getElementById('jcr-netmeter-sn').value = r.netMeterSN || '';
+            document.getElementById('jcr-genmeter-sn').value = r.genMeterSN || '';
+            document.getElementById('jcr-earth-la').value = r.earthLA || '';
+            document.getElementById('jcr-earth-body').value = r.earthBody || '';
+            document.getElementById('jcr-grid-voltage').value = r.gridVoltage || '';
+            document.getElementById('jcr-grid-freq').value = r.gridFreq || '';
+        }
+    } catch(e){}
+
+    const overlay = document.getElementById('jcr-modal-overlay');
+    overlay.style.display = 'block';
+
+    setTimeout(() => {
+        setupSignaturePad('sig-engineer-canvas');
+        setupSignaturePad('sig-customer-canvas');
+    }, 150);
+}
+
+function closeJCRModal() {
+    const overlay = document.getElementById('jcr-modal-overlay');
+    if (overlay) overlay.style.display = 'none';
+    activeJCRWO = null;
+}
+
+function handleJCRSubmit(e) {
+    e.preventDefault();
+    if (!activeJCRWO) return;
+
+    const engineerCanvas = document.getElementById('sig-engineer-canvas');
+    const customerCanvas = document.getElementById('sig-customer-canvas');
+    const engineerSig = engineerCanvas.toDataURL('image/png');
+    const customerSig = customerCanvas.toDataURL('image/png');
+
+    const jcrData = {
+        woNumber: activeJCRWO.woNumber,
+        commissionDate: new Date().toLocaleDateString('en-IN'),
+        inverterSN: document.getElementById('jcr-inverter-sn').value.trim(),
+        netMeterSN: document.getElementById('jcr-netmeter-sn').value.trim(),
+        genMeterSN: document.getElementById('jcr-genmeter-sn').value.trim(),
+        earthLA: document.getElementById('jcr-earth-la').value.trim(),
+        earthBody: document.getElementById('jcr-earth-body').value.trim(),
+        gridVoltage: document.getElementById('jcr-grid-voltage').value.trim() || '235 V',
+        gridFreq: document.getElementById('jcr-grid-freq').value.trim() || '50.0 Hz',
+        engineerName: document.getElementById('jcr-engineer-name-sign').value.trim() || activeJCRWO.assignedEngineer,
+        customerName: document.getElementById('jcr-customer-name-sign').value.trim() || activeJCRWO.customerName,
+        engineerSig: engineerSig,
+        customerSig: customerSig
+    };
+
+    try {
+        const savedJCRs = JSON.parse(localStorage.getItem('sunova_jcr_records') || '{}');
+        savedJCRs[activeJCRWO.woNumber] = jcrData;
+        localStorage.setItem('sunova_jcr_records', JSON.stringify(savedJCRs));
+    } catch(err){}
+
+    // Automatically update WO status to 'Commissioned'
+    if (typeof updateWorkOrderStatus === 'function') {
+        updateWorkOrderStatus(activeJCRWO.woNumber, 'Commissioned');
+    } else if (typeof updateStaffWorkOrderStatus === 'function') {
+        updateStaffWorkOrderStatus(activeJCRWO.woNumber, 'Commissioned');
+    }
+
+    alert('✅ Commissioning Handover Complete! WO #' + activeJCRWO.woNumber + ' has been marked as COMMISSIONED.');
+    closeJCRModal();
+}
+
+function printJCRDocument() {
+    if (!activeJCRWO) return;
+    const wo = activeJCRWO;
+    const engCanvas = document.getElementById('sig-engineer-canvas');
+    const custCanvas = document.getElementById('sig-customer-canvas');
+    const engSig = engCanvas ? engCanvas.toDataURL('image/png') : '';
+    const custSig = custCanvas ? custCanvas.toDataURL('image/png') : '';
+
+    const invSN = document.getElementById('jcr-inverter-sn')?.value || 'VERIFIED';
+    const netSN = document.getElementById('jcr-netmeter-sn')?.value || 'VERIFIED';
+    const laR = document.getElementById('jcr-earth-la')?.value || '1.8';
+    const bodyR = document.getElementById('jcr-earth-body')?.value || '2.1';
+    const volt = document.getElementById('jcr-grid-voltage')?.value || '235 V';
+    const freq = document.getElementById('jcr-grid-freq')?.value || '50.0 Hz';
+    const engName = document.getElementById('jcr-engineer-name-sign')?.value || wo.assignedEngineer || 'Authorized Engineer';
+    const custName = document.getElementById('jcr-customer-name-sign')?.value || wo.customerName;
+
+    const win = window.open('', '_blank');
+    win.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Joint Commissioning Report - ${wo.woNumber}</title>
+            <style>
+                body { font-family: 'Segoe UI', Arial, sans-serif; color: #1e293b; padding: 25px; margin: 0; }
+                .header { border-bottom: 3px solid #ffb703; padding-bottom: 12px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; }
+                .logo { font-size: 24px; font-weight: 900; color: #0f172a; }
+                .logo span { color: #ffb703; }
+                .badge { background: #10b981; color: #fff; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 4px; }
+                table { width: 100%; border-collapse: collapse; margin-bottom: 15px; font-size: 12px; }
+                th, td { border: 1px solid #cbd5e1; padding: 7px 10px; text-align: left; }
+                th { background: #f8fafc; font-weight: 700; color: #475569; }
+                .section-title { font-size: 14px; font-weight: 800; color: #0f172a; margin: 15px 0 8px 0; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; }
+                .sig-box { display: flex; justify-content: space-between; margin-top: 25px; gap: 30px; }
+                .sig-card { border: 1px dashed #94a3b8; border-radius: 8px; padding: 12px; width: 48%; text-align: center; }
+                .sig-img { height: 60px; max-width: 100%; display: block; margin: 0 auto; }
+                @media print { button { display: none; } body { padding: 0; } }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div>
+                    <div class="logo">SUNOVA <span>SOLAR</span></div>
+                    <div style="font-size: 11px; color: #64748b;">Kerala Rooftop Solar Engineering &amp; EPC</div>
+                </div>
+                <div style="text-align: right;">
+                    <span class="badge">OFFICIAL JCR</span>
+                    <div style="font-weight: 800; font-size: 13px; margin-top: 4px;">WO Ref: ${wo.woNumber}</div>
+                    <div style="font-size: 11px; color: #64748b;">Date: ${new Date().toLocaleDateString('en-IN')}</div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 15px;">
+                <h3 style="margin: 0; font-size: 16px; text-transform: uppercase; color: #0f172a;">JOINT COMMISSIONING &amp; SITE HANDOVER CERTIFICATE</h3>
+                <p style="margin: 3px 0 0 0; font-size: 11px; color: #64748b;">Grid Interactive Solar PV Rooftop Power Plant per KSEB &amp; MNRE Standards</p>
+            </div>
+
+            <div class="section-title">1. CONSUMER &amp; INSTALLATION DETAILS</div>
+            <table>
+                <tr>
+                    <th width="25%">Consumer Name</th>
+                    <td width="25%"><strong>${wo.customerName}</strong></td>
+                    <th width="25%">Consumer No / KSEB</th>
+                    <td width="25%"><strong>${wo.consumerNo || '--'}</strong> (${wo.ksebSection || 'Section'})</td>
+                </tr>
+                <tr>
+                    <th>Site Location</th>
+                    <td>${wo.siteAddress || wo.district}, ${wo.district}</td>
+                    <th>Contact Phone</th>
+                    <td>${wo.customerPhone}</td>
+                </tr>
+                <tr>
+                    <th>Installed Capacity</th>
+                    <td><strong>${wo.capacity} kWp</strong> (${wo.topology || 'On-Grid'})</td>
+                    <th>Total Project Value</th>
+                    <td>₹${(wo.totalCost || 0).toLocaleString('en-IN')} (Subsidy: ₹${(wo.subsidy || 0).toLocaleString('en-IN')})</td>
+                </tr>
+            </table>
+
+            <div class="section-title">2. EQUIPMENT SERIAL NUMBERS &amp; MEASURED TEST VALUES</div>
+            <table>
+                <tr>
+                    <th width="25%">PV Module Make &amp; Qty</th>
+                    <td width="25%">${wo.moduleQty || 'Mono PERC / TopCon'}</td>
+                    <th width="25%">Inverter Serial No.</th>
+                    <td width="25%"><code style="font-size:12px; font-weight:700;">${invSN}</code></td>
+                </tr>
+                <tr>
+                    <th>Net Meter Serial No.</th>
+                    <td><code style="font-size:12px; font-weight:700;">${netSN}</code></td>
+                    <th>Inverter Capacity / Phase</th>
+                    <td>${wo.inverterCap || wo.capacity} kW (${wo.phase || '1-Phase'})</td>
+                </tr>
+                <tr>
+                    <th>Earth Pit 1 (LA) Resistance</th>
+                    <td><strong>${laR} &Omega;</strong> (Pass &lt; 5.0 &Omega;)</td>
+                    <th>Earth Pit 2 (Body) Resistance</th>
+                    <td><strong>${bodyR} &Omega;</strong> (Pass &lt; 5.0 &Omega;)</td>
+                </tr>
+                <tr>
+                    <th>Grid Synchronized Voltage</th>
+                    <td>${volt}</td>
+                    <th>Grid Frequency</th>
+                    <td>${freq}</td>
+                </tr>
+            </table>
+
+            <div class="section-title">3. HANDOVER &amp; QUALITY DECLARATION</div>
+            <p style="font-size: 11px; line-height: 1.5; color: #334155; margin: 0 0 15px 0;">
+                We hereby certify that the Rooftop Solar PV Power Plant has been successfully installed, grid-synchronized, and tested in accordance with Kerala State Electricity Board (KSEB) Net-Metering Regulations and MNRE guidelines. All structural anchorages, Type-2 Surge Protection Devices, and dual earthing pits have been physically inspected. The mobile monitoring application has been activated for the client.
+            </p>
+
+            <div class="sig-box">
+                <div class="sig-card">
+                    <div style="font-size: 11px; font-weight: 700; color: #0284c7; margin-bottom: 5px;">SUNOVA PROJECT ENGINEER</div>
+                    ${engSig ? `<img src="${engSig}" class="sig-img">` : '<div style="height:60px; line-height:60px; color:#94a3b8;">[Signed Digitally]</div>'}
+                    <div style="font-size: 11px; font-weight: 800; border-top: 1px solid #cbd5e1; padding-top: 4px; margin-top: 5px;">${engName}</div>
+                </div>
+                <div class="sig-card">
+                    <div style="font-size: 11px; font-weight: 700; color: #16a34a; margin-bottom: 5px;">CUSTOMER ACCEPTANCE</div>
+                    ${custSig ? `<img src="${custSig}" class="sig-img">` : '<div style="height:60px; line-height:60px; color:#94a3b8;">[Signed Digitally]</div>'}
+                    <div style="font-size: 11px; font-weight: 800; border-top: 1px solid #cbd5e1; padding-top: 4px; margin-top: 5px;">${custName}</div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 25px;">
+                <button onclick="window.print()" style="background: #ffb703; color: #000; font-weight: 800; border: none; padding: 10px 24px; border-radius: 6px; cursor: pointer;">🖨️ Print Official JCR Certificate</button>
+            </div>
+        </body>
+        </html>
+    `);
+    win.document.close();
+}
+
+function whatsappJCRCertificate() {
+    if (!activeJCRWO) return;
+    const wo = activeJCRWO;
+    const invSN = document.getElementById('jcr-inverter-sn')?.value || 'VERIFIED';
+    const netSN = document.getElementById('jcr-netmeter-sn')?.value || 'VERIFIED';
+    const laR = document.getElementById('jcr-earth-la')?.value || '1.8';
+
+    const msg = `☀️ *SUNOVA SOLAR - COMMISSIONING HANDOVER CERTIFICATE (JCR)*\n\n` +
+        `Dear *${wo.customerName}*,\n` +
+        `Congratulations! Your *${wo.capacity} kWp Rooftop Solar System* has been successfully commissioned and synchronized with the KSEB Grid.\n\n` +
+        `📋 *Handover Summary:*\n` +
+        `• *Work Order Ref:* ${wo.woNumber}\n` +
+        `• *KSEB Consumer No:* ${wo.consumerNo || '--'}\n` +
+        `• *Inverter S/N:* ${invSN}\n` +
+        `• *Bi-directional Meter S/N:* ${netSN}\n` +
+        `• *Earthing Resistance:* ${laR} Ω (Safety Standard Passed)\n` +
+        `• *Mobile Monitoring App:* Activated & Linked\n\n` +
+        `🛡️ *Warranties Activated:*\n` +
+        `• 25-30 Year PV Module Performance Warranty\n` +
+        `• 8-10 Year Dual-MPPT Smart Inverter Warranty\n` +
+        `• 5-Year Comprehensive Sunova Generation & O&M Care\n\n` +
+        `For support or net-meter billing queries, contact Sunova Helpdesk: +91 90723 90724.\n` +
+        `*Sunova Solar LLP | Kerala's Trusted Solar EPC*`;
+
+    let phone = (wo.customerPhone || '').replace(/[^0-9]/g, '');
+    if (phone.length === 10) phone = '91' + phone;
+    window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// -------------------------------------------------------------
+// FEATURE 3: KSEB & SUBSIDY DOCS FUNCTIONS
+// -------------------------------------------------------------
+function openKSEBDocsModal(woNumber) {
+    const wo = lookupWorkOrder(woNumber);
+    if (!wo) {
+        alert('Work Order #' + woNumber + ' not found.');
+        return;
+    }
+    activeKSEBWO = wo;
+    document.getElementById('kseb-modal-wo-pill').textContent = 'WO: ' + wo.woNumber;
+    
+    const overlay = document.getElementById('kseb-docs-modal-overlay');
+    overlay.style.display = 'block';
+
+    switchKSEBDocTab('annex1');
+}
+
+function closeKSEBDocsModal() {
+    const overlay = document.getElementById('kseb-docs-modal-overlay');
+    if (overlay) overlay.style.display = 'none';
+    activeKSEBWO = null;
+}
+
+function switchKSEBDocTab(tab) {
+    currentKSEBTab = tab;
+    const tabs = ['annex1', 'annex2', 'dcr', 'survey'];
+    tabs.forEach(t => {
+        const btn = document.getElementById('btn-kseb-tab-' + t);
+        if (btn) {
+            if (t === tab) {
+                btn.style.background = '#38bdf8';
+                btn.style.color = '#000';
+                btn.style.border = 'none';
+            } else {
+                btn.style.background = 'rgba(255,255,255,0.06)';
+                btn.style.color = 'var(--color-text, #fff)';
+                btn.style.border = '1px solid var(--color-border, #334155)';
+            }
+        }
+    });
+
+    renderKSEBPreview();
+}
+
+function renderKSEBPreview() {
+    const container = document.getElementById('kseb-doc-preview-pane');
+    if (!container || !activeKSEBWO) return;
+    const wo = activeKSEBWO;
+
+    if (currentKSEBTab === 'annex1') {
+        container.innerHTML = `
+            <div style="border-bottom: 2px solid #0f172a; padding-bottom: 10px; margin-bottom: 15px; text-align: center;">
+                <h3 style="margin: 0; font-size: 15px; text-transform: uppercase;">KERALA STATE ELECTRICITY BOARD LIMITED</h3>
+                <div style="font-size: 12px; font-weight: 700; color: #475569; margin-top: 4px;">ANNEXURE - 1</div>
+                <div style="font-size: 13px; font-weight: 800; color: #0284c7; margin-top: 2px;">APPLICATION FOR CONNECTIVITY OF ROOFTOP SOLAR PV SYSTEM</div>
+            </div>
+            
+            <div style="font-size: 12px; line-height: 1.6; color: #1e293b;">
+                <p>To,<br>The Assistant Executive Engineer / Assistant Engineer,<br>Electrical Section: <strong>${escapeHtml(wo.ksebSection || 'Section Office')}</strong>,<br>KSEB Limited, District: <strong>${escapeHtml(wo.district || 'Kerala')}</strong>.</p>
+                
+                <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11.5px;">
+                    <tr><td style="border: 1px solid #cbd5e1; padding: 6px 10px; width: 40%; font-weight: 700;">1. Name of Consumer</td><td style="border: 1px solid #cbd5e1; padding: 6px 10px;">${escapeHtml(wo.customerName)}</td></tr>
+                    <tr><td style="border: 1px solid #cbd5e1; padding: 6px 10px; font-weight: 700;">2. 13-Digit Consumer Number</td><td style="border: 1px solid #cbd5e1; padding: 6px 10px;"><strong style="font-family: monospace; font-size: 12.5px;">${escapeHtml(wo.consumerNo || '1155XXXXXXXXX')}</strong></td></tr>
+                    <tr><td style="border: 1px solid #cbd5e1; padding: 6px 10px; font-weight: 700;">3. Installation Address &amp; Contact</td><td style="border: 1px solid #cbd5e1; padding: 6px 10px;">${escapeHtml(wo.siteAddress || wo.district)}, 📞 ${escapeHtml(wo.customerPhone)}</td></tr>
+                    <tr><td style="border: 1px solid #cbd5e1; padding: 6px 10px; font-weight: 700;">4. Existing Sanctioned / Connected Load</td><td style="border: 1px solid #cbd5e1; padding: 6px 10px;">${escapeHtml(wo.sanctionLoad || wo.capacity)} kW (${escapeHtml(wo.phase || '1-Phase LT')})</td></tr>
+                    <tr><td style="border: 1px solid #cbd5e1; padding: 6px 10px; font-weight: 700;">5. Proposed Solar PV Plant Capacity</td><td style="border: 1px solid #cbd5e1; padding: 6px 10px;"><strong style="color: #0284c7;">${escapeHtml(wo.capacity)} kWp (${escapeHtml(wo.topology || 'On-Grid')})</strong></td></tr>
+                    <tr><td style="border: 1px solid #cbd5e1; padding: 6px 10px; font-weight: 700;">6. Inverter Specification &amp; Make</td><td style="border: 1px solid #cbd5e1; padding: 6px 10px;">${escapeHtml(wo.inverterMake || 'Sunova Approved')} | ${escapeHtml(wo.inverterCap || wo.capacity)} kW with Anti-Islanding</td></tr>
+                    <tr><td style="border: 1px solid #cbd5e1; padding: 6px 10px; font-weight: 700;">7. Solar Module Make &amp; Rating</td><td style="border: 1px solid #cbd5e1; padding: 6px 10px;">${escapeHtml(wo.panelMake || 'ALMM / DCR Compliant')} (${escapeHtml(wo.moduleQty || 'Modules')})</td></tr>
+                    <tr><td style="border: 1px solid #cbd5e1; padding: 6px 10px; font-weight: 700;">8. Authorized EPC / System Integrator</td><td style="border: 1px solid #cbd5e1; padding: 6px 10px;"><strong>Sunova Solar LLP (MNRE Empanelled Partner)</strong></td></tr>
+                </table>
+
+                <p style="margin-top: 15px; font-size: 11px;">
+                    I hereby apply for connectivity of rooftop solar PV plant with the KSEB distribution network. I agree to install the bi-directional net meter per KSEBL standards and adhere to all CEA safety regulations.
+                </p>
+
+                <div style="display: flex; justify-content: space-between; margin-top: 30px; padding: 0 10px;">
+                    <div>Date: <strong>${new Date().toLocaleDateString('en-IN')}</strong><br>Place: <strong>${escapeHtml(wo.district)}</strong></div>
+                    <div style="text-align: right;"><strong>${escapeHtml(wo.customerName)}</strong><br><span style="font-size: 10px; color: #64748b;">Signature of Consumer</span></div>
+                </div>
+            </div>
+        `;
+    } else if (currentKSEBTab === 'annex2') {
+        container.innerHTML = `
+            <div style="border-bottom: 2px solid #0f172a; padding-bottom: 10px; margin-bottom: 15px; text-align: center;">
+                <h3 style="margin: 0; font-size: 15px; text-transform: uppercase;">KERALA STATE ELECTRICITY BOARD LIMITED</h3>
+                <div style="font-size: 12px; font-weight: 700; color: #475569; margin-top: 4px;">ANNEXURE - 2</div>
+                <div style="font-size: 13px; font-weight: 800; color: #0284c7; margin-top: 2px;">AGREEMENT FOR INTERCONNECTION OF SOLAR PHOTOVOLTAIC SYSTEM</div>
+            </div>
+            
+            <div style="font-size: 11.5px; line-height: 1.6; color: #1e293b;">
+                <p>This Agreement is made on this <strong>${new Date().toLocaleDateString('en-IN')}</strong> between:</p>
+                <p><strong>1. KSEB LIMITED</strong>, represented by Assistant Executive Engineer, Electrical Section ${escapeHtml(wo.ksebSection || 'Section')} (First Party), AND</p>
+                <p><strong>2. Sri/Smt. ${escapeHtml(wo.customerName)}</strong>, residing at ${escapeHtml(wo.siteAddress || wo.district)}, Consumer No: <strong>${escapeHtml(wo.consumerNo || '--')}</strong> (Second Party).</p>
+                
+                <h5 style="margin: 12px 0 6px 0; font-size: 12px; color: #0f172a;">TERMS &amp; OPERATIONAL CONDITIONS:</h5>
+                <ol style="padding-left: 18px; margin: 0;">
+                    <li>The eligible consumer agrees to install a <strong>${escapeHtml(wo.capacity)} kWp</strong> Solar PV system at the premises connected to KSEB LT Network.</li>
+                    <li>The Inverter shall have automatic synchronization and anti-islanding protection in accordance with IEEE 1547 / IEC 62116.</li>
+                    <li>The bi-directional Net Meter will record both import energy from KSEB and export energy from the Solar PV plant for monthly settlement.</li>
+                    <li>The plant shall have proper Type-2 Surge Protection Devices and dual earthing with resistance &lt; 5.0 Ohms.</li>
+                </ol>
+
+                <div style="display: flex; justify-content: space-between; margin-top: 40px; padding: 0 10px;">
+                    <div><strong>For KSEB Limited</strong><br><span style="font-size: 10px; color: #64748b;">Assistant Executive Engineer</span></div>
+                    <div style="text-align: right;"><strong>${escapeHtml(wo.customerName)}</strong><br><span style="font-size: 10px; color: #64748b;">Eligible Consumer</span></div>
+                </div>
+            </div>
+        `;
+    } else if (currentKSEBTab === 'dcr') {
+        container.innerHTML = `
+            <div style="border-bottom: 2px solid #0f172a; padding-bottom: 10px; margin-bottom: 15px; text-align: center;">
+                <h3 style="margin: 0; font-size: 15px; text-transform: uppercase;">PM SURYA GHAR: MUFT BIJLI YOJANA</h3>
+                <div style="font-size: 12px; font-weight: 700; color: #16a34a; margin-top: 4px;">MINISTRY OF NEW AND RENEWABLE ENERGY (MNRE)</div>
+                <div style="font-size: 13px; font-weight: 800; color: #0f172a; margin-top: 2px;">DCR UNDERTAKING &amp; WORK COMPLETION REPORT</div>
+            </div>
+            
+            <div style="font-size: 11.5px; line-height: 1.6; color: #1e293b;">
+                <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 10px; border-radius: 6px; margin-bottom: 12px;">
+                    <strong>National Portal Application Ref:</strong> ${escapeHtml(wo.woNumber)} | <strong>DBT Subsidy Amount:</strong> ₹${(wo.subsidy || 0).toLocaleString('en-IN')}
+                </div>
+
+                <p>We, <strong>Sunova Solar LLP</strong> (Empanelled Vendor), hereby solemnly declare and certify that:</p>
+                <ol style="padding-left: 18px; margin: 0 0 12px 0;">
+                    <li>The Solar PV Modules installed at the site of <strong>${escapeHtml(wo.customerName)}</strong> (Cons No: ${escapeHtml(wo.consumerNo || '--')}) are manufactured in India using indigenously manufactured Solar Cells &amp; Wafers meeting mandatory <strong>Domestic Content Requirement (DCR)</strong>.</li>
+                    <li>Module Serial Numbers have been physically validated and registered on the PM Surya Ghar National Portal.</li>
+                    <li>The complete project consisting of <strong>${escapeHtml(wo.capacity)} kWp</strong> has been commissioned and synchronized on <strong>${new Date().toLocaleDateString('en-IN')}</strong>.</li>
+                </ol>
+
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><th style="border: 1px solid #cbd5e1; padding: 6px; background:#f8fafc;">Total Project Cost</th><td style="border: 1px solid #cbd5e1; padding: 6px;">₹${(wo.totalCost || 0).toLocaleString('en-IN')}</td></tr>
+                    <tr><th style="border: 1px solid #cbd5e1; padding: 6px; background:#f8fafc;">Eligible Central DBT Subsidy</th><td style="border: 1px solid #cbd5e1; padding: 6px; color:#16a34a; font-weight:700;">₹${(wo.subsidy || 0).toLocaleString('en-IN')}</td></tr>
+                    <tr><th style="border: 1px solid #cbd5e1; padding: 6px; background:#f8fafc;">Consumer Net Outflow</th><td style="border: 1px solid #cbd5e1; padding: 6px; font-weight:700;">₹${((wo.totalCost || 0) - (wo.subsidy || 0)).toLocaleString('en-IN')}</td></tr>
+                </table>
+
+                <div style="display: flex; justify-content: space-between; margin-top: 35px; padding: 0 10px;">
+                    <div><strong>For Sunova Solar LLP</strong><br><span style="font-size: 10px; color: #64748b;">Authorized Signatory &amp; Stamp</span></div>
+                    <div style="text-align: right;"><strong>${escapeHtml(wo.customerName)}</strong><br><span style="font-size: 10px; color: #64748b;">Beneficiary Consumer</span></div>
+                </div>
+            </div>
+        `;
+    } else if (currentKSEBTab === 'survey') {
+        container.innerHTML = `
+            <div style="border-bottom: 2px solid #0f172a; padding-bottom: 10px; margin-bottom: 15px; text-align: center;">
+                <h3 style="margin: 0; font-size: 15px; text-transform: uppercase;">SUNOVA SOLAR ENGINEERING</h3>
+                <div style="font-size: 13px; font-weight: 800; color: #eab308; margin-top: 2px;">ROOFTOP SITE FEASIBILITY &amp; TECHNICAL SURVEY REPORT</div>
+            </div>
+            
+            <div style="font-size: 11.5px; line-height: 1.6; color: #1e293b;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 12px;">
+                    <tr><th width="30%" style="border: 1px solid #cbd5e1; padding: 6px; background:#f8fafc;">Site Location</th><td style="border: 1px solid #cbd5e1; padding: 6px;">${escapeHtml(wo.siteAddress || wo.district)}, ${escapeHtml(wo.district)}</td></tr>
+                    <tr><th style="border: 1px solid #cbd5e1; padding: 6px; background:#f8fafc;">Roof Type &amp; Tilt</th><td style="border: 1px solid #cbd5e1; padding: 6px;">${escapeHtml(wo.structureType || 'RCC Flat Roof')} (Optimal Azimuth: 180° South, Tilt: 10°-12°)</td></tr>
+                    <tr><th style="border: 1px solid #cbd5e1; padding: 6px; background:#f8fafc;">Shadow Free Area</th><td style="border: 1px solid #cbd5e1; padding: 6px;">${Math.round((wo.capacity || 3) * 90)} sq.ft available</td></tr>
+                    <tr><th style="border: 1px solid #cbd5e1; padding: 6px; background:#f8fafc;">KSEB Distribution Transformer</th><td style="border: 1px solid #cbd5e1; padding: 6px;">100 kVA / 250 kVA (Feasibility Allocation within 80% limit)</td></tr>
+                    <tr><th style="border: 1px solid #cbd5e1; padding: 6px; background:#f8fafc;">Earthing Pit Plan</th><td style="border: 1px solid #cbd5e1; padding: 6px;">2 Nos. Chemical Pits with Copper Bonded Electrodes</td></tr>
+                    <tr><th style="border: 1px solid #cbd5e1; padding: 6px; background:#f8fafc;">Survey Engineer</th><td style="border: 1px solid #cbd5e1; padding: 6px;"><strong>${escapeHtml(wo.assignedEngineer || 'Field Team')}</strong></td></tr>
+                </table>
+                <div style="text-align: right; margin-top: 20px;">
+                    <strong>Sunova Technical Feasibility Approved ✅</strong>
+                </div>
+            </div>
+        `;
+    }
+}
+
+function printCurrentKSEBDoc() {
+    if (!activeKSEBWO) return;
+    const previewContent = document.getElementById('kseb-doc-preview-pane').innerHTML;
+    const win = window.open('', '_blank');
+    win.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>KSEB / MNRE Document - ${activeKSEBWO.woNumber}</title>
+            <style>
+                body { font-family: 'Segoe UI', Arial, sans-serif; color: #1e293b; padding: 30px; margin: 0; }
+                table { width: 100%; border-collapse: collapse; }
+                @media print { body { padding: 0; } }
+            </style>
+        </head>
+        <body onload="window.print()">
+            ${previewContent}
+        </body>
+        </html>
+    `);
+    win.document.close();
+}
+
+function whatsappKSEBDoc() {
+    if (!activeKSEBWO) return;
+    const wo = activeKSEBWO;
+    const tabNames = {
+        'annex1': 'KSEB Annexure-1 Feasibility Application',
+        'annex2': 'KSEB Annexure-2 Interconnection Agreement',
+        'dcr': 'PM Surya Ghar DCR & Work Completion Certificate',
+        'survey': 'Site Feasibility & Survey Report'
+    };
+
+    const msg = `⚡ *SUNOVA SOLAR - KSEB & PM SURYA GHAR COMPLIANCE*\n\n` +
+        `Hello *${wo.customerName}*,\n` +
+        `Here is your official *${tabNames[currentKSEBTab]}* for Work Order *#${wo.woNumber}* (${wo.capacity} kWp Solar System).\n\n` +
+        `• *Consumer No:* ${wo.consumerNo || '--'}\n` +
+        `• *KSEB Section:* ${wo.ksebSection || 'Section'}\n` +
+        `• *Status:* Form Ready for KSEB / National Portal Submission\n\n` +
+        `Please keep this copy for your official KSEB electrical inspection record.\n` +
+        `*Sunova Solar LLP | Operations Desk*`;
+
+    let phone = (wo.customerPhone || '').replace(/[^0-9]/g, '');
+    if (phone.length === 10) phone = '91' + phone;
+    window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// -------------------------------------------------------------
+// FEATURE 4: DYNAMIC UPI QR & MILESTONE PAYMENT FUNCTIONS
+// -------------------------------------------------------------
+function openUPIPayModal(woNumber) {
+    const wo = lookupWorkOrder(woNumber);
+    if (!wo) {
+        alert('Work Order #' + woNumber + ' not found.');
+        return;
+    }
+    activeUPIWO = wo;
+
+    const total = wo.totalCost || 0;
+    const adv = Math.round(total * 0.10);
+    const disp = Math.round(total * 0.70);
+    const hand = Math.round(total * 0.20);
+
+    document.getElementById('upi-modal-wo-pill').textContent = 'WO: ' + wo.woNumber;
+    document.getElementById('upi-disp-customer').textContent = wo.customerName || 'Customer';
+    document.getElementById('upi-disp-phone').textContent = '📞 ' + (wo.customerPhone || '--') + ' | ' + (wo.district || '');
+    document.getElementById('upi-disp-total-val').textContent = '₹' + total.toLocaleString('en-IN');
+
+    document.getElementById('upi-val-advance').textContent = '₹' + adv.toLocaleString('en-IN') + ' (Booking)';
+    document.getElementById('upi-val-dispatch').textContent = '₹' + disp.toLocaleString('en-IN') + ' (Dispatch)';
+    document.getElementById('upi-val-handover').textContent = '₹' + hand.toLocaleString('en-IN') + ' (Final Handover)';
+
+    selectUPIMilestone('advance');
+
+    const overlay = document.getElementById('upi-payment-modal-overlay');
+    overlay.style.display = 'block';
+}
+
+function closeUPIPayModal() {
+    const overlay = document.getElementById('upi-payment-modal-overlay');
+    if (overlay) overlay.style.display = 'none';
+    activeUPIWO = null;
+}
+
+function selectUPIMilestone(stage) {
+    if (!activeUPIWO) return;
+    const total = activeUPIWO.totalCost || 0;
+    const stages = ['advance', 'dispatch', 'handover', 'custom'];
+
+    stages.forEach(s => {
+        const btn = document.getElementById('btn-ms-' + s);
+        if (btn) {
+            if (s === stage) {
+                btn.style.background = 'rgba(16, 185, 129, 0.2)';
+                btn.style.borderColor = '#10b981';
+                btn.style.color = '#10b981';
+            } else {
+                btn.style.background = 'rgba(255,255,255,0.04)';
+                btn.style.borderColor = 'var(--color-border, #334155)';
+                btn.style.color = '#fff';
+            }
+        }
+    });
+
+    let amt = 0;
+    let note = '';
+    if (stage === 'advance') {
+        amt = Math.round(total * 0.10);
+        note = `WO ${activeUPIWO.woNumber} 10% Advance Token`;
+    } else if (stage === 'dispatch') {
+        amt = Math.round(total * 0.70);
+        note = `WO ${activeUPIWO.woNumber} 70% Material Dispatch`;
+    } else if (stage === 'handover') {
+        amt = Math.round(total * 0.20);
+        note = `WO ${activeUPIWO.woNumber} 20% Net-Meter Handover`;
+    } else {
+        amt = Math.round(total * 0.10);
+        note = `WO ${activeUPIWO.woNumber} Solar Payment`;
+    }
+
+    document.getElementById('upi-input-amount').value = amt;
+    document.getElementById('upi-input-note').value = note;
+    recalcUPIQr();
+}
+
+function recalcUPIQr() {
+    const amt = document.getElementById('upi-input-amount').value.trim() || '0';
+    const note = document.getElementById('upi-input-note').value.trim() || 'Sunova Solar Payment';
+    const vpa = 'sunovasolarllp@okhdfcbank';
+    const name = 'Sunova Solar LLP';
+
+    // Standard NPCI UPI URI
+    const upiUri = `upi://pay?pa=${vpa}&pn=${encodeURIComponent(name)}&am=${amt}&cu=INR&tn=${encodeURIComponent(note)}`;
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(upiUri)}`;
+
+    const qrImg = document.getElementById('upi-qr-image');
+    if (qrImg) qrImg.src = qrUrl;
+}
+
+function copyUPILink() {
+    const amt = document.getElementById('upi-input-amount').value.trim() || '0';
+    const note = document.getElementById('upi-input-note').value.trim() || 'Sunova Solar Payment';
+    const upiUri = `upi://pay?pa=sunovasolarllp@okhdfcbank&pn=Sunova%20Solar%20LLP&am=${amt}&cu=INR&tn=${encodeURIComponent(note)}`;
+
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(upiUri).then(() => {
+            alert('📋 UPI Payment Link copied to clipboard!');
+        });
+    } else {
+        prompt('Copy UPI link:', upiUri);
+    }
+}
+
+function whatsappPaymentNotice() {
+    if (!activeUPIWO) return;
+    const wo = activeUPIWO;
+    const amt = parseFloat(document.getElementById('upi-input-amount').value || 0);
+    const note = document.getElementById('upi-input-note').value.trim() || 'Milestone Payment';
+    const upiUri = `upi://pay?pa=sunovasolarllp@okhdfcbank&pn=Sunova%20Solar%20LLP&am=${amt}&cu=INR&tn=${encodeURIComponent(note)}`;
+
+    const msg = `💳 *SUNOVA SOLAR - MILESTONE PAYMENT REQUEST*\n\n` +
+        `Dear *${wo.customerName}*,\n` +
+        `Greetings from Sunova Solar! Here is your milestone payment invoice for your *${wo.capacity} kWp Rooftop Solar System* (WO #${wo.woNumber}):\n\n` +
+        `• *Milestone Stage:* ${note}\n` +
+        `• *Payable Amount:* *₹${amt.toLocaleString('en-IN')}*\n` +
+        `• *Total Project Cost:* ₹${(wo.totalCost || 0).toLocaleString('en-IN')}\n` +
+        `• *Eligible DBT Subsidy:* ₹${(wo.subsidy || 0).toLocaleString('en-IN')}\n\n` +
+        `📲 *Instant UPI Payment Link (GPay / PhonePe / Paytm):*\n` +
+        `${upiUri}\n\n` +
+        `🏦 *Bank Account Transfer Details:*\n` +
+        `• *Beneficiary:* Sunova Solar LLP\n` +
+        `• *Bank:* HDFC Bank Ltd\n` +
+        `• *Account No:* 50200084729103\n` +
+        `• *IFSC:* HDFC0001245\n` +
+        `• *UPI VPA:* sunovasolarllp@okhdfcbank\n\n` +
+        `Please share the payment transaction screenshot once transferred for immediate receipt generation. Thank you!`;
+
+    let phone = (wo.customerPhone || '').replace(/[^0-9]/g, '');
+    if (phone.length === 10) phone = '91' + phone;
+    window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+function printPaymentInvoice() {
+    if (!activeUPIWO) return;
+    const wo = activeUPIWO;
+    const amt = parseFloat(document.getElementById('upi-input-amount').value || 0);
+    const note = document.getElementById('upi-input-note').value.trim() || 'Milestone Payment';
+    const upiUri = `upi://pay?pa=sunovasolarllp@okhdfcbank&pn=Sunova%20Solar%20LLP&am=${amt}&cu=INR&tn=${encodeURIComponent(note)}`;
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiUri)}`;
+
+    const win = window.open('', '_blank');
+    win.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Payment Demand Invoice - ${wo.woNumber}</title>
+            <style>
+                body { font-family: 'Segoe UI', Arial, sans-serif; color: #1e293b; padding: 30px; margin: 0; }
+                .header { border-bottom: 3px solid #ffb703; padding-bottom: 12px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+                .logo { font-size: 24px; font-weight: 900; color: #0f172a; }
+                .logo span { color: #ffb703; }
+                table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 12px; }
+                th, td { border: 1px solid #cbd5e1; padding: 8px 12px; text-align: left; }
+                th { background: #f8fafc; font-weight: 700; color: #475569; }
+                .qr-box { display: flex; align-items: center; gap: 20px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-top: 20px; }
+                @media print { button { display: none; } body { padding: 0; } }
+            </style>
+        </head>
+        <body onload="window.print()">
+            <div class="header">
+                <div>
+                    <div class="logo">SUNOVA <span>SOLAR</span></div>
+                    <div style="font-size: 11px; color: #64748b;">Sunova Solar LLP | GSTIN: 32AALCS8921F1ZX</div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="background: #10b981; color: #fff; display: inline-block; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 4px;">MILESTONE INVOICE</div>
+                    <div style="font-weight: 800; font-size: 13px; margin-top: 4px;">WO: ${wo.woNumber}</div>
+                    <div style="font-size: 11px; color: #64748b;">Date: ${new Date().toLocaleDateString('en-IN')}</div>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 12px;">
+                <div>
+                    <div style="color: #64748b; font-size: 11px;">Billed To:</div>
+                    <strong>${wo.customerName}</strong><br>
+                    ${wo.siteAddress || wo.district}, ${wo.district}<br>
+                    📞 ${wo.customerPhone} | KSEB Cons: ${wo.consumerNo || '--'}
+                </div>
+                <div style="text-align: right;">
+                    <div style="color: #64748b; font-size: 11px;">System Capacity:</div>
+                    <strong>${wo.capacity} kWp (${wo.topology || 'On-Grid'})</strong><br>
+                    Total Cost: ₹${(wo.totalCost || 0).toLocaleString('en-IN')}<br>
+                    DBT Subsidy: ₹${(wo.subsidy || 0).toLocaleString('en-IN')}
+                </div>
+            </div>
+
+            <table>
+                <tr>
+                    <th>Milestone Description</th>
+                    <th style="text-align: right;">Amount Payable (₹)</th>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>${note}</strong><br>
+                        <span style="font-size: 11px; color: #64748b;">Per Solar EPC Installation Contract Terms</span>
+                    </td>
+                    <td style="text-align: right; font-size: 15px; font-weight: 800; color: #0f172a;">
+                        ₹${amt.toLocaleString('en-IN')}
+                    </td>
+                </tr>
+            </table>
+
+            <div class="qr-box">
+                <img src="${qrUrl}" style="width: 130px; height: 130px; border-radius: 6px;">
+                <div>
+                    <div style="font-weight: 800; font-size: 13px; color: #0f172a;">Instant Zero-Fee UPI Payment</div>
+                    <div style="font-size: 11.5px; color: #475569; margin: 3px 0 8px 0;">Scan with GPay, PhonePe, Paytm, BHIM, or any Banking App</div>
+                    <div style="font-size: 11px; font-family: monospace; background: #e2e8f0; padding: 3px 6px; border-radius: 4px; display: inline-block;">
+                        sunovasolarllp@okhdfcbank
+                    </div>
+                    <div style="font-size: 11px; color: #64748b; margin-top: 6px;">
+                        HDFC Bank | A/C: 50200084729103 | IFSC: HDFC0001245
+                    </div>
+                </div>
+            </div>
+        </body>
+        </html>
+    `);
+    win.document.close();
+}
+
+</script>
 
     <!-- Net Metering Checklist Modal Overlay (Initially Hidden) -->
     <div id="checklist-modal-overlay" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 20000; display: flex; justify-content: center; align-items: center; padding: 1rem;">
@@ -6538,6 +7681,329 @@ _Issued by ${w.dealerName} | Sunova Solar LLP_`;
             }
         }
     </style>
+
+
+<!-- ========================================== -->
+<!-- FEATURE 2: DIGITAL JCR COMMISSIONING MODAL -->
+<!-- ========================================== -->
+<div id="jcr-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 999999; overflow-y: auto; padding: 20px 10px; box-sizing: border-box; backdrop-filter: blur(8px);">
+    <div style="max-width: 820px; margin: 20px auto; background: var(--color-surface, #1e293b); color: var(--color-text, #ffffff); border: 1.5px solid var(--color-sun-yellow, #ffb703); border-radius: 18px; box-shadow: 0 25px 60px rgba(0,0,0,0.6); overflow: hidden; position: relative;">
+        
+        <!-- Header -->
+        <div style="background: linear-gradient(135deg, rgba(255, 183, 3, 0.18) 0%, rgba(16, 185, 129, 0.18) 100%); border-bottom: 1px solid var(--color-border, rgba(255,255,255,0.1)); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="background: #10b981; color: #000; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 20px;">☀️ HANDOVER PROTOCOL</span>
+                    <span id="jcr-modal-wo-pill" style="font-family: monospace; font-weight: 800; color: var(--color-sun-yellow, #ffb703); font-size: 0.85rem;">WO: --</span>
+                </div>
+                <h4 style="margin: 0.35rem 0 0 0; font-size: 1.25rem; font-weight: 800;">📋 Joint Commissioning Report (JCR)</h4>
+            </div>
+            <button type="button" onclick="closeJCRModal()" style="background: rgba(255,255,255,0.1); border: 1px solid var(--color-border, rgba(255,255,255,0.2)); color: var(--color-text, #fff); font-size: 1.25rem; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
+        </div>
+
+        <form id="jcr-form" onsubmit="handleJCRSubmit(event)" style="padding: 1.5rem;">
+            <!-- Hidden inputs -->
+            <input type="hidden" id="jcr-wo-number" name="woNumber">
+            
+            <!-- Project / Consumer Info Ribbon -->
+            <div style="background: var(--color-bg-alt, #0f172a); border: 1px solid var(--color-border, rgba(255,255,255,0.1)); border-radius: 10px; padding: 1rem; margin-bottom: 1.25rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; font-size: 0.82rem;">
+                <div>
+                    <span style="color: var(--color-text-muted, #94a3b8); display: block;">Consumer Name & Phone:</span>
+                    <strong id="jcr-disp-name" style="color: #fff;">--</strong>
+                </div>
+                <div>
+                    <span style="color: var(--color-text-muted, #94a3b8); display: block;">Site Address & KSEB:</span>
+                    <strong id="jcr-disp-site" style="color: #fff;">--</strong>
+                </div>
+                <div>
+                    <span style="color: var(--color-text-muted, #94a3b8); display: block;">Plant Capacity & Topology:</span>
+                    <strong id="jcr-disp-capacity" style="color: var(--color-sun-yellow, #ffb703);">--</strong>
+                </div>
+                <div>
+                    <span style="color: var(--color-text-muted, #94a3b8); display: block;">Assigned Engineer:</span>
+                    <strong id="jcr-disp-engineer" style="color: #38bdf8;">--</strong>
+                </div>
+            </div>
+
+            <!-- Technical Commissioning Parameters -->
+            <h5 style="margin: 0 0 0.75rem 0; font-size: 0.95rem; font-weight: 800; color: var(--color-sun-yellow, #ffb703); display: flex; align-items: center; gap: 0.4rem;">
+                ⚡ Equipment Serials & Grid Synchronization Values
+            </h5>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.85rem; margin-bottom: 1.25rem;">
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem;">Inverter Serial No. <span style="color:#ef4444;">*</span></label>
+                    <input type="text" id="jcr-inverter-sn" required placeholder="e.g. DNP2409018472" style="width: 100%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.82rem; font-family: monospace;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem;">Net Meter Serial No. <span style="color:#ef4444;">*</span></label>
+                    <input type="text" id="jcr-netmeter-sn" required placeholder="e.g. KSEB-NM-90214" style="width: 100%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.82rem; font-family: monospace;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem;">Solar Gen Meter Serial No.</label>
+                    <input type="text" id="jcr-genmeter-sn" placeholder="e.g. SGM-88203" style="width: 100%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.82rem; font-family: monospace;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem;">Lightning Earth Pit (&Omega;) <span style="color:#ef4444;">*</span></label>
+                    <input type="number" step="0.01" id="jcr-earth-la" required placeholder="< 5.0 &Omega; (e.g. 1.8)" oninput="checkEarthResistance(this)" style="width: 100%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.82rem;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem;">Inverter/AC Earth Pit (&Omega;) <span style="color:#ef4444;">*</span></label>
+                    <input type="number" step="0.01" id="jcr-earth-body" required placeholder="< 5.0 &Omega; (e.g. 2.1)" oninput="checkEarthResistance(this)" style="width: 100%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.82rem;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem;">Grid Voltage (V AC) / Freq (Hz)</label>
+                    <div style="display: flex; gap: 0.4rem;">
+                        <input type="text" id="jcr-grid-voltage" placeholder="234 V" style="width: 50%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.5rem 0.6rem; border-radius: 6px; font-size: 0.82rem;">
+                        <input type="text" id="jcr-grid-freq" placeholder="50.0 Hz" style="width: 50%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.5rem 0.6rem; border-radius: 6px; font-size: 0.82rem;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quality & Safety Checkpoints -->
+            <h5 style="margin: 0 0 0.6rem 0; font-size: 0.95rem; font-weight: 800; color: #10b981; display: flex; align-items: center; gap: 0.4rem;">
+                🛡️ Site Inspection & Handover Checklist
+            </h5>
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--color-border, rgba(255,255,255,0.08)); border-radius: 8px; padding: 0.85rem; margin-bottom: 1.25rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.5rem; font-size: 0.78rem;">
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                    <input type="checkbox" id="chk-jcr-struct" checked style="accent-color: #10b981;"> Structure GI/Aluminium anchor fasteners torque tested
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                    <input type="checkbox" id="chk-jcr-spd" checked style="accent-color: #10b981;"> Type-2 AC & DC Surge Protection Devices active
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                    <input type="checkbox" id="chk-jcr-app" checked style="accent-color: #10b981;"> Wi-Fi Inverter App configured on client smartphone
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                    <input type="checkbox" id="chk-jcr-labels" checked style="accent-color: #10b981;"> Solar DC/AC Warning Caution labels affixed
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                    <input type="checkbox" id="chk-jcr-kseb" checked style="accent-color: #10b981;"> Bi-directional Net Meter sync & import/export tested
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                    <input type="checkbox" id="chk-jcr-clean" checked style="accent-color: #10b981;"> Customer trained on module cleaning & maintenance
+                </label>
+            </div>
+
+            <!-- Dual Digital Signatures -->
+            <h5 style="margin: 0 0 0.6rem 0; font-size: 0.95rem; font-weight: 800; color: var(--color-sun-yellow, #ffb703);">
+                ✍️ Dual Digital Signatures (Touch / Stylus / Mouse)
+            </h5>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                
+                <!-- Engineer Signature Box -->
+                <div style="background: var(--color-bg-alt, #0f172a); border: 1px solid var(--color-border, #334155); border-radius: 10px; padding: 0.75rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                        <span style="font-size: 0.76rem; font-weight: 700; color: #38bdf8;">👷 Project Engineer Signature</span>
+                        <button type="button" onclick="clearSignature('sig-engineer')" style="background: none; border: none; color: #ef4444; font-size: 0.7rem; cursor: pointer; font-weight: 600;">Clear ↺</button>
+                    </div>
+                    <canvas id="sig-engineer-canvas" width="320" height="120" style="width: 100%; height: 110px; background: #ffffff; border-radius: 6px; cursor: crosshair; touch-action: none;"></canvas>
+                    <input type="text" id="jcr-engineer-name-sign" placeholder="Engineer Full Name" style="width: 100%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.4rem 0.6rem; border-radius: 6px; font-size: 0.78rem; margin-top: 0.4rem;">
+                </div>
+
+                <!-- Customer Signature Box -->
+                <div style="background: var(--color-bg-alt, #0f172a); border: 1px solid var(--color-border, #334155); border-radius: 10px; padding: 0.75rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                        <span style="font-size: 0.76rem; font-weight: 700; color: #10b981;">👤 Customer / Signatory Acceptance</span>
+                        <button type="button" onclick="clearSignature('sig-customer')" style="background: none; border: none; color: #ef4444; font-size: 0.7rem; cursor: pointer; font-weight: 600;">Clear ↺</button>
+                    </div>
+                    <canvas id="sig-customer-canvas" width="320" height="120" style="width: 100%; height: 110px; background: #ffffff; border-radius: 6px; cursor: crosshair; touch-action: none;"></canvas>
+                    <input type="text" id="jcr-customer-name-sign" placeholder="Customer Full Name" style="width: 100%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.4rem 0.6rem; border-radius: 6px; font-size: 0.78rem; margin-top: 0.4rem;">
+                </div>
+            </div>
+
+            <!-- Modal Action Buttons -->
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; border-top: 1px solid var(--color-border, rgba(255,255,255,0.1)); padding-top: 1rem;">
+                <button type="button" onclick="closeJCRModal()" style="background: rgba(255,255,255,0.06); border: 1px solid var(--color-border, #334155); color: var(--color-text, #fff); padding: 0.65rem 1.25rem; border-radius: 8px; font-size: 0.85rem; cursor: pointer; font-weight: 600;">
+                    Close
+                </button>
+                <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                    <button type="button" onclick="printJCRDocument()" style="background: rgba(255, 183, 3, 0.15); border: 1.5px solid var(--color-sun-yellow, #ffb703); color: var(--color-sun-yellow, #ffb703); padding: 0.65rem 1.25rem; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+                        🖨️ Print / Save JCR PDF
+                    </button>
+                    <button type="button" onclick="whatsappJCRCertificate()" style="background: rgba(37, 211, 102, 0.15); border: 1.5px solid #25d366; color: #25d366; padding: 0.65rem 1.25rem; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+                        💬 WhatsApp Handover Certificate
+                    </button>
+                    <button type="submit" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; border: none; padding: 0.65rem 1.5rem; border-radius: 8px; font-size: 0.85rem; font-weight: 800; cursor: pointer; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);">
+                        ✅ Save &amp; Mark Commissioned
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- FEATURE 3: KSEB & SUBSIDY DOCS GENERATOR   -->
+<!-- ========================================== -->
+<div id="kseb-docs-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 999999; overflow-y: auto; padding: 20px 10px; box-sizing: border-box; backdrop-filter: blur(8px);">
+    <div style="max-width: 860px; margin: 20px auto; background: var(--color-surface, #1e293b); color: var(--color-text, #ffffff); border: 1.5px solid #38bdf8; border-radius: 18px; box-shadow: 0 25px 60px rgba(0,0,0,0.6); overflow: hidden; position: relative;">
+        
+        <!-- Header -->
+        <div style="background: linear-gradient(135deg, rgba(56, 189, 248, 0.2) 0%, rgba(255, 183, 3, 0.15) 100%); border-bottom: 1px solid var(--color-border, rgba(255,255,255,0.1)); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="background: #38bdf8; color: #000; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 20px;">⚡ KSEB &amp; MNRE COMPLIANCE</span>
+                    <span id="kseb-modal-wo-pill" style="font-family: monospace; font-weight: 800; color: #38bdf8; font-size: 0.85rem;">WO: --</span>
+                </div>
+                <h4 style="margin: 0.35rem 0 0 0; font-size: 1.25rem; font-weight: 800;">📑 1-Click Net-Metering &amp; PM Surya Ghar Docs</h4>
+            </div>
+            <button type="button" onclick="closeKSEBDocsModal()" style="background: rgba(255,255,255,0.1); border: 1px solid var(--color-border, rgba(255,255,255,0.2)); color: var(--color-text, #fff); font-size: 1.25rem; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
+        </div>
+
+        <div style="padding: 1.5rem;">
+            <!-- Doc Selector Tabs -->
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem; overflow-x: auto; padding-bottom: 0.25rem;">
+                <button type="button" onclick="switchKSEBDocTab('annex1')" id="btn-kseb-tab-annex1" style="background: #38bdf8; color: #000; font-weight: 800; font-size: 0.8rem; padding: 0.5rem 1rem; border-radius: 8px; border: none; cursor: pointer;">
+                    📄 KSEB Annexure 1 (Feasibility)
+                </button>
+                <button type="button" onclick="switchKSEBDocTab('annex2')" id="btn-kseb-tab-annex2" style="background: rgba(255,255,255,0.06); color: var(--color-text, #fff); font-weight: 700; font-size: 0.8rem; padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--color-border, #334155); cursor: pointer;">
+                    📜 KSEB Annexure 2 (Agreement)
+                </button>
+                <button type="button" onclick="switchKSEBDocTab('dcr')" id="btn-kseb-tab-dcr" style="background: rgba(255,255,255,0.06); color: var(--color-text, #fff); font-weight: 700; font-size: 0.8rem; padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--color-border, #334155); cursor: pointer;">
+                    🏛️ PM Surya Ghar DCR &amp; Completion
+                </button>
+                <button type="button" onclick="switchKSEBDocTab('survey')" id="btn-kseb-tab-survey" style="background: rgba(255,255,255,0.06); color: var(--color-text, #fff); font-weight: 700; font-size: 0.8rem; padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--color-border, #334155); cursor: pointer;">
+                    📐 Site Feasibility Summary
+                </button>
+            </div>
+
+            <!-- Dynamic Form Render Container (A4 preview style) -->
+            <div id="kseb-doc-preview-pane" style="background: #ffffff; color: #1e293b; border-radius: 12px; padding: 2rem; max-height: 480px; overflow-y: auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);">
+                <!-- Content will be injected via JS -->
+            </div>
+
+            <!-- Modal Action Buttons -->
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; border-top: 1px solid var(--color-border, rgba(255,255,255,0.1)); padding-top: 1.25rem; margin-top: 1.25rem;">
+                <button type="button" onclick="closeKSEBDocsModal()" style="background: rgba(255,255,255,0.06); border: 1px solid var(--color-border, #334155); color: var(--color-text, #fff); padding: 0.65rem 1.25rem; border-radius: 8px; font-size: 0.85rem; cursor: pointer; font-weight: 600;">
+                    Close
+                </button>
+                <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                    <button type="button" onclick="printCurrentKSEBDoc()" style="background: #38bdf8; color: #000; padding: 0.65rem 1.5rem; border-radius: 8px; font-size: 0.85rem; font-weight: 800; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+                        🖨️ Print / Export Official Form
+                    </button>
+                    <button type="button" onclick="whatsappKSEBDoc()" style="background: rgba(37, 211, 102, 0.15); border: 1.5px solid #25d366; color: #25d366; padding: 0.65rem 1.25rem; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+                        💬 WhatsApp Document Link
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- FEATURE 4: DYNAMIC UPI QR & MILESTONE PAY  -->
+<!-- ========================================== -->
+<div id="upi-payment-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 999999; overflow-y: auto; padding: 20px 10px; box-sizing: border-box; backdrop-filter: blur(8px);">
+    <div style="max-width: 780px; margin: 20px auto; background: var(--color-surface, #1e293b); color: var(--color-text, #ffffff); border: 1.5px solid #10b981; border-radius: 18px; box-shadow: 0 25px 60px rgba(0,0,0,0.6); overflow: hidden; position: relative;">
+        
+        <!-- Header -->
+        <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(255, 183, 3, 0.15) 100%); border-bottom: 1px solid var(--color-border, rgba(255,255,255,0.1)); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="background: #10b981; color: #000; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 20px;">💳 NPCI ZERO-FEE UPI ENGINE</span>
+                    <span id="upi-modal-wo-pill" style="font-family: monospace; font-weight: 800; color: #10b981; font-size: 0.85rem;">WO: --</span>
+                </div>
+                <h4 style="margin: 0.35rem 0 0 0; font-size: 1.25rem; font-weight: 800;">Milestone Payment UPI QR &amp; WhatsApp Notice</h4>
+            </div>
+            <button type="button" onclick="closeUPIPayModal()" style="background: rgba(255,255,255,0.1); border: 1px solid var(--color-border, rgba(255,255,255,0.2)); color: var(--color-text, #fff); font-size: 1.25rem; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
+        </div>
+
+        <div style="padding: 1.5rem;">
+            <!-- Project Value Strip -->
+            <div style="background: var(--color-bg-alt, #0f172a); border: 1px solid var(--color-border, rgba(255,255,255,0.1)); border-radius: 10px; padding: 1rem; margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+                <div>
+                    <div style="font-size: 0.75rem; color: var(--color-text-muted, #94a3b8);">Customer:</div>
+                    <strong id="upi-disp-customer" style="font-size: 1rem; color: #fff;">--</strong>
+                    <div id="upi-disp-phone" style="font-size: 0.75rem; color: var(--color-text-muted, #94a3b8);">--</div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.75rem; color: var(--color-text-muted, #94a3b8);">Total Project Value:</div>
+                    <strong id="upi-disp-total-val" style="font-size: 1.25rem; color: var(--color-sun-yellow, #ffb703);">₹0</strong>
+                </div>
+            </div>
+
+            <!-- Milestone Presets -->
+            <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--color-text-muted, #94a3b8);">
+                🎯 Select Payment Stage / Milestone:
+            </label>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.6rem; margin-bottom: 1.25rem;">
+                <button type="button" onclick="selectUPIMilestone('advance')" id="btn-ms-advance" style="background: rgba(255, 183, 3, 0.15); border: 1.5px solid var(--color-sun-yellow, #ffb703); color: var(--color-sun-yellow, #ffb703); padding: 0.6rem; border-radius: 8px; text-align: left; cursor: pointer;">
+                    <div style="font-weight: 800; font-size: 0.85rem;">1️⃣ 10% Advance</div>
+                    <div id="upi-val-advance" style="font-size: 0.76rem; margin-top: 0.2rem;">₹0 (Booking)</div>
+                </button>
+                <button type="button" onclick="selectUPIMilestone('dispatch')" id="btn-ms-dispatch" style="background: rgba(255,255,255,0.04); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.6rem; border-radius: 8px; text-align: left; cursor: pointer;">
+                    <div style="font-weight: 800; font-size: 0.85rem;">2️⃣ 70% Material</div>
+                    <div id="upi-val-dispatch" style="font-size: 0.76rem; margin-top: 0.2rem;">₹0 (Dispatch)</div>
+                </button>
+                <button type="button" onclick="selectUPIMilestone('handover')" id="btn-ms-handover" style="background: rgba(255,255,255,0.04); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.6rem; border-radius: 8px; text-align: left; cursor: pointer;">
+                    <div style="font-weight: 800; font-size: 0.85rem;">3️⃣ 20% Net Meter</div>
+                    <div id="upi-val-handover" style="font-size: 0.76rem; margin-top: 0.2rem;">₹0 (Final Handover)</div>
+                </button>
+                <button type="button" onclick="selectUPIMilestone('custom')" id="btn-ms-custom" style="background: rgba(255,255,255,0.04); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.6rem; border-radius: 8px; text-align: left; cursor: pointer;">
+                    <div style="font-weight: 800; font-size: 0.85rem;">✏️ Custom Amount</div>
+                    <div style="font-size: 0.76rem; margin-top: 0.2rem;">Manual Entry</div>
+                </button>
+            </div>
+
+            <!-- Amount Input & Note -->
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 0.85rem; margin-bottom: 1.25rem;">
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem;">Demand Amount (₹) <span style="color:#ef4444;">*</span></label>
+                    <input type="number" id="upi-input-amount" oninput="recalcUPIQr()" style="width: 100%; background: var(--color-bg, #0d1321); border: 1.5px solid #10b981; color: #10b981; font-weight: 800; font-size: 1.1rem; padding: 0.5rem 0.75rem; border-radius: 6px;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem;">Transaction Note / Purpose</label>
+                    <input type="text" id="upi-input-note" oninput="recalcUPIQr()" placeholder="e.g. WO-2026-0042 10% Advance Token" style="width: 100%; background: var(--color-bg, #0d1321); border: 1px solid var(--color-border, #334155); color: #fff; padding: 0.55rem 0.75rem; border-radius: 6px; font-size: 0.82rem;">
+                </div>
+            </div>
+
+            <!-- Dynamic QR Code & Payment Card Box -->
+            <div style="background: #ffffff; color: #0f172a; border-radius: 12px; padding: 1.25rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.25rem; box-shadow: 0 10px 25px rgba(0,0,0,0.25);">
+                <div style="text-align: center; background: #f8fafc; padding: 0.75rem; border-radius: 10px; border: 1px solid #e2e8f0;">
+                    <img id="upi-qr-image" src="" alt="Sunova UPI QR" style="width: 180px; height: 180px; display: block; margin: 0 auto; border-radius: 6px;">
+                    <div style="font-size: 0.7rem; color: #64748b; font-weight: 700; margin-top: 0.4rem;">📱 Scan with any UPI App</div>
+                </div>
+
+                <div style="flex: 1; min-width: 240px;">
+                    <div style="font-size: 0.72rem; text-transform: uppercase; font-weight: 800; color: #059669; letter-spacing: 0.05em;">Verified Merchant Account</div>
+                    <h4 style="margin: 0.2rem 0; font-size: 1.2rem; color: #0f172a; font-weight: 800;">Sunova Solar LLP</h4>
+                    <div style="font-size: 0.82rem; color: #475569; font-family: monospace; background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 4px; display: inline-block; margin-bottom: 0.5rem;">
+                        sunovasolarllp@okhdfcbank
+                    </div>
+                    <div style="font-size: 0.8rem; color: #334155; line-height: 1.4;">
+                        Bank: <strong>HDFC Bank Ltd</strong><br>
+                        IFSC: <strong>HDFC0001245</strong> | Account: <strong>50200084729103</strong>
+                    </div>
+                    <div style="margin-top: 0.75rem; display: flex; gap: 0.4rem; flex-wrap: wrap;">
+                        <span style="background: #e0f2fe; color: #0369a1; font-size: 0.68rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px;">GPay</span>
+                        <span style="background: #f3e8ff; color: #7e22ce; font-size: 0.68rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px;">PhonePe</span>
+                        <span style="background: #e0f7fa; color: #00838f; font-size: 0.68rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px;">Paytm</span>
+                        <span style="background: #fef3c7; color: #92400e; font-size: 0.68rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px;">BHIM UPI</span>
+                        <span style="background: #dcfce7; color: #166534; font-size: 0.68rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px;">Cred</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Action Buttons -->
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; border-top: 1px solid var(--color-border, rgba(255,255,255,0.1)); padding-top: 1.25rem; margin-top: 1.25rem;">
+                <button type="button" onclick="closeUPIPayModal()" style="background: rgba(255,255,255,0.06); border: 1px solid var(--color-border, #334155); color: var(--color-text, #fff); padding: 0.65rem 1.25rem; border-radius: 8px; font-size: 0.85rem; cursor: pointer; font-weight: 600;">
+                    Close
+                </button>
+                <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                    <button type="button" onclick="copyUPILink()" style="background: rgba(255,255,255,0.1); border: 1px solid var(--color-border, #334155); color: var(--color-text, #fff); padding: 0.65rem 1.1rem; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer;">
+                        📋 Copy Link
+                    </button>
+                    <button type="button" onclick="printPaymentInvoice()" style="background: rgba(255, 183, 3, 0.15); border: 1.5px solid var(--color-sun-yellow, #ffb703); color: var(--color-sun-yellow, #ffb703); padding: 0.65rem 1.1rem; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer;">
+                        🧾 Print Invoice / Receipt
+                    </button>
+                    <button type="button" onclick="whatsappPaymentNotice()" style="background: #25d366; color: #000; padding: 0.65rem 1.4rem; border-radius: 8px; font-size: 0.85rem; font-weight: 800; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);">
+                        💬 Send WhatsApp Payment Reminder
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
