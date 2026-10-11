@@ -7,17 +7,29 @@ plugins {
 android {
     namespace = "com.example.sunovaportal"
     compileSdk = 36
+
     defaultConfig {
-        applicationId = "com.example.sunovaportal"
+        applicationId = "in.sunovasolar.portal"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0"
+    }
+
+    signingConfigs {
+        getByName("debug") {
+            // Standard Android Debug Keystore
+        }
     }
 
     buildTypes {
+        debug {
+            signingConfig = signingConfigs.getByName("debug")
+            isDebuggable = true
+        }
         release {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("debug")
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }

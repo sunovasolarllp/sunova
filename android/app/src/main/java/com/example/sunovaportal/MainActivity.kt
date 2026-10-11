@@ -57,7 +57,7 @@ class MainActivity : ComponentActivity() {
 
                         is AppScreen.Portal -> {
                             PortalWebView(
-                                url = screen.url,
+                                initialUrl = screen.url,
                                 sessionUser = screen.sessionUser,
                                 isStaff = screen.isStaff,
                                 onLogout = {

@@ -1,16 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Subdomain Auto-Router for partner.sunovasolar.in -->
-    <script>
-        (function() {
-            var host = window.location.hostname.toLowerCase();
-            // Check if on direct subdomain or main domain
-            if (host === 'partner.sunovasolar.in') {
-                console.log('[Sunova] Connected via official Partner Subdomain: partner.sunovasolar.in');
-            }
-        })();
-    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Partner Portal | SUNOVA SOLAR LLP</title>
@@ -353,9 +344,7 @@
 
             <div class="portal-header text-center" style="display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 1.5rem;">
                 <img src="assets/logo.jpg" alt="SUNOVA SOLAR LLP Logo" class="portal-logo" style="margin: 0 auto 1.25rem auto; display: block;">
-                <div style="display: inline-flex; align-items: center; gap: 0.35rem; background: rgba(255, 183, 3, 0.12); border: 1px solid var(--color-sun-yellow); border-radius: 20px; padding: 0.2rem 0.75rem; margin-bottom: 0.6rem; font-size: 0.76rem; font-family: monospace; font-weight: 800; color: var(--color-sun-yellow);">
-                    🌐 partner.sunovasolar.in
-                </div>
+
                 <h2>Partner Portal</h2>
                 <p style="text-align: center; max-width: 380px; margin: 0.4rem auto 0 auto; line-height: 1.5;">Official Channel Partner &amp; EPC Portal for Kerala Rooftop Solar Operations.</p>
             </div>
@@ -388,6 +377,20 @@
                         Sign In to Partner Dashboard
                     </button>
                 </form>
+
+                <!-- Android App Quick Launcher / Download Card -->
+                <div class="android-app-badge-box" style="margin-top: 1.25rem; background: rgba(16, 185, 129, 0.08); border: 1px dashed #10b981; border-radius: 12px; padding: 0.85rem 1rem; text-align: center;">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.35rem;">
+                        <span style="font-size: 1.2rem;">📱</span>
+                        <strong style="color: #10b981; font-size: 0.82rem;">Sunova Mobile Operations App</strong>
+                    </div>
+                    <p style="margin: 0 0 0.5rem 0; font-size: 0.72rem; color: var(--color-text-muted); line-height: 1.4;">
+                        Unified Android App for Channel Partners &amp; Staff with offline site surveys, camera uploads &amp; 1-click prints.
+                    </p>
+                    <a href="android/" style="display: inline-flex; align-items: center; gap: 0.35rem; background: #10b981; color: #000000; font-weight: 800; font-size: 0.76rem; padding: 0.4rem 0.9rem; border-radius: 20px; text-decoration: none;">
+                        ⚡ Open / Install Android App
+                    </a>
+                </div>
             </div>
 
             <!-- Must Change PIN View (Initially Hidden) -->
@@ -4052,16 +4055,7 @@ Please verify and process for PM Surya Ghar / KSEB Net-Metering synchronization.
             frameDoc.write(`<!DOCTYPE html>
 <html>
 <head>
-    <!-- Subdomain Auto-Router for partner.sunovasolar.in -->
-    <script>
-        (function() {
-            var host = window.location.hostname.toLowerCase();
-            // Check if on direct subdomain or main domain
-            if (host === 'partner.sunovasolar.in') {
-                console.log('[Sunova] Connected via official Partner Subdomain: partner.sunovasolar.in');
-            }
-        })();
-    <\/script>
+
     <meta charset="UTF-8">
     <title>${currentQuoteData ? currentQuoteData.quoteNo : 'SUNOVA SOLAR Proposal'}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -6728,16 +6722,7 @@ function printJCRDocument() {
         <!DOCTYPE html>
         <html>
         <head>
-    <!-- Subdomain Auto-Router for partner.sunovasolar.in -->
-    <script>
-        (function() {
-            var host = window.location.hostname.toLowerCase();
-            // Check if on direct subdomain or main domain
-            if (host === 'partner.sunovasolar.in') {
-                console.log('[Sunova] Connected via official Partner Subdomain: partner.sunovasolar.in');
-            }
-        })();
-    <\/script>
+
             <title>Joint Commissioning Report - ${wo.woNumber}</title>
             <style>
                 body { font-family: 'Segoe UI', Arial, sans-serif; color: #1e293b; padding: 25px; margin: 0; }
@@ -7052,16 +7037,7 @@ function printCurrentKSEBDoc() {
         <!DOCTYPE html>
         <html>
         <head>
-    <!-- Subdomain Auto-Router for partner.sunovasolar.in -->
-    <script>
-        (function() {
-            var host = window.location.hostname.toLowerCase();
-            // Check if on direct subdomain or main domain
-            if (host === 'partner.sunovasolar.in') {
-                console.log('[Sunova] Connected via official Partner Subdomain: partner.sunovasolar.in');
-            }
-        })();
-    <\/script>
+
             <title>KSEB / MNRE Document - ${activeKSEBWO.woNumber}</title>
             <style>
                 body { font-family: 'Segoe UI', Arial, sans-serif; color: #1e293b; padding: 30px; margin: 0; }
@@ -7249,16 +7225,7 @@ function printPaymentInvoice() {
         <!DOCTYPE html>
         <html>
         <head>
-    <!-- Subdomain Auto-Router for partner.sunovasolar.in -->
-    <script>
-        (function() {
-            var host = window.location.hostname.toLowerCase();
-            // Check if on direct subdomain or main domain
-            if (host === 'partner.sunovasolar.in') {
-                console.log('[Sunova] Connected via official Partner Subdomain: partner.sunovasolar.in');
-            }
-        })();
-    <\/script>
+
             <title>Payment Demand Invoice - ${wo.woNumber}</title>
             <style>
                 body { font-family: 'Segoe UI', Arial, sans-serif; color: #1e293b; padding: 30px; margin: 0; }
@@ -7848,7 +7815,7 @@ function exportInquiriesToCSV() {
                 <button type="button" onclick="window.print()" style="background: #10b981; color: #000000; border: none; font-weight: 800; padding: 0.55rem 1.15rem; border-radius: 8px; cursor: pointer; font-size: 0.84rem; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);" title="Print or Save QR Invoice as PDF">
                     🖨️ 1-Click Print QR
                 </button>
-                <button type="button" onclick="whatsappUPILink()" style="background: #25d366; color: #ffffff; border: none; font-weight: 700; padding: 0.55rem 0.95rem; border-radius: 8px; cursor: pointer; font-size: 0.84rem; display: inline-flex; align-items: center; gap: 0.4rem;" title="Send UPI Payment Request on WhatsApp">
+                <button type="button" onclick="whatsappPaymentNotice()" style="background: #25d366; color: #ffffff; border: none; font-weight: 700; padding: 0.55rem 0.95rem; border-radius: 8px; cursor: pointer; font-size: 0.84rem; display: inline-flex; align-items: center; gap: 0.4rem;" title="Send UPI Payment Request on WhatsApp">
                     💬 WhatsApp
                 </button>
                 <button type="button" onclick="closeUPIPayModal()" style="background: #ef4444; color: #ffffff; border: none; font-weight: 800; padding: 0.55rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.84rem; display: inline-flex; align-items: center; gap: 0.35rem; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35);" title="Close Preview">

@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Subdomain Auto-Router for partner.sunovasolar.in -->
-    <script>
-        (function() {
-            var host = window.location.hostname.toLowerCase();
-            // Check if on direct subdomain or main domain
-            if (host === 'partner.sunovasolar.in') {
-                console.log('[Sunova] Connected via official Partner Subdomain: partner.sunovasolar.in');
-            }
-        })();
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Partner Portal | SUNOVA SOLAR LLP</title>
@@ -353,9 +343,7 @@
 
             <div class="portal-header text-center" style="display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 1.5rem;">
                 <img src="assets/logo.jpg" alt="SUNOVA SOLAR LLP Logo" class="portal-logo" style="margin: 0 auto 1.25rem auto; display: block;">
-                <div style="display: inline-flex; align-items: center; gap: 0.35rem; background: rgba(255, 183, 3, 0.12); border: 1px solid var(--color-sun-yellow); border-radius: 20px; padding: 0.2rem 0.75rem; margin-bottom: 0.6rem; font-size: 0.76rem; font-family: monospace; font-weight: 800; color: var(--color-sun-yellow);">
-                    🌐 partner.sunovasolar.in
-                </div>
+
                 <h2>Partner Portal</h2>
                 <p style="text-align: center; max-width: 380px; margin: 0.4rem auto 0 auto; line-height: 1.5;">Official Channel Partner &amp; EPC Portal for Kerala Rooftop Solar Operations.</p>
             </div>
@@ -4066,16 +4054,7 @@ Please verify and process for PM Surya Ghar / KSEB Net-Metering synchronization.
             frameDoc.write(`<!DOCTYPE html>
 <html>
 <head>
-    <!-- Subdomain Auto-Router for partner.sunovasolar.in -->
-    <script>
-        (function() {
-            var host = window.location.hostname.toLowerCase();
-            // Check if on direct subdomain or main domain
-            if (host === 'partner.sunovasolar.in') {
-                console.log('[Sunova] Connected via official Partner Subdomain: partner.sunovasolar.in');
-            }
-        })();
-    <\/script>
+
     <meta charset="UTF-8">
     <title>${currentQuoteData ? currentQuoteData.quoteNo : 'SUNOVA SOLAR Proposal'}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -5969,9 +5948,21 @@ const custName = (document.getElementById('wo-cust-name')?.value || '').trim().t
         function getPartnerWorkOrders(dealerCode) {
             if (!dealerCode) dealerCode = localStorage.getItem('partner_code') || 'DIRECT';
             const partnerWOKey = 'partner_work_orders_' + dealerCode;
+            const map = new Map();
+
+            // Add from current partner list
             try {
-                return JSON.parse(localStorage.getItem(partnerWOKey) || '[]');
-            } catch(e) { return []; }
+                const pList = JSON.parse(localStorage.getItem(partnerWOKey) || '[]');
+                pList.forEach(w => { if (w && w.woNumber) map.set(w.woNumber, w); });
+            } catch(e) {}
+
+            // Add from global list
+            try {
+                const gList = JSON.parse(localStorage.getItem('global_work_orders') || '[]');
+                gList.forEach(w => { if (w && w.woNumber && !map.has(w.woNumber)) map.set(w.woNumber, w); });
+            } catch(e) {}
+
+            return Array.from(map.values());
         }
 
         function renderWorkOrders() {
@@ -6121,51 +6112,60 @@ const custName = (document.getElementById('wo-cust-name')?.value || '').trim().t
         }
 
         function loadWOToEdit(woNumber) {
-            const dealerCode = localStorage.getItem('partner_code') || 'DIRECT';
-            const wos = getPartnerWorkOrders(dealerCode);
-            const w = wos.find(item => item.woNumber === woNumber);
-            if (!w) return;
+            const w = lookupWorkOrder(woNumber);
+            if (!w) {
+                if (typeof showPortalToast === 'function') showPortalToast(`⚠️ Work Order ${woNumber} not found.`);
+                return;
+            }
 
-            document.getElementById('wo-number').value = w.woNumber;
-            document.getElementById('wo-date').value = w.issueDate || '';
-            document.getElementById('wo-target-date').value = w.targetDate || '';
-            document.getElementById('wo-priority').value = w.priority || 'Normal';
+            // Switch to Work Order tab FIRST so fields are visible
+            if (typeof switchPartnerPortalTab === 'function') {
+                switchPartnerPortalTab('work-order');
+            }
 
-            document.getElementById('wo-cust-name').value = w.customerName || '';
-            document.getElementById('wo-cust-phone').value = w.customerPhone || '';
-            document.getElementById('wo-consumer-no').value = w.consumerNo || '';
-            document.getElementById('wo-sanctioned-load').value = w.sanctionedLoad || '5.0';
-            document.getElementById('wo-site-address').value = w.siteAddress || '';
-            document.getElementById('wo-district').value = w.district || 'Ernakulam';
-            document.getElementById('wo-kseb-section').value = w.ksebSection || '';
+            if (document.getElementById('wo-number')) document.getElementById('wo-number').value = w.woNumber || '';
+            if (document.getElementById('wo-date')) document.getElementById('wo-date').value = w.issueDate || '';
+            if (document.getElementById('wo-target-date')) document.getElementById('wo-target-date').value = w.targetDate || '';
+            if (document.getElementById('wo-priority')) document.getElementById('wo-priority').value = w.priority || 'Normal';
 
-            document.getElementById('wo-capacity').value = w.capacity || 3.0;
-            document.getElementById('wo-topology').value = w.topology || 'On-Grid Net Metered';
-            document.getElementById('wo-phase').value = w.phase || 'Single Phase 230V';
-            document.getElementById('wo-structure-type').value = w.structureType || 'Elevated High-Rise HDGI';
-            document.getElementById('wo-module-make').value = w.moduleMake || '';
-            document.getElementById('wo-module-watt').value = w.moduleWatt || '550';
-            document.getElementById('wo-inverter-make').value = w.inverterMake || '';
-            document.getElementById('wo-inverter-cap').value = w.inverterCap || w.capacity;
+            if (document.getElementById('wo-cust-name')) document.getElementById('wo-cust-name').value = w.customerName || '';
+            if (document.getElementById('wo-cust-phone')) document.getElementById('wo-cust-phone').value = w.customerPhone || '';
+            if (document.getElementById('wo-consumer-no')) document.getElementById('wo-consumer-no').value = w.consumerNo || '';
+            if (document.getElementById('wo-sanctioned-load')) document.getElementById('wo-sanctioned-load').value = w.sanctionedLoad || '5.0';
+            if (document.getElementById('wo-site-address')) document.getElementById('wo-site-address').value = w.siteAddress || '';
+            if (document.getElementById('wo-district')) document.getElementById('wo-district').value = w.district || 'Ernakulam';
+            if (document.getElementById('wo-kseb-section')) document.getElementById('wo-kseb-section').value = w.ksebSection || '';
 
-            document.getElementById('wo-assigned-engineer').value = w.assignedEngineer || '';
-            document.getElementById('wo-dispatch-date').value = w.dispatchDate || '';
-            document.getElementById('wo-structure-date').value = w.structureDate || '';
-            document.getElementById('wo-inspection-date').value = w.inspectionDate || '';
-            document.getElementById('wo-site-notes').value = w.siteNotes || '';
+            if (document.getElementById('wo-capacity')) document.getElementById('wo-capacity').value = w.capacity || 3.0;
+            if (document.getElementById('wo-topology')) document.getElementById('wo-topology').value = w.topology || 'On-Grid Net Metered';
+            if (document.getElementById('wo-phase')) document.getElementById('wo-phase').value = w.phase || 'Single Phase 230V';
+            if (document.getElementById('wo-structure-type')) document.getElementById('wo-structure-type').value = w.structureType || 'Elevated High-Rise HDGI';
+            if (document.getElementById('wo-module-make')) document.getElementById('wo-module-make').value = w.moduleMake || '';
+            if (document.getElementById('wo-module-watt')) document.getElementById('wo-module-watt').value = w.moduleWatt || '550';
+            if (document.getElementById('wo-inverter-make')) document.getElementById('wo-inverter-make').value = w.inverterMake || '';
+            if (document.getElementById('wo-inverter-cap')) document.getElementById('wo-inverter-cap').value = w.inverterCap || w.capacity || 3.0;
 
-            document.getElementById('wo-total-cost').value = w.totalCost || 0;
-            document.getElementById('wo-advance-paid').value = w.advancePaid || 0;
-            document.getElementById('wo-dispatch-due').value = w.dispatchDue || 0;
-            document.getElementById('wo-final-due').value = w.finalDue || 0;
-            document.getElementById('wo-status').value = w.status || 'Approved';
+            if (document.getElementById('wo-assigned-engineer')) document.getElementById('wo-assigned-engineer').value = w.assignedEngineer || '';
+            if (document.getElementById('wo-dispatch-date')) document.getElementById('wo-dispatch-date').value = w.dispatchDate || '';
+            if (document.getElementById('wo-structure-date')) document.getElementById('wo-structure-date').value = w.structureDate || '';
+            if (document.getElementById('wo-inspection-date')) document.getElementById('wo-inspection-date').value = w.inspectionDate || '';
+            if (document.getElementById('wo-site-notes')) document.getElementById('wo-site-notes').value = w.siteNotes || '';
 
-            calculateWOBoQ();
-            calculateWOCommercials();
+            if (document.getElementById('wo-total-cost')) document.getElementById('wo-total-cost').value = w.totalCost || 0;
+            if (document.getElementById('wo-advance-paid')) document.getElementById('wo-advance-paid').value = w.advancePaid || 0;
+            if (document.getElementById('wo-dispatch-due')) document.getElementById('wo-dispatch-due').value = w.dispatchDue || 0;
+            if (document.getElementById('wo-final-due')) document.getElementById('wo-final-due').value = w.finalDue || 0;
+            if (document.getElementById('wo-status')) document.getElementById('wo-status').value = w.status || 'Approved';
 
-            // Scroll to form
-            document.getElementById('partner-tab-work-order')?.scrollIntoView({ behavior: 'smooth' });
-            showPortalToast(`✏️ Loaded Work Order ${woNumber} into editor.`);
+            if (typeof calculateWOBoQ === 'function') calculateWOBoQ();
+            if (typeof calculateWOCommercials === 'function') calculateWOCommercials();
+
+            // Scroll to form and focus
+            setTimeout(() => {
+                document.getElementById('partner-tab-work-order')?.scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('wo-cust-name')?.focus();
+            }, 80);
+            if (typeof showPortalToast === 'function') showPortalToast(`✏️ Loaded Work Order ${woNumber} into editor.`);
         }
 
         function updateWorkOrderStatus(woNumber, newStatus) {
@@ -6201,39 +6201,48 @@ const custName = (document.getElementById('wo-cust-name')?.value || '').trim().t
 
         function deleteWorkOrder(woNumber) {
             if (!confirm(`Are you sure you want to delete Work Order ${woNumber}?`)) return;
+            const cleanId = String(woNumber).trim();
+
             const dealerCode = localStorage.getItem('partner_code') || 'DIRECT';
             const partnerWOKey = 'partner_work_orders_' + dealerCode;
-            let partnerWOs = [];
             try {
-                partnerWOs = JSON.parse(localStorage.getItem(partnerWOKey) || '[]');
-            } catch(e) { partnerWOs = []; }
+                let partnerWOs = JSON.parse(localStorage.getItem(partnerWOKey) || '[]');
+                partnerWOs = partnerWOs.filter(w => w && w.woNumber !== cleanId && w.id !== cleanId);
+                localStorage.setItem(partnerWOKey, JSON.stringify(partnerWOs));
+            } catch(e) {}
 
-            partnerWOs = partnerWOs.filter(w => w.woNumber !== woNumber);
-            localStorage.setItem(partnerWOKey, JSON.stringify(partnerWOs));
-
-            let globalWOs = [];
             try {
-                globalWOs = JSON.parse(localStorage.getItem('global_work_orders') || '[]');
-            } catch(e) { globalWOs = []; }
-            globalWOs = globalWOs.filter(w => w.woNumber !== woNumber);
-            localStorage.setItem('global_work_orders', JSON.stringify(globalWOs));
+                let globalWOs = JSON.parse(localStorage.getItem('global_work_orders') || '[]');
+                globalWOs = globalWOs.filter(w => w && w.woNumber !== cleanId && w.id !== cleanId);
+                localStorage.setItem('global_work_orders', JSON.stringify(globalWOs));
+            } catch(e) {}
+
+            try {
+                let sunovaWOs = JSON.parse(localStorage.getItem('sunova_work_orders') || '[]');
+                sunovaWOs = sunovaWOs.filter(w => w && w.woNumber !== cleanId && w.id !== cleanId);
+                localStorage.setItem('sunova_work_orders', JSON.stringify(sunovaWOs));
+            } catch(e) {}
+
+            try {
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key && key.startsWith('partner_work_orders_')) {
+                        let list = JSON.parse(localStorage.getItem(key) || '[]');
+                        list = list.filter(w => w && w.woNumber !== cleanId && w.id !== cleanId);
+                        localStorage.setItem(key, JSON.stringify(list));
+                    }
+                }
+            } catch(e) {}
 
             renderWorkOrders();
-            showPortalToast(`Deleted Work Order ${woNumber}.`);
+            if (typeof showPortalToast === 'function') showPortalToast(`🗑️ Deleted Work Order ${woNumber}.`);
         }
 
         function viewWorkOrder(woNumber) {
-            const dealerCode = localStorage.getItem('partner_code') || 'DIRECT';
-            let w = getPartnerWorkOrders(dealerCode).find(item => item.woNumber === woNumber);
+            const w = lookupWorkOrder(woNumber);
             if (!w) {
-                // Check global
-                try {
-                    const globalWOs = JSON.parse(localStorage.getItem('global_work_orders') || '[]');
-                    w = globalWOs.find(item => item.woNumber === woNumber);
-                } catch(e) {}
-            }
-            if (!w) {
-                alert('Work Order not found.');
+                if (typeof showPortalToast === 'function') showPortalToast(`⚠️ Work Order ${woNumber} not found.`);
+                alert(`Work Order #${woNumber} not found.`);
                 return;
             }
 
@@ -6457,18 +6466,13 @@ const custName = (document.getElementById('wo-cust-name')?.value || '').trim().t
         }
 
         function whatsappWorkOrder(woNumber) {
-            const dealerCode = localStorage.getItem('partner_code') || 'DIRECT';
-            let w = getPartnerWorkOrders(dealerCode).find(item => item.woNumber === woNumber);
+            const w = lookupWorkOrder(woNumber);
             if (!w) {
-                try {
-                    const globalWOs = JSON.parse(localStorage.getItem('global_work_orders') || '[]');
-                    w = globalWOs.find(item => item.woNumber === woNumber);
-                } catch(e) {}
+                if (typeof showPortalToast === 'function') showPortalToast(`⚠️ Work Order ${woNumber} not found.`);
+                return;
             }
-            if (!w) return;
 
-            const text = 
-`⚡ *SUNOVA SOLAR EPC WORK ORDER* ⚡
+            const text = `⚡ *SUNOVA SOLAR EPC WORK ORDER* ⚡
 📄 *Work Order No:* ${w.woNumber}
 📅 *Issue Date:* ${w.issueDate || 'Today'}
 🎯 *Target Commissioning:* ${w.targetDate || '14 Days'}
@@ -6522,7 +6526,7 @@ let currentKSEBTab = 'annex1';
 // Signature Canvas Handlers
 function setupSignaturePad(canvasId) {
     const canvas = document.getElementById(canvasId);
-    if (!canvas) return;
+    if (!canvas || typeof canvas.getContext !== 'function') return;
     const ctx = canvas.getContext('2d');
     let isDrawing = false;
     let lastX = 0;
@@ -6606,24 +6610,43 @@ function checkEarthResistance(input) {
 
 // Find Work Order by ID across partner / global registers
 function lookupWorkOrder(woNumber) {
-    if (typeof getGlobalWorkOrders === 'function') {
-        const all = getGlobalWorkOrders();
-        const found = all.find(w => w.woNumber === woNumber);
-        if (found) return found;
-    }
-    if (typeof getPartnerWorkOrders === 'function') {
-        const dealerCode = localStorage.getItem('partner_code') || 'DIRECT';
-        const wos = getPartnerWorkOrders(dealerCode);
-        const found = wos.find(w => w.woNumber === woNumber);
-        if (found) return found;
-    }
-    // Search localStorage directly
+    if (!woNumber) return null;
+    const cleanId = String(woNumber).trim();
+
+    // 1. Check partner_work_orders_<current_partner>
     try {
-        const raw = localStorage.getItem('sunova_work_orders') || '[]';
-        const arr = JSON.parse(raw);
-        const match = arr.find(w => w.woNumber === woNumber);
-        if (match) return match;
-    } catch(e){}
+        const dealerCode = localStorage.getItem('partner_code') || 'DIRECT';
+        const partnerWOs = JSON.parse(localStorage.getItem('partner_work_orders_' + dealerCode) || '[]');
+        const found = partnerWOs.find(w => w && (w.woNumber === cleanId || w.id === cleanId));
+        if (found) return found;
+    } catch(e) {}
+
+    // 2. Check global_work_orders
+    try {
+        const globalWOs = JSON.parse(localStorage.getItem('global_work_orders') || '[]');
+        const found = globalWOs.find(w => w && (w.woNumber === cleanId || w.id === cleanId));
+        if (found) return found;
+    } catch(e) {}
+
+    // 3. Check sunova_work_orders
+    try {
+        const sunovaWOs = JSON.parse(localStorage.getItem('sunova_work_orders') || '[]');
+        const found = sunovaWOs.find(w => w && (w.woNumber === cleanId || w.id === cleanId));
+        if (found) return found;
+    } catch(e) {}
+
+    // 4. Check all keys in localStorage starting with 'partner_work_orders_'
+    try {
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.startsWith('partner_work_orders_')) {
+                const list = JSON.parse(localStorage.getItem(key) || '[]');
+                const found = list.find(w => w && (w.woNumber === cleanId || w.id === cleanId));
+                if (found) return found;
+            }
+        }
+    } catch(e) {}
+
     return null;
 }
 
@@ -6742,16 +6765,7 @@ function printJCRDocument() {
         <!DOCTYPE html>
         <html>
         <head>
-    <!-- Subdomain Auto-Router for partner.sunovasolar.in -->
-    <script>
-        (function() {
-            var host = window.location.hostname.toLowerCase();
-            // Check if on direct subdomain or main domain
-            if (host === 'partner.sunovasolar.in') {
-                console.log('[Sunova] Connected via official Partner Subdomain: partner.sunovasolar.in');
-            }
-        })();
-    <\/script>
+
             <title>Joint Commissioning Report - ${wo.woNumber}</title>
             <style>
                 body { font-family: 'Segoe UI', Arial, sans-serif; color: #1e293b; padding: 25px; margin: 0; }
@@ -7066,16 +7080,7 @@ function printCurrentKSEBDoc() {
         <!DOCTYPE html>
         <html>
         <head>
-    <!-- Subdomain Auto-Router for partner.sunovasolar.in -->
-    <script>
-        (function() {
-            var host = window.location.hostname.toLowerCase();
-            // Check if on direct subdomain or main domain
-            if (host === 'partner.sunovasolar.in') {
-                console.log('[Sunova] Connected via official Partner Subdomain: partner.sunovasolar.in');
-            }
-        })();
-    <\/script>
+
             <title>KSEB / MNRE Document - ${activeKSEBWO.woNumber}</title>
             <style>
                 body { font-family: 'Segoe UI', Arial, sans-serif; color: #1e293b; padding: 30px; margin: 0; }
@@ -7194,8 +7199,8 @@ function selectUPIMilestone(stage) {
 }
 
 function recalcUPIQr() {
-    const amt = document.getElementById('upi-input-amount').value.trim() || '0';
-    const note = document.getElementById('upi-input-note').value.trim() || 'Sunova Solar Payment';
+    const amt = String(document.getElementById('upi-input-amount')?.value || '0').trim() || '0';
+    const note = String(document.getElementById('upi-input-note')?.value || 'Sunova Solar Payment').trim();
     const vpa = 'sunovasolarllp@okhdfcbank';
     const name = 'Sunova Solar LLP';
 
@@ -7208,8 +7213,8 @@ function recalcUPIQr() {
 }
 
 function copyUPILink() {
-    const amt = document.getElementById('upi-input-amount').value.trim() || '0';
-    const note = document.getElementById('upi-input-note').value.trim() || 'Sunova Solar Payment';
+    const amt = String(document.getElementById('upi-input-amount')?.value || '0').trim() || '0';
+    const note = String(document.getElementById('upi-input-note')?.value || 'Sunova Solar Payment').trim();
     const upiUri = `upi://pay?pa=sunovasolarllp@okhdfcbank&pn=Sunova%20Solar%20LLP&am=${amt}&cu=INR&tn=${encodeURIComponent(note)}`;
 
     if (navigator.clipboard) {
@@ -7263,16 +7268,7 @@ function printPaymentInvoice() {
         <!DOCTYPE html>
         <html>
         <head>
-    <!-- Subdomain Auto-Router for partner.sunovasolar.in -->
-    <script>
-        (function() {
-            var host = window.location.hostname.toLowerCase();
-            // Check if on direct subdomain or main domain
-            if (host === 'partner.sunovasolar.in') {
-                console.log('[Sunova] Connected via official Partner Subdomain: partner.sunovasolar.in');
-            }
-        })();
-    <\/script>
+
             <title>Payment Demand Invoice - ${wo.woNumber}</title>
             <style>
                 body { font-family: 'Segoe UI', Arial, sans-serif; color: #1e293b; padding: 30px; margin: 0; }
