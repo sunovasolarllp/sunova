@@ -17,6 +17,15 @@ android {
     }
 
     signingConfigs {
+        create("release") {
+            storeFile = file("sunova-release.jks")
+            storePassword = "sunovasolar2026"
+            keyAlias = "sunova"
+            keyPassword = "sunovasolar2026"
+            enableV1Signing = true
+            enableV2Signing = true
+            enableV3Signing = true
+        }
         getByName("debug") {
             // Standard Android Debug Keystore
         }
@@ -24,12 +33,12 @@ android {
 
     buildTypes {
         debug {
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
             isDebuggable = true
         }
         release {
             isMinifyEnabled = false
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
